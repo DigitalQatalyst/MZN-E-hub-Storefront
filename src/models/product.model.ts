@@ -22,20 +22,21 @@ import Review from "./Review.model";
 // }
 
 interface Product {
-  id: string;
+  id: string | number;
   slug: string;
   title: string;
   price: number;
   brand?: string | null;
   size?: string | null;
   colors?: string[];
-  discount: number;
-  thumbnail: string;
+  discount?: number;
+  thumbnail?: string;
   images: string[];
   categories?: string[];
   status?: string | null;
   reviews?: any[];
-  shop: {
+  rating?: number;
+  shop?: {
     id: string;
     slug: string;
     name: string;

@@ -72,7 +72,7 @@ const mapToProductModel = (productData: any): Product => {
         instagram: productData.shop?.socialLinks?.instagram || defaultProductData.shop.socialLinks.instagram,
       },
     },
-    for: productData.for || defaultProductData.for,
+    // for: productData.for || defaultProductData.for,
   };
 };
 

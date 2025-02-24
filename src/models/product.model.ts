@@ -51,10 +51,10 @@ interface Product {
       instagram?: string | null;
     };
   };
-  for: {
-    demo: string;
-    type: string;
-  };
+  // for: {
+  //   demo: string;
+  //   type: string;
+  // };
 }
 
 

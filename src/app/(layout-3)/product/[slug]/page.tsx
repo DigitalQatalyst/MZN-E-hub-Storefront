@@ -18,6 +18,7 @@ export default async function ProductDetails({ params }: Props) {
   const relatedProducts = await api.getRelatedProducts();
   const frequentlyBought = await api.getFrequentlyBought();
   const product = await api.getProductBySlug(slug);
+  console.log(product);
 
   return (
     <Fragment>

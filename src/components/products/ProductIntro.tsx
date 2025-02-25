@@ -27,7 +27,7 @@ export default function ProductIntro({ product }: Props) {
   const param = useParams();
   const { state, dispatch } = useAppContext();
   const [selectedImage, setSelectedImage] = useState(0);
-  const safeImages = product.images || [];
+  const safeImages = ["/assets/images/products/Home & Garden/3.Aloe Vera Plant.png"];
 
   const routerId = param.slug as string;
   const cartItem = state.cart.find((item) => item.id === product.id || item.id === routerId);
@@ -41,7 +41,7 @@ export default function ProductIntro({ product }: Props) {
         price: product.price,
         qty: amount,
         name: product.title,
-        imgUrl: safeImages[0] || "/assets/images/products/default-product.png",
+        imgUrl: safeImages[0],
         id: product.id || routerId
       }
     });

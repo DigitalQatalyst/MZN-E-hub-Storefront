@@ -45,8 +45,8 @@ const mapToProductModel = (productData: any): Product => {
   return {
     id: productData.id || defaultProductData.id,
     slug: productData.slug || defaultProductData.slug,
-    title: productData.title || defaultProductData.title,
-    price: productData.price || defaultProductData.price,
+    title: productData.name || defaultProductData.title,
+    price: productData.variants.priceWithTax || defaultProductData.price,
     brand: productData.brand || defaultProductData.brand,
     size: productData.size || defaultProductData.size,
     colors: productData.colors?.length ? productData.colors : defaultProductData.colors,
@@ -86,6 +86,7 @@ const getProductBySlug = async (slug: string): Promise<Product> => {
   try {
     // Use the existing `getProductBySlug` method from the productApiEndpoints
     const productData = await productApiEndpoints().getProductBySlug(slug);
+    console.log(`IN getProductBySlug: productData: ${JSON.stringify(productData)}`);
     
     // Map the response to the Product model
     return mapToProductModel(productData);

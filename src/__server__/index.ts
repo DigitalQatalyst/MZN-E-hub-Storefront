@@ -48,7 +48,7 @@ export const MockEndPoints = (Mock: MockAdapter) => {
   orderApiEndpoints(Mock);
   ticketApiEndpoints(Mock);
   AddressApiEndPoints(Mock);
-  productApiEndpoints(Mock);
+  // productApiEndpoints(Mock);
   dashboardApiEndpoints(Mock);
 
   Mock.onAny().passThrough();

@@ -5,16 +5,16 @@ import api from "@utils/__api__/market-2";
 import Box from "@component/Box";
 import Navbar from "@component/navbar/Navbar";
 // PAGE SECTION COMPONENTS
-import Section1 from "@sections/otherLayouts/market-2/section-1";
-import Section2 from "@sections/otherLayouts/market-2/section-2";
-import Section3 from "@sections/otherLayouts/market-2/section-3";
-import Section4 from "@sections/otherLayouts/market-2/section-4";
-import Section5 from "@sections/otherLayouts/market-2/section-5";
-import Section6 from "@sections/otherLayouts/market-2/section-6";
-import Section7 from "@sections/otherLayouts/market-2/section-7";
-import Section8 from "@sections/otherLayouts/market-2/section-8";
-import Section9 from "@sections/otherLayouts/market-2/section-9";
-import Section10 from "@sections/otherLayouts/market-2/section-10";
+import Section1 from "@sections/market-2/section-1";
+import Section2 from "@sections/market-2/section-2";
+import Section3 from "@sections/market-2/section-3";
+import Section4 from "@sections/market-2/section-4";
+import Section5 from "@sections/market-2/section-5";
+import Section6 from "@sections/market-2/section-6";
+import Section7 from "@sections/market-2/section-7";
+import Section8 from "@sections/market-2/section-8";
+import Section9 from "@sections/market-2/section-9";
+import Section10 from "@sections/market-2/section-10";
 
 export default async function MarketTwo() {
   const brands = await api.getBrands();

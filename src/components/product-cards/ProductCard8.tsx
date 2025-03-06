@@ -9,7 +9,7 @@ import { calculateDiscount, currency } from "@utils/utils";
 
 // ==============================================================
 type ProductCard8Props = {
-  id: string | number;
+  id: string;
   off: number;
   slug: string;
   price: number;

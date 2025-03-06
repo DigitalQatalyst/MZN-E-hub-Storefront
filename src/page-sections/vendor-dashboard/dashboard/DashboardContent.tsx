@@ -32,7 +32,6 @@ export default function DashboardContent({ sales, summeryCards, countrySales }: 
 
               <H1 color="gray.700" mb="4px" lineHeight="1.3">
                 {item.amount}
-                {/* 4000 */}
               </H1>
 
               <Paragraph color="text.muted">{item.subtitle}</Paragraph>

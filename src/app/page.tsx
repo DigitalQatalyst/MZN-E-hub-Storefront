@@ -35,6 +35,12 @@ export default async function Market1() {
       {/* TOP CATEGORIES AREA */}
       <Section3 />
 
+
+
+
+
+
+
       {/* TOP RATING AND BRANDS AREA */}
       {/* <Section4 /> */}
 

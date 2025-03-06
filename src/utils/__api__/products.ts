@@ -10,7 +10,7 @@ const mapToProductModel = (productData: any): Product => {
     id: 'default-id',
     slug: 'default-slug',
     title: 'Default Product',
-    price: 0,
+    price: 200,
     brand: 'Default Brand',
     size: 'Default Size',
     colors: ['black', 'white'],

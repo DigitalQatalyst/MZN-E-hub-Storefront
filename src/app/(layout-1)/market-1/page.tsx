@@ -36,44 +36,44 @@ export default async function Market1() {
       <Section3 />
 
       {/* TOP RATING AND BRANDS AREA */}
-      <Section4 />
+      {/* <Section4 /> */}
 
       {/* NEW ARRIVALS AREA */}
-      <Section5 />
+      {/* <Section5 /> */}
 
       {/* BIG DISCOUNT AREA */}
-      <Section13 />
+      {/* <Section13 /> */}
 
       {/* CAR LIST AREA */}
-      <Section6 carBrands={carBrands} carList={carList} />
+      {/* <Section6 carBrands={carBrands} carList={carList} /> */}
 
       {/* MOBILE PHONES AREA */}
-      <Section7
+      {/* <Section7
         shops={mobileShops}
         brands={mobileBrands}
         title="Mobile Phones"
         productList={mobileList}
-      />
+      /> */}
 
       {/* DISCOUNT BANNERS AREA */}
-      <Section8 />
+      {/* <Section8 /> */}
 
       {/* OPTICS AND WATCH AREA */}
-      <Section7
+      {/* <Section7
         shops={opticsShops}
         brands={opticsBrands}
         title="Optics / Watch"
         productList={opticsList}
-      />
+      /> */}
 
       {/* CATEGORIES AREA */}
-      <Section10 />
+      {/* <Section10 /> */}
 
       {/* MORE PRODUCTS AREA */}
-      <Section11 />
+      {/* <Section11 /> */}
 
       {/* SERVICES AREA */}
-      <Section12 />
+      {/* <Section12 /> */}
     </main>
   );
 }

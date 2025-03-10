@@ -39,7 +39,7 @@ export default async function MarketTwo() {
         {/* <Section3 /> */}
 
         {/* DEAL OF THE DAY PRODUCTS AREA */}
-        <Section4 />
+        {/* <Section4 /> */}
 
         {/* NEW ARRIVALS AND BEST SELLER OFFER BANNER AREA */}
         {/* <Section5 /> */}
@@ -51,19 +51,19 @@ export default async function MarketTwo() {
         {/* <Section7 /> */}
 
         {/* MEN'S CATEGORY BASED PRODUCTS AREA */}
-        <Section6 data={menFashionProducts} />
+        {/* <Section6 data={menFashionProducts} /> */}
 
         {/* DISCOUNT OFFER BANNER AREA */}
         {/* <Section8 /> */}
 
         {/* WOMEN'S CATEGORY BASED PRODUCTS AREA */}
-        <Section6 data={womenFashionProducts} />
+        {/* <Section6 data={womenFashionProducts} /> */}
 
         {/* FEATURES BRAND LIST AREA */}
-        <Section9 brands={brands as any} />
+        {/* <Section9 brands={brands as any} /> */}
 
         {/* SELECTED PRODUCTS AREA */}
-        <Section10 products={products} />
+        {/* <Section10 products={products} /> */}
       </Box>
     </Fragment>
   );

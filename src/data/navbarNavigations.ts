@@ -17,7 +17,7 @@ const navbarNavigations = [
     ]
   },
   {
-    title: "Pages",
+    title: "Top picks",
     child: [
       {
         title: "Sale Page",
@@ -53,7 +53,7 @@ const navbarNavigations = [
     ]
   },
   {
-    title: "User Account",
+    title: "Partners",
     child: [
       {
         title: "Orders",
@@ -87,7 +87,7 @@ const navbarNavigations = [
     ]
   },
   {
-    title: "Vendor Account",
+    title: "Customer Service",
     child: [
       { title: "Dashboard", url: "/vendor/dashboard" },
       {
@@ -107,8 +107,8 @@ const navbarNavigations = [
       { title: "Profile", url: "/vendor/account-settings" }
     ]
   },
-  { title: "Track My Orders", url: "/orders" },
-  { title: "Back to Demos", url: "/" }
+  // { title: "Track My Orders", url: "/orders" },
+  // { title: "Back to Demos", url: "/" }
   // {
   //   title: "Documentation",
   //   url:

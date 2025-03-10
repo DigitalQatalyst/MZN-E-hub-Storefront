@@ -25,6 +25,7 @@ export default function Section6({ data }: Props) {
   return (
     <Container pt="4rem">
       <Grid container spacing={3}>
+        {/* Sidebar */}
         <Grid item md={3} xs={12}>
           <Card
             elevation={0}
@@ -50,7 +51,7 @@ export default function Section6({ data }: Props) {
 
         {/* CATEGORY BASED PRODUCTS CAROUSEL */}
         <Grid item md={9} xs={12}>
-          <Carousel slidesToShow={4} responsive={responsive}>
+          <Carousel slidesToShow={3} responsive={responsive}>
             {data.products.map((product) => (
               <ProductCard19
                 id={product.id}

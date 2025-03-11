@@ -32,8 +32,8 @@ export default async function MarketTwo() {
         {/* HERO CAROUSEL AREA */}
         {/* <Section1 /> */}
 
-        {/* SERVICE LIST AREA */}
-        <Section2 />
+        {/* SERVICE LIST AREA --- To be results section*/}
+        {/* <Section2 /> */}
 
         {/* TOP CATEGORIES AREA */}
         {/* <Section3 /> */}

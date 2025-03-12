@@ -16,7 +16,7 @@ export default async function Section2() {
   ];
 
   return (
-    <CategorySectionCreator iconName="light" title="Flash Deals" seeMoreLink="#">
+    <CategorySectionCreator iconName="" title="Featured Services" seeMoreLink="#">
       <Box mt="-0.25rem" mb="-0.25rem">
         <Carousel slidesToShow={4} responsive={responsive}>
           {products.map((item, ind) => (

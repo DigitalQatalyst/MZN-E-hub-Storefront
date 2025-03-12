@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import Icon from "./icon/Icon";
 import FlexBox from "./FlexBox";
-import { H2, SemiSpan } from "./Typography";
+import { H2, H5, SemiSpan } from "./Typography";
 import { Button } from "./buttons";
 import { useState } from "react";
 
@@ -37,10 +37,11 @@ export default function CategorySectionHeader({
 
   return (
     <FlexBox justifyContent="space-between" alignItems="center" mb="1.5rem">
-      <FlexBox alignItems="center">
-        <H2 fontWeight="bold" lineHeight="1">
+      <FlexBox alignItems="flex-start" flexDirection={"column"}>
+        <H2 fontWeight="bold" lineHeight="1" marginBottom={"20px"}>
           {title}
         </H2>
+        <H5>Explore our latest business support solutions and financial services</H5>
       </FlexBox>
 
       {/* Category Selection Buttons */}

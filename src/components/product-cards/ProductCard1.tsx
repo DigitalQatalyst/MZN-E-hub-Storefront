@@ -157,7 +157,7 @@ export default function ProductCard1({
     <>
       <Wrapper borderRadius={8} {...props}>
         <div className="image-holder">
-          {!!off && (
+          {/* {!!off && (
             <Chip
               top="10px"
               left="10px"
@@ -170,7 +170,7 @@ export default function ProductCard1({
               zIndex={1}>
               {off}% off
             </Chip>
-          )}
+          )} */}
 
           <FlexBox className="extra-icons">
             <IconButton size="small" padding="0.5rem" onClick={toggleDialog}>
@@ -187,14 +187,14 @@ export default function ProductCard1({
           </FlexBox>
 
           <Link href={`/market-2`}>
-            <NextImage alt={title} width={277} src={imgUrl} height={270} />
+            <NextImage alt={title} width={277} src={imgUrl} height={270}/>
           </Link>
         </div>
 
         <div className="details">
           <FlexBox>
             <Box flex="1 1 0" minWidth="0px" mr="0.5rem">
-              <Link href={`/product/${slug}`}>
+              <Link href={`/market-2`}>
                 <H3
                   mb="10px"
                   title={title}
@@ -206,9 +206,6 @@ export default function ProductCard1({
                   {title}
                 </H3>
               </Link>
-
-              <Rating value={rating || 0} outof={5} color="warn" readOnly />
-
               <FlexBox alignItems="center" mt="10px">
                 <SemiSpan pr="0.5rem" fontWeight="600" color="primary.main">
                   {calculateDiscount(price, off as number)}
@@ -220,9 +217,15 @@ export default function ProductCard1({
                   </SemiSpan>
                 )}
               </FlexBox>
+              <Rating value={rating || 0} outof={5} color="warn" readOnly />
+              <Button className="learn-more" variant="contained" color="primary" fullwidth marginTop={"20px"}>
+                Learn More
+              </Button>
+              
             </Box>
+        
 
-            <FlexBox
+            {/* <FlexBox
               width="30px"
               alignItems="center"
               flexDirection="column-reverse"
@@ -254,7 +257,7 @@ export default function ProductCard1({
                   </Button>
                 </Fragment>
               )}
-            </FlexBox>
+            </FlexBox> */}
           </FlexBox>
         </div>
       </Wrapper>

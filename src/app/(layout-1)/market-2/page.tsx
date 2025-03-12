@@ -33,7 +33,7 @@ export default async function MarketTwo() {
         {/* <Section1 /> */}
 
         {/* SERVICE LIST AREA --- To be results section*/}
-        {/* <Section2 /> */}
+        <Section2 />
 
         {/* TOP CATEGORIES AREA */}
         {/* <Section3 /> */}

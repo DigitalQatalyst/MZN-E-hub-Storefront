@@ -81,22 +81,67 @@ export default function Section6({ data }: Props) {
                   img={product.thumbnail}
                   images={product.images as string[]}
                   reviews={product.reviews?.length || 14}
-                  className="product-card" 
+                  className="product-card"
                 />
               </Grid>
             ))}
           </Grid>
 
           {/* Pagination */}
-          <div style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }}>
-            <button onClick={() => handlePagination("prev")} disabled={currentPage === 1}>
-              Prev
+          <div style={{
+            display: "flex",
+            justifyContent: "flex-end", // Align pagination to the far right
+            alignItems: "center",
+            marginTop: "1rem",
+            marginBottom: "2rem"
+          }}>
+            {/* Prev Button */}
+            <button 
+              onClick={() => handlePagination("prev")} 
+              disabled={currentPage === 1}
+              style={{
+                border: "1px solid #002180",
+                borderRadius: "50%",
+                padding: "0.5rem",
+                margin: "0 0.5rem",
+                backgroundColor: "transparent",
+                cursor: "pointer"
+              }}>
+              <img src="assets/images/avatars/chevron-right.svg" alt="Previous" />
             </button>
-            <span style={{ margin: "0 1rem" }}>
-              {currentPage} of {totalPages}
-            </span>
-            <button onClick={() => handlePagination("next")} disabled={currentPage === totalPages}>
-              Next
+
+            {/* Page Numbers */}
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentPage(index + 1)}
+                style={{
+                  border: "1px solid #002180",
+                  borderRadius: "50%",
+                  padding: "0.5rem 1rem",
+                  margin: "0 0.5rem",
+                  backgroundColor: currentPage === index + 1 ? "#002180" : "transparent",
+                  color: currentPage === index + 1 ? "#fff" : "#002180",
+                  cursor: "pointer"
+                }}
+              >
+                {index + 1}
+              </button>
+            ))}
+
+            {/* Next Button */}
+            <button 
+              onClick={() => handlePagination("next")} 
+              disabled={currentPage === totalPages}
+              style={{
+                border: "1px solid #002180",
+                borderRadius: "50%",
+                padding: "0.5rem",
+                margin: "0 0.5rem",
+                backgroundColor: "transparent",
+                cursor: "pointer"
+              }}>
+              <img src="assets/images/avatars/chevron-left.svg" alt="Next" />
             </button>
           </div>
         </Grid>

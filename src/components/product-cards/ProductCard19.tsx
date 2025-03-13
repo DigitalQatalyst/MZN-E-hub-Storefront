@@ -23,19 +23,16 @@ const CardBox = styled(Box)(({ theme }) => ({
   height: "400px",  // Set a fixed height for all cards
   alignItems: "center",  // Center the content horizontally
   gap: "16px",  // Add some space between the image and the product details
-  borderRadius: "3px",
+  // borderRadius: "3px",
   transition: "all 0.3s",
-  backgroundColor: "white",
+  // backgroundColor: "white",
   border: `1px solid ${theme.colors.gray[100]}`,
-  "&:hover": {
-    border: "1px solid #000",
-    ".product-actions": {
-      right: "5px",
+    "&:hover": {
+      ".product-img": {
+        transform: "scale(1.1)", 
+      },
     },
-    ".product-img": {
-      transform: "scale(1.1)",
-    },
-  },
+
 }));
 
 const CardMedia = styled(Box)(({ theme }) => ({

@@ -7,13 +7,15 @@ import { deviceSize } from "@utils/constants";
 export const HeaderWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: center; /* Align items horizontally on the same level */
   margin-bottom: 1rem;
 `;
 
 export const ButtonWrapper = styled.div`
   display: flex;
   gap: 1rem;
+  margin-left: 2rem; /* Space between the text and the buttons */
+  margin-top: 90px;
 `;
 
 export const Wrapper = styled.div`
@@ -77,20 +79,6 @@ export const IconWrapper = styled.div`
   align-items: center;
 `;
 
-export const Button = styled.button`
-  padding: 8px 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: transparent;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #f5f5f5;
-  }
-`;
-
 // Updated ResultsTitle component: Aligns text to the left
 export const ResultsTitle = styled.h4`
   color: var(--KF-BG-Blue, #0030e3);
@@ -110,6 +98,28 @@ export const DescriptionText = styled.p`
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
-  line-height: 22px; /* 157.143% */
+  // line-height: 22px; /* 157.143% */
   margin: 0; /* Removed margin-top to eliminate spacing */
+`;
+
+
+
+export const ActiveButton = styled.button<{ isActive: boolean }>`
+  display: flex;
+  padding: 7px 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 4px;
+  border: ${(props) =>
+    props.isActive
+      ? "1px solid var(--KF-BG-Dark-Blue, #002180)"
+      : "1px solid var(--Gray-300---border-light, #D8E0E9)"};
+  color: ${(props) => (props.isActive ? "var(--KF-BG-Dark-Blue, #002180)" : "initial")}; // Active button text color set to yellow
+  text-align: center; // Text alignment for active button
+  font-family: "Helvetica Neue"; // Font family for active button
+  font-size: 14px; // Font size for active button
+  font-style: normal; // Font style for active button
+  font-weight: 500; // Font weight for active button
+  line-height: 22px; // Line height for active button
 `;

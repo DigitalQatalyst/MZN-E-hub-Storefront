@@ -1,33 +1,47 @@
+"use client";
+
+import React, { useState } from "react"; // Import useState from React
 import Icon from "@component/icon/Icon";
 import Container from "@component/Container";
-import { H4, Span } from "@component/Typography";  // Removed P since it doesn't exist
-import { ResultsTitle, DescriptionText } from "./styles"; // Importing the updated ResultsTitle and DescriptionText styled components
-// STYLED COMPONENTS
-import { ServiceItem, Wrapper, HeaderWrapper, ButtonWrapper } from "./styles";
-// API FUNCTIONS
-import api from "@utils/__api__/market-2";
+import { H4, Span } from "@component/Typography";  
+import { ResultsTitle, DescriptionText, ButtonWrapper, HeaderWrapper } from "./styles"; 
+import { ActiveButton } from "./styles"; // Import ActiveButton from the styled-components
 
-// Button component directly in the code
-const Button = ({ children, variant }) => (
-  <button className={`btn ${variant}`}>
-    {children}
-  </button>
-);
+export default function Section2() {
+  const [activeButton, setActiveButton] = useState(""); // Track the active button
 
-export default async function Section2() {
-  const serviceList = await api.getServices();
+  const handleButtonClick = (button) => {
+    setActiveButton(button); // Update the active button on click
+  };
 
   return (
-    <Container pt="2rem">
+    <Container pt="2rem" style={{ marginBottom: '-45px' }}>
       <HeaderWrapper>
         <div>
-          <ResultsTitle>Results</ResultsTitle>  {/* Using the left-aligned ResultsTitle styled component */}
-          <DescriptionText>Explore our latest business support solutions and financial services.</DescriptionText>  {/* Using the styled description text */}
+          <ResultsTitle>Results</ResultsTitle>
+          <DescriptionText>Explore our latest business support solutions and financial services.</DescriptionText>
         </div>
         <ButtonWrapper>
-          <Button variant="outlined">New Additions</Button>
-          <Button variant="outlined">Top Services</Button>
-          <Button variant="outlined">Popular Picks</Button>
+          <ActiveButton
+            isActive={activeButton === "newAdditions"}
+            onClick={() => handleButtonClick("newAdditions")}
+          >
+            New Additions
+          </ActiveButton>
+
+          <ActiveButton
+            isActive={activeButton === "topServices"}
+            onClick={() => handleButtonClick("topServices")}
+          >
+            Top Services
+          </ActiveButton>
+
+          <ActiveButton
+            isActive={activeButton === "popularPicks"}
+            onClick={() => handleButtonClick("popularPicks")}
+          >
+            Popular Picks
+          </ActiveButton>
         </ButtonWrapper>
       </HeaderWrapper>
 

@@ -1,17 +1,20 @@
-import Typography, { H3 } from "@component/Typography";
+import Box from "@component/Box";
+import Typography, { H3, H5, H6 } from "@component/Typography";
 
 export default function ProductDescription() {
   return (
     <div>
-      <H3 mb="1rem">Specification:</H3>
-      <Typography>
-        Brand: Beats <br />
-        Model: S450 <br />
-        Wireless Bluetooth Headset <br />
-        FM Frequency Response: 87.5 – 108 MHz <br />
-        Feature: FM Radio, Card Supported (Micro SD / TF) <br />
-        Made in China <br />
-      </Typography>
+      <Box ml="40px" borderBottom="EFF" borderLeft="none" borderTop="none" borderRight="none">
+        <H6 mb="4rem" mt="60px" color="#EFF">The following documents must be submitted during the application</H6>
+        <Box mb="20px" borderBottom="2px solid rgba(153, 178, 255, 0.50)" borderLeft="none" borderTop="none" borderRight="none"><Typography>
+          <H6 mb="1rem" color="#FFFFFF">1. Approved lease contract</H6>
+        </Typography></Box>
+        <Typography >
+          <Box mt="40px" borderBottom="2px solid rgba(153, 178, 255, 0.50)" borderLeft="none" borderTop="none" borderRight="none"><Typography>
+            <H6 mb="1rem" color="#FFFFFF">2. Company incorporation Contract</H6>
+          </Typography></Box>
+        </Typography>
+      </Box>
     </div>
   );
 }

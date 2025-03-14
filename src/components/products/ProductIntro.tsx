@@ -17,6 +17,7 @@ import { useAppContext } from "@context/app-context";
 
 import { currency } from "@utils/utils";
 import Product from "@models/product.model";
+import { colors } from "theme/colors/colors";
 // import { Carousel } from "@component/carousel";
 
 // ========================================
@@ -113,22 +114,22 @@ export default function ProductIntro() {
             <Button color="#FFF" bg="#99B2FF" width="135px" variant="outlined">
               Conception
             </Button>
-            <Button variant="outlined" width="135px" color="blue">
+            <Button variant="outlined" width="135px" > {/*color={colors.primary.main}*/}
               Startup
             </Button>
-            <Button variant="outlined" width="135px" color="blue">
+            <Button variant="outlined" width="135px" > {/*color="blue"*/}
               Growth
             </Button>
-            <Button variant="outlined" width="135px" color="blue">
+            <Button variant="outlined" width="135px" > {/*color="blue"*/}
               Maturity
             </Button>
           </FlexBox>
 
-          <Button fullwidth bg="#0030E3" height="55px" color="#FFF" variant="contained" mt="15px">
-            Apply for Registration
+          <Button fullwidth bg="#0030E3" height="55px"  variant="contained" mt="15px" color={"primary"}>
+            <p color="#ffffff !important">Apply for Registration</p>
           </Button>
           <FlexBox alignItems="center" mb="1rem" mt="1rem" justifyContent="space-between" width="100%">
-            <Button width="58%" color="#002180" height="50px" bg={"success"}>
+            <Button width="58%" color={colors.primary.main} height="50px" bg={"success"}>
               <Icon>heart</Icon>
               &nbsp; Add Wishlist
             </Button>
@@ -152,7 +153,7 @@ export default function ProductIntro() {
             </H4></SemiSpan>
           </FlexBox>
           <FlexBox>
-            <Icon ml={"10px"}color="#002180">gift</Icon>
+            <Icon ml={"10px"} color="#002180">gift</Icon>
 
             <SemiSpan color="#002180"><H4 ml="8px" mr="8px" color="#002180">
             Registration Validity: 1 Year (Renewable):

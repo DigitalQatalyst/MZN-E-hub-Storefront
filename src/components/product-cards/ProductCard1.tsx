@@ -211,11 +211,11 @@ export default function ProductCard1({
                   {calculateDiscount(price, off as number)}
                 </SemiSpan>
 
-                {!!off && (
+                {/* {!!off && (
                   <SemiSpan color="text.muted" fontWeight="600">
                     <del>{currency(price)}</del>
                   </SemiSpan>
-                )}
+                )} */}
               </FlexBox>
               <Rating value={rating || 0} outof={5} color="warn" readOnly />
               <Button className="learn-more" variant="contained" color="primary" fullwidth marginTop={"20px"}>

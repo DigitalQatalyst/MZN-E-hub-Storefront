@@ -38,17 +38,22 @@ export default function Navbar({ navListOpen }: NavbarProps) {
               key={nav.title}
               target="_blank"
               className="nav-link"
-              rel="noopener noreferrer">
+              rel="noopener noreferrer"
+            >
               {nav.badge ? (
                 <Badge style={{ marginRight: "0px" }} title={nav.badge}>
                   {nav.title}
                 </Badge>
-              ) : (
-                <Span className="nav-link">{nav.title}</Span>
+                 ) : (
+                <FlexBox > {/* Wrap properly */}
+                  <img src="/assets/images/icons/dropdown.svg" alt="Dropdown Icon" className="dropdown-icon" />
+                  <Span className="nav-link">{nav.title}</Span>
+                </FlexBox>
               )}
             </NavLink>
           );
         }
+        
 
         if (nav.child) {
           return (
@@ -85,7 +90,8 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             </NavLink>
           );
         }
-      } else {
+      } 
+      else {
         if (nav.url) {
           return (
             <NavLink href={nav.url} key={nav.title}>
@@ -135,10 +141,26 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   return (
     <StyledNavbar>
       <Container height="100%" display="flex" alignItems="center" justifyContent="space-between">
+        {/* Logo Section */}
+
+        <Box className="navbar-logo">
+          <img src="/assets/images/logos/mzn_logo.svg" alt="MZN Enterprise Hub" height="40px" />
+        </Box>
+
+        {/* Categories Section */}
         <Categories open={navListOpen}>
           <Button width="278px" height="40px" bg="body.default" variant="text">
             <Icon>categories</Icon>
-            <Typography ml="10px" flex="1 1 0" fontWeight="600" textAlign="left" color="text.muted">
+            <Typography 
+              ml="10px" 
+              flex="1 1 0" 
+              fontFamily='"Open Sans", sans-serif' 
+              fontSize="16px" 
+              fontStyle="normal" 
+              fontWeight="600" 
+              lineHeight="26px" 
+              color="#002180"
+            >
               Categories
             </Typography>
 
@@ -149,6 +171,27 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         </Categories>
 
         <FlexBox style={{ gap: 32 }}>{renderNestedNav(navbarNavigations, true)}</FlexBox>
+
+        {/* Search Icon, Sign In, and Sign Up Buttons */}
+        <FlexBox alignItems="center" style={{ gap: "15px" }}>
+          
+          {/* Search Icon (Replace with your actual SVG) */}
+          <Box className="search-icon" style={{ cursor: "pointer" }}>
+            <img src="/assets/images/logos/search.svg" alt="Search" height="24px" />
+          </Box>
+
+          {/* Sign In & Sign Up Buttons */}
+          <Button className="sign-in-btn" variant="outlined">
+            Sign In
+          </Button>
+
+          
+          <Button className="sign-up-button" variant="contained">
+            Sign Up
+          </Button>
+
+          </FlexBox>
+
       </Container>
     </StyledNavbar>
   );

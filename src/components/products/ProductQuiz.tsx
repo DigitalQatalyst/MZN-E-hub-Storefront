@@ -6,11 +6,13 @@ import Rating from "@component/rating";
 import FlexBox from "@component/FlexBox";
 import TextArea from "@component/textarea";
 import { Button } from "@component/buttons";
-import Typography, { H2, H3, H5 } from "@component/Typography";
+import Typography, { H2, H5 } from "@component/Typography";
 import ProductComment from "./ProductComment";
 import Grid from "@component/grid/Grid";
+import TextField from "@component/text-field";
+import { SearchInputWithCategory } from "@component/search-box";
 
-export default function ProductReview() {
+export default function ProductQuiz() {
   const initialValues = {
     rating: "",
     comment: "",
@@ -51,25 +53,12 @@ export default function ProductReview() {
             <Grid md={6}>
               <Typography>
                 <FlexBox color="#FFFFFF" mt="2em">
-                  1. Log in using UAE PASS.
+                  The legal age of the applicant is not less than 18 years.
                 </FlexBox>
                 <FlexBox color="#FFFFFF" mt="2em">
-                  2. Submit the application and required documents
-                </FlexBox>
-                <FlexBox color="#FFFFFF" mt="2em">
-                  3. Obtaining approvals of other entities (If any required)
-                </FlexBox>
-                <FlexBox color="#FFFFFF" mt="2em">
-                  4. Receive an approval or rejection notification.
-                </FlexBox>
-                <FlexBox color="#FFFFFF" mt="2em">
-                  5. Pay the applicable fees.
-                </FlexBox>
-                <FlexBox color="#FFFFFF" mt="2em">
-                  6. Obtain New Economic Licence - Commercial.
+                  Select the type of licence.
                 </FlexBox>
               </Typography>
-
             </Grid>
           </Grid>
         </Box>

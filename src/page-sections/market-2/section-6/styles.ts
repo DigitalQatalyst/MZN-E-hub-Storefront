@@ -15,3 +15,20 @@ export const List = styled("ul")({
   padding: 0,
   marginBottom: "1.5rem"
 });
+
+// Product Card Styles
+export const ProductCardStyled = styled.div`
+  display: flex;
+  width: 277px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 32px;
+`;
+
+// export const ProductCardBox = styled(Box)`
+//   display: flex;
+//   width: 277px;
+//   flex-direction: column;
+//   align-items: flex-end;
+//   gap: 32px;
+// `;

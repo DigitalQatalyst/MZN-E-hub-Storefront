@@ -186,7 +186,7 @@ export default function ProductCard1({
             </IconButton>
           </FlexBox>
 
-          <Link href={`/product/${slug}`}>
+          <Link href={`/market-2`}>
             <NextImage alt={title} width={277} src={imgUrl} height={270} />
           </Link>
         </div>

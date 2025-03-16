@@ -13,21 +13,22 @@ const gray = {
 
 const textColor = {
   hint: gray[600],
-  muted: gray[600],
+  muted: "#FFF",
   primary: gray[900],
   disabled: gray[400],
   secondary: gray[800]
 };
 
 const bodyColor = {
-  default: gray[100],
+  default: gray["white"],
   paper: gray["white"],
   text: textColor.primary
 };
 
 const primaryColor = {
   light: "#FFE1E6",
-  main: "#E94560",
+  main: "#0030E3",
+  step: "#E8FF63",
   dark: "#4F4CB6",
   text: "#ffffff",
   100: "#FCE9EC",

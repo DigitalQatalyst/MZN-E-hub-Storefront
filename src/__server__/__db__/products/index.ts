@@ -160,7 +160,7 @@ import { GraphQLClient, gql } from "graphql-request";
 import Product from "@models/product.model";
 
 // Initialize the Vendure GraphQL client
-const client = new GraphQLClient("https://4249-54-37-203-255.ngrok-free.app/shop-api", {
+const client = new GraphQLClient("http://localhost:3004/shop-api", {
   headers: {
      "Content-Type" : "application/json"
   },

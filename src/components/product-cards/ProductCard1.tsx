@@ -157,7 +157,7 @@ export default function ProductCard1({
     <>
       <Wrapper borderRadius={8} {...props}>
         <div className="image-holder">
-          {!!off && (
+          {/* {!!off && (
             <Chip
               top="10px"
               left="10px"
@@ -170,7 +170,7 @@ export default function ProductCard1({
               zIndex={1}>
               {off}% off
             </Chip>
-          )}
+          )} */}
 
           <FlexBox className="extra-icons">
             <IconButton size="small" padding="0.5rem" onClick={toggleDialog}>
@@ -209,7 +209,7 @@ export default function ProductCard1({
 
               <Rating value={rating || 0} outof={5} color="warn" readOnly />
 
-              <FlexBox alignItems="center" mt="10px">
+              {/* <FlexBox alignItems="center" mt="10px">
                 <SemiSpan pr="0.5rem" fontWeight="600" color="primary.main">
                   {calculateDiscount(price, off as number)}
                 </SemiSpan>
@@ -219,7 +219,7 @@ export default function ProductCard1({
                     <del>{currency(price)}</del>
                   </SemiSpan>
                 )}
-              </FlexBox>
+              </FlexBox> */}
             </Box>
 
             <FlexBox
@@ -227,7 +227,7 @@ export default function ProductCard1({
               alignItems="center"
               flexDirection="column-reverse"
               justifyContent={!!cartItem?.qty ? "space-between" : "flex-start"}>
-              <Button
+              {/* <Button
                 size="none"
                 padding="3px"
                 color="primary"
@@ -235,7 +235,7 @@ export default function ProductCard1({
                 borderColor="primary.light"
                 onClick={handleCartAmountChange((cartItem?.qty || 0) + 1)}>
                 <Icon variant="small">plus</Icon>
-              </Button>
+              </Button> */}
 
               {!!cartItem?.qty && (
                 <Fragment>

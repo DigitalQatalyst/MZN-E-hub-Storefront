@@ -17,7 +17,7 @@ const navbarNavigations = [
     ]
   },
   {
-    title: "Top picks",
+    title: "Top Picks",
     child: [
       {
         title: "Sale Page",
@@ -106,9 +106,7 @@ const navbarNavigations = [
       },
       { title: "Profile", url: "/vendor/account-settings" }
     ]
-  },
-  // { title: "Track My Orders", url: "/orders" },
-  // { title: "Back to Demos", url: "/" }
+  }, 
   // {
   //   title: "Documentation",
   //   url:

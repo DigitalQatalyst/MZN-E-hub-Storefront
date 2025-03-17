@@ -1,6 +1,6 @@
 export type deviceOptions = "xs" | "sm" | "md" | "lg";
 export type shadowOptions = "small" | "regular" | "large" | "badge" | "border" | "none";
-export type colorOptions = "primary" | "secondary" | "warn" | "error" | "inherit" | "dark";
+export type colorOptions = "#002180"|"#0030E3"|"primary" | "secondary" | "warn" | "error" | "inherit" | "dark" | "white" | "#FFF";
 
 interface NavItem {
   icon: string;

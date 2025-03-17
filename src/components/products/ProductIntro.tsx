@@ -89,7 +89,7 @@ export default function ProductIntro() {
             <H5 ml="12px" color="#00665C">DED</H5>
             <Icon>vector</Icon>
             <Box>
-              <Rating color="warn" size="12px" value={4} outof={5} />
+              <Rating color="warn" size="medium" value={4} outof={5} />
             </Box>
             <H6 mr="2px">(50)</H6>
             <Icon>vector</Icon>
@@ -129,7 +129,7 @@ export default function ProductIntro() {
             <p color="#ffffff !important">Apply for Registration</p>
           </Button>
           <FlexBox alignItems="center" mb="1rem" mt="1rem" justifyContent="space-between" width="100%">
-            <Button width="58%" color={colors.primary.main} height="50px" bg={"success"}>
+            <Button width="58%" color="primary" height="50px" bg={"success"}>
               <Icon>heart</Icon>
               &nbsp; Add Wishlist
             </Button>

@@ -16,7 +16,7 @@ export default function Section2() {
   const resultsCount = 40; // This could be dynamically fetched or passed as a prop
 
   return (
-    <Container pt="2rem" style={{ marginBottom: '-45px' }}>
+    <Container pt="2rem" style={{ marginTop: '-45px' }}>
       <HeaderWrapper>
         <div>
           <ResultsTitle>

@@ -15,7 +15,7 @@ export const ButtonWrapper = styled.div`
   display: flex;
   gap: 1rem;
   margin-left: 2rem; /* Space between the text and the buttons */
-  margin-top: 80px;
+  margin-top: 70px;
 `;
 
 export const Wrapper = styled.div`

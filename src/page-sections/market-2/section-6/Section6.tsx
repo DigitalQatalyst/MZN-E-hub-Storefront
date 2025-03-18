@@ -42,7 +42,7 @@ export default function Section6({ data }: Props) {
   };
 
   return (
-    <Container pt="4rem">
+    <Container pt="4rem" style={{ marginTop: '-45px' }}>
       <Grid container spacing={3}>
         {/* Sidebar */}
         <Grid item md={3} xs={12}>

@@ -2,6 +2,7 @@ import Box from "@component/Box";
 import Card from "@component/Card";
 import { Chip } from "@component/Chip";
 import NextImage from "@component/NextImage";
+import { H2, H4, H5 } from "@component/Typography";
 
 // ===========================================================================
 type ProductCard6Props = {
@@ -13,8 +14,8 @@ type ProductCard6Props = {
 
 const ProductCard6 = ({ title, subtitle, imgUrl }: ProductCard6Props) => {
   return (
-    <Card position="relative" padding="1rem" borderRadius={8}>
-      <Chip
+    <Card position="relative" padding="1rem" borderRadius={8} backgroundColor={"blue"}>
+      {/* <Chip
         zIndex={2}
         p="4px 10px"
         color="white"
@@ -25,9 +26,9 @@ const ProductCard6 = ({ title, subtitle, imgUrl }: ProductCard6Props) => {
         bg="secondary.main"
         position="absolute">
         {title}
-      </Chip>
+      </Chip> */}
 
-      <Chip
+      {/* <Chip
         zIndex={2}
         p="4px 10px"
         bg="gray.300"
@@ -38,10 +39,14 @@ const ProductCard6 = ({ title, subtitle, imgUrl }: ProductCard6Props) => {
         fontWeight="600"
         position="absolute">
         {subtitle}
-      </Chip>
+      </Chip> */}
 
       <Box borderRadius={8} display="flex" overflow="hidden">
-        <NextImage src={imgUrl} width={345} height={120} alt="bonik" />
+        {/* <NextImage src={imgUrl} width={345} height={120} alt="bonik" /> */}
+        <Box width={345} height={120}>
+          <H4 fontWeight={700}>{title}</H4> <br />
+          <H5 fontWeight={400}>{subtitle}</H5>
+        </Box>
       </Box>
     </Card>
   );

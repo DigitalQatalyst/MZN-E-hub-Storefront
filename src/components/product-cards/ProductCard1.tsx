@@ -187,14 +187,14 @@ export default function ProductCard1({
           </FlexBox>
 
           <Link href={`/market-2`}>
-            <NextImage alt={title} width={277} src={imgUrl} height={270} />
+            <NextImage alt={title} width={277} src={imgUrl} height={270}/>
           </Link>
         </div>
 
         <div className="details">
           <FlexBox>
             <Box flex="1 1 0" minWidth="0px" mr="0.5rem">
-              <Link href={`/product/${slug}`}>
+              <Link href={`/market-2`}>
                 <H3
                   mb="10px"
                   title={title}
@@ -207,6 +207,8 @@ export default function ProductCard1({
                 </H3>
               </Link>
 
+              <FlexBox alignItems="center" mt="10px">
+
               <Rating value={rating || 0} outof={5} color="warn" readOnly />
 
               {/* <FlexBox alignItems="center" mt="10px">
@@ -214,15 +216,21 @@ export default function ProductCard1({
                   {calculateDiscount(price, off as number)}
                 </SemiSpan>
 
-                {!!off && (
+                {/* {!!off && (
                   <SemiSpan color="text.muted" fontWeight="600">
                     <del>{currency(price)}</del>
                   </SemiSpan>
-                )}
-              </FlexBox> */}
+                )} */}
+              </FlexBox>
+              <Rating value={rating || 0} outof={5} color="warn" readOnly />
+              <Button className="learn-more" variant="contained" color="primary" fullwidth marginTop={"20px"}>
+                Learn More
+              </Button>
+          
             </Box>
+        
 
-            <FlexBox
+            {/* <FlexBox
               width="30px"
               alignItems="center"
               flexDirection="column-reverse"
@@ -254,7 +262,7 @@ export default function ProductCard1({
                   </Button>
                 </Fragment>
               )}
-            </FlexBox>
+            </FlexBox> */}
           </FlexBox>
         </div>
       </Wrapper>

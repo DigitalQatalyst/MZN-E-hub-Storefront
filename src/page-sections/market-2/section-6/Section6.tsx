@@ -77,7 +77,7 @@ export default function Section6({ data }: Props) {
                   id={product.id}
                   slug={product.slug}
                   name={product.title}
-                  price={product.price}
+                  subTitle={product.subTitle}
                   img={product.thumbnail}
                   images={product.images as string[]}
                   reviews={product.reviews?.length || 14}

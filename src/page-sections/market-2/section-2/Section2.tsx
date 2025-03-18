@@ -4,7 +4,7 @@ import React, { useState } from "react"; // Import useState from React
 import Icon from "@component/icon/Icon";
 import Container from "@component/Container";
 import { H4, Span } from "@component/Typography";  
-import { ResultsTitle, DescriptionText, ButtonWrapper, HeaderWrapper, ActiveButton } from "./styles"; 
+import { ResultsTitle, DescriptionText, ButtonWrapper, HeaderWrapper, ActiveButton } from "./styles";  
 
 export default function Section2() {
   const [activeButton, setActiveButton] = useState(""); // Track the active button
@@ -22,7 +22,7 @@ export default function Section2() {
           <ResultsTitle>
             Results <span style={{
               color: 'var(--KF-BG-Blue, #0030E3)', 
-              fontFamily: 'Helvetica Neue', 
+              fontFamily: 'Open Sans', 
               fontSize: '14px', 
               fontStyle: 'normal', 
               fontWeight: '400', 
@@ -35,6 +35,7 @@ export default function Section2() {
           <DescriptionText>Explore our latest business support solutions and financial services.</DescriptionText>
         </div>
 
+      
 
         <ButtonWrapper>
           <ActiveButton

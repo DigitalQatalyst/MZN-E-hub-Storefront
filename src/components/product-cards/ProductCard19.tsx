@@ -20,7 +20,7 @@ const CardBox = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",  // Ensure the content stacks vertically
   width: "100%",  // Make the card width 100% of its parent container
-  height: "auto",  // Set height to auto to allow content to adjust naturally
+  height: "auto",  
   maxWidth: "277px",    // Set a fixed height for all cards
   // alignItems: "center",  
   gap: "16px",  // Add some space between the image and the product details

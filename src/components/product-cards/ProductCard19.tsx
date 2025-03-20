@@ -19,9 +19,10 @@ import { theme } from "@utils/theme";
 const CardBox = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",  // Ensure the content stacks vertically
-  width: "277px",  // Set a fixed width for all cards
-  height: "400px",  // Set a fixed height for all cards
-  alignItems: "center",  // Center the content horizontally
+  width: "100%",  // Make the card width 100% of its parent container
+  height: "auto",  
+  maxWidth: "277px",    // Set a fixed height for all cards
+  // alignItems: "center",  
   gap: "16px",  // Add some space between the image and the product details
   // borderRadius: "3px",
   transition: "all 0.3s",
@@ -37,33 +38,33 @@ const CardBox = styled(Box)(({ theme }) => ({
 
 const CardMedia = styled(Box)(({ theme }) => ({
   width: "100%", // Take up the full width for the image
-  maxHeight: "300px",  // Ensure the image doesn't exceed the height of the card
+  maxHeight: "300px",  
   cursor: "pointer",
   overflow: "hidden",
   position: "relative",
   ".product-img": {
     transition: "0.3s",
-    objectFit: "cover",  // Ensure the image doesn't stretch and maintains aspect ratio
+    // objectFit: "cover", 
     width: "100%",
     height: "100%",
   },
 }));
 
-const EyeButton = styled(IconButton)(() => ({
-  top: "10px",
-  right: "-40px",
-  position: "absolute",
-  transition: "right 0.3s .1s",
-  background: "transparent",
-}));
+// const EyeButton = styled(IconButton)(() => ({
+//   top: "10px",
+//   right: "20px",
+//   position: "absolute",
+//   transition: "right 0.3s .1s",
+//   background: "transparent",
+// }));
 
-const FavoriteButton = styled(IconButton)(() => ({
-  top: "45px",
-  right: "-40px",
-  position: "absolute",
-  background: "transparent",
-  transition: "right 0.3s .2s",
-}));
+// const FavoriteButton = styled(IconButton)(() => ({
+//   top: "45px",
+//   right: "20px",
+//   position: "absolute",
+//   background: "transparent",
+//   transition: "right 0.3s .2s",
+// }));
 
 // Title Styling
 const StyledH4 = styled(H4)`
@@ -81,6 +82,7 @@ const StyledH4 = styled(H4)`
 // Custom Button Styling (normal and hover states)
 const StyledButton = styled(DefaultButton)`
   display: flex;
+  text-align: left; 
   padding: 7px 10px;
   justify-content: center;
   align-items: center;
@@ -110,11 +112,20 @@ const StyledButton = styled(DefaultButton)`
   }
 `;
 
+// const ProductBox = styled(Box)(({ theme }) => ({
+//   // marginLeft: "-50px",  
+//   display: "flex",
+//   flexDirection: "column",
+//   // gap: "8px", 
+//   textAlign: "left", // Align text to the left
+// }));
+
+
 type ProductCard19Props = {
   img: string;
   name: string;
   slug: string;
-  price: number;
+  subTitle: string;
   reviews: number;
   images: string[];
   id: string | number;
@@ -122,7 +133,7 @@ type ProductCard19Props = {
 };
 
 export default function ProductCard19(props: ProductCard19Props) {
-  const { img, name, price, reviews, id, slug, images } = props;
+  const { img, name, subTitle, reviews, id, slug, images } = props;
 
   const { state, dispatch } = useAppContext();
   const [openDialog, setOpenDialog] = useState(false);
@@ -133,18 +144,18 @@ export default function ProductCard19(props: ProductCard19Props) {
   const handleFavorite = () => setIsFavorite((fav) => !fav);
   const toggleDialog = () => setOpenDialog((state) => !state);
 
-  const handleAddToCart = () => {
-    const payload = {
-      id,
-      slug,
-      name,
-      price,
-      imgUrl: img,
-      qty: (cartItem?.qty || 0) + 1,
-    };
+  // const handleAddToCart = () => {
+  //   const payload = {
+  //     id,
+  //     slug,
+  //     name,
+  //     subTitle,
+  //     imgUrl: img,
+  //     qty: (cartItem?.qty || 0) + 1,
+  //   };
 
-    dispatch({ type: "CHANGE_CART_AMOUNT", payload });
-  };
+  //   dispatch({ type: "CHANGE_CART_AMOUNT", payload });
+  // };
 
   return (
     <Fragment>
@@ -154,19 +165,19 @@ export default function ProductCard19(props: ProductCard19Props) {
             <NextImage src={img} width={300} height={300} alt="category" className="product-img" />
           </Link>
 
-          <EyeButton onClick={() => setOpenDialog(true)}>
+          {/* <EyeButton onClick={() => setOpenDialog(true)}>
             <Icon size="18px">eye</Icon>
           </EyeButton>
 
           <FavoriteButton onClick={handleFavorite}>
             {isFavorite ? <Icon size="18px">heart-filled</Icon> : <Icon size="18px">heart</Icon>}
-          </FavoriteButton>
+          </FavoriteButton> */}
         </CardMedia>
 
         <Box p={2} textAlign="left">  {/* Align text content to the left */}
           <Paragraph>{name}</Paragraph>
           <StyledH4 fontWeight={700} py=".5rem">
-            {currency(price)}
+          {subTitle}
           </StyledH4>
 
           <FlexBox justifyContent="flex-start" alignItems="center" mb="1rem">  {/* Align rating and review to the left */}
@@ -176,7 +187,8 @@ export default function ProductCard19(props: ProductCard19Props) {
             </Small>
           </FlexBox>
 
-          <StyledButton fullwidth onClick={handleAddToCart}>
+          {/* <StyledButton fullwidth onClick={handleAddToCart}> */}
+          <StyledButton fullwidth >
             <span>Learn More</span>
           </StyledButton>
         </Box>
@@ -186,7 +198,7 @@ export default function ProductCard19(props: ProductCard19Props) {
       <ProductQuickView
         open={openDialog}
         onClose={toggleDialog}
-        product={{ id, images, price, slug, title: name }}
+        product={{ id, images, subTitle, slug, title: name }}
       />
     </Fragment>
   );

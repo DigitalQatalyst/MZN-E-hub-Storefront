@@ -20,7 +20,7 @@ export default function RelatedProducts({ products }: Props) {
               id={item.id}
               slug={item.slug}
               name={item.title}
-              price={item.price}
+              subTitle={item.subTitle}
               img={item.thumbnail}
               images={item.images as string[]}
               reviews={item.reviews?.length || 12}

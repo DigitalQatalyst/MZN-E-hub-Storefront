@@ -25,7 +25,8 @@ interface Product {
   id: string | number;
   slug: string;
   title: string;
-  price: number;
+  subTitle:string ;
+  // price: number;
   brand?: string | null;
   size?: string | null;
   colors?: string[];

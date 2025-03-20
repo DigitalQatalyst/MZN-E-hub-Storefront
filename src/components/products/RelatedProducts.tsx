@@ -1,7 +1,7 @@
 import Box from "@component/Box";
 import Grid from "@component/grid/Grid";
 import { H3 } from "@component/Typography";
-import { ProductCard1, ProductCard19 } from "@component/product-cards";
+import { ProductCard19 } from "@component/product-cards";
 import Product from "@models/product.model";
 
 // ============================================================
@@ -17,15 +17,15 @@ export default function RelatedProducts({ products }: Props) {
         {products.map((item) => (
           <Grid item lg={3} md={4} sm={6} xs={12} key={item.id}>
             <ProductCard19
-                  id={item.id}
-                  slug={item.slug}
-                  name={item.title}
-                  price={item.price}
-                  img={item.thumbnail}
-                  images={item.images as string[]}
-                  reviews={item.reviews?.length || 14}
-                  className="product-card"
-                />
+              id={item.id}
+              slug={item.slug}
+              name={item.title}
+              price={item.price}
+              img={item.thumbnail}
+              images={item.images as string[]}
+              reviews={item.reviews?.length || 12}
+              className="product-card"
+            />
           </Grid>
         ))}
       </Grid>

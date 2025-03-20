@@ -262,7 +262,7 @@ export default function ProductCard1({
                   </Button>
                 </Fragment>
               )}
-            </FlexBox> */}
+            
           </FlexBox>
         </div>
       </Wrapper>

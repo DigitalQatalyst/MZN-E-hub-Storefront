@@ -10,7 +10,7 @@ import { CategoryBasedProducts } from "@models/market-2.model";
 import { useState } from "react";
 
 // STYLED COMPONENTS
-import { List, ListItem } from "./styles";
+import { List,ListItem, DropdownIcon, DropdownText, CheckboxLabel } from "./styles";
 
 // ======================================================================
 // Define the types more explicitly
@@ -41,8 +41,30 @@ export default function Section6({ data }: Props) {
     }
   };
 
+  // Declare 'setOpen' here inside the component
+  const [open, setOpen] = useState({
+    advisory: false,
+    funding: false,
+    procurement: false,
+    businessOperation: false,
+    training: false
+  });
+
+  // Mock data for dropdown sections
+  const mockData = {
+    advisory: ["Legal", "Compliance", "Financial"],
+    funding: ["Government Funding", "Private Funding", "Crowdfunding"],
+    procurement: ["Vendor Selection", "Contract Negotiation", "Purchase Orders"],
+    businessOperation: ["Process Optimization", "Cost Control", "Performance Metrics"],
+    training: ["Leadership Training", "Technical Training", "Compliance Training"]
+  };
+
+  const toggleDropdown = (service: string) => {
+    setOpen((prev) => ({ ...prev, [service]: !prev[service] }));
+  };
+
   return (
-    <Container pt="4rem">
+    <Container pt="4rem" style={{ marginTop: '-45px' }}>
       <Grid container spacing={3}>
         {/* Sidebar */}
         <Grid item md={3} xs={12}>
@@ -55,14 +77,51 @@ export default function Section6({ data }: Props) {
               padding: "1rem 2rem"
             }}>
             {/* MAIN CATEGORY NAME/TITLE */}
-            <H3>{data.category.title}</H3>
+            {/* <H3>Service Type</H3> */}
 
             {/* SUB CATEGORY LIST */}
             <List>
-              {data.category.children.map((item, index) => (
-                <ListItem key={index}>{item}</ListItem> // Use index as a key if item itself is not unique
+             <h5 className="service-type-title">Service Type</h5>
+              {Object.keys(mockData).map((service) => (
+                <div key={service}>
+                  <ListItem onClick={() => toggleDropdown(service)}>
+                    <span>{service.charAt(0).toUpperCase() + service.slice(1)}</span>
+                    <DropdownIcon src="assets/images/avatars/dropdown.svg" alt="dropdown" />
+                  </ListItem>
+                  {open[service] && (
+                    <div>
+                    {mockData[service].map((item, index) => (
+                      <DropdownText key={index}>{item}</DropdownText>
+                    ))}
+                  </div>
+                  )}
+                </div>
               ))}
             </List>
+            <List>
+              <h5 className="service-type-title">Service Type</h5>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>Inception</span>
+              </CheckboxLabel>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>Growth</span>
+              </CheckboxLabel>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>Maturity</span>
+              </CheckboxLabel>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>Restructuring</span>
+              </CheckboxLabel>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>Other</span>
+              </CheckboxLabel>
+            </List>
+
 
             <NavLink href="#">Browse All</NavLink>
           </Card>
@@ -77,7 +136,7 @@ export default function Section6({ data }: Props) {
                   id={product.id}
                   slug={product.slug}
                   name={product.title}
-                  price={product.price}
+                  subTitle={product.subTitle}
                   img={product.thumbnail}
                   images={product.images as string[]}
                   reviews={product.reviews?.length || 14}

@@ -30,10 +30,10 @@ export default async function Market1() {
       {/* HERO CAROUSEL AREA
       <Section1 />
 
-      FLASH DEAL PRODUCTS AREA 
-      <Section2 /> */}
+      FLASH DEAL PRODUCTS AREA */}
+      
       <Section6 />
-
+      <Section2 /> 
       {/* TOP CATEGORIES AREA */}
       <Section3 />
 

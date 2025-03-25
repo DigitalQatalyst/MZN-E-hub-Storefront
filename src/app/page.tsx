@@ -14,6 +14,9 @@ import Section11 from "@sections/market-1/Section11";
 import Section12 from "@sections/market-1/Section12";
 import Section13 from "@sections/market-1/Section13";
 import Section6 from "@sections/landing/section6";
+import { HeaderTwo } from "@component/header";
+
+
 
 export default async function Market1() {
   const carList = await api.getCarList();
@@ -29,14 +32,16 @@ export default async function Market1() {
     <main>
       {/* HERO CAROUSEL AREA
       <Section1 />
-
-      FLASH DEAL PRODUCTS AREA */}
       
+      FLASH DEAL PRODUCTS AREA */}
+
+    
+      <HeaderTwo />
       <Section6 />
       <Section2 /> 
       {/* TOP CATEGORIES AREA */}
       <Section3 />
-
+     
       
 
 

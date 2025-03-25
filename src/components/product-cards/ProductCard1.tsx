@@ -206,22 +206,6 @@ export default function ProductCard1({
                   {title}
                 </H3>
               </Link>
-
-              <FlexBox alignItems="center" mt="10px">
-
-              <Rating value={rating || 0} outof={5} color="warn" readOnly />
-
-              {/* <FlexBox alignItems="center" mt="10px">
-                <SemiSpan pr="0.5rem" fontWeight="600" color="primary.main">
-                  {calculateDiscount(price, off as number)}
-                </SemiSpan>
-
-                {/* {!!off && (
-                  <SemiSpan color="text.muted" fontWeight="600">
-                    <del>{currency(price)}</del>
-                  </SemiSpan>
-                )} */}
-              </FlexBox>
               <Rating value={rating || 0} outof={5} color="warn" readOnly />
               <Button className="learn-more" variant="contained" color="primary" fullwidth marginTop={"20px"}>
                 Learn More

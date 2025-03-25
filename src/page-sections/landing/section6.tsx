@@ -10,18 +10,12 @@ import { H1, H3, H4 } from "@component/Typography";
 
 // STYLED COMPONENTS
 const HeroSection = styled.section`
-//   padding: 5rem 0;
   color: white;
   display: flex;
-//   justify-content: center;
-//   align-items: center;
   flex-direction: column;
   position: relative;
   text-align: center;
   height: 90vh;
-//   width: 100%;
-//   z-index: 4;
-//   overflow: hidden;
 `;
 
 const CTASection = styled.section`
@@ -76,25 +70,13 @@ const ContentColumn = styled.div`
 `;
 
 const HeroImage = styled.div`
-//   position: absolute;
-//   bottom: -50px;
-//   left: 50%;
-//   transform: translateX(-50%);
-//   display: flex;
-//   justify-content: center;
-//   gap: 2rem;
-margin-left:0rem;
-
-//   z-index: 5;
-//   object-fit: cover;
-
+  margin-left:0rem;
 `;
 
 const HeroContent = styled.div`
   z-index: 2;
   color:black;
-//   margin-bottom: 2rem;
-margin-top: -15rem;
+  margin-top: -15rem;
 `;
 
 const SearchBarContainer = styled.div`
@@ -108,12 +90,11 @@ const SearchInput = styled.input`
   padding: 1rem;
   font-size: 16px;
   border-radius: 10px 0 0 10px;
-//   border-radius-left: 30px;
   border: none;
   width: 300px;
   margin-right: -.6rem;
   max-width: 100%;
-   border-right: none
+  border-right: none; // Added missing semicolon
 `;
 
 const SearchButton = styled.button`
@@ -125,10 +106,6 @@ const SearchButton = styled.button`
   border-radius: 0 10px 10px 0; 
   border: none;
   cursor: pointer;
-//   transition: background-color 0.3s ease;
-//   &:hover {
-//     background-color: #2980b9;
-//   }
 `;
 
 const SearchButtonHero = styled.button`
@@ -164,15 +141,11 @@ export default function HomePage() {
                     <NextImage
                         width={1800}
                         height={911}
-
                         alt="Male Avatar"
                         src="/images/image 47.png"
                     />
                 </HeroImage>
                 <HeroContent>
-                    {/* <H3 fontSize="20px" fontWeight="400" mb="2rem">
-                        
-                    </H3> */}
                 </HeroContent>
 
                 <SearchBarContainer>

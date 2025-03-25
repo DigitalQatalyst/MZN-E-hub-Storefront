@@ -18,7 +18,7 @@ interface Props {
 export default function CategorySectionCreator({ title, iconName, children, seeMoreLink }: Props) {
   return (
     <Box mb="3.75rem">
-      <Container pb="1rem">
+      <Container pb="1rem" position={"relative"} left={"0"} >
         {title && (
           <CategorySectionHeader title={title} iconName={iconName} seeMoreLink={seeMoreLink} />
         )}

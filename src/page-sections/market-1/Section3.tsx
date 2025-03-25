@@ -27,10 +27,8 @@ export default async function Section3() {
   ];
 
   return (
-    <CategorySectionCreator >
-      {/* <NextImage src={"/images/image_50.png"} width={345} height={120} alt="bonik" /> */}
-      <FullWrapper>
-      {/* <Wrapper> */}
+    // <CategorySectionCreator >
+      <FullWrapper padding={"2rem"} bg="linear-gradient(180deg, #FFF 0%, #FDFDFF 9.41%, #F7F8FE 17.07%, #EDF0FD 23.24%, #E0E6FC 28.21%, #D1D9FA 32.23%, #BFCBF8 35.57%, #ABBBF6 38.51%, #96AAF4 41.31%, #8098F1 44.25%, #6A86EF 47.6%, #5373EC 51.62%, #3D61EA 56.58%, #2750E7 62.76%, #133FE5 70.41%, #0030E3 79.82%)">
         <FlexBox flexDirection={"column"} padding={"2rem"} backgroundColor={colors.primary.gradient}>
           <FlexBox alignItems={"end"} justifyContent={"space-between"} flexDirection={"row"} marginBottom={"20px"} >
             <FlexBox alignItems={"flex-start"} justifyContent={"space-between"} flexDirection={"column"}>
@@ -58,8 +56,7 @@ export default async function Section3() {
             ))}
           </Carousel>
         </FlexBox>
-      {/* </Wrapper> */}
       </FullWrapper>
-    </CategorySectionCreator>
+    // </CategorySectionCreator>
   );
 }

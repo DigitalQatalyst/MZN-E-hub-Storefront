@@ -14,7 +14,10 @@ import Section11 from "@sections/market-1/Section11";
 import Section12 from "@sections/market-1/Section12";
 import Section13 from "@sections/market-1/Section13";
 import Section6 from "@sections/landing/section6";
-import { HeaderTwo } from "@component/header";
+
+import Footer from "@sections/landing/footer";
+import { zIndex } from "styled-system";
+import { Wrapper } from "@component/footer/footer-2/styles";
 
 export default async function Market1() {
   const carList = await api.getCarList();
@@ -33,13 +36,15 @@ export default async function Market1() {
       
       FLASH DEAL PRODUCTS AREA */}
 
+
     
-      <HeaderTwo />
       <Section6 />
+
+
       <Section2 /> 
       {/* TOP CATEGORIES AREA */}
       <Section3 />
-
+      <Footer />
 
 
 

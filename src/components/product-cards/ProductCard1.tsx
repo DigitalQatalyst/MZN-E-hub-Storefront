@@ -206,7 +206,12 @@ export default function ProductCard1({
                   {title}
                 </H3>
               </Link>
+
               <FlexBox alignItems="center" mt="10px">
+
+              <Rating value={rating || 0} outof={5} color="warn" readOnly />
+
+              {/* <FlexBox alignItems="center" mt="10px">
                 <SemiSpan pr="0.5rem" fontWeight="600" color="primary.main">
                   {calculateDiscount(price, off as number)}
                 </SemiSpan>
@@ -221,7 +226,7 @@ export default function ProductCard1({
               <Button className="learn-more" variant="contained" color="primary" fullwidth marginTop={"20px"}>
                 Learn More
               </Button>
-              
+          
             </Box>
         
 
@@ -230,7 +235,7 @@ export default function ProductCard1({
               alignItems="center"
               flexDirection="column-reverse"
               justifyContent={!!cartItem?.qty ? "space-between" : "flex-start"}>
-              <Button
+              {/* <Button
                 size="none"
                 padding="3px"
                 color="primary"
@@ -238,7 +243,7 @@ export default function ProductCard1({
                 borderColor="primary.light"
                 onClick={handleCartAmountChange((cartItem?.qty || 0) + 1)}>
                 <Icon variant="small">plus</Icon>
-              </Button>
+              </Button> */}
 
               {!!cartItem?.qty && (
                 <Fragment>

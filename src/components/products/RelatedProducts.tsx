@@ -11,7 +11,7 @@ type Props = { products: Product[] };
 export default function RelatedProducts({ products }: Props) {
   return (
     <Box mb="3.75rem">
-      <H3 mb="1.5rem">Related Products</H3>
+      <H3 mb="1.5rem">Related Services</H3>
 
       <Grid container spacing={8}>
         {products.map((item) => (

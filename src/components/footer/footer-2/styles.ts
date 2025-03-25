@@ -31,6 +31,20 @@ export const StyledBox = styled(Box)`
   }
 `;
 
+export const FullWrapper = styled(Box)`
+  color: white;
+  padding: 40px;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  background-color: #0f3460;
+  padding: 3rem 3rem;
+
+  @media only screen and (max-width: 900px) {
+    margin-bottom: 3.75rem;
+  }
+`;
+
 export const Wrapper = styled(Box)`
   color: white;
   padding: 40px;

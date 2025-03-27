@@ -75,7 +75,7 @@ export default function Section6({ data }: Props) {
               height: "91%",
               borderRadius: "3px",
               padding: "1rem 2rem",
-              backgroundColor: "#fff"
+              backgroundColor: "#F4F7FE"
             }}>
             {/* MAIN CATEGORY NAME/TITLE */}
             {/* <H3>Service Type</H3> */}

@@ -20,13 +20,16 @@ const CardBox = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",  // Ensure the content stacks vertically
   width: "100%",  // Make the card width 100% of its parent container
-  height: "94%",  // Set a fixed height for all cards
+  height: "100%",  
+  // height:"auto",
   maxWidth: "277px",    // Set a fixed height for all cards
   // alignItems: "center",  
   gap: "16px",  // Add some space between the image and the product details
   // borderRadius: "3px",
   transition: "all 0.3s",
   // backgroundColor: "white",
+  borderRadius: "5px", 
+  background: "var(--Secondary-Gradient, linear-gradient(225deg, #7693F3 0.02%, #7693F3 11.72%, #7693F1 21.24%, #7594EF 28.92%, #7594EC 35.08%, #7495E9 40.08%, #7496E5 44.24%, #7397E0 47.89%, #7298DC 51.38%, #7299D7 55.03%, #719AD2 59.19%, #709BCD 64.18%, #6F9CC8 70.35%, #6E9DC3 78.03%, #6E9EBE 87.54%, #6D9FBA 99.24%))",
   border: `1px solid ${theme.colors.gray[100]}`,
     "&:hover": {
       ".product-img": {
@@ -68,16 +71,15 @@ const CardMedia = styled(Box)(({ theme }) => ({
 
 // Title Styling
 const StyledH4 = styled(H4)`
-  color: var(--KF-BG-Dark-Blue, #002180);
-  text-align: left;  // Align the title to the left
-
-  /* Text/T4/Bold */
+  color: #FFF;
   font-family: "Open Sans";
-  font-size: 16px;
+  font-size: 10px;
   font-style: normal;
-  font-weight: 700;
-  line-height: 26px; /* 162.5% */
+  font-weight: 300;
+  line-height: 16px; /* 160% */
+  letter-spacing: 0.5px;
 `;
+
 
 // Custom Button Styling (normal and hover states)
 const StyledButton = styled(DefaultButton)`
@@ -111,6 +113,28 @@ const StyledButton = styled(DefaultButton)`
     }
   }
 `;
+
+const StyledImage = styled(NextImage)`
+  width: 63px;
+  height: 63px;
+  flex-shrink: 0;
+  aspect-ratio: 1/1;
+  margin-left: 10px;  // Adjust the margin to position the image correctly
+   
+`;
+
+const StyledParagraph = styled(Paragraph)`
+  color: var(--M3-white, #FFF);
+
+  /* M3/title/medium */
+  font-family:  "Open Sans";
+  font-size: var(--Title-Medium-Size, 16px);
+  font-style: normal;
+  font-weight: 500;
+  line-height: var(--Title-Medium-Line-Height, 24px); /* 150% */
+  letter-spacing: var(--Title-Medium-Tracking, 0.15px);
+`;
+
 
 // const ProductBox = styled(Box)(({ theme }) => ({
 //   // marginLeft: "-50px",  
@@ -157,12 +181,13 @@ export default function ProductCard19(props: ProductCard19Props) {
   //   dispatch({ type: "CHANGE_CART_AMOUNT", payload });
   // };
 
+
   return (
     <Fragment>
       <CardBox>
         <CardMedia>
           <Link href={`/product/${slug}`}>
-            <NextImage src={img} width={300} height={300} alt="category" className="product-img" />
+           <StyledImage src={img} width={63} height={63} alt="category" />
           </Link>
 
           {/* <EyeButton onClick={() => setOpenDialog(true)}>
@@ -175,7 +200,7 @@ export default function ProductCard19(props: ProductCard19Props) {
         </CardMedia>
 
         <Box p={2} textAlign="left">  {/* Align text content to the left */}
-          <Paragraph>{name}</Paragraph>
+          <StyledParagraph>{name}</StyledParagraph>
           <StyledH4 fontWeight={700} py=".5rem">
           {subTitle}
           </StyledH4>

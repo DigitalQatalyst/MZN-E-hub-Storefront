@@ -15,7 +15,7 @@ export default async function Section2() {
     { breakpoint: 650, settings: { slidesToShow: 2 } },
     { breakpoint: 500, settings: { slidesToShow: 1 } }
   ];
-
+  console.log(products);
   return (
     // <Wrapper>
     <CategorySectionCreator title="Featured Services" >

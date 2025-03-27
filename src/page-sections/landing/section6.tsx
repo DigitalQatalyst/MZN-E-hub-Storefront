@@ -76,7 +76,7 @@ const TextContainer = styled.div`
 `;
 
 const StyledH4 = styled(H4)`
-  color: blue;
+  color: #0030E3;
   margin-bottom: -0.5rem;
 `;
 
@@ -162,8 +162,8 @@ const Icon = styled.div`
 
 const CTAContainer = styled.div`
   display: flex;
-  backgroundColor: #f4f7fe;
-  border-radius: "10px"
+  background-color: #f4f7fe;
+  border-radius: "10px";
   align-items: center;
   // justify-content: center;
   // flex-wrap: wrap;
@@ -208,7 +208,7 @@ export default function HomePage() {
                 <Card style={{ borderStartStartRadius: "10px", borderEndStartRadius: "10px" }}>
                     <NextImage src={icon1} alt="Grow Faster Icon" width={70} height={70} style={{marginRight: "1.5rem"}}/>
                     <TextContainer>
-                        <StyledH4 fontSize="18px" fontWeight="700">
+                        <StyledH4 fontSize="24px" fontWeight="400">
                             Grow Faster
                         </StyledH4>
                         <p>Scale with speed</p>
@@ -222,7 +222,7 @@ export default function HomePage() {
                     <NextImage src={icon2} alt="Grow Faster Icon" width={70} height={70} style={{marginRight: "1.5rem"}}/>
                     <TextContainer>
 
-                        <StyledH4 fontSize="18px" fontWeight="700">
+                        <StyledH4 fontSize="24px" fontWeight="400">
                             Grow Smarter
                         </StyledH4>
                         <p>Maximize resources wisely</p>
@@ -236,7 +236,7 @@ export default function HomePage() {
                     <NextImage src={icon3} alt="Grow Faster Icon" width={70} height={70} style={{marginRight: "1.5rem"}}/>
                     <TextContainer>
 
-                        <StyledH4 fontSize="18px" fontWeight="700">
+                        <StyledH4 fontSize="24px" fontWeight="400">
                             Every Little Help
                         </StyledH4>
                         <p>Support when it counts</p>
@@ -249,7 +249,7 @@ export default function HomePage() {
             <WelcomeSection>
                 <ContentColumn>
                     <p>SUPPORTING YOUR BUSINESS NEEDS</p>
-                    <H3 fontSize="28px" fontWeight="700" mb="2rem">
+                    <H3 fontSize="28px" fontWeight="700" mb="1rem">
                         Welcome to MZN Enterprise Hub
                     </H3>
                     <p>

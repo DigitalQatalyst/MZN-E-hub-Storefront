@@ -10,7 +10,7 @@ import { CategoryBasedProducts } from "@models/market-2.model";
 import { useState } from "react";
 
 // STYLED COMPONENTS
-import { List,ListItem, DropdownIcon, DropdownText, CheckboxLabel } from "./styles";
+import { List,ListItem, DropdownIcon, DropdownText, CheckboxLabel, ServiceTypeTitle, ShowingText } from "./styles";
 
 // ======================================================================
 // Define the types more explicitly
@@ -72,16 +72,17 @@ export default function Section6({ data }: Props) {
             elevation={0}
             style={{
               border: 0,
-              height: "100%",
+              height: "91%",
               borderRadius: "3px",
-              padding: "1rem 2rem"
+              padding: "1rem 2rem",
+              backgroundColor: "#fff"
             }}>
             {/* MAIN CATEGORY NAME/TITLE */}
             {/* <H3>Service Type</H3> */}
 
             {/* SUB CATEGORY LIST */}
             <List>
-             <h5 className="service-type-title">Service Type</h5>
+             <ServiceTypeTitle>Service Type</ServiceTypeTitle>
               {Object.keys(mockData).map((service) => (
                 <div key={service}>
                   <ListItem onClick={() => toggleDropdown(service)}>
@@ -99,7 +100,7 @@ export default function Section6({ data }: Props) {
               ))}
             </List>
             <List>
-              <h5 className="service-type-title">Service Type</h5>
+              <ServiceTypeTitle>Business Stage :</ServiceTypeTitle>
               <CheckboxLabel>
                 <input type="checkbox" />
                 <span>Inception</span>
@@ -122,9 +123,58 @@ export default function Section6({ data }: Props) {
               </CheckboxLabel>
             </List>
 
+            <List>
+              <ServiceTypeTitle>Provided By :</ServiceTypeTitle>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>ADGM</span>
+              </CheckboxLabel>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>Khalifa Fund</span>
+              </CheckboxLabel>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>Hub 71</span>
+              </CheckboxLabel>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>AD SME Hub</span>
+              </CheckboxLabel>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>Other</span>
+              </CheckboxLabel>
+            </List>
 
-            <NavLink href="#">Browse All</NavLink>
+            <List>
+            <ServiceTypeTitle>Pricing Model :</ServiceTypeTitle>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>Free</span>
+              </CheckboxLabel>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>Subscription-Based</span>
+              </CheckboxLabel>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>Pay Per Service</span>
+              </CheckboxLabel>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>One-Time Fee</span>
+              </CheckboxLabel>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>Government Subsidised</span>
+              </CheckboxLabel>
+            </List>
+
+
+            {/* <NavLink href="#">Browse All</NavLink> */}
           </Card>
+          <ShowingText>Showing 1-9 of 90 Services</ShowingText>
         </Grid>
 
         {/* CATEGORY BASED PRODUCTS */}

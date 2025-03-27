@@ -87,3 +87,25 @@ export const CheckboxLabel = styled.label`
     color: "var(--KF-BG-Dark-Blue, #003366)",;
   }
 `;
+
+// New Style for the h5 service-type-title
+export const ServiceTypeTitle = styled.h5`
+  color: var(--KF-BG-Dark-Blue, #002180);
+  font-family: "Open Sans";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 140%; /* 19.6px */
+`;
+
+// New Style for the h4 "Showing 1-9 of 90 Services"
+export const ShowingText = styled.h4`
+  color: var(--KF-BG-Dark-Blue, #002180);
+  // margin-top: 10px; 
+  font-family: "Open Sans";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-bottom: 150px ; 
+`;

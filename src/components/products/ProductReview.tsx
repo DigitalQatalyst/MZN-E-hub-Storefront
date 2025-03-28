@@ -50,23 +50,20 @@ export default function ProductReview() {
           <Grid>
             <Grid md={6}>
               <Typography>
-                <FlexBox color="#FFFFFF" mt="2em">
-                  1. Log in using UAE PASS.
+                <FlexBox color="#FFFFFF" mt="2em" ml="1em" mb="3em">
+                  1. Log in using UAE PASS. 
                 </FlexBox>
-                <FlexBox color="#FFFFFF" mt="2em">
-                  2. Submit the application and required documents
+                <FlexBox color="#FFFFFF" mt="2em" ml="1em" mb="3em">
+                  2. Submit the application and required documents 
                 </FlexBox>
-                <FlexBox color="#FFFFFF" mt="2em">
-                  3. Obtaining approvals of other entities (If any required)
+                <FlexBox color="#FFFFFF" mt="2em" ml="1em" mb="3em">
+                  3. Meeting with the specialised business counsellor during the field visit 
                 </FlexBox>
-                <FlexBox color="#FFFFFF" mt="2em">
-                  4. Receive an approval or rejection notification.
+                <FlexBox color="#FFFFFF" mt="2em" ml="1em" mb="3em">
+                  4. Get the approval from the management credit committee 
                 </FlexBox>
-                <FlexBox color="#FFFFFF" mt="2em">
-                  5. Pay the applicable fees.
-                </FlexBox>
-                <FlexBox color="#FFFFFF" mt="2em">
-                  6. Obtain New Economic Licence - Commercial.
+                <FlexBox color="#FFFFFF" mt="2em" ml="1em">
+                  5. Sign the financing agreement
                 </FlexBox>
               </Typography>
 

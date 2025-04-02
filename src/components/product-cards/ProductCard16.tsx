@@ -186,7 +186,7 @@ export default function ProductCard16(props: ProductCardProps) {
       <ProductQuickView
         open={openModal}
         onClose={toggleDialog}
-        product={{ id, slug, images, title, subTitle: "", description: "" }}
+        product={{ id, images, price, title, slug }}
       />
 
       <ContentWrapper>

@@ -129,7 +129,7 @@ export default function Section6() {
             elevation={0}
             style={{
               border: 0,
-              height: "91%",
+              height: "92%",
               borderRadius: "3px",
               padding: "1rem 2rem",
               backgroundColor: "#F4F7FE"

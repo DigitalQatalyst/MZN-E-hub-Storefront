@@ -1,4 +1,5 @@
 "use client"
+
 import { Fragment } from "react";
 import { format } from "date-fns";
 
@@ -19,10 +20,20 @@ export default async function Profile() {
   const user = await api.getUser();
 
   const infoList = [
-    { title: "06", subtitle: "Funding Requests" },
-    { title: "04", subtitle: "Active Services" },
-    // { title: "00", subtitle: "Awaiting Shipment" },
-    // { title: "01", subtitle: "Awaiting Delivery" }
+    {
+      title: "06", // Total count
+      subtitle: "Funding Requests",
+      approved: 3,
+      pending: 2,
+      declined: 1,
+    },
+    {
+      title: "04", // Total count
+      subtitle: "Active Services",
+      grants: 3,
+      marketAccess: 1,
+    },
+  
   ];
 
   return (
@@ -46,17 +57,17 @@ export default async function Profile() {
 
                     <FlexBox alignItems="center">
                       <Typography fontSize="14px" color="text.hint">
-                        Balance:
+                      TL-1234567-UAE
                       </Typography>
 
-                      <Typography ml="4px" fontSize="14px" color="primary.main">
+                      {/* <Typography ml="4px" fontSize="14px" color="primary.main">
                         $500
-                      </Typography>
+                      </Typography> */}
                     </FlexBox>
                   </div>
 
-                  <Typography ontSize="14px" color="text.hint" letterSpacing="0.2em">
-                    ACTIVE
+                  <Typography ontSize="14px" color="green" letterSpacing="0.2em">
+                    <strong>ACTIVE</strong>
                   </Typography>
                 </FlexBox>
               </Box>
@@ -66,7 +77,7 @@ export default async function Profile() {
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Grid container spacing={4}>
               {infoList.map((item) => (
-                <Grid item lg={3} sm={6} xs={6} key={item.subtitle}>
+                <Grid item lg={6} sm={12} xs={12} key={item.subtitle}>
                   <FlexBox
                     as={Card}
                     height="100%"
@@ -75,14 +86,39 @@ export default async function Profile() {
                     alignItems="center"
                     flexDirection="column"
                     justifyContent="center">
-                    <H3 color="primary.main" my="0px" fontWeight="600">
+                    <H3 color="light-blue" my="0px" fontWeight="600">
                       {item.title}
                     </H3>
 
                     <Small color="text.muted" textAlign="center">
                       {item.subtitle}
                     </Small>
-                  </FlexBox>
+
+                    {item.approved !== undefined && (
+                      <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '10px' }}>
+                      <Small color="text.muted" textAlign="center">
+                        Approved: {item.approved}
+                      </Small>
+                      <Small color="text.muted" textAlign="center">
+                        Pending: {item.pending}
+                      </Small>
+                      <Small color="text.muted" textAlign="center">
+                        Declined: {item.declined}
+                      </Small>
+                    </div>
+                  )}
+                
+                  {item.grants !== undefined && (
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '10px' }}>
+                      <Small color="text.muted" textAlign="center">
+                        Grants: {item.grants}
+                      </Small>
+                      <Small color="text.muted" textAlign="center">
+                        Market Access: {item.marketAccess}
+                      </Small>
+                    </div>
+                  )}
+                </FlexBox>
                 </Grid>
               ))}
             </Grid>

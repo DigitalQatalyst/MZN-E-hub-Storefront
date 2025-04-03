@@ -1,8 +1,9 @@
+"use client"
 import { Fragment } from "react";
 import { format } from "date-fns";
-// API FUNCTIONS
+
 import api from "@utils/__api__/users";
-// GLOBAL CUSTOM COMPONENTS
+
 import Box from "@component/Box";
 import Card from "@component/Card";
 import Avatar from "@component/avatar";
@@ -11,23 +12,23 @@ import FlexBox from "@component/FlexBox";
 import TableRow from "@component/TableRow";
 import Typography, { H3, H5, Small } from "@component/Typography";
 import DashboardPageHeader from "@component/layout/DashboardPageHeader";
-// PAGE SECTION COMPONENTS
 import { EditProfileButton } from "@sections/customer-dashboard/profile";
+import ServiceUtilizationCard from "./cards/card";
 
 export default async function Profile() {
   const user = await api.getUser();
 
   const infoList = [
-    { title: "16", subtitle: "All Orders" },
-    { title: "02", subtitle: "Awaiting Payments" },
-    { title: "00", subtitle: "Awaiting Shipment" },
-    { title: "01", subtitle: "Awaiting Delivery" }
+    { title: "06", subtitle: "Funding Requests" },
+    { title: "04", subtitle: "Active Services" },
+    // { title: "00", subtitle: "Awaiting Shipment" },
+    // { title: "01", subtitle: "Awaiting Delivery" }
   ];
 
   return (
     <Fragment>
       <DashboardPageHeader
-        title="My Profile"
+        title="Al Maha Trading LLC"
         iconName="user_filled"
         button={<EditProfileButton />}
       />
@@ -55,7 +56,7 @@ export default async function Profile() {
                   </div>
 
                   <Typography ontSize="14px" color="text.hint" letterSpacing="0.2em">
-                    SILVER USER
+                    ACTIVE
                   </Typography>
                 </FlexBox>
               </Box>
@@ -86,10 +87,12 @@ export default async function Profile() {
               ))}
             </Grid>
           </Grid>
+
+          
         </Grid>
       </Box>
 
-      <TableRow p="0.75rem 1.5rem">
+      {/* <TableRow p="0.75rem 1.5rem">
         <FlexBox flexDirection="column" p="0.5rem">
           <Small color="text.muted" mb="4px">
             First Name
@@ -129,7 +132,10 @@ export default async function Profile() {
 
           <span className="pre">{format(new Date(user.dateOfBirth), "dd MMM, yyyy")}</span>
         </FlexBox>
-      </TableRow>
+      </TableRow> */}
+      <Box mt="30px">
+        <ServiceUtilizationCard />
+      </Box>
     </Fragment>
   );
 }

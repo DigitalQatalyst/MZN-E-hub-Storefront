@@ -21,14 +21,14 @@ export default async function Profile() {
 
   const infoList = [
     {
-      title: "06", // Total count
+      count: "06", // Total count
       subtitle: "Funding Requests",
       approved: 3,
       pending: 2,
       declined: 1,
     },
     {
-      title: "04", // Total count
+      count: "04", // Total count
       subtitle: "Active Services",
       grants: 3,
       marketAccess: 1,
@@ -86,13 +86,14 @@ export default async function Profile() {
                     alignItems="center"
                     flexDirection="column"
                     justifyContent="center">
-                    <H3 color="light-blue" my="0px" fontWeight="600">
-                      {item.title}
-                    </H3>
 
                     <Small color="text.muted" textAlign="center">
                       {item.subtitle}
                     </Small>
+
+                    <H3 color="#0030E3" my="0px" fontWeight="600">
+                      {item.count}
+                    </H3>
 
                     {item.approved !== undefined && (
                       <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '10px' }}>

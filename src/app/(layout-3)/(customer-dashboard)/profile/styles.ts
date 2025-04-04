@@ -14,8 +14,11 @@ export const StyledGrid = styled(Grid)`
 `;
 
 export const DashboardNavigationWrapper = styled(Card)`
+//  height: auto;
+  min-height: 600px;
   @media only screen and (max-width: 768px) {
     height: calc(100vh - 64px);
+     min-height: 700px;
     box-shadow: none;
     overflow-y: auto;
   }

@@ -20,7 +20,7 @@ const CardBox = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",  // Ensure the content stacks vertically
   width: "100%",  // Make the card width 100% of its parent container
-  height: "325px",
+  height: "300px",
   padding: "16px",
   // height:"auto",
   // maxWidth: "277px",    // Set a fixed height for all cards
@@ -105,14 +105,6 @@ const StyledButton = styled(DefaultButton)`
     font-size: 10px;
     font-style: normal;
     font-weight: 300;
-  }
-
-  &:hover {
-    background: var(--KF-BG-Dark-Blue, #002180);
-    
-    span {
-      color: var(--KF-BG-White, #FFF);
-    }
   }
 `;
 

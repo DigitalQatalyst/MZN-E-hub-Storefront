@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { useState } from "react";
 import Box from "@component/Box";
 import Image from "@component/Image";
 import Grid from "@component/grid/Grid";
@@ -8,36 +9,73 @@ import FlexBox from "@component/FlexBox";
 import AppStore from "@component/AppStore";
 import Container from "@component/Container";
 import Typography, { Paragraph } from "@component/Typography";
+import Button from "@component/buttons/Button";
 
 // STYLED COMPONENTS
-import { StyledLink } from "./styles";
+import { StyledLink, SubscribeInput, SubscribeButton, SubscribeContainer } from "./styles";
 // CUSTOM DATA
 import { aboutLinks, customerCareLinks, iconList } from "./data";
 
 export default function Footer1() {
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle the subscribe action
+    console.log("Subscribed with email:", email);
+  };
+
   return (
     <footer>
-      <Box bg="#0F3460">
+      <Box bg="var(--KF-BG-Dark-Blue, #002180)">
         <Container p="1rem" color="white">
           <Box py="5rem" overflow="hidden">
-            <Grid container spacing={6}>
+            <Grid container spacing={3}>
               <Grid item lg={4} md={6} sm={6} xs={12}>
                 <Link href="/">
-                  <Image alt="logo" mb="1rem" src="/assets/images/logo.svg" />
+                  <Image alt="logo" mb="1rem" src="/assets/images/mzn_logos/Asset 10 (1).svg" />
                 </Link>
 
                 <Paragraph mb="1.25rem" color="gray.500" maxWidth="320px">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor libero id et, in
-                  gravida. Sit diam duis mauris nulla cursus. Erat et lectus vel ut sollicitudin
-                  elit at amet.
+                Stay updated with the latest business insights, opportunities, and services from MZN.
                 </Paragraph>
 
-                <AppStore />
+                {/* <AppStore /> */}
+                {/* Subscribe form */}
+                <form onSubmit={handleSubmit}>
+                  <SubscribeContainer>
+                    <SubscribeInput
+                      type="email"
+                      placeholder="Your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <SubscribeButton type="submit">
+                      Subscribe
+                    </SubscribeButton>
+                  </SubscribeContainer>
+                </form>
+
+                <Box bg="var(--KF-BG-Dark-Blue, #002180)" py="1rem" textAlign="center">
+                  <FlexBox alignItems="center" style={{ marginTop: "3rem" }}>
+                    {/* "2024" text */}
+                    <Typography color="white" fontSize="11px" fontWeight="400" mr="1rem">
+                      © 2024 
+                    </Typography>
+                    {/* Logo */}
+                    <Image 
+                      src="/assets/images/mzn_logos/Layer 1.svg" 
+                      alt="MZN Logo"
+                      width="30.156px"
+                      height="12.999px"
+                    />
+                  </FlexBox>
+                </Box>
               </Grid>
 
               <Grid item lg={2} md={6} sm={6} xs={12}>
                 <Typography mb="1.25rem" lineHeight="1" fontSize={20} fontWeight="600">
-                  About Us
+                  Quick Links
                 </Typography>
 
                 <div>
@@ -49,9 +87,9 @@ export default function Footer1() {
                 </div>
               </Grid>
 
-              <Grid item lg={3} md={6} sm={6} xs={12}>
+              <Grid item lg={2} md={6} sm={6} xs={12}>
                 <Typography mb="1.25rem" lineHeight="1" fontSize={20} fontWeight="600">
-                  Customer Care
+                  Get to Know Us
                 </Typography>
 
                 <div>
@@ -63,24 +101,34 @@ export default function Footer1() {
                 </div>
               </Grid>
 
-              <Grid item lg={3} md={6} sm={6} xs={12}>
+              <Grid item lg={2} md={6} sm={6} xs={12}>
                 <Typography mb="1.25rem" lineHeight="1" fontSize={20} fontWeight="600">
-                  Contact Us
+                 Partners
                 </Typography>
 
-                <Typography py="0.3rem" color="gray.500">
-                  70 Washington Square South, New York, NY 10012, United States
+                <div>
+                  {customerCareLinks.map((item, ind) => (
+                    <StyledLink href="/" key={ind}>
+                      {item}
+                    </StyledLink>
+                  ))}
+                </div>
+              </Grid>
+
+              <Grid item lg={2} md={6} sm={6} xs={12}>
+              <Typography mb="1.25rem" lineHeight="1" fontSize={20} fontWeight="600">
+                Legal
                 </Typography>
 
-                <Typography py="0.3rem" color="gray.500">
-                  Email: uilib.help@gmail.com
-                </Typography>
+                <div>
+                  {customerCareLinks.map((item, ind) => (
+                    <StyledLink href="/" key={ind}>
+                      {item}
+                    </StyledLink>
+                  ))}
+                </div>
 
-                <Typography py="0.3rem" mb="1rem" color="gray.500">
-                  Phone: +1 1123 456 780
-                </Typography>
-
-                <FlexBox className="flex" mx="-5px">
+                <FlexBox className="flex" mx="-5px" style={{ marginTop: "5rem" }}>
                   {iconList.map((item) => (
                     <a
                       href={item.url}

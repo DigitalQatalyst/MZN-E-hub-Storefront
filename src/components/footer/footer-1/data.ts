@@ -10,6 +10,21 @@ export const customerCareLinks = [
   "Contact Us"
 ];
 
+export const partners = [
+  "Khalifa Fund",
+  "DED",
+  "AdCoC",
+  "ADIO",
+  "ADGM",
+  "Hub 71"
+];
+
+export const legalLinks = [
+  "Privacy Policy",
+  "Cookie Policy",
+  "Terms of Service"
+];
+
 export const iconList = [
   // { iconName: "facebook", url: "https://www.facebook.com/UILibOfficial" },
   { iconName: "google", url: "/" },

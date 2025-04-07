@@ -14,7 +14,7 @@ import Button from "@component/buttons/Button";
 // STYLED COMPONENTS
 import { StyledLink, SubscribeInput, SubscribeButton, SubscribeContainer } from "./styles";
 // CUSTOM DATA
-import { aboutLinks, customerCareLinks, iconList } from "./data";
+import { aboutLinks, customerCareLinks, iconList,  partners,legalLinks } from "./data";
 
 export default function Footer1() {
   const [email, setEmail] = useState("");
@@ -57,7 +57,7 @@ export default function Footer1() {
                 </form>
 
                 <Box bg="var(--KF-BG-Dark-Blue, #002180)" py="1rem" textAlign="center">
-                  <FlexBox alignItems="center" style={{ marginTop: "3rem" }}>
+                  <FlexBox alignItems="center" style={{ marginTop: "6rem" }}>
                     {/* "2024" text */}
                     <Typography color="white" fontSize="11px" fontWeight="400" mr="1rem">
                       © 2024 
@@ -107,7 +107,7 @@ export default function Footer1() {
                 </Typography>
 
                 <div>
-                  {customerCareLinks.map((item, ind) => (
+                  { partners.map((item, ind) => (
                     <StyledLink href="/" key={ind}>
                       {item}
                     </StyledLink>
@@ -121,14 +121,14 @@ export default function Footer1() {
                 </Typography>
 
                 <div>
-                  {customerCareLinks.map((item, ind) => (
+                  {legalLinks.map((item, ind) => (
                     <StyledLink href="/" key={ind}>
                       {item}
                     </StyledLink>
                   ))}
                 </div>
 
-                <FlexBox className="flex" mx="-5px" style={{ marginTop: "5rem" }}>
+                <FlexBox className="flex" mx="-5px" style={{ marginTop: "8rem" }}>
                   {iconList.map((item) => (
                     <a
                       href={item.url}

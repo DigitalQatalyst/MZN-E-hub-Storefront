@@ -15,7 +15,7 @@ import Categories from "../categories/Categories";
 import StyledNavbar from "./styles";
 import navbarNavigations from "@data/navbarNavigations";
 
-// ==============================================================
+// ============================================================== 
 interface Nav {
   url: string;
   child: Nav[];
@@ -44,16 +44,15 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                 <Badge style={{ marginRight: "0px" }} title={nav.badge}>
                   {nav.title}
                 </Badge>
-                 ) : (
-                <FlexBox > {/* Wrap properly */}
-                  <img src="/assets/images/icons/dropdown.svg" alt="Dropdown Icon" className="dropdown-icon" />
+              ) : (
+                <FlexBox alignItems="center"> {/* Place the text first */}
                   <Span className="nav-link">{nav.title}</Span>
+                  <img src="/assets/images/mzn_logos/dropdown.svg" alt="Dropdown Icon" className="dropdown-icon" />
                 </FlexBox>
               )}
             </NavLink>
           );
         }
-        
 
         if (nav.child) {
           return (
@@ -62,11 +61,15 @@ export default function Navbar({ navListOpen }: NavbarProps) {
               position="relative"
               flexDirection="column"
               alignItems="center"
-              key={nav.title}>
+              key={nav.title}
+            >
               {nav.badge ? (
                 <Badge title={nav.badge}>{nav.title}</Badge>
               ) : (
-                <Span className="nav-link">{nav.title}</Span>
+                <FlexBox alignItems="center"> {/* Place the text first */}
+                  <Span className="nav-link">{nav.title}</Span>
+                  <img src="/assets/images/mzn_logos/dropdown.svg" alt="Dropdown Icon" className="dropdown-icon" />
+                </FlexBox>
               )}
               <div className="root-child">
                 <Card borderRadius={8} mt="1.25rem" py="0.5rem" boxShadow="large" minWidth="230px">
@@ -85,24 +88,23 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                   {nav.title}
                 </Badge>
               ) : (
-                <Span className="nav-link">{nav.title}</Span>
+                <FlexBox alignItems="center"> {/* Place the text first */}
+                  <Span className="nav-link">{nav.title}</Span>
+                  <img src="/assets/images/mzn_logos/dropdown.svg" alt="Dropdown Icon" className="dropdown-icon" />
+                </FlexBox>
               )}
             </NavLink>
           );
         }
-      } 
-      else {
+      } else {
         if (nav.url) {
           return (
             <NavLink href={nav.url} key={nav.title}>
               <MenuItem>
-                {nav.badge ? (
-                  <Badge style={{ marginRight: "0px" }} title={nav.badge}>
-                    {nav.title}
-                  </Badge>
-                ) : (
+                <FlexBox alignItems="center"> {/* Place the text first */}
                   <Span className="nav-link">{nav.title}</Span>
-                )}
+                  <img src="/assets/images/mzn_logos/dropdown.svg" alt="Dropdown Icon" className="dropdown-icon" />
+                </FlexBox>
               </MenuItem>
             </NavLink>
           );
@@ -113,14 +115,12 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             <Box className="parent" position="relative" minWidth="230px" key={nav.title}>
               <MenuItem
                 color="gray.700"
-                style={{ display: "flex", justifyContent: "space-between" }}>
-                {nav.badge ? (
-                  <Badge style={{ marginRight: "0px" }} title={nav.badge}>
-                    {nav.title}
-                  </Badge>
-                ) : (
+                style={{ display: "flex", justifyContent: "space-between" }}
+              >
+                <FlexBox alignItems="center"> {/* Place the text first */}
                   <Span className="nav-link">{nav.title}</Span>
-                )}
+                  <img src="/assets/images/mzn_logos/dropdown.svg" alt="Dropdown Icon" className="dropdown-icon" />
+                </FlexBox>
                 <Icon size="8px" defaultcolor="currentColor">
                   right-arrow
                 </Icon>
@@ -142,7 +142,6 @@ export default function Navbar({ navListOpen }: NavbarProps) {
     <StyledNavbar>
       <Container height="100%" display="flex" alignItems="center" justifyContent="space-between">
         {/* Logo Section */}
-
         <Box className="navbar-logo">
           <img src="/assets/images/logos/mzn_logo.svg" alt="MZN Enterprise Hub" height="40px" />
         </Box>
@@ -151,14 +150,14 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         <Categories open={navListOpen}>
           <Button width="278px" height="40px" bg="body.default" variant="text">
             <Icon>categories</Icon>
-            <Typography 
-              ml="10px" 
-              flex="1 1 0" 
-              fontFamily='"Open Sans", sans-serif' 
-              fontSize="16px" 
-              fontStyle="normal" 
-              fontWeight="600" 
-              lineHeight="26px" 
+            <Typography
+              ml="10px"
+              flex="1 1 0"
+              fontFamily='"Open Sans", sans-serif'
+              fontSize="16px"
+              fontStyle="normal"
+              fontWeight="600"
+              lineHeight="26px"
               color="#002180"
             >
               Categories
@@ -174,7 +173,6 @@ export default function Navbar({ navListOpen }: NavbarProps) {
 
         {/* Search Icon, Sign In, and Sign Up Buttons */}
         <FlexBox alignItems="center" style={{ gap: "15px" }}>
-          
           {/* Search Icon (Replace with your actual SVG) */}
           <Box className="search-icon" style={{ cursor: "pointer" }}>
             <img src="/assets/images/logos/search.svg" alt="Search" height="24px" />
@@ -185,13 +183,10 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             Sign In
           </Button>
 
-          
           <Button className="sign-up-button" variant="contained">
             Sign Up
           </Button>
-
-          </FlexBox>
-
+        </FlexBox>
       </Container>
     </StyledNavbar>
   );

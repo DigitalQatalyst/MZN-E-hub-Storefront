@@ -67,10 +67,6 @@ const StyledNavbar = styled.div`
   cursor: pointer;
   transition: background 0.3s ease, color 0.3s ease;
 
-  &:hover {
-    background: blue;
-    color: white;
-  }
 }
 
 
@@ -108,6 +104,19 @@ const StyledNavbar = styled.div`
   }
   @media only screen and (max-width: 900px) {
     display: none;
+  }
+
+  /* Dropdown Icon Style */
+  .dropdown-icon {
+    width: 12px;  /* Adjust width based on your icon size */
+    height: auto;
+    margin-left: 6px;  /* Adds space between the text and the icon */
+    transition: transform 0.3s ease;  /* Optional: Adds smooth transition effect */
+  }
+
+  /* Hover Effect for Dropdown Icon */
+  .nav-link:hover .dropdown-icon {
+    transform: rotate(180deg);  /* Optional: Adds rotation effect on hover */
   }
 `;
 

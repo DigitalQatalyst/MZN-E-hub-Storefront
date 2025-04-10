@@ -106,23 +106,23 @@ export default function ProductIntro() {
             </br>term financial obligations, excluding rent. Also you may get a grace <br>
             </br>period of 3 months, with a repayment period of 12 months.
           </Box>
-          <Box mb="24px" mt="18px" color="#002180" fontWeight="bold">
+          {/* <Box mb="24px" mt="18px" color="#002180" fontWeight="bold">
             <h3>Type: Sole Proprietorship</h3>
-          </Box>
+          </Box> */}
           <Box mb="24px" mt="18px" color="#002180" fontWeight="bold">
             <h3>Business Stage</h3>
           </Box>
           <FlexBox mt="10px" justifyContent="between" gridGap="10px" flexWrap="wrap">
-            <Button color="#FFF" bg="#99B2FF" width="135px" variant="outlined">
+            <Button color="#99B2FF" width="80px" variant="contained">
               Conception
             </Button>
-            <Button variant="outlined" width="135px" > {/*color={colors.primary.main}*/}
+            <Button variant="contained" width="80px" color="#8083903D"> {/*color={colors.primary.main}*/}
               Startup
             </Button>
-            <Button variant="outlined" width="135px" > {/*color="blue"*/}
+            <Button variant="contained" width="80px" color="#8083903D" > {/*color="blue"*/}
               Growth
             </Button>
-            <Button variant="outlined" width="135px" > {/*color="blue"*/}
+            <Button variant="contained" width="80px" color="#8083903D" > {/*color="blue"*/}
               Maturity
             </Button>
           </FlexBox>

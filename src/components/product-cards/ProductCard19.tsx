@@ -19,8 +19,8 @@ import { theme } from "@utils/theme";
 const CardBox = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",  // Ensure the content stacks vertically
-  width: "325px",  // Make the card width 100% of its parent container
-  height: "100%",
+  width: "100%",  // Make the card width 100% of its parent container
+  height: "300px",
   padding: "16px",
   // height:"auto",
   // maxWidth: "277px",    // Set a fixed height for all cards
@@ -72,7 +72,7 @@ const FavoriteButton = styled(IconButton)(() => ({
 
 // Title Styling
 const StyledH4 = styled(H4)`
-  color: #FFF;
+  color: #000;
   font-family: "Open Sans";
   font-size: 10px;
   font-style: normal;
@@ -106,14 +106,6 @@ const StyledButton = styled(DefaultButton)`
     font-style: normal;
     font-weight: 300;
   }
-
-  &:hover {
-    background: var(--KF-BG-Dark-Blue, #002180);
-    
-    span {
-      color: var(--KF-BG-White, #FFF);
-    }
-  }
 `;
 
 const StyledImage = styled(NextImage)`
@@ -141,6 +133,7 @@ const LearnMoreWrapper = styled.div`
   justify-content: center;  /* Center horizontally */
   align-items: center;  /* Center vertically */
   gap: 5px;  /* Adds space between the text and the icon */
+  margin-top: 10px;
 `;
 
 
@@ -232,7 +225,7 @@ export default function ProductCard19(props: ProductCard19Props) {
 
             <LearnMoreWrapper>
               <Paragraph color="white" mr="0.5rem">Learn More</Paragraph>
-              <Icon color="white" size="16px">arrow</Icon>
+              <img src="/assets/images/avatars/arrow_forward.svg" alt="Arrow Icon" style={{ width: '16px', height: '16px' }} />
             </LearnMoreWrapper>
           </Box>
 

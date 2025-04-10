@@ -52,7 +52,7 @@ export default function ProductQuiz() {
           <Grid>
             <Grid md={6}>
               <Typography>
-                <FlexBox color="#FFFFFF" mt="2em">
+                <FlexBox color="#OOO" fontWeight={600} mt="2em">
                 Emiratis between 21 to 60 years old
                 </FlexBox>
               </Typography>

@@ -8,7 +8,6 @@ import FlexBox from "@component/FlexBox";
 import { H4,} from "@component/Typography";
 import Product from "@models/product.model";
 import ProductReview from "@component/products/ProductReview";
-import AvailableShops from "@component/products/AvailableShops";
 import RelatedProducts from "@component/products/RelatedProducts";
 import ProductDescription from "@component/products/ProductDescription";
 import ProductCost from "./ProductCost";

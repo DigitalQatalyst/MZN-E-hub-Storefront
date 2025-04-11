@@ -157,20 +157,6 @@ export default function ProductCard1({
     <>
       <Wrapper borderRadius={8} {...props}>
         <div className="image-holder">
-          {/* {!!off && (
-            <Chip
-              top="10px"
-              left="10px"
-              p="5px 10px"
-              fontSize="10px"
-              fontWeight="600"
-              bg="primary.main"
-              position="absolute"
-              color="primary.text"
-              zIndex={1}>
-              {off}% off
-            </Chip>
-          )} */}
 
           <FlexBox className="extra-icons">
             <IconButton size="small" padding="0.5rem" onClick={toggleDialog}>
@@ -206,24 +192,14 @@ export default function ProductCard1({
                   {title}
                 </H3>
               </Link>
-
-              <FlexBox alignItems="center" mt="10px">
-
-              <Rating value={rating || 0} outof={5} color="warn" readOnly />
-
-              {/* <FlexBox alignItems="center" mt="10px">
-                <SemiSpan pr="0.5rem" fontWeight="600" color="primary.main">
-                  {calculateDiscount(price, off as number)}
-                </SemiSpan>
-
-                {/* {!!off && (
-                  <SemiSpan color="text.muted" fontWeight="600">
-                    <del>{currency(price)}</del>
+                
+              <FlexBox alignItems="center" mb="10px">
+                  <SemiSpan color="black" fontWeight="600" mr="0.5rem">
+                    {currency(price)}
                   </SemiSpan>
-                )} */}
               </FlexBox>
               <Rating value={rating || 0} outof={5} color="warn" readOnly />
-              <Button className="learn-more" variant="contained" color="primary" fullwidth marginTop={"20px"}>
+              <Button className="learn-more" variant="outlined" color="primary" fullwidth marginTop={"20px"}>
                 Learn More
               </Button>
           
@@ -262,7 +238,6 @@ export default function ProductCard1({
                   </Button>
                 </Fragment>
               )}
-            </FlexBox> */}
           </FlexBox>
         </div>
       </Wrapper>

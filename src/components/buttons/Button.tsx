@@ -104,7 +104,7 @@ const StyledButton = styled.button.withConfig({
         contained: {
           border: "none",
           color: `${color}.text`,
-          bg: `${color}.main`,
+          bg: `${color}.button`,
           "&:focus": {
             boxShadow: `0px 1px 4px 0px ${theme.colors[color ? color : ""]?.light}`
           },

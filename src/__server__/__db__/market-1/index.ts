@@ -5,6 +5,7 @@
 import type MockAdapter from "axios-mock-adapter";
 import * as db from "./data";
 import shops from "../shop/data";
+import { Princess_Sofia } from "next/font/google";
 
 export const market1ApiEndpoints = (Mock: MockAdapter) => {
   Mock.onGet("/api/market-1/main-carousel").reply(async () => {
@@ -26,6 +27,7 @@ export const market1ApiEndpoints = (Mock: MockAdapter) => {
           icon: null,
           slug: 'connect-with-us',
           image: '/assets/images/banners/connect-with-us.png',
+          price: 200,
           description:
             'Browse our comprehensive service catalog. Once you\'ve identified a service that aligns with your needs, click the "Enquire" button to initiate the process. You\'ll be prompted to provide necessary information about your business and specific requirements.',
           parent: [],
@@ -37,6 +39,7 @@ export const market1ApiEndpoints = (Mock: MockAdapter) => {
           icon: null,
           slug: 'enquiry-acknowledgment',
           image: '/assets/images/banners/enquiry-acknowledgment.png',
+          price: 180,
           description:
             'Our team acknowledges receipt of your request and may contact you for additional information or clarification regarding your needs and eligibility. We strive to respond to enquiries promptly and provide clear guidance on the next steps.',
           parent: [],
@@ -48,6 +51,7 @@ export const market1ApiEndpoints = (Mock: MockAdapter) => {
           icon: null,
           slug: 'assessment-and-planning',
           image: '/assets/images/banners/assessment-and-planning.png',
+          price: 220,
           description:
             'Our team carefully reviews your request, considering your business sector, stage of development, and desired outcomes. We\'ll work with you to assess your requirements, develop a tailored plan, and connect you with potential funding sources, mentors, and guidance on legal and regulatory matters.',
           parent: [],

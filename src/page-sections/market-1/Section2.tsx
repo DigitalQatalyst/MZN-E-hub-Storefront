@@ -4,6 +4,7 @@ import ProductCard1 from "@component/product-cards/ProductCard1";
 import CategorySectionCreator from "@component/CategorySectionCreator";
 // API FUNCTIONS
 import api from "@utils/__api__/market-1";
+import { FullWrapper, Wrapper } from "@component/footer/footer-2/styles";
 
 export default async function Section2() {
   const products = await api.getFlashDeals();
@@ -14,13 +15,14 @@ export default async function Section2() {
     { breakpoint: 650, settings: { slidesToShow: 2 } },
     { breakpoint: 500, settings: { slidesToShow: 1 } }
   ];
-
+  console.log(products);
   return (
+    // <Wrapper>
     <CategorySectionCreator title="Featured Services" >
-      <Box mt="-0.25rem" mb="-0.25rem">
+      <Box mt="2rem" mb="-0.25rem">
         <Carousel slidesToShow={4} responsive={responsive}>
           {products.map((item, ind) => (
-            <Box py="0.25rem" key={ind}>
+            <Box py="3rem" key={ind}>
               <ProductCard1
                 key={ind}
                 id={item.id}
@@ -37,5 +39,7 @@ export default async function Section2() {
         </Carousel>
       </Box>
     </CategorySectionCreator>
+    // </Wrapper>
+
   );
 }

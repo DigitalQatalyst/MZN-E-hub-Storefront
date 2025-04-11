@@ -6,14 +6,18 @@ import Section2 from "@sections/market-1/Section2";
 import Section3 from "@sections/market-1/Section3";
 import Section4 from "@sections/market-1/Section4";
 import Section5 from "@sections/market-1/Section5";
-import Section6 from "@sections/market-1/Section6";
+// import Section6 from "@sections/market-1/Section6";
 import Section7 from "@sections/market-1/Section7";
 import Section8 from "@sections/market-1/Section8";
 import Section10 from "@sections/market-1/Section10";
 import Section11 from "@sections/market-1/Section11";
 import Section12 from "@sections/market-1/Section12";
 import Section13 from "@sections/market-1/Section13";
-import Section66 from "@sections/landing/section6";
+import Section6 from "@sections/landing/section6";
+
+import Footer from "@sections/landing/footer";
+import { zIndex } from "styled-system";
+import { Wrapper } from "@component/footer/footer-2/styles";
 
 export default async function Market1() {
   const carList = await api.getCarList();
@@ -27,61 +31,16 @@ export default async function Market1() {
 
   return (
     <main>
-      {/* HERO CAROUSEL AREA */}
-      {/* <Section1 /> */}
-
-      {/* FLASH DEAL PRODUCTS AREA */}
-      {/* <Section2 /> to be reused*/}
-
+      {/* HERO CAROUSEL AREA
+      <Section1 />
+      FLASH DEAL PRODUCTS AREA */}
+      
+      <Section6 />
+      <Section2 /> 
       {/* TOP CATEGORIES AREA */}
-      {/* <Section3 /> */}
-      <Section66 />
+      <Section3 />
+      <Footer />
 
-
-
-
-
-
-
-      {/* TOP RATING AND BRANDS AREA */}
-      {/* <Section4 /> */}
-
-      {/* NEW ARRIVALS AREA */}
-      {/* <Section5 /> */}
-
-      {/* BIG DISCOUNT AREA */}
-      {/* <Section13 /> */}
-
-      {/* CAR LIST AREA */}
-      {/* <Section6 carBrands={carBrands} carList={carList} /> */}
-
-      {/* MOBILE PHONES AREA */}
-      {/* <Section7
-        shops={mobileShops}
-        brands={mobileBrands}
-        title="Mobile Phones"
-        productList={mobileList}
-      /> */}
-
-      {/* DISCOUNT BANNERS AREA */}
-      {/* <Section8 /> */}
-
-      {/* OPTICS AND WATCH AREA */}
-      {/* <Section7
-        shops={opticsShops}
-        brands={opticsBrands}
-        title="Optics / Watch"
-        productList={opticsList}
-      /> */}
-
-      {/* CATEGORIES AREA */}
-      {/* <Section10 /> */}
-
-      {/* MORE PRODUCTS AREA */}
-      {/* <Section11 /> */}
-
-      {/* SERVICES AREA */}
-      {/* <Section12 /> */}
     </main>
   );
 }

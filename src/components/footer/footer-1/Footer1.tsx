@@ -35,7 +35,7 @@ export default function Footer1() {
             <Grid container spacing={3}>
               <Grid item lg={4} md={6} sm={6} xs={12}>
                 <Link href="/">
-                  <Image alt="logo" mb="1rem" src="/assets/images/mzn_logos/Asset 10 (1).svg" />
+                  <Image alt="logo" mb="1rem" src="/assets/images/mzn_logos/Asset 10.svg" />
                 </Link>
 
                 <Paragraph mb="1.25rem" color="gray.500" maxWidth="320px">
@@ -66,7 +66,7 @@ export default function Footer1() {
                     </Typography>
                     {/* Logo */}
                     <Image 
-                      src="/assets/images/mzn_logos/Layer 1.svg" 
+                      src="/assets/images/mzn_logos/Layer 1.svg"
                       alt="MZN Logo"
                       width="30.156px"
                       height="12.999px"

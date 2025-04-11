@@ -7,28 +7,85 @@ import { H3 } from "@component/Typography";
 import Container from "@component/Container";
 import { ProductCard19 } from "@component/product-cards";
 import { CategoryBasedProducts } from "@models/market-2.model";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+// Import the reusable GraphQL client
+import client from "@lib/graphQLClient" // Path to the GraphQLClient.ts file
+
 
 // STYLED COMPONENTS
-import { List,ListItem, DropdownIcon, DropdownText, CheckboxLabel } from "./styles";
+import { List,ListItem, DropdownIcon, DropdownText, CheckboxLabel, ServiceTypeTitle, ShowingText } from "./styles";
 
 // ======================================================================
-// Define the types more explicitly
-type Props = {
-  data: CategoryBasedProducts;
-};
+// Define the GraphQL query
+const GET_PRODUCTS = `
+  query GetProducts($skip: Int!, $take: Int!) {
+    products(options: { skip: $skip, take: $take }) {
+      items {
+        id
+        name
+        slug
+        description
+      }
+    }
+  }
+`;
+
+interface Product {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+}
+
+interface GetProductsData {
+  products: {
+    items: Product[];
+  };
+}
+
+interface GetProductsVariables {
+  skip: number;
+  take: number;
+}
 
 // ======================================================================
 
-export default function Section6({ data }: Props) {
+export default function Section6() {
+  const [products, setProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 9;
 
+  // Constants for fallback data
+  const defaultImage = "/assets/images/mzn_logos/mzn_logo.png";
+  const defaultImages = [defaultImage]; 
+  const defaultReviews = 0; // Default review count if not provided
+  const defaultSubtitle = "Khalifa Funds"; // Default subtitle if not provided
+
+  // Fetch products data on component mount
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log("Fetching data from GraphQL...");  // Log message for debugging
+      try {
+        const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
+          skip: (currentPage - 1) * productsPerPage, // calculate which items to skip
+          take: productsPerPage, // define how many items to take
+        });
+        console.log("Data fetched successfully:", data);  // Log the fetched data
+        setProducts(data.products.items);  // Update state with fetched products
+      } catch (error) {
+        console.error("Error fetching products:", error);  // Log errors
+      }
+    };
+
+    fetchData();  // Call the function to fetch data
+  }, [currentPage]);  // Re-run when `currentPage` changes
+
+
   // Calculate the total number of pages
-  const totalPages = Math.ceil(data.products.length / productsPerPage);
+  const totalPages = Math.ceil(products.length / productsPerPage);
 
   // Slice the products to show on the current page
-  const currentProducts = data.products.slice(
+  const currentProducts = products.slice(
     (currentPage - 1) * productsPerPage,
     currentPage * productsPerPage
   );
@@ -42,26 +99,26 @@ export default function Section6({ data }: Props) {
   };
 
   // Declare 'setOpen' here inside the component
-  const [open, setOpen] = useState({
-    advisory: false,
-    funding: false,
-    procurement: false,
-    businessOperation: false,
-    training: false
-  });
+  // const [open, setOpen] = useState({
+  //   advisory: false,
+  //   funding: false,
+  //   procurement: false,
+  //   businessOperation: false,
+  //   training: false
+  // });
 
   // Mock data for dropdown sections
-  const mockData = {
-    advisory: ["Legal", "Compliance", "Financial"],
-    funding: ["Government Funding", "Private Funding", "Crowdfunding"],
-    procurement: ["Vendor Selection", "Contract Negotiation", "Purchase Orders"],
-    businessOperation: ["Process Optimization", "Cost Control", "Performance Metrics"],
-    training: ["Leadership Training", "Technical Training", "Compliance Training"]
-  };
+  // const mockData = {
+  //   advisory: ["Legal", "Compliance", "Financial"],
+  //   funding: ["Government Funding", "Private Funding", "Crowdfunding"],
+  //   procurement: ["Vendor Selection", "Contract Negotiation", "Purchase Orders"],
+  //   businessOperation: ["Process Optimization", "Cost Control", "Performance Metrics"],
+  //   training: ["Leadership Training", "Technical Training", "Compliance Training"]
+  // };
 
-  const toggleDropdown = (service: string) => {
-    setOpen((prev) => ({ ...prev, [service]: !prev[service] }));
-  };
+  // const toggleDropdown = (service: string) => {
+  //   setOpen((prev) => ({ ...prev, [service]: !prev[service] }));
+  // };
 
   return (
     <Container pt="4rem" style={{ marginTop: '-45px' }}>
@@ -72,17 +129,18 @@ export default function Section6({ data }: Props) {
             elevation={0}
             style={{
               border: 0,
-              height: "100%",
+              height: "92%",
               borderRadius: "3px",
-              padding: "1rem 2rem"
+              padding: "1rem 2rem",
+              backgroundColor: "#F4F7FE"
             }}>
             {/* MAIN CATEGORY NAME/TITLE */}
             {/* <H3>Service Type</H3> */}
 
             {/* SUB CATEGORY LIST */}
             <List>
-             <h5 className="service-type-title">Service Type</h5>
-              {Object.keys(mockData).map((service) => (
+             <ServiceTypeTitle>Service Type</ServiceTypeTitle>
+              {/* {Object.keys(mockData).map((service) => (
                 <div key={service}>
                   <ListItem onClick={() => toggleDropdown(service)}>
                     <span>{service.charAt(0).toUpperCase() + service.slice(1)}</span>
@@ -96,10 +154,10 @@ export default function Section6({ data }: Props) {
                   </div>
                   )}
                 </div>
-              ))}
+              ))} */}
             </List>
             <List>
-              <h5 className="service-type-title">Service Type</h5>
+              <ServiceTypeTitle>Business Stage :</ServiceTypeTitle>
               <CheckboxLabel>
                 <input type="checkbox" />
                 <span>Inception</span>
@@ -122,9 +180,58 @@ export default function Section6({ data }: Props) {
               </CheckboxLabel>
             </List>
 
+            <List>
+              <ServiceTypeTitle>Provided By :</ServiceTypeTitle>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>ADGM</span>
+              </CheckboxLabel>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>Khalifa Fund</span>
+              </CheckboxLabel>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>Hub 71</span>
+              </CheckboxLabel>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>AD SME Hub</span>
+              </CheckboxLabel>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>Other</span>
+              </CheckboxLabel>
+            </List>
 
-            <NavLink href="#">Browse All</NavLink>
+            <List>
+            <ServiceTypeTitle>Pricing Model :</ServiceTypeTitle>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>Free</span>
+              </CheckboxLabel>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>Subscription-Based</span>
+              </CheckboxLabel>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>Pay Per Service</span>
+              </CheckboxLabel>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>One-Time Fee</span>
+              </CheckboxLabel>
+              <CheckboxLabel>
+                <input type="checkbox" />
+                <span>Government Subsidised</span>
+              </CheckboxLabel>
+            </List>
+
+
+            {/* <NavLink href="#">Browse All</NavLink> */}
           </Card>
+          <ShowingText>Showing 1-9 of 90 Services</ShowingText>
         </Grid>
 
         {/* CATEGORY BASED PRODUCTS */}
@@ -135,11 +242,12 @@ export default function Section6({ data }: Props) {
                 <ProductCard19
                   id={product.id}
                   slug={product.slug}
-                  name={product.title}
-                  subTitle={product.subTitle}
-                  img={product.thumbnail}
-                  images={product.images as string[]}
-                  reviews={product.reviews?.length || 14}
+                  name={product.name}
+                  subTitle={defaultSubtitle}
+                  description={product.description}
+                  img={defaultImage}  // Using default image logic
+                  images={defaultImages}  // Using default images array
+                  reviews={defaultReviews}  // Default reviews value
                   className="product-card"
                 />
               </Grid>

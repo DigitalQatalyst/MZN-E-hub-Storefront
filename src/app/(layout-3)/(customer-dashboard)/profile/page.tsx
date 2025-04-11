@@ -1,8 +1,10 @@
+"use client"
+
 import { Fragment } from "react";
 import { format } from "date-fns";
-// API FUNCTIONS
+
 import api from "@utils/__api__/users";
-// GLOBAL CUSTOM COMPONENTS
+
 import Box from "@component/Box";
 import Card from "@component/Card";
 import Avatar from "@component/avatar";
@@ -11,23 +13,33 @@ import FlexBox from "@component/FlexBox";
 import TableRow from "@component/TableRow";
 import Typography, { H3, H5, Small } from "@component/Typography";
 import DashboardPageHeader from "@component/layout/DashboardPageHeader";
-// PAGE SECTION COMPONENTS
 import { EditProfileButton } from "@sections/customer-dashboard/profile";
+import ServiceUtilizationCard from "./cards/card";
 
 export default async function Profile() {
   const user = await api.getUser();
 
   const infoList = [
-    { title: "16", subtitle: "All Orders" },
-    { title: "02", subtitle: "Awaiting Payments" },
-    { title: "00", subtitle: "Awaiting Shipment" },
-    { title: "01", subtitle: "Awaiting Delivery" }
+    {
+      count: "06", // Total count
+      subtitle: "Funding Requests",
+      approved: 3,
+      pending: 2,
+      declined: 1,
+    },
+    {
+      count: "04", // Total count
+      subtitle: "Active Services",
+      grants: 3,
+      marketAccess: 1,
+    },
+  
   ];
 
   return (
     <Fragment>
       <DashboardPageHeader
-        title="My Profile"
+        title="Al Maha Trading LLC"
         iconName="user_filled"
         button={<EditProfileButton />}
       />
@@ -45,17 +57,17 @@ export default async function Profile() {
 
                     <FlexBox alignItems="center">
                       <Typography fontSize="14px" color="text.hint">
-                        Balance:
+                      TL-1234567-UAE
                       </Typography>
 
-                      <Typography ml="4px" fontSize="14px" color="primary.main">
+                      {/* <Typography ml="4px" fontSize="14px" color="primary.main">
                         $500
-                      </Typography>
+                      </Typography> */}
                     </FlexBox>
                   </div>
 
-                  <Typography ontSize="14px" color="text.hint" letterSpacing="0.2em">
-                    SILVER USER
+                  <Typography ontSize="14px" color="green" letterSpacing="0.2em">
+                    <strong>ACTIVE</strong>
                   </Typography>
                 </FlexBox>
               </Box>
@@ -65,7 +77,7 @@ export default async function Profile() {
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Grid container spacing={4}>
               {infoList.map((item) => (
-                <Grid item lg={3} sm={6} xs={6} key={item.subtitle}>
+                <Grid item lg={6} sm={12} xs={12} key={item.subtitle}>
                   <FlexBox
                     as={Card}
                     height="100%"
@@ -74,22 +86,50 @@ export default async function Profile() {
                     alignItems="center"
                     flexDirection="column"
                     justifyContent="center">
-                    <H3 color="primary.main" my="0px" fontWeight="600">
-                      {item.title}
-                    </H3>
 
                     <Small color="text.muted" textAlign="center">
                       {item.subtitle}
                     </Small>
-                  </FlexBox>
+
+                    <H3 color="#0030E3" my="0px" fontWeight="600">
+                      {item.count}
+                    </H3>
+
+                    {item.approved !== undefined && (
+                      <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '10px' }}>
+                      <Small color="text.muted" textAlign="center">
+                        Approved: {item.approved}
+                      </Small>
+                      <Small color="text.muted" textAlign="center">
+                        Pending: {item.pending}
+                      </Small>
+                      <Small color="text.muted" textAlign="center">
+                        Declined: {item.declined}
+                      </Small>
+                    </div>
+                  )}
+                
+                  {item.grants !== undefined && (
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '10px' }}>
+                      <Small color="text.muted" textAlign="center">
+                        Grants: {item.grants}
+                      </Small>
+                      <Small color="text.muted" textAlign="center">
+                        Market Access: {item.marketAccess}
+                      </Small>
+                    </div>
+                  )}
+                </FlexBox>
                 </Grid>
               ))}
             </Grid>
           </Grid>
+
+          
         </Grid>
       </Box>
 
-      <TableRow p="0.75rem 1.5rem">
+      {/* <TableRow p="0.75rem 1.5rem">
         <FlexBox flexDirection="column" p="0.5rem">
           <Small color="text.muted" mb="4px">
             First Name
@@ -129,7 +169,10 @@ export default async function Profile() {
 
           <span className="pre">{format(new Date(user.dateOfBirth), "dd MMM, yyyy")}</span>
         </FlexBox>
-      </TableRow>
+      </TableRow> */}
+      <Box mt="30px">
+        <ServiceUtilizationCard />
+      </Box>
     </Fragment>
   );
 }

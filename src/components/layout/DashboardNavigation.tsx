@@ -7,12 +7,12 @@ import Avatar from "@component/avatar";
 import Icon from "@component/icon/Icon";
 import FlexBox from "@component/FlexBox";
 import Typography from "@component/Typography";
-import overviewIcon from '../../../public/assets/images/icons/Order.svg';
-import personalInfoIcon from '../../../public/assets/images/icons/vector.svg';
-import membershipIcon from '../../../public/assets/images/icons/card_membership.svg';
-import yourFirmsIcon from '../../../public/assets/images/icons/fluent-mdl2_org.svg';
-import accountSettingsIcon from '../../../public/assets/images/icons/ep_setting.svg';
-import helpSupportIcon from '../../../public/assets/images/icons/help-support.png';
+// import overviewIcon from '../../../public/assets/images/icons/Order.svg';
+// import personalInfoIcon from '../../../public/assets/images/icons/vector.svg';
+// import membershipIcon from '../../../public/assets/images/icons/card_membership.svg';
+// import yourFirmsIcon from '../../../public/assets/images/icons/fluent-mdl2_org.svg';
+// import accountSettingsIcon from '../../../public/assets/images/icons/ep_setting.svg';
+// import helpSupportIcon from '../../../public/assets/images/icons/help-support.png';
 // STYLED COMPONENTS
 import { DashboardNavigationWrapper, StyledDashboardNav } from "./styles";
 import { Button } from '@mui/material';
@@ -99,14 +99,14 @@ export default async function DashboardNavigation() {
 
 const linkList = [
   {
-    person: "Mohammed Al Mansoori",
+    person: "Al Maha Trading LLC",
     list: [
       { href: "/orders", title: "Overview", iconName: "bag" },
       { href: "/orders", title: "Personal Information", iconName: "user" },
       { href: "/wish-list", title: "Membership", iconName: "credit-card" },
-      { href: "/support-tickets", title: "Your firms", iconName: "" },
-      { href: "/support-tickets", title: "Account settings", iconName: "settings" },
-      // { href: "/support-tickets", title: "Help & Support", iconName: "customer-service" }
+      { href: "/firms", title: "Your firms", iconName: "pin" },
+      { href: "/settings", title: "Account settings", iconName: "settings" },
+      { href: "/support-tickets", title: "Help & Support", iconName: "customer-service" }
     ]
   }
   // {

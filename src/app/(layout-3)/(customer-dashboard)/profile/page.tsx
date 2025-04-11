@@ -41,7 +41,7 @@ export default async function Profile() {
       <DashboardPageHeader
         title="Al Maha Trading LLC"
         iconName="user_filled"
-        button={<EditProfileButton />}
+        // button={<EditProfileButton />}
       />
 
       <Box mb="30px">

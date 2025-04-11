@@ -18,6 +18,8 @@ import Section6 from "@sections/landing/section6";
 import Footer from "@sections/landing/footer";
 import { zIndex } from "styled-system";
 import { Wrapper } from "@component/footer/footer-2/styles";
+import { Footer1 } from "@component/footer";
+
 
 export default async function Market1() {
   const carList = await api.getCarList();
@@ -39,7 +41,7 @@ export default async function Market1() {
       <Section2 /> 
       {/* TOP CATEGORIES AREA */}
       <Section3 />
-      <Footer />
+      <Footer1 />
 
     </main>
   );

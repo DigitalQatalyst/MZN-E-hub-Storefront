@@ -107,7 +107,7 @@ const Wrapper = styled(Card)`
   }
 `;
 
-// =======================================================================
+
 interface ProductCard1Props extends CardProps {
   off?: number;
   slug: string;
@@ -118,7 +118,7 @@ interface ProductCard1Props extends CardProps {
   images: string[];
   id?: string | number;
 }
-// =======================================================================
+
 
 export default function ProductCard1({
   id,

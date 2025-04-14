@@ -13,7 +13,7 @@ const gray = {
 
 const textColor = {
   hint: gray[600],
-  muted: "#FFF",
+  muted: "#002180",
   primary: gray[900],
   disabled: gray[400],
   secondary: gray[800]
@@ -30,8 +30,9 @@ const grad = "linear-gradient(180deg, #FFF 0%, #FDFDFF 9.41%, #F7F8FE 17.07%, #E
 const primaryColor = {
   light: "#FFE1E6",//#002180
   main: "#0030E3",
+  step: "#0030E3",
   button: "#002180",
-  step: "#E8FF63",
+  //step: "#E8FF63",
   dark: "#4F4CB6",
   text: "#ffffff",
   100: "#FCE9EC",

@@ -52,11 +52,8 @@ export default function ProductQuiz() {
           <Grid>
             <Grid md={6}>
               <Typography>
-                <FlexBox color="#FFFFFF" mt="2em">
-                  The legal age of the applicant is not less than 18 years.
-                </FlexBox>
-                <FlexBox color="#FFFFFF" mt="2em">
-                  Select the type of licence.
+                <FlexBox color="#OOO" fontWeight={600} mt="2em">
+                Emiratis between 21 to 60 years old
                 </FlexBox>
               </Typography>
             </Grid>

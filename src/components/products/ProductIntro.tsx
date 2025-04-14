@@ -32,7 +32,7 @@ export default function ProductIntro() {
   const { state, dispatch } = useAppContext();
   const [selectedImage, setSelectedImage] = useState(0);
   const safeImages = [
-    "/assets/images/products/Home & Garden/ServiceImage.jpg",
+    "/assets/images/products/Home & Garden/vida.png",
     "/assets/images/products/Home & Garden/2indoor.png",
     "/assets/images/products/Home & Garden/3Aloe.png",
     "/assets/images/products/Home & Garden/4Satin.png",
@@ -60,7 +60,7 @@ export default function ProductIntro() {
 
   return (
     <Box overflow="hidden" borderRadius="12px" padding={'12px'}>
-      <Grid container spacing={16} >
+      <Grid container spacing={55} >
         <Grid item md={6} alignItems="top" justifyContent={"top"}>
           <FlexBox justifyContent={"top"}>
             <Box
@@ -70,23 +70,23 @@ export default function ProductIntro() {
               ml={"10px"}
               mr={"10px"}
             >
-              <Button mb="10px" size={"small"} bg="#0030E3" borderRadius="4px" height="27px" color="#FFF" variant="outlined">
+              {/* <Button mb="10px" size={"small"} bg="#0030E3" borderRadius="4px" height="27px" color="#FFF" variant="outlined">
                 Govt. sponsored
-              </Button>
+              </Button> */}
               <Image
                 src={safeImages[selectedImage]}
-                width="395px;"
-                height="395px"
+                width="655px;"
+                height="369px"
               />
 
             </Box>
           </FlexBox>
         </Grid>
         <Grid item md={6} alignItems="center">
-          <H2 mb="1rem" color="#002180">Issue Economic Licence - Commercial</H2>
+          <H2 mb="1rem" color="#002180">Financing Business Operating Capital</H2>
           <FlexBox alignItems="center" mb="1rem">
-          <SemiSpan color="#002180" style={{ fontSize: '16px' }}>Partner: </SemiSpan>
-            <H5 ml="12px" color="#00665C">DED</H5>
+            <SemiSpan color="#002180" style={{ fontSize: '16px' }}>Partner: </SemiSpan>
+            <H5 ml="12px" color="#00665C">Khalifa Fund</H5>
             <Icon>vector</Icon>
             <Box>
               <Rating color="warn" size="medium" value={4} outof={5} />
@@ -94,38 +94,40 @@ export default function ProductIntro() {
             <H6 mr="2px">(50)</H6>
             <Icon>vector</Icon>
             <SemiSpan color="#00665C" style={{ fontSize: '16px' }}> Code:</SemiSpan>
-            <H5 ml="8px" color="#002180">BZY1</H5>
+            <H5 ml="8px" color="#002180">KF/0030</H5>
           </FlexBox>
-          <Button mt="45px" size="small" bg="#00665C" color="white" variant="text">
+          <Button mt="30px" size="small" bg="#00665C" color="white" variant="text">
             Available for Registration
           </Button>
-          <Box mb="45px" mt="45px">
-            Through this service, you can obtain an economic licence that <br>
-            </br>includes commercial, tourist, agricultural, artisanal, professional <br>
-            </br>activities, and your preferred legal form.
+          <Box mb="45px" mt="30px">
+            Through this service you may get the necessary finances for day to <br>
+            </br>day operations of the SME. Offers the needed capital of maximum <br>
+            </br>AED 600,000 to cover salaries, inventory, overhead and other short <br>
+            </br>term financial obligations, excluding rent. Also you may get a grace <br>
+            </br>period of 3 months, with a repayment period of 12 months.
           </Box>
-          <Box mb="24px" mt="18px" color="#002180" fontWeight="bold">            
+          {/* <Box mb="24px" mt="18px" color="#002180" fontWeight="bold">
             <h3>Type: Sole Proprietorship</h3>
-          </Box>
+          </Box> */}
           <Box mb="24px" mt="18px" color="#002180" fontWeight="bold">
             <h3>Business Stage</h3>
           </Box>
           <FlexBox mt="10px" justifyContent="between" gridGap="10px" flexWrap="wrap">
-            <Button color="#FFF" bg="#99B2FF" width="135px" variant="outlined">
+            <Button color="#99B2FF" width="80px" variant="contained">
               Conception
             </Button>
-            <Button variant="outlined" width="135px" > {/*color={colors.primary.main}*/}
+            <Button variant="contained" width="80px" color="#8083903D"> {/*color={colors.primary.main}*/}
               Startup
             </Button>
-            <Button variant="outlined" width="135px" > {/*color="blue"*/}
+            <Button variant="contained" width="80px" color="#8083903D" > {/*color="blue"*/}
               Growth
             </Button>
-            <Button variant="outlined" width="135px" > {/*color="blue"*/}
+            <Button variant="contained" width="80px" color="#8083903D" > {/*color="blue"*/}
               Maturity
             </Button>
           </FlexBox>
 
-          <Button fullwidth bg="#0030E3" height="55px"  variant="contained" mt="15px" color={"primary"}>
+          <Button fullwidth bg="#0030E3" height="55px" variant="contained" mt="15px" color={"primary"}>
             <p color="#ffffff !important">Apply for Registration</p>
           </Button>
           <FlexBox alignItems="center" mb="1rem" mt="1rem" justifyContent="space-between" width="100%">
@@ -149,14 +151,14 @@ export default function ProductIntro() {
               Processing time:
             </H4>
             <SemiSpan color='#002180' fontWeight="w500"><H4 ml="2px" color="#002180" >
-              5 Working days
+              2 Weeks
             </H4></SemiSpan>
           </FlexBox>
           <FlexBox>
             <Icon ml={"10px"} color="#002180">gift</Icon>
 
             <SemiSpan color="#002180"><H4 ml="8px" mr="8px" color="#002180">
-            Registration Validity: 1 Year (Renewable):
+              Registration Validity: 1 Year (Renewable):
             </H4></SemiSpan>
           </FlexBox>
         </Grid>

@@ -8,9 +8,7 @@ import FlexBox from "@component/FlexBox";
 import { H4,} from "@component/Typography";
 import Product from "@models/product.model";
 import ProductReview from "@component/products/ProductReview";
-import AvailableShops from "@component/products/AvailableShops";
 import RelatedProducts from "@component/products/RelatedProducts";
-import FrequentlyBought from "@component/products/FrequentlyBought";
 import ProductDescription from "@component/products/ProductDescription";
 import ProductCost from "./ProductCost";
 import ProductQuiz from "./ProductQuiz";
@@ -29,9 +27,8 @@ export default function ProductView({ shops, relatedProducts, frequentlyBought }
 
   return (
     <>
-      <Box bg="#0000FF" padding={"12px"} borderRadius="8px" mt="8vh" mb="8vh">
+      <Box padding={"12px"} border="2px solid #e0e0e0" borderTop="1px solid #e0e0e0" borderRadius="8px" mt="8vh" mb="8vh">
         <FlexBox
-          borderColor="yellow"
           mt="20px"
           mb="26px"
         >

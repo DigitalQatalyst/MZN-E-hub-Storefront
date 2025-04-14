@@ -73,6 +73,7 @@ const FavoriteButton = styled(IconButton)(() => ({
 // Title Styling
 const StyledH4 = styled(H4)`
   color: #000;
+  /*color: #FFF;*/
   font-family: "Open Sans";
   font-size: 10px;
   font-style: normal;

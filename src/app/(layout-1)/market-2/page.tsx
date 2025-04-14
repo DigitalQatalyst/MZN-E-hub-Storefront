@@ -1,6 +1,4 @@
 import { Fragment } from "react";
-// API FUNCTIONS
-import api from "@utils/__api__/market-2";
 // GLOBAL CUSTOM COMPONENTS
 import Box from "@component/Box";
 import Navbar from "@component/navbar/Navbar";
@@ -16,13 +14,7 @@ import Section8 from "@sections/market-2/section-8";
 import Section9 from "@sections/market-2/section-9";
 import Section10 from "@sections/market-2/section-10";
 
-export default async function MarketTwo() {
-  const brands = await api.getBrands();
-  const products = await api.getProducts();
-  const menFashionProducts = await api.getMenFashionProducts();
-  const electronicsProducts = await api.getElectronicsProducts();
-  const womenFashionProducts = await api.getWomenFashionProducts();
-
+export default function MarketTwo() {
   return (
     <Fragment>
       {/* NAVBAR AREA */}
@@ -45,25 +37,25 @@ export default async function MarketTwo() {
         {/* <Section5 /> */}
 
         {/* ELECTRONICS CATEGORY BASED PRODUCTS AREA */}
-        <Section6 data={electronicsProducts} />
+        <Section6 /> {/* Empty data passed */}
 
         {/* SALES OFFER BANNERS AREA */}
         {/* <Section7 /> */}
 
         {/* MEN'S CATEGORY BASED PRODUCTS AREA */}
-        {/* <Section6 data={menFashionProducts} /> */}
+        {/* <Section6 data={[]} /> */} {/* Empty data passed */}
 
         {/* DISCOUNT OFFER BANNER AREA */}
         {/* <Section8 /> */}
 
         {/* WOMEN'S CATEGORY BASED PRODUCTS AREA */}
-        {/* <Section6 data={womenFashionProducts} /> */}
+        {/* <Section6 data={[]} /> */} {/* Empty data passed */}
 
         {/* FEATURES BRAND LIST AREA */}
-        {/* <Section9 brands={brands as any} /> */}
+        {/* <Section9 brands={[]} /> */} {/* Empty data passed */}
 
         {/* SELECTED PRODUCTS AREA */}
-        {/* <Section10 products={products} /> */}
+        {/* <Section10 products={[]} /> */} {/* Empty data passed */}
       </Box>
     </Fragment>
   );

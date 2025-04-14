@@ -6,7 +6,8 @@ const StyledHeader = styled.header`
   z-index: 111;
   position: relative;
   height: ${layoutConstant.headerHeight};
-  background: ${getTheme("colors.body.paper")};
+  background: transparent;
+
 
   .logo {
     img {

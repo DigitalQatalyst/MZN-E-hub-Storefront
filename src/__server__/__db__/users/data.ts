@@ -7,7 +7,7 @@ export const users = [
     password: "wJVineM971smn42",
     dateOfBirth: "1996-04-25T22:23:50.205Z",
     verified: true,
-    name: { firstName: "Nick", lastName: "DuBuque" },
+    name: { firstName: "Al Maha", lastName: "Trading LLC" },
   },
   {
     id: "3355d299-07b9-4bd3-a1a9-708dff708af7",

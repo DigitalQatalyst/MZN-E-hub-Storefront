@@ -15,7 +15,7 @@ export const ButtonWrapper = styled.div`
   display: flex;
   gap: 1rem;
   margin-left: 2rem; /* Space between the text and the buttons */
-  margin-top: 90px;
+  margin-top: 70px;
 `;
 
 export const Wrapper = styled.div`
@@ -89,12 +89,13 @@ export const ResultsTitle = styled.h4`
   font-weight: 400;
   line-height: 32px; /* 133.333% */
   width: 100%; /* Make sure it takes up the full width */
+  margin-bottom: 10px; /* Add margin to the bottom */
 `;
 
 // New styled component for the description text, removed margin-top
 export const DescriptionText = styled.p`
   color: var(--KF-BG-Black, #000);
-  font-family: "Helvetica Neue";
+  font-family: "Open Sans";
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -117,7 +118,7 @@ export const ActiveButton = styled.button<{ isActive: boolean }>`
       : "1px solid var(--Gray-300---border-light, #D8E0E9)"};
   color: ${(props) => (props.isActive ? "var(--KF-BG-Dark-Blue, #002180)" : "initial")}; // Active button text color set to yellow
   text-align: center; // Text alignment for active button
-  font-family: "Helvetica Neue"; // Font family for active button
+  font-family: "Open Sans"; // Font family for active button
   font-size: 14px; // Font size for active button
   font-style: normal; // Font style for active button
   font-weight: 500; // Font weight for active button

@@ -5,47 +5,69 @@ import NextImage from "next/image";
 import icon1 from "../../../public/images/delivery_truck_speed.png"
 import icon2 from "../../../public/images/chart_data.png"
 import icon3 from "../../../public/images/acute.png"
+import divider from "../../../public/images/divider.svg"
 import styled from "styled-components";
 import { H1, H3, H4 } from "@component/Typography";
+import { Header, HeaderTwo } from "@component/header";
 
 // STYLED COMPONENTS
 const HeroSection = styled.section`
-//   padding: 5rem 0;
   color: white;
   display: flex;
-//   justify-content: center;
-//   align-items: center;
   flex-direction: column;
   position: relative;
   text-align: center;
-  height: 90vh;
-//   width: 100%;
-//   z-index: 4;
-//   overflow: hidden;
+  height: 100vh;
+  top: 0;
+  left: 0;
+
 `;
 
 const CTASection = styled.section`
   background-color: white;
-  padding: 2rem 0;
+  padding: 5rem 0;
   display: flex;
   justify-content: center;
-  gap: 3rem;
-  flex-wrap: wrap;
+  align-items: center;
+  // gap: 3rem;
+
   margin-top: 2rem;
+  margin-bottom: 2rem;
 `;
 
+const VerticalDivider = styled.div`
+  width: 4px;
+  height: 60px;
+  background-color:rgb(212, 23, 23); // light grey
+  margin: 0;
+  align-self: center;
+  z-index: 1;
+`;
+
+
 const Card = styled.div`
-  background-color: #f8f8f8;
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px #F4F7FE;
-  display: grid;
-  grid-template-columns: 40px 1fr; /* 40px for icon, 1fr for text */
-  align-items: center; /* Vertically align items */
-  gap: 1rem; /* Add some gap between columns */
-  width: 400px;
-  margin-top: 7rem;
+  background-color:#f4f7fe;
+  padding: 1.5rem 1rem;
+  // border-radius: 10px;
+  // box-shadow: 0 4px 12px #F4F7FE;
+  display: flex;
+  // grid-template-columns: 40px 1fr; /* 40px for icon, 1fr for text */
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  // align-items: center; /* Vertically align items */
+  // gap: 1rem; /* Add some gap between columns */
+  width: 500px;
+  margin-top: 1rem;
   margin-bottom: 1rem;
+  // border-right: 1px solid rgb(0, 0, 0);
+  
+  div::after{
+    content: "";
+    display: block;
+    width: 1px;
+    height: 100%;
+  }
 `;
 
 const TextContainer = styled.div`
@@ -54,7 +76,7 @@ const TextContainer = styled.div`
 `;
 
 const StyledH4 = styled(H4)`
-  color: blue;
+  color: #0030E3;
   margin-bottom: -0.5rem;
 `;
 
@@ -76,31 +98,19 @@ const ContentColumn = styled.div`
 `;
 
 const HeroImage = styled.div`
-//   position: absolute;
-//   bottom: -50px;
-//   left: 50%;
-//   transform: translateX(-50%);
-//   display: flex;
-//   justify-content: center;
-//   gap: 2rem;
-margin-left:0rem;
-
-//   z-index: 5;
-//   object-fit: cover;
-
+  margin-left:0rem;
 `;
 
-const HeroContent = styled.div`
-  z-index: 2;
-  color:black;
-//   margin-bottom: 2rem;
-margin-top: -15rem;
-`;
+// const HeroContent = styled.div`
+//   z-index: 2;
+//   color:black;
+//   margin-top: 7rem;
+// `;
 
 const SearchBarContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 3rem;
+  margin-top: 43rem;
   z-index: 7;
 `;
 
@@ -108,12 +118,11 @@ const SearchInput = styled.input`
   padding: 1rem;
   font-size: 16px;
   border-radius: 10px 0 0 10px;
-//   border-radius-left: 30px;
   border: none;
   width: 300px;
   margin-right: -.6rem;
   max-width: 100%;
-   border-right: none
+  border-right: none; // Added missing semicolon
 `;
 
 const SearchButton = styled.button`
@@ -125,10 +134,6 @@ const SearchButton = styled.button`
   border-radius: 0 10px 10px 0; 
   border: none;
   cursor: pointer;
-//   transition: background-color 0.3s ease;
-//   &:hover {
-//     background-color: #2980b9;
-//   }
 `;
 
 const SearchButtonHero = styled.button`
@@ -155,25 +160,36 @@ const Icon = styled.div`
   margin-bottom: 1rem;
 `;
 
+const CTAContainer = styled.div`
+  display: flex;
+  background-color: #f4f7fe;
+  border-radius: "10px";
+  align-items: center;
+  // justify-content: center;
+  // flex-wrap: wrap;
+  flex-direction: row;
+`;
+
+
 export default function HomePage() {
     return (
         <div>
             {/* Hero Section */}
+
             <HeroSection>
+                {/* <HeaderTwo className="background-color: transparent;"/> */}
+                <HeaderTwo/>
                 <HeroImage>
                     <NextImage
-                        width={1800}
-                        height={911}
-
+                        // width={"100%"}
+                        // height={911}
                         alt="Male Avatar"
                         src="/images/image 47.png"
+                        fill
                     />
                 </HeroImage>
-                <HeroContent>
-                    {/* <H3 fontSize="20px" fontWeight="400" mb="2rem">
-                        
-                    </H3> */}
-                </HeroContent>
+                {/* <HeroContent>
+                </HeroContent> */}
 
                 <SearchBarContainer>
                     <SearchInput placeholder="How can we help?" />
@@ -186,44 +202,54 @@ export default function HomePage() {
 
             {/* CTA Section */}
             <CTASection>
-                <Card>
-                    <NextImage src={icon1} alt="Grow Faster Icon" width={40} height={40} />
+            <CTAContainer >
+
+
+                <Card style={{ borderStartStartRadius: "10px", borderEndStartRadius: "10px" }}>
+                    <NextImage src={icon1} alt="Grow Faster Icon" width={70} height={70} style={{marginRight: "1.5rem"}}/>
                     <TextContainer>
-                        <StyledH4 fontSize="18px" fontWeight="700">
+                        <StyledH4 fontSize="24px" fontWeight="400">
                             Grow Faster
                         </StyledH4>
                         <p>Scale with speed</p>
                     </TextContainer>
+                    <NextImage src={divider} alt="Divider" width={20} height={70} style={{marginLeft: "10rem"}}/>
                 </Card>
 
+                {/* <VerticalDivider /> */}
+
                 <Card>
-                    <NextImage src={icon2} alt="Grow Faster Icon" width={40} height={40} />
+                    <NextImage src={icon2} alt="Grow Faster Icon" width={70} height={70} style={{marginRight: "1.5rem"}}/>
                     <TextContainer>
 
-                        <StyledH4 fontSize="18px" fontWeight="700">
+                        <StyledH4 fontSize="24px" fontWeight="400">
                             Grow Smarter
                         </StyledH4>
                         <p>Maximize resources wisely</p>
                     </TextContainer>
+                    <NextImage src={divider} alt="Divider" width={20} height={70} style={{marginLeft: "10rem"}}/>
                 </Card>
 
-                <Card>
-                    <NextImage src={icon3} alt="Grow Faster Icon" width={40} height={40} />
+                {/* <VerticalDivider /> */}
+
+                <Card style={{ borderStartEndRadius: "10px", borderEndEndRadius: "10px" }}>
+                    <NextImage src={icon3} alt="Grow Faster Icon" width={70} height={70} style={{marginRight: "1.5rem"}}/>
                     <TextContainer>
 
-                        <StyledH4 fontSize="18px" fontWeight="700">
+                        <StyledH4 fontSize="24px" fontWeight="400">
                             Every Little Help
                         </StyledH4>
                         <p>Support when it counts</p>
                     </TextContainer>
                 </Card>
+            </CTAContainer>
             </CTASection>
 
             {/* Welcome Section */}
             <WelcomeSection>
                 <ContentColumn>
                     <p>SUPPORTING YOUR BUSINESS NEEDS</p>
-                    <H3 fontSize="28px" fontWeight="700" mb="2rem">
+                    <H3 fontSize="28px" fontWeight="700" mb="1rem">
                         Welcome to MZN Enterprise Hub
                     </H3>
                     <p>

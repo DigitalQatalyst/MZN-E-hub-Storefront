@@ -20,7 +20,7 @@ type Props = {
 export default function ProductQuickView({ open, onClose, product }: Props) {
   return (
     <Modal open={open} onClose={onClose}>
-      <Card p="1rem" width="100%" maxWidth="800px" borderRadius={8} position="relative">
+      <Card p="2rem" width="100%" maxWidth="1000px" borderRadius={8} position="relative" bg="white">
         <ProductIntro
           product= {product}
         />
@@ -28,8 +28,8 @@ export default function ProductQuickView({ open, onClose, product }: Props) {
         <IconButton
           onClick={onClose}
           style={{
-            top: "0.5rem",
-            right: "0.5rem",
+            top: "1rem",
+            right: "1rem",
             cursor: "pointer",
             padding: "0.5rem",
             position: "absolute"

@@ -1,24 +1,17 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import Link from "next/link";
 import { useState } from "react";
 import Box from "@component/Box";
 import Image from "@component/Image";
 import Rating from "@component/rating";
-import Avatar from "@component/avatar";
 import Grid from "@component/grid/Grid";
 import Icon from "@component/icon/Icon";
-import Card from "@component/Card";
 import FlexBox from "@component/FlexBox";
 import { Button } from "@component/buttons";
-import { H1, H2, H3, H4, H5, H6, SemiSpan } from "@component/Typography";
+import { H2, H4, H5, H6, SemiSpan } from "@component/Typography";
 import { useAppContext } from "@context/app-context";
-
-import { currency } from "@utils/utils";
 import Product from "@models/product.model";
-import { colors } from "theme/colors/colors";
-// import { Carousel } from "@component/carousel";
 
 // ========================================
 interface Props {
@@ -26,11 +19,15 @@ interface Props {
 }
 // ========================================
 
-export default function ProductIntro() {
-  // { product }: Props
+export default function ProductIntro({ product }: Props) {
   const param = useParams();
   const { state, dispatch } = useAppContext();
   const [selectedImage, setSelectedImage] = useState(0);
+  const [imageLoading, setImageLoading] = useState(true);
+
+  const handleImageLoad = () => {
+    setImageLoading(false);
+  };
   const safeImages = [
     "/assets/images/products/Home & Garden/vida.png",
     "/assets/images/products/Home & Garden/2indoor.png",
@@ -39,76 +36,89 @@ export default function ProductIntro() {
   ];
 
   const routerId = param.slug as string;
-  // const cartItem = state.cart.find(
-  //   (item) => item.id === product.id || item.id === routerId
-  // );
-
-  const handleImageClick = (ind: number) => () => setSelectedImage(ind);
-
-  // const handleCartAmountChange = (amount: number) => () => {
-  //   dispatch({
-  //     type: "CHANGE_CART_AMOUNT",
-  //     payload: {
-  //       price: product.price,
-  //       qty: amount,
-  //       name: product.title,
-  //       imgUrl: safeImages[0],
-  //       id: product.id || routerId,
-  //     },
-  //   });
-  // };
+  const handleImageClick = (ind: number) => () => {
+    setImageLoading(true);
+    setSelectedImage(ind);
+  };
 
   return (
     <Box overflow="hidden" borderRadius="12px" padding={'12px'}>
       <Grid container spacing={55} >
         <Grid item md={6} alignItems="top" justifyContent={"top"}>
-          <FlexBox justifyContent={"top"}>
-            <Box
-              border={"2px #E0000 solid"}
-              borderRadius={"12px"}
-              padding={"5px"}
-              ml={"10px"}
-              mr={"10px"}
-            >
-              {/* <Button mb="10px" size={"small"} bg="#0030E3" borderRadius="4px" height="27px" color="#FFF" variant="outlined">
-                Govt. sponsored
-              </Button> */}
-              <Image
-                src={safeImages[selectedImage]}
-                width="655px;"
-                height="369px"
-              />
-
-            </Box>
+          <Box
+            border={"2px #E0E0E0 solid"}
+            borderRadius={"12px"}
+            padding={"5px"}
+            mb="1rem"
+          >
+            <Image
+              src={product.images[selectedImage] || safeImages[selectedImage]}
+              width="100%"
+              height="auto"
+              style={{ 
+                objectFit: "contain", 
+                maxHeight: "400px",
+                opacity: imageLoading ? 0 : 1,
+                transition: "opacity 0.3s"
+              }}
+              onLoad={handleImageLoad}
+            />
+          </Box>
+          <FlexBox gridGap="10px" justifyContent="center" mb="1rem">
+            {(product.images.length > 0 ? product.images : safeImages).map((url, ind) => (
+              <Box
+                key={ind}
+                width="64px"
+                height="64px"
+                padding="5px"
+                cursor="pointer"
+                borderRadius="8px"
+                border={`2px solid ${selectedImage === ind ? '#0030E3' : '#E0E0E0'}`}
+                onClick={handleImageClick(ind)}
+              >
+                <Image
+                  src={url}
+                  width="100%"
+                  height="100%"
+                  style={{ objectFit: "contain" }}
+                />
+              </Box>
+            ))}
           </FlexBox>
         </Grid>
         <Grid item md={6} alignItems="center">
-          <H2 mb="1rem" color="#002180">Financing Business Operating Capital</H2>
-          <FlexBox alignItems="center" mb="1rem">
-            <SemiSpan color="#002180" style={{ fontSize: '16px' }}>Partner: </SemiSpan>
-            <H5 ml="12px" color="#00665C">Khalifa Fund</H5>
-            <Icon>vector</Icon>
-            <Box>
-              <Rating color="warn" size="medium" value={4} outof={5} />
-            </Box>
-            <H6 mr="2px">(50)</H6>
-            <Icon>vector</Icon>
-            <SemiSpan color="#00665C" style={{ fontSize: '16px' }}> Code:</SemiSpan>
-            <H5 ml="8px" color="#002180">KF/0030</H5>
-          </FlexBox>
+          <H2 mb="1rem" color="#002180">{product.title}</H2>
+          <Box mb="1.5rem">
+            <FlexBox alignItems="center" mb="0.75rem">
+              <FlexBox alignItems="center" style={{ minWidth: '120px' }}>
+                <SemiSpan color="#002180" style={{ fontSize: '16px', fontWeight: 600 }}>Partner:</SemiSpan>
+              </FlexBox>
+              <H5 color="#00665C">{product.subTitle}</H5>
+            </FlexBox>
+            
+            <FlexBox alignItems="center" mb="0.75rem">
+              <FlexBox alignItems="center" style={{ minWidth: '120px' }}>
+                <SemiSpan color="#002180" style={{ fontSize: '16px', fontWeight: 600 }}>Rating:</SemiSpan>
+              </FlexBox>
+              <FlexBox alignItems="center">
+                <Rating color="warn" size="small" value={4} outof={5} />
+                <H6 ml="8px" color="#666">(50)</H6>
+              </FlexBox>
+            </FlexBox>
+
+            <FlexBox alignItems="center">
+              <FlexBox alignItems="center" style={{ minWidth: '120px' }}>
+                <SemiSpan color="#002180" style={{ fontSize: '16px', fontWeight: 600 }}>Code:</SemiSpan>
+              </FlexBox>
+              <H5 color="#002180">KF/0030</H5>
+            </FlexBox>
+          </Box>
           <Button mt="30px" size="small" bg="#00665C" color="white" variant="text">
             Available for Registration
           </Button>
           <Box mb="45px" mt="30px">
-            Through this service you may get the necessary finances for day to <br>
-            </br>day operations of the SME. Offers the needed capital of maximum <br>
-            </br>AED 600,000 to cover salaries, inventory, overhead and other short <br>
-            </br>term financial obligations, excluding rent. Also you may get a grace <br>
-            </br>period of 3 months, with a repayment period of 12 months.
+            {product.description}
           </Box>
-          {/* <Box mb="24px" mt="18px" color="#002180" fontWeight="bold">
-            <h3>Type: Sole Proprietorship</h3>
-          </Box> */}
           <Box mb="24px" mt="18px" color="#002180" fontWeight="bold">
             <h3>Business Stage</h3>
           </Box>
@@ -116,13 +126,13 @@ export default function ProductIntro() {
             <Button color="#99B2FF" width="80px" variant="contained">
               Conception
             </Button>
-            <Button variant="contained" width="80px" color="#8083903D"> {/*color={colors.primary.main}*/}
+            <Button variant="contained" width="80px" color="#8083903D">
               Startup
             </Button>
-            <Button variant="contained" width="80px" color="#8083903D" > {/*color="blue"*/}
+            <Button variant="contained" width="80px" color="#8083903D">
               Growth
             </Button>
-            <Button variant="contained" width="80px" color="#8083903D" > {/*color="blue"*/}
+            <Button variant="contained" width="80px" color="#8083903D">
               Maturity
             </Button>
           </FlexBox>
@@ -145,22 +155,23 @@ export default function ProductIntro() {
             </FlexBox>
           </FlexBox>
 
-          <FlexBox mb="1em">
-            <Icon ml={"10px"} color="#0030E3">truck</Icon>
-            <H4 ml="8px" mr="8px" color="#002180" >
-              Processing time:
-            </H4>
-            <SemiSpan color='#002180' fontWeight="w500"><H4 ml="2px" color="#002180" >
-              2 Weeks
-            </H4></SemiSpan>
-          </FlexBox>
-          <FlexBox>
-            <Icon ml={"10px"} color="#002180">gift</Icon>
+          <Box mt="2rem">
+            <FlexBox alignItems="center" mb="0.75rem">
+              <FlexBox alignItems="center" style={{ minWidth: '120px' }}>
+                <Icon color="#0030E3" mr="4px">truck</Icon>
+                <SemiSpan color="#002180" style={{ fontSize: '16px', fontWeight: 600 }}>Time:</SemiSpan>
+              </FlexBox>
+              <H5 color="#002180">2 Weeks</H5>
+            </FlexBox>
 
-            <SemiSpan color="#002180"><H4 ml="8px" mr="8px" color="#002180">
-              Registration Validity: 1 Year (Renewable):
-            </H4></SemiSpan>
-          </FlexBox>
+            <FlexBox alignItems="center">
+              <FlexBox alignItems="center" style={{ minWidth: '120px' }}>
+                <Icon color="#002180" mr="4px">gift</Icon>
+                <SemiSpan color="#002180" style={{ fontSize: '16px', fontWeight: 600 }}>Validity:</SemiSpan>
+              </FlexBox>
+              <H5 color="#002180">1 Year (Renewable)</H5>
+            </FlexBox>
+          </Box>
         </Grid>
       </Grid>
     </Box>

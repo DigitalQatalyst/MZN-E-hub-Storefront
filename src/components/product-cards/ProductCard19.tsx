@@ -1,36 +1,26 @@
 import Link from "next/link";
-import { FC, useState, Fragment } from "react";
+import { useState, Fragment } from "react";
 import styled from "styled-components";
-
 import Box from "@component/Box";
 import Rating from "@component/rating";
 import Icon from "@component/icon/Icon";
 import FlexBox from "@component/FlexBox";
-import { Button as DefaultButton } from "@component/buttons";  // Import the original Button component
+import { Button as DefaultButton } from "@component/buttons";
 import NextImage from "@component/NextImage";
 import { IconButton } from "@component/buttons";
 import { H4, Paragraph, Small } from "@component/Typography";
 import ProductQuickView from "@component/products/ProductQuickView";
 import { useAppContext } from "@context/app-context";
-import { currency } from "@utils/utils";
-import { theme } from "@utils/theme";
-
-// styled components using object syntax
 const CardBox = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",  // Ensure the content stacks vertically
   width: "100%",  // Make the card width 100% of its parent container
-  height: "300px",
+  minHeight: "300px",
+  height: "auto",
   padding: "16px",
-  // height:"auto",
-  // maxWidth: "277px",    // Set a fixed height for all cards
-  // alignItems: "center",  
-  // gap: "16px",  // Add some space between the image and the product details
-  // borderRadius: "3px",
   transition: "all 0.3s",
-  // backgroundColor: "white",
   borderRadius: "8px",
-  background: "var(--Secondary-Gradient, linear-gradient(225deg, #7693F3 0.02%, #7693F3 11.72%, #7693F1 21.24%, #7594EF 28.92%, #7594EC 35.08%, #7495E9 40.08%, #7496E5 44.24%, #7397E0 47.89%, #7298DC 51.38%, #7299D7 55.03%, #719AD2 59.19%, #709BCD 64.18%, #6F9CC8 70.35%, #6E9DC3 78.03%, #6E9EBE 87.54%, #6D9FBA 99.24%))",
+  background: "#FFF",
   border: `1px solid ${theme.colors.gray[100]}`,
   "&:hover": {
     ".product-img": {
@@ -48,7 +38,6 @@ const CardMedia = styled(Box)(({ theme }) => ({
   position: "relative",
   ".product-img": {
     transition: "0.3s",
-    // objectFit: "cover", 
     width: "100%",
     height: "100%",
   },
@@ -73,13 +62,18 @@ const FavoriteButton = styled(IconButton)(() => ({
 // Title Styling
 const StyledH4 = styled(H4)`
   color: #000;
-  /*color: #FFF;*/
   font-family: "Open Sans";
   font-size: 10px;
   font-style: normal;
   font-weight: 300;
   line-height: 16px; /* 160% */
   letter-spacing: 0.5px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 8px 0;
 `;
 
 
@@ -100,7 +94,7 @@ const StyledButton = styled(DefaultButton)`
   transition: background-color 0.3s, color 0.3s;
 
   span {
-    color: #fff;  /* White text */
+    color: #000;  /* Black text */
     text-align: center;
     font-family: "Open Sans";
     font-size: 10px;
@@ -118,7 +112,7 @@ const StyledImage = styled(NextImage)`
 `;
 
 const StyledParagraph = styled(Paragraph)`
-  color: var(--M3-white, #FFF);
+  color: #000;
 
   /* M3/title/medium */
   font-family:  "Open Sans";
@@ -140,13 +134,6 @@ const LearnMoreWrapper = styled.div`
 
 
 
-// const ProductBox = styled(Box)(({ theme }) => ({
-//   // marginLeft: "-50px",  
-//   display: "flex",
-//   flexDirection: "column",
-//   // gap: "8px", 
-//   textAlign: "left", // Align text to the left
-// }));
 
 
 type ProductCard19Props = {
@@ -173,18 +160,6 @@ export default function ProductCard19(props: ProductCard19Props) {
   const handleFavorite = () => setIsFavorite((fav) => !fav);
   const toggleDialog = () => setOpenDialog((state) => !state);
 
-  // const handleAddToCart = () => {
-  //   const payload = {
-  //     id,
-  //     slug,
-  //     name,
-  //     subTitle,
-  //     imgUrl: img,
-  //     qty: (cartItem?.qty || 0) + 1,
-  //   };
-
-  //   dispatch({ type: "CHANGE_CART_AMOUNT", payload });
-  // };
 
 
   return (
@@ -225,7 +200,7 @@ export default function ProductCard19(props: ProductCard19Props) {
             </StyledButton>
 
             <LearnMoreWrapper>
-              <Paragraph color="white" mr="0.5rem">Learn More</Paragraph>
+              <Paragraph color="#000" mr="0.5rem">Learn More</Paragraph>
               <img src="/assets/images/avatars/arrow_forward.svg" alt="Arrow Icon" style={{ width: '16px', height: '16px' }} />
             </LearnMoreWrapper>
           </Box>

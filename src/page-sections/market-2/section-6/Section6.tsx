@@ -159,47 +159,56 @@ export default function Section6() {
             <List>
               <ServiceTypeTitle>Business Stage :</ServiceTypeTitle>
               <CheckboxLabel>
-                <input type="checkbox" />
-                <span>Inception</span>
+                <input type="checkbox" id="inception" />
+                <label htmlFor="inception">Inception</label>
+                {/* <span>Inception</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" />
-                <span>Growth</span>
+                <input type="checkbox" id="growth" title="Growth" />
+                <label htmlFor="growth">Growth</label>
+                {/* <span>Growth</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" />
-                <span>Maturity</span>
+                <input type="checkbox" id="maturity" />
+                <label htmlFor="maturity">Maturity</label>
+                {/* <span>Maturity</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" />
-                <span>Restructuring</span>
+                <input type="checkbox" id="restructuring" title="Restructuring" />
+                <label htmlFor="restructuring">Restructuring</label>
+                {/* <span>Restructuring</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" />
-                <span>Other</span>
+                <input type="checkbox" id="other" />
+                <label htmlFor="other">Other</label>
+                {/* <span>Other</span> */}
               </CheckboxLabel>
             </List>
 
             <List>
               <ServiceTypeTitle>Provided By :</ServiceTypeTitle>
               <CheckboxLabel>
-                <input type="checkbox" />
-                <span>ADGM</span>
+                <input type="checkbox" id="adgm" title="ADGM" />
+                <label htmlFor="adgm">ADGM</label>
+                {/* <span>ADGM</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" />
-                <span>Khalifa Fund</span>
+                <input type="checkbox" id="khalifa-fund" title="Khalifa Fund" />
+                <label htmlFor="khalifa-fund">Khalifa Fund</label>
+                {/* <span>Khalifa Fund</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" />
-                <span>Hub 71</span>
+                <input type="checkbox" id="hub71" />
+                <label htmlFor="hub71">Hub 71</label>
+                {/* <span>Hub 71</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" />
-                <span>AD SME Hub</span>
+                <input type="checkbox" id="unspecified" title="Unspecified" />
+                <label htmlFor="unspecified">Unspecified</label>
+                {/* <span>AD SME Hub</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" />
+                <input type="checkbox" id="other-checkbox" title="Other" />
                 <span>Other</span>
               </CheckboxLabel>
             </List>
@@ -207,24 +216,28 @@ export default function Section6() {
             <List>
             <ServiceTypeTitle>Pricing Model :</ServiceTypeTitle>
               <CheckboxLabel>
-                <input type="checkbox" />
-                <span>Free</span>
+                <input type="checkbox" id="free" title="Free" />
+                <label htmlFor="free">Free</label>
+                {/* <span>Free</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" />
+                <input type="checkbox" title="Subscription-Based" />
                 <span>Subscription-Based</span>
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" />
-                <span>Pay Per Service</span>
+                <input type="checkbox" id="pay-per-service" />
+                <label htmlFor="pay-per-service">Pay Per Service</label>
+                {/* <span>Pay Per Service</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" />
-                <span>One-Time Fee</span>
+                <input type="checkbox" id="one-time-fee" title="One-Time Fee" />
+                <label htmlFor="one-time-fee">One-Time Fee</label>
+                {/* <span>One-Time Fee</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" />
-                <span>Government Subsidised</span>
+                <input type="checkbox" id="government-subsidised" title="Government Subsidised" />
+                <label htmlFor="government-subsidised">Government Subsidised</label>
+                {/* <span>Government Subsidised</span> */}
               </CheckboxLabel>
             </List>
 

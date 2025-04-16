@@ -37,7 +37,7 @@ export default function MarketTwo() {
         {/* <Section5 /> */}
 
         {/* ELECTRONICS CATEGORY BASED PRODUCTS AREA */}
-        <Section6 /> {/* Empty data passed */}
+        <Section6 />
 
         {/* SALES OFFER BANNERS AREA */}
         {/* <Section7 /> */}

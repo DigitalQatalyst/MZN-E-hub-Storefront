@@ -1,64 +1,39 @@
 import Shop from "./shop.model";
-import Review from "./Review.model";
-
-// interface Product {
-//   unit?: any;
-//   slug: string;
-//   price: number;
-//   title: string;
-//   rating: number;
-//   discount: number;
-//   thumbnail: string;
-//   id: string;
-//   shop?: Shop;
-//   brand?: string;
-//   size?: string[];
-//   status?: string;
-//   colors?: string[];
-//   images?: string[];
-//   categories: any[];
-//   reviews?: Review[];
-//   published?: boolean;
-// }
 
 interface Product {
+  // Base fields (used by ProductCard19)
   id: string | number;
   slug: string;
   title: string;
-  subTitle:string ;
+  subTitle: string;
   description: string;
-  // price: number;
-  brand?: string | null;
-  size?: string | null;
-  colors?: string[];
+  images: string[];
+  reviews?: number;
+  rating?: number;
+
+  // Optional common fields
+  price?: number;
   discount?: number;
   thumbnail?: string;
-  images: string[];
   categories?: string[];
-  status?: string | null;
-  reviews?: any[];
-  rating?: number;
-  shop?: {
-    id: string;
-    slug: string;
-    name: string;
-    email: string;
-    phone: string;
-    address: string;
-    profilePicture: string;
-    coverPicture: string;
-    socialLinks: {
-      facebook?: string | null;
-      twitter?: string | null;
-      youtube?: string | null;
-      instagram?: string | null;
-    };
-  };
-  // for: {
-  //   demo: string;
-  //   type: string;
-  // };
-}
+  shop?: Shop;
+  brand?: string;
+  size?: string[];
+  status?: string;
 
+  // Service-specific fields
+  code?: string;
+  businessStages?: string[];
+  highlightedStage?: string;
+  processingTime?: string;
+  registrationValidity?: string;
+  cost?: string;
+  steps?: string[];
+  termsOfService?: string[];
+  requiredDocuments?: string[];
+
+  // For backward compatibility
+  name?: string; // some components might still use name instead of title
+}
 
 export default Product;

@@ -9,6 +9,8 @@ export default function ProductSearchResult() {
   );
 }
 
+
+
 const sortOptions = [
   { label: "Relevance", value: "Relevance" },
   { label: "Date", value: "Date" },

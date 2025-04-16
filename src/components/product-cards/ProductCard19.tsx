@@ -199,10 +199,12 @@ export default function ProductCard19(props: ProductCard19Props) {
               <span>Funding Scheme</span>
             </StyledButton>
 
-            <LearnMoreWrapper>
-              <Paragraph color="#000" mr="0.5rem">Learn More</Paragraph>
-              <img src="/assets/images/avatars/arrow_forward.svg" alt="Arrow Icon" style={{ width: '16px', height: '16px' }} />
-            </LearnMoreWrapper>
+            <Link href={`/product/${slug}`} style={{ textDecoration: 'none' }}>
+              <LearnMoreWrapper style={{ cursor: 'pointer' }}>
+                <Paragraph color="#000" mr="0.5rem">Learn More</Paragraph>
+                <img src="/assets/images/avatars/arrow_forward.svg" alt="Arrow Icon" style={{ width: '16px', height: '16px' }} />
+              </LearnMoreWrapper>
+            </Link>
           </Box>
 
         </Box>

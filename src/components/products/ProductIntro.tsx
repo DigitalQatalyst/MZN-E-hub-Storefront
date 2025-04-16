@@ -1,7 +1,8 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { useState, useCallback } from "react";
+import RegistrationForm from "@component/forms/RegistrationForm";
 import Box from "@component/Box";
 import Image from "@component/Image";
 import Rating from "@component/rating";
@@ -24,6 +25,7 @@ export default function ProductIntro({ product }: Props) {
   const { state, dispatch } = useAppContext();
   const [selectedImage, setSelectedImage] = useState(0);
   const [imageLoading, setImageLoading] = useState(true);
+  const [showRegistrationForm, setShowRegistrationForm] = useState(false);
 
   const handleImageLoad = () => {
     setImageLoading(false);
@@ -137,9 +139,23 @@ export default function ProductIntro({ product }: Props) {
             </Button>
           </FlexBox>
 
-          <Button fullwidth bg="#0030E3" height="55px" variant="contained" mt="15px" color={"primary"}>
+          <Button 
+            fullwidth 
+            bg="#0030E3" 
+            height="55px" 
+            variant="contained" 
+            mt="15px" 
+            color={"primary"}
+            onClick={() => setShowRegistrationForm(true)}
+          >
             <p color="#ffffff !important">Apply for Registration</p>
           </Button>
+          
+          <RegistrationForm 
+            open={showRegistrationForm}
+            onClose={() => setShowRegistrationForm(false)}
+            productTitle={product.title}
+          />
           <FlexBox alignItems="center" mb="1rem" mt="1rem" justifyContent="space-between" width="100%">
             <Button width="58%" color="primary" height="50px" bg={"success"}>
               <Icon>heart</Icon>

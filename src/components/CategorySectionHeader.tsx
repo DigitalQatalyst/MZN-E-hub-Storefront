@@ -48,15 +48,17 @@ export default function CategorySectionHeader({
       {/* Category Selection Buttons */}
       <FlexBox>
         {categories.map((category) => (
-          <Button
-            key={category}
-            variant={selectedCategory === category ? "contained" : "outlined"}
-            color="primary"
-            onClick={() => handleCategoryChange(category)}
-            style={{ marginRight: "8px" }}
-          >
-            {category}
-          </Button>
+          <Link href={category === "View All" ? "/services" : "#"} key={category}>
+            <Button
+              key={category}
+              variant={selectedCategory === category ? "contained" : "outlined"}
+              color="primary"
+              onClick={() => handleCategoryChange(category)}
+              style={{ marginRight: "8px" }}
+            >
+              {category}
+            </Button>
+          </Link>
         ))}
       </FlexBox>
     </FlexBox>

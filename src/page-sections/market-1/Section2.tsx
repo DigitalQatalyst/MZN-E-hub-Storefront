@@ -5,6 +5,7 @@ import CategorySectionCreator from "@component/CategorySectionCreator";
 // API FUNCTIONS
 import api from "@utils/__api__/market-1";
 import { FullWrapper, Wrapper } from "@component/footer/footer-2/styles";
+import { ProductCard19 } from "@component/product-cards";
 
 export default async function Section2() {
   const products = await api.getFlashDeals();

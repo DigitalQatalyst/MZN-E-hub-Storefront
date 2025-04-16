@@ -57,7 +57,7 @@ export default async function Profile() {
 
                     <FlexBox alignItems="center">
                       <Typography fontSize="14px" color="text.hint">
-                      TL-1234567-UAE
+                      TL-123456-UAE
                       </Typography>
 
                       {/* <Typography ml="4px" fontSize="14px" color="primary.main">

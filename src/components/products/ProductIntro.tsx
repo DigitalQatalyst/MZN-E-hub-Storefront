@@ -154,7 +154,7 @@ export default function ProductIntro({ product }: Props) {
           <RegistrationForm 
             open={showRegistrationForm}
             onClose={() => setShowRegistrationForm(false)}
-            productTitle={product.title}
+            productSlug={product.slug}
           />
           <FlexBox alignItems="center" mb="1rem" mt="1rem" justifyContent="space-between" width="100%">
             <Button width="58%" color="primary" height="50px" bg={"success"}>

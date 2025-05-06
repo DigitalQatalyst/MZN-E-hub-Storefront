@@ -1,8 +1,7 @@
 "use client";
-
 import NextImage from "next/image";
 import styled from "styled-components";
-import { H1, H3, H5 } from "@component/Typography";
+import { H1, H3, H4 } from "@component/Typography";
 import { Header, HeaderTwo } from "@component/header";
 import Navbar from "@component/navbar/Navbar";
 
@@ -27,23 +26,6 @@ const HeroImage = styled.div`
   width: 100%;
   height: 100%;
   z-index: 1;
-`;
-
-const NavbarWrapper = styled.div`
-  position: relative;
-  z-index: 4; /* Ensure Navbar is above HeroImage and HeroContent */
-  width: 100%;
-`;
-
-const HeroContent = styled.div`
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%; /* Fixed from 150% to 100% to prevent overflow */
-  padding: 2rem 1rem;
 `;
 
 const SearchBarContainer = styled.div`
@@ -83,38 +65,24 @@ const SearchButton = styled.button`
   }
 `;
 
-const WelcomeSection = styled.section`
-  background-color: #fffff;
-  color: 000;
-  padding: 3rem;
-  display: grid;
-  font-style: abhaya-libre;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 2rem;
-  margin-bottom: 2rem;
+
+const NavbarWrapper = styled.div`
+  position: relative;
+  z-index: 4; /* Ensure Navbar is above HeroImage and HeroContent */
+  width: 100%;
 `;
 
-const ContentColumn = styled.div`
+const HeroContent = styled.div`
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Fixed from 150% to 100% to prevent overflow */
+  padding: 2rem 1rem;
 `;
 
-const SearchButtonHero = styled.button`
-  padding: 0.7rem 1.5rem;
-  background-color: #ffffff;
-  color: #0030E3;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  margin-top: 4rem;
-  transition: background-color 0.3s ease;
-  &:hover {
-    background-color: #f0f0f0;
-  }
-`;
 
 export default function HomePage() {
   return (

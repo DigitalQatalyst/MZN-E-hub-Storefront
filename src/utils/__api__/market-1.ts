@@ -16,11 +16,6 @@ const getTopRatedBrand = async () => {
   return response.data;
 };
 
-const getPopularProducts = async (): Promise<Product[]> => {
-  const response = await axios.get("/api/grocery-1/products?tag=popular");
-  return response.data;  
-};
-
 const getNewArrivalList = async (): Promise<Product[]> => {
   const response = await axios.get("/api/market-1/new-arrivals");
   return response.data;
@@ -117,7 +112,6 @@ export default {
   getOpticsBrands,
   getTopCategories,
   getTopRatedBrand,
-  getPopularProducts,
   getNewArrivalList,
   getBigDiscountList,
   getTopRatedProduct

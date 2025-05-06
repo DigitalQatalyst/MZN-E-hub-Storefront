@@ -18,9 +18,7 @@ import Footer from "@sections/landing/footer";
 import { zIndex } from "styled-system";
 import { Wrapper } from "@component/footer/footer-2/styles";
 import { Footer1 } from "@component/footer";
-import Section9 from "@sections/market-1/Section9";
-import Section14 from "@sections/market-1/Section14";
-import Section15 from "@sections/market-1/Section15";
+import Section9 from "@sections/landing/Section-9/Section9";
 
 
 export default async function Market1() {
@@ -30,21 +28,18 @@ export default async function Market1() {
   const opticsList = await api.getOpticsList();
   const mobileShops = await api.getMobileShops();
   const opticsShops = await api.getOpticsShops();
-  const opticsBrands = await api.getOpticsBrands();
   const mobileBrands = await api.getMobileBrands();
-  const popularProducts = await api.getPopularProducts();
-  
+  const opticsBrands = await api.getOpticsBrands();
 
   return (
     <main>
       {/* HERO CAROUSEL AREA
       <Section1 />
       FLASH DEAL PRODUCTS AREA */}
+      
       <Section6 />
-      <Section9 products={popularProducts} />
-      <Section14 />
-      <Section15 products={popularProducts} />
-      <Section2 /> 
+      <Section9 />
+      <Section2 />
       {/* TOP CATEGORIES AREA */}
       <Section3 />
       <Footer1 />

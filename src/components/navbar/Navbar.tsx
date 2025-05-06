@@ -140,14 +140,14 @@ export default function Navbar({ navListOpen }: NavbarProps) {
 
   return (
     <StyledNavbar>
-      <Container height="100%" display="flex" paddingTop="20px" alignItems="center" justifyContent="space-between">
+      <Container height="100%" display="flex" alignItems="center" justifyContent="space-between">
         {/* Logo Section */}
         <Box className="navbar-logo">
           <img src="/assets/images/logos/mzn_logo.svg" alt="MZN Enterprise Hub" height="40px" />
         </Box>
 
         {/* Categories Section */}
-        <Categories open={navListOpen}>
+        {/* <Categories open={navListOpen}>
           <Button width="278px" height="40px" bg="body.default" variant="text">
             <Icon>categories</Icon>
             <Typography
@@ -160,26 +160,28 @@ export default function Navbar({ navListOpen }: NavbarProps) {
               lineHeight="26px"
               color="#002180"
             >
-              All Marketplaces
+              Categories
             </Typography>
 
             <Icon className="dropdown-icon" variant="small">
-              chevron-down
+              chevron-right
             </Icon>
           </Button>
-        </Categories>
+        </Categories> */}
 
-        <FlexBox style={{ gap: 32 }}>{renderNestedNav(navbarNavigations, true)}</FlexBox>
+        <FlexBox style={{ gap: 55 }}>
+          {renderNestedNav(navbarNavigations, true)}
+          {/* Search Icon (Replace with your actual SVG) */}
+          <Box className="search-icon" style={{ cursor: "pointer", marginRight: "30px" }}>
+            <img src="/assets/images/logos/search.svg" alt="Search" height="24px" />
+          </Box>
+        </FlexBox>
 
         {/* Search Icon, Sign In, and Sign Up Buttons */}
         <FlexBox alignItems="center" style={{ gap: "15px" }}>
-          {/* Search Icon (Replace with your actual SVG) */}
-          <Box className="search-icon" style={{ cursor: "pointer" }}>
-            <img src="/assets/images/logos/search.svg" alt="Search" height="18px" />
-          </Box>
 
           {/* Sign In & Sign Up Buttons */}
-          <Button className="sign-in-btn" variant="outlined" mr={"10px"} ml={"10px"}>
+          <Button className="sign-in-btn" variant="outlined">
             Sign In
           </Button>
 

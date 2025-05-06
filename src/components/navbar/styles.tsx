@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const StyledNavbar = styled.div`
   position: relative;
-  height: 60px;
+  height: 100px;
   //background: inherit;
   //box-shadow: ${getTheme("shadows.regular")};
 

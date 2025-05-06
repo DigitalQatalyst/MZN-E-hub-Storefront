@@ -2,20 +2,14 @@
 import Link from "next/link";
 import { Carousel } from "@component/carousel";
 import ProductCard6 from "@component/product-cards/ProductCard6";
-import CategorySectionCreator from "@component/CategorySectionCreator";
 // API FUNCTIONS
 import api from "@utils/__api__/market-1";
 import FlexBox from "@component/FlexBox";
 import { H1, H5 } from "@component/Typography";
 import { Button } from "@component/buttons";
-import { justifyContent } from "styled-system";
 import Box from "@component/Box";
 import { colors } from "theme/colors/colors";
-import NextImage from "@component/NextImage";
 import { FullWrapper, Wrapper } from "@component/footer/footer-2/styles";
-import styled from "styled-components";
-import { deviceSize } from "@utils/constants";
-
 
 
 export default async function Section3() {
@@ -28,19 +22,20 @@ export default async function Section3() {
 
   return (
     // <CategorySectionCreator >
-      <FullWrapper  bg="linear-gradient(180deg, #FFF 0%, #FDFDFF 9.41%, #F7F8FE 17.07%, #EDF0FD 23.24%, #E0E6FC 28.21%, #D1D9FA 32.23%, #BFCBF8 35.57%, #ABBBF6 38.51%, #96AAF4 41.31%, #8098F1 44.25%, #6A86EF 47.6%, #5373EC 51.62%, #3D61EA 56.58%, #2750E7 62.76%, #133FE5 70.41%, #0030E3 79.82%)">
+    <div>
+      <FullWrapper bg="linear-gradient(180deg, #FFF 0%, #FDFDFF 9.41%, #F7F8FE 17.07%, #EDF0FD 23.24%, #E0E6FC 28.21%, #D1D9FA 32.23%, #BFCBF8 35.57%, #ABBBF6 38.51%, #96AAF4 41.31%, #8098F1 44.25%, #6A86EF 47.6%, #5373EC 51.62%, #3D61EA 56.58%, #2750E7 62.76%, #133FE5 70.41%, #0030E3 79.82%)">
         <FlexBox flexDirection={"column"} padding={"2rem"} backgroundColor={colors.primary.gradient}>
           <FlexBox alignItems={"end"} justifyContent={"space-between"} flexDirection={"row"} marginBottom={"20px"} >
             <FlexBox alignItems={"flex-start"} justifyContent={"space-between"} flexDirection={"column"}>
               <H5 color={"#000000"}>HOW IT WORKS</H5>
               <H1 marginBottom={"1.5rem"} marginTop={"1.5rem"} color={"#0030e3"}>Getting started is easy</H1>
               <H5 color={"#000000"}>Upon gaining access to MZN’s WebApp, your initial task involves selecting a service <br />
-              that is suitable for your business</H5>
+                that is suitable for your business</H5>
             </FlexBox>
 
             <FlexBox alignItems={"flex-end"} justifyContent={"flex-end"} mb={"1rem"}>
               <Link href="/signup">
-              <Button className="SignUp" variant="contained" color="primary" fullwidth>Sign Up</Button>
+                <Button className="SignUp" variant="contained" color="primary" fullwidth>Sign Up</Button>
               </Link>
             </FlexBox>
           </FlexBox>
@@ -57,6 +52,7 @@ export default async function Section3() {
           </Carousel>
         </FlexBox>
       </FullWrapper>
+    </div>
     // </CategorySectionCreator>
   );
 }

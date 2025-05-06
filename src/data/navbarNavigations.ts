@@ -87,7 +87,7 @@ const navbarNavigations = [
     ]
   },
   {
-    title: "Help Center",
+    title: "Customer Service",
     child: [
       { title: "Dashboard", url: "/vendor/dashboard" },
       {

@@ -4,14 +4,8 @@ import styled from "styled-components";
 const StyledNavbar = styled.div`
   position: relative;
   height: 60px;
-  background: var(--MZN-Gradient-Style, linear-gradient(90deg, 
-    #01E5D1 0%, #02E4D1 8.12%, #04E2D2 14.47%, #07DFD3 19.42%, 
-    #0CDAD5 23.32%, #12D5D7 26.54%, #18CEDA 29.42%, #20C7DD 32.34%, 
-    #29BEE0 35.66%, #33B5E4 39.72%, #3DABE8 44.89%, #48A0EC 51.54%, 
-    #5395F1 60.01%, #6089F5 70.67%, #6C7DFA 83.88%, #7970FF 100%));
-  
-  backdrop-filter: blur(6px);
-  box-shadow: ${getTheme("shadows.regular")};
+  //background: inherit;
+  //box-shadow: ${getTheme("shadows.regular")};
 
   .nav-link {
     color: #FFF;

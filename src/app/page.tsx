@@ -14,11 +14,11 @@ import Section11 from "@sections/market-1/Section11";
 import Section12 from "@sections/market-1/Section12";
 import Section13 from "@sections/market-1/Section13";
 import Section6 from "@sections/landing/section6";
-
 import Footer from "@sections/landing/footer";
 import { zIndex } from "styled-system";
 import { Wrapper } from "@component/footer/footer-2/styles";
 import { Footer1 } from "@component/footer";
+import Section9 from "@sections/market-1/Section9";
 
 
 export default async function Market1() {
@@ -28,16 +28,18 @@ export default async function Market1() {
   const opticsList = await api.getOpticsList();
   const mobileShops = await api.getMobileShops();
   const opticsShops = await api.getOpticsShops();
-  const mobileBrands = await api.getMobileBrands();
   const opticsBrands = await api.getOpticsBrands();
+  const mobileBrands = await api.getMobileBrands();
+  const popularProducts = await api.getPopularProducts();
+  
 
   return (
     <main>
       {/* HERO CAROUSEL AREA
       <Section1 />
       FLASH DEAL PRODUCTS AREA */}
-      
       <Section6 />
+      <Section9 products={popularProducts} />
       <Section2 /> 
       {/* TOP CATEGORIES AREA */}
       <Section3 />

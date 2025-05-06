@@ -59,7 +59,7 @@ const IconItem = styled.div`
 `;
 
 const LabelText = styled.div<{ muted?: boolean }>`
-  color: ${(props) => (props.muted ? "rgba(255, 255, 255, 0.50)" : "#fff")}; /* Grey for muted, white otherwise */
+  color: ${(props) => (props.muted ? "#A9A9A9" : "#fff")}; /* Grey for muted, white otherwise */
 `;
 
 const ComingSoonLabel = styled.div`

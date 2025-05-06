@@ -20,6 +20,7 @@ import { Wrapper } from "@component/footer/footer-2/styles";
 import { Footer1 } from "@component/footer";
 import Section9 from "@sections/market-1/Section9";
 import Section14 from "@sections/market-1/Section14";
+import Section15 from "@sections/market-1/Section15";
 
 
 export default async function Market1() {
@@ -42,6 +43,7 @@ export default async function Market1() {
       <Section6 />
       <Section9 products={popularProducts} />
       <Section14 />
+      <Section15 products={popularProducts} />
       <Section2 /> 
       {/* TOP CATEGORIES AREA */}
       <Section3 />

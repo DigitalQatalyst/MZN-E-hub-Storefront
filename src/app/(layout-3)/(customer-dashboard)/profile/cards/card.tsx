@@ -1,8 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import graph1 from '../../../../../../public/assets/images/graphs/Group 2473.svg';
-import graph2 from '../../../../../../public/assets/images/graphs/Group 1344.svg';
-import graph3 from '../../../../../../public/assets/images/graphs/Group 2454.svg';
 
 // Mock data for the bar graph (replace with your actual data)
 const barData = [50, 80, 70, 90, 60, 85, 75];
@@ -37,7 +34,13 @@ const Value = styled.div`
   margin-bottom: 8px;
 `;
 
-const Change = styled.div`
+// Define props interface for Change
+interface ChangeProps {
+  isPositive?: boolean;
+  isNeutral?: boolean;
+}
+
+const Change = styled.div<ChangeProps>`
   font-size: 1rem;
   color: ${({ isPositive, isNeutral }) => {
     if (isPositive) {
@@ -53,17 +56,11 @@ const Change = styled.div`
   align-items: center;
 `;
 
-// const GraphImage = styled.img`
-//   width: 40%; // Adjust as needed
-//   align-self: center;
-//   position: relative;
-// `;
 const GraphContainer = styled.div`
   width: 40%;
   align-self: center;
   display: flex;
   align-items: flex-end;
-  
   height: 80px;
 `;
 
@@ -86,45 +83,46 @@ const TargetContainer = styled.div`
 `;
 
 const TargetPercentage = styled.div`
-font-size: 1rem;
+  font-size: 1rem;
   font-weight: bold;
   color: black;
   position: absolute;
   top: 50%;
   left: -7rem;
-  transform: translate(-50%, -50%)
+  transform: translate(-50%, -50%);
 `;
 
 const TargetLabel = styled.div`
   font-size: 0.8rem;
   color: #7f8c8d;
   margin-top: 5px;
-   position: absolute;
+  position: absolute;
   top: 60%;
   left: -7rem;
-  transform: translate(-50%, -50%)
+  transform: translate(-50%, -50%);
 `;
 
 const TransactionTypesContainer = styled.div`
-  // display: flex;
-  // flex-direction: column;
-  // align-items: flex-start;
-   padding-top: 5rem;
+  padding-top: 5rem;
 `;
 
 const TransactionType = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 5px;
-
   margin-left: -25rem;
 `;
 
-const ColorDot = styled.div`
+// Define props interface for ColorDot
+interface ColorDotProps {
+  color: string;
+}
+
+const ColorDot = styled.div<ColorDotProps>`
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: ${({ color }: { color: string }) => color};
+  background-color: ${({ color }) => color};
   margin-right: 8px;
 `;
 
@@ -169,10 +167,14 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
           {change}
         </Change>
       </LeftContent>
-      {title === "Weekly Sales" ? renderBarGraph() : (graphImage && <img src={graphImage} alt={`${title} graph`} style={{width: '40%', alignSelf: 'center'}}/>)}
+      {title === 'Weekly Sales' ? (
+        renderBarGraph()
+      ) : (
+        graphImage && <img src={graphImage} alt={`${title} graph`} style={{ width: '40%', alignSelf: 'center' }} />
+      )}
       {isTargetCard && (
         <TargetContainer>
-            <TargetPercentage>{targetPercentage}</TargetPercentage>
+          <TargetPercentage>{targetPercentage}</TargetPercentage>
           <TargetLabel>Target</TargetLabel>
         </TargetContainer>
       )}
@@ -193,12 +195,12 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
 // Main Component to Render all cards
 const DashboardItems: React.FC = () => {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px'}}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px' }}>
       <DashboardCard
         title="Weekly Sales"
         value="60,000 AED"
         change="▲ 25.25%"
-        isChangeNeutral={true} 
+        isChangeNeutral={true}
       />
       <DashboardCard
         title="Service Utilization"
@@ -207,14 +209,14 @@ const DashboardItems: React.FC = () => {
         isChangePositive={true}
         isTargetCard={true}
         targetPercentage="65%"
-        graphImage="/assets/images/graphs/Group 2473.svg" // Use graph1
+        graphImage="/assets/images/graphs/Group 2473.svg"
       />
       <DashboardCard
         title="Transaction Volume"
         value="86,600 AED"
         change="▼ 2.65%"
         isChangePositive={false}
-        graphImage="/assets/images/graphs/Group 1344.svg" 
+        graphImage="/assets/images/graphs/Group 1344.svg"
       />
       <DashboardCard
         title="Transaction Types"

@@ -5,8 +5,8 @@ import NavLink from "@component/nav-link";
 import { H2 } from "@component/Typography";
 import Container from "@component/Container";
 import { Carousel } from "@component/carousel";
-import ProductCard19 from "@component/product-cards/ProductCard19";
-import Product from "@models/product.model";
+// import ProductCard19 from "@component/product-cards/ProductCard19";
+// import Product from "@models/product.model";
 // API FUNCTIONS
 import api from "@utils/__api__/market-2";
 
@@ -27,7 +27,7 @@ export default async function Section4() {
         <NavLink href="#">More Products</NavLink>
       </FlexBox>
 
-      <Carousel slidesToShow={4} responsive={responsive}>
+      {/* <Carousel slidesToShow={4} responsive={responsive}>
         {products.map((product) => (
           <ProductCard19
             key={product.id}
@@ -40,7 +40,7 @@ export default async function Section4() {
             reviews={product.reviews?.length || 11}
           />
         ))}
-      </Carousel>
+      </Carousel> */}
     </Container>
   );
 }

@@ -6,17 +6,13 @@ import NavLink from "@component/nav-link";
 import { H3 } from "@component/Typography";
 import Container from "@component/Container";
 import { ProductCard19 } from "@component/product-cards";
-import { CategoryBasedProducts } from "@models/market-2.model";
 import { useState, useEffect } from "react";
-// Import the reusable GraphQL client
-import client from "@lib/graphQLClient" // Path to the GraphQLClient.ts file
-
+import client from "@lib/graphQLClient";
 
 // STYLED COMPONENTS
-import { List,ListItem, DropdownIcon, DropdownText, CheckboxLabel, ServiceTypeTitle, ShowingText } from "./styles";
+import { List, ListItem, DropdownIcon, DropdownText, CheckboxLabel, ServiceTypeTitle, ShowingText } from "./styles";
 
-// ======================================================================
-// Define the GraphQL query
+// GraphQL Query
 const GET_PRODUCTS = `
   query GetProducts($skip: Int!, $take: Int!) {
     products(options: { skip: $skip, take: $take }) {
@@ -25,21 +21,45 @@ const GET_PRODUCTS = `
         name
         slug
         description
+        facetValues {
+          facet {
+            id
+            name
+            code
+          }
+          id
+          name
+          code
+        }
       }
+      totalItems
     }
   }
 `;
+
+interface FacetValue {
+  facet: {
+    id: string;
+    name: string;
+    code: string;
+  };
+  id: string;
+  name: string;
+  code: string;
+}
 
 interface Product {
   id: string;
   name: string;
   slug: string;
   description: string;
+  facetValues: FacetValue[];
 }
 
 interface GetProductsData {
   products: {
     items: Product[];
+    totalItems: number;
   };
 }
 
@@ -48,44 +68,85 @@ interface GetProductsVariables {
   take: number;
 }
 
-// ======================================================================
-
 export default function Section6() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
   const productsPerPage = 9;
 
-  // Constants for fallback data
-  const defaultImage = "/assets/images/mzn_logos/mzn_logo.png";
-  const defaultImages = [defaultImage]; 
-  const defaultReviews = 0; // Default review count if not provided
-  const defaultSubtitle = "Khalifa Funds"; // Default subtitle if not provided
+  // State for Business Stage filters
+  const [businessStageFilters, setBusinessStageFilters] = useState({
+    inception: false,
+    growth: false,
+    maturity: false,
+    restructuring: false,
+    other: false,
+  });
 
-  // Fetch products data on component mount
+  const defaultImage = "/assets/images/mzn_logos/mzn_logo.png";
+  const defaultImages = [defaultImage];
+  const defaultReviews = 0;
+  const defaultSubtitle = "Khalifa Funds";
+
+  // Fetch products data on component mount or page change
   useEffect(() => {
     const fetchData = async () => {
-      console.log("Fetching data from GraphQL...");  // Log message for debugging
+      console.log("Fetching data from GraphQL...");
       try {
         const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
-          skip: (currentPage - 1) * productsPerPage, // calculate which items to skip
-          take: productsPerPage, // define how many items to take
+          skip: (currentPage - 1) * productsPerPage,
+          take: productsPerPage,
         });
-        console.log("Data fetched successfully:", data);  // Log the fetched data
-        setProducts(data.products.items);  // Update state with fetched products
+        console.log("Data fetched successfully:", data);
+        setProducts(data.products.items);
+        setTotalItems(data.products.totalItems);
+        // Initially, show all products
+        setFilteredProducts(data.products.items);
       } catch (error) {
-        console.error("Error fetching products:", error);  // Log errors
+        console.error("Error fetching products:", error);
       }
     };
 
-    fetchData();  // Call the function to fetch data
-  }, [currentPage]);  // Re-run when `currentPage` changes
+    fetchData();
+  }, [currentPage]);
 
+  // Apply filters whenever products or businessStageFilters change
+  useEffect(() => {
+    const selectedStages = Object.keys(businessStageFilters)
+      .filter((key) => businessStageFilters[key])
+      .map((key) => key.charAt(0).toUpperCase() + key.slice(1)); // Capitalize first letter
 
-  // Calculate the total number of pages
-  const totalPages = Math.ceil(products.length / productsPerPage);
+    if (selectedStages.length === 0) {
+      // If no filters are selected, show all products
+      setFilteredProducts(products);
+    } else {
+      // Filter products based on selected Business Stages
+      const filtered = products.filter((product) =>
+        product.facetValues.some(
+          (facetValue) =>
+            facetValue.facet.code === "business-stage" &&
+            selectedStages.includes(facetValue.name)
+        )
+      );
+      setFilteredProducts(filtered);
+    }
+  }, [products, businessStageFilters]);
 
-  // Slice the products to show on the current page
-  const currentProducts = products.slice(
+  // Handle checkbox changes for Business Stage filters
+  const handleBusinessStageChange = (stage: keyof typeof businessStageFilters) => {
+    setBusinessStageFilters((prev) => ({
+      ...prev,
+      [stage]: !prev[stage],
+    }));
+    setCurrentPage(1); // Reset to first page when filters change
+  };
+
+  // Calculate the total number of pages based on filtered products
+  const totalPages = Math.ceil(totalItems / productsPerPage);
+
+  // Slice the filtered products to show on the current page
+  const currentProducts = filteredProducts.slice(
     (currentPage - 1) * productsPerPage,
     currentPage * productsPerPage
   );
@@ -97,28 +158,6 @@ export default function Section6() {
       setCurrentPage(currentPage - 1);
     }
   };
-
-  // Declare 'setOpen' here inside the component
-  // const [open, setOpen] = useState({
-  //   advisory: false,
-  //   funding: false,
-  //   procurement: false,
-  //   businessOperation: false,
-  //   training: false
-  // });
-
-  // Mock data for dropdown sections
-  // const mockData = {
-  //   advisory: ["Legal", "Compliance", "Financial"],
-  //   funding: ["Government Funding", "Private Funding", "Crowdfunding"],
-  //   procurement: ["Vendor Selection", "Contract Negotiation", "Purchase Orders"],
-  //   businessOperation: ["Process Optimization", "Cost Control", "Performance Metrics"],
-  //   training: ["Leadership Training", "Technical Training", "Compliance Training"]
-  // };
-
-  // const toggleDropdown = (service: string) => {
-  //   setOpen((prev) => ({ ...prev, [service]: !prev[service] }));
-  // };
 
   return (
     <Container pt="4rem" style={{ marginTop: '-45px' }}>
@@ -134,54 +173,57 @@ export default function Section6() {
               padding: "1rem 2rem",
               backgroundColor: "#F4F7FE"
             }}>
-            {/* MAIN CATEGORY NAME/TITLE */}
-            {/* <H3>Service Type</H3> */}
-
-            {/* SUB CATEGORY LIST */}
             <List>
-             <ServiceTypeTitle>Service Type</ServiceTypeTitle>
-              {/* {Object.keys(mockData).map((service) => (
-                <div key={service}>
-                  <ListItem onClick={() => toggleDropdown(service)}>
-                    <span>{service.charAt(0).toUpperCase() + service.slice(1)}</span>
-                    <DropdownIcon src="assets/images/avatars/dropdown.svg" alt="dropdown" />
-                  </ListItem>
-                  {open[service] && (
-                    <div>
-                    {mockData[service].map((item, index) => (
-                      <DropdownText key={index}>{item}</DropdownText>
-                    ))}
-                  </div>
-                  )}
-                </div>
-              ))} */}
+              <ServiceTypeTitle>Service Type</ServiceTypeTitle>
             </List>
             <List>
               <ServiceTypeTitle>Business Stage :</ServiceTypeTitle>
               <CheckboxLabel>
-                <input type="checkbox" id="inception" />
+                <input
+                  type="checkbox"
+                  id="inception"
+                  checked={businessStageFilters.inception}
+                  onChange={() => handleBusinessStageChange("inception")}
+                />
                 <label htmlFor="inception">Inception</label>
-                {/* <span>Inception</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" id="growth" title="Growth" />
+                <input
+                  type="checkbox"
+                  id="growth"
+                  title="Growth"
+                  checked={businessStageFilters.growth}
+                  onChange={() => handleBusinessStageChange("growth")}
+                />
                 <label htmlFor="growth">Growth</label>
-                {/* <span>Growth</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" id="maturity" />
+                <input
+                  type="checkbox"
+                  id="maturity"
+                  checked={businessStageFilters.maturity}
+                  onChange={() => handleBusinessStageChange("maturity")}
+                />
                 <label htmlFor="maturity">Maturity</label>
-                {/* <span>Maturity</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" id="restructuring" title="Restructuring" />
+                <input
+                  type="checkbox"
+                  id="restructuring"
+                  title="Restructuring"
+                  checked={businessStageFilters.restructuring}
+                  onChange={() => handleBusinessStageChange("restructuring")}
+                />
                 <label htmlFor="restructuring">Restructuring</label>
-                {/* <span>Restructuring</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" id="other" />
+                <input
+                  type="checkbox"
+                  id="other"
+                  checked={businessStageFilters.other}
+                  onChange={() => handleBusinessStageChange("other")}
+                />
                 <label htmlFor="other">Other</label>
-                {/* <span>Other</span> */}
               </CheckboxLabel>
             </List>
 
@@ -190,61 +232,50 @@ export default function Section6() {
               <CheckboxLabel>
                 <input type="checkbox" id="adgm" title="ADGM" />
                 <label htmlFor="adgm">ADGM</label>
-                {/* <span>ADGM</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
                 <input type="checkbox" id="khalifa-fund" title="Khalifa Fund" />
                 <label htmlFor="khalifa-fund">Khalifa Fund</label>
-                {/* <span>Khalifa Fund</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
                 <input type="checkbox" id="hub71" />
                 <label htmlFor="hub71">Hub 71</label>
-                {/* <span>Hub 71</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
                 <input type="checkbox" id="unspecified" title="Unspecified" />
                 <label htmlFor="unspecified">Unspecified</label>
-                {/* <span>AD SME Hub</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
                 <input type="checkbox" id="other-checkbox" title="Other" />
-                <span>Other</span>
+                <label htmlFor="other-checkbox">Other</label>
               </CheckboxLabel>
             </List>
 
             <List>
-            <ServiceTypeTitle>Pricing Model :</ServiceTypeTitle>
+              <ServiceTypeTitle>Pricing Model :</ServiceTypeTitle>
               <CheckboxLabel>
                 <input type="checkbox" id="free" title="Free" />
                 <label htmlFor="free">Free</label>
-                {/* <span>Free</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
                 <input type="checkbox" title="Subscription-Based" />
-                <span>Subscription-Based</span>
+                <label htmlFor="subscription-based">Subscription-Based</label>
               </CheckboxLabel>
               <CheckboxLabel>
                 <input type="checkbox" id="pay-per-service" />
                 <label htmlFor="pay-per-service">Pay Per Service</label>
-                {/* <span>Pay Per Service</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
                 <input type="checkbox" id="one-time-fee" title="One-Time Fee" />
                 <label htmlFor="one-time-fee">One-Time Fee</label>
-                {/* <span>One-Time Fee</span> */}
               </CheckboxLabel>
               <CheckboxLabel>
                 <input type="checkbox" id="government-subsidised" title="Government Subsidised" />
                 <label htmlFor="government-subsidised">Government Subsidised</label>
-                {/* <span>Government Subsidised</span> */}
               </CheckboxLabel>
             </List>
-
-
-            {/* <NavLink href="#">Browse All</NavLink> */}
           </Card>
-          <ShowingText>Showing 1-9 of 90 Services</ShowingText>
+          <ShowingText>Showing {(currentPage - 1) * productsPerPage + 1}-{Math.min(currentPage * productsPerPage, totalItems)} of {totalItems} Services</ShowingText>
         </Grid>
 
         {/* CATEGORY BASED PRODUCTS */}
@@ -258,9 +289,9 @@ export default function Section6() {
                   name={product.name}
                   subTitle={defaultSubtitle}
                   description={product.description}
-                  img={defaultImage}  // Using default image logic
-                  images={defaultImages}  // Using default images array
-                  reviews={defaultReviews}  // Default reviews value
+                  img={defaultImage}
+                  images={defaultImages}
+                  reviews={defaultReviews}
                   className="product-card"
                 />
               </Grid>
@@ -270,14 +301,13 @@ export default function Section6() {
           {/* Pagination */}
           <div style={{
             display: "flex",
-            justifyContent: "flex-end", // Align pagination to the far right
+            justifyContent: "flex-end",
             alignItems: "center",
             marginTop: "1rem",
             marginBottom: "2rem"
           }}>
-            {/* Prev Button */}
-            <button 
-              onClick={() => handlePagination("prev")} 
+            <button
+              onClick={() => handlePagination("prev")}
               disabled={currentPage === 1}
               style={{
                 border: "1px solid #002180",
@@ -290,7 +320,6 @@ export default function Section6() {
               <img src="assets/images/avatars/chevron-right.svg" alt="Previous" />
             </button>
 
-            {/* Page Numbers */}
             {[...Array(totalPages)].map((_, index) => (
               <button
                 key={index}
@@ -309,9 +338,8 @@ export default function Section6() {
               </button>
             ))}
 
-            {/* Next Button */}
-            <button 
-              onClick={() => handlePagination("next")} 
+            <button
+              onClick={() => handlePagination("next")}
               disabled={currentPage === totalPages}
               style={{
                 border: "1px solid #002180",

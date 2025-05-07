@@ -58,7 +58,7 @@ export const market1ApiEndpoints = (Mock: MockAdapter) => {
           for: { demo: 'market-1', type: 'top-categories' }
         }
       ];
-      
+
       console.log(topCategories);
       return [200, topCategories];
     } catch (err) {
@@ -74,6 +74,8 @@ export const market1ApiEndpoints = (Mock: MockAdapter) => {
           id: "847b3a0e-a0db-4179-ba51-9ee601434db8",
           slug: "issue-economic-license",
           title: "Issue Economic Licence - Commercial",
+          subTitle: "by Khalifa Fund",
+          description: "Through this service you may get the necessary finances for day to day operations of the SME. Offers the needed capital of maximum AED 600,000 ...",
           price: 200,
           discount: 10,
           thumbnail: "/images/image_49.png",
@@ -86,6 +88,8 @@ export const market1ApiEndpoints = (Mock: MockAdapter) => {
           id: "4e2474bb-726b-4489-a20f-6ccde6e4da43",
           slug: "operating-capital",
           title: "Financing Business Operating Capital",
+          subTitle: "by Khalifa Fund",
+          description: "Through this service you may get the necessary finances for day to day operations of the SME. Offers the needed capital of maximum AED 600,000 ...",
           price: 239,
           discount: 5,
           thumbnail: "/images/image_48.png",
@@ -98,6 +102,8 @@ export const market1ApiEndpoints = (Mock: MockAdapter) => {
           id: "267f027d-c356-4ed0-a247-dc804e79f098",
           slug: "advisory",
           title: "Business Structuring Advisory",
+          subTitle: "by Khalifa Fund",
+          description: "Through this service you may get the necessary finances for day to day operations of the SME. Offers the needed capital of maximum AED 600,000 ...",
           price: 147,
           discount: 15,
           thumbnail: "/images/image_48.png",
@@ -110,6 +116,8 @@ export const market1ApiEndpoints = (Mock: MockAdapter) => {
           id: "44529b0e-6313-46af-a5b0-130d6c983119",
           slug: "issue-economic-license",
           title: "Issue Economic Licence - Commercial",
+          subTitle: "by Khalifa Fund",
+          description: "Through this service you may get the necessary finances for day to day operations of the SME. Offers the needed capital of maximum AED 600,000 ...",
           price: 236,
           discount: 20,
           thumbnail: "/images/image_48.png",
@@ -122,6 +130,8 @@ export const market1ApiEndpoints = (Mock: MockAdapter) => {
           id: "2ca15d13-7004-43d7-9a27-d709f013a079",
           slug: "commercial",
           title: "Issue Economic Licence - Commercial",
+          subTitle: "by Khalifa Fund",
+          description: "Through this service you may get the necessary finances for day to day operations of the SME. Offers the needed capital of maximum AED 600,000 ...",
           price: 216,
           discount: 12,
           thumbnail: "/images/image_49.png",

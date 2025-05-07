@@ -127,7 +127,7 @@ export const products = [
 
     title: "Microfinance Funding Scheme",
     brand: null,
-    subTitle: "by Khalifa Fund",
+    subTitle: "by Khalifa Fund", 
     size: null,
     colors: [],
     discount: 0,

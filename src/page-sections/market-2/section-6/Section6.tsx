@@ -31,6 +31,9 @@ const GET_PRODUCTS = `
           name
           code
         }
+        customFields {
+          partner
+        }
       }
       totalItems
     }
@@ -54,6 +57,9 @@ interface Product {
   slug: string;
   description: string;
   facetValues: FacetValue[];
+  customFields: {
+    partner: string;
+  };
 }
 
 interface GetProductsData {
@@ -96,7 +102,6 @@ export default function Section6() {
   const defaultImage = "/assets/images/mzn_logos/mzn_logo.png";
   const defaultImages = [defaultImage];
   const defaultReviews = 0;
-  const defaultSubtitle = "Khalifa Funds";
 
   // Fetch products data on component mount or page change
   useEffect(() => {
@@ -355,78 +360,105 @@ export default function Section6() {
 
         {/* CATEGORY BASED PRODUCTS */}
         <Grid item md={9} xs={12}>
-          <Grid container spacing={3}>
-            {currentProducts.map((product) => (
-              <Grid item md={4} sm={6} xs={12} key={product.id}>
-                <ProductCard19
-                  id={product.id}
-                  slug={product.slug}
-                  name={product.name}
-                  subTitle={defaultSubtitle}
-                  description={product.description}
-                  img={defaultImage}
-                  images={defaultImages}
-                  reviews={defaultReviews}
-                  className="product-card"
-                />
-              </Grid>
-            ))}
-          </Grid>
+          {filteredProducts.length === 0 ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "300px",
+                backgroundColor: "#f8f8f8",
+                borderRadius: "8px",
+                border: "1px solid #e0e0e0",
+                marginTop: "1rem",
+                fontSize: "1.5rem",
+                color: "#555",
+                textAlign: "center",
+                padding: "2rem",
+              }}
+            >
+              No service Found 😢
+            </div>
+          ) : (
+            <Grid container spacing={3}>
+              {currentProducts.map((product) => (
+                <Grid item md={4} sm={6} xs={12} key={product.id}>
+                  <ProductCard19
+                    id={product.id}
+                    slug={product.slug}
+                    name={product.name}
+                    subTitle={product.customFields.partner}
+                    description={product.description}
+                    img={defaultImage}
+                    images={defaultImages}
+                    reviews={defaultReviews}
+                    className="product-card"
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          )}
 
           {/* Pagination */}
-          <div style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            marginTop: "1rem",
-            marginBottom: "2rem"
-          }}>
-            <button
-              onClick={() => handlePagination("prev")}
-              disabled={currentPage === 1}
+          {filteredProducts.length > 0 && (
+            <div
               style={{
-                border: "1px solid #002180",
-                borderRadius: "50%",
-                padding: "0.5rem",
-                margin: "0 0.5rem",
-                backgroundColor: "transparent",
-                cursor: "pointer"
-              }}>
-              <img src="assets/images/avatars/chevron-right.svg" alt="Previous" />
-            </button>
-
-            {[...Array(totalPages)].map((_, index) => (
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+                marginTop: "1rem",
+                marginBottom: "2rem",
+              }}
+            >
               <button
-                key={index}
-                onClick={() => setCurrentPage(index + 1)}
+                onClick={() => handlePagination("prev")}
+                disabled={currentPage === 1}
                 style={{
                   border: "1px solid #002180",
                   borderRadius: "50%",
-                  padding: "0.5rem 1rem",
+                  padding: "0.5rem",
                   margin: "0 0.5rem",
-                  backgroundColor: currentPage === index + 1 ? "#002180" : "transparent",
-                  color: currentPage === index + 1 ? "#fff" : "#002180",
-                  cursor: "pointer"
+                  backgroundColor: "transparent",
+                  cursor: "pointer",
                 }}
               >
-                {index + 1}
+                <img src="assets/images/avatars/chevron-right.svg" alt="Previous" />
               </button>
-            ))}
 
-            <button
-              onClick={() => handlePagination("next")}
-              disabled={currentPage === totalPages}
-              style={{
-                border: "1px solid #002180",
-                borderRadius: "50%",
-                padding: "0.5rem",
-                margin: "0 0.5rem",
-                backgroundColor: "transparent",
-                cursor: "pointer"
-              }}>
-              <img src="assets/images/avatars/chevron-left.svg" alt="Next" />
-            </button>
-          </div>
+              {[...Array(totalPages)].map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentPage(index + 1)}
+                  style={{
+                    border: "1px solid #002180",
+                    borderRadius: "50%",
+                    padding: "0.5rem 1rem",
+                    margin: "0 0.5rem",
+                    backgroundColor: currentPage === index + 1 ? "#002180" : "transparent",
+                    color: currentPage === index + 1 ? "#fff" : "#002180",
+                    cursor: "pointer",
+                  }}
+                >
+                  {index + 1}
+                </button>
+              ))}
+
+              <button
+                onClick={() => handlePagination("next")}
+                disabled={currentPage === totalPages}
+                style={{
+                  border: "1px solid #002180",
+                  borderRadius: "50%",
+                  padding: "0.5rem",
+                  margin: "0 0.5rem",
+                  backgroundColor: "transparent",
+                  cursor: "pointer",
+                }}
+              >
+                <img src="assets/images/avatars/chevron-left.svg" alt="Next" />
+              </button>
+            </div>
+          )}
         </Grid>
       </Grid>
     </Container>

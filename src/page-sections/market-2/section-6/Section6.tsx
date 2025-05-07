@@ -84,6 +84,15 @@ export default function Section6() {
     other: false,
   });
 
+  // State for Provided By filters
+  const [providedByFilters, setProvidedByFilters] = useState({
+    adgm: false,
+    khalifaFund: false,
+    hub71: false,
+    unspecified: false,
+    other: false,
+  });
+
   const defaultImage = "/assets/images/mzn_logos/mzn_logo.png";
   const defaultImages = [defaultImage];
   const defaultReviews = 0;
@@ -111,27 +120,52 @@ export default function Section6() {
     fetchData();
   }, [currentPage]);
 
-  // Apply filters whenever products or businessStageFilters change
+  // Apply filters whenever products, businessStageFilters, or providedByFilters change
   useEffect(() => {
+    // Get selected Business Stages
     const selectedStages = Object.keys(businessStageFilters)
       .filter((key) => businessStageFilters[key])
       .map((key) => key.charAt(0).toUpperCase() + key.slice(1)); // Capitalize first letter
 
-    if (selectedStages.length === 0) {
-      // If no filters are selected, show all products
+    // Get selected Provided By providers
+    const selectedProviders = Object.keys(providedByFilters)
+      .filter((key) => providedByFilters[key])
+      .map((key) => {
+        if (key === "khalifaFund") return "Khalifa Fund";
+        if (key === "hub71") return "Hub 71";
+        return key.charAt(0).toUpperCase() + key.slice(1); // Capitalize first letter
+      });
+
+    // If no filters are selected, show all products
+    if (selectedStages.length === 0 && selectedProviders.length === 0) {
       setFilteredProducts(products);
     } else {
-      // Filter products based on selected Business Stages
-      const filtered = products.filter((product) =>
-        product.facetValues.some(
-          (facetValue) =>
-            facetValue.facet.code === "business-stage" &&
-            selectedStages.includes(facetValue.name)
-        )
-      );
+      // Filter products based on selected Business Stages and Provided By
+      const filtered = products.filter((product) => {
+        // Check if product matches selected Business Stages (or no stages selected)
+        const matchesStage =
+          selectedStages.length === 0 ||
+          product.facetValues.some(
+            (facetValue) =>
+              facetValue.facet.code === "business-stage" &&
+              selectedStages.includes(facetValue.name)
+          );
+
+        // Check if product matches selected Provided By (or no providers selected)
+        const matchesProvider =
+          selectedProviders.length === 0 ||
+          product.facetValues.some(
+            (facetValue) =>
+              facetValue.facet.code === "provided-by" &&
+              selectedProviders.includes(facetValue.name)
+          );
+
+        // Product must match both stage and provider filters
+        return matchesStage && matchesProvider;
+      });
       setFilteredProducts(filtered);
     }
-  }, [products, businessStageFilters]);
+  }, [products, businessStageFilters, providedByFilters]);
 
   // Handle checkbox changes for Business Stage filters
   const handleBusinessStageChange = (stage: keyof typeof businessStageFilters) => {
@@ -142,8 +176,17 @@ export default function Section6() {
     setCurrentPage(1); // Reset to first page when filters change
   };
 
+  // Handle checkbox changes for Provided By filters
+  const handleProvidedByChange = (provider: keyof typeof providedByFilters) => {
+    setProvidedByFilters((prev) => ({
+      ...prev,
+      [provider]: !prev[provider],
+    }));
+    setCurrentPage(1); // Reset to first page when filters change
+  };
+
   // Calculate the total number of pages based on filtered products
-  const totalPages = Math.ceil(totalItems / productsPerPage);
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   // Slice the filtered products to show on the current page
   const currentProducts = filteredProducts.slice(
@@ -230,23 +273,52 @@ export default function Section6() {
             <List>
               <ServiceTypeTitle>Provided By :</ServiceTypeTitle>
               <CheckboxLabel>
-                <input type="checkbox" id="adgm" title="ADGM" />
+                <input
+                  type="checkbox"
+                  id="adgm"
+                  title="ADGM"
+                  checked={providedByFilters.adgm}
+                  onChange={() => handleProvidedByChange("adgm")}
+                />
                 <label htmlFor="adgm">ADGM</label>
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" id="khalifa-fund" title="Khalifa Fund" />
+                <input
+                  type="checkbox"
+                  id="khalifa-fund"
+                  title="Khalifa Fund"
+                  checked={providedByFilters.khalifaFund}
+                  onChange={() => handleProvidedByChange("khalifaFund")}
+                />
                 <label htmlFor="khalifa-fund">Khalifa Fund</label>
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" id="hub71" />
+                <input
+                  type="checkbox"
+                  id="hub71"
+                  checked={providedByFilters.hub71}
+                  onChange={() => handleProvidedByChange("hub71")}
+                />
                 <label htmlFor="hub71">Hub 71</label>
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" id="unspecified" title="Unspecified" />
+                <input
+                  type="checkbox"
+                  id="unspecified"
+                  title="Unspecified"
+                  checked={providedByFilters.unspecified}
+                  onChange={() => handleProvidedByChange("unspecified")}
+                />
                 <label htmlFor="unspecified">Unspecified</label>
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" id="other-checkbox" title="Other" />
+                <input
+                  type="checkbox"
+                  id="other-checkbox"
+                  title="Other"
+                  checked={providedByFilters.other}
+                  onChange={() => handleProvidedByChange("other")}
+                />
                 <label htmlFor="other-checkbox">Other</label>
               </CheckboxLabel>
             </List>
@@ -258,7 +330,7 @@ export default function Section6() {
                 <label htmlFor="free">Free</label>
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" title="Subscription-Based" />
+                <input type="checkbox" id="subscription-based" title="Subscription-Based" />
                 <label htmlFor="subscription-based">Subscription-Based</label>
               </CheckboxLabel>
               <CheckboxLabel>
@@ -275,7 +347,10 @@ export default function Section6() {
               </CheckboxLabel>
             </List>
           </Card>
-          <ShowingText>Showing {(currentPage - 1) * productsPerPage + 1}-{Math.min(currentPage * productsPerPage, totalItems)} of {totalItems} Services</ShowingText>
+          <ShowingText>
+            Showing {(currentPage - 1) * productsPerPage + 1}-
+            {Math.min(currentPage * productsPerPage, filteredProducts.length)} of {filteredProducts.length} Services
+          </ShowingText>
         </Grid>
 
         {/* CATEGORY BASED PRODUCTS */}

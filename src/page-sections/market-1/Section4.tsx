@@ -3,7 +3,7 @@ import Box from "@component/Box";
 import Card from "@component/Card";
 import Grid from "@component/grid/Grid";
 import Container from "@component/Container";
-import ProductCard4 from "@component/product-cards/ProductCard4";
+// import ProductCard4 from "@component/product-cards/ProductCard4";
 import ProductCard5 from "@component/product-cards/ProductCard5";
 import CategorySectionHeader from "@component/CategorySectionHeader";
 // API FUNCTIONS
@@ -25,13 +25,13 @@ export default async function Section4() {
                 {topRatedList.map((item) => (
                   <Grid item md={3} sm={6} xs={6} key={item.title}>
                     <Link href={`/product/search/${item.slug}`}>
-                      <ProductCard4
+                      {/* <ProductCard4
                         title={item.title}
                         price={item.price}
                         imgUrl={item.thumbnail}
                         rating={item.rating || 4}
                         reviewCount={item.reviews?.length || 12}
-                      />
+                      /> */}
                     </Link>
                   </Grid>
                 ))}

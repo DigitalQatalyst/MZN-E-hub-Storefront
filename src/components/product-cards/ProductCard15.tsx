@@ -10,7 +10,7 @@ import Icon from "@component/icon/Icon";
 import FlexBox from "@component/FlexBox";
 import LazyImage from "@component/LazyImage";
 import { H3, Paragraph, Span } from "@component/Typography";
-import ProductQuickView from "@component/products/ProductQuickView";
+// import ProductQuickView from "@component/products/ProductQuickView";
 
 import { theme } from "@utils/theme";
 import { calculateDiscount, currency } from "@utils/utils";
@@ -156,12 +156,12 @@ export default function ProductCard15(props: Props) {
           </Span>
         </ItemController>
       </ImgBox>
-
+{/* 
       <ProductQuickView
         open={open}
         onClose={toggleDialog}
-        product={{ id, images, price, title, slug }}
-      />
+        // product={{ id, images, price, title, slug }}
+      /> */}
 
       <ContentWrapper>
         <FlexBox justifyContent="center">

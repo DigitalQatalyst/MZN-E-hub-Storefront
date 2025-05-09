@@ -15,7 +15,7 @@ import FlexBox from "../FlexBox";
 import NavLink from "../nav-link";
 import { Button } from "../buttons";
 import { H5, SemiSpan } from "../Typography";
-import ProductQuickView from "@component/products/ProductQuickView";
+// import ProductQuickView from "@component/products/ProductQuickView";
 import { useAppContext } from "@context/app-context";
 import { calculateDiscount, currency, getTheme } from "@utils/utils";
 
@@ -289,11 +289,11 @@ export default function ProductCard9({
         </Hidden>
       </Grid>
 
-      <ProductQuickView
+      {/* <ProductQuickView
         open={open}
         onClose={toggleDialog}
         product={{ id, images, price, title, slug }}
-      />
+      /> */}
     </Wrapper>
   );
 }

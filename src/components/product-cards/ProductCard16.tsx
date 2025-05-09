@@ -14,7 +14,7 @@ import FlexBox from "@component/FlexBox";
 import { Button } from "@component/buttons";
 import LazyImage from "@component/LazyImage";
 import { H3, Paragraph, Span } from "@component/Typography";
-import ProductQuickView from "@component/products/ProductQuickView";
+// import ProductQuickView from "@component/products/ProductQuickView";
 import { useAppContext } from "@context/app-context";
 import { calculateDiscount, currency } from "@utils/utils";
 
@@ -183,11 +183,11 @@ export default function ProductCard16(props: ProductCardProps) {
         </ImageBox>
       </ImageWrapper>
 
-      <ProductQuickView
+      {/* <ProductQuickView
         open={openModal}
         onClose={toggleDialog}
         product={{ id, images, price, title, slug }}
-      />
+      /> */}
 
       <ContentWrapper>
         <Box flex="1 1 0" minWidth="0px" mr={1}>

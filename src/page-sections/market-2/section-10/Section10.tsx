@@ -6,8 +6,8 @@ import FlexBox from "@component/FlexBox";
 import { Button } from "@component/buttons";
 import Container from "@component/Container";
 import { H2, Paragraph } from "@component/Typography";
-import { ProductCard19 } from "@component/product-cards";
-import { Carousel } from "@component/carousel";
+// import { ProductCard19 } from "@component/product-cards";
+// import { Carousel } from "@component/carousel";
 import Product from "@models/product.model";
 // STYLED COMPONENT
 import { ButtonsWrapper } from "./styles";
@@ -57,20 +57,20 @@ export default function Section10({ products }: Section10Props) {
         </ButtonsWrapper>
       </FlexBox>
 
-      <Carousel slidesToShow={5} responsive={responsive}>
+      {/* <Carousel slidesToShow={5} responsive={responsive}>
         {products.map((product) => (
-          <ProductCard19
-            id={product.id}
-            key={product.id}
-            slug={product.slug}
-            name={product.title}
-            price={product.price}
-            img={product.thumbnail}
-            images={product.images as string[]}
-            reviews={product.reviews?.length || 15}
-          />
-        ))}
-      </Carousel>
+          // <ProductCard19
+          //   id={product.id}
+          //   key={product.id}
+          //   slug={product.slug}
+          //   name={product.title}
+          //   price={product.price}
+          //   img={product.thumbnail}
+          //   images={product.images as string[]}
+          //   reviews={product.reviews?.length || 15}
+          // />
+        ))} */}
+      {/* </Carousel> */}
     </Container>
   );
 }

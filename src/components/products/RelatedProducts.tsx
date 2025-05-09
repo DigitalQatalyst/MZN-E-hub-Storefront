@@ -1,7 +1,7 @@
 import Box from "@component/Box";
 import Grid from "@component/grid/Grid";
 import { H3 } from "@component/Typography";
-import { ProductCard19 } from "@component/product-cards";
+// import { ProductCard19 } from "@component/product-cards";
 import Product from "@models/product.model";
 
 // ============================================================
@@ -16,7 +16,7 @@ export default function RelatedProducts({ products }: Props) {
       <Grid container spacing={8}>
         {products.slice(0, 3).map((item) => (  // Display only the first 3 items
           <Grid item lg={4} md={4} sm={6} xs={12} key={item.id}>  {/* Adjusted for 3 items */}
-            <ProductCard19
+            {/* <ProductCard19
               id={item.id}
               slug={item.slug}
               name={item.title}
@@ -26,7 +26,7 @@ export default function RelatedProducts({ products }: Props) {
               images={item.images as string[]}
               reviews={item.reviews?.length || 12}
               className="product-card"
-            />
+            /> */}
           </Grid>
         ))}
       </Grid>

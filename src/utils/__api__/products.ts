@@ -56,6 +56,7 @@ const mapToProductModel = (productData: any): Product => {
     categories: productData.categories?.length ? productData.categories : defaultProductData.categories,
     status: productData.status || defaultProductData.status,
     reviews: productData.reviews?.length ? productData.reviews : defaultProductData.reviews,
+    
     shop: {
       id: productData.shop?.id || defaultProductData.shop.id,
       slug: productData.shop?.slug || defaultProductData.shop.slug,

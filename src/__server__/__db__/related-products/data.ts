@@ -352,7 +352,7 @@ export const relatedProducts = [
     },
     title: "Microfinance Funding Scheme",
     brand: null,
-    subTitle: "by Khalifa Fund",
+    subTitle: "by Khalifa Fund", 
     description: "Through this service you may get the necessary finances for day to day operations of the SME. Offers the needed capital of maximum AED 600,000 ...",
     size: null,
     colors: [],

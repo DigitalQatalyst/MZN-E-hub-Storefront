@@ -127,7 +127,7 @@ export const products = [
 
     title: "Microfinance Funding Scheme",
     brand: null,
-    subTitle: "by Khalifa Fund",
+    subTitle: "by Khalifa Fund", 
     size: null,
     colors: [],
     discount: 0,
@@ -761,28 +761,22 @@ export const products = [
 export const serviceList = [
   {
     id: "ee272e30-0309-4e8a-966c-f63410c58289",
-    icon: "truck",
-    title: "Fast Delivery",
-    description: "Start from $10",
+    icon: "delivery_truck_speed",
+    title: "Grow Faster",
+    description: "Scale with speed",
   },
   {
     id: "1f30c35b-5b76-42c0-822f-83ecbfb64869",
-    icon: "money-guarantee",
-    title: "Money Guarantee",
-    description: "7 Days Back",
+    icon: "chart_data",
+    title: "Grow Smarter",
+    description: "Maximize resources wisely",
   },
   {
     id: "a4c3968e-93ba-444b-a68f-2e6dd9a5eb1a",
-    icon: "alarm-clock",
-    title: "365 Days",
-    description: "For free return",
-  },
-  {
-    id: "87379ae9-5e25-4d53-8d7d-7cc3f971dd67",
-    icon: "payment",
-    title: "Payment",
-    description: "Secure system",
-  },
+    icon: "acute",
+    title: "Every little help",
+    description: "Support when it counts",
+  }
 ];
 
 // single category data

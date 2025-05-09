@@ -14,11 +14,11 @@ import Section11 from "@sections/market-1/Section11";
 import Section12 from "@sections/market-1/Section12";
 import Section13 from "@sections/market-1/Section13";
 import Section6 from "@sections/landing/section6";
-
 import Footer from "@sections/landing/footer";
 import { zIndex } from "styled-system";
 import { Wrapper } from "@component/footer/footer-2/styles";
 import { Footer1 } from "@component/footer";
+import Section9 from "@sections/landing/Section-9/Section9";
 
 
 export default async function Market1() {
@@ -38,7 +38,8 @@ export default async function Market1() {
       FLASH DEAL PRODUCTS AREA */}
       
       <Section6 />
-      <Section2 /> 
+      <Section9 />
+      <Section2 />
       {/* TOP CATEGORIES AREA */}
       <Section3 />
       <Footer1 />

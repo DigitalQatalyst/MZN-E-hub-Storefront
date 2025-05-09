@@ -147,7 +147,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         </Box>
 
         {/* Categories Section */}
-        <Categories open={navListOpen}>
+        {/* <Categories open={navListOpen}>
           <Button width="278px" height="40px" bg="body.default" variant="text">
             <Icon>categories</Icon>
             <Typography
@@ -167,16 +167,18 @@ export default function Navbar({ navListOpen }: NavbarProps) {
               chevron-right
             </Icon>
           </Button>
-        </Categories>
+        </Categories> */}
 
-        <FlexBox style={{ gap: 32 }}>{renderNestedNav(navbarNavigations, true)}</FlexBox>
+        <FlexBox style={{ gap: 55 }}>
+          {renderNestedNav(navbarNavigations, true)}
+          {/* Search Icon (Replace with your actual SVG) */}
+          <Box className="search-icon" style={{ cursor: "pointer", marginRight: "30px" }}>
+            <img src="/assets/images/logos/search.svg" alt="Search" height="24px" />
+          </Box>
+        </FlexBox>
 
         {/* Search Icon, Sign In, and Sign Up Buttons */}
         <FlexBox alignItems="center" style={{ gap: "15px" }}>
-          {/* Search Icon (Replace with your actual SVG) */}
-          <Box className="search-icon" style={{ cursor: "pointer" }}>
-            <img src="/assets/images/logos/search.svg" alt="Search" height="24px" />
-          </Box>
 
           {/* Sign In & Sign Up Buttons */}
           <Button className="sign-in-btn" variant="outlined">

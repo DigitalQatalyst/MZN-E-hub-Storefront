@@ -13,11 +13,11 @@ import NProgressBar from "@component/NProgress";
 const openSans = Open_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Bonik - The Best React eCommerce Template",
+  title: "Enterprise Journey Hub",
   description:
-    "Bonik is a React Next.js E-commerce template. Build SEO friendly Online store, delivery app and Multi vendor store",
-  authors: [{ name: "UI-LIB", url: "https://ui-lib.com" }],
-  keywords: ["e-commerce", "e-commerce template", "next.js", "react", "bonik"]
+    "Enterprise Journey a one-stop shop for services that enriches the growth of your business.",
+  authors: [{ name: "Digital Qatalyst", url: "https://digitalqatalyst.com/" }],
+  keywords: ["enterprise", "Khalifa Fund", "Abu dhabi", "economy", "journey"]
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

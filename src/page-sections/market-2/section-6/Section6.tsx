@@ -81,6 +81,21 @@ export default function Section6() {
   const [totalItems, setTotalItems] = useState(0);
   const productsPerPage = 9;
 
+  // State for Categories filters
+  const [categoriesFilters, setCategoriesFilters] = useState({
+    businessFunding: {
+      termLoans: false,
+      businessDevelopment: false,
+      projectFinancingLoans: false,
+    },
+    loanManagement: {
+      loanTermExtension: false,
+    },
+    specializedFinancing: {
+      internationalTradeLoan: false,
+    },
+  });
+
   // State for Business Stage filters
   const [businessStageFilters, setBusinessStageFilters] = useState({
     inception: false,
@@ -95,7 +110,7 @@ export default function Section6() {
     adgm: false,
     khalifaFund: false,
     hub71: false,
-    unspecified: false,
+    adSmeHub: false,
     other: false,
   });
 
@@ -134,8 +149,19 @@ export default function Section6() {
     fetchData();
   }, [currentPage]);
 
-  // Apply filters whenever products, businessStageFilters, providedByFilters, or pricingModelFilters change
+  // Apply filters whenever products, categoriesFilters, businessStageFilters, providedByFilters, or pricingModelFilters change
   useEffect(() => {
+    // Get selected Categories
+    const selectedCategories: string[] = [];
+    // Business Funding & ...
+    if (categoriesFilters.businessFunding.termLoans) selectedCategories.push("Term Loans");
+    if (categoriesFilters.businessFunding.businessDevelopment) selectedCategories.push("Business Development");
+    if (categoriesFilters.businessFunding.projectFinancingLoans) selectedCategories.push("Project Financing Loans");
+    // Loan Management & ...
+    if (categoriesFilters.loanManagement.loanTermExtension) selectedCategories.push("Loan Term Extension");
+    // Specialized Financing
+    if (categoriesFilters.specializedFinancing.internationalTradeLoan) selectedCategories.push("International Trade Loan");
+
     // Get selected Business Stages
     const selectedStages = Object.keys(businessStageFilters)
       .filter((key) => businessStageFilters[key])
@@ -147,6 +173,7 @@ export default function Section6() {
       .map((key) => {
         if (key === "khalifaFund") return "Khalifa Fund";
         if (key === "hub71") return "Hub 71";
+        if (key === "adSmeHub") return "AD SME Hub";
         return key.charAt(0).toUpperCase() + key.slice(1); // Capitalize first letter
       });
 
@@ -162,11 +189,25 @@ export default function Section6() {
       });
 
     // If no filters are selected, show all products
-    if (selectedStages.length === 0 && selectedProviders.length === 0 && selectedPricingModels.length === 0) {
+    if (
+      selectedCategories.length === 0 &&
+      selectedStages.length === 0 &&
+      selectedProviders.length === 0 &&
+      selectedPricingModels.length === 0
+    ) {
       setFilteredProducts(products);
     } else {
-      // Filter products based on selected Business Stages, Provided By, and Pricing Model
+      // Filter products based on selected Categories, Business Stages, Provided By, and Pricing Model
       const filtered = products.filter((product) => {
+        // Check if product matches selected Categories (or no categories selected)
+        const matchesCategory =
+          selectedCategories.length === 0 ||
+          product.facetValues.some(
+            (facetValue) =>
+              facetValue.facet.code === "category" &&
+              selectedCategories.includes(facetValue.name)
+          );
+
         // Check if product matches selected Business Stages (or no stages selected)
         const matchesStage =
           selectedStages.length === 0 ||
@@ -195,11 +236,23 @@ export default function Section6() {
           );
 
         // Product must match all filter categories
-        return matchesStage && matchesProvider && matchesPricingModel;
+        return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
       });
       setFilteredProducts(filtered);
     }
-  }, [products, businessStageFilters, providedByFilters, pricingModelFilters]);
+  }, [products, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters]);
+
+  // Handle checkbox changes for Categories filters
+  const handleCategoriesChange = (category: string, subcategory: string) => {
+    setCategoriesFilters((prev) => ({
+      ...prev,
+      [category]: {
+        ...prev[category],
+        [subcategory]: !prev[category][subcategory],
+      },
+    }));
+    setCurrentPage(1); // Reset to first page when filters change
+  };
 
   // Handle checkbox changes for Business Stage filters
   const handleBusinessStageChange = (stage: keyof typeof businessStageFilters) => {
@@ -260,8 +313,131 @@ export default function Section6() {
               backgroundColor: "#F4F7FE"
             }}>
             <List>
-              <ServiceTypeTitle>Service Type</ServiceTypeTitle>
+              <ServiceTypeTitle>Categories :</ServiceTypeTitle>
+              {/* Business Funding & ... */}
+              <CheckboxLabel>
+                <input
+                  type="checkbox"
+                  id="business-funding"
+                  title="Business Funding & ..."
+                  checked={
+                    categoriesFilters.businessFunding.termLoans ||
+                    categoriesFilters.businessFunding.businessDevelopment ||
+                    categoriesFilters.businessFunding.projectFinancingLoans
+                  }
+                  onChange={() => {
+                    const allChecked = !(
+                      categoriesFilters.businessFunding.termLoans ||
+                      categoriesFilters.businessFunding.businessDevelopment ||
+                      categoriesFilters.businessFunding.projectFinancingLoans
+                    );
+                    setCategoriesFilters((prev) => ({
+                      ...prev,
+                      businessFunding: {
+                        termLoans: allChecked,
+                        businessDevelopment: allChecked,
+                        projectFinancingLoans: allChecked,
+                      },
+                    }));
+                    setCurrentPage(1);
+                  }}
+                />
+                <label htmlFor="business-funding">Business Funding & ...</label>
+              </CheckboxLabel>
+              <CheckboxLabel style={{ marginLeft: '1rem' }}>
+                <input
+                  type="checkbox"
+                  id="term-loans"
+                  title="Term Loans"
+                  checked={categoriesFilters.businessFunding.termLoans}
+                  onChange={() => handleCategoriesChange("businessFunding", "termLoans")}
+                />
+                <label htmlFor="term-loans">Term Loans</label>
+              </CheckboxLabel>
+              <CheckboxLabel style={{ marginLeft: '1rem' }}>
+                <input
+                  type="checkbox"
+                  id="business-development"
+                  title="Business Development"
+                  checked={categoriesFilters.businessFunding.businessDevelopment}
+                  onChange={() => handleCategoriesChange("businessFunding", "businessDevelopment")}
+                />
+                <label htmlFor="business-development">Business Development</label>
+              </CheckboxLabel>
+              <CheckboxLabel style={{ marginLeft: '1rem' }}>
+                <input
+                  type="checkbox"
+                  id="project-financing-loans"
+                  title="Project Financing Loans"
+                  checked={categoriesFilters.businessFunding.projectFinancingLoans}
+                  onChange={() => handleCategoriesChange("businessFunding", "projectFinancingLoans")}
+                />
+                <label htmlFor="project-financing-loans">Project Financing Loans</label>
+              </CheckboxLabel>
+
+              {/* Loan Management & ... */}
+              <CheckboxLabel>
+                <input
+                  type="checkbox"
+                  id="loan-management"
+                  title="Loan Management & ..."
+                  checked={categoriesFilters.loanManagement.loanTermExtension}
+                  onChange={() => {
+                    const allChecked = !categoriesFilters.loanManagement.loanTermExtension;
+                    setCategoriesFilters((prev) => ({
+                      ...prev,
+                      loanManagement: {
+                        loanTermExtension: allChecked,
+                      },
+                    }));
+                    setCurrentPage(1);
+                  }}
+                />
+                <label htmlFor="loan-management">Loan Management & ...</label>
+              </CheckboxLabel>
+              <CheckboxLabel style={{ marginLeft: '1rem' }}>
+                <input
+                  type="checkbox"
+                  id="loan-term-extension"
+                  title="Loan Term Extension"
+                  checked={categoriesFilters.loanManagement.loanTermExtension}
+                  onChange={() => handleCategoriesChange("loanManagement", "loanTermExtension")}
+                />
+                <label htmlFor="loan-term-extension">Loan Term Extension</label>
+              </CheckboxLabel>
+
+              {/* Specialized Financing */}
+              <CheckboxLabel>
+                <input
+                  type="checkbox"
+                  id="specialized-financing"
+                  title="Specialized Financing"
+                  checked={categoriesFilters.specializedFinancing.internationalTradeLoan}
+                  onChange={() => {
+                    const allChecked = !categoriesFilters.specializedFinancing.internationalTradeLoan;
+                    setCategoriesFilters((prev) => ({
+                      ...prev,
+                      specializedFinancing: {
+                        internationalTradeLoan: allChecked,
+                      },
+                    }));
+                    setCurrentPage(1);
+                  }}
+                />
+                <label htmlFor="specialized-financing">Specialized Financing</label>
+              </CheckboxLabel>
+              <CheckboxLabel style={{ marginLeft: '1rem' }}>
+                <input
+                  type="checkbox"
+                  id="international-trade-loan"
+                  title="International Trade Loan"
+                  checked={categoriesFilters.specializedFinancing.internationalTradeLoan}
+                  onChange={() => handleCategoriesChange("specializedFinancing", "internationalTradeLoan")}
+                />
+                <label htmlFor="international-trade-loan">International Trade Loan</label>
+              </CheckboxLabel>
             </List>
+
             <List>
               <ServiceTypeTitle>Business Stage :</ServiceTypeTitle>
               <CheckboxLabel>
@@ -347,12 +523,12 @@ export default function Section6() {
               <CheckboxLabel>
                 <input
                   type="checkbox"
-                  id="unspecified"
-                  title="Unspecified"
-                  checked={providedByFilters.unspecified}
-                  onChange={() => handleProvidedByChange("unspecified")}
+                  id="ad-sme-hub"
+                  title="AD SME Hub"
+                  checked={providedByFilters.adSmeHub}
+                  onChange={() => handleProvidedByChange("adSmeHub")}
                 />
-                <label htmlFor="unspecified">Unspecified</label>
+                <label htmlFor="ad-sme-hub">AD SME Hub</label>
               </CheckboxLabel>
               <CheckboxLabel>
                 <input

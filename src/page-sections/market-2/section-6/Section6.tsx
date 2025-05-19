@@ -79,7 +79,7 @@ export default function Section6() {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
-  const productsPerPage = 9;
+  const productsPerPage = 15;
 
   // State for Categories filters
   const [categoriesFilters, setCategoriesFilters] = useState({

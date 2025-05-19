@@ -99,6 +99,15 @@ export default function Section6() {
     other: false,
   });
 
+  // State for Pricing Model filters
+  const [pricingModelFilters, setPricingModelFilters] = useState({
+    free: false,
+    subscriptionBased: false,
+    payPerService: false,
+    oneTimeFee: false,
+    governmentSubsidised: false,
+  });
+
   const defaultImage = "/assets/images/mzn_logos/mzn_logo.png";
   const defaultImages = [defaultImage];
   const defaultReviews = 0;
@@ -125,7 +134,7 @@ export default function Section6() {
     fetchData();
   }, [currentPage]);
 
-  // Apply filters whenever products, businessStageFilters, or providedByFilters change
+  // Apply filters whenever products, businessStageFilters, providedByFilters, or pricingModelFilters change
   useEffect(() => {
     // Get selected Business Stages
     const selectedStages = Object.keys(businessStageFilters)
@@ -141,11 +150,22 @@ export default function Section6() {
         return key.charAt(0).toUpperCase() + key.slice(1); // Capitalize first letter
       });
 
+    // Get selected Pricing Models
+    const selectedPricingModels = Object.keys(pricingModelFilters)
+      .filter((key) => pricingModelFilters[key])
+      .map((key) => {
+        if (key === "subscriptionBased") return "Subscription-Based";
+        if (key === "payPerService") return "Pay Per Service";
+        if (key === "oneTimeFee") return "One-Time Fee";
+        if (key === "governmentSubsidised") return "Government Subsidised";
+        return key.charAt(0).toUpperCase() + key.slice(1); // Capitalize first letter
+      });
+
     // If no filters are selected, show all products
-    if (selectedStages.length === 0 && selectedProviders.length === 0) {
+    if (selectedStages.length === 0 && selectedProviders.length === 0 && selectedPricingModels.length === 0) {
       setFilteredProducts(products);
     } else {
-      // Filter products based on selected Business Stages and Provided By
+      // Filter products based on selected Business Stages, Provided By, and Pricing Model
       const filtered = products.filter((product) => {
         // Check if product matches selected Business Stages (or no stages selected)
         const matchesStage =
@@ -165,12 +185,21 @@ export default function Section6() {
               selectedProviders.includes(facetValue.name)
           );
 
-        // Product must match both stage and provider filters
-        return matchesStage && matchesProvider;
+        // Check if product matches selected Pricing Model (or no pricing models selected)
+        const matchesPricingModel =
+          selectedPricingModels.length === 0 ||
+          product.facetValues.some(
+            (facetValue) =>
+              facetValue.facet.code === "pricing-model" &&
+              selectedPricingModels.includes(facetValue.name)
+          );
+
+        // Product must match all filter categories
+        return matchesStage && matchesProvider && matchesPricingModel;
       });
       setFilteredProducts(filtered);
     }
-  }, [products, businessStageFilters, providedByFilters]);
+  }, [products, businessStageFilters, providedByFilters, pricingModelFilters]);
 
   // Handle checkbox changes for Business Stage filters
   const handleBusinessStageChange = (stage: keyof typeof businessStageFilters) => {
@@ -186,6 +215,15 @@ export default function Section6() {
     setProvidedByFilters((prev) => ({
       ...prev,
       [provider]: !prev[provider],
+    }));
+    setCurrentPage(1); // Reset to first page when filters change
+  };
+
+  // Handle checkbox changes for Pricing Model filters
+  const handlePricingModelChange = (model: keyof typeof pricingModelFilters) => {
+    setPricingModelFilters((prev) => ({
+      ...prev,
+      [model]: !prev[model],
     }));
     setCurrentPage(1); // Reset to first page when filters change
   };
@@ -331,23 +369,53 @@ export default function Section6() {
             <List>
               <ServiceTypeTitle>Pricing Model :</ServiceTypeTitle>
               <CheckboxLabel>
-                <input type="checkbox" id="free" title="Free" />
+                <input
+                  type="checkbox"
+                  id="free"
+                  title="Free"
+                  checked={pricingModelFilters.free}
+                  onChange={() => handlePricingModelChange("free")}
+                />
                 <label htmlFor="free">Free</label>
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" id="subscription-based" title="Subscription-Based" />
+                <input
+                  type="checkbox"
+                  id="subscription-based"
+                  title="Subscription-Based"
+                  checked={pricingModelFilters.subscriptionBased}
+                  onChange={() => handlePricingModelChange("subscriptionBased")}
+                />
                 <label htmlFor="subscription-based">Subscription-Based</label>
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" id="pay-per-service" />
+                <input
+                  type="checkbox"
+                  id="pay-per-service"
+                  title="Pay Per Service"
+                  checked={pricingModelFilters.payPerService}
+                  onChange={() => handlePricingModelChange("payPerService")}
+                />
                 <label htmlFor="pay-per-service">Pay Per Service</label>
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" id="one-time-fee" title="One-Time Fee" />
+                <input
+                  type="checkbox"
+                  id="one-time-fee"
+                  title="One-Time Fee"
+                  checked={pricingModelFilters.oneTimeFee}
+                  onChange={() => handlePricingModelChange("oneTimeFee")}
+                />
                 <label htmlFor="one-time-fee">One-Time Fee</label>
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" id="government-subsidised" title="Government Subsidised" />
+                <input
+                  type="checkbox"
+                  id="government-subsidised"
+                  title="Government Subsidised"
+                  checked={pricingModelFilters.governmentSubsidised}
+                  onChange={() => handlePricingModelChange("governmentSubsidised")}
+                />
                 <label htmlFor="government-subsidised">Government Subsidised</label>
               </CheckboxLabel>
             </List>

@@ -79,7 +79,22 @@ export default function Section6() {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
-  const productsPerPage = 9;
+  const productsPerPage = 15;
+
+  // State for Categories filters
+  const [categoriesFilters, setCategoriesFilters] = useState({
+    businessFunding: {
+      termLoans: false,
+      businessDevelopment: false,
+      projectFinancingLoans: false,
+    },
+    loanManagement: {
+      loanTermExtension: false,
+    },
+    specializedFinancing: {
+      internationalTradeLoan: false,
+    },
+  });
 
   // State for Business Stage filters
   const [businessStageFilters, setBusinessStageFilters] = useState({
@@ -95,8 +110,17 @@ export default function Section6() {
     adgm: false,
     khalifaFund: false,
     hub71: false,
-    unspecified: false,
+    adSmeHub: false,
     other: false,
+  });
+
+  // State for Pricing Model filters
+  const [pricingModelFilters, setPricingModelFilters] = useState({
+    free: false,
+    subscriptionBased: false,
+    payPerService: false,
+    oneTimeFee: false,
+    governmentSubsidised: false,
   });
 
   const defaultImage = "/assets/images/mzn_logos/mzn_logo.png";
@@ -115,7 +139,7 @@ export default function Section6() {
         console.log("Data fetched successfully:", data);
         setProducts(data.products.items);
         setTotalItems(data.products.totalItems);
-        // Initially, show all products
+        // Initially, show all products for the current page
         setFilteredProducts(data.products.items);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -125,8 +149,19 @@ export default function Section6() {
     fetchData();
   }, [currentPage]);
 
-  // Apply filters whenever products, businessStageFilters, or providedByFilters change
+  // Apply filters whenever products, categoriesFilters, businessStageFilters, providedByFilters, or pricingModelFilters change
   useEffect(() => {
+    // Get selected Categories
+    const selectedCategories: string[] = [];
+    // Business Funding & ...
+    if (categoriesFilters.businessFunding.termLoans) selectedCategories.push("Term Loans");
+    if (categoriesFilters.businessFunding.businessDevelopment) selectedCategories.push("Business Development");
+    if (categoriesFilters.businessFunding.projectFinancingLoans) selectedCategories.push("Project Financing Loans");
+    // Loan Management & ...
+    if (categoriesFilters.loanManagement.loanTermExtension) selectedCategories.push("Loan Term Extension");
+    // Specialized Financing
+    if (categoriesFilters.specializedFinancing.internationalTradeLoan) selectedCategories.push("International Trade Loan");
+
     // Get selected Business Stages
     const selectedStages = Object.keys(businessStageFilters)
       .filter((key) => businessStageFilters[key])
@@ -138,15 +173,41 @@ export default function Section6() {
       .map((key) => {
         if (key === "khalifaFund") return "Khalifa Fund";
         if (key === "hub71") return "Hub 71";
+        if (key === "adSmeHub") return "AD SME Hub";
+        return key.charAt(0).toUpperCase() + key.slice(1); // Capitalize first letter
+      });
+
+    // Get selected Pricing Models
+    const selectedPricingModels = Object.keys(pricingModelFilters)
+      .filter((key) => pricingModelFilters[key])
+      .map((key) => {
+        if (key === "subscriptionBased") return "Subscription-Based";
+        if (key === "payPerService") return "Pay Per Service";
+        if (key === "oneTimeFee") return "One-Time Fee";
+        if (key === "governmentSubsidised") return "Government Subsidised";
         return key.charAt(0).toUpperCase() + key.slice(1); // Capitalize first letter
       });
 
     // If no filters are selected, show all products
-    if (selectedStages.length === 0 && selectedProviders.length === 0) {
+    if (
+      selectedCategories.length === 0 &&
+      selectedStages.length === 0 &&
+      selectedProviders.length === 0 &&
+      selectedPricingModels.length === 0
+    ) {
       setFilteredProducts(products);
     } else {
-      // Filter products based on selected Business Stages and Provided By
+      // Filter products based on selected Categories, Business Stages, Provided By, and Pricing Model
       const filtered = products.filter((product) => {
+        // Check if product matches selected Categories (or no categories selected)
+        const matchesCategory =
+          selectedCategories.length === 0 ||
+          product.facetValues.some(
+            (facetValue) =>
+              facetValue.facet.code === "category" &&
+              selectedCategories.includes(facetValue.name)
+          );
+
         // Check if product matches selected Business Stages (or no stages selected)
         const matchesStage =
           selectedStages.length === 0 ||
@@ -165,12 +226,33 @@ export default function Section6() {
               selectedProviders.includes(facetValue.name)
           );
 
-        // Product must match both stage and provider filters
-        return matchesStage && matchesProvider;
+        // Check if product matches selected Pricing Model (or no pricing models selected)
+        const matchesPricingModel =
+          selectedPricingModels.length === 0 ||
+          product.facetValues.some(
+            (facetValue) =>
+              facetValue.facet.code === "pricing-model" &&
+              selectedPricingModels.includes(facetValue.name)
+          );
+
+        // Product must match all filter categories
+        return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
       });
       setFilteredProducts(filtered);
     }
-  }, [products, businessStageFilters, providedByFilters]);
+  }, [products, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters]);
+
+  // Handle checkbox changes for Categories filters
+  const handleCategoriesChange = (category: string, subcategory: string) => {
+    setCategoriesFilters((prev) => ({
+      ...prev,
+      [category]: {
+        ...prev[category],
+        [subcategory]: !prev[category][subcategory],
+      },
+    }));
+    setCurrentPage(1); // Reset to first page when filters change
+  };
 
   // Handle checkbox changes for Business Stage filters
   const handleBusinessStageChange = (stage: keyof typeof businessStageFilters) => {
@@ -190,14 +272,20 @@ export default function Section6() {
     setCurrentPage(1); // Reset to first page when filters change
   };
 
-  // Calculate the total number of pages based on filtered products
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  // Handle checkbox changes for Pricing Model filters
+  const handlePricingModelChange = (model: keyof typeof pricingModelFilters) => {
+    setPricingModelFilters((prev) => ({
+      ...prev,
+      [model]: !prev[model],
+    }));
+    setCurrentPage(1); // Reset to first page when filters change
+  };
+
+  // Calculate the total number of pages based on totalItems from server
+  const totalPages = Math.ceil(totalItems / productsPerPage);
 
   // Slice the filtered products to show on the current page
-  const currentProducts = filteredProducts.slice(
-    (currentPage - 1) * productsPerPage,
-    currentPage * productsPerPage
-  );
+  const currentProducts = filteredProducts;
 
   const handlePagination = (direction: "next" | "prev") => {
     if (direction === "next" && currentPage < totalPages) {
@@ -222,8 +310,131 @@ export default function Section6() {
               backgroundColor: "#F4F7FE"
             }}>
             <List>
-              <ServiceTypeTitle>Service Type</ServiceTypeTitle>
+              <ServiceTypeTitle>Categories :</ServiceTypeTitle>
+              {/* Business Funding & ... */}
+              <CheckboxLabel>
+                <input
+                  type="checkbox"
+                  id="business-funding"
+                  title="Business Funding & ..."
+                  checked={
+                    categoriesFilters.businessFunding.termLoans ||
+                    categoriesFilters.businessFunding.businessDevelopment ||
+                    categoriesFilters.businessFunding.projectFinancingLoans
+                  }
+                  onChange={() => {
+                    const allChecked = !(
+                      categoriesFilters.businessFunding.termLoans ||
+                      categoriesFilters.businessFunding.businessDevelopment ||
+                      categoriesFilters.businessFunding.projectFinancingLoans
+                    );
+                    setCategoriesFilters((prev) => ({
+                      ...prev,
+                      businessFunding: {
+                        termLoans: allChecked,
+                        businessDevelopment: allChecked,
+                        projectFinancingLoans: allChecked,
+                      },
+                    }));
+                    setCurrentPage(1);
+                  }}
+                />
+                <label htmlFor="business-funding">Business Funding & ...</label>
+              </CheckboxLabel>
+              <CheckboxLabel style={{ marginLeft: '1rem' }}>
+                <input
+                  type="checkbox"
+                  id="term-loans"
+                  title="Term Loans"
+                  checked={categoriesFilters.businessFunding.termLoans}
+                  onChange={() => handleCategoriesChange("businessFunding", "termLoans")}
+                />
+                <label htmlFor="term-loans">Term Loans</label>
+              </CheckboxLabel>
+              <CheckboxLabel style={{ marginLeft: '1rem' }}>
+                <input
+                  type="checkbox"
+                  id="business-development"
+                  title="Business Development"
+                  checked={categoriesFilters.businessFunding.businessDevelopment}
+                  onChange={() => handleCategoriesChange("businessFunding", "businessDevelopment")}
+                />
+                <label htmlFor="business-development">Business Development</label>
+              </CheckboxLabel>
+              <CheckboxLabel style={{ marginLeft: '1rem' }}>
+                <input
+                  type="checkbox"
+                  id="project-financing-loans"
+                  title="Project Financing Loans"
+                  checked={categoriesFilters.businessFunding.projectFinancingLoans}
+                  onChange={() => handleCategoriesChange("businessFunding", "projectFinancingLoans")}
+                />
+                <label htmlFor="project-financing-loans">Project Financing Loans</label>
+              </CheckboxLabel>
+
+              {/* Loan Management & ... */}
+              <CheckboxLabel>
+                <input
+                  type="checkbox"
+                  id="loan-management"
+                  title="Loan Management & ..."
+                  checked={categoriesFilters.loanManagement.loanTermExtension}
+                  onChange={() => {
+                    const allChecked = !categoriesFilters.loanManagement.loanTermExtension;
+                    setCategoriesFilters((prev) => ({
+                      ...prev,
+                      loanManagement: {
+                        loanTermExtension: allChecked,
+                      },
+                    }));
+                    setCurrentPage(1);
+                  }}
+                />
+                <label htmlFor="loan-management">Loan Management & ...</label>
+              </CheckboxLabel>
+              <CheckboxLabel style={{ marginLeft: '1rem' }}>
+                <input
+                  type="checkbox"
+                  id="loan-term-extension"
+                  title="Loan Term Extension"
+                  checked={categoriesFilters.loanManagement.loanTermExtension}
+                  onChange={() => handleCategoriesChange("loanManagement", "loanTermExtension")}
+                />
+                <label htmlFor="loan-term-extension">Loan Term Extension</label>
+              </CheckboxLabel>
+
+              {/* Specialized Financing */}
+              <CheckboxLabel>
+                <input
+                  type="checkbox"
+                  id="specialized-financing"
+                  title="Specialized Financing"
+                  checked={categoriesFilters.specializedFinancing.internationalTradeLoan}
+                  onChange={() => {
+                    const allChecked = !categoriesFilters.specializedFinancing.internationalTradeLoan;
+                    setCategoriesFilters((prev) => ({
+                      ...prev,
+                      specializedFinancing: {
+                        internationalTradeLoan: allChecked,
+                      },
+                    }));
+                    setCurrentPage(1);
+                  }}
+                />
+                <label htmlFor="specialized-financing">Specialized Financing</label>
+              </CheckboxLabel>
+              <CheckboxLabel style={{ marginLeft: '1rem' }}>
+                <input
+                  type="checkbox"
+                  id="international-trade-loan"
+                  title="International Trade Loan"
+                  checked={categoriesFilters.specializedFinancing.internationalTradeLoan}
+                  onChange={() => handleCategoriesChange("specializedFinancing", "internationalTradeLoan")}
+                />
+                <label htmlFor="international-trade-loan">International Trade Loan</label>
+              </CheckboxLabel>
             </List>
+
             <List>
               <ServiceTypeTitle>Business Stage :</ServiceTypeTitle>
               <CheckboxLabel>
@@ -309,12 +520,12 @@ export default function Section6() {
               <CheckboxLabel>
                 <input
                   type="checkbox"
-                  id="unspecified"
-                  title="Unspecified"
-                  checked={providedByFilters.unspecified}
-                  onChange={() => handleProvidedByChange("unspecified")}
+                  id="ad-sme-hub"
+                  title="AD SME Hub"
+                  checked={providedByFilters.adSmeHub}
+                  onChange={() => handleProvidedByChange("adSmeHub")}
                 />
-                <label htmlFor="unspecified">Unspecified</label>
+                <label htmlFor="ad-sme-hub">AD SME Hub</label>
               </CheckboxLabel>
               <CheckboxLabel>
                 <input
@@ -331,30 +542,60 @@ export default function Section6() {
             <List>
               <ServiceTypeTitle>Pricing Model :</ServiceTypeTitle>
               <CheckboxLabel>
-                <input type="checkbox" id="free" title="Free" />
+                <input
+                  type="checkbox"
+                  id="free"
+                  title="Free"
+                  checked={pricingModelFilters.free}
+                  onChange={() => handlePricingModelChange("free")}
+                />
                 <label htmlFor="free">Free</label>
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" id="subscription-based" title="Subscription-Based" />
+                <input
+                  type="checkbox"
+                  id="subscription-based"
+                  title="Subscription-Based"
+                  checked={pricingModelFilters.subscriptionBased}
+                  onChange={() => handlePricingModelChange("subscriptionBased")}
+                />
                 <label htmlFor="subscription-based">Subscription-Based</label>
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" id="pay-per-service" />
+                <input
+                  type="checkbox"
+                  id="pay-per-service"
+                  title="Pay Per Service"
+                  checked={pricingModelFilters.payPerService}
+                  onChange={() => handlePricingModelChange("payPerService")}
+                />
                 <label htmlFor="pay-per-service">Pay Per Service</label>
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" id="one-time-fee" title="One-Time Fee" />
+                <input
+                  type="checkbox"
+                  id="one-time-fee"
+                  title="One-Time Fee"
+                  checked={pricingModelFilters.oneTimeFee}
+                  onChange={() => handlePricingModelChange("oneTimeFee")}
+                />
                 <label htmlFor="one-time-fee">One-Time Fee</label>
               </CheckboxLabel>
               <CheckboxLabel>
-                <input type="checkbox" id="government-subsidised" title="Government Subsidised" />
+                <input
+                  type="checkbox"
+                  id="government-subsidised"
+                  title="Government Subsidised"
+                  checked={pricingModelFilters.governmentSubsidised}
+                  onChange={() => handlePricingModelChange("governmentSubsidised")}
+                />
                 <label htmlFor="government-subsidised">Government Subsidised</label>
               </CheckboxLabel>
             </List>
           </Card>
           <ShowingText>
             Showing {(currentPage - 1) * productsPerPage + 1}-
-            {Math.min(currentPage * productsPerPage, filteredProducts.length)} of {filteredProducts.length} Services
+            {Math.min((currentPage - 1) * productsPerPage + filteredProducts.length, totalItems)} of {totalItems} Services
           </ShowingText>
         </Grid>
 
@@ -400,7 +641,7 @@ export default function Section6() {
           )}
 
           {/* Pagination */}
-          {filteredProducts.length > 0 && (
+          {totalItems > 0 && (
             <div
               style={{
                 display: "flex",
@@ -419,10 +660,10 @@ export default function Section6() {
                   padding: "0.5rem",
                   margin: "0 0.5rem",
                   backgroundColor: "transparent",
-                  cursor: "pointer",
+                  cursor: currentPage === 1 ? "not-allowed" : "pointer",
                 }}
               >
-                <img src="assets/images/avatars/chevron-right.svg" alt="Previous" />
+                <img src="assets/images/avatars/chevron-left.svg" alt="Previous" />
               </button>
 
               {[...Array(totalPages)].map((_, index) => (
@@ -452,10 +693,10 @@ export default function Section6() {
                   padding: "0.5rem",
                   margin: "0 0.5rem",
                   backgroundColor: "transparent",
-                  cursor: "pointer",
+                  cursor: currentPage === totalPages ? "not-allowed" : "pointer",
                 }}
               >
-                <img src="assets/images/avatars/chevron-left.svg" alt="Next" />
+                <img src="assets/images/avatars/chevron-right.svg" alt="Next" />
               </button>
             </div>
           )}

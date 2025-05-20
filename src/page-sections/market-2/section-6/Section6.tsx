@@ -139,7 +139,7 @@ export default function Section6() {
         console.log("Data fetched successfully:", data);
         setProducts(data.products.items);
         setTotalItems(data.products.totalItems);
-        // Initially, show all products
+        // Initially, show all products for the current page
         setFilteredProducts(data.products.items);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -281,14 +281,11 @@ export default function Section6() {
     setCurrentPage(1); // Reset to first page when filters change
   };
 
-  // Calculate the total number of pages based on filtered products
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  // Calculate the total number of pages based on totalItems from server
+  const totalPages = Math.ceil(totalItems / productsPerPage);
 
   // Slice the filtered products to show on the current page
-  const currentProducts = filteredProducts.slice(
-    (currentPage - 1) * productsPerPage,
-    currentPage * productsPerPage
-  );
+  const currentProducts = filteredProducts;
 
   const handlePagination = (direction: "next" | "prev") => {
     if (direction === "next" && currentPage < totalPages) {
@@ -598,7 +595,7 @@ export default function Section6() {
           </Card>
           <ShowingText>
             Showing {(currentPage - 1) * productsPerPage + 1}-
-            {Math.min(currentPage * productsPerPage, filteredProducts.length)} of {filteredProducts.length} Services
+            {Math.min((currentPage - 1) * productsPerPage + filteredProducts.length, totalItems)} of {totalItems} Services
           </ShowingText>
         </Grid>
 
@@ -644,7 +641,7 @@ export default function Section6() {
           )}
 
           {/* Pagination */}
-          {filteredProducts.length > 0 && (
+          {totalItems > 0 && (
             <div
               style={{
                 display: "flex",
@@ -663,10 +660,10 @@ export default function Section6() {
                   padding: "0.5rem",
                   margin: "0 0.5rem",
                   backgroundColor: "transparent",
-                  cursor: "pointer",
+                  cursor: currentPage === 1 ? "not-allowed" : "pointer",
                 }}
               >
-                <img src="assets/images/avatars/chevron-right.svg" alt="Previous" />
+                <img src="assets/images/avatars/chevron-left.svg" alt="Previous" />
               </button>
 
               {[...Array(totalPages)].map((_, index) => (
@@ -696,10 +693,10 @@ export default function Section6() {
                   padding: "0.5rem",
                   margin: "0 0.5rem",
                   backgroundColor: "transparent",
-                  cursor: "pointer",
+                  cursor: currentPage === totalPages ? "not-allowed" : "pointer",
                 }}
               >
-                <img src="assets/images/avatars/chevron-left.svg" alt="Next" />
+                <img src="assets/images/avatars/chevron-right.svg" alt="Next" />
               </button>
             </div>
           )}

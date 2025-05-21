@@ -77,8 +77,10 @@ interface GetProductsVariables {
 export default function Section6() {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [allFilteredProducts, setAllFilteredProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
+  const [totalFilteredItems, setTotalFilteredItems] = useState(0);
   const productsPerPage = 15;
 
   // State for Categories filters
@@ -127,27 +129,137 @@ export default function Section6() {
   const defaultImages = [defaultImage];
   const defaultReviews = 0;
 
+  // Check if any filters are applied
+  const areFiltersApplied = () => {
+    return (
+      Object.values(categoriesFilters).some((category) =>
+        Object.values(category).some((value) => value)
+      ) ||
+      Object.values(businessStageFilters).some((value) => value) ||
+      Object.values(providedByFilters).some((value) => value) ||
+      Object.values(pricingModelFilters).some((value) => value)
+    );
+  };
+
   // Fetch products data on component mount or page change
   useEffect(() => {
     const fetchData = async () => {
       console.log("Fetching data from GraphQL...");
       try {
-        const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
-          skip: (currentPage - 1) * productsPerPage,
-          take: productsPerPage,
-        });
-        console.log("Data fetched successfully:", data);
-        setProducts(data.products.items);
-        setTotalItems(data.products.totalItems);
-        // Initially, show all products for the current page
-        setFilteredProducts(data.products.items);
+        if (areFiltersApplied()) {
+          // Fetch all products for filtering
+          const allProducts: Product[] = [];
+          let currentSkip = 0;
+          let total = 0;
+
+          do {
+            const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
+              skip: currentSkip,
+              take: productsPerPage,
+            });
+            allProducts.push(...data.products.items);
+            total = data.products.totalItems;
+            currentSkip += productsPerPage;
+          } while (currentSkip < total);
+
+          setTotalItems(total);
+
+          // Apply filters to all products
+          const selectedCategories: string[] = [];
+          if (categoriesFilters.businessFunding.termLoans) selectedCategories.push("Term Loans");
+          if (categoriesFilters.businessFunding.businessDevelopment) selectedCategories.push("Business Development");
+          if (categoriesFilters.businessFunding.projectFinancingLoans) selectedCategories.push("Project Financing Loans");
+          if (categoriesFilters.loanManagement.loanTermExtension) selectedCategories.push("Loan Term Extension");
+          if (categoriesFilters.specializedFinancing.internationalTradeLoan) selectedCategories.push("International Trade Loan");
+
+          const selectedStages = Object.keys(businessStageFilters)
+            .filter((key) => businessStageFilters[key])
+            .map((key) => key.charAt(0).toUpperCase() + key.slice(1));
+
+          const selectedProviders = Object.keys(providedByFilters)
+            .filter((key) => providedByFilters[key])
+            .map((key) => {
+              if (key === "khalifaFund") return "Khalifa Fund";
+              if (key === "hub71") return "Hub 71";
+              if (key === "adSmeHub") return "AD SME Hub";
+              return key.charAt(0).toUpperCase() + key.slice(1);
+            });
+
+          const selectedPricingModels = Object.keys(pricingModelFilters)
+            .filter((key) => pricingModelFilters[key])
+            .map((key) => {
+              if (key === "subscriptionBased") return "Subscription-Based";
+              if (key === "payPerService") return "Pay Per Service";
+              if (key === "oneTimeFee") return "One-Time Fee";
+              if (key === "governmentSubsidised") return "Government Subsidised";
+              return key.charAt(0).toUpperCase() + key.slice(1);
+            });
+
+          const filtered = selectedCategories.length === 0 &&
+            selectedStages.length === 0 &&
+            selectedProviders.length === 0 &&
+            selectedPricingModels.length === 0
+            ? allProducts
+            : allProducts.filter((product) => {
+                const matchesCategory =
+                  selectedCategories.length === 0 ||
+                  product.facetValues.some(
+                    (facetValue) =>
+                      facetValue.facet.code === "category" &&
+                      selectedCategories.includes(facetValue.name)
+                  );
+                const matchesStage =
+                  selectedStages.length === 0 ||
+                  product.facetValues.some(
+                    (facetValue) =>
+                      facetValue.facet.code === "business-stage" &&
+                      selectedStages.includes(facetValue.name)
+                  );
+                const matchesProvider =
+                  selectedProviders.length === 0 ||
+                  product.facetValues.some(
+                    (facetValue) =>
+                      facetValue.facet.code === "provided-by" &&
+                      selectedProviders.includes(facetValue.name)
+                  );
+                const matchesPricingModel =
+                  selectedPricingModels.length === 0 ||
+                  product.facetValues.some(
+                    (facetValue) =>
+                      facetValue.facet.code === "pricing-model" &&
+                      selectedPricingModels.includes(facetValue.name)
+                  );
+                return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
+              });
+
+          setAllFilteredProducts(filtered);
+          setTotalFilteredItems(filtered.length);
+
+          // Set products and filteredProducts for the current page
+          const startIndex = (currentPage - 1) * productsPerPage;
+          const endIndex = startIndex + productsPerPage;
+          setFilteredProducts(filtered.slice(startIndex, endIndex));
+          setProducts(filtered.slice(startIndex, endIndex));
+        } else {
+          // Fetch only the current page when no filters are applied
+          const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
+            skip: (currentPage - 1) * productsPerPage,
+            take: productsPerPage,
+          });
+          console.log("Data fetched successfully:", data);
+          setProducts(data.products.items);
+          setFilteredProducts(data.products.items);
+          setTotalItems(data.products.totalItems);
+          setAllFilteredProducts(data.products.items);
+          setTotalFilteredItems(data.products.totalItems);
+        }
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     };
 
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters]);
 
   // Apply filters whenever products, categoriesFilters, businessStageFilters, providedByFilters, or pricingModelFilters change
   useEffect(() => {
@@ -281,11 +393,16 @@ export default function Section6() {
     setCurrentPage(1); // Reset to first page when filters change
   };
 
-  // Calculate the total number of pages based on totalItems from server
-  const totalPages = Math.ceil(totalItems / productsPerPage);
+  // Calculate the total number of pages based on filtered or total items
+  const totalPages = areFiltersApplied()
+    ? Math.ceil(totalFilteredItems / productsPerPage)
+    : Math.ceil(totalItems / productsPerPage);
 
   // Slice the filtered products to show on the current page
-  const currentProducts = filteredProducts;
+  const currentProducts = allFilteredProducts.slice(
+    (currentPage - 1) * productsPerPage,
+    currentPage * productsPerPage
+  );
 
   const handlePagination = (direction: "next" | "prev") => {
     if (direction === "next" && currentPage < totalPages) {
@@ -593,15 +710,17 @@ export default function Section6() {
               </CheckboxLabel>
             </List>
           </Card>
-          <ShowingText>
-            Showing {(currentPage - 1) * productsPerPage + 1}-
-            {Math.min((currentPage - 1) * productsPerPage + filteredProducts.length, totalItems)} of {totalItems} Services
-          </ShowingText>
+          {(areFiltersApplied() ? totalFilteredItems : totalItems) > 0 && (
+            <ShowingText>
+              Showing {(currentPage - 1) * productsPerPage + 1}-
+              {Math.min((currentPage - 1) * productsPerPage + currentProducts.length, areFiltersApplied() ? totalFilteredItems : totalItems)} of {areFiltersApplied() ? totalFilteredItems : totalItems} Services
+            </ShowingText>
+          )}
         </Grid>
 
         {/* CATEGORY BASED PRODUCTS */}
         <Grid item md={9} xs={12}>
-          {filteredProducts.length === 0 ? (
+          {currentProducts.length === 0 ? (
             <div
               style={{
                 display: "flex",
@@ -641,7 +760,7 @@ export default function Section6() {
           )}
 
           {/* Pagination */}
-          {totalItems > 0 && (
+          {(areFiltersApplied() ? totalFilteredItems : totalItems) > 0 && (
             <div
               style={{
                 display: "flex",
@@ -663,7 +782,7 @@ export default function Section6() {
                   cursor: currentPage === 1 ? "not-allowed" : "pointer",
                 }}
               >
-                <img src="assets/images/avatars/chevron-left.svg" alt="Previous" />
+                <img src="assets/images/avatars/chevron-right.svg" alt="Previous" />
               </button>
 
               {[...Array(totalPages)].map((_, index) => (
@@ -696,7 +815,7 @@ export default function Section6() {
                   cursor: currentPage === totalPages ? "not-allowed" : "pointer",
                 }}
               >
-                <img src="assets/images/avatars/chevron-right.svg" alt="Next" />
+                <img src="assets/images/avatars/chevron-left.svg" alt="Next" />
               </button>
             </div>
           )}

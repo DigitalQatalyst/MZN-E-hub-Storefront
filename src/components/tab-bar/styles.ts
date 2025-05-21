@@ -4,6 +4,7 @@ export const TabBarContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;  /* Adjust the bottom margin as needed */
 `;
 
 interface TabProps {
@@ -15,7 +16,6 @@ export const Tab = styled.div<TabProps>`
   padding: 10px 15px;
   transition: color 0.3s, border-bottom 0.3s;
   text-align: center;
-  font-family: "Helvetica Neue";
   font-size: var(--Label-Large-Size, 14px);
   font-style: normal;
   font-weight: ${(props) => (props.active ? 'bold' : '500')};

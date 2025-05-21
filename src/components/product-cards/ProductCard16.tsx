@@ -30,6 +30,7 @@ const StyledBazaarCard = styled(Card)(({ theme }) => ({
   transition: "all 250ms ease-in-out",
   borderRadius: "12px",
   border: "1px solid #E5E5E5",
+  boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.30), 0px 1px 3px 1px rgba(0, 0, 0, 0.15)",
   "&:hover": {
     boxShadow: theme.shadows[2],
     "& .controller": { right: 10 }

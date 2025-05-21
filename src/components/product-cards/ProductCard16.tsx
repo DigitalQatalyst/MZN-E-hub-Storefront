@@ -6,17 +6,10 @@ import styled from "styled-components";
 
 import Box from "@component/Box";
 import Card from "@component/Card";
-import { Chip } from "@component/Chip";
-import Rating from "@component/rating";
-import Icon from "@component/icon/Icon";
-import Divider from "@component/Divider";
-import FlexBox from "@component/FlexBox";
-import { Button } from "@component/buttons";
 import LazyImage from "@component/LazyImage";
-import { H3, Paragraph, Span } from "@component/Typography";
+import { H3 } from "@component/Typography";
 import ProductQuickView from "@component/products/ProductQuickView";
 import { useAppContext } from "@context/app-context";
-import { calculateDiscount, currency } from "@utils/utils";
 
 // STYLED COMPONENTS
 const StyledBazaarCard = styled(Card)(({ theme }) => ({

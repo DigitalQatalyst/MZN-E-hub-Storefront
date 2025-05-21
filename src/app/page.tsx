@@ -23,7 +23,7 @@ export default async function Market1() {
       <Section6 />
       <Section9 products={popularProducts} />
       <Section14 />
-      <Section15 products={popularProducts} />
+      <Section15 />
       <Section2 /> 
       {/* TOP CATEGORIES AREA */}
       <Section3 />

@@ -82,6 +82,7 @@ export default function Section6() {
   const [totalItems, setTotalItems] = useState(0);
   const [totalFilteredItems, setTotalFilteredItems] = useState(0);
   const productsPerPage = 15;
+  const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
 
   // State for Categories filters
   const [categoriesFilters, setCategoriesFilters] = useState({
@@ -421,10 +422,10 @@ export default function Section6() {
             elevation={0}
             style={{
               border: 0,
-              height: "92%",
+              height: "95%",
               borderRadius: "3px",
               padding: "1rem 2rem",
-              backgroundColor: "#F4F7FE"
+              backgroundColor: "#FFFFFF" // Changed to white
             }}>
             <List>
               <ServiceTypeTitle>Categories :</ServiceTypeTitle>
@@ -741,19 +742,30 @@ export default function Section6() {
             </div>
           ) : (
             <Grid container spacing={3}>
+              
               {currentProducts.map((product) => (
                 <Grid item md={4} sm={6} xs={12} key={product.id}>
-                  <ProductCard19
-                    id={product.id}
-                    slug={product.slug}
-                    name={product.name}
-                    subTitle={product.customFields.partner}
-                    description={product.description}
-                    img={defaultImage}
-                    images={defaultImages}
-                    reviews={defaultReviews}
-                    className="product-card"
-                  />
+                  <div
+                    onMouseEnter={() => setHoveredCardId(product.id)}
+                    onMouseLeave={() => setHoveredCardId(null)}
+                    style={{
+                      transition: "all 0.3s ease",
+                      transform: hoveredCardId === product.id ? "scale(1.02)" : "scale(1)",
+                      boxShadow: hoveredCardId === product.id ? "0 4px 8px rgba(0, 0, 0, 0.1)" : "none",
+                    }}
+                  >
+                    <ProductCard19
+                      id={product.id}
+                      slug={product.slug}
+                      name={product.name}
+                      subTitle={product.customFields.partner}
+                      description={product.description}
+                      img={defaultImage}
+                      images={defaultImages}
+                      reviews={defaultReviews}
+                      className="product-card"
+                    />
+                  </div>
                 </Grid>
               ))}
             </Grid>

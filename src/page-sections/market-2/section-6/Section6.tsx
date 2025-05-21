@@ -12,6 +12,7 @@ import client from "@lib/graphQLClient";
 // STYLED COMPONENTS
 import { List, ListItem, DropdownIcon, DropdownText, CheckboxLabel, ServiceTypeTitle, ShowingText } from "./styles";
 
+import Section2 from "../section-2/Section2";
 // GraphQL Query
 const GET_PRODUCTS = `
   query GetProducts($skip: Int!, $take: Int!) {
@@ -81,8 +82,8 @@ export default function Section6() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [totalFilteredItems, setTotalFilteredItems] = useState(0);
-  const productsPerPage = 15;
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
+  const productsPerPage = 15;
 
   // State for Categories filters
   const [categoriesFilters, setCategoriesFilters] = useState({
@@ -415,6 +416,11 @@ export default function Section6() {
 
   return (
     <Container pt="4rem" style={{ marginTop: '-45px' }}>
+      {/* Render Section2 as a child component and pass resultsCount */}
+      <Section2 
+      resultsCount={areFiltersApplied() ? totalFilteredItems : totalItems} 
+      style={{ marginBottom: "2rem" }}
+        />
       <Grid container spacing={3}>
         {/* Sidebar */}
         <Grid item md={3} xs={12}>
@@ -742,7 +748,6 @@ export default function Section6() {
             </div>
           ) : (
             <Grid container spacing={3}>
-              
               {currentProducts.map((product) => (
                 <Grid item md={4} sm={6} xs={12} key={product.id}>
                   <div

@@ -8,6 +8,7 @@ import Container from "@component/Container";
 import { ProductCard19 } from "@component/product-cards";
 import { useState, useEffect } from "react";
 import client from "@lib/graphQLClient";
+import TabBar from '@component/tab-bar/TabBar';
 
 // STYLED COMPONENTS
 import { List, ListItem, DropdownIcon, DropdownText, CheckboxLabel, ServiceTypeTitle, ShowingText } from "./styles";
@@ -395,6 +396,7 @@ export default function Section6() {
 
   return (
     <Container pt="4rem" style={{ marginTop: '-45px' }}>
+      <TabBar />
       <Section2 
         resultsCount={areFiltersApplied() ? totalFilteredItems : totalItems} 
         style={{ marginBottom: "2rem" }}

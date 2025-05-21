@@ -4,6 +4,7 @@ import Box from "@component/Box";
 import { Button } from "@component/buttons";
 import FlexBox from "@component/FlexBox";
 import Grid from "@component/grid/Grid";
+import { ProductCard19, ProductCard20 } from "@component/product-cards";
 import { H3, H4, H6, Paragraph, SemiSpan } from "@component/Typography";
 import Product from "@models/product.model";
 import { useState } from "react";
@@ -179,23 +180,45 @@ export default function ProductDetails({ product }: Props) {
           Related Services
         </H3>
         <Grid container spacing={3}>
-          {[1, 2, 3].map((item) => (
-            <Grid item md={4} sm={6} xs={12} key={item}>
-              <Box
-                p="1.5rem"
-                style={{
-                  backgroundColor: "#F5F7FF",
-                  borderRadius: "8px",
-                  height: "200px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <SemiSpan color="#002180">Related Service {item}</SemiSpan>
-              </Box>
-            </Grid>
-          ))}
+          <Grid item md={4} sm={6} xs={12} key={product.id}>
+            <ProductCard20
+              id={product.id}
+              slug={product.slug}
+              name={product.name}
+              subTitle={product.subTitle}
+              description={product.description}
+              img={product.images[0]}
+              images={product.images}
+              reviews={product.reviews}
+              className="product-card"
+            />
+          </Grid>
+          <Grid item md={4} sm={6} xs={12} key={product.id}>
+            <ProductCard20
+              id={product.id}
+              slug={product.slug}
+              name={product.name}
+              subTitle={product.subTitle}
+              description={product.description}
+              img={product.images[0]}
+              images={product.images}
+              reviews={product.reviews}
+              className="product-card"
+            />
+          </Grid>
+          <Grid item md={4} sm={6} xs={12} key={product.id}>
+            <ProductCard20
+              id={product.id}
+              slug={product.slug}
+              name={product.name}
+              subTitle={product.subTitle}
+              description={product.description}
+              img={product.images[0]}
+              images={product.images}
+              reviews={product.reviews}
+              className="product-card"
+            />
+          </Grid>
         </Grid>
       </Box>
     </Box>

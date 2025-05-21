@@ -237,11 +237,11 @@ export default function Section6() {
           setAllFilteredProducts(filtered);
           setTotalFilteredItems(filtered.length);
 
-          // Set products and filteredProducts for the current page
+          // Update products for the current page
           const startIndex = (currentPage - 1) * productsPerPage;
           const endIndex = startIndex + productsPerPage;
-          setFilteredProducts(filtered.slice(startIndex, endIndex));
           setProducts(filtered.slice(startIndex, endIndex));
+          setFilteredProducts(filtered.slice(startIndex, endIndex));
         } else {
           // Fetch only the current page when no filters are applied
           const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
@@ -251,8 +251,8 @@ export default function Section6() {
           console.log("Data fetched successfully:", data);
           setProducts(data.products.items);
           setFilteredProducts(data.products.items);
-          setTotalItems(data.products.totalItems);
           setAllFilteredProducts(data.products.items);
+          setTotalItems(data.products.totalItems);
           setTotalFilteredItems(data.products.totalItems);
         }
       } catch (error) {
@@ -265,33 +265,26 @@ export default function Section6() {
 
   // Apply filters whenever products, categoriesFilters, businessStageFilters, providedByFilters, or pricingModelFilters change
   useEffect(() => {
-    // Get selected Categories
     const selectedCategories: string[] = [];
-    // Business Funding & ...
     if (categoriesFilters.businessFunding.termLoans) selectedCategories.push("Term Loans");
     if (categoriesFilters.businessFunding.businessDevelopment) selectedCategories.push("Business Development");
     if (categoriesFilters.businessFunding.projectFinancingLoans) selectedCategories.push("Project Financing Loans");
-    // Loan Management & ...
     if (categoriesFilters.loanManagement.loanTermExtension) selectedCategories.push("Loan Term Extension");
-    // Specialized Financing
     if (categoriesFilters.specializedFinancing.internationalTradeLoan) selectedCategories.push("International Trade Loan");
 
-    // Get selected Business Stages
     const selectedStages = Object.keys(businessStageFilters)
       .filter((key) => businessStageFilters[key])
-      .map((key) => key.charAt(0).toUpperCase() + key.slice(1)); // Capitalize first letter
+      .map((key) => key.charAt(0).toUpperCase() + key.slice(1));
 
-    // Get selected Provided By providers
     const selectedProviders = Object.keys(providedByFilters)
       .filter((key) => providedByFilters[key])
       .map((key) => {
         if (key === "khalifaFund") return "Khalifa Fund";
         if (key === "hub71") return "Hub 71";
         if (key === "adSmeHub") return "AD SME Hub";
-        return key.charAt(0).toUpperCase() + key.slice(1); // Capitalize first letter
+        return key.charAt(0).toUpperCase() + key.slice(1);
       });
 
-    // Get selected Pricing Models
     const selectedPricingModels = Object.keys(pricingModelFilters)
       .filter((key) => pricingModelFilters[key])
       .map((key) => {
@@ -299,10 +292,9 @@ export default function Section6() {
         if (key === "payPerService") return "Pay Per Service";
         if (key === "oneTimeFee") return "One-Time Fee";
         if (key === "governmentSubsidised") return "Government Subsidised";
-        return key.charAt(0).toUpperCase() + key.slice(1); // Capitalize first letter
+        return key.charAt(0).toUpperCase() + key.slice(1);
       });
 
-    // If no filters are selected, show all products
     if (
       selectedCategories.length === 0 &&
       selectedStages.length === 0 &&
@@ -311,9 +303,7 @@ export default function Section6() {
     ) {
       setFilteredProducts(products);
     } else {
-      // Filter products based on selected Categories, Business Stages, Provided By, and Pricing Model
       const filtered = products.filter((product) => {
-        // Check if product matches selected Categories (or no categories selected)
         const matchesCategory =
           selectedCategories.length === 0 ||
           product.facetValues.some(
@@ -321,8 +311,6 @@ export default function Section6() {
               facetValue.facet.code === "category" &&
               selectedCategories.includes(facetValue.name)
           );
-
-        // Check if product matches selected Business Stages (or no stages selected)
         const matchesStage =
           selectedStages.length === 0 ||
           product.facetValues.some(
@@ -330,8 +318,6 @@ export default function Section6() {
               facetValue.facet.code === "business-stage" &&
               selectedStages.includes(facetValue.name)
           );
-
-        // Check if product matches selected Provided By (or no providers selected)
         const matchesProvider =
           selectedProviders.length === 0 ||
           product.facetValues.some(
@@ -339,8 +325,6 @@ export default function Section6() {
               facetValue.facet.code === "provided-by" &&
               selectedProviders.includes(facetValue.name)
           );
-
-        // Check if product matches selected Pricing Model (or no pricing models selected)
         const matchesPricingModel =
           selectedPricingModels.length === 0 ||
           product.facetValues.some(
@@ -348,8 +332,6 @@ export default function Section6() {
               facetValue.facet.code === "pricing-model" &&
               selectedPricingModels.includes(facetValue.name)
           );
-
-        // Product must match all filter categories
         return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
       });
       setFilteredProducts(filtered);
@@ -365,7 +347,7 @@ export default function Section6() {
         [subcategory]: !prev[category][subcategory],
       },
     }));
-    setCurrentPage(1); // Reset to first page when filters change
+    setCurrentPage(1);
   };
 
   // Handle checkbox changes for Business Stage filters
@@ -374,7 +356,7 @@ export default function Section6() {
       ...prev,
       [stage]: !prev[stage],
     }));
-    setCurrentPage(1); // Reset to first page when filters change
+    setCurrentPage(1);
   };
 
   // Handle checkbox changes for Provided By filters
@@ -383,7 +365,7 @@ export default function Section6() {
       ...prev,
       [provider]: !prev[provider],
     }));
-    setCurrentPage(1); // Reset to first page when filters change
+    setCurrentPage(1);
   };
 
   // Handle checkbox changes for Pricing Model filters
@@ -392,7 +374,7 @@ export default function Section6() {
       ...prev,
       [model]: !prev[model],
     }));
-    setCurrentPage(1); // Reset to first page when filters change
+    setCurrentPage(1);
   };
 
   // Calculate the total number of pages based on filtered or total items
@@ -401,10 +383,7 @@ export default function Section6() {
     : Math.ceil(totalItems / productsPerPage);
 
   // Slice the filtered products to show on the current page
-  const currentProducts = allFilteredProducts.slice(
-    (currentPage - 1) * productsPerPage,
-    currentPage * productsPerPage
-  );
+  const currentProducts = filteredProducts;
 
   const handlePagination = (direction: "next" | "prev") => {
     if (direction === "next" && currentPage < totalPages) {
@@ -416,13 +395,11 @@ export default function Section6() {
 
   return (
     <Container pt="4rem" style={{ marginTop: '-45px' }}>
-      {/* Render Section2 as a child component and pass resultsCount */}
       <Section2 
-      resultsCount={areFiltersApplied() ? totalFilteredItems : totalItems} 
-      style={{ marginBottom: "2rem" }}
-        />
+        resultsCount={areFiltersApplied() ? totalFilteredItems : totalItems} 
+        style={{ marginBottom: "2rem" }}
+      />
       <Grid container spacing={3}>
-        {/* Sidebar */}
         <Grid item md={3} xs={12}>
           <Card
             elevation={0}
@@ -431,11 +408,10 @@ export default function Section6() {
               height: "95%",
               borderRadius: "3px",
               padding: "1rem 2rem",
-              backgroundColor: "#FFFFFF" // Changed to white
+              backgroundColor: "#FFFFFF"
             }}>
             <List>
               <ServiceTypeTitle>Categories :</ServiceTypeTitle>
-              {/* Business Funding & ... */}
               <CheckboxLabel>
                 <input
                   type="checkbox"
@@ -496,7 +472,6 @@ export default function Section6() {
                 <label htmlFor="project-financing-loans">Project Financing Loans</label>
               </CheckboxLabel>
 
-              {/* Loan Management & ... */}
               <CheckboxLabel>
                 <input
                   type="checkbox"
@@ -527,7 +502,6 @@ export default function Section6() {
                 <label htmlFor="loan-term-extension">Loan Term Extension</label>
               </CheckboxLabel>
 
-              {/* Specialized Financing */}
               <CheckboxLabel>
                 <input
                   type="checkbox"
@@ -720,12 +694,11 @@ export default function Section6() {
           {(areFiltersApplied() ? totalFilteredItems : totalItems) > 0 && (
             <ShowingText>
               Showing {(currentPage - 1) * productsPerPage + 1}-
-              {Math.min((currentPage - 1) * productsPerPage + currentProducts.length, areFiltersApplied() ? totalFilteredItems : totalItems)} of {areFiltersApplied() ? totalFilteredItems : totalItems} Services
+              {Math.min(currentPage * productsPerPage, areFiltersApplied() ? totalFilteredItems : totalItems)} of {areFiltersApplied() ? totalFilteredItems : totalItems} Services
             </ShowingText>
           )}
         </Grid>
 
-        {/* CATEGORY BASED PRODUCTS */}
         <Grid item md={9} xs={12}>
           {currentProducts.length === 0 ? (
             <div
@@ -776,7 +749,6 @@ export default function Section6() {
             </Grid>
           )}
 
-          {/* Pagination */}
           {(areFiltersApplied() ? totalFilteredItems : totalItems) > 0 && (
             <div
               style={{

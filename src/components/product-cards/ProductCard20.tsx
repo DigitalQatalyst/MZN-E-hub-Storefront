@@ -29,7 +29,6 @@ const StyledBazaarCard = styled(Card)(({ theme }) => ({
   justifyContent: "space-between",
   transition: "all 250ms ease-in-out",
   borderRadius: "12px",
-  border: "1px solid #E5E5E5",
   "&:hover": {
     boxShadow: theme.shadows[2],
     "& .controller": { right: 10 }
@@ -37,7 +36,7 @@ const StyledBazaarCard = styled(Card)(({ theme }) => ({
 }));
 
 const ImageWrapper = styled(Box)({
-  padding: "20px 240px 20px 20px", // Retained to position the circle in the top-left
+  padding: "5px 240px 20px 20px",
   textAlign: "center",
   position: "relative",
   display: "flex",
@@ -48,18 +47,60 @@ const ImageBox = styled(Box)({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  borderRadius: "50%", // 50% ensures a perfect circle with equal height and width
-  height: "60px", // Equal height and width for a circle
+  borderRadius: "50%",
+  height: "60px",
   width: "60px",
 });
 
 const ContentWrapper = styled(Box)({
-  padding: "0 40px 40px 20px", // 0 top, 40px right, 40px bottom, 40px left
-  "& .title, & .categories": {
+  padding: "0 16px 8px 16px",
+  flex: "1 1 auto",
+  display: "flex",
+  flexDirection: "column",
+  "& .title": {
     overflow: "hidden",
-    whiteSpace: "nowrap",
-    textOverflow: "ellipsis"
+    whiteSpace: "normal",
+    textOverflow: "ellipsis",
+    display: "-webkit-box",
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: "vertical",
+  },
+  "& .subtitle": {
+    overflow: "hidden",
+    whiteSpace: "normal",
+    textOverflow: "ellipsis",
+    display: "-webkit-box",
+    WebkitLineClamp: 3,
+    WebkitBoxOrient: "vertical",
   }
+});
+
+const FooterWrapper = styled(Box)({
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  padding: "8px 16px",
+});
+
+const TopPickChip = styled(Chip)({
+  backgroundColor: "#E6E6E6",
+  color: "#000",
+  fontSize: "12px",
+  fontWeight: "500",
+  padding: "4px 8px",
+  borderRadius: "12px",
+});
+
+const ExploreLink = styled(Link)({
+  display: "flex",
+  alignItems: "center",
+  color: "#0030E3",
+  fontSize: "12px",
+  fontWeight: "500",
+  textDecoration: "none",
+  "&:hover": {
+    textDecoration: "underline",
+  },
 });
 
 // =============================================================
@@ -77,7 +118,7 @@ type ProductCardProps = {
 };
 // =============================================================
 
-export default function ProductCard16(props: ProductCardProps) {
+export default function ProductCard20(props: ProductCardProps) {
   const { off, id, title, subTitle, price, imgUrl, rating, hoverEffect, slug, images } = props;
 
   const { state, dispatch } = useAppContext();
@@ -121,22 +162,28 @@ export default function ProductCard16(props: ProductCardProps) {
 
       <ContentWrapper>
         <Box flex="1 1 0" minWidth="0px" mr={1}>
-          {/* <Link href={`/product/${slug}`}> */}
-            <H3
-              title={title}
-              fontSize="16px"
-              fontWeight="600"
-              className="title"
-              color="#0030E3"
-            >
-              {title}
-            </H3>
-          {/* </Link> */}
-          <p style={{ fontSize: '14px', color: '#000', fontWeight: '400' }}>
+          <H3
+            title={title}
+            fontSize="16px"
+            fontWeight="600"
+            className="title"
+            color="#0030E3"
+          >
+            {title}
+          </H3>
+          <p className="subtitle" style={{ fontSize: '14px', color: '#000', fontWeight: '400' }}>
             {subTitle}
           </p>
         </Box>
       </ContentWrapper>
+
+      <FooterWrapper>
+        <TopPickChip>Top Pick</TopPickChip>
+        <ExploreLink href={`/marketplace/${slug}`}>
+          Explore Marketplace
+          <Icon size="16px" ml="0.5rem">arrow-right</Icon>
+        </ExploreLink>
+      </FooterWrapper>
     </StyledBazaarCard>
   );
 }

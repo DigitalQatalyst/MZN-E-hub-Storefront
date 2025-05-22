@@ -160,7 +160,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
               lineHeight="26px"
               color="#002180"
             >
-              Categories
+              All Marketplaces
             </Typography>
 
             <Icon className="dropdown-icon" variant="small">

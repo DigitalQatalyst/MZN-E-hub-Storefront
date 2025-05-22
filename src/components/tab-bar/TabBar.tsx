@@ -36,18 +36,19 @@ const TabBar: React.FC = () => {
   return (
     <TabBarContainer>
       <Tab
-        onClick={() => handleTabClick('Non-Financial', '/non-financial-marketplace')}
+        // onClick={() => handleTabClick('Non-Financial', '/non-financial-marketplace')}  
+        onClick={() => handleTabClick('Non-Financial', '#')} 
         active={activeTab === 'Non-Financial'}
       >
         <img src="/assets/images/tab_bar/all_inclusive.svg" alt="icon" />
-        Non-Financial
+        Products
       </Tab>
       <Tab
         onClick={() => handleTabClick('Financial', '/services')}
         active={activeTab === 'Financial'}
       >
         <img src="/assets/images/tab_bar/money_bag.svg" alt="icon" />
-        Financial
+        Finance
       </Tab>
       <Tab
         onClick={() => handleTabClick('Courses', '#')} // Placeholder path

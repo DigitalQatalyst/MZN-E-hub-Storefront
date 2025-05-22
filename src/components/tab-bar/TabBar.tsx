@@ -41,14 +41,14 @@ const TabBar: React.FC = () => {
         active={activeTab === 'Non-Financial'}
       >
         <img src="/assets/images/tab_bar/all_inclusive.svg" alt="icon" />
-        Products
+        Non-Financial
       </Tab>
       <Tab
         onClick={() => handleTabClick('Financial', '/services')}
         active={activeTab === 'Financial'}
       >
         <img src="/assets/images/tab_bar/money_bag.svg" alt="icon" />
-        Finance
+        Financial
       </Tab>
       <Tab
         onClick={() => handleTabClick('Courses', '#')} // Placeholder path

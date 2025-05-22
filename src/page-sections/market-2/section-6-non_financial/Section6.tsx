@@ -84,6 +84,7 @@ export default function Section6() {
   const [totalItems, setTotalItems] = useState(0);
   const [totalFilteredItems, setTotalFilteredItems] = useState(0);
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true); // New loading state
   const productsPerPage = 15;
 
   // State for Categories filters
@@ -147,6 +148,7 @@ export default function Section6() {
   // Fetch products data on component mount or page change
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true); // Set loading to true before fetching
       console.log("Fetching data from GraphQL...");
       try {
         if (areFiltersApplied()) {
@@ -258,6 +260,8 @@ export default function Section6() {
         }
       } catch (error) {
         console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching
       }
     };
 
@@ -702,7 +706,26 @@ export default function Section6() {
         </Grid>
 
         <Grid item md={9} xs={12}>
-          {currentProducts.length === 0 ? (
+          {loading ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "300px",
+                backgroundColor: "#f8f8f8",
+                borderRadius: "8px",
+                border: "1px solid #e0e0e0",
+                marginTop: "1rem",
+                fontSize: "1.5rem",
+                color: "#555",
+                textAlign: "center",
+                padding: "2rem",
+              }}
+            >
+              Loading services...
+            </div>
+          ) : currentProducts.length === 0 ? (
             <div
               style={{
                 display: "flex",

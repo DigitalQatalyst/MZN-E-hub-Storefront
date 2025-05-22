@@ -30,10 +30,10 @@ export const Tab = styled.div<TabProps>`
     border-bottom: 2px solid #0077cc;
   `}
   
-  &:hover {
-    color: #0077cc;
-    border-bottom: 2px solid #0077cc;
-  }
+  // &:hover {
+  //   color: #0077cc;
+  //   border-bottom: 2px solid #0077cc;
+  // }
 
   /* Aligning the icon to the left of the text */
   display: flex;

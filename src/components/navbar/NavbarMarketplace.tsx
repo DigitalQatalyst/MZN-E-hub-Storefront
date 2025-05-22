@@ -12,7 +12,7 @@ import Container from "../Container";
 import Typography, { Span } from "../Typography";
 import Categories from "../categories/Categories";
 
-import StyledNavbar from "./styles";
+import StyledNavbar from "./marketStyles";
 import navbarNavigations from "@data/navbarNavigations";
 
 // ============================================================== 

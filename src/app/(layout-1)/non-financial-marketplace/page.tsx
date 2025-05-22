@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 // GLOBAL CUSTOM COMPONENTS
 import Box from "@component/Box";
-import Navbar from "@component/navbar/Navbar";
+import NavbarMarketplace from "@component/navbar/NavbarMarketplace";
 // PAGE SECTION COMPONENTS
 
 import Section6 from "@sections/market-2/section-6-non_financial/Section6";
@@ -11,7 +11,7 @@ export default function MarketTwo() {
   return (
     <Fragment>
       {/* NAVBAR AREA */}
-      <Navbar />
+      <NavbarMarketplace />
 
       <Box bg="#F6F6F6">
         {/* HERO CAROUSEL AREA */}

@@ -27,7 +27,7 @@ interface Nav {
 type NavbarProps = { navListOpen?: boolean };
 // ==============================================================
 
-export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
+export default function Navbar({ navListOpen }: NavbarProps) {
   const renderNestedNav = (list: any[], isRoot = false) => {
     return list?.map((nav: Nav) => {
       if (isRoot) {
@@ -169,16 +169,14 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
           </Button>
         </Categories>
 
-        <FlexBox style={{ gap: 55 }}>
-          {renderNestedNav(navbarNavigations, true)}
-          {/* Search Icon (Replace with your actual SVG) */}
-          <Box className="search-icon" style={{ cursor: "pointer", marginRight: "30px" }}>
-            <img src="/assets/images/logos/search.svg" alt="Search" height="24px" />
-          </Box>
-        </FlexBox>
+        <FlexBox style={{ gap: 32 }}>{renderNestedNav(navbarNavigations, true)}</FlexBox>
 
         {/* Search Icon, Sign In, and Sign Up Buttons */}
         <FlexBox alignItems="center" style={{ gap: "15px" }}>
+          {/* Search Icon (Replace with your actual SVG) */}
+          <Box className="search-icon" style={{ cursor: "pointer" }}>
+            <img src="/assets/images/logos/search.svg" alt="Search" height="24px" />
+          </Box>
 
           {/* Sign In & Sign Up Buttons */}
           <Button className="sign-in-btn" variant="outlined">

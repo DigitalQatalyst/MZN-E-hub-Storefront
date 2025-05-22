@@ -10,7 +10,7 @@ import Link from "next/link";
 // STYLED COMPONENTS
 const ContentColumn = styled.div`
   color: #000;
-  padding: 2rem;
+  padding: 3rem;
   display: flex;
   flex-direction: column;
   font-family: 'Abhaya Libre', serif;
@@ -32,7 +32,7 @@ const SubheadingText = styled.span`
 
 const Description = styled.p`
   font-size: 20px;
-  font-weight: 900;
+  font-weight: 400;
   color: #000;
   margin-bottom: 2rem;
 `;

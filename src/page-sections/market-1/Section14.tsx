@@ -8,7 +8,7 @@ import { H3 } from "@component/Typography";
 const WelcomeSection = styled.section`
   background-color: #0030E3;
   color: white;
-  padding: 6rem;
+  padding: 3rem;
   display: grid;
   font-family: 'Abhaya Libre', serif;
   grid-template-columns: 5fr 4fr; /* 5:4 ratio for content and stats */

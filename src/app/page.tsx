@@ -8,6 +8,8 @@ import { Footer1 } from "@component/footer";
 import Section9 from "@sections/market-1/Section9";
 import Section14 from "@sections/market-1/Section14";
 import Section15 from "@sections/market-1/Section15";
+import Section16 from "@sections/market-1/Section16";
+import Section17 from "@sections/market-1/Section17";
 import Section2 from "@sections/market-1/Section2";
 
 
@@ -24,7 +26,9 @@ export default async function Market1() {
       <Section9 products={popularProducts} />
       <Section14 />
       <Section15 />
-      <Section2 /> 
+      <Section16 />
+      <Section17 />
+      {/* <Section2 />  */}
       {/* TOP CATEGORIES AREA */}
       <Section3 />
       <Footer1 />

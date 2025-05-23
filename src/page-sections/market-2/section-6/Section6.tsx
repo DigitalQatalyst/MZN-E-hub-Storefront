@@ -85,7 +85,7 @@ export default function Section6() {
   const [totalItems, setTotalItems] = useState(0);
   const [totalFilteredItems, setTotalFilteredItems] = useState(0);
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true); // New loading state
+  const [loading, setLoading] = useState(true);
   const productsPerPage = 15;
 
   // State for Categories filters
@@ -170,7 +170,6 @@ export default function Section6() {
           } while (currentSkip < total);
 
           console.log("All products fetched:", allProducts.length);
-          setTotalItems(total);
 
           // Filter for Financial Services (facetValue.id: "66") and exclude non-financial (facetValue.id: "67")
           const financialServicesOnly = allProducts.filter((product) =>
@@ -179,7 +178,10 @@ export default function Section6() {
           );
           console.log("Filtered to Financial Services only:", financialServicesOnly.length);
 
-          // Apply other filters
+          // Set totalItems to the count of financial services only
+          setTotalItems(financialServicesOnly.length);
+
+          // Apply other filters to financial services only
           const selectedCategories: string[] = [];
           if (categoriesFilters.businessFunding.termLoans) selectedCategories.push("Term Loans");
           if (categoriesFilters.businessFunding.businessDevelopment) selectedCategories.push("Business Development");
@@ -274,10 +276,32 @@ export default function Section6() {
           );
           console.log("Filtered to Financial Services only:", financialServicesOnly.length);
 
+          // Fetch the total count of financial services only on initial load or if not set
+          if (totalItems === 0) {
+            const allProducts: Product[] = [];
+            let currentSkip = 0;
+            let total = 0;
+
+            do {
+              const totalData = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
+                skip: currentSkip,
+                take: productsPerPage,
+              });
+              allProducts.push(...totalData.products.items);
+              total = totalData.products.totalItems;
+              currentSkip += productsPerPage;
+            } while (currentSkip < total);
+
+            const financialServicesTotal = allProducts.filter((product) =>
+              product.facetValues.some((fv) => fv.id === "66") &&
+              !product.facetValues.some((fv) => fv.id === "67")
+            );
+            setTotalItems(financialServicesTotal.length);
+          }
+
           setProducts(financialServicesOnly);
           setFilteredProducts(financialServicesOnly);
           setAllFilteredProducts(financialServicesOnly);
-          setTotalItems(financialServicesOnly.length);
           setTotalFilteredItems(financialServicesOnly.length);
         }
       } catch (error) {
@@ -834,6 +858,7 @@ export default function Section6() {
                     backgroundColor: currentPage === index + 1 ? "#002180" : "transparent",
                     color: currentPage === index + 1 ? "#fff" : "#002180",
                     cursor: "pointer",
+                    display: "inline-block",
                   }}
                 >
                   {index + 1}

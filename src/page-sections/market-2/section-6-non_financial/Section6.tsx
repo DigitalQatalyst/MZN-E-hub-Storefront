@@ -85,7 +85,7 @@ export default function Section6() {
   const [totalItems, setTotalItems] = useState(0);
   const [totalFilteredItems, setTotalFilteredItems] = useState(0);
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true); // New loading state
+  const [loading, setLoading] = useState(true);
   const productsPerPage = 15;
 
   // State for Categories filters
@@ -170,7 +170,6 @@ export default function Section6() {
           } while (currentSkip < total);
 
           console.log("All products fetched:", allProducts.length);
-          setTotalItems(total);
 
           // Filter for Non-Financial Services (facetValue.id: "67") only, exclude Financial Services (facetValue.id: "66")
           const nonFinancialServicesOnly = allProducts.filter((product) =>
@@ -178,6 +177,8 @@ export default function Section6() {
             !product.facetValues.some((fv) => fv.id === "66")
           );
           console.log("Filtered to Non-Financial Services only:", nonFinancialServicesOnly.length);
+
+          setTotalItems(nonFinancialServicesOnly.length);
 
           // Apply other filters
           const selectedCategories: string[] = [];
@@ -257,28 +258,44 @@ export default function Section6() {
 
           const startIndex = (currentPage - 1) * productsPerPage;
           const endIndex = startIndex + productsPerPage;
-          setProducts(filtered.slice(startIndex, endIndex));
+          setProducts(filtered);
           setFilteredProducts(filtered.slice(startIndex, endIndex));
         } else {
-          console.log("No filters applied, fetching current page...");
-          const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
-            skip: (currentPage - 1) * productsPerPage,
-            take: productsPerPage,
-          });
-          console.log("Response from GraphQL:", data);
+          console.log("No filters applied, fetching all products...");
+          const allProducts: Product[] = [];
+          let currentSkip = 0;
+          let total = 0;
+
+          do {
+            const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
+              skip: currentSkip,
+              take: productsPerPage,
+            });
+            console.log("Fetched batch of products:", data.products.items.length, "Total Items:", data.products.totalItems);
+            allProducts.push(...data.products.items);
+            total = data.products.totalItems;
+            currentSkip += productsPerPage;
+          } while (currentSkip < total);
+
+          console.log("All products fetched:", allProducts.length);
 
           // Filter for Non-Financial Services (facetValue.id: "67") only, exclude Financial Services (facetValue.id: "66")
-          const nonFinancialServicesOnly = data.products.items.filter((product) =>
+          const nonFinancialServicesOnly = allProducts.filter((product) =>
             product.facetValues.some((fv) => fv.id === "67") &&
             !product.facetValues.some((fv) => fv.id === "66")
           );
           console.log("Filtered to Non-Financial Services only:", nonFinancialServicesOnly.length);
 
-          setProducts(nonFinancialServicesOnly);
-          setFilteredProducts(nonFinancialServicesOnly);
-          setAllFilteredProducts(nonFinancialServicesOnly);
+          // Set totalItems to the total count of non-financial services
           setTotalItems(nonFinancialServicesOnly.length);
+
+          setAllFilteredProducts(nonFinancialServicesOnly);
           setTotalFilteredItems(nonFinancialServicesOnly.length);
+
+          const startIndex = (currentPage - 1) * productsPerPage;
+          const endIndex = startIndex + productsPerPage;
+          setProducts(nonFinancialServicesOnly);
+          setFilteredProducts(nonFinancialServicesOnly.slice(startIndex, endIndex));
         }
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -323,15 +340,16 @@ export default function Section6() {
         return key.charAt(0).toUpperCase() + key.slice(1);
       });
 
+    let filtered: Product[] = [];
     if (
       selectedCategories.length === 0 &&
       selectedStages.length === 0 &&
       selectedProviders.length === 0 &&
       selectedPricingModels.length === 0
     ) {
-      setFilteredProducts(products);
+      filtered = allFilteredProducts;
     } else {
-      const filtered = products.filter((product) => {
+      filtered = allFilteredProducts.filter((product) => {
         const matchesCategory =
           selectedCategories.length === 0 ||
           product.facetValues.some(
@@ -362,9 +380,13 @@ export default function Section6() {
           );
         return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
       });
-      setFilteredProducts(filtered);
     }
-  }, [products, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters]);
+
+    setTotalFilteredItems(filtered.length);
+    const startIndex = (currentPage - 1) * productsPerPage;
+    const endIndex = startIndex + productsPerPage;
+    setFilteredProducts(filtered.slice(startIndex, endIndex));
+  }, [allFilteredProducts, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters, currentPage]);
 
   // Handle checkbox changes for Categories filters
   const handleCategoriesChange = (category: string, subcategory: string) => {
@@ -834,6 +856,7 @@ export default function Section6() {
                     backgroundColor: currentPage === index + 1 ? "#002180" : "transparent",
                     color: currentPage === index + 1 ? "#fff" : "#002180",
                     cursor: "pointer",
+                    display: "inline-block",
                   }}
                 >
                   {index + 1}

@@ -53,6 +53,6 @@ export default async function Section3() {
         </FlexBox>
       </FullWrapper>
     </div>
-    // </CategorySectionCreator>
+    //   </CategorySectionCreator>
   );
 }

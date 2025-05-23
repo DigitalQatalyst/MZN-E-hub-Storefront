@@ -118,6 +118,7 @@ const ExploreAllButton = styled(DefaultButton)`
 `;
 
 // TYPES
+
 interface Event {
   id: number;
   image: string;

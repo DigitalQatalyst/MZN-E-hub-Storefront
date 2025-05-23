@@ -36,8 +36,7 @@ const TabBar: React.FC = () => {
   return (
     <TabBarContainer>
       <Tab
-        // onClick={() => handleTabClick('Non-Financial', '/non-financial-marketplace')}  
-        onClick={() => handleTabClick('Non-Financial', '#')} 
+        onClick={() => handleTabClick('Non-Financial', '/non-financial-marketplace')}  
         active={activeTab === 'Non-Financial'}
       >
         <img src="/assets/images/tab_bar/all_inclusive.svg" alt="icon" />

@@ -14,7 +14,8 @@ import { useAppContext } from "@context/app-context";
 // STYLED COMPONENTS
 const StyledBazaarCard = styled(Card)(({ theme }) => ({
   margin: "auto",
-  height: "248px",
+  height: "296px",
+  flexShrink: 0,
   display: "flex",
   overflow: "hidden",
   position: "relative",
@@ -31,7 +32,7 @@ const StyledBazaarCard = styled(Card)(({ theme }) => ({
 }));
 
 const ImageWrapper = styled(Box)({
-  padding: "20px 240px 20px 20px", // Retained to position the circle in the top-left
+  padding: "20px 200px 20px 20px",
   textAlign: "center",
   position: "relative",
   display: "flex",
@@ -42,18 +43,51 @@ const ImageBox = styled(Box)({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  borderRadius: "50%", // 50% ensures a perfect circle with equal height and width
-  height: "60px", // Equal height and width for a circle
+  borderRadius: "50%",
+  height: "60px",
   width: "60px",
 });
 
 const ContentWrapper = styled(Box)({
-  padding: "0 40px 40px 20px", // 0 top, 40px right, 40px bottom, 40px left
-  "& .title, & .categories": {
+  padding: "0 40px 40px 20px",
+  "& .title": {
+    overflow: "hidden",
+    whiteSpace: "normal",
+    textOverflow: "clip",
+    display: "-webkit-box",
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: "vertical",
+  },
+  "& .categories": {
     overflow: "hidden",
     whiteSpace: "nowrap",
     textOverflow: "ellipsis"
   }
+});
+
+const StyledTitle = styled(H3)(({ wordCount }) => ({
+  color: "var(--KF-BG-Blue, #0030E3)",
+  fontFamily: '"FS Kim Trial"',
+  fontSize: "20px",
+  fontStyle: "normal",
+  fontWeight: 400,
+  lineHeight: "26px",
+  ...(wordCount > 19 && {
+    display: "-webkit-box",
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: "vertical",
+    overflow: "hidden",
+    textOverflow: "clip",
+  })
+}));
+
+const StyledSubtitle = styled("p")({
+  color: "var(--KF-BG-Black, #000)",
+  fontFamily: '"Helvetica Neue"',
+  fontSize: "14px",
+  fontStyle: "normal",
+  fontWeight: 400,
+  lineHeight: "22px",
 });
 
 // =============================================================
@@ -88,6 +122,9 @@ export default function ProductCard16(props: ProductCardProps) {
     });
   };
 
+  // Count words in the title
+  const wordCount = title.trim().split(/\s+/).length;
+
   // Convert id to string to match ProductQuickViewProps
   const productId = String(id);
 
@@ -114,19 +151,17 @@ export default function ProductCard16(props: ProductCardProps) {
       <ContentWrapper>
         <Box flex="1 1 0" minWidth="0px" mr={1}>
           {/* <Link href={`/product/${slug}`}> */}
-            <H3
+            <StyledTitle
               title={title}
-              fontSize="16px"
-              fontWeight="600"
+              wordCount={wordCount}
               className="title"
-              color="#0030E3"
             >
               {title}
-            </H3>
+            </StyledTitle>
           {/* </Link> */}
-          <p style={{ fontSize: '14px', color: '#000', fontWeight: '400' }}>
+          <StyledSubtitle>
             {subTitle}
-          </p>
+          </StyledSubtitle>
         </Box>
       </ContentWrapper>
     </StyledBazaarCard>

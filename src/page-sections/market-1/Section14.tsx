@@ -8,11 +8,9 @@ import { H3 } from "@component/Typography";
 const WelcomeSection = styled.section`
   background-color: #0030E3;
   color: white;
-  padding: 3rem;
+  padding: 50px 80px 80px 130px;
   display: grid;
   font-family: 'Abhaya Libre', serif;
-  grid-template-columns: 5fr 4fr; /* 5:4 ratio for content and stats */
-  gap: 2rem;
   margin-bottom: 2rem;
 `;
 
@@ -53,9 +51,8 @@ const StatLabel = styled.div`
 
 const IconRow = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-top: 2rem;
-  gap: 1rem;
+  justify-content: space-around;
+  margin-top: 4rem;
   grid-column: span 2; /* Span across both columns */
 `;
 
@@ -83,6 +80,28 @@ const ComingSoonLabel = styled.div`
   font-weight: 600;
   padding: 2px 6px;
   border-radius: 10px;
+`;
+
+const StyledSubHeader = styled.p`
+  color: var(--KF-BG-White, #FFF);
+  font-family: "Helvetica Neue";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Title-Large-Line-Height, 28px); /* 175% */
+  letter-spacing: var(--Title-Large-Tracking, 0px);
+  text-transform: uppercase;
+`;
+
+const StyledPlatformHeader = styled.p`
+  color: var(--KF-BG-White, #FFF);
+  font-family: "FS Kim Trial";
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Display-Medium-Line-Height, 52px); /* 108.333% */
+  letter-spacing: var(--Display-Medium-Tracking, 0px);
+  margin-bottom: 1rem;
 `;
 
 // TYPES
@@ -121,10 +140,12 @@ const Section14: React.FC = () => {
       {/* Welcome Section */}
       <WelcomeSection>
         <ContentColumn>
-          <p style={{ fontSize: "16px", fontWeight: "400" }}>OUR MARKETPLACE PORTFOLIO</p>
-          <H3 fontSize="48px" fontWeight="400" mb="1rem">
+          <StyledSubHeader>
+            OUR MARKETPLACE PORTFOLIO
+          </StyledSubHeader>
+          <StyledPlatformHeader>
             A growing platform to power every <br /> stage of your business.
-          </H3>
+          </StyledPlatformHeader>
         </ContentColumn>
         <StatsColumn>
           {stats.map((stat, index) => (

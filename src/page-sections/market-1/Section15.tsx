@@ -10,7 +10,7 @@ import Link from "next/link";
 // STYLED COMPONENTS
 const ContentColumn = styled.div`
   color: #000;
-  padding: 3rem;
+  padding: 10px 10px 10px 80px;;
   display: flex;
   flex-direction: column;
   font-family: 'Abhaya Libre', serif;
@@ -31,18 +31,12 @@ const SubheadingText = styled.span`
 `;
 
 const Description = styled.p`
-  font-size: 20px;
+  color: var(--KF-BG-Black, #000);
+  font-family: "Helvetica Neue";
+  font-size: var(--Body-Large-Size, 16px);
+  font-style: normal;
   font-weight: 400;
-  color: #000;
-  margin-bottom: 2rem;
-`;
-
-const CardContainer = styled.div`
-  display: flex;
-  gap: 20px; /* Reduced gap to bring cards closer */
-  width: 100%;
-  max-width: 768px; /* Constrain the total width of the cards */
-  padding-left: 2rem; /* Match the padding of ContentColumn */
+  line-height: var(--Body-Large-Line-Height, 24px); /* 150% */
 `;
 
 const StyledMarketplaceCard = styled.div(({ theme }) => ({
@@ -114,6 +108,27 @@ const ExploreButton = styled(DefaultButton)`
   }
 `;
 
+const StyledHeader = styled.p`
+  color: #000;
+  font-family: "Helvetica Neue";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Title-Large-Line-Height, 28px); /* 175% */
+  letter-spacing: var(--Title-Large-Tracking, 0px);
+  text-transform: uppercase;
+`;
+
+const StyledBody = styled.p`
+  color: #000;
+  font-family: "FS Kim Trial";
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Display-Medium-Line-Height, 52px); /* 108.333% */
+  letter-spacing: var(--Display-Medium-Tracking, 0px);
+`;
+
 const StyledButton = styled(DefaultButton)`
   display: flex;
   text-align: left;
@@ -139,6 +154,15 @@ const StyledButton = styled(DefaultButton)`
     line-height: var(--Body-Small-Line-Height, 16px);
     letter-spacing: var(--Body-Small-Tracking, 0.4px);
   }
+`;
+
+// Define CardsContainer to match ContentColumn padding
+const CardContainer = styled(Box)`
+  padding: 10px 80px 10px 80px;
+  display: flex;
+  gap: 20px; /* Reduced gap to bring cards closer */
+  width: 100%;
+  max-width: 768px; /* Constrain the total width of the cards */
 `;
 
 // TYPES
@@ -174,11 +198,13 @@ export default function Section15() {
     return (
         <CategorySectionCreator>
             <ContentColumn>
-                <p style={{ fontSize: "18px", fontWeight: "400" }}>IN THE SPOTLIGHT</p>
-                <H3 fontSize="48px" fontWeight="550" mb="1rem">
+                <StyledHeader>
+                    IN THE SPOTLIGHT
+                </StyledHeader>
+                <StyledBody>
                     Discover this quarter's top-performing<br />
                     marketplaces and services.
-                </H3>
+                </StyledBody>
                 <Subheading>
                     <SubheadingText>Featured Marketplaces</SubheadingText>
                     <span style={{ fontSize: "16px", fontWeight: "500", color: "#1A1A1A" }}>Featured Services</span>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Button as DefaultButton } from "@component/buttons";
 import Box from "@component/Box";
 import CategorySectionCreator from "@component/CategorySectionCreator";
@@ -23,11 +24,12 @@ const Subheading = styled.div`
   margin: 1rem 0;
 `;
 
-const SubheadingText = styled.span`
+const SubheadingText = styled.span<{ active?: boolean }>`
   font-size: 16px;
   font-weight: 500;
-  color: #0030E3;
-  border-bottom: 2px solid #0030E3;
+  color: ${({ active }) => (active ? "#0030E3" : "#1A1A1A")};
+  border-bottom: ${({ active }) => (active ? "2px solid #0030E3" : "none")};
+  cursor: pointer;
 `;
 
 const Description = styled.p`
@@ -40,45 +42,45 @@ const Description = styled.p`
 `;
 
 const StyledMarketplaceCard = styled.div(({ theme }) => ({
-    height: "294px", /* Updated to Figma spec */
-    width: "308px", /* Updated to Figma spec */
-    flexShrink: 0, /* Updated to Figma spec */
-    display: "flex",
-    overflow: "hidden",
-    position: "relative",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    transition: "all 250ms ease-in-out",
-    borderRadius: "8px", /* Updated to Figma spec */
-    border: "0.5px solid #E5E5E5", /* Updated to Figma spec using #E5E5E5 as divider */
-    background: "#FFF", /* Updated to Figma spec */
-    boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.30), 0px 1px 3px 1px rgba(0, 0, 0, 0.15)", /* Matches Figma spec */
-    "&:hover": {
-        boxShadow: theme.shadows[2],
-    },
+  height: "294px",
+  width: "308px",
+  flexShrink: 0,
+  display: "flex",
+  overflow: "hidden",
+  position: "relative",
+  flexDirection: "column",
+  justifyContent: "space-between",
+  transition: "all 250ms ease-in-out",
+  borderRadius: "8px",
+  border: "0.5px solid #E5E5E5",
+  background: "#FFF",
+  boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.30), 0px 1px 3px 1px rgba(0, 0, 0, 0.15)",
+  "&:hover": {
+    boxShadow: theme.shadows[2],
+  },
 }));
 
 const ImageWrapper = styled(Box)({
-    padding: "16px 0 16px 16px", /* Adjusted padding to match image layout */
-    display: "flex",
-    justifyContent: "flex-start", /* Align icon to the left */
+  padding: "16px 0 16px 16px",
+  display: "flex",
+  justifyContent: "flex-start",
 });
 
 const ImageBox = styled(Box)({
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: "50%",
-    height: "60px",
-    width: "60px",
-    backgroundColor: "#E6F0FA", /* Light blue background to match image */
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  borderRadius: "50%",
+  height: "60px",
+  width: "60px",
+  backgroundColor: "#E6F0FA",
 });
 
 const ContentWrapper = styled(Box)({
-    padding: "0 16px 16px 16px", /* Adjusted padding to match image layout */
-    "& .title, & .description": {
-        whiteSpace: "normal", /* Allow text to wrap */
-    },
+  padding: "0 16px 16px 16px",
+  "& .title, & .description": {
+    whiteSpace: "normal",
+  },
 });
 
 const CardFooter = styled(Box)`
@@ -156,111 +158,185 @@ const StyledButton = styled(DefaultButton)`
   }
 `;
 
-// Define CardsContainer to match ContentColumn padding
 const CardContainer = styled(Box)`
   padding: 10px 80px 10px 80px;
   display: flex;
-  gap: 20px; /* Reduced gap to bring cards closer */
+  gap: 20px;
   width: 100%;
-  max-width: 768px; /* Constrain the total width of the cards */
+  max-width: 768px;
 `;
 
 // TYPES
 interface Marketplace {
-    icon: string;
-    title: {
-        line1: string;
-        line2: string;
-    };
-    description: string;
+  icon: string;
+  title: {
+    line1: string;
+    line2: string;
+  };
+  description: string;
+}
+
+interface Service {
+  icon: string;
+  title: {
+    line1: string;
+    line2: string;
+  };
+  description: string;
 }
 
 export default function Section15() {
-    const marketplaces: Marketplace[] = [
-        {
-            icon: "/assets/images/Groceries Shop/copy1.png", // Replaced with first image link
-            title: {
-                line1: "Non-Financial",
-                line2: "Marketplace",
-            },
-            description: "Access business registration, legal advisory, tax compliance, and SME support services—all in one place.",
-        },
-        {
-            icon: "/assets/images/Groceries Shop/copy2.png", // Replaced with second image link
-            title: {
-                line1: "Financial",
-                line2: "Marketplace",
-            },
-            description: "Access loans, grants, and financial support services to help your SME manage operations and drive growth.",
-        },
-    ];
+  const [selectedOption, setSelectedOption] = useState("marketplaces");
+  const handleOptionClick = (opt: string) => () => setSelectedOption(opt);
 
-    return (
-        <CategorySectionCreator>
-            <ContentColumn>
-                <StyledHeader>
-                    IN THE SPOTLIGHT
-                </StyledHeader>
-                <StyledBody>
-                    Discover this quarter's top-performing<br />
-                    marketplaces and services.
-                </StyledBody>
-                <Subheading>
-                    <SubheadingText>Featured Marketplaces</SubheadingText>
-                    <span style={{ fontSize: "16px", fontWeight: "500", color: "#1A1A1A" }}>Featured Services</span>
-                </Subheading>
-                <Description>
-                    A quick look at the most active marketplaces this quarter—driven by SME demand <br />
-                    and partner momentum.
-                </Description>
-            </ContentColumn>
-            <Box my="-0.25rem">
-                <CardContainer>
-                    {marketplaces.map((marketplace, index) => (
-                        <StyledMarketplaceCard key={index}>
-                            <ImageWrapper>
-                                <ImageBox>
-                                    <img
-                                        src={marketplace.icon}
-                                        alt={marketplace.title.line1 + " " + marketplace.title.line2}
-                                        style={{ width: "100%", height: "100%", objectFit: "contain" }}
-                                    />
-                                </ImageBox>
-                            </ImageWrapper>
-                            <ContentWrapper>
-                                <Box flex="1 1 0" minWidth="0px" mr={1}>
-                                    <Link href="#">
-                                        <H3
-                                            title={marketplace.title.line1 + " " + marketplace.title.line2}
-                                            fontSize="20px"
-                                            fontWeight="400"
-                                            className="title"
-                                            color="#0030E3"
-                                        >
-                                            {marketplace.title.line1}<br />{marketplace.title.line2}
-                                        </H3>
-                                    </Link>
-                                    <p
-                                        style={{ fontSize: "14px", color: "#000", fontWeight: "400" }}
-                                        className="description"
-                                    >
-                                        {marketplace.description}
-                                    </p>
-                                </Box>
-                                <CardFooter>
-                                    <StyledButton>
-                                        <span>Top Pick</span>
-                                    </StyledButton>
-                                    <ExploreButton>
-                                        Explore Marketplace
-                                        <span>→</span>
-                                    </ExploreButton>
-                                </CardFooter>
-                            </ContentWrapper>
-                        </StyledMarketplaceCard>
-                    ))}
-                </CardContainer>
-            </Box>
-        </CategorySectionCreator>
-    );
+  const marketplaces: Marketplace[] = [
+    {
+      icon: "/assets/images/Groceries Shop/copy1.png",
+      title: {
+        line1: "Non-Financial",
+        line2: "Marketplace",
+      },
+      description: "Access business registration, legal advisory, tax compliance, and SME support services—all in one place.",
+    },
+    {
+      icon: "/assets/images/Groceries Shop/copy2.png",
+      title: {
+        line1: "Financial",
+        line2: "Marketplace",
+      },
+      description: "Access loans, grants, and financial support services to help your SME manage operations and drive growth.",
+    },
+  ];
+
+  const services: Service[] = [
+    {
+      icon: "/assets/images/Groceries Shop/copy1.png",
+      title: {
+        line1: "Business",
+        line2: "Consulting",
+      },
+      description: "Get expert advice on business strategy, operations, and growth to scale your SME effectively.",
+    },
+    {
+      icon: "/assets/images/Groceries Shop/copy2.png",
+      title: {
+        line1: "Financial",
+        line2: "Planning",
+      },
+      description: "Plan your finances with tailored solutions for budgeting, investments, and cash flow management.",
+    },
+  ];
+
+  return (
+    <CategorySectionCreator>
+      <ContentColumn>
+        <StyledHeader>IN THE SPOTLIGHT</StyledHeader>
+        <StyledBody>
+          Discover this quarter's top-performing<br />
+          marketplaces and services.
+        </StyledBody>
+        <Subheading>
+          <SubheadingText active={selectedOption === "marketplaces"} onClick={handleOptionClick("marketplaces")}>
+            Featured Marketplaces
+          </SubheadingText>
+          <SubheadingText active={selectedOption === "services"} onClick={handleOptionClick("services")}>
+            Featured Services
+          </SubheadingText>
+        </Subheading>
+        <Description>
+          A quick look at the most active {selectedOption === "marketplaces" ? "marketplaces" : "services"} this quarter—driven by SME demand and partner momentum.
+        </Description>
+      </ContentColumn>
+      <Box my="-0.25rem">
+        <CardContainer>
+          {selectedOption === "marketplaces" &&
+            marketplaces.map((marketplace, index) => (
+              <StyledMarketplaceCard key={index}>
+                <ImageWrapper>
+                  <ImageBox>
+                    <img
+                      src={marketplace.icon}
+                      alt={marketplace.title.line1 + " " + marketplace.title.line2}
+                      style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                    />
+                  </ImageBox>
+                </ImageWrapper>
+                <ContentWrapper>
+                  <Box flex="1 1 0" minWidth="0px" mr={1}>
+                    <Link href="#">
+                      <H3
+                        title={marketplace.title.line1 + " " + marketplace.title.line2}
+                        fontSize="20px"
+                        fontWeight="400"
+                        className="title"
+                        color="#0030E3"
+                      >
+                        {marketplace.title.line1}
+                        <br />
+                        {marketplace.title.line2}
+                      </H3>
+                    </Link>
+                    <p style={{ fontSize: "14px", color: "#000", fontWeight: "400" }} className="description">
+                      {marketplace.description}
+                    </p>
+                  </Box>
+                  <CardFooter>
+                    <StyledButton>
+                      <span>Top Pick</span>
+                    </StyledButton>
+                    <ExploreButton>
+                      Explore Marketplace
+                      <span>→</span>
+                    </ExploreButton>
+                  </CardFooter>
+                </ContentWrapper>
+              </StyledMarketplaceCard>
+            ))}
+          {selectedOption === "services" &&
+            services.map((service, index) => (
+              <StyledMarketplaceCard key={index}>
+                <ImageWrapper>
+                  <ImageBox>
+                    <img
+                      src={service.icon}
+                      alt={service.title.line1 + " " + service.title.line2}
+                      style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                    />
+                  </ImageBox>
+                </ImageWrapper>
+                <ContentWrapper>
+                  <Box flex="1 1 0" minWidth="0px" mr={1}>
+                    <Link href="#">
+                      <H3
+                        title={service.title.line1 + " " + service.title.line2}
+                        fontSize="20px"
+                        fontWeight="400"
+                        className="title"
+                        color="#0030E3"
+                      >
+                        {service.title.line1}
+                        <br />
+                        {service.title.line2}
+                      </H3>
+                    </Link>
+                    <p style={{ fontSize: "14px", color: "#000", fontWeight: "400" }} className="description">
+                      {service.description}
+                    </p>
+                  </Box>
+                  <CardFooter>
+                    <StyledButton>
+                      <span>Top Pick</span>
+                    </StyledButton>
+                    <ExploreButton>
+                      Explore Service
+                      <span>→</span>
+                    </ExploreButton>
+                  </CardFooter>
+                </ContentWrapper>
+              </StyledMarketplaceCard>
+            ))}
+        </CardContainer>
+      </Box>
+    </CategorySectionCreator>
+  );
 }

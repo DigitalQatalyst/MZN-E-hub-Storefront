@@ -48,11 +48,13 @@ export const StyledCategoryMenuItem = styled.div`
     white-space: pre;
     padding: 0px 1rem;
     align-items: center;
+    justify-content: flex-start;
     transition: all 250ms ease-in-out;
 
     .title {
-      padding-left: 0.75rem;
+      padding-left: 4rem;
       flex-grow: 1;
+      text-align: left;
     }
   }
 

@@ -27,12 +27,11 @@ export default async function Section3() {
         <FlexBox flexDirection={"column"} padding={"2rem"} backgroundColor={colors.primary.gradient}>
           <FlexBox alignItems={"end"} justifyContent={"space-between"} flexDirection={"row"} marginBottom={"20px"} >
             <FlexBox alignItems={"flex-start"} justifyContent={"space-between"} flexDirection={"column"}>
-              <H5 color={"#000000"}>HOW IT WORKS</H5>
-              <H1 marginBottom={"1.5rem"} marginTop={"1.5rem"} color={"#0030e3"}>Getting started is easy</H1>
-              <H5 color={"#000000"}>Upon gaining access to MZN’s WebApp, your initial task involves selecting a service <br />
-                that is suitable for your business</H5>
+              <H5 color={"#000000"} fontFamily="Helvetica Neue">HOW IT WORKS</H5>
+              <H1 marginBottom={"1.5rem"} marginTop={"1.5rem"} color={"#0030e3"} fontFamily="FS Kim Trial">Getting started is easy</H1>
+              <H5 color={"#000000"} fontFamily="Helvetica Neue" >Browse available marketplaces, find services tailored to your business needs, and unlock growth opportunities—all<br>
+              </br> through one platform.</H5>
             </FlexBox>
-
             <FlexBox alignItems={"flex-end"} justifyContent={"flex-end"} mb={"1rem"}>
               <Link href="/signup">
                 <Button className="SignUp" variant="contained" color="primary" fullwidth>Sign Up</Button>

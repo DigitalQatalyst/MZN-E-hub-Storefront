@@ -95,7 +95,6 @@ export default function ProductCard16(props: ProductCardProps) {
     <StyledBazaarCard hoverEffect={hoverEffect}>
       <ImageWrapper>
         <ImageBox>
-          <Link href={`/product/${slug}`}>
             <LazyImage
               alt={title}
               src={imgUrl}
@@ -103,7 +102,6 @@ export default function ProductCard16(props: ProductCardProps) {
               height={60}
               style={{ objectFit: "cover" }}
             />
-          </Link>
         </ImageBox>
       </ImageWrapper>
 

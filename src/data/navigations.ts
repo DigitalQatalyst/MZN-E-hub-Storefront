@@ -84,7 +84,7 @@ const navigations = [
   },
   {
     icon: "calendar_month",
-    title: "Calender",
+    title: "Calendar",
     href: "/product/search/pets",
     menuComponent: "MegaMenu1"
   },

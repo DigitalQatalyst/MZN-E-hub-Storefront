@@ -38,7 +38,7 @@ export default function Section9({ products }: Props) {
                 <ContentColumn>
                     <H4 fontSize="18px" fontWeight="400">WELCOME TO THE ENTERPRISE JOURNEY PLATFORM</H4>
                     <H3 fontSize="48px" fontWeight="600" mb="1rem" mt="1rem">
-                        Curated support, Trusted Partners,<br />
+                        Curated support, trusted partners,<br />
                         one platform.
                     </H3>
                 </ContentColumn>

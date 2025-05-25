@@ -174,9 +174,9 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         {/* Search Icon, Sign In, and Sign Up Buttons */}
         <FlexBox alignItems="center" style={{ gap: "15px" }}>
           {/* Search Icon (Replace with your actual SVG) */}
-          <Box className="search-icon" style={{ cursor: "pointer" }}>
+          {/* <Box className="search-icon" style={{ cursor: "pointer" }}>
             <img src="/assets/images/logos/search.svg" alt="Search" height="18px" />
-          </Box>
+          </Box> */}
 
           {/* Sign In & Sign Up Buttons */}
           <Button className="sign-in-btn" variant="outlined" mr={"10px"} ml={"10px"}>

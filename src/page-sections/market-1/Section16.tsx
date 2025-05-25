@@ -82,7 +82,7 @@ const EventTitle = styled.h4`
 
 const EventMeta = styled.div`
   font-size: 14px;
-  font-family: "Public Sans";
+  font-family: "FS Kim Trial";
   color: #FFF;
   display: flex;
   flex-direction: column;
@@ -169,14 +169,14 @@ const Section16: React.FC = () => {
       {/* Welcome Section */}
       <WelcomeSection>
         <ContentColumn>
-          <p style={{ fontSize: "16px", fontWeight: "400" }}>JOIN OUR UPCOMING EVENTS</p>
-          <H3 fontSize="48px" fontWeight="400" mb="1rem">
+          <p style={{ fontSize: "16px", fontWeight: "400", fontFamily: "Helvetica Neue" }}>JOIN OUR UPCOMING EVENTS</p>
+          <H3 fontSize="48px" fontWeight="400" fontFamily="FS Kim Trial" mb="1rem">
             Workshops, bootcamps, and info sessions <br /> designed to help you grow.
           </H3>
         </ContentColumn>
         <FeaturedEvents>
           <FeaturedEventsHeader>
-            <p style={{ fontSize: "16px", fontWeight: "400" }}>Featured Events</p>
+            <p style={{ fontSize: "16px", fontWeight: "400", fontFamily: "Helvetica Neue" }}>Featured Events</p>
             <ExploreAllButton>
               Explore all Events <span>→</span>
             </ExploreAllButton>
@@ -196,7 +196,7 @@ const Section16: React.FC = () => {
                   <EventTitle>{event.title}</EventTitle>
                   <EventMeta>
                     <span>
-                      <Icon>calendar_month</Icon>
+                      <Icon>calendar</Icon>
                       {event.date}
                     </span>
                     <span>

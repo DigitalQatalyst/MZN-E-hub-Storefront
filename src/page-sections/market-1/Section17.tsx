@@ -9,7 +9,7 @@ import Image from "next/image";
 const WelcomeSection = styled.section`
   background-color: #FFF; /* White background as per the image */
   color: #000;
-  padding: 3rem;
+  padding: 50px 120px 50px 120px;
   display: flex;
   flex-direction: column;
   font-family: 'Abhaya Libre', serif;

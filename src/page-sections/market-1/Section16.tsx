@@ -10,7 +10,7 @@ import Icon from "@component/icon/Icon";
 const WelcomeSection = styled.section`
   background-color: #0030E3;
   color: white;
-  padding: 3rem;
+  padding: 50px 120px 50px 120px;
   display: flex;
   flex-direction: column;
   font-family: 'Abhaya Libre', serif;

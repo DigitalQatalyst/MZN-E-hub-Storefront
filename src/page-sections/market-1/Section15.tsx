@@ -10,7 +10,7 @@ import Link from "next/link";
 // STYLED COMPONENTS
 const ContentColumn = styled.div`
   color: #000;
-  padding: 10px 10px 10px 80px;;
+  padding: 10px 10px 10px 80px;
   display: flex;
   flex-direction: column;
   font-family: 'Abhaya Libre', serif;

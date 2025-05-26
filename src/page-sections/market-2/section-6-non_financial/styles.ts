@@ -57,34 +57,40 @@ export const DropdownText = styled(ListItem)`
   padding: 5px 0;
   cursor: pointer;
   margin-left: 20px;
- 
 `;
 
 // Style for the checkboxes
 export const CheckboxLabel = styled.label`
-  display: block;
+  display: flex; /* Use flexbox to align items */
+  align-items: center; /* Vertically center all items */
   font-size: 14px;
-  color: "var(--KF-BG-Dark-Blue, #003366)",;
+  color: "var(--KF-BG-Dark-Blue, #003366)";
   cursor: pointer;
-  padding-left: 24px;
-  position: relative;
   line-height: 1.5;
   margin-bottom: 8px;
+  position: relative; /* Ensure positioning context for children */
+  width: 100%; /* Ensure the label takes full width of the container */
 
   input[type="checkbox"] {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    margin: 0;
-    accent-color: "var(--KF-BG-Dark-Blue, #003366)",; // Style the checkbox to match the blue color
+    margin-right: 8px; /* Space between checkbox and label */
+    margin-left: 0; /* Remove left padding since we're using flex */
+    accent-color: "var(--KF-BG-Dark-Blue, #003366)"; /* Style the checkbox to match the blue color */
+    flex-shrink: 0; /* Prevent the checkbox from shrinking */
   }
 
-  
+  label {
+    flex: 1; /* Allow the label text to take up remaining space */
+    margin-right: 0.5rem; /* Space between label text and dropdown icon */
+  }
+
+  img { /* Style for the dropdown icon */
+    margin-left: auto; /* Push the icon to the far right */
+    vertical-align: middle; /* Ensure the icon aligns with the text baseline */
+  }
 
   /* Checkmark style for checked boxes */
   input[type="checkbox"]:checked + span {
-    color: "var(--KF-BG-Dark-Blue, #003366)",;
+    color: "var(--KF-BG-Dark-Blue, #003366)";
   }
 `;
 

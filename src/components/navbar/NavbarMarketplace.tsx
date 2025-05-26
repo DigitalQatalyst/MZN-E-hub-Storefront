@@ -72,6 +72,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           </NavLink>
         </FlexBox>
 
+
         {/* Search Icon, Sign In, and Sign Up Buttons */}
         <FlexBox alignItems="center" style={{ gap: "15px" }}>
           {/* Search Icon (Replace with your actual SVG) */}

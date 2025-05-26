@@ -14,7 +14,8 @@ import TabBar from '@component/tab-bar/TabBar';
 import { List, ListItem, DropdownIcon, DropdownText, CheckboxLabel, ServiceTypeTitle, ShowingText } from "./styles";
 
 import Section2 from "../section-2/Section2";
-// GraphQL Query
+
+// GraphQL Query (filter removed)
 const GET_PRODUCTS = `
   query GetProducts($skip: Int!, $take: Int!) {
     products(options: { skip: $skip, take: $take }) {
@@ -84,6 +85,7 @@ export default function Section6() {
   const [totalItems, setTotalItems] = useState(0);
   const [totalFilteredItems, setTotalFilteredItems] = useState(0);
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
   const productsPerPage = 15;
 
   // State for Categories filters
@@ -147,10 +149,11 @@ export default function Section6() {
   // Fetch products data on component mount or page change
   useEffect(() => {
     const fetchData = async () => {
-      console.log("Fetching data from GraphQL...");
+      setLoading(true);
+      console.log("Fetching data from GraphQL... Current Page:", currentPage, "Skip:", (currentPage - 1) * productsPerPage, "Take:", productsPerPage);
       try {
         if (areFiltersApplied()) {
-          // Fetch all products for filtering
+          console.log("Filters are applied, fetching all products for filtering...");
           const allProducts: Product[] = [];
           let currentSkip = 0;
           let total = 0;
@@ -160,24 +163,36 @@ export default function Section6() {
               skip: currentSkip,
               take: productsPerPage,
             });
+            console.log("Fetched batch of products:", data.products.items.length, "Total Items:", data.products.totalItems);
             allProducts.push(...data.products.items);
             total = data.products.totalItems;
             currentSkip += productsPerPage;
           } while (currentSkip < total);
 
-          setTotalItems(total);
+          console.log("All products fetched:", allProducts.length);
 
-          // Apply filters to all products
+          // Filter for Non-Financial Services (facetValue.id: "67") only, exclude Financial Services (facetValue.id: "66")
+          const nonFinancialServicesOnly = allProducts.filter((product) =>
+            product.facetValues.some((fv) => fv.id === "67") &&
+            !product.facetValues.some((fv) => fv.id === "66")
+          );
+          console.log("Filtered to Non-Financial Services only:", nonFinancialServicesOnly.length);
+
+          setTotalItems(nonFinancialServicesOnly.length);
+
+          // Apply other filters
           const selectedCategories: string[] = [];
           if (categoriesFilters.businessFunding.termLoans) selectedCategories.push("Term Loans");
           if (categoriesFilters.businessFunding.businessDevelopment) selectedCategories.push("Business Development");
           if (categoriesFilters.businessFunding.projectFinancingLoans) selectedCategories.push("Project Financing Loans");
           if (categoriesFilters.loanManagement.loanTermExtension) selectedCategories.push("Loan Term Extension");
           if (categoriesFilters.specializedFinancing.internationalTradeLoan) selectedCategories.push("International Trade Loan");
+          console.log("Selected Categories:", selectedCategories);
 
           const selectedStages = Object.keys(businessStageFilters)
             .filter((key) => businessStageFilters[key])
             .map((key) => key.charAt(0).toUpperCase() + key.slice(1));
+          console.log("Selected Stages:", selectedStages);
 
           const selectedProviders = Object.keys(providedByFilters)
             .filter((key) => providedByFilters[key])
@@ -187,6 +202,7 @@ export default function Section6() {
               if (key === "adSmeHub") return "AD SME Hub";
               return key.charAt(0).toUpperCase() + key.slice(1);
             });
+          console.log("Selected Providers:", selectedProviders);
 
           const selectedPricingModels = Object.keys(pricingModelFilters)
             .filter((key) => pricingModelFilters[key])
@@ -197,13 +213,14 @@ export default function Section6() {
               if (key === "governmentSubsidised") return "Government Subsidised";
               return key.charAt(0).toUpperCase() + key.slice(1);
             });
+          console.log("Selected Pricing Models:", selectedPricingModels);
 
           const filtered = selectedCategories.length === 0 &&
             selectedStages.length === 0 &&
             selectedProviders.length === 0 &&
             selectedPricingModels.length === 0
-            ? allProducts
-            : allProducts.filter((product) => {
+            ? nonFinancialServicesOnly
+            : nonFinancialServicesOnly.filter((product) => {
                 const matchesCategory =
                   selectedCategories.length === 0 ||
                   product.facetValues.some(
@@ -234,30 +251,57 @@ export default function Section6() {
                   );
                 return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
               });
+          console.log("Final filtered products count:", filtered.length);
 
           setAllFilteredProducts(filtered);
           setTotalFilteredItems(filtered.length);
 
-          // Update products for the current page
           const startIndex = (currentPage - 1) * productsPerPage;
           const endIndex = startIndex + productsPerPage;
-          setProducts(filtered.slice(startIndex, endIndex));
+          setProducts(filtered);
           setFilteredProducts(filtered.slice(startIndex, endIndex));
         } else {
-          // Fetch only the current page when no filters are applied
-          const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
-            skip: (currentPage - 1) * productsPerPage,
-            take: productsPerPage,
-          });
-          console.log("Data fetched successfully:", data);
-          setProducts(data.products.items);
-          setFilteredProducts(data.products.items);
-          setAllFilteredProducts(data.products.items);
-          setTotalItems(data.products.totalItems);
-          setTotalFilteredItems(data.products.totalItems);
+          console.log("No filters applied, fetching all products...");
+          const allProducts: Product[] = [];
+          let currentSkip = 0;
+          let total = 0;
+
+          do {
+            const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
+              skip: currentSkip,
+              take: productsPerPage,
+            });
+            console.log("Fetched batch of products:", data.products.items.length, "Total Items:", data.products.totalItems);
+            allProducts.push(...data.products.items);
+            total = data.products.totalItems;
+            currentSkip += productsPerPage;
+          } while (currentSkip < total);
+
+          console.log("All products fetched:", allProducts.length);
+
+          // Filter for Non-Financial Services (facetValue.id: "67") only, exclude Financial Services (facetValue.id: "66")
+          const nonFinancialServicesOnly = allProducts.filter((product) =>
+            product.facetValues.some((fv) => fv.id === "67") &&
+            !product.facetValues.some((fv) => fv.id === "66")
+          );
+          console.log("Filtered to Non-Financial Services only:", nonFinancialServicesOnly.length);
+
+          // Set totalItems to the total count of non-financial services
+          setTotalItems(nonFinancialServicesOnly.length);
+
+          setAllFilteredProducts(nonFinancialServicesOnly);
+          setTotalFilteredItems(nonFinancialServicesOnly.length);
+
+          const startIndex = (currentPage - 1) * productsPerPage;
+          const endIndex = startIndex + productsPerPage;
+          setProducts(nonFinancialServicesOnly);
+          setFilteredProducts(nonFinancialServicesOnly.slice(startIndex, endIndex));
         }
       } catch (error) {
         console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+        console.log("Fetching completed. Loading set to false.");
       }
     };
 
@@ -296,15 +340,16 @@ export default function Section6() {
         return key.charAt(0).toUpperCase() + key.slice(1);
       });
 
+    let filtered: Product[] = [];
     if (
       selectedCategories.length === 0 &&
       selectedStages.length === 0 &&
       selectedProviders.length === 0 &&
       selectedPricingModels.length === 0
     ) {
-      setFilteredProducts(products);
+      filtered = allFilteredProducts;
     } else {
-      const filtered = products.filter((product) => {
+      filtered = allFilteredProducts.filter((product) => {
         const matchesCategory =
           selectedCategories.length === 0 ||
           product.facetValues.some(
@@ -335,9 +380,13 @@ export default function Section6() {
           );
         return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
       });
-      setFilteredProducts(filtered);
     }
-  }, [products, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters]);
+
+    setTotalFilteredItems(filtered.length);
+    const startIndex = (currentPage - 1) * productsPerPage;
+    const endIndex = startIndex + productsPerPage;
+    setFilteredProducts(filtered.slice(startIndex, endIndex));
+  }, [allFilteredProducts, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters, currentPage]);
 
   // Handle checkbox changes for Categories filters
   const handleCategoriesChange = (category: string, subcategory: string) => {
@@ -702,7 +751,26 @@ export default function Section6() {
         </Grid>
 
         <Grid item md={9} xs={12}>
-          {currentProducts.length === 0 ? (
+          {loading ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "300px",
+                backgroundColor: "#f8f8f8",
+                borderRadius: "8px",
+                border: "1px solid #e0e0e0",
+                marginTop: "1rem",
+                fontSize: "1.5rem",
+                color: "#555",
+                textAlign: "center",
+                padding: "2rem",
+              }}
+            >
+              Loading services...
+            </div>
+          ) : currentProducts.length === 0 ? (
             <div
               style={{
                 display: "flex",
@@ -788,6 +856,7 @@ export default function Section6() {
                     backgroundColor: currentPage === index + 1 ? "#002180" : "transparent",
                     color: currentPage === index + 1 ? "#fff" : "#002180",
                     cursor: "pointer",
+                    display: "inline-block",
                   }}
                 >
                   {index + 1}

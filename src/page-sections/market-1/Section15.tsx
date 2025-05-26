@@ -284,10 +284,12 @@ export default function Section15() {
                     <StyledButton>
                       <span>Top Pick</span>
                     </StyledButton>
-                    <ExploreButton>
-                      Explore Marketplace
-                      <span>→</span>
-                    </ExploreButton>
+                    <Link href="/Services">
+                      <ExploreButton>
+                        Explore Marketplace
+                        <span>→</span>
+                      </ExploreButton>
+                    </Link>
                   </CardFooter>
                 </ContentWrapper>
               </StyledMarketplaceCard>
@@ -327,10 +329,12 @@ export default function Section15() {
                     <StyledButton>
                       <span>Top Pick</span>
                     </StyledButton>
-                    <ExploreButton>
-                      Explore Service
-                      <span>→</span>
-                    </ExploreButton>
+                    <Link href="/services">
+                      <ExploreButton>
+                        Explore Service
+                        <span>→</span>
+                      </ExploreButton>
+                    </Link>
                   </CardFooter>
                 </ContentWrapper>
               </StyledMarketplaceCard>

@@ -14,39 +14,23 @@ type ProductCard6Props = {
 
 const ProductCard6 = ({ title, subtitle, imgUrl }: ProductCard6Props) => {
   return (
-    <Card position="relative" padding="1rem" borderRadius={8} backgroundColor={"blue"}>
-      {/* <Chip
-        zIndex={2}
-        p="4px 10px"
-        color="white"
-        top="1.5rem"
-        left="1.5rem"
-        fontSize="10px"
-        fontWeight="600"
-        bg="secondary.main"
-        position="absolute">
-        {title}
-      </Chip> */}
-
-      {/* <Chip
-        zIndex={2}
-        p="4px 10px"
-        bg="gray.300"
-        top="1.5rem"
-        right="1.5rem"
-        fontSize="10px"
-        color="gray.800"
-        fontWeight="600"
-        position="absolute">
-        {subtitle}
-      </Chip> */}
-
-      <Box borderRadius={8} display="flex" overflow="hidden">
-        {/* <NextImage src={imgUrl} width={345} height={120} alt="bonik" /> */}
-        <Box width={345} height={120}>
-          <H4 fontWeight={700}>{title}</H4> <br />
-          <H5 fontWeight={400}>{subtitle}</H5>
-        </Box>
+    <Card
+      display="flex"
+      padding="20px 21px 20px 20px"
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="flex-start"
+      style={{ gap: "4px" }}
+      borderRadius={8}
+      border="0.5px solid #D1D1D1"
+      backgroundColor="var(--KF-BG-White, #FFF)"
+      minHeight={200}
+    >
+      <Box>
+        <H4 fontWeight={700}>{title}</H4>
+        <H5 fontWeight={400} whiteSpace="normal" wordBreak="break-word" mt="1rem">
+          {subtitle}
+        </H5>
       </Box>
     </Card>
   );

@@ -6,16 +6,22 @@ import styled from "styled-components";
 
 import Box from "@component/Box";
 import Card from "@component/Card";
+import { Chip } from "@component/Chip";
+import Rating from "@component/rating";
+import Icon from "@component/icon/Icon";
+import Divider from "@component/Divider";
+import FlexBox from "@component/FlexBox";
+import { Button } from "@component/buttons";
 import LazyImage from "@component/LazyImage";
-import { H3 } from "@component/Typography";
+import { H3, Paragraph, Span } from "@component/Typography";
 import ProductQuickView from "@component/products/ProductQuickView";
 import { useAppContext } from "@context/app-context";
+import { calculateDiscount, currency } from "@utils/utils";
 
 // STYLED COMPONENTS
 const StyledBazaarCard = styled(Card)(({ theme }) => ({
   margin: "auto",
-  height: "296px",
-  flexShrink: 0,
+  height: "248px",
   display: "flex",
   overflow: "hidden",
   position: "relative",
@@ -32,7 +38,7 @@ const StyledBazaarCard = styled(Card)(({ theme }) => ({
 }));
 
 const ImageWrapper = styled(Box)({
-  padding: "20px 200px 20px 20px",
+  padding: "5px 240px 20px 20px",
   textAlign: "center",
   position: "relative",
   display: "flex",
@@ -49,45 +55,54 @@ const ImageBox = styled(Box)({
 });
 
 const ContentWrapper = styled(Box)({
-  padding: "0 40px 40px 20px",
+  padding: "0 16px 8px 16px",
+  flex: "1 1 auto",
+  display: "flex",
+  flexDirection: "column",
   "& .title": {
     overflow: "hidden",
     whiteSpace: "normal",
-    textOverflow: "clip",
+    textOverflow: "ellipsis",
     display: "-webkit-box",
     WebkitLineClamp: 2,
     WebkitBoxOrient: "vertical",
   },
-  "& .categories": {
+  "& .subtitle": {
     overflow: "hidden",
-    whiteSpace: "nowrap",
-    textOverflow: "ellipsis"
+    whiteSpace: "normal",
+    textOverflow: "ellipsis",
+    display: "-webkit-box",
+    WebkitLineClamp: 3,
+    WebkitBoxOrient: "vertical",
   }
 });
 
-const StyledTitle = styled(H3)(({ wordCount }) => ({
-  color: "var(--KF-BG-Blue, #0030E3)",
-  fontFamily: '"FS Kim Trial"',
-  fontSize: "20px",
-  fontStyle: "normal",
-  fontWeight: 400,
-  lineHeight: "26px",
-  ...(wordCount > 19 && {
-    display: "-webkit-box",
-    WebkitLineClamp: 2,
-    WebkitBoxOrient: "vertical",
-    overflow: "hidden",
-    textOverflow: "clip",
-  })
-}));
+const FooterWrapper = styled(Box)({
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  padding: "8px 16px",
+});
 
-const StyledSubtitle = styled("p")({
-  color: "var(--KF-BG-Black, #000)",
-  fontFamily: '"Helvetica Neue"',
-  fontSize: "14px",
-  fontStyle: "normal",
-  fontWeight: 400,
-  lineHeight: "22px",
+const TopPickChip = styled(Chip)({
+  backgroundColor: "#E6E6E6",
+  color: "#000",
+  fontSize: "12px",
+  fontWeight: "500",
+  padding: "4px 8px",
+  borderRadius: "12px",
+});
+
+const ExploreLink = styled(Link)({
+  display: "flex",
+  alignItems: "center",
+  color: "#0030E3",
+  fontSize: "12px",
+  fontWeight: "500",
+  textDecoration: "none",
+  "&:hover": {
+    textDecoration: "underline",
+  },
 });
 
 // =============================================================
@@ -105,7 +120,7 @@ type ProductCardProps = {
 };
 // =============================================================
 
-export default function ProductCard16(props: ProductCardProps) {
+export default function ProductCard20(props: ProductCardProps) {
   const { off, id, title, subTitle, price, imgUrl, rating, hoverEffect, slug, images } = props;
 
   const { state, dispatch } = useAppContext();
@@ -122,9 +137,6 @@ export default function ProductCard16(props: ProductCardProps) {
     });
   };
 
-  // Count words in the title
-  const wordCount = title.trim().split(/\s+/).length;
-
   // Convert id to string to match ProductQuickViewProps
   const productId = String(id);
 
@@ -132,6 +144,7 @@ export default function ProductCard16(props: ProductCardProps) {
     <StyledBazaarCard hoverEffect={hoverEffect}>
       <ImageWrapper>
         <ImageBox>
+          <Link href={`/product/${slug}`}>
             <LazyImage
               alt={title}
               src={imgUrl}
@@ -139,6 +152,7 @@ export default function ProductCard16(props: ProductCardProps) {
               height={60}
               style={{ objectFit: "cover" }}
             />
+          </Link>
         </ImageBox>
       </ImageWrapper>
 
@@ -150,20 +164,28 @@ export default function ProductCard16(props: ProductCardProps) {
 
       <ContentWrapper>
         <Box flex="1 1 0" minWidth="0px" mr={1}>
-          {/* <Link href={`/product/${slug}`}> */}
-            <StyledTitle
-              title={title}
-              wordCount={wordCount}
-              className="title"
-            >
-              {title}
-            </StyledTitle>
-          {/* </Link> */}
-          <StyledSubtitle>
+          <H3
+            title={title}
+            fontSize="16px"
+            fontWeight="600"
+            className="title"
+            color="#0030E3"
+          >
+            {title}
+          </H3>
+          <p className="subtitle" style={{ fontSize: '14px', color: '#000', fontWeight: '400' }}>
             {subTitle}
-          </StyledSubtitle>
+          </p>
         </Box>
       </ContentWrapper>
+
+      <FooterWrapper>
+        <TopPickChip>Top Pick</TopPickChip>
+        <ExploreLink href={`/marketplace/${slug}`}>
+          Explore Marketplace
+          <Icon size="16px" ml="0.5rem">arrow-right</Icon>
+        </ExploreLink>
+      </FooterWrapper>
     </StyledBazaarCard>
   );
 }

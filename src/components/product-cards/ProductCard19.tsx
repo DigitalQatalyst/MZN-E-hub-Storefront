@@ -17,12 +17,12 @@ const CardBox = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   width: "100%",
   minHeight: "300px",
-  height: "auto",
+  height: "248px",
   padding: "16px",
   transition: "all 0.3s",
   borderRadius: "8px",
   background: "#FFF",
-  border: `1px solid ${theme.colors.gray[100]}`,
+  border: `1px solid ${theme.colors.gray[400]}`,
   "&:hover": {
     ".product-img": {
       transform: "scale(1.1)",

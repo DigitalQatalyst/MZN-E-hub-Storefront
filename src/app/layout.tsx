@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   authors: [{ name: "DigitalQatalyst", url: "https://digitalqatalyst.com" }],
   keywords: ["e-commerce", "e-commerce template", "next.js", "react", "bonik"]
 };
-
+ 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">

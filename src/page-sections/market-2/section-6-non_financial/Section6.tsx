@@ -88,17 +88,13 @@ export default function Section6() {
 
   // State for Categories filters
   const [categoriesFilters, setCategoriesFilters] = useState({
-    businessFunding: {
-      termLoans: false,
-      businessDevelopment: false,
-      projectFinancingLoans: false,
+    legalCompliance: {
+      regulatoryCompliance: false,
+      legalAdvisory: false,
+      businessLicensing: false,
     },
-    loanManagement: {
-      loanTermExtension: false,
-    },
-    specializedFinancing: {
-      internationalTradeLoan: false,
-    },
+    incentivesListing: false,
+    proximityIncubators: false,
   });
 
   // State for Business Stage filters
@@ -135,9 +131,9 @@ export default function Section6() {
   // Check if any filters are applied
   const areFiltersApplied = () => {
     return (
-      Object.values(categoriesFilters).some((category) =>
-        Object.values(category).some((value) => value)
-      ) ||
+      Object.values(categoriesFilters.legalCompliance).some((value) => value) ||
+      categoriesFilters.incentivesListing ||
+      categoriesFilters.proximityIncubators ||
       Object.values(businessStageFilters).some((value) => value) ||
       Object.values(providedByFilters).some((value) => value) ||
       Object.values(pricingModelFilters).some((value) => value)
@@ -169,11 +165,12 @@ export default function Section6() {
 
           // Apply filters to all products
           const selectedCategories: string[] = [];
-          if (categoriesFilters.businessFunding.termLoans) selectedCategories.push("Term Loans");
-          if (categoriesFilters.businessFunding.businessDevelopment) selectedCategories.push("Business Development");
-          if (categoriesFilters.businessFunding.projectFinancingLoans) selectedCategories.push("Project Financing Loans");
-          if (categoriesFilters.loanManagement.loanTermExtension) selectedCategories.push("Loan Term Extension");
-          if (categoriesFilters.specializedFinancing.internationalTradeLoan) selectedCategories.push("International Trade Loan");
+          if (categoriesFilters.legalCompliance.regulatoryCompliance) selectedCategories.push("Regulatory Compliance");
+          if (categoriesFilters.legalCompliance.legalAdvisory) selectedCategories.push("Legal Advisory");
+          if (categoriesFilters.legalCompliance.businessLicensing) selectedCategories.push("Business Licensing & Per...");
+          if (categoriesFilters.incentivesListing) selectedCategories.push("Incentives Listing");
+          if (categoriesFilters.proximityIncubators) selectedCategories.push("Proximity Incubators");
+          console.log("Selected Categories:", selectedCategories);
 
           const selectedStages = Object.keys(businessStageFilters)
             .filter((key) => businessStageFilters[key])
@@ -267,11 +264,11 @@ export default function Section6() {
   // Apply filters whenever products, categoriesFilters, businessStageFilters, providedByFilters, or pricingModelFilters change
   useEffect(() => {
     const selectedCategories: string[] = [];
-    if (categoriesFilters.businessFunding.termLoans) selectedCategories.push("Term Loans");
-    if (categoriesFilters.businessFunding.businessDevelopment) selectedCategories.push("Business Development");
-    if (categoriesFilters.businessFunding.projectFinancingLoans) selectedCategories.push("Project Financing Loans");
-    if (categoriesFilters.loanManagement.loanTermExtension) selectedCategories.push("Loan Term Extension");
-    if (categoriesFilters.specializedFinancing.internationalTradeLoan) selectedCategories.push("International Trade Loan");
+    if (categoriesFilters.legalCompliance.regulatoryCompliance) selectedCategories.push("Regulatory Compliance");
+    if (categoriesFilters.legalCompliance.legalAdvisory) selectedCategories.push("Legal Advisory");
+    if (categoriesFilters.legalCompliance.businessLicensing) selectedCategories.push("Business Licensing & Per...");
+    if (categoriesFilters.incentivesListing) selectedCategories.push("Incentives Listing");
+    if (categoriesFilters.proximityIncubators) selectedCategories.push("Proximity Incubators");
 
     const selectedStages = Object.keys(businessStageFilters)
       .filter((key) => businessStageFilters[key])
@@ -340,19 +337,26 @@ export default function Section6() {
   }, [products, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters]);
 
   // Handle checkbox changes for Categories filters
-  const handleCategoriesChange = (category: string, subcategory: string) => {
-    setCategoriesFilters((prev) => ({
-      ...prev,
-      [category]: {
-        ...prev[category],
-        [subcategory]: !prev[category][subcategory],
-      },
-    }));
+  const handleCategoriesChange = (category: string, subcategory?: string) => {
+    if (subcategory) {
+      setCategoriesFilters((prev) => ({
+        ...prev,
+        [category]: {
+          ...prev[category],
+          [subcategory]: !prev[category][subcategory],
+        },
+      }));
+    } else {
+      setCategoriesFilters((prev) => ({
+        ...prev,
+        [category]: !prev[category],
+      }));
+    }
     setCurrentPage(1);
   };
 
   // Handle checkbox changes for Business Stage filters
-  const handleBusinessStageChange = (stage: keyof typeof businessStageFilters) => {
+  const handleBusinessStageChange = stage  => {
     setBusinessStageFilters((prev) => ({
       ...prev,
       [stage]: !prev[stage],
@@ -414,124 +418,101 @@ export default function Section6() {
             }}>
             <List>
               <ServiceTypeTitle>Categories :</ServiceTypeTitle>
-              <CheckboxLabel>
+              <CheckboxLabel style={{ display: 'flex', alignItems: 'center' }}>
                 <input
                   type="checkbox"
-                  id="business-funding"
-                  title="Business Funding & ..."
+                  id="legal-compliance"
+                  title="Legal, Compliance & Lic..."
                   checked={
-                    categoriesFilters.businessFunding.termLoans ||
-                    categoriesFilters.businessFunding.businessDevelopment ||
-                    categoriesFilters.businessFunding.projectFinancingLoans
+                    categoriesFilters.legalCompliance.regulatoryCompliance ||
+                    categoriesFilters.legalCompliance.legalAdvisory ||
+                    categoriesFilters.legalCompliance.businessLicensing
                   }
                   onChange={() => {
                     const allChecked = !(
-                      categoriesFilters.businessFunding.termLoans ||
-                      categoriesFilters.businessFunding.businessDevelopment ||
-                      categoriesFilters.businessFunding.projectFinancingLoans
+                      categoriesFilters.legalCompliance.regulatoryCompliance ||
+                      categoriesFilters.legalCompliance.legalAdvisory ||
+                      categoriesFilters.legalCompliance.businessLicensing
                     );
                     setCategoriesFilters((prev) => ({
                       ...prev,
-                      businessFunding: {
-                        termLoans: allChecked,
-                        businessDevelopment: allChecked,
-                        projectFinancingLoans: allChecked,
+                      legalCompliance: {
+                        regulatoryCompliance: allChecked,
+                        legalAdvisory: allChecked,
+                        businessLicensing: allChecked,
                       },
                     }));
                     setCurrentPage(1);
                   }}
                 />
-                <label htmlFor="business-funding">Business Funding & ...</label>
+                <label htmlFor="legal-compliance" style={{ marginRight: '0.5rem' }}>Legal, Compliance & Lic...</label>
+                <img 
+                  src="/assets/images/non_financial_marketplace/chevron-down.svg" 
+                  alt="dropdown" 
+                  style={{ verticalAlign: 'middle' }} 
+                />
               </CheckboxLabel>
               <CheckboxLabel style={{ marginLeft: '1rem' }}>
                 <input
                   type="checkbox"
-                  id="term-loans"
-                  title="Term Loans"
-                  checked={categoriesFilters.businessFunding.termLoans}
-                  onChange={() => handleCategoriesChange("businessFunding", "termLoans")}
+                  id="regulatory-compliance"
+                  title="Regulatory Compliance"
+                  checked={categoriesFilters.legalCompliance.regulatoryCompliance}
+                  onChange={() => handleCategoriesChange("legalCompliance", "regulatoryCompliance")}
                 />
-                <label htmlFor="term-loans">Term Loans</label>
+                <label htmlFor="regulatory-compliance">Regulatory Compliance</label>
               </CheckboxLabel>
               <CheckboxLabel style={{ marginLeft: '1rem' }}>
                 <input
                   type="checkbox"
-                  id="business-development"
-                  title="Business Development"
-                  checked={categoriesFilters.businessFunding.businessDevelopment}
-                  onChange={() => handleCategoriesChange("businessFunding", "businessDevelopment")}
+                  id="legal-advisory"
+                  title="Legal Advisory"
+                  checked={categoriesFilters.legalCompliance.legalAdvisory}
+                  onChange={() => handleCategoriesChange("legalCompliance", "legalAdvisory")}
                 />
-                <label htmlFor="business-development">Business Development</label>
+                <label htmlFor="legal-advisory">Legal Advisory</label>
               </CheckboxLabel>
               <CheckboxLabel style={{ marginLeft: '1rem' }}>
                 <input
                   type="checkbox"
-                  id="project-financing-loans"
-                  title="Project Financing Loans"
-                  checked={categoriesFilters.businessFunding.projectFinancingLoans}
-                  onChange={() => handleCategoriesChange("businessFunding", "projectFinancingLoans")}
+                  id="business-licensing"
+                  title="Business Licensing & Per..."
+                  checked={categoriesFilters.legalCompliance.businessLicensing}
+                  onChange={() => handleCategoriesChange("legalCompliance", "businessLicensing")}
                 />
-                <label htmlFor="project-financing-loans">Project Financing Loans</label>
+                <label htmlFor="business-licensing">Business Licensing & Per...</label>
               </CheckboxLabel>
 
-              <CheckboxLabel>
+              <CheckboxLabel style={{ display: 'flex', alignItems: 'center' }}>
                 <input
                   type="checkbox"
-                  id="loan-management"
-                  title="Loan Management & ..."
-                  checked={categoriesFilters.loanManagement.loanTermExtension}
-                  onChange={() => {
-                    const allChecked = !categoriesFilters.loanManagement.loanTermExtension;
-                    setCategoriesFilters((prev) => ({
-                      ...prev,
-                      loanManagement: {
-                        loanTermExtension: allChecked,
-                      },
-                    }));
-                    setCurrentPage(1);
-                  }}
+                  id="incentives-listing"
+                  title="Incentives Listing"
+                  checked={categoriesFilters.incentivesListing}
+                  onChange={() => handleCategoriesChange("incentivesListing")}
                 />
-                <label htmlFor="loan-management">Loan Management & ...</label>
-              </CheckboxLabel>
-              <CheckboxLabel style={{ marginLeft: '1rem' }}>
-                <input
-                  type="checkbox"
-                  id="loan-term-extension"
-                  title="Loan Term Extension"
-                  checked={categoriesFilters.loanManagement.loanTermExtension}
-                  onChange={() => handleCategoriesChange("loanManagement", "loanTermExtension")}
+                <label htmlFor="incentives-listing" style={{ marginRight: '0.5rem' }}>Incentives Listing</label>
+                <img 
+                  src="/assets/images/non_financial_marketplace/chevron-down.svg" 
+                  alt="dropdown" 
+                  style={{ verticalAlign: 'middle' }} 
                 />
-                <label htmlFor="loan-term-extension">Loan Term Extension</label>
               </CheckboxLabel>
 
-              <CheckboxLabel>
+              <CheckboxLabel style={{ display: 'flex', alignItems: 'center' }}>
                 <input
                   type="checkbox"
-                  id="specialized-financing"
-                  title="Specialized Financing"
-                  checked={categoriesFilters.specializedFinancing.internationalTradeLoan}
-                  onChange={() => {
-                    const allChecked = !categoriesFilters.specializedFinancing.internationalTradeLoan;
-                    setCategoriesFilters((prev) => ({
-                      ...prev,
-                      specializedFinancing: {
-                        internationalTradeLoan: allChecked,
-                      },
-                    }));
-                    setCurrentPage(1);
-                  }}
+                  id="proximity-incubators"
+                  title="Proximity Incubators"
+                  checked={categoriesFilters.proximityIncubators}
+                  onChange={() => handleCategoriesChange("proximityIncubators")}
                 />
-                <label htmlFor="specialized-financing">Specialized Financing</label>
-              </CheckboxLabel>
-              <CheckboxLabel style={{ marginLeft: '1rem' }}>
-                <input
-                  type="checkbox"
-                  id="international-trade-loan"
-                  title="International Trade Loan"
-                  checked={categoriesFilters.specializedFinancing.internationalTradeLoan}
-                  onChange={() => handleCategoriesChange("specializedFinancing", "internationalTradeLoan")}
+                <label htmlFor="proximity-incubators" style={{ marginRight: '0.5rem' }}>Proximity Incubators</label>
+                <img 
+                  src="/assets/images/non_financial_marketplace/chevron-down.svg" 
+                  alt="dropdown" 
+                  style={{ verticalAlign: 'middle' }} 
                 />
-                <label htmlFor="international-trade-loan">International Trade Loan</label>
               </CheckboxLabel>
             </List>
 

@@ -8,6 +8,7 @@ import CategorySectionCreator from "@component/CategorySectionCreator";
 import styled from "styled-components";
 // API FUNCTIONS
 import api from "@utils/__api__/market-1";
+import Link from "next/link";
 
 // STYLED COMPONENTS
 const ContentColumn = styled.div`
@@ -84,10 +85,6 @@ const ExploreAllButton = styled(DefaultButton)`
   align-items: center;
   gap: 0.5rem;
   padding: 0;
-
-  &:hover {
-    color: #A9C9FF;
-  }
 `;
 
 const CarouselWrapper = styled(Box)`
@@ -120,9 +117,11 @@ export default async function Section15() {
           <Description>
             A quick look at the most active this quarter—driven by SME demand<br /> and partner momentum.
           </Description>
+          <Link href={`/services`}>
           <ExploreAllButton>
             Explore more <span>→</span>
           </ExploreAllButton>
+          </Link>
         </div>
         <CarouselWrapper mb="-0.25rem">
           <Carousel slidesToShow={4} responsive={responsive}>

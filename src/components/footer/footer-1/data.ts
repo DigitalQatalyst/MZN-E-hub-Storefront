@@ -1,22 +1,20 @@
 export const aboutLinks = [
-  "Explore Services",
-  "Resources",
+  "Discover AbuDhabi",
+  "Help Centre",
   "FAQs"
 ];
 
 export const customerCareLinks = [
-  "About MZN",
+  "About Enterprise Journey",
   "Updates",
   "Contact Us"
 ];
 
 export const partners = [
-  "Khalifa Fund",
-  "DED",
-  "AdCoC",
-  "ADIO",
-  "ADGM",
-  "Hub 71"
+  "Become a Partner",
+  "Government Entities",
+  "Corporates",
+  "International",
 ];
 
 export const legalLinks = [

@@ -16,18 +16,6 @@ const MessageContainer = styled.div`
   color: #002180;
 `;
 
-interface RelatedService {
-  id: string;
-  slug: string;
-  name: string;
-  description: string;
-  customFields?: {
-    partner?: string;
-    rating?: number;
-    tags?: string[];
-  };
-}
-
 interface CustomFields {
   partner: string;
   rating: number;
@@ -37,7 +25,6 @@ interface CustomFields {
   highlightedBusinessStage: string;
   processingTime: string;
   registrationValidity: string;
-  relatedServices: RelatedService[]; // <-- use the new type here
   sectionsCost: string;
   sectionsSteps: string;
   sectionsTermsOfService: string;
@@ -61,8 +48,7 @@ export default function ClientProductDetailsPage({ slug }: { slug: string }) {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await client.request<ProductResponse>(
-          `
+        const response = await client.request<ProductResponse>(`
           query GetProduct($slug: String!) {
             product(slug: $slug) {
               id
@@ -82,23 +68,10 @@ export default function ClientProductDetailsPage({ slug }: { slug: string }) {
                 sectionsSteps
                 sectionsTermsOfService
                 sectionsRequiredDocuments
-                relatedServices{
-                  id
-                  slug
-                  name
-                  description
-                  customFields{
-                    partner
-                    rating
-                    tags
-                  }
-                }
               }
             }
           }
-        `,
-          { slug }
-        );
+        `, { slug });
 
         if (response.product) {
           const { customFields } = response.product;
@@ -119,25 +92,10 @@ export default function ClientProductDetailsPage({ slug }: { slug: string }) {
             highlightedStage: customFields.highlightedBusinessStage,
             processingTime: customFields.processingTime,
             registrationValidity: customFields.registrationValidity,
-            relatedServices: (customFields.relatedServices || []).map(
-              (service) => ({
-                id: service.id,
-                partner: service.customFields?.partner,
-                name: service.name,
-                slug: service.slug,
-                description: service.description,
-                images: [], // Provide default empty array
-                subTitle: "", // Provide default empty string
-                rating: service.customFields?.rating,
-                tags: service.customFields?.tags || [],
-              })
-            ),
             cost: customFields.sectionsCost,
-            steps: customFields.sectionsSteps?.split("\n") || [],
-            termsOfService:
-              customFields.sectionsTermsOfService?.split("\n") || [],
-            requiredDocuments:
-              customFields.sectionsRequiredDocuments?.split("\n") || [],
+            steps: customFields.sectionsSteps?.split('\n') || [],
+            termsOfService: customFields.sectionsTermsOfService?.split('\n') || [],
+            requiredDocuments: customFields.sectionsRequiredDocuments?.split('\n') || []
           });
         }
       } catch (error) {

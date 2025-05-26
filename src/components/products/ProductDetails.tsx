@@ -7,12 +7,8 @@ import Grid from "@component/grid/Grid";
 import { ProductCard19, ProductCard20 } from "@component/product-cards";
 import { H3, H4, H6, Paragraph, SemiSpan } from "@component/Typography";
 import Product from "@models/product.model";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import client from "@lib/graphQLClient";
-import { relatedProducts } from "__server__/__db__/related-products/data";
-import { Carousel } from "@component/carousel";
-import { border } from "styled-system";
 
 const TabButton = styled(Button)<{ active?: boolean }>`
   padding: 0.75rem 1.5rem;
@@ -72,47 +68,9 @@ type TabType = "documents" | "cost" | "steps" | "terms";
 interface Props {
   product: Product;
 }
-interface CustomFields {
-  partner: string;
-  rating: number;
-  code: string;
-  status: string;
-  tags: string[];
-  highlightedBusinessStage: string;
-  processingTime: string;
-  registrationValidity: string;
-  sectionsCost: string;
-  sectionsSteps: string;
-  sectionsTermsOfService: string;
-  sectionsRequiredDocuments: string;
-  relatedServices: {
-    id: string;
-    name: string;
-    partner: string;
-    slug: string;
-    description: string;
-    images: string[];
-    subTitle: string;
-  }[];
-}
-
-interface ProductResponse {
-  product: {
-    id: string;
-    name: string;
-    slug: string;
-    description: string;
-    customFields: CustomFields;
-  };
-}
 
 export default function ProductDetails({ product }: Props) {
   const [activeTab, setActiveTab] = useState<TabType>("documents");
-  console.log(product);
-  const responsive = [
-    { breakpoint: 959, settings: { slidesToShow: 2 } },
-    { breakpoint: 650, settings: { slidesToShow: 1 } },
-  ];
 
   const renderDocuments = () => (
     <ContentBox>
@@ -217,30 +175,52 @@ export default function ProductDetails({ product }: Props) {
         {renderTabContent()}
       </Box>
 
-      {product.relatedServices && product.relatedServices.length > 0 && (
-        <Box mt="3rem">
-          <H3 color="#002180" mb="1.5rem">
-            Related Services
-          </H3>
-          <Carousel slidesToShow={3} responsive={responsive}>
-            {product.relatedServices &&
-              product.relatedServices.map((service) => (
-                <Grid item xs={12} sm={6} md={4} key={service.id}>
-                  <ProductCard20
-                    id={service.id}
-                    partner={service.partner}
-                    slug={service.slug}
-                    name={service.name}
-                    rating={service.rating}
-                    description={service.description}
-                    images={service.images}
-                    subTitle={service.subTitle}
-                  />
-                </Grid>
-              ))}
-          </Carousel>
-        </Box>
-      )}
+      <Box mt="3rem">
+        <H3 color="#002180" mb="1.5rem">
+          Related Services
+        </H3>
+        <Grid container spacing={3}>
+          <Grid item md={4} sm={6} xs={12} key={product.id}>
+            <ProductCard20
+              id={product.id}
+              slug={product.slug}
+              name={product.name}
+              subTitle={product.subTitle}
+              description={product.description}
+              img={product.images[0]}
+              images={product.images}
+              reviews={product.reviews}
+              className="product-card"
+            />
+          </Grid>
+          <Grid item md={4} sm={6} xs={12} key={product.id}>
+            <ProductCard20
+              id={product.id}
+              slug={product.slug}
+              name={product.name}
+              subTitle={product.subTitle}
+              description={product.description}
+              img={product.images[0]}
+              images={product.images}
+              reviews={product.reviews}
+              className="product-card"
+            />
+          </Grid>
+          <Grid item md={4} sm={6} xs={12} key={product.id}>
+            <ProductCard20
+              id={product.id}
+              slug={product.slug}
+              name={product.name}
+              subTitle={product.subTitle}
+              description={product.description}
+              img={product.images[0]}
+              images={product.images}
+              reviews={product.reviews}
+              className="product-card"
+            />
+          </Grid>
+        </Grid>
+      </Box>
     </Box>
   );
 }

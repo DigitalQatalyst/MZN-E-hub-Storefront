@@ -10,7 +10,7 @@ const TabBar: React.FC = () => {
     '/non-financial-marketplace': 'Non-Financial',
     '/services': 'Financial',
     '/courses': 'Courses',
-    '/communities': 'Communities',
+    '/community-marketplace': 'Communities',
     '/media': 'Media',
     '/investment': 'Investment',
     '/calendar': 'Calendar',
@@ -64,7 +64,7 @@ const TabBar: React.FC = () => {
         Courses
       </Tab>
       <Tab
-        onClick={() => handleTabClick('Communities', '#')}
+        onClick={() => handleTabClick('Communities', '/community-marketplace')}
         active={activeTab === 'Communities'}
       >
         <img src="/assets/images/tab_bar/forum.svg" alt="icon" />

@@ -122,61 +122,104 @@ export default function Section6({ carList, carBrands }: Props) {
 
 <StyledProductCategory>
   <Box display="flex" flexDirection="column" alignItems="flex-start" marginBottom={3}>
-    <span style={{ fontSize: '14px', fontWeight: '600', marginBottom: '8px' }}>Explore</span>
-    <Box display="flex" alignItems="center" marginTop={2}>
-      <Box width={24} height={24} marginRight={2}>
+    <span style={{
+      fontSize: '14px',
+      fontWeight: 600,
+      marginBottom: '8px',
+      color: '#000000'  // dark text for headings
+    }}>
+      Explore
+    </span>
+    <Box 
+      display="flex" 
+      alignItems="center" 
+      marginTop={1} 
+      padding="8px"
+      borderRadius="8px"
+      width="100%"
+      maxWidth="280px"
+    >
+      <Box width={24} height={24} marginRight={2} display="flex" justifyContent="center" alignItems="center">
         <NextImage width={24} height={24} alt="explore-icon" src="/images/Avatar (2).png" />
       </Box>
-      <span style={{ fontSize: '12px', color: '#6c757d' }}>Communities</span>
+      <span style={{ fontSize: '12px', color: '#212121', fontWeight: 600 }}>
+        Communities
+      </span>
     </Box>
   </Box>
 </StyledProductCategory>
 
 <StyledProductCategory>
   <Box display="flex" flexDirection="column" alignItems="flex-start" marginBottom={4}>
-    <span style={{ fontSize: '14px', fontWeight: '600', marginBottom: '8px' }}>Favourites</span>
-    <Box display="flex" alignItems="center" marginTop={2}>
-      <Box width={24} height={24} marginRight={2}>
+    <span style={{ fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#000' }}>
+      Favourites
+    </span>
+    <Box 
+      display="flex" 
+      alignItems="center" 
+      marginTop={1} 
+      padding="12px"
+      borderRadius="8px"
+      width="100%"
+      maxWidth="280px"
+    >
+      <Box width={24} height={24} marginRight={2} display="flex" justifyContent="center" alignItems="center">
         <NextImage width={24} height={24} alt="favourites-icon" src="/images/Avatar (3).png" />
       </Box>
-      <span style={{ fontSize: '12px', color: '#6c757d' }}>Keep your favorites at your fingertips. Favorites will appear here.</span>
+      <span style={{ fontSize: '12px', color: '#6C757D', fontWeight: 400 }}>
+        Keep your favorites at your fingertips. Favorites will appear here.
+      </span>
     </Box>
   </Box>
 </StyledProductCategory>
 
 <StyledProductCategory>
   <Box display="flex" flexDirection="column" alignItems="flex-start" marginBottom={4}>
-    <span style={{ fontSize: '14px', fontWeight: '600', marginBottom: '8px' }}>Communities</span>
-    <Box display="flex" alignItems="center" marginTop={2}>
-      <Box width={24} height={24} marginRight={2}>
+    <span style={{ fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#000' }}>
+      Communities
+    </span>
+    <Box 
+      display="flex" 
+      alignItems="center" 
+      marginTop={1} 
+      padding="12px"
+      borderRadius="8px"
+      width="100%"
+      maxWidth="280px"
+    >
+      <Box width={24} height={24} marginRight={2} display="flex" justifyContent="center" alignItems="center">
         <NextImage width={24} height={24} alt="communities-icon" src="/images/Avatar (2).png" />
       </Box>
-      <span style={{ fontSize: '12px', color: '#6c757d' }}>No communities yet</span>
+      <span style={{ fontSize: '12px', color: '#6C757D', fontWeight: 400 }}>
+        No communities yet
+      </span>
     </Box>
   </Box>
 </StyledProductCategory>
 
 <StyledProductCategory
   id="all"
-  mt="2rem"  // Adjusted margin-top to match spacing in the screenshot
+  mt="2rem"
   shadow={selected.match("all") ? 4 : null}
-  bg="transparent"  // No background color
-  p="0"  // No padding as no background is applied
+  bg="transparent"
+  p="0"
 >
   <span 
     id="all" 
     className="product-category-title" 
     style={{ 
       fontSize: '14px', 
-      fontWeight: '600', 
+      fontWeight: 600, 
       color: '#0061F2',  // Blue color for text
-      textDecoration: 'underline',  // Adding underline for styling
-      marginTop: '20px', // Added margin-top to create appropriate spacing above
+      textDecoration: 'underline',
+      marginTop: '20px',
+      cursor: 'pointer'
     }}
   >
-    Discover Communities
+    Discover communities
   </span>
 </StyledProductCategory>
+
 
 
 

@@ -1,3 +1,4 @@
+"use client"
 import React, { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation'; // Import useRouter and usePathname
 import { TabBarContainer, Tab } from './styles';
@@ -58,7 +59,7 @@ const TabBar: React.FC = () => {
         Courses
       </Tab>
       <Tab
-        onClick={() => handleTabClick('Communities', '#')} // Placeholder path
+        onClick={() => handleTabClick('Communities', '/community-marketplace')} // Placeholder path
         active={activeTab === 'Communities'}
       >
         <img src="/assets/images/tab_bar/forum.svg" alt="icon" />

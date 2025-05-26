@@ -42,8 +42,9 @@ const SearchInput = styled.input`
   border-radius: 10px 0 0 10px;
   border: 2px solid #fff;
   width: 300px;
+  height: 59px;
   background-color: rgba(255, 255, 255, 0.9);
-  color: #2a5298;
+  color:  Gray/800 - Paragraph;
   outline: none;
   margin-right: -1px;
   max-width: 100%;
@@ -55,6 +56,7 @@ const SearchButton = styled.button`
   color: white; /* Changed to white for text */
   font-size: 16px;
   font-weight: 600;
+  height: 59px;
   border-radius: 0 10px 10px 0;
   border: 2px solid #fff; /* Maintain border for visibility */
   cursor: pointer;

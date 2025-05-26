@@ -14,7 +14,6 @@ import { useAppContext } from "@context/app-context";
 
 const CardBox = styled(Box)(({ theme }) => ({
   display: "flex",
-  marginBottom: "1rem",
   flexDirection: "column",
   width: "100%",
   minHeight: "300px",
@@ -106,11 +105,11 @@ const StyledButton = styled(DefaultButton)`
   width: 98px;
   height: 25px;
   background-color: transparent;
-  border: 1px solid #e1def5;
+  border: 1px solid #ccc;
   transition: background-color 0.3s, color 0.3s;
 
   span {
-    color: #808390;
+    color: #000;
     text-align: center;
     font-family: "Open Sans";
     font-size: 10px;
@@ -145,32 +144,19 @@ const LearnMoreWrapper = styled.div`
 `;
 
 type ProductCard19Props = {
-  img?: string;
-  name?: string;
-  partner?: string;
-  slug?: string;
-  rating?: number;
-  description?: string;
-  subTitle?: string;
-  reviews?: number;
-  images?: string[];
+  img: string;
+  name: string;
+  slug: string;
+  description: string;
+  subTitle: string;
+  reviews: number;
+  images: string[];
   id: string | number;
   className?: string;
 };
 
 export default function ProductCard20(props: ProductCard19Props) {
-  const {
-    img,
-    name,
-    partner,
-    subTitle,
-    description,
-    reviews,
-    id,
-    slug,
-    images,
-    rating,
-  } = props;
+  const { img, name, subTitle, description, reviews, id, slug, images } = props;
 
   const { state, dispatch } = useAppContext();
   const [openDialog, setOpenDialog] = useState(false);
@@ -205,15 +191,12 @@ export default function ProductCard20(props: ProductCard19Props) {
 
         <Box textAlign="left">
           <StyledParagraph>{name}</StyledParagraph>
-          <StyledH4 fontWeight={700}>
-            <span style={{ marginRight: "3px" }}>by</span>
-            {partner}
-          </StyledH4>
+          <StyledH4 fontWeight={700}>{subTitle}</StyledH4>
 
           <FlexBox justifyContent="flex-start" alignItems="center" mb="1rem">
-            <Rating value={rating} color="warn" size="small" />
+            <Rating value={4} color="warn" size="small" />
             <Small fontWeight={600} color="gray.500" ml=".3rem">
-              ({reviews || 50})
+              ({reviews})
             </Small>
           </FlexBox>
           <StyledH5 fontWeight={700}>{description}</StyledH5>
@@ -228,12 +211,10 @@ export default function ProductCard20(props: ProductCard19Props) {
 
             <Link href={`/product/${slug}`} style={{ textDecoration: "none" }}>
               <LearnMoreWrapper style={{ cursor: "pointer" }}>
-                <Paragraph color="#002180" mr="0.5rem" fontSize={13}>
+                <Paragraph color="#002180" mr="0.5rem">
                   View Details
                 </Paragraph>
-                <Icon color="#002180" size="15px">
-                  arrow_forward
-                </Icon>
+                <Icon color="#002180">arrow_forward</Icon>
               </LearnMoreWrapper>
             </Link>
           </Box>

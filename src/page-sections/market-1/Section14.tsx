@@ -1,0 +1,182 @@
+"use client";
+
+import NextImage from "next/image";
+import styled from "styled-components";
+import { H3 } from "@component/Typography";
+
+// STYLED COMPONENTS
+const WelcomeSection = styled.section`
+  background-color: #0030E3;
+  color: white;
+  padding: 50px 100px 80px 120px;
+  display: grid;
+  font-family: 'Abhaya Libre', serif;
+  margin-bottom: 2rem;
+`;
+
+const ContentColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StatsColumn = styled.div`
+  display: grid;
+  grid-template-columns: 0.75fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1rem;
+  position: relative;
+`;
+
+const StatItem = styled.div`
+  display: inline-flex;
+  height: 74px;
+  padding: 0px 20px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 4px;
+  flex-shrink: 0;
+  border-left: 4px solid #FFF;
+`;
+
+const StatValue = styled.div`
+  font-size: 24px;
+`;
+
+const StatLabel = styled.div`
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+`;
+
+const IconRow = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin-top: 4rem;
+  grid-column: span 2; /* Span across both columns */
+`;
+
+const IconItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-size: 12px;
+  color: #fff;
+  position: relative;
+`;
+
+const LabelText = styled.div<{ muted?: boolean }>`
+  color: ${(props) => (props.muted ? "#A9A9A9" : "#fff")};
+`;
+
+const ComingSoonLabel = styled.div`
+  position: absolute;
+  top: -10px;
+  right: -35px;
+  background-color: #fff;
+  color: #0030E3;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 10px;
+`;
+
+const StyledSubHeader = styled.p`
+  color: var(--KF-BG-White, #FFF);
+  font-family: "Helvetica Neue";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Title-Large-Line-Height, 28px); /* 175% */
+  letter-spacing: var(--Title-Large-Tracking, 0px);
+  text-transform: uppercase;
+`;
+
+const StyledPlatformHeader = styled.p`
+  color: var(--KF-BG-White, #FFF);
+  font-family: "FS Kim Trial";
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Display-Medium-Line-Height, 52px); /* 108.333% */
+  letter-spacing: var(--Display-Medium-Tracking, 0px);
+  margin-bottom: 1rem;
+`;
+
+// TYPES
+interface Icon {
+  src: string;
+  label: string;
+  comingSoon: boolean;
+}
+
+interface Stat {
+  value: string;
+  label: string;
+}
+
+const Section14: React.FC = () => {
+  const icons: Icon[] = [
+    { src: "/assets/images/Groceries Shop/Icon8.png", label: "Non-Financial Marketplace", comingSoon: false },
+    { src: "/assets/images/Groceries Shop/Icon7.png", label: "Financial Marketplace", comingSoon: false },
+    { src: "/assets/images/Groceries Shop/Icon6.png", label: "Media Marketplace", comingSoon: false },
+    { src: "/assets/images/Groceries Shop/Icon5.png", label: "Communities Marketplace", comingSoon: false },
+    { src: "/assets/images/Groceries Shop/Icon4.png", label: "Calendar Marketplace", comingSoon: true },
+    { src: "/assets/images/Groceries Shop/Icon3.png", label: "Courses Marketplace", comingSoon: true },
+    { src: "/assets/images/Groceries Shop/Icon2.png", label: "Investment Marketplace", comingSoon: true },
+    { src: "/assets/images/Groceries Shop/Icon1.png", label: "Opportunities Marketplace", comingSoon: true },
+  ];
+
+  const stats: Stat[] = [
+    { value: "500+", label: "Services available" },
+    { value: "100+", label: "Verified partners" },
+    { value: "4", label: "Marketplaces" },
+    { value: "6", label: "Phases of business growth" },
+  ];
+
+  return (
+    <div>
+      {/* Welcome Section */}
+      <WelcomeSection>
+        <ContentColumn>
+          <StyledSubHeader>
+            OUR MARKETPLACE PORTFOLIO
+          </StyledSubHeader>
+          <StyledPlatformHeader>
+            A growing platform to power every <br /> stage of your business.
+          </StyledPlatformHeader>
+        </ContentColumn>
+        <StatsColumn>
+          {stats.map((stat, index) => (
+            <StatItem key={index}>
+              <StatValue>{stat.value}</StatValue>
+              <StatLabel>{stat.label}</StatLabel>
+            </StatItem>
+          ))}
+        </StatsColumn>
+        <IconRow>
+          {icons.map((icon, index) => (
+            <IconItem key={index}>
+              <NextImage
+                src={icon.src}
+                alt={icon.label}
+                width={60}
+                height={60}
+                style={{ objectFit: "contain" }}
+              />
+              <LabelText muted={icon.comingSoon} style={{ display: "flex", flexDirection: "column" }}>
+                {icon.label.split(" ").map((word: string, i: number) => (
+                  <span key={i}>{word}</span>
+                ))}
+              </LabelText>
+              {icon.comingSoon && <ComingSoonLabel>Coming Soon!</ComingSoonLabel>}
+            </IconItem>
+          ))}
+        </IconRow>
+      </WelcomeSection>
+    </div>
+  );
+};
+
+export default Section14;

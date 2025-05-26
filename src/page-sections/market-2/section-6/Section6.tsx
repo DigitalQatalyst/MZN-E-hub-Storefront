@@ -10,15 +10,7 @@ import { useState, useEffect } from "react";
 import client from "@lib/graphQLClient";
 
 // STYLED COMPONENTS
-import {
-  List,
-  ListItem,
-  DropdownIcon,
-  DropdownText,
-  CheckboxLabel,
-  ServiceTypeTitle,
-  ShowingText,
-} from "./styles";
+import { List, ListItem, DropdownIcon, DropdownText, CheckboxLabel, ServiceTypeTitle, ShowingText } from "./styles";
 
 // GraphQL Query
 const GET_PRODUCTS = `
@@ -140,10 +132,7 @@ export default function Section6() {
     const fetchData = async () => {
       console.log("Fetching data from GraphQL...");
       try {
-        const data = await client.request<
-          GetProductsData,
-          GetProductsVariables
-        >(GET_PRODUCTS, {
+        const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
           skip: (currentPage - 1) * productsPerPage,
           take: productsPerPage,
         });
@@ -165,18 +154,13 @@ export default function Section6() {
     // Get selected Categories
     const selectedCategories: string[] = [];
     // Business Funding & ...
-    if (categoriesFilters.businessFunding.termLoans)
-      selectedCategories.push("Term Loans");
-    if (categoriesFilters.businessFunding.businessDevelopment)
-      selectedCategories.push("Business Development");
-    if (categoriesFilters.businessFunding.projectFinancingLoans)
-      selectedCategories.push("Project Financing Loans");
+    if (categoriesFilters.businessFunding.termLoans) selectedCategories.push("Term Loans");
+    if (categoriesFilters.businessFunding.businessDevelopment) selectedCategories.push("Business Development");
+    if (categoriesFilters.businessFunding.projectFinancingLoans) selectedCategories.push("Project Financing Loans");
     // Loan Management & ...
-    if (categoriesFilters.loanManagement.loanTermExtension)
-      selectedCategories.push("Loan Term Extension");
+    if (categoriesFilters.loanManagement.loanTermExtension) selectedCategories.push("Loan Term Extension");
     // Specialized Financing
-    if (categoriesFilters.specializedFinancing.internationalTradeLoan)
-      selectedCategories.push("International Trade Loan");
+    if (categoriesFilters.specializedFinancing.internationalTradeLoan) selectedCategories.push("International Trade Loan");
 
     // Get selected Business Stages
     const selectedStages = Object.keys(businessStageFilters)
@@ -252,22 +236,11 @@ export default function Section6() {
           );
 
         // Product must match all filter categories
-        return (
-          matchesCategory &&
-          matchesStage &&
-          matchesProvider &&
-          matchesPricingModel
-        );
+        return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
       });
       setFilteredProducts(filtered);
     }
-  }, [
-    products,
-    categoriesFilters,
-    businessStageFilters,
-    providedByFilters,
-    pricingModelFilters,
-  ]);
+  }, [products, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters]);
 
   // Handle checkbox changes for Categories filters
   const handleCategoriesChange = (category: string, subcategory: string) => {
@@ -282,9 +255,7 @@ export default function Section6() {
   };
 
   // Handle checkbox changes for Business Stage filters
-  const handleBusinessStageChange = (
-    stage: keyof typeof businessStageFilters
-  ) => {
+  const handleBusinessStageChange = (stage: keyof typeof businessStageFilters) => {
     setBusinessStageFilters((prev) => ({
       ...prev,
       [stage]: !prev[stage],
@@ -302,9 +273,7 @@ export default function Section6() {
   };
 
   // Handle checkbox changes for Pricing Model filters
-  const handlePricingModelChange = (
-    model: keyof typeof pricingModelFilters
-  ) => {
+  const handlePricingModelChange = (model: keyof typeof pricingModelFilters) => {
     setPricingModelFilters((prev) => ({
       ...prev,
       [model]: !prev[model],
@@ -327,7 +296,7 @@ export default function Section6() {
   };
 
   return (
-    <Container pt="4rem" style={{ marginTop: "-45px" }}>
+    <Container pt="4rem" style={{ marginTop: '-45px' }}>
       <Grid container spacing={3}>
         {/* Sidebar */}
         <Grid item md={3} xs={12}>
@@ -338,9 +307,8 @@ export default function Section6() {
               height: "92%",
               borderRadius: "3px",
               padding: "1rem 2rem",
-              backgroundColor: "#F4F7FE",
-            }}
-          >
+              backgroundColor: "#F4F7FE"
+            }}>
             <List>
               <ServiceTypeTitle>Categories :</ServiceTypeTitle>
               {/* Business Funding & ... */}
@@ -373,55 +341,35 @@ export default function Section6() {
                 />
                 <label htmlFor="business-funding">Business Funding & ...</label>
               </CheckboxLabel>
-              <CheckboxLabel style={{ marginLeft: "1rem" }}>
+              <CheckboxLabel style={{ marginLeft: '1rem' }}>
                 <input
                   type="checkbox"
                   id="term-loans"
                   title="Term Loans"
                   checked={categoriesFilters.businessFunding.termLoans}
-                  onChange={() =>
-                    handleCategoriesChange("businessFunding", "termLoans")
-                  }
+                  onChange={() => handleCategoriesChange("businessFunding", "termLoans")}
                 />
                 <label htmlFor="term-loans">Term Loans</label>
               </CheckboxLabel>
-              <CheckboxLabel style={{ marginLeft: "1rem" }}>
+              <CheckboxLabel style={{ marginLeft: '1rem' }}>
                 <input
                   type="checkbox"
                   id="business-development"
                   title="Business Development"
-                  checked={
-                    categoriesFilters.businessFunding.businessDevelopment
-                  }
-                  onChange={() =>
-                    handleCategoriesChange(
-                      "businessFunding",
-                      "businessDevelopment"
-                    )
-                  }
+                  checked={categoriesFilters.businessFunding.businessDevelopment}
+                  onChange={() => handleCategoriesChange("businessFunding", "businessDevelopment")}
                 />
-                <label htmlFor="business-development">
-                  Business Development
-                </label>
+                <label htmlFor="business-development">Business Development</label>
               </CheckboxLabel>
-              <CheckboxLabel style={{ marginLeft: "1rem" }}>
+              <CheckboxLabel style={{ marginLeft: '1rem' }}>
                 <input
                   type="checkbox"
                   id="project-financing-loans"
                   title="Project Financing Loans"
-                  checked={
-                    categoriesFilters.businessFunding.projectFinancingLoans
-                  }
-                  onChange={() =>
-                    handleCategoriesChange(
-                      "businessFunding",
-                      "projectFinancingLoans"
-                    )
-                  }
+                  checked={categoriesFilters.businessFunding.projectFinancingLoans}
+                  onChange={() => handleCategoriesChange("businessFunding", "projectFinancingLoans")}
                 />
-                <label htmlFor="project-financing-loans">
-                  Project Financing Loans
-                </label>
+                <label htmlFor="project-financing-loans">Project Financing Loans</label>
               </CheckboxLabel>
 
               {/* Loan Management & ... */}
@@ -432,8 +380,7 @@ export default function Section6() {
                   title="Loan Management & ..."
                   checked={categoriesFilters.loanManagement.loanTermExtension}
                   onChange={() => {
-                    const allChecked =
-                      !categoriesFilters.loanManagement.loanTermExtension;
+                    const allChecked = !categoriesFilters.loanManagement.loanTermExtension;
                     setCategoriesFilters((prev) => ({
                       ...prev,
                       loanManagement: {
@@ -445,18 +392,13 @@ export default function Section6() {
                 />
                 <label htmlFor="loan-management">Loan Management & ...</label>
               </CheckboxLabel>
-              <CheckboxLabel style={{ marginLeft: "1rem" }}>
+              <CheckboxLabel style={{ marginLeft: '1rem' }}>
                 <input
                   type="checkbox"
                   id="loan-term-extension"
                   title="Loan Term Extension"
                   checked={categoriesFilters.loanManagement.loanTermExtension}
-                  onChange={() =>
-                    handleCategoriesChange(
-                      "loanManagement",
-                      "loanTermExtension"
-                    )
-                  }
+                  onChange={() => handleCategoriesChange("loanManagement", "loanTermExtension")}
                 />
                 <label htmlFor="loan-term-extension">Loan Term Extension</label>
               </CheckboxLabel>
@@ -467,14 +409,9 @@ export default function Section6() {
                   type="checkbox"
                   id="specialized-financing"
                   title="Specialized Financing"
-                  checked={
-                    categoriesFilters.specializedFinancing
-                      .internationalTradeLoan
-                  }
+                  checked={categoriesFilters.specializedFinancing.internationalTradeLoan}
                   onChange={() => {
-                    const allChecked =
-                      !categoriesFilters.specializedFinancing
-                        .internationalTradeLoan;
+                    const allChecked = !categoriesFilters.specializedFinancing.internationalTradeLoan;
                     setCategoriesFilters((prev) => ({
                       ...prev,
                       specializedFinancing: {
@@ -484,29 +421,17 @@ export default function Section6() {
                     setCurrentPage(1);
                   }}
                 />
-                <label htmlFor="specialized-financing">
-                  Specialized Financing
-                </label>
+                <label htmlFor="specialized-financing">Specialized Financing</label>
               </CheckboxLabel>
-              <CheckboxLabel style={{ marginLeft: "1rem" }}>
+              <CheckboxLabel style={{ marginLeft: '1rem' }}>
                 <input
                   type="checkbox"
                   id="international-trade-loan"
                   title="International Trade Loan"
-                  checked={
-                    categoriesFilters.specializedFinancing
-                      .internationalTradeLoan
-                  }
-                  onChange={() =>
-                    handleCategoriesChange(
-                      "specializedFinancing",
-                      "internationalTradeLoan"
-                    )
-                  }
+                  checked={categoriesFilters.specializedFinancing.internationalTradeLoan}
+                  onChange={() => handleCategoriesChange("specializedFinancing", "internationalTradeLoan")}
                 />
-                <label htmlFor="international-trade-loan">
-                  International Trade Loan
-                </label>
+                <label htmlFor="international-trade-loan">International Trade Loan</label>
               </CheckboxLabel>
             </List>
 
@@ -662,23 +587,15 @@ export default function Section6() {
                   id="government-subsidised"
                   title="Government Subsidised"
                   checked={pricingModelFilters.governmentSubsidised}
-                  onChange={() =>
-                    handlePricingModelChange("governmentSubsidised")
-                  }
+                  onChange={() => handlePricingModelChange("governmentSubsidised")}
                 />
-                <label htmlFor="government-subsidised">
-                  Government Subsidised
-                </label>
+                <label htmlFor="government-subsidised">Government Subsidised</label>
               </CheckboxLabel>
             </List>
           </Card>
           <ShowingText>
             Showing {(currentPage - 1) * productsPerPage + 1}-
-            {Math.min(
-              (currentPage - 1) * productsPerPage + filteredProducts.length,
-              totalItems
-            )}{" "}
-            of {totalItems} Services
+            {Math.min((currentPage - 1) * productsPerPage + filteredProducts.length, totalItems)} of {totalItems} Services
           </ShowingText>
         </Grid>
 
@@ -746,10 +663,7 @@ export default function Section6() {
                   cursor: currentPage === 1 ? "not-allowed" : "pointer",
                 }}
               >
-                <img
-                  src="assets/images/avatars/chevron-left.svg"
-                  alt="Previous"
-                />
+                <img src="assets/images/avatars/chevron-left.svg" alt="Previous" />
               </button>
 
               {[...Array(totalPages)].map((_, index) => (
@@ -761,8 +675,7 @@ export default function Section6() {
                     borderRadius: "50%",
                     padding: "0.5rem 1rem",
                     margin: "0 0.5rem",
-                    backgroundColor:
-                      currentPage === index + 1 ? "#002180" : "transparent",
+                    backgroundColor: currentPage === index + 1 ? "#002180" : "transparent",
                     color: currentPage === index + 1 ? "#fff" : "#002180",
                     cursor: "pointer",
                   }}
@@ -780,8 +693,7 @@ export default function Section6() {
                   padding: "0.5rem",
                   margin: "0 0.5rem",
                   backgroundColor: "transparent",
-                  cursor:
-                    currentPage === totalPages ? "not-allowed" : "pointer",
+                  cursor: currentPage === totalPages ? "not-allowed" : "pointer",
                 }}
               >
                 <img src="assets/images/avatars/chevron-right.svg" alt="Next" />

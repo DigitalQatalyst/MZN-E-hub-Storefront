@@ -7,7 +7,7 @@ import Grid from "@component/grid/Grid";
 import { ProductCard19, ProductCard20 } from "@component/product-cards";
 import { H3, H4, H6, Paragraph, SemiSpan, Span } from "@component/Typography";
 import Product from "@models/product.model";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import client from "@lib/graphQLClient";
 import { relatedProducts } from "__server__/__db__/related-products/data";
@@ -80,39 +80,6 @@ type TabType = "description" | "documents" | "cost" | "steps" | "terms";
 
 interface Props {
   product: Product;
-}
-interface CustomFields {
-  partner: string;
-  rating: number;
-  code: string;
-  status: string;
-  tags: string[];
-  highlightedBusinessStage: string;
-  processingTime: string;
-  registrationValidity: string;
-  sectionsCost: string;
-  sectionsSteps: string;
-  sectionsTermsOfService: string;
-  sectionsRequiredDocuments: string;
-  relatedServices: {
-    id: string;
-    name: string;
-    partner: string;
-    slug: string;
-    description: string;
-    images: string[];
-    subTitle: string;
-  }[];
-}
-
-interface ProductResponse {
-  product: {
-    id: string;
-    name: string;
-    slug: string;
-    description: string;
-    customFields: CustomFields;
-  };
 }
 
 export default function ProductDetails({ product }: Props) {

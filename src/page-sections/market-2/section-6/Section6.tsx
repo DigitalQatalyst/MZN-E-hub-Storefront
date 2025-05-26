@@ -1,5 +1,5 @@
 "use client";
-
+ 
 import Card from "@component/Card";
 import Grid from "@component/grid/Grid";
 import NavLink from "@component/nav-link";
@@ -9,12 +9,12 @@ import { ProductCard19 } from "@component/product-cards";
 import { useState, useEffect } from "react";
 import client from "@lib/graphQLClient";
 import TabBar from '@component/tab-bar/TabBar';
-
+ 
 // STYLED COMPONENTS
 import { List, ListItem, DropdownIcon, DropdownText, CheckboxLabel, ServiceTypeTitle, ShowingText } from "./styles";
-
+ 
 import Section2 from "../section-2/Section2";
-
+ 
 // GraphQL Query (filter removed)
 const GET_PRODUCTS = `
   query GetProducts($skip: Int!, $take: Int!) {
@@ -42,7 +42,7 @@ const GET_PRODUCTS = `
     }
   }
 `;
-
+ 
 interface FacetValue {
   facet: {
     id: string;
@@ -53,7 +53,7 @@ interface FacetValue {
   name: string;
   code: string;
 }
-
+ 
 interface Product {
   id: string;
   name: string;
@@ -64,19 +64,19 @@ interface Product {
     partner: string;
   };
 }
-
+ 
 interface GetProductsData {
   products: {
     items: Product[];
     totalItems: number;
   };
 }
-
+ 
 interface GetProductsVariables {
   skip: number;
   take: number;
 }
-
+ 
 export default function Section6() {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -87,7 +87,7 @@ export default function Section6() {
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const productsPerPage = 15;
-
+ 
   // State for Categories filters
   const [categoriesFilters, setCategoriesFilters] = useState({
     businessFunding: {
@@ -102,7 +102,7 @@ export default function Section6() {
       internationalTradeLoan: false,
     },
   });
-
+ 
   // State for Business Stage filters
   const [businessStageFilters, setBusinessStageFilters] = useState({
     inception: false,
@@ -111,7 +111,7 @@ export default function Section6() {
     restructuring: false,
     other: false,
   });
-
+ 
   // State for Provided By filters
   const [providedByFilters, setProvidedByFilters] = useState({
     adgm: false,
@@ -120,7 +120,7 @@ export default function Section6() {
     adSmeHub: false,
     other: false,
   });
-
+ 
   // State for Pricing Model filters
   const [pricingModelFilters, setPricingModelFilters] = useState({
     free: false,
@@ -129,11 +129,11 @@ export default function Section6() {
     oneTimeFee: false,
     governmentSubsidised: false,
   });
-
+ 
   const defaultImage = "/assets/images/mzn_logos/mzn_logo.png";
   const defaultImages = [defaultImage];
   const defaultReviews = 0;
-
+ 
   // Check if any filters are applied
   const areFiltersApplied = () => {
     return (
@@ -145,7 +145,7 @@ export default function Section6() {
       Object.values(pricingModelFilters).some((value) => value)
     );
   };
-
+ 
   // Fetch products data on component mount or page change
   useEffect(() => {
     const fetchData = async () => {
@@ -157,7 +157,7 @@ export default function Section6() {
           const allProducts: Product[] = [];
           let currentSkip = 0;
           let total = 0;
-
+ 
           do {
             const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
               skip: currentSkip,
@@ -168,19 +168,19 @@ export default function Section6() {
             total = data.products.totalItems;
             currentSkip += productsPerPage;
           } while (currentSkip < total);
-
+ 
           console.log("All products fetched:", allProducts.length);
-
+ 
           // Filter for Financial Services (facetValue.id: "66") and exclude non-financial (facetValue.id: "67")
           const financialServicesOnly = allProducts.filter((product) =>
             product.facetValues.some((fv) => fv.id === "66") &&
             !product.facetValues.some((fv) => fv.id === "67")
           );
           console.log("Filtered to Financial Services only:", financialServicesOnly.length);
-
+ 
           // Set totalItems to the count of financial services only
           setTotalItems(financialServicesOnly.length);
-
+ 
           // Apply other filters to financial services only
           const selectedCategories: string[] = [];
           if (categoriesFilters.businessFunding.termLoans) selectedCategories.push("Term Loans");
@@ -189,12 +189,12 @@ export default function Section6() {
           if (categoriesFilters.loanManagement.loanTermExtension) selectedCategories.push("Loan Term Extension");
           if (categoriesFilters.specializedFinancing.internationalTradeLoan) selectedCategories.push("International Trade Loan");
           console.log("Selected Categories:", selectedCategories);
-
+ 
           const selectedStages = Object.keys(businessStageFilters)
             .filter((key) => businessStageFilters[key])
             .map((key) => key.charAt(0).toUpperCase() + key.slice(1));
           console.log("Selected Stages:", selectedStages);
-
+ 
           const selectedProviders = Object.keys(providedByFilters)
             .filter((key) => providedByFilters[key])
             .map((key) => {
@@ -204,7 +204,7 @@ export default function Section6() {
               return key.charAt(0).toUpperCase() + key.slice(1);
             });
           console.log("Selected Providers:", selectedProviders);
-
+ 
           const selectedPricingModels = Object.keys(pricingModelFilters)
             .filter((key) => pricingModelFilters[key])
             .map((key) => {
@@ -215,7 +215,7 @@ export default function Section6() {
               return key.charAt(0).toUpperCase() + key.slice(1);
             });
           console.log("Selected Pricing Models:", selectedPricingModels);
-
+ 
           const filtered = selectedCategories.length === 0 &&
             selectedStages.length === 0 &&
             selectedProviders.length === 0 &&
@@ -253,10 +253,10 @@ export default function Section6() {
                 return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
               });
           console.log("Final filtered products count:", filtered.length);
-
+ 
           setAllFilteredProducts(filtered);
           setTotalFilteredItems(filtered.length);
-
+ 
           const startIndex = (currentPage - 1) * productsPerPage;
           const endIndex = startIndex + productsPerPage;
           setProducts(filtered.slice(startIndex, endIndex));
@@ -268,20 +268,20 @@ export default function Section6() {
             take: productsPerPage,
           });
           console.log("Response from GraphQL:", data);
-
+ 
           // Filter for Financial Services (facetValue.id: "66") and exclude non-financial (facetValue.id: "67")
           const financialServicesOnly = data.products.items.filter((product) =>
             product.facetValues.some((fv) => fv.id === "66") &&
             !product.facetValues.some((fv) => fv.id === "67")
           );
           console.log("Filtered to Financial Services only:", financialServicesOnly.length);
-
+ 
           // Fetch the total count of financial services only on initial load or if not set
           if (totalItems === 0) {
             const allProducts: Product[] = [];
             let currentSkip = 0;
             let total = 0;
-
+ 
             do {
               const totalData = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
                 skip: currentSkip,
@@ -291,14 +291,14 @@ export default function Section6() {
               total = totalData.products.totalItems;
               currentSkip += productsPerPage;
             } while (currentSkip < total);
-
+ 
             const financialServicesTotal = allProducts.filter((product) =>
               product.facetValues.some((fv) => fv.id === "66") &&
               !product.facetValues.some((fv) => fv.id === "67")
             );
             setTotalItems(financialServicesTotal.length);
           }
-
+ 
           setProducts(financialServicesOnly);
           setFilteredProducts(financialServicesOnly);
           setAllFilteredProducts(financialServicesOnly);
@@ -311,10 +311,10 @@ export default function Section6() {
         console.log("Fetching completed. Loading set to false.");
       }
     };
-
+ 
     fetchData();
   }, [currentPage, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters]);
-
+ 
   // Apply filters whenever products, categoriesFilters, businessStageFilters, providedByFilters, or pricingModelFilters change
   useEffect(() => {
     const selectedCategories: string[] = [];
@@ -323,11 +323,11 @@ export default function Section6() {
     if (categoriesFilters.businessFunding.projectFinancingLoans) selectedCategories.push("Project Financing Loans");
     if (categoriesFilters.loanManagement.loanTermExtension) selectedCategories.push("Loan Term Extension");
     if (categoriesFilters.specializedFinancing.internationalTradeLoan) selectedCategories.push("International Trade Loan");
-
+ 
     const selectedStages = Object.keys(businessStageFilters)
       .filter((key) => businessStageFilters[key])
       .map((key) => key.charAt(0).toUpperCase() + key.slice(1));
-
+ 
     const selectedProviders = Object.keys(providedByFilters)
       .filter((key) => providedByFilters[key])
       .map((key) => {
@@ -336,7 +336,7 @@ export default function Section6() {
         if (key === "adSmeHub") return "AD SME Hub";
         return key.charAt(0).toUpperCase() + key.slice(1);
       });
-
+ 
     const selectedPricingModels = Object.keys(pricingModelFilters)
       .filter((key) => pricingModelFilters[key])
       .map((key) => {
@@ -346,7 +346,7 @@ export default function Section6() {
         if (key === "governmentSubsidised") return "Government Subsidised";
         return key.charAt(0).toUpperCase() + key.slice(1);
       });
-
+ 
     if (
       selectedCategories.length === 0 &&
       selectedStages.length === 0 &&
@@ -389,7 +389,7 @@ export default function Section6() {
       setFilteredProducts(filtered);
     }
   }, [products, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters]);
-
+ 
   // Handle checkbox changes for Categories filters
   const handleCategoriesChange = (category: string, subcategory: string) => {
     setCategoriesFilters((prev) => ({
@@ -401,7 +401,7 @@ export default function Section6() {
     }));
     setCurrentPage(1);
   };
-
+ 
   // Handle checkbox changes for Business Stage filters
   const handleBusinessStageChange = (stage: keyof typeof businessStageFilters) => {
     setBusinessStageFilters((prev) => ({
@@ -410,7 +410,7 @@ export default function Section6() {
     }));
     setCurrentPage(1);
   };
-
+ 
   // Handle checkbox changes for Provided By filters
   const handleProvidedByChange = (provider: keyof typeof providedByFilters) => {
     setProvidedByFilters((prev) => ({
@@ -419,7 +419,7 @@ export default function Section6() {
     }));
     setCurrentPage(1);
   };
-
+ 
   // Handle checkbox changes for Pricing Model filters
   const handlePricingModelChange = (model: keyof typeof pricingModelFilters) => {
     setPricingModelFilters((prev) => ({
@@ -428,15 +428,15 @@ export default function Section6() {
     }));
     setCurrentPage(1);
   };
-
+ 
   // Calculate the total number of pages based on filtered or total items
   const totalPages = areFiltersApplied()
     ? Math.ceil(totalFilteredItems / productsPerPage)
     : Math.ceil(totalItems / productsPerPage);
-
+ 
   // Slice the filtered products to show on the current page
   const currentProducts = filteredProducts;
-
+ 
   const handlePagination = (direction: "next" | "prev") => {
     if (direction === "next" && currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
@@ -444,12 +444,12 @@ export default function Section6() {
       setCurrentPage(currentPage - 1);
     }
   };
-
+ 
   return (
     <Container pt="4rem" style={{ marginTop: '-45px' }}>
       <TabBar />
-      <Section2 
-        resultsCount={areFiltersApplied() ? totalFilteredItems : totalItems} 
+      <Section2
+        resultsCount={areFiltersApplied() ? totalFilteredItems : totalItems}
         style={{ marginBottom: "2rem" }}
       />
       <Grid container spacing={3}>
@@ -524,7 +524,7 @@ export default function Section6() {
                 />
                 <label htmlFor="project-financing-loans">Project Financing Loans</label>
               </CheckboxLabel>
-
+ 
               <CheckboxLabel>
                 <input
                   type="checkbox"
@@ -554,7 +554,7 @@ export default function Section6() {
                 />
                 <label htmlFor="loan-term-extension">Loan Term Extension</label>
               </CheckboxLabel>
-
+ 
               <CheckboxLabel>
                 <input
                   type="checkbox"
@@ -585,7 +585,7 @@ export default function Section6() {
                 <label htmlFor="international-trade-loan">International Trade Loan</label>
               </CheckboxLabel>
             </List>
-
+ 
             <List>
               <ServiceTypeTitle>Business Stage :</ServiceTypeTitle>
               <CheckboxLabel>
@@ -636,7 +636,7 @@ export default function Section6() {
                 <label htmlFor="other">Other</label>
               </CheckboxLabel>
             </List>
-
+ 
             <List>
               <ServiceTypeTitle>Provided By :</ServiceTypeTitle>
               <CheckboxLabel>
@@ -689,7 +689,7 @@ export default function Section6() {
                 <label htmlFor="other-checkbox">Other</label>
               </CheckboxLabel>
             </List>
-
+ 
             <List>
               <ServiceTypeTitle>Pricing Model :</ServiceTypeTitle>
               <CheckboxLabel>
@@ -751,7 +751,7 @@ export default function Section6() {
             </ShowingText>
           )}
         </Grid>
-
+ 
         <Grid item md={9} xs={12}>
           {loading ? (
             <div
@@ -820,7 +820,7 @@ export default function Section6() {
               ))}
             </Grid>
           )}
-
+ 
           {(areFiltersApplied() ? totalFilteredItems : totalItems) > 0 && (
             <div
               style={{
@@ -845,7 +845,7 @@ export default function Section6() {
               >
                 <img src="assets/images/avatars/chevron-right.svg" alt="Previous" />
               </button>
-
+ 
               {[...Array(totalPages)].map((_, index) => (
                 <button
                   key={index}
@@ -864,7 +864,7 @@ export default function Section6() {
                   {index + 1}
                 </button>
               ))}
-
+ 
               <button
                 onClick={() => handlePagination("next")}
                 disabled={currentPage === totalPages}

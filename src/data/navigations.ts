@@ -1,798 +1,317 @@
 const navigations = [
   {
-    icon: "dress",
-    title: "Fashion",
+    icon: "all_inclusive",
+    title: "Non-Financial",
     href: "/fashion",
     menuComponent: "MegaMenu1",
     menuData: {
       categories: [
         {
-          title: "Man Clothes",
+          title: "",
           href: "/product/search/man-clothes",
           subCategories: [
             {
-              title: "Shirt",
+              title: "",
               href: "/product/search/shirt",
               imgUrl: "/assets/images/products/categories/shirt.png"
             },
             {
-              title: "T- shirt",
+              title: "",
               href: "/product/search/t-shirt",
               imgUrl: "/assets/images/products/categories/t-shirt.png"
             },
             {
-              title: "Pant",
+              title: "",
               href: "/product/search/pant",
               imgUrl: "/assets/images/products/categories/pant.png"
             },
             {
-              title: "Underwear",
+              title: "",
               href: "/product/search/underwear",
               imgUrl: "/assets/images/products/categories/t-shirt.png"
             }
           ]
         },
         {
-          title: "Accessories",
+          title: "",
           href: "/product/search/accessories",
           subCategories: [
             {
-              title: "Belt",
+              title: "",
               href: "/product/search/belt",
               imgUrl: "/assets/images/products/categories/belt.png"
             },
             {
-              title: "Hat",
+              title: "",
               href: "/product/search/Hat",
               imgUrl: "/assets/images/products/categories/hat.png"
             },
             {
-              title: "Watches",
+              title: "",
               href: "/product/search/Watches",
               imgUrl: "/assets/images/products/categories/watch.png"
             },
             {
-              title: "Sunglasses",
+              title: "",
               href: "/product/search/Sunglasses",
               imgUrl: "/assets/images/products/categories/sunglass.png"
             }
           ]
         },
         {
-          title: "Shoes",
+          title: "",
           href: "/product/search/shoes",
           subCategories: [
             {
-              title: "Sneakers",
+              title: "",
               href: "/product/search/Sneakers",
               imgUrl: "/assets/images/products/categories/sneaker.png"
             },
             {
-              title: "Sandals",
+              title: "",
               href: "/product/search/Sandals",
               imgUrl: "/assets/images/products/categories/sandal.png"
             },
             {
-              title: "Formal",
+              title: "",
               href: "/product/search/Formal",
               imgUrl: "/assets/images/products/categories/shirt.png"
             },
             {
-              title: "Casual",
+              title: "",
               href: "/product/search/Casual",
               imgUrl: "/assets/images/products/categories/t-shirt.png"
             }
           ]
         },
         {
-          title: "Bags",
+          title: "",
           href: "/product/search/bags",
           subCategories: [
             {
-              title: "Backpack",
+              title: "",
               href: "/product/search/backpack",
               imgUrl: "/assets/images/products/categories/backpack.png"
             },
             {
-              title: "Crossbody Bags",
+              title: "",
               href: "/product/search/Crossbody Bags",
               imgUrl: "/assets/images/products/categories/bag.png"
             },
             {
-              title: "Side Bags",
+              title: "",
               href: "/product/search/Side Bags",
               imgUrl: "/assets/images/products/categories/mini-bag.png"
             },
             {
-              title: "Slides",
+              title: "",
               href: "/product/search/Slides",
               imgUrl: "/assets/images/products/categories/belt.png"
             }
           ]
         },
-        {
-          title: "Woman Clothes",
-          href: "/product/search/woman-clothes",
-          subCategories: [
-            {
-              title: "Shirt",
-              href: "/product/search/shirt",
-              imgUrl: "/assets/images/products/categories/shirt.png"
-            },
-            {
-              title: "T- shirt",
-              href: "/product/search/t-shirt",
-              imgUrl: "/assets/images/products/categories/t-shirt.png"
-            },
-            {
-              title: "Pant",
-              href: "/product/search/pant",
-              imgUrl: "/assets/images/products/categories/pant.png"
-            },
-            {
-              title: "Underwear",
-              href: "/product/search/underwear",
-              imgUrl: "/assets/images/products/categories/t-shirt.png"
-            }
-          ]
-        },
-        {
-          title: "Accessories",
-          href: "/product/search/accessories",
-          subCategories: [
-            {
-              title: "Belt",
-              href: "/product/search/belt",
-              imgUrl: "/assets/images/products/categories/belt.png"
-            },
-            {
-              title: "Hat",
-              href: "/product/search/Hat",
-              imgUrl: "/assets/images/products/categories/hat.png"
-            },
-            {
-              title: "Watches",
-              href: "/product/search/Watches",
-              imgUrl: "/assets/images/products/categories/watch.png"
-            },
-            {
-              title: "Sunglasses",
-              href: "/product/search/Sunglasses",
-              imgUrl: "/assets/images/products/categories/sunglass.png"
-            }
-          ]
-        },
-        {
-          title: "Shoes",
-          href: "/product/search/shoes",
-          subCategories: [
-            {
-              title: "Sneakers",
-              href: "/product/search/Sneakers",
-              imgUrl: "/assets/images/products/categories/sneaker.png"
-            },
-            {
-              title: "Sandals",
-              href: "/product/search/Sandals",
-              imgUrl: "/assets/images/products/categories/sandal.png"
-            },
-            {
-              title: "Formal",
-              href: "/product/search/Formal",
-              imgUrl: "/assets/images/products/categories/shirt.png"
-            },
-            {
-              title: "Casual",
-              href: "/product/search/Casual",
-              imgUrl: "/assets/images/products/categories/t-shirt.png"
-            }
-          ]
-        },
-        {
-          title: "Bags",
-          href: "/product/search/bags",
-          subCategories: [
-            {
-              title: "Backpack",
-              href: "/product/search/backpack",
-              imgUrl: "/assets/images/products/categories/backpack.png"
-            },
-            {
-              title: "Crossbody Bags",
-              href: "/product/search/Crossbody Bags",
-              imgUrl: "/assets/images/products/categories/bag.png"
-            },
-            {
-              title: "Side Bags",
-              href: "/product/search/Side Bags",
-              imgUrl: "/assets/images/products/categories/mini-bag.png"
-            },
-            {
-              title: "Slides",
-              href: "/product/search/Slides",
-              imgUrl: "/assets/images/products/categories/belt.png"
-            }
-          ]
-        }
       ],
-      rightImage: {
-        imgUrl: "/assets/images/promotion/offer-1.png",
-        href: "/sale-page-1"
-      }
+      // rightImage: {
+      //   imgUrl: "/assets/images/promotion/offer-1.png",
+      //   href: "/sale-page-1"
+      // }
     }
   },
   {
-    icon: "laptop",
-    title: "Electronics",
+    icon: "money_bag",
+    title: "Financial",
     href: "/product/search/electronics",
     menuComponent: "MegaMenu1",
     menuData: {
       categories: [
         {
-          title: "Man Clothes",
+          title: "Business Funding",
           href: "/product/search/man-clothes",
           subCategories: [
             {
-              title: "Shirt",
+              title: "Term Loans",
               href: "/product/search/shirt",
               imgUrl: "/assets/images/products/categories/shirt.png"
             },
             {
-              title: "T- shirt",
+              title: "Business Develoment",
               href: "/product/search/t-shirt",
               imgUrl: "/assets/images/products/categories/t-shirt.png"
             },
             {
-              title: "Pant",
+              title: "Project Financing Loans",
               href: "/product/search/pant",
               imgUrl: "/assets/images/products/categories/pant.png"
-            },
-            {
-              title: "Underwear",
-              href: "/product/search/underwear",
-              imgUrl: "/assets/images/products/categories/t-shirt.png"
             }
           ]
         },
         {
-          title: "Accessories",
+          title: "Loan Management",
           href: "/product/search/accessories",
           subCategories: [
             {
-              title: "Belt",
+              title: "Loan Term Extension",
               href: "/product/search/belt",
               imgUrl: "/assets/images/products/categories/belt.png"
-            },
-            {
-              title: "Hat",
-              href: "/product/search/Hat",
-              imgUrl: "/assets/images/products/categories/hat.png"
-            },
-            {
-              title: "Watches",
-              href: "/product/search/Watches",
-              imgUrl: "/assets/images/products/categories/watch.png"
-            },
-            {
-              title: "Sunglasses",
-              href: "/product/search/Sunglasses",
-              imgUrl: "/assets/images/products/categories/sunglass.png"
             }
           ]
         },
         {
-          title: "Shoes",
+          title: "Specialized Financing",
           href: "/product/search/shoes",
           subCategories: [
             {
-              title: "Sneakers",
+              title: "International Trade Loans",
               href: "/product/search/Sneakers",
               imgUrl: "/assets/images/products/categories/sneaker.png"
-            },
-            {
-              title: "Sandals",
-              href: "/product/search/Sandals",
-              imgUrl: "/assets/images/products/categories/sandal.png"
-            },
-            {
-              title: "Formal",
-              href: "/product/search/Formal",
-              imgUrl: "/assets/images/products/categories/shirt.png"
-            },
-            {
-              title: "Casual",
-              href: "/product/search/Casual",
-              imgUrl: "/assets/images/products/categories/t-shirt.png"
-            }
-          ]
-        },
-        {
-          title: "Bags",
-          href: "/product/search/bags",
-          subCategories: [
-            {
-              title: "Backpack",
-              href: "/product/search/backpack",
-              imgUrl: "/assets/images/products/categories/backpack.png"
-            },
-            {
-              title: "Crossbody Bags",
-              href: "/product/search/Crossbody Bags",
-              imgUrl: "/assets/images/products/categories/bag.png"
-            },
-            {
-              title: "Side Bags",
-              href: "/product/search/Side Bags",
-              imgUrl: "/assets/images/products/categories/mini-bag.png"
-            },
-            {
-              title: "Slides",
-              href: "/product/search/Slides",
-              imgUrl: "/assets/images/products/categories/belt.png"
-            }
-          ]
-        },
-        {
-          title: "Woman Clothes",
-          href: "/product/search/woman-clothes",
-          subCategories: [
-            {
-              title: "Shirt",
-              href: "/product/search/shirt",
-              imgUrl: "/assets/images/products/categories/shirt.png"
-            },
-            {
-              title: "T- shirt",
-              href: "/product/search/t-shirt",
-              imgUrl: "/assets/images/products/categories/t-shirt.png"
-            },
-            {
-              title: "Pant",
-              href: "/product/search/pant",
-              imgUrl: "/assets/images/products/categories/pant.png"
-            },
-            {
-              title: "Underwear",
-              href: "/product/search/underwear",
-              imgUrl: "/assets/images/products/categories/t-shirt.png"
-            }
-          ]
-        },
-        {
-          title: "Accessories",
-          href: "/product/search/accessories",
-          subCategories: [
-            {
-              title: "Belt",
-              href: "/product/search/belt",
-              imgUrl: "/assets/images/products/categories/belt.png"
-            },
-            {
-              title: "Hat",
-              href: "/product/search/Hat",
-              imgUrl: "/assets/images/products/categories/hat.png"
-            },
-            {
-              title: "Watches",
-              href: "/product/search/Watches",
-              imgUrl: "/assets/images/products/categories/watch.png"
-            },
-            {
-              title: "Sunglasses",
-              href: "/product/search/Sunglasses",
-              imgUrl: "/assets/images/products/categories/sunglass.png"
-            }
-          ]
-        },
-        {
-          title: "Shoes",
-          href: "/product/search/shoes",
-          subCategories: [
-            {
-              title: "Sneakers",
-              href: "/product/search/Sneakers",
-              imgUrl: "/assets/images/products/categories/sneaker.png"
-            },
-            {
-              title: "Sandals",
-              href: "/product/search/Sandals",
-              imgUrl: "/assets/images/products/categories/sandal.png"
-            },
-            {
-              title: "Formal",
-              href: "/product/search/Formal",
-              imgUrl: "/assets/images/products/categories/shirt.png"
-            },
-            {
-              title: "Casual",
-              href: "/product/search/Casual",
-              imgUrl: "/assets/images/products/categories/t-shirt.png"
-            }
-          ]
-        },
-        {
-          title: "Bags",
-          href: "/product/search/bags",
-          subCategories: [
-            {
-              title: "Backpack",
-              href: "/product/search/backpack",
-              imgUrl: "/assets/images/products/categories/backpack.png"
-            },
-            {
-              title: "Crossbody Bags",
-              href: "/product/search/Crossbody Bags",
-              imgUrl: "/assets/images/products/categories/bag.png"
-            },
-            {
-              title: "Side Bags",
-              href: "/product/search/Side Bags",
-              imgUrl: "/assets/images/products/categories/mini-bag.png"
-            },
-            {
-              title: "Slides",
-              href: "/product/search/Slides",
-              imgUrl: "/assets/images/products/categories/belt.png"
             }
           ]
         }
       ],
-      bottomImage: {
-        imgUrl: "/assets/images/promotion/offer-5.png",
-        href: "/"
-      }
+      // bottomImage: {
+      //   imgUrl: "/assets/images/promotion/offer-5.png",
+      //   href: "/"
+      // }
     }
   },
   {
-    icon: "motorbike",
-    title: "Bikes",
+    icon: "local_library",
+    title: "Courses",
     href: "/product/search/bikes",
     menuComponent: "MegaMenu2",
     menuData: [
       {
-        icon: "man",
-        title: "Man",
+        icon: "",
+        title: "",
         href: "/product/search/fashion",
-        megaMenu: "MegaMenu1",
-        menuData: {
-          categories: [
-            {
-              title: "Man Clothes",
-              href: "/product/search/man-clothes",
-              subCategories: [
-                {
-                  title: "Shirt",
-                  href: "/product/search/shirt",
-                  imgUrl: "/assets/images/products/categories/shirt.png"
-                },
-                {
-                  title: "T- shirt",
-                  href: "/product/search/t-shirt",
-                  imgUrl: "/assets/images/products/categories/t-shirt.png"
-                },
-                {
-                  title: "Pant",
-                  href: "/product/search/pant",
-                  imgUrl: "/assets/images/products/categories/pant.png"
-                },
-                {
-                  title: "Underwear",
-                  href: "/product/search/underwear",
-                  imgUrl: "/assets/images/products/categories/t-shirt.png"
-                }
-              ]
-            },
-            {
-              title: "Accessories",
-              href: "/product/search/accessories",
-              subCategories: [
-                {
-                  title: "Belt",
-                  href: "/product/search/belt",
-                  imgUrl: "/assets/images/products/categories/belt.png"
-                },
-                {
-                  title: "Hat",
-                  href: "/product/search/Hat",
-                  imgUrl: "/assets/images/products/categories/hat.png"
-                },
-                {
-                  title: "Watches",
-                  href: "/product/search/Watches",
-                  imgUrl: "/assets/images/products/categories/watch.png"
-                },
-                {
-                  title: "Sunglasses",
-                  href: "/product/search/Sunglasses",
-                  imgUrl: "/assets/images/products/categories/sunglass.png"
-                }
-              ]
-            },
-            {
-              title: "Shoes",
-              href: "/product/search/shoes",
-              subCategories: [
-                {
-                  title: "Sneakers",
-                  href: "/product/search/Sneakers",
-                  imgUrl: "/assets/images/products/categories/sneaker.png"
-                },
-                {
-                  title: "Sandals",
-                  href: "/product/search/Sandals",
-                  imgUrl: "/assets/images/products/categories/sandal.png"
-                },
-                {
-                  title: "Formal",
-                  href: "/product/search/Formal",
-                  imgUrl: "/assets/images/products/categories/shirt.png"
-                },
-                {
-                  title: "Casual",
-                  href: "/product/search/Casual",
-                  imgUrl: "/assets/images/products/categories/t-shirt.png"
-                }
-              ]
-            },
-            {
-              title: "Bags",
-              href: "/product/search/bags",
-              subCategories: [
-                {
-                  title: "Backpack",
-                  href: "/product/search/backpack",
-                  imgUrl: "/assets/images/products/categories/backpack.png"
-                },
-                {
-                  title: "Crossbody Bags",
-                  href: "/product/search/Crossbody Bags",
-                  imgUrl: "/assets/images/products/categories/bag.png"
-                },
-                {
-                  title: "Side Bags",
-                  href: "/product/search/Side Bags",
-                  imgUrl: "/assets/images/products/categories/mini-bag.png"
-                },
-                {
-                  title: "Slides",
-                  href: "/product/search/Slides",
-                  imgUrl: "/assets/images/products/categories/belt.png"
-                }
-              ]
-            }
-          ]
-        }
+        megaMenu: "MegaMenu1"
       },
       {
-        icon: "woman",
-        title: "Woman",
+        icon: "",
+        title: "",
         href: "/product/search/electronics",
         megaMenu: 2
       },
       {
-        icon: "baby-boy",
-        title: "Baby Boy",
+        icon: "",
+        title: "",
         href: "/product/search/home&garden",
         megaMenu: 3
       },
       {
-        icon: "baby-girl",
-        title: "Baby Girl",
+        icon: "",
+        title: "",
         href: "/product/search/bikes",
         megaMenu: "MegaMenu1"
       }
     ]
   },
   {
-    icon: "plant-pot",
-    title: "Home & Garden",
+    icon: "forum",
+    title: "Communities",
     href: "/product/search/home&garden",
     menuComponent: "MegaMenu1",
     menuData: {
       categories: [
         {
-          title: "Man Clothes",
+          title: "",
           href: "/product/search/man-clothes",
           subCategories: [
             {
-              title: "Shirt",
+              title: "",
               href: "/product/search/shirt",
               imgUrl: "/assets/images/products/categories/shirt.png"
             },
             {
-              title: "T- shirt",
+              title: "",
               href: "/product/search/t-shirt",
               imgUrl: "/assets/images/products/categories/t-shirt.png"
             },
             {
-              title: "Pant",
+              title: "",
               href: "/product/search/pant",
               imgUrl: "/assets/images/products/categories/pant.png"
             },
             {
-              title: "Underwear",
+              title: "",
               href: "/product/search/underwear",
               imgUrl: "/assets/images/products/categories/t-shirt.png"
             }
           ]
         },
         {
-          title: "Accessories",
+          title: "",
           href: "/product/search/accessories",
           subCategories: [
             {
-              title: "Belt",
+              title: "",
               href: "/product/search/belt",
               imgUrl: "/assets/images/products/categories/belt.png"
             },
             {
-              title: "Hat",
+              title: "",
               href: "/product/search/Hat",
               imgUrl: "/assets/images/products/categories/hat.png"
             },
             {
-              title: "Watches",
+              title: "",
               href: "/product/search/Watches",
               imgUrl: "/assets/images/products/categories/watch.png"
             },
             {
-              title: "Sunglasses",
+              title: "",
               href: "/product/search/Sunglasses",
               imgUrl: "/assets/images/products/categories/sunglass.png"
             }
           ]
         },
         {
-          title: "Shoes",
+          title: "",
           href: "/product/search/shoes",
           subCategories: [
             {
-              title: "Sneakers",
+              title: "",
               href: "/product/search/Sneakers",
               imgUrl: "/assets/images/products/categories/sneaker.png"
             },
             {
-              title: "Sandals",
+              title: "",
               href: "/product/search/Sandals",
               imgUrl: "/assets/images/products/categories/sandal.png"
             },
             {
-              title: "Formal",
+              title: "",
               href: "/product/search/Formal",
               imgUrl: "/assets/images/products/categories/shirt.png"
             },
             {
-              title: "Casual",
+              title: "",
               href: "/product/search/Casual",
               imgUrl: "/assets/images/products/categories/t-shirt.png"
             }
           ]
         },
         {
-          title: "Bags",
+          title: "",
           href: "/product/search/bags",
           subCategories: [
             {
-              title: "Backpack",
+              title: "",
               href: "/product/search/backpack",
               imgUrl: "/assets/images/products/categories/backpack.png"
             },
             {
-              title: "Crossbody Bags",
+              title: "",
               href: "/product/search/Crossbody Bags",
               imgUrl: "/assets/images/products/categories/bag.png"
             },
             {
-              title: "Side Bags",
+              title: "",
               href: "/product/search/Side Bags",
               imgUrl: "/assets/images/products/categories/mini-bag.png"
             },
             {
-              title: "Slides",
-              href: "/product/search/Slides",
-              imgUrl: "/assets/images/products/categories/belt.png"
-            }
-          ]
-        },
-        {
-          title: "Woman Clothes",
-          href: "/product/search/woman-clothes",
-          subCategories: [
-            {
-              title: "Shirt",
-              href: "/product/search/shirt",
-              imgUrl: "/assets/images/products/categories/shirt.png"
-            },
-            {
-              title: "T- shirt",
-              href: "/product/search/t-shirt",
-              imgUrl: "/assets/images/products/categories/t-shirt.png"
-            },
-            {
-              title: "Pant",
-              href: "/product/search/pant",
-              imgUrl: "/assets/images/products/categories/pant.png"
-            },
-            {
-              title: "Underwear",
-              href: "/product/search/underwear",
-              imgUrl: "/assets/images/products/categories/t-shirt.png"
-            }
-          ]
-        },
-        {
-          title: "Accessories",
-          href: "/product/search/accessories",
-          subCategories: [
-            {
-              title: "Belt",
-              href: "/product/search/belt",
-              imgUrl: "/assets/images/products/categories/belt.png"
-            },
-            {
-              title: "Hat",
-              href: "/product/search/Hat",
-              imgUrl: "/assets/images/products/categories/hat.png"
-            },
-            {
-              title: "Watches",
-              href: "/product/search/Watches",
-              imgUrl: "/assets/images/products/categories/watch.png"
-            },
-            {
-              title: "Sunglasses",
-              href: "/product/search/Sunglasses",
-              imgUrl: "/assets/images/products/categories/sunglass.png"
-            }
-          ]
-        },
-        {
-          title: "Shoes",
-          href: "/product/search/shoes",
-          subCategories: [
-            {
-              title: "Sneakers",
-              href: "/product/search/Sneakers",
-              imgUrl: "/assets/images/products/categories/sneaker.png"
-            },
-            {
-              title: "Sandals",
-              href: "/product/search/Sandals",
-              imgUrl: "/assets/images/products/categories/sandal.png"
-            },
-            {
-              title: "Formal",
-              href: "/product/search/Formal",
-              imgUrl: "/assets/images/products/categories/shirt.png"
-            },
-            {
-              title: "Casual",
-              href: "/product/search/Casual",
-              imgUrl: "/assets/images/products/categories/t-shirt.png"
-            }
-          ]
-        },
-        {
-          title: "Bags",
-          href: "/product/search/bags",
-          subCategories: [
-            {
-              title: "Backpack",
-              href: "/product/search/backpack",
-              imgUrl: "/assets/images/products/categories/backpack.png"
-            },
-            {
-              title: "Crossbody Bags",
-              href: "/product/search/Crossbody Bags",
-              imgUrl: "/assets/images/products/categories/bag.png"
-            },
-            {
-              title: "Side Bags",
-              href: "/product/search/Side Bags",
-              imgUrl: "/assets/images/products/categories/mini-bag.png"
-            },
-            {
-              title: "Slides",
+              title: "",
               href: "/product/search/Slides",
               imgUrl: "/assets/images/products/categories/belt.png"
             }
@@ -802,104 +321,199 @@ const navigations = [
     }
   },
   {
-    icon: "gift-1",
-    title: "Gifts",
+    icon: "brand_awareness",
+    title: "Media",
     href: "/product/search/gifts",
     menuComponent: "MegaMenu2",
     menuData: [
       {
-        icon: "dress",
-        title: "Fashion",
+        icon: "",
+        title: "",
         href: "/product/search/fashion"
       },
       {
-        icon: "laptop",
-        title: "Electronics",
+        icon: "",
+        title: "",
         href: "/product/search/electronics"
       },
       {
-        icon: "plant-pot",
-        title: "Home & Garden",
+        icon: "",
+        title: "",
         href: "/product/search/home&garden"
       },
       {
-        icon: "motorbike",
-        title: "Bikes",
+        icon: "",
+        title: "",
         href: "/product/search/bikes"
       },
       {
-        icon: "gift-1",
-        title: "Gifts",
+        icon: "",
+        title: "",
         href: "/product/search/gifts"
       },
       {
-        icon: "voice-recorder",
-        title: "Music",
+        icon: "",
+        title: "",
         href: "/product/search/music"
       },
       {
-        icon: "make-up",
-        title: "Health & Beauty",
+        icon: "",
+        title: "",
         href: "/product/search/health&beauty"
       },
       {
-        icon: "track",
-        title: "Pets",
+        icon: "",
+        title: "",
         href: "/product/search/pets"
-      },
-      {
-        icon: "teddy-bear",
-        title: "Baby Toys",
-        href: "/product/search/baby-toys"
-      },
-      {
-        icon: "food",
-        title: "Groceries",
-        href: "/product/search/groceries"
-      },
-      {
-        icon: "car",
-        title: "Automotive",
-        href: "/product/search/automotive"
       }
     ]
   },
   {
-    icon: "voice-recorder",
-    title: "Music",
-    href: "/product/search/music",
-    menuComponent: "MegaMenu1"
+    icon: "crowdsource",
+    title: "Investment",
+    href: "/product/search/gifts",
+    menuComponent: "MegaMenu2",
+    menuData: [
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/fashion"
+      },
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/electronics"
+      },
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/home&garden"
+      },
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/bikes"
+      },
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/gifts"
+      },
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/music"
+      },
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/health&beauty"
+      },
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/pets"
+      }
+    ]
   },
   {
-    icon: "make-up",
-    title: "Health & Beauty",
-    href: "/product/search/health&beauty",
-    menuComponent: "MegaMenu1"
+    icon: "calendar_month",
+    title: "Calendar",
+    href: "/product/search/gifts",
+    menuComponent: "MegaMenu2",
+    menuData: [
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/fashion"
+      },
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/electronics"
+      },
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/home&garden"
+      },
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/bikes"
+      },
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/gifts"
+      },
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/music"
+      },
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/health&beauty"
+      },
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/pets"
+      }
+    ]
   },
   {
-    icon: "track",
-    title: "Pets",
-    href: "/product/search/pets",
-    menuComponent: "MegaMenu1"
+    icon: "rocket_launch",
+    title: "Opportunities",
+    href: "/product/search/gifts",
+    menuComponent: "MegaMenu2",
+    menuData: [
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/fashion"
+      },
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/electronics"
+      },
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/home&garden"
+      },
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/bikes"
+      },
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/gifts"
+      },
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/music"
+      },
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/health&beauty"
+      },
+      {
+        icon: "",
+        title: "",
+        href: "/product/search/pets"
+      }
+    ]
   },
-  {
-    icon: "teddy-bear",
-    title: "Baby Toys",
-    href: "/product/search/baby-toys",
-    menuComponent: "MegaMenu1"
-  },
-  {
-    icon: "food",
-    title: "Groceries",
-    href: "/product/search/groceries",
-    menuComponent: "MegaMenu1"
-  },
-  {
-    icon: "car",
-    title: "Automotive",
-    href: "/product/search/automotive",
-    menuComponent: "MegaMenu1"
-  }
 ];
 
 export default navigations;
+
+

@@ -33,7 +33,8 @@ const TabBar: React.FC = () => {
   return (
     <TabBarContainer>
       <Tab
-        onClick={() => handleTabClick('Non-Financial', '/non-financial-marketplace')}  
+        // onClick={() => handleTabClick('Non-Financial', '/non-financial-marketplace')}  
+        onClick={() => handleTabClick('Non-Financial', '#')} 
         active={activeTab === 'Non-Financial'}
       >
         <img 

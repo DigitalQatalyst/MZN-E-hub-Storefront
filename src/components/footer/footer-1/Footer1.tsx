@@ -60,7 +60,7 @@ export default function Footer1() {
 
                 <Box bg="var(--KF-BG-Dark-Blue, #002180)" py="1rem" textAlign="center">
                   <FlexBox alignItems="center" style={{ marginTop: "6rem" }}>
-                    {/* "2024" text */}
+                    {/* "2024" text  */}
                     <Typography color="white" fontSize="11px" fontWeight="400" mr="1rem">
                       © 2024 
                     </Typography>

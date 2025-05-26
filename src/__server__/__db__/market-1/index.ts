@@ -29,7 +29,7 @@ export const market1ApiEndpoints = (Mock: MockAdapter) => {
           image: '/assets/images/banners/connect-with-us.png',
           price: 200,
           description:
-            'Browse our comprehensive service catalog. Once you\'ve identified a service that aligns with your needs, click the "Enquire" button to initiate the process. You\'ll be prompted to provide necessary information about your business and specific requirements.',
+            'Browse our comprehensive service catalog. Once you\'ve identified a service that aligns with your needs, click the "Enquire button to initiate the process. You\'ll be prompted to provide necessary information about your business and specific requirement. ',
           parent: [],
           for: { demo: 'market-1', type: 'top-categories' }
         },

@@ -55,19 +55,19 @@ export default function Section9({ products }: Props) {
             <ContentColumn>
                 <p style={{
                     color: "#000",
-                    fontFamily: '"Helvetica Neue"',
+                    fontFamily: "Helvetica Neue",
                     fontSize: "16px",
                     fontStyle: "normal",
                     fontWeight: 400,
-                    lineHeight: "var(--Title-Large-Line-Height, 28px)", // 175%
+                    lineHeight: "var(--Title-Large-Line-Height, 28px)",
                     letterSpacing: "var(--Title-Large-Tracking, 0px)",
-                    textTransform: "uppercase"
+                    textTransform: "uppercase",
                 }}>
                     WELCOME TO THE ENTERPRISE JOURNEY PLATFORM
                 </p>
                 <StyledHeader>
-                    Curated support, trusted partners,<br />
-                    one platform.
+                    We help businesses find the right partners to<br />
+                    get started, grow, and succeed
                 </StyledHeader>
             </ContentColumn>
             <CardsContainer my="-0.25rem">

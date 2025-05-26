@@ -170,7 +170,7 @@ export default function ProductCard1({
       <Wrapper borderRadius={8} {...props}>
         <div className="image-holder">
 
-          <FlexBox className="extra-icons">
+          {/* <FlexBox className="extra-icons">
             <IconButton size="small" padding="0.5rem" onClick={toggleDialog}>
               <Icon color="secondary" variant="small">
                 eye-alt
@@ -182,7 +182,7 @@ export default function ProductCard1({
                 heart
               </Icon>
             </IconButton>
-          </FlexBox>
+          </FlexBox> */}
 
           <Link href={`/market-2`}>
             <NextImage alt={title} width={277} src={imageSrc} height={270}/>

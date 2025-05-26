@@ -6,7 +6,6 @@ import { TabBarContainer, Tab } from './styles';
 const TabBar: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
- 
   const routeToTabMap: { [key: string]: string } = {
     '/non-financial-marketplace': 'Non-Financial',
     '/services': 'Financial',
@@ -17,11 +16,11 @@ const TabBar: React.FC = () => {
     '/calendar': 'Calendar',
     '/opportunities': 'Opportunities',
   };
- 
+
   const [activeTab, setActiveTab] = useState<string>(() => {
     return routeToTabMap[pathname] || 'Financial';
   });
- 
+
   useEffect(() => {
     setActiveTab(routeToTabMap[pathname] || 'Financial');
   }, [pathname]);

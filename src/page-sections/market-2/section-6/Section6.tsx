@@ -14,8 +14,7 @@ import TabBar from '@component/tab-bar/TabBar';
 import { List, ListItem, DropdownIcon, DropdownText, CheckboxLabel, ServiceTypeTitle, ShowingText } from "./styles";
 
 import Section2 from "../section-2/Section2";
-
-// GraphQL Query (filter removed)
+// GraphQL Query
 const GET_PRODUCTS = `
   query GetProducts($skip: Int!, $take: Int!) {
     products(options: { skip: $skip, take: $take }) {
@@ -85,7 +84,6 @@ export default function Section6() {
   const [totalItems, setTotalItems] = useState(0);
   const [totalFilteredItems, setTotalFilteredItems] = useState(0);
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
   const productsPerPage = 15;
 
   // State for Categories filters
@@ -149,11 +147,10 @@ export default function Section6() {
   // Fetch products data on component mount or page change
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
-      console.log("Fetching data from GraphQL... Current Page:", currentPage, "Skip:", (currentPage - 1) * productsPerPage, "Take:", productsPerPage);
+      console.log("Fetching data from GraphQL...");
       try {
         if (areFiltersApplied()) {
-          console.log("Filters are applied, fetching all products for filtering...");
+          // Fetch all products for filtering
           const allProducts: Product[] = [];
           let currentSkip = 0;
           let total = 0;
@@ -163,37 +160,24 @@ export default function Section6() {
               skip: currentSkip,
               take: productsPerPage,
             });
-            console.log("Fetched batch of products:", data.products.items.length, "Total Items:", data.products.totalItems);
             allProducts.push(...data.products.items);
             total = data.products.totalItems;
             currentSkip += productsPerPage;
           } while (currentSkip < total);
 
-          console.log("All products fetched:", allProducts.length);
+          setTotalItems(total);
 
-          // Filter for Financial Services (facetValue.id: "66") and exclude non-financial (facetValue.id: "67")
-          const financialServicesOnly = allProducts.filter((product) =>
-            product.facetValues.some((fv) => fv.id === "66") &&
-            !product.facetValues.some((fv) => fv.id === "67")
-          );
-          console.log("Filtered to Financial Services only:", financialServicesOnly.length);
-
-          // Set totalItems to the count of financial services only
-          setTotalItems(financialServicesOnly.length);
-
-          // Apply other filters to financial services only
+          // Apply filters to all products
           const selectedCategories: string[] = [];
           if (categoriesFilters.businessFunding.termLoans) selectedCategories.push("Term Loans");
           if (categoriesFilters.businessFunding.businessDevelopment) selectedCategories.push("Business Development");
           if (categoriesFilters.businessFunding.projectFinancingLoans) selectedCategories.push("Project Financing Loans");
           if (categoriesFilters.loanManagement.loanTermExtension) selectedCategories.push("Loan Term Extension");
           if (categoriesFilters.specializedFinancing.internationalTradeLoan) selectedCategories.push("International Trade Loan");
-          console.log("Selected Categories:", selectedCategories);
 
           const selectedStages = Object.keys(businessStageFilters)
             .filter((key) => businessStageFilters[key])
             .map((key) => key.charAt(0).toUpperCase() + key.slice(1));
-          console.log("Selected Stages:", selectedStages);
 
           const selectedProviders = Object.keys(providedByFilters)
             .filter((key) => providedByFilters[key])
@@ -203,7 +187,6 @@ export default function Section6() {
               if (key === "adSmeHub") return "AD SME Hub";
               return key.charAt(0).toUpperCase() + key.slice(1);
             });
-          console.log("Selected Providers:", selectedProviders);
 
           const selectedPricingModels = Object.keys(pricingModelFilters)
             .filter((key) => pricingModelFilters[key])
@@ -214,14 +197,13 @@ export default function Section6() {
               if (key === "governmentSubsidised") return "Government Subsidised";
               return key.charAt(0).toUpperCase() + key.slice(1);
             });
-          console.log("Selected Pricing Models:", selectedPricingModels);
 
           const filtered = selectedCategories.length === 0 &&
             selectedStages.length === 0 &&
             selectedProviders.length === 0 &&
             selectedPricingModels.length === 0
-            ? financialServicesOnly
-            : financialServicesOnly.filter((product) => {
+            ? allProducts
+            : allProducts.filter((product) => {
                 const matchesCategory =
                   selectedCategories.length === 0 ||
                   product.facetValues.some(
@@ -252,63 +234,30 @@ export default function Section6() {
                   );
                 return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
               });
-          console.log("Final filtered products count:", filtered.length);
 
           setAllFilteredProducts(filtered);
           setTotalFilteredItems(filtered.length);
 
+          // Update products for the current page
           const startIndex = (currentPage - 1) * productsPerPage;
           const endIndex = startIndex + productsPerPage;
           setProducts(filtered.slice(startIndex, endIndex));
           setFilteredProducts(filtered.slice(startIndex, endIndex));
         } else {
-          console.log("No filters applied, fetching current page...");
+          // Fetch only the current page when no filters are applied
           const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
             skip: (currentPage - 1) * productsPerPage,
             take: productsPerPage,
           });
-          console.log("Response from GraphQL:", data);
-
-          // Filter for Financial Services (facetValue.id: "66") and exclude non-financial (facetValue.id: "67")
-          const financialServicesOnly = data.products.items.filter((product) =>
-            product.facetValues.some((fv) => fv.id === "66") &&
-            !product.facetValues.some((fv) => fv.id === "67")
-          );
-          console.log("Filtered to Financial Services only:", financialServicesOnly.length);
-
-          // Fetch the total count of financial services only on initial load or if not set
-          if (totalItems === 0) {
-            const allProducts: Product[] = [];
-            let currentSkip = 0;
-            let total = 0;
-
-            do {
-              const totalData = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
-                skip: currentSkip,
-                take: productsPerPage,
-              });
-              allProducts.push(...totalData.products.items);
-              total = totalData.products.totalItems;
-              currentSkip += productsPerPage;
-            } while (currentSkip < total);
-
-            const financialServicesTotal = allProducts.filter((product) =>
-              product.facetValues.some((fv) => fv.id === "66") &&
-              !product.facetValues.some((fv) => fv.id === "67")
-            );
-            setTotalItems(financialServicesTotal.length);
-          }
-
-          setProducts(financialServicesOnly);
-          setFilteredProducts(financialServicesOnly);
-          setAllFilteredProducts(financialServicesOnly);
-          setTotalFilteredItems(financialServicesOnly.length);
+          console.log("Data fetched successfully:", data);
+          setProducts(data.products.items);
+          setFilteredProducts(data.products.items);
+          setAllFilteredProducts(data.products.items);
+          setTotalItems(data.products.totalItems);
+          setTotalFilteredItems(data.products.totalItems);
         }
       } catch (error) {
         console.error("Error fetching products:", error);
-      } finally {
-        setLoading(false);
-        console.log("Fetching completed. Loading set to false.");
       }
     };
 
@@ -753,26 +702,7 @@ export default function Section6() {
         </Grid>
 
         <Grid item md={9} xs={12}>
-          {loading ? (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "300px",
-                backgroundColor: "#f8f8f8",
-                borderRadius: "8px",
-                border: "1px solid #e0e0e0",
-                marginTop: "1rem",
-                fontSize: "1.5rem",
-                color: "#555",
-                textAlign: "center",
-                padding: "2rem",
-              }}
-            >
-              Loading services...
-            </div>
-          ) : currentProducts.length === 0 ? (
+          {currentProducts.length === 0 ? (
             <div
               style={{
                 display: "flex",
@@ -858,7 +788,6 @@ export default function Section6() {
                     backgroundColor: currentPage === index + 1 ? "#002180" : "transparent",
                     color: currentPage === index + 1 ? "#fff" : "#002180",
                     cursor: "pointer",
-                    display: "inline-block",
                   }}
                 >
                   {index + 1}

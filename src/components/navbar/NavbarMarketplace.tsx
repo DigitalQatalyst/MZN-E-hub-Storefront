@@ -143,7 +143,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
       <Container height="100%" display="flex" alignItems="center" justifyContent="space-between">
         {/* Logo Section */}
         <Box className="navbar-logo">
-          <img src="/assets/images/logos/mzn_logo.svg" alt="MZN Enterprise Hub" height="40px" />
+          <img src="/assets/images/tab_bar/Subtract.svg" alt="MZN Enterprise Hub" height="40px" />
         </Box>
 
         {/* Categories Section */}

@@ -14,7 +14,6 @@ import { H2, H4, H5, H6, SemiSpan } from "@component/Typography";
 import { useAppContext } from "@context/app-context";
 import Product from "@models/product.model";
 import { FaRegBookmark } from "react-icons/fa";
-import { IoShareSocial } from "react-icons/io5";
 
 // ========================================
 interface Props {
@@ -223,13 +222,8 @@ export default function ProductIntro({ product }: Props) {
             justifyContent="space-between"
             width="100%"
           >
-            <Button
-              width="85%"
-              color="#002180"
-              height="50px"
-              border={"2px solid #002180"}
-            >
-              <FaRegBookmark color="#002180" size="20px" />
+            <Button width="85%" color="primary" height="50px" bg={"success"}>
+              <FaRegBookmark color="#0030E3" size="20px" />
               &nbsp; Add to bookmarks
             </Button>
             <FlexBox
@@ -237,8 +231,8 @@ export default function ProductIntro({ product }: Props) {
             Pace-between"
               width="10%"
             >
-              <Button width="100%" height="50px" border={"2px solid #002180"}>
-                <Icon color="#002180">share 1</Icon>
+              <Button width="100%" height="50px" bg={"success"}>
+                <Icon>share 1</Icon>
               </Button>
             </FlexBox>
           </FlexBox>
@@ -246,7 +240,7 @@ export default function ProductIntro({ product }: Props) {
           <Box mt="2rem">
             <FlexBox alignItems="center" mb="0.75rem" style={{ gap: "10px" }}>
               <FlexBox alignItems="center" style={{ minWidth: "120px" }}>
-                <Icon color="#002180" mr="4px">
+                <Icon color="#0030E3" mr="4px">
                   truck
                 </Icon>
                 <SemiSpan

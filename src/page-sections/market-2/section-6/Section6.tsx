@@ -8,12 +8,10 @@ import Container from "@component/Container";
 import { ProductCard19 } from "@component/product-cards";
 import { useState, useEffect } from "react";
 import client from "@lib/graphQLClient";
-import TabBar from '@component/tab-bar/TabBar';
 
 // STYLED COMPONENTS
 import { List, ListItem, DropdownIcon, DropdownText, CheckboxLabel, ServiceTypeTitle, ShowingText } from "./styles";
 
-import Section2 from "../section-2/Section2";
 // GraphQL Query
 const GET_PRODUCTS = `
   query GetProducts($skip: Int!, $take: Int!) {
@@ -79,11 +77,8 @@ interface GetProductsVariables {
 export default function Section6() {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const [allFilteredProducts, setAllFilteredProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
-  const [totalFilteredItems, setTotalFilteredItems] = useState(0);
-  const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
   const productsPerPage = 15;
 
   // State for Categories filters
@@ -132,16 +127,172 @@ export default function Section6() {
   const defaultImages = [defaultImage];
   const defaultReviews = 0;
 
-  // Check if any filters are applied
-  const areFiltersApplied = () => {
-    return (
-      Object.values(categoriesFilters).some((category) =>
-        Object.values(category).some((value) => value)
-      ) ||
-      Object.values(businessStageFilters).some((value) => value) ||
-      Object.values(providedByFilters).some((value) => value) ||
-      Object.values(pricingModelFilters).some((value) => value)
-    );
+  // Fetch products data on component mount or page change
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log("Fetching data from GraphQL...");
+      try {
+        const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
+          skip: (currentPage - 1) * productsPerPage,
+          take: productsPerPage,
+        });
+        console.log("Data fetched successfully:", data);
+        setProducts(data.products.items);
+        setTotalItems(data.products.totalItems);
+        // Initially, show all products for the current page
+        setFilteredProducts(data.products.items);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchData();
+  }, [currentPage]);
+
+  // Apply filters whenever products, categoriesFilters, businessStageFilters, providedByFilters, or pricingModelFilters change
+  useEffect(() => {
+    // Get selected Categories
+    const selectedCategories: string[] = [];
+    // Business Funding & ...
+    if (categoriesFilters.businessFunding.termLoans) selectedCategories.push("Term Loans");
+    if (categoriesFilters.businessFunding.businessDevelopment) selectedCategories.push("Business Development");
+    if (categoriesFilters.businessFunding.projectFinancingLoans) selectedCategories.push("Project Financing Loans");
+    // Loan Management & ...
+    if (categoriesFilters.loanManagement.loanTermExtension) selectedCategories.push("Loan Term Extension");
+    // Specialized Financing
+    if (categoriesFilters.specializedFinancing.internationalTradeLoan) selectedCategories.push("International Trade Loan");
+
+    // Get selected Business Stages
+    const selectedStages = Object.keys(businessStageFilters)
+      .filter((key) => businessStageFilters[key])
+      .map((key) => key.charAt(0).toUpperCase() + key.slice(1)); // Capitalize first letter
+
+    // Get selected Provided By providers
+    const selectedProviders = Object.keys(providedByFilters)
+      .filter((key) => providedByFilters[key])
+      .map((key) => {
+        if (key === "khalifaFund") return "Khalifa Fund";
+        if (key === "hub71") return "Hub 71";
+        if (key === "adSmeHub") return "AD SME Hub";
+        return key.charAt(0).toUpperCase() + key.slice(1); // Capitalize first letter
+      });
+
+    // Get selected Pricing Models
+    const selectedPricingModels = Object.keys(pricingModelFilters)
+      .filter((key) => pricingModelFilters[key])
+      .map((key) => {
+        if (key === "subscriptionBased") return "Subscription-Based";
+        if (key === "payPerService") return "Pay Per Service";
+        if (key === "oneTimeFee") return "One-Time Fee";
+        if (key === "governmentSubsidised") return "Government Subsidised";
+        return key.charAt(0).toUpperCase() + key.slice(1); // Capitalize first letter
+      });
+
+    // If no filters are selected, show all products
+    if (
+      selectedCategories.length === 0 &&
+      selectedStages.length === 0 &&
+      selectedProviders.length === 0 &&
+      selectedPricingModels.length === 0
+    ) {
+      setFilteredProducts(products);
+    } else {
+      // Filter products based on selected Categories, Business Stages, Provided By, and Pricing Model
+      const filtered = products.filter((product) => {
+        // Check if product matches selected Categories (or no categories selected)
+        const matchesCategory =
+          selectedCategories.length === 0 ||
+          product.facetValues.some(
+            (facetValue) =>
+              facetValue.facet.code === "category" &&
+              selectedCategories.includes(facetValue.name)
+          );
+
+        // Check if product matches selected Business Stages (or no stages selected)
+        const matchesStage =
+          selectedStages.length === 0 ||
+          product.facetValues.some(
+            (facetValue) =>
+              facetValue.facet.code === "business-stage" &&
+              selectedStages.includes(facetValue.name)
+          );
+
+        // Check if product matches selected Provided By (or no providers selected)
+        const matchesProvider =
+          selectedProviders.length === 0 ||
+          product.facetValues.some(
+            (facetValue) =>
+              facetValue.facet.code === "provided-by" &&
+              selectedProviders.includes(facetValue.name)
+          );
+
+        // Check if product matches selected Pricing Model (or no pricing models selected)
+        const matchesPricingModel =
+          selectedPricingModels.length === 0 ||
+          product.facetValues.some(
+            (facetValue) =>
+              facetValue.facet.code === "pricing-model" &&
+              selectedPricingModels.includes(facetValue.name)
+          );
+
+        // Product must match all filter categories
+        return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
+      });
+      setFilteredProducts(filtered);
+    }
+  }, [products, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters]);
+
+  // Handle checkbox changes for Categories filters
+  const handleCategoriesChange = (category: string, subcategory: string) => {
+    setCategoriesFilters((prev) => ({
+      ...prev,
+      [category]: {
+        ...prev[category],
+        [subcategory]: !prev[category][subcategory],
+      },
+    }));
+    setCurrentPage(1); // Reset to first page when filters change
+  };
+
+  // Handle checkbox changes for Business Stage filters
+  const handleBusinessStageChange = (stage: keyof typeof businessStageFilters) => {
+    setBusinessStageFilters((prev) => ({
+      ...prev,
+      [stage]: !prev[stage],
+    }));
+    setCurrentPage(1); // Reset to first page when filters change
+  };
+
+  // Handle checkbox changes for Provided By filters
+  const handleProvidedByChange = (provider: keyof typeof providedByFilters) => {
+    setProvidedByFilters((prev) => ({
+      ...prev,
+      [provider]: !prev[provider],
+    }));
+    setCurrentPage(1); // Reset to first page when filters change
+  };
+
+  // Handle checkbox changes for Pricing Model filters
+  const handlePricingModelChange = (model: keyof typeof pricingModelFilters) => {
+    setPricingModelFilters((prev) => ({
+      ...prev,
+      [model]: !prev[model],
+    }));
+    setCurrentPage(1); // Reset to first page when filters change
+  };
+
+  // Calculate the total number of pages based on totalItems from server
+  const totalPages = Math.ceil(totalItems / productsPerPage);
+
+  // Slice the filtered products to show on the current page
+  const currentProducts = filteredProducts;
+
+  const handlePagination = (direction: "next" | "prev") => {
+    if (direction === "next" && currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    } else if (direction === "prev" && currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
   };
 
   // Fetch products data on component mount or page change
@@ -396,24 +547,21 @@ export default function Section6() {
 
   return (
     <Container pt="4rem" style={{ marginTop: '-45px' }}>
-      <TabBar />
-      <Section2 
-        resultsCount={areFiltersApplied() ? totalFilteredItems : totalItems} 
-        style={{ marginBottom: "2rem" }}
-      />
       <Grid container spacing={3}>
+        {/* Sidebar */}
         <Grid item md={3} xs={12}>
           <Card
             elevation={0}
             style={{
               border: 0,
-              height: "95%",
+              height: "92%",
               borderRadius: "3px",
               padding: "1rem 2rem",
-              backgroundColor: "#FFFFFF"
+              backgroundColor: "#F4F7FE"
             }}>
             <List>
               <ServiceTypeTitle>Categories :</ServiceTypeTitle>
+              {/* Business Funding & ... */}
               <CheckboxLabel>
                 <input
                   type="checkbox"
@@ -474,6 +622,7 @@ export default function Section6() {
                 <label htmlFor="project-financing-loans">Project Financing Loans</label>
               </CheckboxLabel>
 
+              {/* Loan Management & ... */}
               <CheckboxLabel>
                 <input
                   type="checkbox"
@@ -504,6 +653,7 @@ export default function Section6() {
                 <label htmlFor="loan-term-extension">Loan Term Extension</label>
               </CheckboxLabel>
 
+              {/* Specialized Financing */}
               <CheckboxLabel>
                 <input
                   type="checkbox"
@@ -693,16 +843,15 @@ export default function Section6() {
               </CheckboxLabel>
             </List>
           </Card>
-          {(areFiltersApplied() ? totalFilteredItems : totalItems) > 0 && (
-            <ShowingText>
-              Showing {(currentPage - 1) * productsPerPage + 1}-
-              {Math.min(currentPage * productsPerPage, areFiltersApplied() ? totalFilteredItems : totalItems)} of {areFiltersApplied() ? totalFilteredItems : totalItems} Services
-            </ShowingText>
-          )}
+          <ShowingText>
+            Showing {(currentPage - 1) * productsPerPage + 1}-
+            {Math.min((currentPage - 1) * productsPerPage + filteredProducts.length, totalItems)} of {totalItems} Services
+          </ShowingText>
         </Grid>
 
+        {/* CATEGORY BASED PRODUCTS */}
         <Grid item md={9} xs={12}>
-          {currentProducts.length === 0 ? (
+          {filteredProducts.length === 0 ? (
             <div
               style={{
                 display: "flex",
@@ -725,33 +874,24 @@ export default function Section6() {
             <Grid container spacing={3}>
               {currentProducts.map((product) => (
                 <Grid item md={4} sm={6} xs={12} key={product.id}>
-                  <div
-                    onMouseEnter={() => setHoveredCardId(product.id)}
-                    onMouseLeave={() => setHoveredCardId(null)}
-                    style={{
-                      transition: "all 0.3s ease",
-                      transform: hoveredCardId === product.id ? "scale(1.02)" : "scale(1)",
-                      boxShadow: hoveredCardId === product.id ? "0 4px 8px rgba(0, 0, 0, 0.1)" : "none",
-                    }}
-                  >
-                    <ProductCard19
-                      id={product.id}
-                      slug={product.slug}
-                      name={product.name}
-                      subTitle={product.customFields.partner}
-                      description={product.description}
-                      img={defaultImage}
-                      images={defaultImages}
-                      reviews={defaultReviews}
-                      className="product-card"
-                    />
-                  </div>
+                  <ProductCard19
+                    id={product.id}
+                    slug={product.slug}
+                    name={product.name}
+                    subTitle={product.customFields.partner}
+                    description={product.description}
+                    img={defaultImage}
+                    images={defaultImages}
+                    reviews={defaultReviews}
+                    className="product-card"
+                  />
                 </Grid>
               ))}
             </Grid>
           )}
 
-          {(areFiltersApplied() ? totalFilteredItems : totalItems) > 0 && (
+          {/* Pagination */}
+          {totalItems > 0 && (
             <div
               style={{
                 display: "flex",
@@ -773,7 +913,7 @@ export default function Section6() {
                   cursor: currentPage === 1 ? "not-allowed" : "pointer",
                 }}
               >
-                <img src="assets/images/avatars/chevron-right.svg" alt="Previous" />
+                <img src="assets/images/avatars/chevron-left.svg" alt="Previous" />
               </button>
 
               {[...Array(totalPages)].map((_, index) => (
@@ -806,7 +946,7 @@ export default function Section6() {
                   cursor: currentPage === totalPages ? "not-allowed" : "pointer",
                 }}
               >
-                <img src="assets/images/avatars/chevron-left.svg" alt="Next" />
+                <img src="assets/images/avatars/chevron-right.svg" alt="Next" />
               </button>
             </div>
           )}

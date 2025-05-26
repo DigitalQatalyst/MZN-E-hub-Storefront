@@ -22,26 +22,26 @@ interface RelatedService {
   name: string;
   description: string;
   customFields?: {
-    partner?: string;
-    rating?: number;
+    Partner?: string;
+    Rating?: number;
     tags?: string[];
   };
 }
 
 interface CustomFields {
-  partner: string;
-  rating: number;
-  code: string;
-  status: string;
+  Partner: string;
+  Rating: number;
+  Code: string;
+  Status: string;
   tags: string[];
-  highlightedBusinessStage: string;
-  processingTime: string;
-  registrationValidity: string;
-  relatedServices: RelatedService[]; // <-- use the new type here
-  sectionsCost: string;
-  sectionsSteps: string;
-  sectionsTermsOfService: string;
-  sectionsRequiredDocuments: string;
+  BusinessStage: string;
+  ProcessingTime: string;
+  RegistrationValidity: string;
+  relatedServices: RelatedService[];
+  Cost: string;
+  Steps: string[];
+  TermsOfService: string[];
+  RequiredDocuments: string[];
 }
 
 interface ProductResponse {
@@ -61,6 +61,7 @@ export default function ClientProductDetailsPage({ slug }: { slug: string }) {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
+        console.log("Slug:", slug); // Log slug for debugging
         const response = await client.request<ProductResponse>(
           `
           query GetProduct($slug: String!) {
@@ -70,28 +71,25 @@ export default function ClientProductDetailsPage({ slug }: { slug: string }) {
               slug
               description
               customFields {
-                partner
-                rating
-                code
-                status
-                tags
-                highlightedBusinessStage
-                processingTime
-                registrationValidity
-                sectionsCost
-                sectionsSteps
-                sectionsTermsOfService
-                sectionsRequiredDocuments
-                relatedServices{
+                Partner
+                Rating
+                Code
+                Status
+                BusinessStage
+                Nationality
+                DiversityandInclusion
+                LegalStructure
+                CustomerType
+                Industry
+                ProcessingTime
+                RegistrationValidity
+                Cost
+                Steps
+                TermsOfService
+                RequiredDocuments
+                RelatedServices {
                   id
-                  slug
                   name
-                  description
-                  customFields{
-                    partner
-                    rating
-                    tags
-                  }
                 }
               }
             }
@@ -99,49 +97,53 @@ export default function ClientProductDetailsPage({ slug }: { slug: string }) {
         `,
           { slug }
         );
+        console.log("Raw GraphQL response:", response);
 
         if (response.product) {
           const { customFields } = response.product;
+          console.log("Custom fields:", customFields); // Log customFields for debugging
 
           setProduct({
             id: response.product.id,
             slug: response.product.slug,
-            title: response.product.name,
-            name: response.product.name,
-            subTitle: customFields.partner,
-            description: response.product.description,
+            title: response.product.name || "",
+            name: response.product.name || "",
+            subTitle: customFields.Partner || "",
+            description: response.product.description || "",
             images: ["/assets/images/products/Home & Garden/vida.png"],
-            rating: customFields.rating,
+            rating: customFields.Rating || 0,
             reviews: 50,
-            status: customFields.status,
-            code: customFields.code,
+            status: customFields.Status || "",
+            code: customFields.Code || "",
             businessStages: customFields.tags || [],
-            highlightedStage: customFields.highlightedBusinessStage,
-            processingTime: customFields.processingTime,
-            registrationValidity: customFields.registrationValidity,
+            highlightedStage: customFields.BusinessStage || "",
+            processingTime: customFields.ProcessingTime || "",
+            registrationValidity: customFields.RegistrationValidity || "",
             relatedServices: (customFields.relatedServices || []).map(
               (service) => ({
                 id: service.id,
-                partner: service.customFields?.partner,
-                name: service.name,
-                slug: service.slug,
-                description: service.description,
-                images: [], // Provide default empty array
-                subTitle: "", // Provide default empty string
-                rating: service.customFields?.rating,
-                tags: service.customFields?.tags || [],
+                partner: "", // Not queried
+                name: service.name || "",
+                slug: "", // Not queried
+                description: "", // Not queried
+                images: [],
+                subTitle: "",
+                rating: 0, // Not queried
+                tags: [], // Not queried
               })
             ),
-            cost: customFields.sectionsCost,
-            steps: customFields.sectionsSteps?.split("\n") || [],
-            termsOfService:
-              customFields.sectionsTermsOfService?.split("\n") || [],
-            requiredDocuments:
-              customFields.sectionsRequiredDocuments?.split("\n") || [],
+            cost: customFields.Cost || "",
+            steps: customFields.Steps,
+            termsOfService: customFields.TermsOfService,
+            requiredDocuments: customFields.RequiredDocuments,
           });
         }
       } catch (error) {
         console.error("Error fetching product:", error);
+        if (error instanceof Error) {
+          console.error("Error message:", error.message);
+          console.error("Error stack:", error.stack);
+        }
       } finally {
         setLoading(false);
       }
@@ -149,6 +151,11 @@ export default function ClientProductDetailsPage({ slug }: { slug: string }) {
 
     fetchProduct();
   }, [slug]);
+
+  // Log updated product state
+  useEffect(() => {
+    console.log("Updated product state:", product);
+  }, [product]);
 
   if (loading) return <MessageContainer>Loading...</MessageContainer>;
   if (!product) return <MessageContainer>Product not found</MessageContainer>;

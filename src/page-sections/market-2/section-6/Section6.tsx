@@ -40,7 +40,7 @@ const GET_PRODUCTS = `
           code
         }
         customFields {
-          partner
+          Partner
         }
       }
       totalItems

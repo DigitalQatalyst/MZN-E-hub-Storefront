@@ -113,6 +113,7 @@ export default function Section3() {
             <Box
               style={{
                 display: "flex",
+                borderBottom: "1px solid #ffffff",
                 width: "fit-content",
               }}
             >
@@ -121,8 +122,8 @@ export default function Section3() {
                 style={{
                   cursor: "pointer",
                   borderBottom:
-                    activeTab === "entrepreneur" ? "2px solid #ffffff" : "none",
-                  color: activeTab === "entrepreneur" ? "#fff" : "#fff",
+                    activeTab === "entrepreneur" ? "2px solid #0030e3" : "none",
+                  color: activeTab === "entrepreneur" ? "#0030e3" : "#000000",
                   fontWeight: activeTab === "entrepreneur" ? "bold" : "normal",
                 }}
                 onClick={() => setActiveTab("entrepreneur")}
@@ -134,8 +135,8 @@ export default function Section3() {
                 style={{
                   cursor: "pointer",
                   borderBottom:
-                    activeTab === "partner" ? "2px solid #ffffff" : "none",
-                  color: activeTab === "partner" ? "#fff" : "#fff",
+                    activeTab === "partner" ? "2px solid #0030e3" : "none",
+                  color: activeTab === "partner" ? "#0030e3" : "#000000",
                   fontWeight: activeTab === "partner" ? "bold" : "normal",
                 }}
                 onClick={() => setActiveTab("partner")}

@@ -103,9 +103,10 @@ export const DescriptionText = styled.p`
   margin: 0; /* Removed margin-top to eliminate spacing */
 `;
 
-
-
-export const ActiveButton = styled.button<{ isActive: boolean }>`
+// Buttons
+export const ActiveButton = styled.button.withConfig({
+  shouldForwardProp: (prop) => prop !== "isActive",
+})<{ isActive: boolean }>`
   display: flex;
   padding: 7px 10px;
   justify-content: center;
@@ -116,11 +117,125 @@ export const ActiveButton = styled.button<{ isActive: boolean }>`
     props.isActive
       ? "1px solid var(--KF-BG-Dark-Blue, #002180)"
       : "1px solid var(--Gray-300---border-light, #D8E0E9)"};
-  color: ${(props) => (props.isActive ? "var(--KF-BG-Dark-Blue, #002180)" : "initial")}; // Active button text color set to yellow
-  text-align: center; // Text alignment for active button
-  font-family: "Open Sans"; // Font family for active button
-  font-size: 14px; // Font size for active button
-  font-style: normal; // Font style for active button
-  font-weight: 500; // Font weight for active button
-  line-height: 22px; // Line height for active button
+  color: ${(props) => (props.isActive ? "var(--KF-BG-Dark-Blue, #002180)" : "initial")};
+  text-align: center;
+  font-family: "Open Sans";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+`;
+
+// New styled components for search bar layout and inputs
+
+export const LayoutWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.1rem;
+  flex-wrap: wrap;
+`;
+
+
+export const LeftSection = styled.div`
+  flex: 1;
+  min-width: 250px;
+`;
+
+// export const CenterSection = styled.div`
+//   display: flex;
+//   flex: 2;
+//   max-width: 500px;
+//   gap: 0.5rem;
+//   align-items: center;
+//   min-width: 300px;
+// `;
+export const CenterSection = styled.div`
+  display: flex;
+  flex: 2;
+  max-width: 400px;
+  // gap: 0.1rem;
+  align-items: center;
+  min-width: 300px;
+`;
+
+// export const RightSection = styled.div`
+//   display: flex;
+//   gap: 0.75rem;
+//   flex: 1;
+//   justify-content: flex-end;
+//   min-width: 250px;
+// `;
+export const RightSection = styled.div`
+  display: flex;
+  gap: 0.75rem;
+  flex: 1;
+  justify-content: flex-end;
+  min-width: 250px;
+`;
+
+
+export const CategoryDropdown = styled.select`
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: "Open Sans";
+  font-weight: 600; /* Semi-bold */
+  font-style: normal;
+  line-height: 22px; /* 157.143% */
+  color: var(--Gray-700, #4B566B); /* Applied color */
+  border: 1px solid #ccc;
+  border-radius: 6px 0 0 6px;
+  outline: none;
+  background: white;
+  cursor: pointer;
+`;
+
+
+// export const SearchInputWrapper = styled.div`
+//   position: relative;
+//   flex: 1;
+// `;
+export const SearchInputWrapper = styled.div`
+  position: relative;
+  flex: 1;
+`;
+
+// export const SearchInput = styled.input`
+//   width: 100%;
+//   padding: 10px 40px 10px 12px;
+//   font-size: 14px;
+//   font-family: 'Open Sans', sans-serif;
+//   border: 1px solid #ccc;
+//   border-radius: 0 6px 6px 0;
+//   outline: none;
+
+//   &:focus {
+//     border-color: var(--KF-BG-Blue, #0030E3);
+//     box-shadow: 0 0 5px rgba(0, 48, 227, 0.5);
+//   }
+// `;
+export const SearchInput = styled.input`
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: 'Open Sans', sans-serif;
+  border: 1px solid #ccc;
+  border-radius: 0 6px 6px 0;
+  outline: none;
+
+  // &:focus {
+  //   border-color: var(--KF-BG-Blue, #0030E3);
+  //   box-shadow: 0 0 5px rgba(0, 48, 227, 0.5);
+  // }
+`;
+
+export const SearchIcon = styled.img`
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;     /* adjust as needed */
+  height: 16px;
+  cursor: pointer;
+  pointer-events: none; /* so input gets focus on click */
 `;

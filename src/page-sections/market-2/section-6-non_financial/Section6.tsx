@@ -14,6 +14,7 @@ import TabBar from '@component/tab-bar/TabBar';
 import { List, ListItem, DropdownIcon, DropdownText, CheckboxLabel, ServiceTypeTitle, ShowingText } from "./styles";
 
 import Section2 from "../section-2/Section2";
+
 // GraphQL Query
 const GET_PRODUCTS = `
   query GetProducts($skip: Int!, $take: Int!) {
@@ -161,9 +162,16 @@ export default function Section6() {
             currentSkip += productsPerPage;
           } while (currentSkip < total);
 
-          setTotalItems(total);
+          // Filter for Non-Financial Services (facetValue.id: "67") only, exclude Financial Services (facetValue.id: "66")
+          const nonFinancialServicesOnly = allProducts.filter((product) =>
+            product.facetValues.some((fv) => fv.id === "67") &&
+            !product.facetValues.some((fv) => fv.id === "66")
+          );
+          console.log("Filtered to Non-Financial Services only:", nonFinancialServicesOnly.length);
 
-          // Apply filters to all products
+          setTotalItems(nonFinancialServicesOnly.length);
+
+          // Apply filters to non-financial services
           const selectedCategories: string[] = [];
           if (categoriesFilters.legalCompliance.regulatoryCompliance) selectedCategories.push("Regulatory Compliance");
           if (categoriesFilters.legalCompliance.legalAdvisory) selectedCategories.push("Legal Advisory");
@@ -199,8 +207,8 @@ export default function Section6() {
             selectedStages.length === 0 &&
             selectedProviders.length === 0 &&
             selectedPricingModels.length === 0
-            ? allProducts
-            : allProducts.filter((product) => {
+            ? nonFinancialServicesOnly
+            : nonFinancialServicesOnly.filter((product) => {
                 const matchesCategory =
                   selectedCategories.length === 0 ||
                   product.facetValues.some(
@@ -238,20 +246,39 @@ export default function Section6() {
           // Update products for the current page
           const startIndex = (currentPage - 1) * productsPerPage;
           const endIndex = startIndex + productsPerPage;
-          setProducts(filtered.slice(startIndex, endIndex));
+          setProducts(filtered);
           setFilteredProducts(filtered.slice(startIndex, endIndex));
         } else {
-          // Fetch only the current page when no filters are applied
-          const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
-            skip: (currentPage - 1) * productsPerPage,
-            take: productsPerPage,
-          });
-          console.log("Data fetched successfully:", data);
-          setProducts(data.products.items);
-          setFilteredProducts(data.products.items);
-          setAllFilteredProducts(data.products.items);
-          setTotalItems(data.products.totalItems);
-          setTotalFilteredItems(data.products.totalItems);
+          // Fetch all products to calculate total non-financial services
+          const allProducts: Product[] = [];
+          let currentSkip = 0;
+          let total = 0;
+
+          do {
+            const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
+              skip: currentSkip,
+              take: productsPerPage,
+            });
+            allProducts.push(...data.products.items);
+            total = data.products.totalItems;
+            currentSkip += productsPerPage;
+          } while (currentSkip < total);
+
+          // Filter for Non-Financial Services (facetValue.id: "67") only, exclude Financial Services (facetValue.id: "66")
+          const nonFinancialServicesOnly = allProducts.filter((product) =>
+            product.facetValues.some((fv) => fv.id === "67") &&
+            !product.facetValues.some((fv) => fv.id === "66")
+          );
+          console.log("Filtered to Non-Financial Services only:", nonFinancialServicesOnly.length);
+
+          setTotalItems(nonFinancialServicesOnly.length);
+          setAllFilteredProducts(nonFinancialServicesOnly);
+          setTotalFilteredItems(nonFinancialServicesOnly.length);
+
+          const startIndex = (currentPage - 1) * productsPerPage;
+          const endIndex = startIndex + productsPerPage;
+          setProducts(nonFinancialServicesOnly);
+          setFilteredProducts(nonFinancialServicesOnly.slice(startIndex, endIndex));
         }
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -293,15 +320,16 @@ export default function Section6() {
         return key.charAt(0).toUpperCase() + key.slice(1);
       });
 
+    let filtered: Product[] = [];
     if (
       selectedCategories.length === 0 &&
       selectedStages.length === 0 &&
       selectedProviders.length === 0 &&
       selectedPricingModels.length === 0
     ) {
-      setFilteredProducts(products);
+      filtered = allFilteredProducts;
     } else {
-      const filtered = products.filter((product) => {
+      filtered = allFilteredProducts.filter((product) => {
         const matchesCategory =
           selectedCategories.length === 0 ||
           product.facetValues.some(
@@ -332,9 +360,13 @@ export default function Section6() {
           );
         return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
       });
-      setFilteredProducts(filtered);
     }
-  }, [products, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters]);
+
+    setTotalFilteredItems(filtered.length);
+    const startIndex = (currentPage - 1) * productsPerPage;
+    const endIndex = startIndex + productsPerPage;
+    setFilteredProducts(filtered.slice(startIndex, endIndex));
+  }, [allFilteredProducts, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters, currentPage]);
 
   // Handle checkbox changes for Categories filters
   const handleCategoriesChange = (category: string, subcategory?: string) => {
@@ -356,7 +388,7 @@ export default function Section6() {
   };
 
   // Handle checkbox changes for Business Stage filters
-  const handleBusinessStageChange = stage  => {
+  const handleBusinessStageChange = (stage: keyof typeof businessStageFilters) => {
     setBusinessStageFilters((prev) => ({
       ...prev,
       [stage]: !prev[stage],

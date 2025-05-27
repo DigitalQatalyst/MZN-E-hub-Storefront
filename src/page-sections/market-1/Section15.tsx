@@ -108,19 +108,19 @@ export default async function Section15() {
         <StyledHeader>IN THE SPOTLIGHT</StyledHeader>
         <StyledBody>
           Discover this quarter's top-performing<br />
-          marketplaces and services.
+          services.
         </StyledBody>
         <Subheading>
           <MarketplaceSubheadingText>Featured Services</MarketplaceSubheadingText>
         </Subheading>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
           <Description>
-            A quick look at the most active this quarter—driven by SME demand<br /> and partner momentum.
+            A quick look at the most active services this quarter—driven by SME demand<br /> and partner momentum.
           </Description>
           <Link href={`/services`}>
-          <ExploreAllButton>
-            Explore more <span>→</span>
-          </ExploreAllButton>
+            <ExploreAllButton>
+              Explore more <span>→</span>
+            </ExploreAllButton>
           </Link>
         </div>
         <CarouselWrapper mb="-0.25rem">

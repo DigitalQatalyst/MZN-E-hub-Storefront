@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { H3 } from "@component/Typography";
 import { Button as DefaultButton } from "@component/buttons";
 import Image from "next/image";
+import Link from "next/link";
 
 // STYLED COMPONENTS
 const WelcomeSection = styled.section`
@@ -174,9 +175,11 @@ const Section16: React.FC = () => {
               </p>
               <SubText>Discover the latest news and updates.</SubText>
             </HeaderTextContainer>
-            <ExploreAllButton>
-              Explore more <span>→</span>
-            </ExploreAllButton>
+            <Link href={`/services`}>
+              <ExploreAllButton>
+                Explore more <span>→</span>
+              </ExploreAllButton>
+            </Link>
           </FeaturedEventsHeader>
           <EventsContainer>
             {events.map((event) => (

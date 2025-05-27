@@ -13,14 +13,27 @@ import Typography, { Span } from "../Typography";
 import Categories from "../categories/Categories";
 
 import StyledNavbar from "./styles";
-import navbarNavigations from "@data/navbarNavigations";
+
+// Updated navbarNavigations data
+const navbarNavigations = [
+  {
+    title: "Business in AbuDhabi",
+    url: "/business-abudhabi",
+    extLink: false,
+  },
+  {
+    title: "Help center",
+    url: "/help-center",
+    extLink: false,
+  },
+];
 
 // ============================================================== 
 interface Nav {
   url: string;
   child: Nav[];
   title: string;
-  badge: string;
+  badge?: string;
   extLink?: boolean;
 }
 
@@ -45,10 +58,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                   {nav.title}
                 </Badge>
               ) : (
-                <FlexBox alignItems="center"> {/* Place the text first */}
-                  <Span className="nav-link">{nav.title}</Span>
-                  <img src="/assets/images/mzn_logos/dropdown.svg" alt="Dropdown Icon" className="dropdown-icon" />
-                </FlexBox>
+                <Span className="nav-link">{nav.title}</Span>
               )}
             </NavLink>
           );
@@ -66,7 +76,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
               {nav.badge ? (
                 <Badge title={nav.badge}>{nav.title}</Badge>
               ) : (
-                <FlexBox alignItems="center"> {/* Place the text first */}
+                <FlexBox alignItems="center">
                   <Span className="nav-link">{nav.title}</Span>
                   <img src="/assets/images/mzn_logos/dropdown.svg" alt="Dropdown Icon" className="dropdown-icon" />
                 </FlexBox>
@@ -88,10 +98,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                   {nav.title}
                 </Badge>
               ) : (
-                <FlexBox alignItems="center"> {/* Place the text first */}
-                  <Span className="nav-link">{nav.title}</Span>
-                  <img src="/assets/images/mzn_logos/dropdown.svg" alt="Dropdown Icon" className="dropdown-icon" />
-                </FlexBox>
+                <Span className="nav-link">{nav.title}</Span>
               )}
             </NavLink>
           );
@@ -101,10 +108,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           return (
             <NavLink href={nav.url} key={nav.title}>
               <MenuItem>
-                <FlexBox alignItems="center"> {/* Place the text first */}
-                  <Span className="nav-link">{nav.title}</Span>
-                  <img src="/assets/images/mzn_logos/dropdown.svg" alt="Dropdown Icon" className="dropdown-icon" />
-                </FlexBox>
+                <Span className="nav-link">{nav.title}</Span>
               </MenuItem>
             </NavLink>
           );
@@ -117,7 +121,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                 color="gray.700"
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
-                <FlexBox alignItems="center"> {/* Place the text first */}
+                <FlexBox alignItems="center">
                   <Span className="nav-link">{nav.title}</Span>
                   <img src="/assets/images/mzn_logos/dropdown.svg" alt="Dropdown Icon" className="dropdown-icon" />
                 </FlexBox>
@@ -146,40 +150,48 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           <img src="/assets/images/logos/mzn_logo.svg" alt="MZN Enterprise Hub" height="40px" />
         </Box>
 
-        {/* Categories Section */}
+        {/* Spacer to add gap between logo and categories */}
+        <Box ml="32px" />
+
+        {/* Categories Section (Explore) */}
         <Categories open={navListOpen}>
           <Button width="278px" height="40px" bg="body.default" variant="text">
-            <Icon>categories</Icon>
-            <Typography
-              ml="10px"
-              flex="1 1 0"
-              fontFamily='"Open Sans", sans-serif'
-              fontSize="16px"
-              fontStyle="normal"
-              fontWeight="600"
-              lineHeight="26px"
-              color="#002180"
-            >
-              All Marketplaces
-            </Typography>
-
-            <Icon className="dropdown-icon" variant="small">
-              chevron-down
-            </Icon>
+            <FlexBox justifyContent="space-between" alignItems="center" width="100%">
+              <FlexBox alignItems="center">
+                <Icon>categories</Icon>
+                <Typography
+                  ml="5px"
+                  fontFamily='"Open Sans", sans-serif'
+                  fontSize="16px"
+                  fontStyle="normal"
+                  fontWeight="600"
+                  lineHeight="26px"
+                  color="#002180"
+                >
+                  Explore
+                </Typography>
+              </FlexBox>
+              <Icon className="dropdown-icon" variant="small">
+                chevron-down
+              </Icon>
+            </FlexBox>
           </Button>
         </Categories>
 
-        <FlexBox style={{ gap: 32 }}>{renderNestedNav(navbarNavigations, true)}</FlexBox>
+        {/* Navigation Links and Sign In/Sign Up Buttons */}
+        <FlexBox alignItems="center" style={{ gap: "15px", marginLeft: "auto" }}>
+          {/* Navigation Links */}
+          <FlexBox style={{ gap: 32 }}>
+            {renderNestedNav(navbarNavigations, true)}
+          </FlexBox>
 
-        {/* Search Icon, Sign In, and Sign Up Buttons */}
-        <FlexBox alignItems="center" style={{ gap: "15px" }}>
-          {/* Search Icon (Replace with your actual SVG) */}
-          {/* <Box className="search-icon" style={{ cursor: "pointer" }}>
-            <img src="/assets/images/logos/search.svg" alt="Search" height="18px" />
-          </Box> */}
+          {/* Search Icon */}
+          <Box className="search-icon" style={{ cursor: "pointer" }} ml="15px" mr="15px">
+            <img src="/assets/images/logos/search.svg" alt="Search" height="14px" />
+          </Box>
 
           {/* Sign In & Sign Up Buttons */}
-          <Button className="sign-in-btn" variant="outlined" mr={"10px"} ml={"10px"}>
+          <Button className="sign-in-btn" variant="outlined" mr="10px" ml="10px">
             Sign In
           </Button>
 

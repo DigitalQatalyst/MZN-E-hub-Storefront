@@ -46,7 +46,7 @@ export const market1ApiEndpoints = (Mock: MockAdapter) => {
           for: { demo: 'market-1', type: 'top-categories' }
         },
         {
-          id: '03',
+          id: '03', 
           name: '03. Assessment and Planning',
           icon: null,
           slug: 'assessment-and-planning',
@@ -61,6 +61,80 @@ export const market1ApiEndpoints = (Mock: MockAdapter) => {
 
       console.log(topCategories);
       return [200, topCategories];
+    } catch (err) {
+      console.error(err);
+      return [500, { message: "Internal server error" }];
+    }
+  });
+
+  Mock.onGet("/api/market-1/bot-categories").reply(async () => {
+    try {
+      // const topCategories = db.categories.filter((item) => item.for.type === "top-categories");
+      const bottomCategories = [
+        {
+          id: '01',
+          name: '01. Explore Partnership Opportunities',
+          icon: null,
+          slug: 'connect-with-us',
+          image: '/assets/images/banners/connect-with-us.png',
+          price: 200,
+          description:
+            'Browse available partnerships, including service providers, investors, and mentors, Identify the partnership type that aligns with your goals and expertise, whether it\'s funding, mentorship, legal services, or other SME support',
+          parent: [],
+          for: { demo: 'market-1', type: 'bot-categories' }
+        },
+        {
+          id: '02',
+          name: '02. Enquire and Apply',
+          icon: null,
+          slug: 'Enquire and Apply',
+          image: '/assets/images/banners/enquiry-acknowledgment.png',
+          price: 180,
+          description:
+            'Submit your application by clicking the "Enquire" button. Provide necessary business details about your company and upload relevant documents, such as company profiles, certifications, or qualifications based on the partnership type.',
+          parent: [],
+          for: { demo: 'market-1', type: 'bot-categories' }
+        },
+        {
+          id: '03', 
+          name: '03. Review and Assessment',
+          icon: null,
+          slug: 'assessment-and-planning',
+          image: '/assets/images/banners/assessment-and-planning.png',
+          price: 220,
+          description:
+            'Our team evaluates your application for alignment with the platform\'s goals. We assess your organization\'s expertise and reputation to ansure ecosystem on the platform. ',
+          parent: [],
+          for: { demo: 'market-1', type: 'bot-categories' }
+        },
+        {
+          id: '04', 
+          name: '04. Partnership Approval and Onboarding',
+          icon: null,
+          slug: 'assessment-and-planning',
+          image: '/assets/images/banners/assessment-and-planning.png',
+          price: 220,
+          description:
+            'Once approved, you\'ll receive a notification and partnership agreement for signing. The onboarding process includes gaining access to partner resources, training materials, and guidelines for platform integration. ',
+          parent: [],
+          for: { demo: 'market-1', type: 'bot-categories' }
+        },
+        {
+          id: '05', 
+          name: '05. Intergrate and start collaborating',
+          icon: null,
+          slug: 'assessment-and-planning',
+          image: '/assets/images/banners/assessment-and-planning.png',
+          price: 220,
+          description:
+            'Your services will be listed on the platform for entrepreneurs to access. Begin collaborating by offering mentorship, services, funding programs, and other support to contribute to the success of SMES on the platform.',
+          parent: [],
+          for: { demo: 'market-1', type: 'bot-categories' }
+        }
+      ];
+
+      console.log(bottomCategories);
+      return [200, bottomCategories];
     } catch (err) {
       console.error(err);
       return [500, { message: "Internal server error" }];

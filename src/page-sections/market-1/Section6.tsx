@@ -26,7 +26,7 @@ export default function Section6({ carList, carBrands }: Props) {
     name: "Green SME Network",
     members: "3.2K Members",
     category: "Sustainability",
-    imageSrc: "/images/image 1.jpg",
+    imageSrc: "/images/image 9.png",
     link: "/community/green-sme-network",
   },
   {
@@ -121,7 +121,7 @@ export default function Section6({ carList, carBrands }: Props) {
             ))} */}
 
 <StyledProductCategory>
-  <Box display="flex" flexDirection="column" alignItems="flex-start" marginBottom={3}>
+  <Box display="flex" flexDirection="column" alignItems="flex-start" marginBottom={4}>
     <span style={{
       fontSize: '14px',
       fontWeight: 600,

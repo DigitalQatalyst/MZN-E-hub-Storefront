@@ -67,7 +67,12 @@ const TabBar: React.FC = () => {
         onClick={() => handleTabClick('Communities', '/community-marketplace')}
         active={activeTab === 'Communities'}
       >
-        <img src="/assets/images/tab_bar/forum.svg" alt="icon" />
+        <img
+          src={activeTab === 'Communities'
+            ? '/assets/images/tab_bar/groups.png'
+            : '/assets/images/tab_bar/forum.svg'}
+          alt="icon"
+        />
         Communities
       </Tab>
       <Tab

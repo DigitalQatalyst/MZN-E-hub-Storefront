@@ -43,6 +43,7 @@ const GET_PRODUCTS = `
   }
 `;
  
+
 interface FacetValue {
   facet: {
     id: string;

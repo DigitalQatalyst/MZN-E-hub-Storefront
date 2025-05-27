@@ -22,27 +22,27 @@ export const SubscribeContainer = styled.div`
   display: flex;
   width: 80%;
   height: 37px;
-  background-color: var(--KF-BG-Dark-Blue, #002180);
+  background: rgba(41, 41, 41, 0.05);
   border-radius: 5px;
 `;
 
 export const SubscribeInput = styled.input`
   flex: 1;
   padding: 0.75rem;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.20);
   border-radius: 5px 0 0 5px; /* Round only the left corners */
   color: #FFFFFF;
   font-family: "Public Sans", sans-serif;
-  background-color: var(--KF-BG-Dark-Blue,rgb(27, 45, 98));
+  background-color: rgba(41, 41, 41, 0.05);
   &::placeholder {
-    color: ${getTheme("colors.rgba(255, 255, 255, 0.50)")};
+    color: #FFFFFF;;
   }
 `;
 
 export const SubscribeButton = styled.button`
   border: none;
   background-color: var(--KF-BG-White, #FFF);
-  color: var(--B-500, #1A1A1A);
+  color: #0030E3;
   padding: 0.75rem 1.5rem;
   font-weight: 500;
   cursor: pointer;

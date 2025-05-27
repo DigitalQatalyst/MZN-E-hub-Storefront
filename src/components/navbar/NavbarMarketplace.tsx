@@ -1,5 +1,5 @@
 "use client";
-
+ 
 import Box from "../Box";
 import Card from "../Card";
 import Badge from "../badge";
@@ -11,10 +11,9 @@ import { Button } from "../buttons";
 import Container from "../Container";
 import Typography, { Span } from "../Typography";
 import Categories from "../categories/Categories";
-
+ 
 import StyledNavbar from "./marketStyles";
 
-// ============================================================== 
 interface Nav {
   url: string;
   child: Nav[];
@@ -22,10 +21,10 @@ interface Nav {
   badge: string;
   extLink?: boolean;
 }
-
+ 
 type NavbarProps = { navListOpen?: boolean };
 // ==============================================================
-
+ 
 export default function Navbar({ navListOpen }: NavbarProps) {
   return (
     <StyledNavbar>
@@ -34,7 +33,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         <Box className="navbar-logo">
           <img src="/assets/images/tab_bar/Subtract.svg" alt="MZN Enterprise Hub" height="40px" />
         </Box>
-
+ 
         {/* Categories Section */}
         <Categories open={navListOpen}>
           <Button width="278px" height="40px" bg="body.default" variant="text">
@@ -51,7 +50,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             >
               Explore
             </Typography>
-
+ 
             <Icon className="dropdown-icon" variant="small">
               chevron-right
             </Icon>
@@ -78,12 +77,12 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           <Box className="search-icon" style={{ cursor: "pointer" }}>
             <img src="/assets/images/logos/search.svg" alt="Search" height="24px" />
           </Box>
-
+ 
           {/* Sign In & Sign Up Buttons */}
           <Button className="sign-in-btn" variant="outlined">
             Sign In
           </Button>
-
+ 
           <Button className="sign-up-button" variant="contained">
             Sign Up
           </Button>
@@ -92,3 +91,4 @@ export default function Navbar({ navListOpen }: NavbarProps) {
     </StyledNavbar>
   );
 }
+ 

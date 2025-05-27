@@ -1,113 +1,78 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState } from "react"; // Import useState from React
+import Icon from "@component/icon/Icon";
 import Container from "@component/Container";
-import {
-  ResultsTitle,
-  DescriptionText,
-  ActiveButton,
-  LayoutWrapper,
-  LeftSection,
-  CenterSection,
-  RightSection,
-  CategoryDropdown,
-  SearchInputWrapper,
-  SearchInput,
-  SearchIcon,
-  ButtonWrapper,
-} from "./styles";
+import { H4, Span } from "@component/Typography";  
+import { ResultsTitle, DescriptionText, ButtonWrapper, HeaderWrapper, ActiveButton } from "./styles";  
 
-// Extend props to include HTML attributes like 'style'
-export default function Section2({ resultsCount = 0, ...props }: { resultsCount?: number } & React.HTMLAttributes<HTMLDivElement>) {
-  const [activeButton, setActiveButton] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [category, setCategory] = useState("all");
+export default function Section2() {
+  const [activeButton, setActiveButton] = useState(""); // Track the active button
 
-  const handleButtonClick = (button: string) => {
-    setActiveButton(button);
+  const handleButtonClick = (button) => {
+    setActiveButton(button); // Update the active button on click
   };
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCategory(e.target.value);
-  };
+  const resultsCount = 40; // This could be dynamically fetched or passed as a prop
 
   return (
-    <Container pt="2rem" style={{ marginTop: "-45px" }}>
-      <LayoutWrapper {...props}>
-        <LeftSection>
+    <Container pt="2rem" style={{ marginTop: '-45px' }}>
+      <HeaderWrapper>
+        <div>
           <ResultsTitle>
-            Results{" "}
-            <span
-              style={{
-                color: "var(--KF-BG-Blue, #0030E3)",
-                fontFamily: "Open Sans",
-                fontSize: "14px",
-                fontWeight: "400",
-                lineHeight: "22px",
-              }}
-            >
+            Results <span style={{
+              color: 'var(--KF-BG-Blue, #0030E3)', 
+              fontFamily: 'Open Sans', 
+              fontSize: '14px', 
+              fontStyle: 'normal', 
+              fontWeight: '400', 
+              lineHeight: '22px',
+              // marginBottom: '10px'
+            }}>
               {resultsCount}+ Results
             </span>
           </ResultsTitle>
-          <DescriptionText>
-            Explore our latest business support solutions.
-          </DescriptionText>
-        </LeftSection>
+          <DescriptionText>Explore our latest business support solutions and financial services.</DescriptionText>
+        </div>
 
-        <CenterSection>
-          <CategoryDropdown
-            aria-label="Select category"
-            value={category}
-            onChange={handleCategoryChange}
+      
+
+        <ButtonWrapper>
+          <ActiveButton
+            isActive={activeButton === "newAdditions"}
+            onClick={() => handleButtonClick("newAdditions")}
           >
-            <option value="all">All Categories</option>
-            <option value="finance">Finance</option>
-            <option value="support">Business Support</option>
-            <option value="legal">Legal</option>
-            {/* Add more categories as needed */}
-          </CategoryDropdown>
+            New Additions
+          </ActiveButton>
 
-          <SearchInputWrapper>
-            <SearchInput
-              type="search"
-              placeholder="Search services"
-              aria-label="Search services"
-              value={searchQuery}
-              onChange={handleSearchChange}
-            />
-            <SearchIcon src="/assets/images/avatars/search-icon.svg" alt="Search icon" />
-          </SearchInputWrapper>
-        </CenterSection>
+          <ActiveButton
+            isActive={activeButton === "topServices"}
+            onClick={() => handleButtonClick("topServices")}
+          >
+            Top Services
+          </ActiveButton>
 
-        <RightSection>
-          <ButtonWrapper style={{ margin: 0 }}>
-            <ActiveButton
-              isActive={activeButton === "newAdditions"}
-              onClick={() => handleButtonClick("newAdditions")}
-            >
-              New Additions
-            </ActiveButton>
+          <ActiveButton
+            isActive={activeButton === "popularPicks"}
+            onClick={() => handleButtonClick("popularPicks")}
+          >
+            Popular Picks
+          </ActiveButton>
+        </ButtonWrapper>
+      </HeaderWrapper>
 
-            <ActiveButton
-              isActive={activeButton === "topServices"}
-              onClick={() => handleButtonClick("topServices")}
-            >
-              Top Services
-            </ActiveButton>
+      {/* <Wrapper>
+        {serviceList.map((item, ind) => (
+          <ServiceItem key={ind}>
+            <Icon size="40px">{item.icon}</Icon>
 
-            <ActiveButton
-              isActive={activeButton === "popularPicks"}
-              onClick={() => handleButtonClick("popularPicks")}
-            >
-              Popular Picks
-            </ActiveButton>
-          </ButtonWrapper>
-        </RightSection>
-      </LayoutWrapper>
+            <div>
+              <H4 lineHeight={1.3}>{item.title}</H4>
+              <Span color="grey.600">{item.description}</Span>
+            </div>
+          </ServiceItem>
+        ))}
+      </Wrapper> */}
     </Container>
   );
 }

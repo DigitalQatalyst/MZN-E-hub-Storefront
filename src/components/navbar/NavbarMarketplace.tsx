@@ -13,8 +13,7 @@ import Typography, { Span } from "../Typography";
 import Categories from "../categories/Categories";
  
 import StyledNavbar from "./marketStyles";
- 
-// ==============================================================
+
 interface Nav {
   url: string;
   child: Nav[];
@@ -57,7 +56,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             </Icon>
           </Button>
         </Categories>
- 
+
         {/* Hardcoded Navigation Links */}
         <FlexBox style={{ gap: 32 }}>
           <NavLink className="nav-link" href="#">
@@ -71,7 +70,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             </FlexBox>
           </NavLink>
         </FlexBox>
- 
+
         {/* Search Icon, Sign In, and Sign Up Buttons */}
         <FlexBox alignItems="center" style={{ gap: "15px" }}>
           {/* Search Icon (Replace with your actual SVG) */}

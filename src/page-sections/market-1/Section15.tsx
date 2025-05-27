@@ -8,6 +8,7 @@ import CategorySectionCreator from "@component/CategorySectionCreator";
 import styled from "styled-components";
 // API FUNCTIONS
 import api from "@utils/__api__/market-1";
+import Link from "next/link";
 
 // STYLED COMPONENTS
 const ContentColumn = styled.div`
@@ -84,10 +85,6 @@ const ExploreAllButton = styled(DefaultButton)`
   align-items: center;
   gap: 0.5rem;
   padding: 0;
-
-  &:hover {
-    color: #A9C9FF;
-  }
 `;
 
 const CarouselWrapper = styled(Box)`
@@ -111,18 +108,20 @@ export default async function Section15() {
         <StyledHeader>IN THE SPOTLIGHT</StyledHeader>
         <StyledBody>
           Discover this quarter's top-performing<br />
-          marketplaces and services.
+          services.
         </StyledBody>
         <Subheading>
           <MarketplaceSubheadingText>Featured Services</MarketplaceSubheadingText>
         </Subheading>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
           <Description>
-            A quick look at the most active this quarter—driven by SME demand<br /> and partner momentum.
+            A quick look at the most active services this quarter—driven by SME demand<br /> and partner momentum.
           </Description>
-          <ExploreAllButton>
-            Explore more <span>→</span>
-          </ExploreAllButton>
+          <Link href={`/services`}>
+            <ExploreAllButton>
+              Explore more <span>→</span>
+            </ExploreAllButton>
+          </Link>
         </div>
         <CarouselWrapper mb="-0.25rem">
           <Carousel slidesToShow={4} responsive={responsive}>

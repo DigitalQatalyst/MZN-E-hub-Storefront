@@ -675,7 +675,7 @@ export const products = [
         instagram: null,
       },
     },
-    title: "Trusted partners across sectors ",
+    title: "AI Support for Every stage of your Business ",
     subTitle: "Harness Al-driven support for your business, offering personalized insights, recommendations, and automation to accelerate growth at any stage. ",
     brand: null,
     price: 110,

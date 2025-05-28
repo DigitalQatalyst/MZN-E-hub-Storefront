@@ -8,9 +8,9 @@ export default function MegaMenu2({ data }: MegaMenu2Props) {
   return (
     <StyledMegaMenu1 className="mega-menu">
       <Card ml="1rem" py="0.5rem" boxShadow="regular" overflow="hidden" borderRadius={8}>
-        {data?.map((item) => (
+        {data?.map((item, idx) => (
           <CategoryMenuItem
-            key={item.title}
+            key={item.id || item.title || idx}
             href={item.href}
             icon={item.icon}
             title={item.title}

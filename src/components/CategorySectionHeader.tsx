@@ -7,7 +7,8 @@ import { H2, H5, SemiSpan } from "./Typography";
 import { Button } from "./buttons";
 import { useState } from "react";
 import { colors } from "@utils/themeColors";
-import { TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
+import { TextField, MenuItem, Select, InputLabel, FormControl, InputAdornment } from "@mui/material";
+import SearchIcon from '@mui/icons-material/Search';
 
 // ==============================================================
 
@@ -29,9 +30,7 @@ export default function CategorySectionHeader({
   onCategoryChange,
 }: Props) {
   // Local state to track selection if not controlled via props
-  const [selectedCategory, setSelectedCategory] = useState<string>(
-    propSelectedCategory || "Industry"
-  );
+  const [selectedCategory, setSelectedCategory] = useState<string>(propSelectedCategory || "Industry");
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   const handleCategoryChange = (category: string) => {
@@ -44,7 +43,7 @@ export default function CategorySectionHeader({
   };
 
   return (
-    <FlexBox justifyContent="space-between" alignItems="center" mb="1.5rem" flexWrap="wrap">
+    <FlexBox justifyContent="space-between" alignItems="center" mb="2.5rem" flexWrap="wrap">
       <FlexBox alignItems="flex-start" flexDirection="column">
         <H2 fontWeight="bold" lineHeight="1" marginBottom="20px" color={colors.primary.main}>
           {title}
@@ -109,3 +108,4 @@ export default function CategorySectionHeader({
     </FlexBox>
   );
 }
+

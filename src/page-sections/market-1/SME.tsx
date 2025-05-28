@@ -21,8 +21,12 @@ type Props = { carList: Product[]; carBrands: Brand[] };
 
 export default function Section6({ carList, carBrands }: Props) {
   const [selected, setSelected] = useState("discussions"); // State for tabs: "discussions", "about", "events"
-  const [selectedGroup, setSelectedGroup] = useState(""); // State for selected group in the sidebar
+  const [selectedGroup, setSelectedGroup] = useState(""); // State for selected group in the sideba
+  const [expandedSection, setExpandedSection] = useState('Quality Content'); 
 
+  const toggleGuidelinesSection = (sectionName) => {
+    setExpandedSection(expandedSection === sectionName ? null : sectionName);
+  };
   // Dummy data for discussions and groups (replace with actual data fetching)
   const discussions = [
     {
@@ -42,6 +46,18 @@ export default function Section6({ carList, carBrands }: Props) {
     { id: "funding-grants", name: "Funding & Grants" },
     { id: "esg-policy-exchange", name: "ESG Policy Exchange" },
     { id: "green-energy-solutions", name: "Green Energy Solutions" },
+  ];
+  const guidelines = [
+    { title: 'Respectful Communication', content: [] },
+    { title: 'Quality Content', content: [
+      'Share accurate information from accurate sources',
+      'Share accurate information from accurate sources', // Duplicated as per design
+      'Respect intellectual property and cite sources appropriately',
+      'Keep content relevant to the community’s focus area'
+    ]},
+    { title: 'Privacy & Confidentiality', content: [] },
+    { title: 'Intellectual Property', content: [] },
+    { title: 'Commercial Activity', content: [] }
   ];
 
   const handleCategoryClick = (brand: Brand) => () => {
@@ -150,9 +166,9 @@ export default function Section6({ carList, carBrands }: Props) {
           <FlexBox flexWrap="wrap" mt="20px"> {/* Added margin-top for spacing from the above section */}
             {/* Left Column: Discussions, About, Events */}
             <Box flex="3" mr="20px" minWidth="0"> {/* flex:3 for discussions, minWidth:0 to prevent overflow */}
-              <Box bg="white" shadow={6} borderRadius={8} p="20px">
+              <Box bg="white"  borderRadius={8} p="20px">
                 {/* Tabs */}
-                <FlexBox borderBottom="1px solid #e0e0e0" mb="20px">
+                <FlexBox borderBottom="1px solid #e0e0e0" mb="20px" shadow={6}>
                   <Box
                     p="10px 15px"
                     cursor="pointer"
@@ -201,11 +217,13 @@ export default function Section6({ carList, carBrands }: Props) {
                         placeholder="Start a discussion in this community"
                         style={{
                           width: '100%',
-                          border: 'none',
+                          border: '1px solid #808390', // Light gray border
+                          borderRadius: '8px', // Rounded corners for the input field
                           outline: 'none',
                           backgroundColor: 'transparent',
                           fontSize: '14px',
-                          color: '#212529',
+                          color: '#808390', // Keep text color for typed input
+                          padding: '12px 15px', // Added padding inside the input field
                         }}
                       />
                       <FlexBox mt="15px" justifyContent="space-between" alignItems="center">
@@ -245,48 +263,210 @@ export default function Section6({ carList, carBrands }: Props) {
                     ))}
                   </Box>
                 )}
-                {/* Add content for "About" and "Events" tabs similarly */}
-              </Box>
-            </Box>
+                {/* about section */}
+                {selected === "about" && (
+                  <Box>
+                    <Box bg="white" shadow={6} borderRadius="8px" p="20px" mb="20px"> {/* */}
+                      <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '15px', color: '#212529' }}>About this Community</h2>
+                      {/* The gray line between title and content */}
+                      <Box style={{ borderBottom: '1px solid #e0e0e0', marginBottom: '20px' }}></Box> {/* */}
+                      <p style={{ fontSize: '14px', lineHeight: '1.5', color: '#212529' }}>
+                        This community brings together sustainability professionals, carbon market experts, and SME leaders who are navigating the complex world of carbon credits and environmental compliance. We share best practices, discuss market trends, and support each other in building more sustainable businesses.
+                      </p>
+                    </Box>
+                    <Box bg="white" shadow={6} borderRadius="8px" p="20px">
+                      <h3 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '10px', color: '#212529' }}>Community Guidelines</h3>
+                      <p style={{ fontSize: '14px', lineHeight: '1.5', marginBottom: '15px', color: '#212529' }}>
+                        To ensure a productive and welcoming environment for all members, we ask everyone to follow these community guidelines:
+                      </p>
 
-            {/* Right Column: Groups */}
-            <Box flex="1" minWidth="280px" mt="20px"> {/* minWidth to ensure it doesn't get too small on smaller screens */}
-              <Box bg="white" shadow={6} borderRadius={8} p="20px">
-                <FlexBox justifyContent="space-between" alignItems="center" mb="20px">
-                  <span style={{ fontSize: '16px', fontWeight: 600, color: '#212529' }}>Groups</span>
-                  {/* User Profile Icon */}
-                  <Box width={60} height={60} borderRadius="50%" overflow="hidden"> 
-                    <NextImage src="assets/images/community Marketplace Details/EJP AI Advisor.svg" alt="user profile" width={80} height={80} layout="responsive" />
-                  </Box>
-                </FlexBox>
-                <p style={{ fontSize: '14px', color: '#6C757D', marginBottom: '15px' }}>Discover groups in the community</p>
+                      {/* Community Guidelines Sections (Accordion-like) */}
+                      {guidelines.map((section, index) => (
+                        <Box key={section.title} mb="15px">
+                          <FlexBox
+                            alignItems="center"
+                            justifyContent="space-between"
+                            cursor="pointer"
+                            onClick={() => toggleGuidelinesSection(section.title)}
+                            style={{ paddingBottom: '10px', borderBottom: index < guidelines.length - 1 ? '1px solid #e0e0e0' : 'none' }}
+                          >
+                            <span style={{ fontSize: '14px', fontWeight: 500, color: '#6C757D' }}>{section.title}</span>
+                            {/* <NextImage
+                              src={`/assets/images/community Marketplace Details/${expandedSection === section.title ? 'arrow-up.svg' : 'arrow-down.svg'}`}
+                              alt="toggle"
+                              width={16}
+                              height={16}
+                            /> */}
+                          </FlexBox>
+                          {/* Content for each guideline section, conditionally rendered when expanded */}
+                          {expandedSection === section.title && section.content.length > 0 && (
+                            <Box mt="10px" pl="15px">
+                              <ul style={{ listStyleType: 'disc', paddingLeft: '20px', fontSize: '13px', color: '#6C757D' }}>
+                                {section.content.map((item, i) => (
+                                  <li key={i} style={{ marginBottom: '5px' }}>{item}</li>
+                                ))}
+                              </ul>
+                            </Box>
+                          )}
+                        </Box>
+                      ))}
 
-                {/* Groups List */}
-                {groups.map((group) => (
-                  <FlexBox
-                    key={group.id}
-                    alignItems="center"
-                    mb="10px"
-                    p="8px"
-                    borderRadius="8px"
-                    bg={selectedGroup === group.id ? "#e6f0ff" : "transparent"} // Highlight selected group
-                    onClick={() => setSelectedGroup(group.id)}
-                    cursor="pointer"
-                    justifyContent="space-between"
-                  >
-                    <FlexBox alignItems="center">
-                      {/* Placeholder for group icon */}
-                      <Box width={24} height={24} display="flex" justifyContent="center" alignItems="center" mr="10px" bg="#f0f2f5" borderRadius="4px">
-                        <NextImage src="/assets/images/community Marketplace Details/money_bag.svg" alt="folicon" width={16} height={16} /> {/* Replace with actual folder icon */}
+                      <Box bg="#e6f0ff" p="15px" borderRadius="8px" textAlign="center" mt="20px"> {/* Adjusted padding to 15px as per design */}
+                        <p style={{ fontSize: '13px', color: '#0061F2', lineHeight: '1.4' }}>
+                          By participating in this community, you agree to abide by these guidelines.<br/>
+                          Repeated violations may result in temporary or permanent removal from the group.
+                        </p>
                       </Box>
-                      <span style={{ fontSize: '14px', color: '#212529' }}>{group.name}</span>
-                    </FlexBox>
-                    {/* More Options Icon (three dots) */}
-                    <Box cursor="pointer">...</Box>
-                  </FlexBox>
-                ))}
+                    </Box>
+                  </Box>
+                )}
+                
               </Box>
             </Box>
+
+            {/* Right Column: Groups - Conditionally rendered */}
+            {selected === "discussions" && ( // Only render if "discussions" is selected
+              <Box flex="1" minWidth="280px" mt="20px">
+                <Box bg="white" shadow={6} borderRadius={8} p="20px">
+                  <FlexBox justifyContent="space-between" alignItems="center" mb="20px">
+                    <span style={{ fontSize: '16px', fontWeight: 600, color: '#212529' }}>Groups</span>
+                    {/* User Profile Icon */}
+                    <Box width={60} height={60} overflow="hidden">
+                      <NextImage src="assets/images/community Marketplace Details/EJP AI Advisor.svg" alt="user profile" width={80} height={80} layout="responsive" />
+                    </Box>
+                  </FlexBox>
+                  <p style={{ fontSize: '14px', color: '#6C757D', marginBottom: '15px' }}>Discover groups in the community</p>
+
+                  {/* Groups List */}
+                  {groups.map((group) => (
+                    <FlexBox
+                      key={group.id}
+                      alignItems="center"
+                      mb="10px"
+                      p="8px"
+                      borderRadius="8px"
+                      bg={selectedGroup === group.id ? "#e6f0ff" : "transparent"} // Highlight selected group
+                      onClick={() => setSelectedGroup(group.id)}
+                      cursor="pointer"
+                      justifyContent="space-between"
+                    >
+                      <FlexBox alignItems="center">
+                        {/* Placeholder for group icon */}
+                        <Box width={24} height={24} display="flex" justifyContent="center" alignItems="center" mr="10px" bg="#f0f2f5" borderRadius="4px">
+                          <NextImage src="/assets/images/community Marketplace Details/money_bag.svg" alt="folicon" width={16} height={16} /> {/* Replace with actual folder icon */}
+                        </Box>
+                        <span style={{ fontSize: '14px', color: '#212529' }}>{group.name}</span>
+                      </FlexBox>
+                      {/* More Options Icon (three dots) */}
+                      <Box cursor="pointer">...</Box>
+                    </FlexBox>
+                  ))}
+                </Box>
+              </Box>
+            )}
+            {selected === "about" && (
+              <Box flex="1" minWidth="280px" mt="20px">
+                {/* Overview Section */}
+                <Box bg="white" shadow={6} borderRadius={8} p="20px" mb="20px">
+                  <FlexBox justifyContent="space-between" alignItems="center" mb="20px">
+                    <span style={{ fontSize: '16px', fontWeight: 600, color: '#212529' }}>Overview</span>
+                    {/* User Profile Icon */}
+                    <Box width={60} height={60}  overflow="hidden">
+                      <NextImage src="/assets/images/community Marketplace Details/EJP AI Advisor.svg" alt="user profile" width={80} height={80} layout="responsive" />
+                      {/* The number '1' overlay */}
+                      <Box
+                        position="absolute"
+                        top={0}
+                        right={0}
+                        bg="#0061F2"
+                        color="white"
+                        borderRadius="50%"
+                        width="16px"
+                        height="16px"
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                        fontSize="10px"
+                        fontWeight="bold"
+                        zIndex={1}
+                        style={{ transform: 'translate(25%, -25%)' }}
+                      >
+                        1
+                      </Box>
+                    </Box>
+                  </FlexBox>
+                  <p style={{ fontSize: '14px', color: '#6C757D', marginBottom: '20px', marginTop: '-2rem' }}>View community details</p>
+                  <Box style={{ borderBottom: '1px solid #e0e0e0', marginBottom: '20px' }}></Box>
+                  <FlexBox alignItems="center" mb="10px">
+                    <Box width={20} height={20} mr="10px">
+                      <NextImage src="/assets/images/community Marketplace Details/calendar_today.svg" alt="calendar" width={20} height={20} />
+                    </Box>
+                    <span style={{ fontSize: '14px', color: '#898E9E' }}>Created December 2023</span>
+                  </FlexBox>
+
+                  <FlexBox alignItems="center" mb="20px">
+                    <Box width={20} height={20} mr="10px">
+                      <NextImage src="/assets/images/community Marketplace Details/group.svg" alt="members" width={20} height={20} />
+                    </Box>
+                    <span style={{ fontSize: '14px', color: '#898E9E' }}>3.2k Members</span>
+                  </FlexBox>
+                </Box>
+
+                {/* Members Section */}
+                <Box bg="white" shadow={6} borderRadius={8} p="20px">
+                  <h3 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '15px', color: '#212529' }}>Members</h3>
+                  <p style={{ fontSize: '14px', color: '#6C757D', marginBottom: '15px' }}>View members in this community</p>
+                  <Box style={{ borderBottom: '1px solid #e0e0e0', marginTop: '20px', marginBottom: '20px' }}></Box>
+                  <input
+                    type="text"
+                    placeholder="Search members..."
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      border: '1px solid #B1B4BB',
+                      borderRadius: '8px',
+                      marginBottom: '15px',
+                      fontSize: '14px',
+                      color: '#B1B4BB',
+                    }}
+                  />
+                  <Box style={{ borderBottom: '1px solid #e0e0e0', marginBottom: '20px' }}></Box>
+                  {/* Member List */}
+                  <FlexBox alignItems="center" mb="10px">
+                    <Box width={40} height={40} borderRadius="50%" overflow="hidden" mr="10px">
+                      <NextImage src="/assets/images/community Marketplace Details/Avatar.svg" alt="member" width={40} height={40} />
+                    </Box>
+                    <Box>
+                      <span style={{ fontSize: '14px', fontWeight: 500, color: '#212529' }}>Karim Abdullah</span>
+                      <span style={{ fontSize: '12px', backgroundColor: '#FFE4E6', color: '#C15B76', padding: '3px 8px', borderRadius: '4px', marginLeft: '8px' }}>Admin</span>
+                    </Box>
+                  </FlexBox>
+
+                  <FlexBox alignItems="center" mb="10px">
+                    <Box width={40} height={40} borderRadius="50%" overflow="hidden" mr="10px">
+                      <NextImage src="/assets/images/community Marketplace Details/Avatar 2.svg" alt="member" width={40} height={40} />
+                    </Box>
+                    <Box>
+                      <span style={{ fontSize: '14px', fontWeight: 500, color: '#212529' }}>Layla Hassan</span>
+                      <span style={{ fontSize: '12px', backgroundColor: '#FEF3C7', color: '#A05827', padding: '3px 8px', borderRadius: '4px', marginLeft: '8px' }}>Moderator</span>
+                    </Box>
+                  </FlexBox>
+
+                  <FlexBox alignItems="center" mb="20px">
+                    <Box width={40} height={40} borderRadius="50%" overflow="hidden" mr="10px">
+                      <NextImage src="/assets/images/community Marketplace Details/Avatar 1.svg" alt="member" width={40} height={40} />
+                    </Box>
+                    <Box>
+                      <span style={{ fontSize: '14px', fontWeight: 500, color: '#212529' }}>Omar Al-Farouq</span>
+                      <span style={{ fontSize: '12px', backgroundColor: '#FEF3C7', color: '#A05827', padding: '3px 8px', borderRadius: '4px', marginLeft: '8px' }}>Moderator</span>
+                    </Box>
+                  </FlexBox>
+
+                  <span style={{ fontSize: '14px', fontWeight: 600, color: '#898E9E', cursor: 'pointer', paddingTop: '10px', borderTop: '1px solid #EBECEF', display: 'block' }}>Join community to view all members</span>
+                  </Box>
+              </Box>
+            )}
+
           </FlexBox>
         </Box>
       </FlexBox>

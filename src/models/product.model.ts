@@ -1,5 +1,17 @@
 import Shop from "./shop.model";
 
+interface RelatedService {
+  id: string;
+  partner: string;
+  name: string;
+  slug: string;
+  description: string;
+  images: string[];
+  subTitle: string;
+  rating: number;
+  tags: string[];
+}
+
 interface Product {
   // Base fields (used by ProductCard19)
   id: string | number;
@@ -31,6 +43,7 @@ interface Product {
   steps?: string[];
   termsOfService?: string[];
   requiredDocuments?: string[];
+  relatedServices?: RelatedService[];
 
   // For backward compatibility
   name?: string; // some components might still use name instead of title

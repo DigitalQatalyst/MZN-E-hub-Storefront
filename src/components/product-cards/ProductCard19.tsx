@@ -17,7 +17,7 @@ const CardBox = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   width: "100%",
   minHeight: "300px",
-  height: "340px",
+  height: "248px",
   padding: "16px",
   transition: "all 0.3s",
   borderRadius: "8px",

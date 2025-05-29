@@ -12,8 +12,7 @@ import CategorySectionHeader from "@component/CategorySectionHeader"; // Assumin
 import StyledProductCategory from "./styled"; // Assuming this is your styled component for categories
 import Brand from "@models/Brand.model"; // Assuming these models are still relevant
 import Product from "@models/product.model"; // Assuming these models are still relevant
-import ArrowBackIos from "/public/assets/images/community Marketplace Details/arrow_back_ios.svg"; // Make sure this path is correct for the SVG
-
+import ArrowBackIos from "/public/assets/images/community Marketplace Details/arrow_back_ios.svg";
 
 // ==============================================================
 type Props = { carList: Product[]; carBrands: Brand[] };
@@ -59,6 +58,36 @@ export default function Section6({ carList, carBrands }: Props) {
     { title: 'Intellectual Property', content: [] },
     { title: 'Commercial Activity', content: [] }
   ];
+
+  const events = [
+  {
+    id: "e1",
+    imageSrc: "/assets/images/community Marketplace Details/Blog Image (3).svg",
+    type: "",
+    title: "Carbon Accounting Workshop",
+    date: "24 June 2025",
+    time: "04:30 PM - 06:30 PM",
+    location: "Abu Dhabi SME Hub, Khalifa Fund HQ, Abu Dhabi",
+  },
+  {
+    id: "e2",
+    imageSrc: "/assets/images/community Marketplace Details/Blog Image (2).svg",
+    type: "Webinar",
+    title: "Sustainability in Action",
+    date: "03 Jun 2025",
+    time: "02:00 PM - 03:30 PM",
+    location: "Virtual",
+  },
+  {
+    id: "e3",
+    imageSrc: "assets/images/community Marketplace Details/Blog Image.svg",
+    type: "", // No "Webinar" tag visible in image for this one
+    title: "SME Sustainability Roundtable",
+    date: "28 Aug 2025",
+    time: "04:30 PM - 06:30 PM",
+    location: "Abu Dhabi SME Hub, Khalifa Fund HQ, Abu Dhabi",
+  },
+];
 
   const handleCategoryClick = (brand: Brand) => () => {
     if (selected === brand.slug) setSelected("");
@@ -166,7 +195,7 @@ export default function Section6({ carList, carBrands }: Props) {
           <FlexBox flexWrap="wrap" mt="20px"> {/* Added margin-top for spacing from the above section */}
             {/* Left Column: Discussions, About, Events */}
             <Box flex="3" mr="20px" minWidth="0"> {/* flex:3 for discussions, minWidth:0 to prevent overflow */}
-              <Box bg="white"  borderRadius={8} p="20px">
+              <Box bg="white"  borderRadius={8}>
                 {/* Tabs */}
                 <FlexBox borderBottom="1px solid #e0e0e0" mb="20px" shadow={6}>
                   <Box
@@ -320,6 +349,91 @@ export default function Section6({ carList, carBrands }: Props) {
                     </Box>
                   </Box>
                 )}
+              {selected === "events" && (
+                <Box>
+                  <h2 style={{ fontSize: '18px', fontWeight: 600, color: '#212529', marginBottom: '15px' }}>
+                    Upcoming Events
+                  </h2>
+                  <Box
+                    style={{
+                      borderBottom: '1px solid #E0E0E0', // Light gray line
+                      marginBottom: '25px', // Adjust spacing below the line as needed
+                    }}
+                  />
+
+                  {events.length > 0 ? (
+                    // THIS IS THE CRITICAL PART: Ensure 'Grid' is imported correctly based on its export type.
+                    <Grid container spacing={3}>
+                      {events.map((event) => (
+                        <Grid item xs={12} sm={6} md={4} key={event.id}>
+                          <Box bg="white" shadow={6} borderRadius={8} overflow="hidden">
+                            {/* Image container */}
+                            <Box position="relative" width="100%" height="180px" borderRadius="8px 8px 0 0" overflow="hidden">
+                              {/* Ensure NextImage is imported correctly */}
+                              <NextImage src={event.imageSrc} alt={event.title} layout="fill" objectFit="cover" />
+                              {event.type && (
+                                <Box position="absolute" top="10px" left="10px" bg="rgba(0,0,0,0.6)" color="white" px="8px" py="4px" borderRadius="4px" fontSize="12px" fontWeight={500}>
+                                  {event.type}
+                                </Box>
+                              )}
+                            </Box>
+                            {/* Content */}
+                            <Box p="15px">
+                              <h4 style={{ fontSize: '15px', fontWeight: 600, color: '#212529', marginBottom: '10px' }}>
+                                {event.title}
+                              </h4>
+                              {/* Ensure FlexBox is imported correctly */}
+                              <FlexBox alignItems="center" mt="10px" mb="5px">
+                                {/* Optional: Add icons here if you have them and import them correctly */}
+                                {/* Example for Calendar Icon (if you have the SVG and import it as a string path): */}
+                                <Box width={16} height={16} mr="8px" display="flex" alignItems="center" justifyContent="center">
+                                  <NextImage src="/assets/images/community Marketplace Details/calendar_month.svg" alt="calendar" width={16} height={16} />
+                                </Box>
+                                <p style={{ fontSize: '13px', color: '#6C757D' }}>{event.date}, {event.time}</p>
+                              </FlexBox>
+                              <FlexBox alignItems="center" mb="15px">
+                                {/* Optional: Add icons here if you have them and import them correctly */}
+                                {/* Example for Location Icon (if you have the SVG and import it as a string path): */}
+                                <Box width={16} height={16} mr="8px" display="flex" alignItems="center" justifyContent="center">
+                                  <NextImage src="/assets/images/community Marketplace Details/location_on.svg" alt="location" width={16} height={16} />
+                                </Box>
+                                <p style={{ fontSize: '13px', color: '#6C757D' }}>{event.location}</p>
+                              </FlexBox>
+                              <button style={{
+                                backgroundColor: "#A8C3FF", // Solid background color
+                                color: "white",             // White text color
+                                padding: "8px 20px",
+                                border: "1px solid #A8C3FF", // Border color matches background
+                                borderRadius: "8px",
+                                cursor: "pointer",
+                                fontSize: '14px',
+                                fontWeight: 500,
+                                transition: 'background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease', // Added border-color to transition
+                              }}
+                              // You might want to adjust hover effects if they differ from the initial state in the image
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.backgroundColor = 'transparent'; // Example hover: transparent background
+                                e.currentTarget.style.color = '#A8C3FF';              // Example hover: text color becomes button color
+                                e.currentTarget.style.borderColor = '#A8C3FF';         // Example hover: border color remains
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.backgroundColor = '#A8C3FF'; // Restore initial background
+                                e.currentTarget.style.color = 'white';             // Restore initial text color
+                                e.currentTarget.style.borderColor = '#A8C3FF';     // Restore initial border color
+                              }}
+                              >
+                                Register
+                              </button>
+                            </Box>
+                          </Box>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  ) : (
+                    <p style={{ fontSize: '14px', color: '#6C757D' }}>No upcoming events.</p>
+                  )}
+                </Box>
+              )}
                 
               </Box>
             </Box>

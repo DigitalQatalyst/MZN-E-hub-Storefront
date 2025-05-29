@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { H1, H3, H4 } from "@component/Typography";
 import { Header, HeaderTwo } from "@component/header";
 import Navbar from "@component/navbar/Navbar";
-import Navbar1 from "@component/navbar/navbar1";
+import Navbar1 from "@component/navbar/Navbar1";
 
 // STYLED COMPONENTS
 const HeroSection = styled.section`

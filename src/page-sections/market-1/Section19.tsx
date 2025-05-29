@@ -3,6 +3,85 @@
 import { useState } from "react";
 import CategorySectionCreator from "@component/CategorySectionCreator";
 import styled from "styled-components";
+import { GraphQLClient } from "graphql-request";
+
+// GraphQL Client Setup
+const endpoint = "https://22af-54-37-203-255.ngrok-free.app/admin-api";
+const client = new GraphQLClient(endpoint);
+
+const loginMutation = `
+  mutation Login($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
+      ... on CurrentUser {
+        id
+        identifier
+        channels {
+          id
+          code
+          token
+        }
+      }
+      ... on ErrorResult {
+        errorCode
+        message
+      }
+    }
+  }
+`;
+
+let isAuthenticated = false;
+let authPromise: Promise<boolean> | null = null;
+
+async function authenticate(token?: string): Promise<boolean> {
+  if (isAuthenticated) return true;
+
+  try {
+    if (token) {
+      client.setHeader("Authorization", `Bearer ${token}`);
+      isAuthenticated = true;
+      return true;
+    }
+
+    const variables = {
+      username: "superadmin",
+      password: "superadmin",
+    };
+
+    interface LoginResponse {
+      login: {
+        __typename: string;
+        message?: string;
+        channels?: { id: string; code: string; token: string }[];
+      };
+    }
+
+    const response = await client.request<LoginResponse>(loginMutation, variables);
+
+    if (response.login.__typename === "CurrentUser") {
+      const authToken = response.login.channels && response.login.channels[0]?.token || "3dzd7d0mxu81apw175ou";
+      client.setHeader("Authorization", `Bearer ${authToken}`);
+      isAuthenticated = true;
+      return true;
+    } else {
+      console.error("Login failed:", response.login.message);
+      return false;
+    }
+  } catch (error) {
+    console.error("Authentication error:", error);
+    return false;
+  }
+}
+
+async function getAuthenticatedClient(token?: string): Promise<GraphQLClient> {
+  if (!authPromise) {
+    authPromise = authenticate(token);
+  }
+  await authPromise;
+  if (!isAuthenticated) {
+    throw new Error("Failed to authenticate client");
+  }
+  return client;
+}
 
 // STYLED COMPONENTS
 const ContentWrapper = styled.div`
@@ -219,7 +298,29 @@ const AlertClose = styled.button`
   color: #666;
 `;
 
-export default function Section18() {
+const createCustomerMutation = `
+  mutation CreateCustomer($input: CreateCustomerInput!) {
+    createCustomer(input: $input) {
+      ... on Customer {
+        id
+        firstName
+        lastName
+        emailAddress
+        phoneNumber
+        customFields {
+          additionalMessage
+          serviceEnquiryType
+        }
+      }
+      ... on ErrorResult {
+        errorCode
+        message
+      }
+    }
+  }
+`;
+
+export default function Section19() {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -229,25 +330,75 @@ export default function Section18() {
     message: "",
   });
   const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulate form submission
-    setShowAlert(true);
-    // Reset form after submission
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      phoneNumber: "",
-      enquiryType: "",
-      message: "",
-    });
+
+    try {
+      // Get authenticated client (pass a custom token here if available)
+      const client = await getAuthenticatedClient(); // e.g., getAuthenticatedClient("your-custom-token");
+
+      const variables = {
+        input: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          emailAddress: formData.email,
+          phoneNumber: formData.phoneNumber,
+          customFields: {
+            additionalMessage: formData.message,
+            serviceEnquiryType: formData.enquiryType,
+          },
+        },
+      };
+
+      type CreateCustomerResponse = {
+        createCustomer: {
+          __typename: "Customer";
+          id: string;
+          firstName: string;
+          lastName: string;
+          emailAddress: string;
+          phoneNumber: string;
+          customFields: {
+            additionalMessage: string;
+            serviceEnquiryType: string;
+          };
+        } | {
+          __typename: "ErrorResult";
+          errorCode: string;
+          message: string;
+        }
+      };
+
+      const response = await client.request<CreateCustomerResponse>(createCustomerMutation, variables);
+
+      if (response.createCustomer.__typename === "Customer") {
+        setAlertMessage("Inquiry Submitted Successfully! Thank you! Your inquiry has been submitted successfully. We’ll get back to you soon.");
+        setShowAlert(true);
+        // Reset form after successful submission
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phoneNumber: "",
+          enquiryType: "",
+          message: "",
+        });
+      } else {
+        setAlertMessage(`Error: ${(response.createCustomer as { message: string }).message}`);
+        setShowAlert(true);
+      }
+    } catch (error) {
+      setAlertMessage(`Submission failed: ${error.message}. Please check your connection or contact support.`);
+      setShowAlert(true);
+    }
+
     // Hide alert after 3 seconds
     setTimeout(() => setShowAlert(false), 3000);
   };
@@ -257,9 +408,7 @@ export default function Section18() {
       {showAlert && (
         <AlertPopup>
           <AlertText>
-            <strong>Inquiry Submitted Successfully!</strong>
-            <br />
-            Thank you! your inquiry has been submitted successfully. We’ll get back to you soon
+            {alertMessage}
           </AlertText>
           <AlertClose onClick={() => setShowAlert(false)}>×</AlertClose>
         </AlertPopup>

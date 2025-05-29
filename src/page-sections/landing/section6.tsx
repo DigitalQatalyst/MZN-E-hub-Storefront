@@ -106,12 +106,12 @@ export default function HomePage() {
         <NavbarWrapper>
           <Navbar1 />
         </NavbarWrapper>
-        <HeroContent>
+        {/* <HeroContent>
           <SearchBarContainer>
             <SearchInput placeholder="How can we help?" />
             <SearchButton>Ask Enterprise Journey AI</SearchButton>
           </SearchBarContainer>
-        </HeroContent>
+        </HeroContent> */}
       </HeroSection>
     </div>
   );

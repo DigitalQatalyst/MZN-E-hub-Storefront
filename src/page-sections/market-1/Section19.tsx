@@ -539,7 +539,7 @@ export default function Section19() {
             * By submitting this form, you agree to our{" "}
             <PrivacyLink>Privacy Policy</PrivacyLink>.
           </PrivacyText>
-          <SubmitButton type="submit" disabled={!isFormValid()}>
+          <SubmitButton type="submit">
             Submit Enquiry
           </SubmitButton>
         </FormColumn>

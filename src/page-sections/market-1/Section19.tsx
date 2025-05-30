@@ -3,19 +3,19 @@
 import { useState } from "react";
 import CategorySectionCreator from "@component/CategorySectionCreator";
 import styled from "styled-components";
-import { GraphQLClient } from "graphql-request";
-import Modal from "@component/Modal";
 
-// GraphQL Client Setup
-const endpoint = "https://22af-54-37-203-255.ngrok-free.app/admin-api";
-const client = new GraphQLClient(endpoint);
-
+// GraphQL Mutations
 const LOGIN_MUTATION = `
-  mutation {
-    login(username: "superadmin", password: "superadmin") {
+  mutation Login($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
       ... on CurrentUser {
         id
         identifier
+        channels {
+          id
+          code
+          token
+        }
       }
       ... on ErrorResult {
         errorCode
@@ -35,11 +35,8 @@ const CREATE_CUSTOMER_MUTATION = `
         emailAddress
         phoneNumber
         customFields {
-          companyName
-          businessType
           additionalMessage
-          selectedProductSlug
-          dynamicsLeadId
+          serviceEnquiryType
         }
       }
       ... on ErrorResult {
@@ -49,45 +46,6 @@ const CREATE_CUSTOMER_MUTATION = `
     }
   }
 `;
-
-let isAuthenticated = false;
-let authPromise: Promise<boolean> | null = null;
-
-async function authenticate(): Promise<boolean> {
-  if (isAuthenticated) return true;
-
-  try {
-    const response = await client.request(LOGIN_MUTATION) as { login: any };
-    console.log("Authentication response:", response);
-
-    if (response.login.__typename === "CurrentUser") {
-      // Since graphql-request does not provide headers in the response, use a static token or obtain it from another source if needed
-      const authToken = "3dzd7d0mxu81apw175ou";
-      client.setHeader("Authorization", `Bearer ${authToken}`);
-      isAuthenticated = true;
-      console.log("Authenticated successfully with token:", authToken);
-      return true;
-    } else {
-      console.error("Login failed with response:", response.login);
-      return false;
-    }
-  } catch (error) {
-    console.error("Authentication error details:", error);
-    return false;
-  }
-}
-
-async function getAuthenticatedClient(): Promise<GraphQLClient> {
-  if (!authPromise) {
-    authPromise = authenticate();
-  }
-  await authPromise;
-  if (!isAuthenticated) {
-    console.error("Failed to authenticate client - isAuthenticated is false");
-    throw new Error("Failed to authenticate client");
-  }
-  return client;
-}
 
 // STYLED COMPONENTS
 const ContentWrapper = styled.div`
@@ -253,16 +211,11 @@ const PrivacyLink = styled.a`
   font-weight: 400;
   line-height: 15px;
   text-decoration-line: underline;
-  text-decoration-style: solid;
-  text-decoration-skip-ink: none;
-  text-decoration-thickness: auto;
-  text-underline-offset: auto;
-  text-underline-position: from-font;
   cursor: pointer;
 `;
 
-const SubmitButton = styled.button`
-  background-color: #0030E3;
+const SubmitButton = styled.button<{ disabled?: boolean }>`
+  background-color: ${({ disabled }) => (disabled ? "#ccc" : "#0030E3")};
   color: #fff;
   padding: 12px 24px;
   border: none;
@@ -270,26 +223,49 @@ const SubmitButton = styled.button`
   font-family: "Helvetica Neue";
   font-size: 16px;
   font-weight: 500;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   width: 35%;
 `;
 
-const StyledModal = styled(Modal)`
-  .modal-content {
-    padding: 2rem;
-    width: 100%;
-    max-width: 400px;
-    background-color: #f9fbfd;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 48, 227, 0.1);
-  }
+const AlertPopup = styled.div`
+  position: fixed;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  z-index: 1000;
+  text-align: center;
+`;
+
+const AlertHeader = styled.div`
+  font-family: "Helvetica Neue";
+  font-size: 18px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 12px;
 `;
 
 const AlertText = styled.div`
-  color: #000;
+  color: #555;
   font-family: "Helvetica Neue";
   font-size: 14px;
-  text-align: center;
+  line-height: 1.5;
+`;
+
+const AlertClose = styled.button`
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #666;
 `;
 
 export default function Section19() {
@@ -298,95 +274,170 @@ export default function Section19() {
     lastName: "",
     email: "",
     phoneNumber: "",
-    businessType: "",
+    enquiryType: "",
     message: "",
   });
-  const [showAlert, setShowAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState<null | true | "error">(null);
   const [alertMessage, setAlertMessage] = useState("");
+  const [alertHeader, setAlertHeader] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Validate form to enable/disable submit button
+  const isFormValid = () => {
+    return (
+      formData.firstName.match(/^[A-Za-z]+$/) &&
+      formData.lastName.match(/^[A-Za-z]+$/) &&
+      formData.email.match(/^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/) &&
+      formData.phoneNumber.match(/^[0-9]{1,11}$/) &&
+      [
+        "Funding Request",
+        "Mentorship",
+        "Business Consultation",
+        "Event Registration",
+        "Legal or Compliance",
+        "Product/Service Inquiry",
+        "Technical Support",
+        "General Inquiry",
+        "Feedback/Suggestions",
+        "Partnership/Collaboration",
+      ].includes(formData.enquiryType) &&
+      formData.message.trim() !== ""
+    );
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form submitted with data:", formData);
 
-    try {
-      const client = await getAuthenticatedClient();
-      const variables = {
+    // Client-side validation for enquiryType
+    if (!formData.enquiryType) {
+      setAlertMessage("❌ Please select a valid enquiry type.");
+      setShowAlert("error");
+      setTimeout(() => setShowAlert(null), 3000);
+      return;
+    }
+
+    // Step 1: Authenticate with the Admin API
+    const loginResponse = await fetch("https://22af-54-37-203-255.ngrok-free.app/admin-api", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: LOGIN_MUTATION,
+        variables: {
+          username: "superadmin",
+          password: "superadmin",
+        },
+      }),
+    });
+
+    const loginData = await loginResponse.json();
+    const authToken = loginResponse.headers.get("vendure-auth-token");
+
+    if (!authToken || loginData?.login?.__typename === "ErrorResult") {
+      console.error("Login failed:", loginData);
+      setAlertMessage("❌ Failed to authenticate with Vendure Admin API.");
+      setShowAlert("error");
+      setTimeout(() => setShowAlert(null), 3000);
+      return;
+    }
+
+    console.log("Authenticated successfully with token:", authToken);
+
+    // Step 2: Prepare and send the createCustomer mutation
+    const payload = {
+      query: CREATE_CUSTOMER_MUTATION,
+      variables: {
         input: {
           firstName: formData.firstName,
           lastName: formData.lastName,
           emailAddress: formData.email,
           phoneNumber: formData.phoneNumber,
           customFields: {
-            businessType: formData.businessType,
             additionalMessage: formData.message,
-            selectedProductSlug: "", // No productSlug prop in this component
+            serviceEnquiryType: formData.enquiryType,
           },
         },
-      };
+      },
+    };
 
-      type CreateCustomerResponse = {
-        createCustomer: {
-          __typename: string;
-          id?: string;
-          firstName?: string;
-          lastName?: string;
-          emailAddress?: string;
-          phoneNumber?: string;
-          customFields?: {
-            companyName?: string;
-            businessType?: string;
-            additionalMessage?: string;
-            selectedProductSlug?: string;
-            dynamicsLeadId?: string;
-          };
-          errorCode?: string;
-          message?: string;
-        };
-      };
+    console.log("Submitting payload:", payload);
 
-      const response = await client.request<CreateCustomerResponse>(CREATE_CUSTOMER_MUTATION, variables);
-      console.log("CreateCustomer mutation response:", response);
+    try {
+      const response = await fetch("https://22af-54-37-203-255.ngrok-free.app/admin-api", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify(payload),
+      });
 
-      if (response.createCustomer.__typename === "Customer") {
-        setAlertMessage("🎉 Enquiry submitted successfully!");
+      const data = await response.json();
+      console.log("CreateCustomer mutation response:", JSON.stringify(data, null, 2));
+
+      if (data.errors && Array.isArray(data.errors)) {
+        setAlertMessage("❌ Submission failed: " + data.errors[0].message);
+        setShowAlert("error");
+        console.group("🛑 GraphQL Errors");
+        data.errors.forEach((error: any, index: number) => {
+          console.error(`Error ${index + 1}:`, error.message);
+        });
+        console.groupEnd();
+      } else if (data?.data?.createCustomer?.id || data?.data?.createCustomer?.__typename === "Customer") {
+        setAlertHeader("Inquiry Submitted Successfully!");
+        setAlertMessage("Thank you! your inquiry has been submitted successfully. We'll get back to you soon.");
         setShowAlert(true);
+        // Reset form after successful submission
         setFormData({
           firstName: "",
           lastName: "",
           email: "",
           phoneNumber: "",
-          businessType: "",
+          enquiryType: "",
           message: "",
         });
+      } else if (data?.data?.createCustomer?.__typename === "ErrorResult") {
+        setAlertMessage(`⚠️ ${data.data.createCustomer.message}`);
+        setShowAlert("error");
       } else {
-        setAlertMessage(`⚠️ ${response.createCustomer.message || "Submission failed. Please try again."}`);
-        setShowAlert(true);
-        console.error("Form submission failed with response:", response.createCustomer);
+        console.error("Unexpected response structure:", JSON.stringify(data, null, 2));
+        setAlertMessage("⚠️ Unexpected response from server. Please try again.");
+        setShowAlert("error");
       }
     } catch (error) {
+      console.error("Network/GraphQL error:", error);
       setAlertMessage("🚫 Network error. Please try again later.");
-      setShowAlert(true);
-      console.error("Submission error details:", error);
+      setShowAlert("error");
     }
+
+    // Hide alert after 3 seconds
+    setTimeout(() => setShowAlert(null), 3000);
   };
 
   return (
     <CategorySectionCreator>
-      <StyledModal open={showAlert} onClose={() => setShowAlert(false)}>
-        <AlertText>{alertMessage}</AlertText>
-      </StyledModal>
+      {showAlert && (
+        <AlertPopup>
+          <AlertHeader>{alertHeader}</AlertHeader>
+          <AlertText>{alertMessage}</AlertText>
+          <AlertClose onClick={() => setShowAlert(null)}>×</AlertClose>
+        </AlertPopup>
+      )}
       <ContentWrapper>
         <ContentColumn>
           <StyledHeader>CONTACT OUR TEAM</StyledHeader>
           <StyledBody>Ready to Make an Enquiry?</StyledBody>
           <Description>
-            Tell us what you’re looking for and we’ll get back to you shortly. For<br />
-            additional information you can also visit our <HelpLink>Help Center</HelpLink>.
+            Tell us what you’re looking for and we’ll get back to you shortly. For<br></br> additional information you can also visit our{" "}
+            <HelpLink>Help Center</HelpLink>.
           </Description>
         </ContentColumn>
         <FormColumn as="form" onSubmit={handleSubmit}>
@@ -449,23 +500,25 @@ export default function Section19() {
           </FormRow>
           <FormRow>
             <FormSelectWrapper>
-              <FormLabel>Business Type</FormLabel>
+              <FormLabel>Select Enquiry Type</FormLabel>
               <FormSelect
-                name="businessType"
-                value={formData.businessType}
+                name="enquiryType"
+                value={formData.enquiryType}
                 onChange={handleChange}
                 required
               >
-                <option value="" disabled>Select</option>
-                <option value="Funding request">Funding request</option>
+                <option value="" disabled>
+                  Select
+                </option>
+                <option value="Funding Request">Funding Request</option>
                 <option value="Mentorship">Mentorship</option>
-                <option value="Business consultation">Business consultation</option>
-                <option value="Event registration">Event registration</option>
+                <option value="Business Consultation">Business Consultation</option>
+                <option value="Event Registration">Event Registration</option>
                 <option value="Legal or Compliance">Legal or Compliance</option>
                 <option value="Product/Service Inquiry">Product/Service Inquiry</option>
                 <option value="Technical Support">Technical Support</option>
                 <option value="General Inquiry">General Inquiry</option>
-                <option value="Feedback or Suggestions">Feedback or Suggestions</option>
+                <option value="Feedback/Suggestions">Feedback/Suggestions</option>
                 <option value="Partnership/Collaboration">Partnership/Collaboration</option>
               </FormSelect>
             </FormSelectWrapper>
@@ -486,7 +539,9 @@ export default function Section19() {
             * By submitting this form, you agree to our{" "}
             <PrivacyLink>Privacy Policy</PrivacyLink>.
           </PrivacyText>
-          <SubmitButton type="submit">Submit Enquiry</SubmitButton>
+          <SubmitButton type="submit" disabled={!isFormValid()}>
+            Submit Enquiry
+          </SubmitButton>
         </FormColumn>
       </ContentWrapper>
     </CategorySectionCreator>

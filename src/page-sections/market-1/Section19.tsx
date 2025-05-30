@@ -4,21 +4,42 @@ import { useState } from "react";
 import CategorySectionCreator from "@component/CategorySectionCreator";
 import styled from "styled-components";
 import { GraphQLClient } from "graphql-request";
+import Modal from "@component/Modal";
 
 // GraphQL Client Setup
 const endpoint = "https://22af-54-37-203-255.ngrok-free.app/admin-api";
 const client = new GraphQLClient(endpoint);
 
-const loginMutation = `
-  mutation Login($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
+const LOGIN_MUTATION = `
+  mutation {
+    login(username: "superadmin", password: "superadmin") {
       ... on CurrentUser {
         id
         identifier
-        channels {
-          id
-          code
-          token
+      }
+      ... on ErrorResult {
+        errorCode
+        message
+      }
+    }
+  }
+`;
+
+const CREATE_CUSTOMER_MUTATION = `
+  mutation CreateCustomer($input: CreateCustomerInput!) {
+    createCustomer(input: $input) {
+      ... on Customer {
+        id
+        firstName
+        lastName
+        emailAddress
+        phoneNumber
+        customFields {
+          companyName
+          businessType
+          additionalMessage
+          selectedProductSlug
+          dynamicsLeadId
         }
       }
       ... on ErrorResult {
@@ -32,52 +53,37 @@ const loginMutation = `
 let isAuthenticated = false;
 let authPromise: Promise<boolean> | null = null;
 
-async function authenticate(token?: string): Promise<boolean> {
+async function authenticate(): Promise<boolean> {
   if (isAuthenticated) return true;
 
   try {
-    if (token) {
-      client.setHeader("Authorization", `Bearer ${token}`);
-      isAuthenticated = true;
-      return true;
-    }
-
-    const variables = {
-      username: "superadmin",
-      password: "superadmin",
-    };
-
-    interface LoginResponse {
-      login: {
-        __typename: string;
-        message?: string;
-        channels?: { id: string; code: string; token: string }[];
-      };
-    }
-
-    const response = await client.request<LoginResponse>(loginMutation, variables);
+    const response = await client.request(LOGIN_MUTATION) as { login: any };
+    console.log("Authentication response:", response);
 
     if (response.login.__typename === "CurrentUser") {
-      const authToken = response.login.channels && response.login.channels[0]?.token || "3dzd7d0mxu81apw175ou";
+      // Since graphql-request does not provide headers in the response, use a static token or obtain it from another source if needed
+      const authToken = "3dzd7d0mxu81apw175ou";
       client.setHeader("Authorization", `Bearer ${authToken}`);
       isAuthenticated = true;
+      console.log("Authenticated successfully with token:", authToken);
       return true;
     } else {
-      console.error("Login failed:", response.login.message);
+      console.error("Login failed with response:", response.login);
       return false;
     }
   } catch (error) {
-    console.error("Authentication error:", error);
+    console.error("Authentication error details:", error);
     return false;
   }
 }
 
-async function getAuthenticatedClient(token?: string): Promise<GraphQLClient> {
+async function getAuthenticatedClient(): Promise<GraphQLClient> {
   if (!authPromise) {
-    authPromise = authenticate(token);
+    authPromise = authenticate();
   }
   await authPromise;
   if (!isAuthenticated) {
+    console.error("Failed to authenticate client - isAuthenticated is false");
     throw new Error("Failed to authenticate client");
   }
   return client;
@@ -268,56 +274,22 @@ const SubmitButton = styled.button`
   width: 35%;
 `;
 
-const AlertPopup = styled.div`
-  position: fixed;
-  top: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #fff;
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 400px;
-  z-index: 1000;
+const StyledModal = styled(Modal)`
+  .modal-content {
+    padding: 2rem;
+    width: 100%;
+    max-width: 400px;
+    background-color: #f9fbfd;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 48, 227, 0.1);
+  }
 `;
 
 const AlertText = styled.div`
   color: #000;
   font-family: "Helvetica Neue";
   font-size: 14px;
-`;
-
-const AlertClose = styled.button`
-  background: none;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  color: #666;
-`;
-
-const createCustomerMutation = `
-  mutation CreateCustomer($input: CreateCustomerInput!) {
-    createCustomer(input: $input) {
-      ... on Customer {
-        id
-        firstName
-        lastName
-        emailAddress
-        phoneNumber
-        customFields {
-          additionalMessage
-          serviceEnquiryType
-        }
-      }
-      ... on ErrorResult {
-        errorCode
-        message
-      }
-    }
-  }
+  text-align: center;
 `;
 
 export default function Section19() {
@@ -326,24 +298,23 @@ export default function Section19() {
     lastName: "",
     email: "",
     phoneNumber: "",
-    enquiryType: "",
+    businessType: "",
     message: "",
   });
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Form submitted with data:", formData);
 
     try {
-      // Get authenticated client (pass a custom token here if available)
-      const client = await getAuthenticatedClient(); // e.g., getAuthenticatedClient("your-custom-token");
-
+      const client = await getAuthenticatedClient();
       const variables = {
         input: {
           firstName: formData.firstName,
@@ -351,75 +322,71 @@ export default function Section19() {
           emailAddress: formData.email,
           phoneNumber: formData.phoneNumber,
           customFields: {
+            businessType: formData.businessType,
             additionalMessage: formData.message,
-            serviceEnquiryType: formData.enquiryType,
+            selectedProductSlug: "", // No productSlug prop in this component
           },
         },
       };
 
       type CreateCustomerResponse = {
         createCustomer: {
-          __typename: "Customer";
-          id: string;
-          firstName: string;
-          lastName: string;
-          emailAddress: string;
-          phoneNumber: string;
-          customFields: {
-            additionalMessage: string;
-            serviceEnquiryType: string;
+          __typename: string;
+          id?: string;
+          firstName?: string;
+          lastName?: string;
+          emailAddress?: string;
+          phoneNumber?: string;
+          customFields?: {
+            companyName?: string;
+            businessType?: string;
+            additionalMessage?: string;
+            selectedProductSlug?: string;
+            dynamicsLeadId?: string;
           };
-        } | {
-          __typename: "ErrorResult";
-          errorCode: string;
-          message: string;
-        }
+          errorCode?: string;
+          message?: string;
+        };
       };
 
-      const response = await client.request<CreateCustomerResponse>(createCustomerMutation, variables);
+      const response = await client.request<CreateCustomerResponse>(CREATE_CUSTOMER_MUTATION, variables);
+      console.log("CreateCustomer mutation response:", response);
 
       if (response.createCustomer.__typename === "Customer") {
-        setAlertMessage("Inquiry Submitted Successfully! Thank you! Your inquiry has been submitted successfully. We’ll get back to you soon.");
+        setAlertMessage("🎉 Enquiry submitted successfully!");
         setShowAlert(true);
-        // Reset form after successful submission
         setFormData({
           firstName: "",
           lastName: "",
           email: "",
           phoneNumber: "",
-          enquiryType: "",
+          businessType: "",
           message: "",
         });
       } else {
-        setAlertMessage(`Error: ${(response.createCustomer as { message: string }).message}`);
+        setAlertMessage(`⚠️ ${response.createCustomer.message || "Submission failed. Please try again."}`);
         setShowAlert(true);
+        console.error("Form submission failed with response:", response.createCustomer);
       }
     } catch (error) {
-      setAlertMessage(`Submission failed: ${error.message}. Please check your connection or contact support.`);
+      setAlertMessage("🚫 Network error. Please try again later.");
       setShowAlert(true);
+      console.error("Submission error details:", error);
     }
-
-    // Hide alert after 3 seconds
-    setTimeout(() => setShowAlert(false), 3000);
   };
 
   return (
     <CategorySectionCreator>
-      {showAlert && (
-        <AlertPopup>
-          <AlertText>
-            {alertMessage}
-          </AlertText>
-          <AlertClose onClick={() => setShowAlert(false)}>×</AlertClose>
-        </AlertPopup>
-      )}
+      <StyledModal open={showAlert} onClose={() => setShowAlert(false)}>
+        <AlertText>{alertMessage}</AlertText>
+      </StyledModal>
       <ContentWrapper>
         <ContentColumn>
           <StyledHeader>CONTACT OUR TEAM</StyledHeader>
           <StyledBody>Ready to Make an Enquiry?</StyledBody>
           <Description>
-            Tell us what you’re looking for and we’ll get back to you shortly. For<br></br> additional information you can also visit our{" "}
-            <HelpLink>Help Center</HelpLink>.
+            Tell us what you’re looking for and we’ll get back to you shortly. For<br />
+            additional information you can also visit our <HelpLink>Help Center</HelpLink>.
           </Description>
         </ContentColumn>
         <FormColumn as="form" onSubmit={handleSubmit}>
@@ -482,10 +449,10 @@ export default function Section19() {
           </FormRow>
           <FormRow>
             <FormSelectWrapper>
-              <FormLabel>Select Enquiry Type</FormLabel>
+              <FormLabel>Business Type</FormLabel>
               <FormSelect
-                name="enquiryType"
-                value={formData.enquiryType}
+                name="businessType"
+                value={formData.businessType}
                 onChange={handleChange}
                 required
               >

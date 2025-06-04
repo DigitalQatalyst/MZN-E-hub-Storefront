@@ -34,7 +34,7 @@ interface BoxProps
     TypographyProps {
   cursor?: string;
   transition?: string;
-  shadow?: number | null;
+  shadow?: number | null | string;
 }
 // ==============================================================
 

@@ -178,7 +178,7 @@ export default function Section6({ carList, carBrands }: Props) {
             padding="16px"
             bg="#f8f9fa"
             borderRadius="8px"
-            boxShadow="0px 2px 10px rgba(0, 0, 0, 0.1)"
+            shadow="0px 2px 10px rgba(0, 0, 0, 0.1)"
             display="flex"
             justifyContent="space-between"
             alignItems="center"
@@ -193,7 +193,7 @@ export default function Section6({ carList, carBrands }: Props) {
             <Box flex="1" padding="20px" maxWidth="100%" minWidth="0">
               <Box bg="white"  borderRadius={8}>
                 {/* Tabs */}
-                <FlexBox borderBottom="1px solid #e0e0e0" mb="20px" shadow={6} flexWrap="wrap" justifyContent="space-between" mb="20px">
+                <FlexBox borderBottom="1px solid #e0e0e0" mb="20px" shadow={6} flexWrap="wrap" justifyContent="space-between">
                   <Box
                     flex="1" minWidth="0" p="10px 15px"
                     cursor="pointer"

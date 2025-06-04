@@ -6,7 +6,7 @@ import Section2 from "@sections/market-1/Section2";
 import Section3 from "@sections/market-1/Section3";
 import Section4 from "@sections/market-1/Section4";
 import Section5 from "@sections/market-1/Section5";
-import GreenSME from "@sections/market-1/SME.tsx";
+import GreenSME from "@sections/market-1/SME";
 import Section7 from "@sections/market-1/Section7";
 import Section8 from "@sections/market-1/Section8";
 import Section10 from "@sections/market-1/Section10";

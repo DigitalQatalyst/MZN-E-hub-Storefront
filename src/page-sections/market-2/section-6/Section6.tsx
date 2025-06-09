@@ -25,12 +25,18 @@ const GET_PRODUCTS = `
         slug
         description
         facetValues {
+          facet {
+            id
+            name
+            code
+          }
           id
-          code
           name
+          code
         }
         customFields {
           Partner
+          Cost
         }
       }
       totalItems
@@ -52,6 +58,7 @@ interface Product {
   facetValues: FacetValue[];
   customFields: {
     Partner: string;
+    Cost?: number;
   };
 }
 
@@ -109,7 +116,7 @@ export default function Section6() {
 
   // State for Business Stage filters
   const [businessStageFilters, setBusinessStageFilters] = useState({
-    inception: false,
+    conception: false, // Changed from inception
     growth: false,
     maturity: false,
     restructuring: false,
@@ -201,22 +208,35 @@ export default function Section6() {
 
           const selectedStages = Object.keys(businessStageFilters)
             .filter((key) => businessStageFilters[key])
-            .map((key) => key.charAt(0).toUpperCase() + key.slice(1));
+            .map((key) => key);
           console.log("Selected Stages:", selectedStages);
 
           const selectedProviders = Object.keys(providedByFilters)
             .filter((key) => providedByFilters[key])
             .map((key) => {
-              if (key === "khalifaFund") return "khalifa-fund";
-              if (key === "hub71") return "hub71";
-              if (key === "adSmeHub") return "ad-sme-hub";
-              return key;
+              switch (key) {
+                case "khalifaFund": return "khalifa-fund";
+                case "adSmeHub": return "ad-sme-hub";
+                case "hub71": return "hub71";
+                case "adgm": return "adgm";
+                case "other": return "other";
+                default: return key;
+              }
             });
           console.log("Selected Providers:", selectedProviders);
 
           const selectedPricingModels = Object.keys(pricingModelFilters)
             .filter((key) => pricingModelFilters[key])
-            .map((key) => key);
+            .map((key) => {
+              switch (key) {
+                case "subscriptionBased": return "subscription-based";
+                case "payPerService": return "pay-per-service";
+                case "oneTimeFee": return "one-time-fee";
+                case "governmentSubsidised": return "government-subsidized";
+                case "free": return "free";
+                default: return key;
+              }
+            });
           console.log("Selected Pricing Models:", selectedPricingModels);
 
           const filtered = selectedCategories.length === 0 &&
@@ -225,31 +245,36 @@ export default function Section6() {
             selectedPricingModels.length === 0
             ? financialServicesOnly
             : financialServicesOnly.filter((product) => {
-              const matchesCategory =
-                selectedCategories.length === 0 ||
-                product.facetValues.some((facetValue) =>
-                  selectedCategories.includes(facetValue.code as CategoryCodes)
-                );
-              const matchesStage =
-                selectedStages.length === 0 ||
-                product.facetValues.some((facetValue) =>
-                  facetValue.code === "business-stage" &&
-                  selectedStages.includes(facetValue.name)
-                );
-              const matchesProvider =
-                selectedProviders.length === 0 ||
-                product.facetValues.some((facetValue) =>
-                  facetValue.code === "provided-by" &&
-                  selectedProviders.includes(facetValue.name.toLowerCase())
-                );
-              const matchesPricingModel =
-                selectedPricingModels.length === 0 ||
-                product.facetValues.some((facetValue) =>
-                  facetValue.code === "pricing-model" &&
-                  selectedPricingModels.includes(facetValue.name.toLowerCase())
-                );
-              return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
-            });
+                const matchesCategory =
+                  selectedCategories.length === 0 ||
+                  product.facetValues.some((facetValue) =>
+                    selectedCategories.includes(facetValue.code as CategoryCodes)
+                  );
+                const matchesStage =
+                  selectedStages.length === 0 ||
+                  product.facetValues.some((facetValue) =>
+                    facetValue.code && selectedStages.includes(facetValue.code)
+                  );
+                const matchesProvider =
+                  selectedProviders.length === 0 ||
+                  product.facetValues.some((facetValue) =>
+                    facetValue.code && selectedProviders.includes(facetValue.code)
+                  );
+                const matchesPricingModel =
+                  selectedPricingModels.length === 0 ||
+                  product.facetValues.some((facetValue) =>
+                    facetValue.code && selectedPricingModels.includes(facetValue.code)
+                  ) ||
+                  (selectedPricingModels.includes("one-time-fee") &&
+                    product.customFields?.Cost && product.customFields.Cost > 0);
+                console.log(`Filtering ${product.name} (id: ${product.id}):`, {
+                  matchesCategory,
+                  matchesStage,
+                  matchesProvider,
+                  matchesPricingModel
+                });
+                return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
+              });
           console.log("Final filtered products count:", filtered.length);
 
           setAllFilteredProducts(filtered);
@@ -322,18 +347,31 @@ export default function Section6() {
       }) as CategoryCodes[];
     const selectedStages = Object.keys(businessStageFilters)
       .filter((key) => businessStageFilters[key])
-      .map((key) => key.charAt(0).toUpperCase() + key.slice(1));
+      .map((key) => key);
     const selectedProviders = Object.keys(providedByFilters)
       .filter((key) => providedByFilters[key])
       .map((key) => {
-        if (key === "khalifaFund") return "khalifa-fund";
-        if (key === "hub71") return "hub71";
-        if (key === "adSmeHub") return "ad-sme-hub";
-        return key;
+        switch (key) {
+          case "khalifaFund": return "khalifa-fund";
+          case "adSmeHub": return "ad-sme-hub";
+          case "hub71": return "hub71";
+          case "adgm": return "adgm";
+          case "other": return "other";
+          default: return key;
+        }
       });
     const selectedPricingModels = Object.keys(pricingModelFilters)
       .filter((key) => pricingModelFilters[key])
-      .map((key) => key);
+      .map((key) => {
+        switch (key) {
+          case "subscriptionBased": return "subscription-based";
+          case "payPerService": return "pay-per-service";
+          case "oneTimeFee": return "one-time-fee";
+          case "governmentSubsidised": return "government-subsidized";
+          case "free": return "free";
+          default: return key;
+        }
+      });
 
     if (
       selectedCategories.length === 0 &&
@@ -352,21 +390,26 @@ export default function Section6() {
         const matchesStage =
           selectedStages.length === 0 ||
           product.facetValues.some((facetValue) =>
-            facetValue.code === "business-stage" &&
-            selectedStages.includes(facetValue.name)
+            facetValue.code && selectedStages.includes(facetValue.code)
           );
         const matchesProvider =
           selectedProviders.length === 0 ||
           product.facetValues.some((facetValue) =>
-            facetValue.code === "provided-by" &&
-            selectedProviders.includes(facetValue.name.toLowerCase())
+            facetValue.code && selectedProviders.includes(facetValue.code)
           );
         const matchesPricingModel =
           selectedPricingModels.length === 0 ||
           product.facetValues.some((facetValue) =>
-            facetValue.code === "pricing-model" &&
-            selectedPricingModels.includes(facetValue.name.toLowerCase())
-          );
+            facetValue.code && selectedPricingModels.includes(facetValue.code)
+          ) ||
+          (selectedPricingModels.includes("one-time-fee") &&
+            product.customFields?.Cost && product.customFields.Cost > 0);
+        console.log(`Filtering ${product.name} (id: ${product.id}):`, {
+          matchesCategory,
+          matchesStage,
+          matchesProvider,
+          matchesPricingModel
+        });
         return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
       });
       setFilteredProducts(filtered);
@@ -512,11 +555,11 @@ export default function Section6() {
               <CheckboxLabel>
                 <input
                   type="checkbox"
-                  id="inception"
-                  checked={businessStageFilters.inception}
-                  onChange={() => handleBusinessStageChange("inception")}
+                  id="conception"
+                  checked={businessStageFilters.conception}
+                  onChange={() => handleBusinessStageChange("conception")}
                 />
-                <label htmlFor="inception">Inception</label>
+                <label htmlFor="conception">Conception</label>
               </CheckboxLabel>
               <CheckboxLabel>
                 <input

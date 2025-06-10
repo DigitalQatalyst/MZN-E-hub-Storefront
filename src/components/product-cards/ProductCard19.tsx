@@ -16,8 +16,8 @@ const CardBox = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   width: "100%",
-  minHeight: "300px",
-  height: "auto",
+  minHeight: "200px",
+  height: "300px",
   padding: "16px",
   transition: "all 0.3s",
   borderRadius: "8px",
@@ -28,6 +28,7 @@ const CardBox = styled(Box)(({ theme }) => ({
       transform: "scale(1.1)",
     },
   },
+  overflow: "hidden",
 }));
 
 const CardMedia = styled(Box)(({ theme }) => ({
@@ -36,7 +37,7 @@ const CardMedia = styled(Box)(({ theme }) => ({
   cursor: "pointer",
   overflow: "hidden",
   position: "relative",
-  marginBottom: "16px", // Added to increase gap between CardMedia and Box below
+  marginBottom: "16px",
   ".product-img": {
     transition: "0.3s",
     width: "100%",
@@ -132,6 +133,28 @@ const StyledParagraph = styled(Paragraph)`
   font-weight: 500;
   line-height: var(--Title-Medium-Line-Height, 24px);
   letter-spacing: var(--Title-Medium-Tracking, 0.15px);
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  &:hover::after {
+    content: attr(data-fulltext);
+    position: absolute;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 4px 8px;
+    z-index: 10;
+    white-space: normal;
+    max-width: 250px; // Increased max-width to allow longer names to display
+    left: 0;
+    top: calc(100% + 4px); // Slightly adjusted to add spacing below title
+    box-sizing: border-box;
+    // Added to ensure hover text stays within card boundaries
+    width: fit-content;
+    min-width: 100%; // Ensures hover text is at least as wide as the card
+  }
 `;
 
 const LearnMoreWrapper = styled.div`
@@ -184,7 +207,7 @@ export default function ProductCard19(props: ProductCard19Props) {
         </CardMedia>
 
         <Box textAlign="left">
-          <StyledParagraph>{name}</StyledParagraph>
+          <StyledParagraph data-fulltext={name}>{name}</StyledParagraph>
           <StyledH4 fontWeight={700}>{subTitle}</StyledH4>
 
           <FlexBox justifyContent="flex-start" alignItems="center" mb="1rem">

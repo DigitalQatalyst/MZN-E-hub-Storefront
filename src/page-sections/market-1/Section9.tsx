@@ -56,7 +56,7 @@ export default function Section9({ products }: Props) {
                 <p
                     style={{
                         color: "#000",
-                        fontFamily: "Helvetica Neue",
+                        // fontFamily: "public sans",
                         fontSize: "16px",
                         fontStyle: "normal",
                         fontWeight: 400,

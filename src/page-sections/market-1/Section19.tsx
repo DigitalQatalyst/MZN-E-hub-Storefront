@@ -493,7 +493,7 @@ export default function Section19() {
                 onChange={handleChange}
                 required
                 pattern="[0-9]{1,11}"
-                maxLength={14}
+                maxLength={20}
                 title="Phone number should only contain numbers and be up to 11 characters"
               />
             </FormFieldWrapper>

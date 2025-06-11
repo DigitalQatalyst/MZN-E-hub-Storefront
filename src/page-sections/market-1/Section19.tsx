@@ -496,7 +496,7 @@ export default function Section19() {
                 maxLength={20}
                 title="Phone number should only contain numbers and be up to 11 characters"
               />
-            </FormFieldWrapper>
+            </FormFieldWrapper> 
           </FormRow>
           <FormRow>
             <FormSelectWrapper>

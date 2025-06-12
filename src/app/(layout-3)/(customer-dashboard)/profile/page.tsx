@@ -14,9 +14,10 @@ import TableRow from "@component/TableRow";
 import Typography, { H3, H5, Small } from "@component/Typography";
 import DashboardPageHeader from "@component/layout/DashboardPageHeader";
 import { EditProfileButton } from "@sections/customer-dashboard/profile";
+import { ServiceRequestsTrendCard } from "./ServiceRequestsTrendCard";
 
 export default async function Profile() {
-  const user = await api.getUser();
+  // const user = await api.getUser();
 
   // Mock data for the cards
   const activityData = {
@@ -26,18 +27,6 @@ export default async function Profile() {
     rejected: 2,
     approvalRate: 85
   };
-
-  const chartData = [
-    { month: 'Aug', financial: 2, nonFinancial: 0 },
-    { month: 'Sep', financial: 1, nonFinancial: 0 },
-    { month: 'Oct', financial: 4, nonFinancial: 0 },
-    { month: 'Nov', financial: 3, nonFinancial: 0 },
-    { month: 'Dec', financial: 1, nonFinancial: 0 },
-    { month: 'Jan', financial: 2, nonFinancial: 0 },
-    { month: 'Feb', financial: 3, nonFinancial: 0 },
-    { month: 'Mar', financial: 2, nonFinancial: 0 },
-    { month: 'Apr', financial: 1, nonFinancial: 0 },
-  ];
 
   return (
     <Fragment>
@@ -314,7 +303,7 @@ export default async function Profile() {
                       cy="70"
                       r="55"
                       fill="none"
-                      stroke="#3b82f6"
+                      stroke="#0030E3"
                       strokeWidth="8"
                       strokeDasharray={`${2 * Math.PI * 55 * 0.85} ${2 * Math.PI * 55}`}
                       strokeDashoffset={2 * Math.PI * 55 * 0.25}
@@ -333,7 +322,7 @@ export default async function Profile() {
                     <Typography fontSize="12px" color="text.hint" mb="4px">
                       Service Approval Rate
                     </Typography>
-                    <Typography fontSize="32px" fontWeight="bold" color="#3b82f6">
+                    <Typography fontSize="32px" fontWeight="bold" color="#0030E3">
                       {activityData.approvalRate}%
                     </Typography>
                   </Box>
@@ -342,136 +331,9 @@ export default async function Profile() {
             </Card>
           </Grid>
 
-          {/* Bottom Row - Service Requests Trend Card */}
+          {/* Bottom Row - Service Requests Trend Card with ApexCharts */}
           <Grid item lg={6} md={6} sm={12} xs={12}>
-            <Card 
-              p="24px" 
-              ml="81px"
-              borderRadius={12}
-              style={{ 
-                width: '556px',
-                height: '362px',
-                border: '1px solid #e5e7eb'
-              }}
-            >
-              <H5 mb="4px" fontWeight="600">My Service Requests Trend</H5>
-              <Typography fontSize="14px" color="text.hint" mb="20px">
-                Yearly Overview
-              </Typography>
-
-              <FlexBox style={{ marginBottom: '24px' }}>
-                <FlexBox 
-                  alignItems="center" 
-                  p="8px 16px" 
-                  borderRadius={20}
-                  style={{ backgroundColor: '#dbeafe', border: '2px solid #3b82f6', marginRight: '12px' }}
-                >
-                  <Box 
-                    style={{ 
-                      width: '16px', 
-                      height: '16px', 
-                      backgroundColor: '#3b82f6', 
-                      borderRadius: '2px',
-                      marginRight: '8px'
-                    }}
-                  />
-                  <Typography fontSize="12px" fontWeight="500">Financial Requests</Typography>
-                </FlexBox>
-
-                <FlexBox 
-                  alignItems="center" 
-                  p="8px 16px" 
-                  borderRadius={20}
-                  style={{ backgroundColor: '#f3f4f6' }}
-                >
-                  <Box 
-                    style={{ 
-                      width: '16px', 
-                      height: '16px', 
-                      backgroundColor: '#9ca3af', 
-                      borderRadius: '2px',
-                      marginRight: '8px'
-                    }}
-                  />
-                  <Typography fontSize="12px" fontWeight="500">Non-Financial Requests</Typography>
-                </FlexBox>
-              </FlexBox>
-
-              <Box style={{ height: '200px', position: 'relative' }}>
-                <svg width="100%" height="100%" viewBox="0 0 500 200">
-                  {/* Y-axis lines */}
-                  {[0, 1, 2, 3, 4, 5].map(i => (
-                    <line 
-                      key={i}
-                      x1="40" 
-                      y1={180 - i * 30} 
-                      x2="480" 
-                      y2={180 - i * 30} 
-                      stroke="#f3f4f6" 
-                      strokeWidth="1"
-                    />
-                  ))}
-                  
-                  {/* Y-axis labels */}
-                  {[0, 1, 2, 3, 4, 5].map(i => (
-                    <text 
-                      key={i}
-                      x="30" 
-                      y={185 - i * 30} 
-                      fontSize="12" 
-                      fill="#9ca3af" 
-                      textAnchor="end"
-                    >
-                      {i}
-                    </text>
-                  ))}
-
-                  {/* Bars */}
-                  {chartData.map((data, index) => {
-                    const x = 60 + index * 48;
-                    const financialHeight = data.financial * 30;
-                    
-                    return (
-                      <g key={data.month}>
-                        {/* Financial bar */}
-                        <rect
-                          x={x - 12}
-                          y={180 - financialHeight}
-                          width="24"
-                          height={financialHeight}
-                          fill={data.month === 'Oct' ? '#3b82f6' : '#bfdbfe'}
-                          rx="2"
-                        />
-                        
-                        {/* Month label */}
-                        <text 
-                          x={x} 
-                          y="195" 
-                          fontSize="11" 
-                          fill="#6b7280" 
-                          textAnchor="middle"
-                        >
-                          {data.month}
-                        </text>
-                        
-                        {/* Value label */}
-                        {data.financial > 0 && (
-                          <text 
-                            x={x} 
-                            y={175 - financialHeight} 
-                            fontSize="10" 
-                            fill="#374151" 
-                            textAnchor="middle"
-                          >
-                            {data.financial}
-                          </text>
-                        )}
-                      </g>
-                    );
-                  })}
-                </svg>
-              </Box>
-            </Card>
+            <ServiceRequestsTrendCard />
           </Grid>
         </Grid>
       </Box>

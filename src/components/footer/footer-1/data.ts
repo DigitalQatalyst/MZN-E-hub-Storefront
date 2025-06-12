@@ -1,6 +1,6 @@
 export const aboutLinks = [
-  "Explore Services",
-  "Resources",
+  "Business in AbuDhabi",
+  "Help Centre",
   "FAQs"
 ];
 
@@ -11,12 +11,10 @@ export const customerCareLinks = [
 ];
 
 export const partners = [
-  "Khalifa Fund",
-  "DED",
-  "AdCoC",
-  "ADIO",
-  "ADGM",
-  "Hub 71"
+  "Become a Partner",
+  "Government Entities",
+  "Corporates",
+  "International"
 ];
 
 export const legalLinks = [

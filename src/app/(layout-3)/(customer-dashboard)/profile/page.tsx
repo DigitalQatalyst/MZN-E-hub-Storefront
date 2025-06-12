@@ -14,164 +14,466 @@ import TableRow from "@component/TableRow";
 import Typography, { H3, H5, Small } from "@component/Typography";
 import DashboardPageHeader from "@component/layout/DashboardPageHeader";
 import { EditProfileButton } from "@sections/customer-dashboard/profile";
-import ServiceUtilizationCard from "./cards/card";
 
 export default async function Profile() {
   const user = await api.getUser();
 
-  const infoList = [
-    {
-      count: "06", // Total count
-      subtitle: "Funding Requests",
-      approved: 3,
-      pending: 2,
-      declined: 1,
-    },
-    {
-      count: "04", // Total count
-      subtitle: "Active Services",
-      grants: 3,
-      marketAccess: 1,
-    },
-  
+  // Mock data for the cards
+  const activityData = {
+    totalServices: 14,
+    approved: 8,
+    underReview: 4,
+    rejected: 2,
+    approvalRate: 85
+  };
+
+  const chartData = [
+    { month: 'Aug', financial: 2, nonFinancial: 0 },
+    { month: 'Sep', financial: 1, nonFinancial: 0 },
+    { month: 'Oct', financial: 4, nonFinancial: 0 },
+    { month: 'Nov', financial: 3, nonFinancial: 0 },
+    { month: 'Dec', financial: 1, nonFinancial: 0 },
+    { month: 'Jan', financial: 2, nonFinancial: 0 },
+    { month: 'Feb', financial: 3, nonFinancial: 0 },
+    { month: 'Mar', financial: 2, nonFinancial: 0 },
+    { month: 'Apr', financial: 1, nonFinancial: 0 },
   ];
 
   return (
     <Fragment>
-      <DashboardPageHeader
-        title="Al Maha Trading LLC"
-        iconName="user_filled"
-        button={<EditProfileButton />}
-      />
-
-      <Box mb="30px">
-        <Grid container spacing={6}>
+      <Box style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
+        <Grid container spacing={3}>
+          {/* Top Row - Profile Completion Card */}
           <Grid item lg={6} md={6} sm={12} xs={12}>
-            <FlexBox as={Card} p="14px 32px" height="100%" borderRadius={8} alignItems="center">
-              <Avatar src={user.avatar} size={64} />
-
-              <Box ml="12px" flex="1 1 0">
-                <FlexBox flexWrap="wrap" justifyContent="space-between" alignItems="center">
-                  <div>
-                    <H5 my="0px">{`${user.name.firstName} ${user.name.lastName}`}</H5>
-
-                    <FlexBox alignItems="center">
-                      <Typography fontSize="14px" color="text.hint">
-                      TL-1234567-UAE
-                      </Typography>
-
-                      {/* <Typography ml="4px" fontSize="14px" color="primary.main">
-                        $500
-                      </Typography> */}
-                    </FlexBox>
-                  </div>
-
-                  <Typography ontSize="14px" color="green" letterSpacing="0.2em">
-                    <strong>ACTIVE</strong>
+            <Card
+              p="24px"
+              ml="-36px"
+              mb="20px"
+              borderRadius={12}
+              style={{
+                background: 'linear-gradient(135deg, #6366f1 0%, #06b6d4 100%)',
+                color: 'white',
+                width: '556px',
+                height: '240px',
+                position: 'relative',
+                overflow: 'hidden'
+              }}
+            >
+              <FlexBox justifyContent="space-between" alignItems="flex-start" height="100%">
+                <Box>
+                  <H3 color="white" mb="8px" fontWeight="600">
+                    My Profile Completion
+                  </H3>
+                  <Typography fontSize="14px" color="rgba(255,255,255,0.8)" mb="16px">
+                    Access a wider range of tailored services,<br />
+                    and personalized support.
                   </Typography>
-                </FlexBox>
-              </Box>
-            </FlexBox>
-          </Grid>
-
-          <Grid item lg={6} md={6} sm={12} xs={12}>
-            <Grid container spacing={4}>
-              {infoList.map((item) => (
-                <Grid item lg={6} sm={12} xs={12} key={item.subtitle}>
-                  <FlexBox
-                    as={Card}
-                    height="100%"
-                    p="1rem 1.25rem"
-                    borderRadius={8}
-                    alignItems="center"
-                    flexDirection="column"
-                    justifyContent="center">
-
-                    <Small color="text.muted" textAlign="center">
-                      {item.subtitle}
-                    </Small>
-
-                    <H3 color="#0030E3" my="0px" fontWeight="600">
-                      {item.count}
-                    </H3>
-
-                    {item.approved !== undefined && (
-                      <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '10px' }}>
-                      <Small color="text.muted" textAlign="center">
-                        Approved: {item.approved}
-                      </Small>
-                      <Small color="text.muted" textAlign="center">
-                        Pending: {item.pending}
-                      </Small>
-                      <Small color="text.muted" textAlign="center">
-                        Declined: {item.declined}
-                      </Small>
-                    </div>
-                  )}
+                  <Typography 
+                    fontSize="14px" 
+                    color="white" 
+                    style={{ textDecoration: 'underline', cursor: 'pointer' }}
+                  >
+                    Complete your profile &gt;
+                  </Typography>
+                </Box>
                 
-                  {item.grants !== undefined && (
-                    <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '10px' }}>
-                      <Small color="text.muted" textAlign="center">
-                        Grants: {item.grants}
-                      </Small>
-                      <Small color="text.muted" textAlign="center">
-                        Market Access: {item.marketAccess}
-                      </Small>
-                    </div>
-                  )}
-                </FlexBox>
-                </Grid>
-              ))}
-            </Grid>
+                <Box style={{ position: 'relative' }}>
+                  <svg width="120" height="120" viewBox="0 0 120 120">
+                    <circle
+                      cx="60"
+                      cy="60"
+                      r="50"
+                      fill="none"
+                      stroke="rgba(255,255,255,0.2)"
+                      strokeWidth="10"
+                    />
+                    <circle
+                      cx="60"
+                      cy="60"
+                      r="50"
+                      fill="none"
+                      stroke="white"
+                      strokeWidth="10"
+                      strokeDasharray={`${2 * Math.PI * 50 * 0.6} ${2 * Math.PI * 50}`}
+                      strokeDashoffset={2 * Math.PI * 50 * 0.25}
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  <Box 
+                    style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      textAlign: 'center'
+                    }}
+                  >
+                    <Typography fontSize="32px" fontWeight="bold" color="white">60%</Typography>
+                    <Typography fontSize="12px" color="rgba(255,255,255,0.8)">Complete</Typography>
+                  </Box>
+                </Box>
+              </FlexBox>
+            </Card>
           </Grid>
 
-          
+          {/* Top Row - Quick Access Card */}
+          <Grid item lg={6} md={6} sm={12} xs={12}>
+            <Card 
+              p="24px"
+              ml="81px"
+              mb="20px"
+              borderRadius={12}
+              style={{ 
+                width: '556px',
+                height: '240px',
+                border: '1px solid #e5e7eb'
+              }}
+            >
+              <H5 mb="8px" fontWeight="600">My Quick Access</H5>
+              <Typography fontSize="14px" color="text.hint" mb="20px">
+                Links to tasks that need your attention.
+              </Typography>
+              
+              <FlexBox flexDirection="column">
+                <FlexBox 
+                  alignItems="center" 
+                  justifyContent="space-between"
+                  p="12px 16px"
+                  borderRadius={8}
+                  style={{ backgroundColor: '#f9fafb', cursor: 'pointer', marginBottom: '16px' }}
+                >
+                  <FlexBox alignItems="center">
+                    <Box 
+                      style={{ 
+                        width: '32px', 
+                        height: '32px', 
+                        backgroundColor: '#e5e7eb', 
+                        borderRadius: '6px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginRight: '12px'
+                      }}
+                    >
+                      📄
+                    </Box>
+                    <Box>
+                      <Typography fontSize="14px" fontWeight="500">3 Draft Service Requests</Typography>
+                      <Typography fontSize="12px" color="text.hint">Resume where you left off</Typography>
+                    </Box>
+                  </FlexBox>
+                  <Typography fontSize="18px" color="text.hint">&gt;</Typography>
+                </FlexBox>
+
+                <FlexBox 
+                  alignItems="center" 
+                  justifyContent="space-between"
+                  p="12px 16px"
+                  borderRadius={8}
+                  style={{ backgroundColor: '#f9fafb', cursor: 'pointer' }}
+                >
+                  <FlexBox alignItems="center">
+                    <Box 
+                      style={{ 
+                        width: '32px', 
+                        height: '32px', 
+                        backgroundColor: '#e5e7eb', 
+                        borderRadius: '6px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginRight: '12px'
+                      }}
+                    >
+                      📋
+                    </Box>
+                    <Box>
+                      <Typography fontSize="14px" fontWeight="500">4 Services Under Review</Typography>
+                      <Typography fontSize="12px" color="text.hint">Track Progress</Typography>
+                    </Box>
+                  </FlexBox>
+                  <Typography fontSize="18px" color="text.hint">&gt;</Typography>
+                </FlexBox>
+              </FlexBox>
+            </Card>
+          </Grid>
+
+          {/* Bottom Row - Activity Overview Card */}
+          <Grid item lg={6} md={6} sm={12} xs={12}>
+            <Card 
+              p="24px"
+              ml="-36px"
+              borderRadius={12}
+              style={{
+                width: '556px',
+                height: '362px',
+                border: '1px solid #e5e7eb'
+              }}
+            >
+              <FlexBox justifyContent="space-between" alignItems="center" mb="16px">
+                <Box>
+                  <H5 mb="4px" fontWeight="600">My Activity Overview</H5>
+                  <Typography fontSize="14px" color="text.hint">Last 30 Days</Typography>
+                </Box>
+                <Typography fontSize="18px" color="text.hint">⋯</Typography>
+              </FlexBox>
+
+              <FlexBox alignItems="flex-start" justifyContent="space-between" height="calc(100% - 60px)">
+                <Box>
+                  <H3 fontSize="48px" fontWeight="bold" mb="8px" color="text.primary">
+                    {activityData.totalServices}
+                  </H3>
+                  <Typography fontSize="16px" color="text.hint" mb="24px">
+                    Total Services Requested
+                  </Typography>
+
+                  <FlexBox flexDirection="column">
+                    <FlexBox alignItems="center">
+                      <Box 
+                        style={{ 
+                          width: '24px', 
+                          height: '24px', 
+                          backgroundColor: '#f3f4f6', 
+                          borderRadius: '4px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          marginRight: '12px'
+                        }}
+                      >
+                        💳
+                      </Box>
+                      <Box>
+                        <Typography fontSize="14px" fontWeight="500">Approved</Typography>
+                        <Typography fontSize="12px" color="text.hint">
+                          {String(activityData.approved).padStart(2, '0')} Services
+                        </Typography>
+                      </Box>
+                    </FlexBox>
+
+                    <FlexBox alignItems="center" style={{ marginTop: '12px' }}>
+                      <Box 
+                        style={{ 
+                          width: '24px', 
+                          height: '24px', 
+                          backgroundColor: '#f3f4f6', 
+                          borderRadius: '4px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          marginRight: '12px'
+                        }}
+                      >
+                        ⏱️
+                      </Box>
+                      <Box>
+                        <Typography fontSize="14px" fontWeight="500">Under Review</Typography>
+                        <Typography fontSize="12px" color="text.hint">
+                          {String(activityData.underReview).padStart(2, '0')} Services
+                        </Typography>
+                      </Box>
+                    </FlexBox>
+
+                    <FlexBox alignItems="center" style={{ marginTop: '12px' }}>
+                      <Box 
+                        style={{ 
+                          width: '24px', 
+                          height: '24px', 
+                          backgroundColor: '#f3f4f6', 
+                          borderRadius: '4px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          marginRight: '12px'
+                        }}
+                      >
+                        ⏰
+                      </Box>
+                      <Box>
+                        <Typography fontSize="14px" fontWeight="500">Rejected</Typography>
+                        <Typography fontSize="12px" color="text.hint">
+                          {String(activityData.rejected).padStart(2, '0')} Services
+                        </Typography>
+                      </Box>
+                    </FlexBox>
+                  </FlexBox>
+                </Box>
+
+                <Box style={{ position: 'relative' }}>
+                  <svg width="140" height="140" viewBox="0 0 140 140">
+                    <circle
+                      cx="70"
+                      cy="70"
+                      r="55"
+                      fill="none"
+                      stroke="#e5e7eb"
+                      strokeWidth="8"
+                    />
+                    <circle
+                      cx="70"
+                      cy="70"
+                      r="55"
+                      fill="none"
+                      stroke="#3b82f6"
+                      strokeWidth="8"
+                      strokeDasharray={`${2 * Math.PI * 55 * 0.85} ${2 * Math.PI * 55}`}
+                      strokeDashoffset={2 * Math.PI * 55 * 0.25}
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  <Box 
+                    style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      textAlign: 'center'
+                    }}
+                  >
+                    <Typography fontSize="12px" color="text.hint" mb="4px">
+                      Service Approval Rate
+                    </Typography>
+                    <Typography fontSize="32px" fontWeight="bold" color="#3b82f6">
+                      {activityData.approvalRate}%
+                    </Typography>
+                  </Box>
+                </Box>
+              </FlexBox>
+            </Card>
+          </Grid>
+
+          {/* Bottom Row - Service Requests Trend Card */}
+          <Grid item lg={6} md={6} sm={12} xs={12}>
+            <Card 
+              p="24px" 
+              ml="81px"
+              borderRadius={12}
+              style={{ 
+                width: '556px',
+                height: '362px',
+                border: '1px solid #e5e7eb'
+              }}
+            >
+              <H5 mb="4px" fontWeight="600">My Service Requests Trend</H5>
+              <Typography fontSize="14px" color="text.hint" mb="20px">
+                Yearly Overview
+              </Typography>
+
+              <FlexBox style={{ marginBottom: '24px' }}>
+                <FlexBox 
+                  alignItems="center" 
+                  p="8px 16px" 
+                  borderRadius={20}
+                  style={{ backgroundColor: '#dbeafe', border: '2px solid #3b82f6', marginRight: '12px' }}
+                >
+                  <Box 
+                    style={{ 
+                      width: '16px', 
+                      height: '16px', 
+                      backgroundColor: '#3b82f6', 
+                      borderRadius: '2px',
+                      marginRight: '8px'
+                    }}
+                  />
+                  <Typography fontSize="12px" fontWeight="500">Financial Requests</Typography>
+                </FlexBox>
+
+                <FlexBox 
+                  alignItems="center" 
+                  p="8px 16px" 
+                  borderRadius={20}
+                  style={{ backgroundColor: '#f3f4f6' }}
+                >
+                  <Box 
+                    style={{ 
+                      width: '16px', 
+                      height: '16px', 
+                      backgroundColor: '#9ca3af', 
+                      borderRadius: '2px',
+                      marginRight: '8px'
+                    }}
+                  />
+                  <Typography fontSize="12px" fontWeight="500">Non-Financial Requests</Typography>
+                </FlexBox>
+              </FlexBox>
+
+              <Box style={{ height: '200px', position: 'relative' }}>
+                <svg width="100%" height="100%" viewBox="0 0 500 200">
+                  {/* Y-axis lines */}
+                  {[0, 1, 2, 3, 4, 5].map(i => (
+                    <line 
+                      key={i}
+                      x1="40" 
+                      y1={180 - i * 30} 
+                      x2="480" 
+                      y2={180 - i * 30} 
+                      stroke="#f3f4f6" 
+                      strokeWidth="1"
+                    />
+                  ))}
+                  
+                  {/* Y-axis labels */}
+                  {[0, 1, 2, 3, 4, 5].map(i => (
+                    <text 
+                      key={i}
+                      x="30" 
+                      y={185 - i * 30} 
+                      fontSize="12" 
+                      fill="#9ca3af" 
+                      textAnchor="end"
+                    >
+                      {i}
+                    </text>
+                  ))}
+
+                  {/* Bars */}
+                  {chartData.map((data, index) => {
+                    const x = 60 + index * 48;
+                    const financialHeight = data.financial * 30;
+                    
+                    return (
+                      <g key={data.month}>
+                        {/* Financial bar */}
+                        <rect
+                          x={x - 12}
+                          y={180 - financialHeight}
+                          width="24"
+                          height={financialHeight}
+                          fill={data.month === 'Oct' ? '#3b82f6' : '#bfdbfe'}
+                          rx="2"
+                        />
+                        
+                        {/* Month label */}
+                        <text 
+                          x={x} 
+                          y="195" 
+                          fontSize="11" 
+                          fill="#6b7280" 
+                          textAnchor="middle"
+                        >
+                          {data.month}
+                        </text>
+                        
+                        {/* Value label */}
+                        {data.financial > 0 && (
+                          <text 
+                            x={x} 
+                            y={175 - financialHeight} 
+                            fontSize="10" 
+                            fill="#374151" 
+                            textAnchor="middle"
+                          >
+                            {data.financial}
+                          </text>
+                        )}
+                      </g>
+                    );
+                  })}
+                </svg>
+              </Box>
+            </Card>
+          </Grid>
         </Grid>
-      </Box>
-
-      {/* <TableRow p="0.75rem 1.5rem">
-        <FlexBox flexDirection="column" p="0.5rem">
-          <Small color="text.muted" mb="4px">
-            First Name
-          </Small>
-
-          <span>{user.name.firstName}</span>
-        </FlexBox>
-
-        <FlexBox flexDirection="column" p="0.5rem">
-          <Small color="text.muted" mb="4px">
-            Last Name
-          </Small>
-
-          <span>{user.name.lastName}</span>
-        </FlexBox>
-
-        <FlexBox flexDirection="column" p="0.5rem">
-          <Small color="text.muted" mb="4px">
-            Email
-          </Small>
-
-          <span>{user.email}</span>
-        </FlexBox>
-
-        <FlexBox flexDirection="column" p="0.5rem">
-          <Small color="text.muted" mb="4px" textAlign="left">
-            Phone
-          </Small>
-
-          <span>{user.phone}</span>
-        </FlexBox>
-
-        <FlexBox flexDirection="column" p="0.5rem">
-          <Small color="text.muted" mb="4px">
-            Birth date
-          </Small>
-
-          <span className="pre">{format(new Date(user.dateOfBirth), "dd MMM, yyyy")}</span>
-        </FlexBox>
-      </TableRow> */}
-      <Box mt="30px">
-        <ServiceUtilizationCard />
       </Box>
     </Fragment>
   );

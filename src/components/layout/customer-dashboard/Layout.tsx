@@ -5,6 +5,7 @@ import Sidebar from "../profile/DashboardNavigation";
 // STYLED COMPONENT
 import { StyledGrid } from "../profile/styles";
 
+// In Layout.tsx
 export default function CustomerDashboardLayout({ children }: PropsWithChildren) {
   return (
     <Grid container spacing={6}>

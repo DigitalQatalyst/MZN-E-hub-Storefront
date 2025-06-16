@@ -44,6 +44,9 @@ interface Product {
   termsOfService?: string[];
   requiredDocuments?: string[];
   relatedServices?: RelatedService[];
+  customFields?: {
+    BusinessStage?: string;
+  };
 
   // For backward compatibility
   name?: string; // some components might still use name instead of title

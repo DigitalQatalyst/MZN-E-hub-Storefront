@@ -15,12 +15,13 @@ import { useAppContext } from "@context/app-context";
 import Product from "@models/product.model";
 import { FaRegBookmark } from "react-icons/fa";
 import { IoShareSocial } from "react-icons/io5";
-import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowBack, IoMdArrowBack } from "react-icons/io";
 import Link from "next/link";
 import { border } from "styled-system";
 import { FaRegClock } from "react-icons/fa";
 import { BsClipboardMinus } from "react-icons/bs";
 import { IoPlaySharp } from "react-icons/io5";
+import { BiSolidInfoCircle } from "react-icons/bi";
 
 // ========================================
 interface Props {
@@ -75,14 +76,22 @@ export default function ProductIntro({ product }: Props) {
             }}
             color="#002180"
           >
-            <IoIosArrowBack size={30} color="#002180" />
+            <IoMdArrowBack size={30} color="#0030E3" />
             <Span color="#002180">Back to Financial Services</Span>
           </Link>
 
-          <H2 mb="1rem" color="#002180">
+          <H2 mb="1rem" color="#0030E3">
             {product?.title}
           </H2>
-          <FlexBox
+          <Span mb="1rem" fontWeight={500}>
+            powered by {product?.subTitle}
+          </Span>
+          <Box mb="45px" width="70%">
+            {product?.description ||
+              "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."}
+          </Box>
+
+          {/* <FlexBox
             mb="1.5rem"
             alignItems="center"
             style={{
@@ -125,9 +134,9 @@ export default function ProductIntro({ product }: Props) {
               </FlexBox>
               <H5 color="#002180">KF/0030</H5>
             </FlexBox>
-          </FlexBox>
+          </FlexBox> */}
         </FlexBox>
-        <FlexBox
+        {/* <FlexBox
           alignItems="center"
           mb="1rem"
           mr={"1.5rem"}
@@ -153,9 +162,141 @@ export default function ProductIntro({ product }: Props) {
               <Icon color="#002180">share 1</Icon>
             </Button>
           </FlexBox>
-        </FlexBox>
+        </FlexBox> */}
       </FlexBox>
       <Grid container spacing={10}>
+        <Grid
+          item
+          md={6}
+          alignItems="center"
+          // style={{ border: "1px solid red" }}
+        >
+          <FlexBox
+            alignItems="center"
+            mb="1rem"
+            mr={"1.5rem"}
+            justifyContent="space-between"
+          >
+            <Button
+              bg="#0030E3"
+              padding="0 80px"
+              height="55px"
+              variant="contained"
+              color={"primary"}
+              onClick={() => setShowRegistrationForm(true)}
+            >
+              <p color="#ffffff !important">Start Application</p>
+            </Button>
+            <Button color="#002180" height="50px" border={"2px solid #002180"}>
+              <FaRegBookmark color="#002180" size="20px" />
+              &nbsp; Save
+            </Button>
+            <FlexBox
+              justifyContent="s
+            Pace-between"
+              width="10%"
+            >
+              <Button width="100%" height="50px" border={"2px solid #002180"}>
+                <Icon color="#002180">share 1</Icon>
+              </Button>
+            </FlexBox>
+          </FlexBox>
+          <FlexBox>
+            <FlexBox flexDirection="column" style={{ gap: "30px" }}>
+              <FlexBox flexDirection="column">
+                <FlexBox alignItems="center" style={{ gap: "5px" }}>
+                  <Span> Business Stage</Span>{" "}
+                  <BiSolidInfoCircle color="#747474" />
+                </FlexBox>
+                <Span>{product?.highlightedStage}</Span>
+              </FlexBox>
+              <FlexBox alignItems="center" style={{ gap: "5px" }}>
+                <Span> Segment</Span> <BiSolidInfoCircle color="#747474" />
+              </FlexBox>
+              <FlexBox alignItems="center" style={{ gap: "5px" }}>
+                <Span> Categories</Span> <BiSolidInfoCircle color="#747474" />
+              </FlexBox>
+            </FlexBox>
+          </FlexBox>
+          {/* <Button
+            mt="30px"
+            size="small"
+            bg="#00665C"
+            color="white"
+            variant="text"
+          >
+            Available for Registration
+          </Button> */}
+
+          {/* <FlexBox alignItems="center" mt="2rem" style={{ gap: "20px" }}>
+            <FlexBox
+              alignItems="center"
+              style={{
+                gap: "10px",
+                background: "rgba(0, 102, 92, 0.07)",
+                color: "#00665C",
+                padding: "10px 20px",
+                borderRadius: "7px",
+              }}
+            >
+              <FlexBox
+                bg="rgba(0, 102, 92, 0.2)"
+                padding="10px"
+                borderRadius="7px"
+              >
+                <FaRegClock />
+              </FlexBox>
+              <FlexBox flexDirection="column" style={{}}>
+                <SemiSpan
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                    color: "#00665C",
+                  }}
+                >
+                  Processing Time
+                </SemiSpan>
+                <H5>{product.processingTime}</H5>
+              </FlexBox>
+            </FlexBox>
+            <FlexBox
+              alignItems="center"
+              style={{
+                gap: "10px",
+                background: "rgba(0, 48, 227, 0.07)",
+                color: "#0123A0",
+                padding: "10px 20px",
+                borderRadius: "7px",
+              }}
+            >
+              <FlexBox
+                bg="rgba(0, 102, 92, 0.2)"
+                padding="10px"
+                borderRadius="7px"
+              >
+                <BsClipboardMinus />
+              </FlexBox>
+              <FlexBox flexDirection="column" style={{}}>
+                <SemiSpan
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                    color: "#002180",
+                  }}
+                >
+                  Validity Period:{" "}
+                </SemiSpan>
+                <H5>{product.registrationValidity || "1 Year (Renewable)"}</H5>
+              </FlexBox>
+            </FlexBox>
+          </FlexBox> */}
+
+          <RegistrationForm
+            open={showRegistrationForm}
+            onClose={() => setShowRegistrationForm(false)}
+            productSlug={product?.slug}
+          />
+        </Grid>
         <Grid item md={6} alignItems="top" justifyContent={"top"}>
           <Box
             width="100%"
@@ -264,107 +405,6 @@ export default function ProductIntro({ product }: Props) {
               </Box>
             ))}
           </FlexBox> */}
-        </Grid>
-        <Grid
-          item
-          md={6}
-          alignItems="center"
-          // style={{ border: "1px solid red" }}
-        >
-          <Box mb="45px">
-            {product?.description ||
-              "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."}
-          </Box>
-          <Button
-            mt="30px"
-            size="small"
-            bg="#00665C"
-            color="white"
-            variant="text"
-          >
-            Available for Registration
-          </Button>
-
-          <FlexBox alignItems="center" mt="2rem" style={{ gap: "20px" }}>
-            <FlexBox
-              alignItems="center"
-              style={{
-                gap: "10px",
-                background: "rgba(0, 102, 92, 0.07)",
-                color: "#00665C",
-                padding: "10px 20px",
-                borderRadius: "7px",
-              }}
-            >
-              <FlexBox
-                bg="rgba(0, 102, 92, 0.2)"
-                padding="10px"
-                borderRadius="7px"
-              >
-                <FaRegClock />
-              </FlexBox>
-              <FlexBox flexDirection="column" style={{}}>
-                <SemiSpan
-                  style={{
-                    fontSize: "16px",
-                    fontWeight: "bold",
-                    color: "#00665C",
-                  }}
-                >
-                  Processing Time
-                </SemiSpan>
-                <H5>{product.processingTime}</H5>
-              </FlexBox>
-            </FlexBox>
-            <FlexBox
-              alignItems="center"
-              style={{
-                gap: "10px",
-                background: "rgba(0, 48, 227, 0.07)",
-                color: "#0123A0",
-                padding: "10px 20px",
-                borderRadius: "7px",
-              }}
-            >
-              <FlexBox
-                bg="rgba(0, 102, 92, 0.2)"
-                padding="10px"
-                borderRadius="7px"
-              >
-                <BsClipboardMinus />
-              </FlexBox>
-              <FlexBox flexDirection="column" style={{}}>
-                <SemiSpan
-                  style={{
-                    fontSize: "16px",
-                    fontWeight: "bold",
-                    color: "#002180",
-                  }}
-                >
-                  Validity Period:{" "}
-                </SemiSpan>
-                <H5>{product.registrationValidity || "1 Year (Renewable)"}</H5>
-              </FlexBox>
-            </FlexBox>
-          </FlexBox>
-
-          <Button
-            fullwidth
-            bg="#0030E3"
-            height="55px"
-            variant="contained"
-            mt="15px"
-            color={"primary"}
-            onClick={() => setShowRegistrationForm(true)}
-          >
-            <p color="#ffffff !important">Start Application</p>
-          </Button>
-
-          <RegistrationForm
-            open={showRegistrationForm}
-            onClose={() => setShowRegistrationForm(false)}
-            productSlug={product?.slug}
-          />
         </Grid>
       </Grid>
     </Box>

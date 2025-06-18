@@ -10,11 +10,12 @@ import { useState, useEffect } from "react";
 import client from "@lib/graphQLClient";
 import TabBar from '@component/tab-bar/TabBar';
 
+
 // STYLED COMPONENTS
-import { List, ListItem, DropdownIcon, DropdownText, CheckboxLabel, ServiceTypeTitle, ShowingText } from "./styles";
+import { ShowingText } from "./styles";
 
 import Section2 from "../section-2/Section2";
-
+import Sidebar from "./side-bar/Sidebar";
 
 // GraphQL Query
 const GET_PRODUCTS = `
@@ -63,7 +64,6 @@ interface Product {
   facetValues: FacetValue[];
   customFields: {
     Partner: string;
-    // Cost?: number;
   };
 }
 
@@ -87,7 +87,7 @@ export default function Section6() {
   const [totalItems, setTotalItems] = useState(0);
   const [totalFilteredItems, setTotalFilteredItems] = useState(0);
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true); // Added loading state
+  const [loading, setLoading] = useState(true);
   const productsPerPage = 15;
 
   // State for Categories filters
@@ -147,7 +147,7 @@ export default function Section6() {
   // Fetch products data on component mount or page change
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true); // Set loading to true at the start
+      setLoading(true);
       console.log("Fetching data from GraphQL... Current Page:", currentPage, "Skip:", (currentPage - 1) * productsPerPage, "Take:", productsPerPage);
       try {
         if (areFiltersApplied()) {
@@ -296,7 +296,7 @@ export default function Section6() {
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
-        setLoading(false); // Set loading to false after fetch completes
+        setLoading(false);
         console.log("Fetching completed. Loading set to false.");
       }
     };
@@ -455,281 +455,25 @@ export default function Section6() {
       />
       <Grid container spacing={3}>
         <Grid item md={3} xs={12}>
-          <Card
-            elevation={0}
-            style={{
-              border: 0,
-              height: "95%",
-              borderRadius: "3px",
-              padding: "1rem 2rem",
-              backgroundColor: "#FFFFFF"
-            }}>
-            <List>
-              <ServiceTypeTitle>Categories :</ServiceTypeTitle>
-              <CheckboxLabel style={{ display: 'flex', alignItems: 'center' }}>
-                <input
-                  type="checkbox"
-                  id="legal-compliance"
-                  title="Legal, Compliance & Lic..."
-                  checked={
-                    categoriesFilters.legalCompliance.regulatoryCompliance ||
-                    categoriesFilters.legalCompliance.legalAdvisory ||
-                    categoriesFilters.legalCompliance.businessLicensing
-                  }
-                  onChange={() => {
-                    const allChecked = !(
-                      categoriesFilters.legalCompliance.regulatoryCompliance ||
-                      categoriesFilters.legalCompliance.legalAdvisory ||
-                      categoriesFilters.legalCompliance.businessLicensing
-                    );
-                    setCategoriesFilters((prev) => ({
-                      ...prev,
-                      legalCompliance: {
-                        regulatoryCompliance: allChecked,
-                        legalAdvisory: allChecked,
-                        businessLicensing: allChecked,
-                      },
-                    }));
-                    setCurrentPage(1);
-                  }}
-                />
-                <label htmlFor="legal-compliance" style={{ marginRight: '0.5rem' }}>Legal, Compliance & Lic...</label>
-                <img 
-                  src="/assets/images/non_financial_marketplace/chevron-down.svg" 
-                  alt="dropdown" 
-                  style={{ verticalAlign: 'middle' }} 
-                />
-              </CheckboxLabel>
-              <CheckboxLabel style={{ marginLeft: '1rem' }}>
-                <input
-                  type="checkbox"
-                  id="regulatory-compliance"
-                  title="Regulatory Compliance"
-                  checked={categoriesFilters.legalCompliance.regulatoryCompliance}
-                  onChange={() => handleCategoriesChange("legalCompliance", "regulatoryCompliance")}
-                />
-                <label htmlFor="regulatory-compliance">Regulatory Compliance</label>
-              </CheckboxLabel>
-              <CheckboxLabel style={{ marginLeft: '1rem' }}>
-                <input
-                  type="checkbox"
-                  id="legal-advisory"
-                  title="Legal Advisory"
-                  checked={categoriesFilters.legalCompliance.legalAdvisory}
-                  onChange={() => handleCategoriesChange("legalCompliance", "legalAdvisory")}
-                />
-                <label htmlFor="legal-advisory">Legal Advisory</label>
-              </CheckboxLabel>
-              <CheckboxLabel style={{ marginLeft: '1rem' }}>
-                <input
-                  type="checkbox"
-                  id="business-licensing"
-                  title="Business Licensing & Per..."
-                  checked={categoriesFilters.legalCompliance.businessLicensing}
-                  onChange={() => handleCategoriesChange("legalCompliance", "businessLicensing")}
-                />
-                <label htmlFor="business-licensing">Business Licensing & Per...</label>
-              </CheckboxLabel>
-
-              <CheckboxLabel style={{ display: 'flex', alignItems: 'center' }}>
-                <input
-                  type="checkbox"
-                  id="incentives-listing"
-                  title="Incentives Listing"
-                  checked={categoriesFilters.incentivesListing}
-                  onChange={() => handleCategoriesChange("incentivesListing")}
-                />
-                <label htmlFor="incentives-listing" style={{ marginRight: '0.5rem' }}>Incentives Listing</label>
-                <img 
-                  src="/assets/images/non_financial_marketplace/chevron-down.svg" 
-                  alt="dropdown" 
-                  style={{ verticalAlign: 'middle' }} 
-                />
-              </CheckboxLabel>
-
-              <CheckboxLabel style={{ display: 'flex', alignItems: 'center' }}>
-                <input
-                  type="checkbox"
-                  id="proximity-incubators"
-                  title="Proximity Incubators"
-                  checked={categoriesFilters.proximityIncubators}
-                  onChange={() => handleCategoriesChange("proximityIncubators")}
-                />
-                <label htmlFor="proximity-incubators" style={{ marginRight: '0.5rem' }}>Proximity Incubators</label>
-                <img 
-                  src="/assets/images/non_financial_marketplace/chevron-down.svg" 
-                  alt="dropdown" 
-                  style={{ verticalAlign: 'middle' }} 
-                />
-              </CheckboxLabel>
-            </List>
-
-            <List>
-              <ServiceTypeTitle>Business Stage :</ServiceTypeTitle>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="inception"
-                  checked={businessStageFilters.inception}
-                  onChange={() => handleBusinessStageChange("inception")}
-                />
-                <label htmlFor="inception">Inception</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="growth"
-                  title="Growth"
-                  checked={businessStageFilters.growth}
-                  onChange={() => handleBusinessStageChange("growth")}
-                />
-                <label htmlFor="growth">Growth</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="maturity"
-                  checked={businessStageFilters.maturity}
-                  onChange={() => handleBusinessStageChange("maturity")}
-                />
-                <label htmlFor="maturity">Maturity</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="restructuring"
-                  title="Restructuring"
-                  checked={businessStageFilters.restructuring}
-                  onChange={() => handleBusinessStageChange("restructuring")}
-                />
-                <label htmlFor="restructuring">Restructuring</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="other"
-                  checked={businessStageFilters.other}
-                  onChange={() => handleBusinessStageChange("other")}
-                />
-                <label htmlFor="other">Other</label>
-              </CheckboxLabel>
-            </List>
-
-            <List>
-              <ServiceTypeTitle>Provided By :</ServiceTypeTitle>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="adgm"
-                  title="ADGM"
-                  checked={providedByFilters.adgm}
-                  onChange={() => handleProvidedByChange("adgm")}
-                />
-                <label htmlFor="adgm">ADGM</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="khalifa-fund"
-                  title="Khalifa Fund"
-                  checked={providedByFilters.khalifaFund}
-                  onChange={() => handleProvidedByChange("khalifaFund")}
-                />
-                <label htmlFor="khalifa-fund">Khalifa Fund</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="hub71"
-                  checked={providedByFilters.hub71}
-                  onChange={() => handleProvidedByChange("hub71")}
-                />
-                <label htmlFor="hub71">Hub 71</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="ad-sme-hub"
-                  title="AD SME Hub"
-                  checked={providedByFilters.adSmeHub}
-                  onChange={() => handleProvidedByChange("adSmeHub")}
-                />
-                <label htmlFor="ad-sme-hub">AD SME Hub</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="other-checkbox"
-                  title="Other"
-                  checked={providedByFilters.other}
-                  onChange={() => handleProvidedByChange("other")}
-                />
-                <label htmlFor="other-checkbox">Other</label>
-              </CheckboxLabel>
-            </List>
-
-            <List>
-              <ServiceTypeTitle>Pricing Model :</ServiceTypeTitle>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="free"
-                  title="Free"
-                  checked={pricingModelFilters.free}
-                  onChange={() => handlePricingModelChange("free")}
-                />
-                <label htmlFor="free">Free</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="subscription-based"
-                  title="Subscription-Based"
-                  checked={pricingModelFilters.subscriptionBased}
-                  onChange={() => handlePricingModelChange("subscriptionBased")}
-                />
-                <label htmlFor="subscription-based">Subscription-Based</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="pay-per-service"
-                  title="Pay Per Service"
-                  checked={pricingModelFilters.payPerService}
-                  onChange={() => handlePricingModelChange("payPerService")}
-                />
-                <label htmlFor="pay-per-service">Pay Per Service</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="one-time-fee"
-                  title="One-Time Fee"
-                  checked={pricingModelFilters.oneTimeFee}
-                  onChange={() => handlePricingModelChange("oneTimeFee")}
-                />
-                <label htmlFor="one-time-fee">One-Time Fee</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="government-subsidised"
-                  title="Government Subsidised"
-                  checked={pricingModelFilters.governmentSubsidised}
-                  onChange={() => handlePricingModelChange("governmentSubsidised")}
-                />
-                <label htmlFor="government-subsidised">Government Subsidised</label>
-              </CheckboxLabel>
-            </List>
-            {/* Adding padding-bottom to create space at the bottom when no service is available */}
-            <div style={{ paddingBottom: '2rem' }} />
-          </Card>
-          {(areFiltersApplied() ? totalFilteredItems : totalItems) > 0 && (
-            <ShowingText>
-              Showing {(currentPage - 1) * productsPerPage + 1}-
-              {Math.min(currentPage * productsPerPage, areFiltersApplied() ? totalFilteredItems : totalItems)} of {areFiltersApplied() ? totalFilteredItems : totalItems} Services
-            </ShowingText>
-          )}
+          <Sidebar
+            categoriesFilters={categoriesFilters}
+            setCategoriesFilters={setCategoriesFilters}
+            businessStageFilters={businessStageFilters}
+            setBusinessStageFilters={setBusinessStageFilters}
+            providedByFilters={providedByFilters}
+            setProvidedByFilters={setProvidedByFilters}
+            pricingModelFilters={pricingModelFilters}
+            setPricingModelFilters={setPricingModelFilters}
+            handleCategoriesChange={handleCategoriesChange}
+            handleBusinessStageChange={handleBusinessStageChange}
+            handleProvidedByChange={handleProvidedByChange}
+            handlePricingModelChange={handlePricingModelChange}
+            totalItems={totalItems}
+            totalFilteredItems={totalFilteredItems}
+            currentPage={currentPage}
+            productsPerPage={productsPerPage}
+            areFiltersApplied={areFiltersApplied}
+          />
         </Grid>
 
         <Grid item md={9} xs={12}>

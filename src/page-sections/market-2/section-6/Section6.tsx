@@ -707,6 +707,8 @@ export default function Section6() {
                 <label htmlFor="government-subsidised">Government Subsidised</label>
               </CheckboxLabel>
             </List>
+            {/* Adding padding-bottom to create space at the bottom when no service is available */}
+            <div style={{ paddingBottom: '2rem' }} />
           </Card>
           {(areFiltersApplied() ? totalFilteredItems : totalItems) > 0 && (
             <ShowingText>

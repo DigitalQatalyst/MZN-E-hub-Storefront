@@ -62,7 +62,8 @@ interface Product {
   description: string;
   facetValues: FacetValue[];
   customFields: {
-    partner: string;
+    Partner: string;
+    // Cost?: number;
   };
 }
 
@@ -787,7 +788,7 @@ export default function Section6() {
                       id={product.id}
                       slug={product.slug}
                       name={product.name}
-                      subTitle={product.customFields.partner}
+                      subTitle={product.customFields.Partner}
                       description={product.description}
                       img={defaultImage}
                       images={defaultImages}

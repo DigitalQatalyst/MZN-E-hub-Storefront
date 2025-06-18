@@ -47,7 +47,7 @@ const TabButton = styled(Button)<{ active?: boolean }>`
       position: absolute;
       left: 0;
       right: 0;
-      bottom: -2px;
+      bottom: -10px;
       height: 3px;
       background: #0030E3;
       border-radius: 2px 2px 0 0;
@@ -345,6 +345,15 @@ export default function ProductDetails({ product }: Props) {
             Terms Of Service
           </TabButton>
         </TabContainer>
+        <hr
+          style={{
+            height: "3px",
+            background: "#D8E0E9",
+            border: "none",
+            marginLeft: "1.95rem",
+            marginRight: "1.95rem",
+          }}
+        />
 
         {renderTabContent()}
       </Box>

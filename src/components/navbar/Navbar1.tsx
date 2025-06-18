@@ -11,8 +11,12 @@ import { Button } from "../buttons";
 import Container from "../Container";
 import Typography, { Span } from "../Typography";
 import Categories from "../categories/Categories";
+import JoinModal from "../JoinModal";
+import SignInModal from "../SignInModal";
 
 import StyledNavbar from "./styles";
+import { useModal } from "@context/ModalContext";
+import SignUpModal from "../JoinModal";
 
 // Updated navbarNavigations data
 const navbarNavigations = [
@@ -41,6 +45,8 @@ type NavbarProps = { navListOpen?: boolean };
 // ==============================================================
 
 export default function Navbar({ navListOpen }: NavbarProps) {
+  const { open, modalType } = useModal();
+
   const renderNestedNav = (list: any[], isRoot = false) => {
     return list?.map((nav: Nav) => {
       if (isRoot) {
@@ -191,13 +197,10 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           </Box>
 
           {/* Sign In & Sign Up Buttons */}
-          <Button className="sign-in-btn" variant="outlined" mr="10px" ml="10px">
-            Sign In
-          </Button>
-
-          <Button className="sign-up-button" variant="contained">
-            Sign Up
-          </Button>
+          <Button className="sign-in-btn" variant="outlined" mr="10px" ml="10px" onClick={() => open("signin")}>Sign In</Button>
+          <Button className="sign-up-button" variant="contained" onClick={() => open("signup")}>Sign Up</Button>
+          {modalType === "signup" && <SignUpModal />}
+          {modalType === "signin" && <SignInModal />}
         </FlexBox>
       </Container>
     </StyledNavbar>

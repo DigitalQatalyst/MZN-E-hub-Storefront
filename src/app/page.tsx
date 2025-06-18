@@ -12,7 +12,6 @@ import Section16 from "@sections/market-1/Section16";
 import Section17 from "@sections/market-1/Section17";
 import Section2 from "@sections/market-1/Section2";
 import Section19 from "@sections/market-1/Section19";
-import Footer3 from "@component/footer/footer-3/Footer3";
 
 
 export default async function Market1() {
@@ -34,7 +33,7 @@ export default async function Market1() {
       {/* TOP CATEGORIES AREA */}
       <Section3 />
       <Section19 />
-      <Footer3 />
+      <Footer1 />
 
     </main>
   );

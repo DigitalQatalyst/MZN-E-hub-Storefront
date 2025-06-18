@@ -9,6 +9,7 @@ import StyledContext from "@context/StyledContext";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import NProgressBar from "@component/NProgress";
+import { ModalProvider } from "@context/ModalContext";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
@@ -30,10 +31,12 @@ export default function RootLayout({
       <body className={openSans.className}>
         <StyledComponentsRegistry>
           <AppProvider>
-            <StyledContext>
-              {children}
-              <NProgressBar />
-            </StyledContext>
+            <ModalProvider>
+              <StyledContext>
+                {children}
+                <NProgressBar />
+              </StyledContext>
+            </ModalProvider>
           </AppProvider>
         </StyledComponentsRegistry>
       </body>

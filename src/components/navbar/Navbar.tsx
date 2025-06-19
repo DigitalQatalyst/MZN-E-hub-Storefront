@@ -41,10 +41,10 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             <Typography
               mr="150px"
               flex="1 1 0"
-              fontFamily='"Open Sans", sans-serif'
+              fontFamily='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
               fontSize="14px"
               fontStyle="normal"
-              fontWeight="600"
+              fontWeight="400"
               lineHeight="26px"
               color="#0030E3"
             >

@@ -20,7 +20,8 @@ const Sidebar = () => {
       height: '100vh',
       borderRight: '1px solid #e5e7eb',
       display: 'flex',
-      flexDirection: 'column'
+      flexDirection: 'column',
+      fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
     }}>
       {/* Company Selector */}
       <div style={{
@@ -40,10 +41,11 @@ const Sidebar = () => {
           }}>
             <span style={{
               fontWeight: '500',
-              color: '#111827'
+              color: '#0030E3',
+              fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
             }}>FutureTech LLC</span>
           </div>
-          <ChevronDown style={{ width: '16px', height: '16px', color: '#242424' }} />
+          <ChevronDown style={{ width: '16px', height: '16px', color: '#0030E3' }} />
         </div>
       </div>
 
@@ -65,7 +67,10 @@ const Sidebar = () => {
             cursor: 'pointer'
           }}>
             <img src="/images/dashboard-customize-light.svg" alt="Search" height="20px" />
-            <span style={{ fontWeight: '500' }}>Overview</span>
+            <span style={{ 
+              fontWeight: '500',
+              fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
+            }}>Overview</span>
           </div>
         </div>
 
@@ -76,7 +81,8 @@ const Sidebar = () => {
             fontWeight: '600',
             color: '#242424',
             letterSpacing: '0.05em',
-            marginBottom: '8px'
+            marginBottom: '8px',
+            fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
           }}>
             Essentials
           </h3>
@@ -92,7 +98,8 @@ const Sidebar = () => {
               color: '#374151',
               borderRadius: '8px',
               cursor: 'pointer',
-              backgroundColor: hoveredItem === 'firm-info' ? '#f9fafb' : 'transparent'
+              backgroundColor: hoveredItem === 'firm-info' ? '#f9fafb' : 'transparent',
+              fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
             }}
             onMouseEnter={() => setHoveredItem('firm-info')}
             onMouseLeave={() => setHoveredItem(null)}>
@@ -110,7 +117,8 @@ const Sidebar = () => {
               color: '#374151',
               borderRadius: '8px',
               cursor: 'pointer',
-              backgroundColor: hoveredItem === 'firm-wallet' ? '#f9fafb' : 'transparent'
+              backgroundColor: hoveredItem === 'firm-wallet' ? '#f9fafb' : 'transparent',
+              fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
             }}
             onMouseEnter={() => setHoveredItem('firm-wallet')}
             onMouseLeave={() => setHoveredItem(null)}>
@@ -127,7 +135,8 @@ const Sidebar = () => {
             fontWeight: '600',
             color: '#242424',
             letterSpacing: '0.05em',
-            marginBottom: '8px'
+            marginBottom: '8px',
+            fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
           }}>
             Transactions
           </h3>
@@ -143,7 +152,8 @@ const Sidebar = () => {
               color: '#374151',
               borderRadius: '8px',
               cursor: 'pointer',
-              backgroundColor: hoveredItem === 'non-financial' ? '#f9fafb' : 'transparent'
+              backgroundColor: hoveredItem === 'non-financial' ? '#f9fafb' : 'transparent',
+              fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
             }}
             onMouseEnter={() => setHoveredItem('non-financial')}
             onMouseLeave={() => setHoveredItem(null)}>
@@ -161,7 +171,8 @@ const Sidebar = () => {
               color: '#374151',
               borderRadius: '8px',
               cursor: 'pointer',
-              backgroundColor: hoveredItem === 'financial' ? '#f9fafb' : 'transparent'
+              backgroundColor: hoveredItem === 'financial' ? '#f9fafb' : 'transparent',
+              fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
             }}
             onMouseEnter={() => setHoveredItem('financial')}
             onMouseLeave={() => setHoveredItem(null)}>
@@ -178,7 +189,8 @@ const Sidebar = () => {
             fontWeight: '600',
             color: '#242424',
             letterSpacing: '0.05em',
-            marginBottom: '8px'
+            marginBottom: '8px',
+            fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
           }}>
             Settings & Support
           </h3>
@@ -194,7 +206,8 @@ const Sidebar = () => {
               color: '#374151',
               borderRadius: '8px',
               cursor: 'pointer',
-              backgroundColor: hoveredItem === 'org-settings' ? '#f9fafb' : 'transparent'
+              backgroundColor: hoveredItem === 'org-settings' ? '#f9fafb' : 'transparent',
+              fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
             }}
             onMouseEnter={() => setHoveredItem('org-settings')}
             onMouseLeave={() => setHoveredItem(null)}>
@@ -212,7 +225,8 @@ const Sidebar = () => {
               color: '#374151',
               borderRadius: '8px',
               cursor: 'pointer',
-              backgroundColor: hoveredItem === 'help-support' ? '#f9fafb' : 'transparent'
+              backgroundColor: hoveredItem === 'help-support' ? '#f9fafb' : 'transparent',
+              fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
             }}
             onMouseEnter={() => setHoveredItem('help-support')}
             onMouseLeave={() => setHoveredItem(null)}>

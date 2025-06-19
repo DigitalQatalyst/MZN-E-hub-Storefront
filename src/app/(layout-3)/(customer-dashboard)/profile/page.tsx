@@ -310,7 +310,7 @@ export default async function Profile() {
                       strokeLinecap="round"
                     />
                   </svg>
-                  <Box 
+                  <Box
                     style={{
                       position: 'absolute',
                       top: '50%',

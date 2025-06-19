@@ -61,7 +61,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         <FlexBox alignItems="center" style={{ gap: "15px", marginRight: "-88px" }}>
           {/* Search Icon */}
           <Box className="search-icon" style={{ cursor: "pointer" }}>
-            <img src="/assets/images/logos/search.svg" alt="Search" height="24px" />
+            <img src="/assets/images/logos/search.svg" alt="Search" height="20px" />
           </Box>
  
           {/* Bookmark Icon */}

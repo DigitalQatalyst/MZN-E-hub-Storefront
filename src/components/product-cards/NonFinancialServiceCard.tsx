@@ -35,9 +35,9 @@ const CardMedia = styled(Box)(({ theme }) => ({
   width: "100%",
   maxHeight: "300px",
   cursor: "pointer",
-  overflow: "hidden",
+  // overflow: "hidden",
   position: "relative",
-  marginBottom: "16px",
+  marginBottom: "15px",
   ".product-img": {
     transition: "0.3s",
     width: "100%",
@@ -119,8 +119,8 @@ const StyledButton = styled(DefaultButton)`
 `;
 
 const StyledImage = styled(NextImage)`
-  width: 63px;
-  height: 63px;
+  width: 73px;
+  height: 73px;
   flex-shrink: 0;
   aspect-ratio: 1/1;
 `;
@@ -201,7 +201,8 @@ export default function NonFinancialServiceCard(props: NonFinancialServiceCardPr
           </EyeButton>
 
           <FavoriteButton onClick={handleFavorite}>
-            {isFavorite ? <Icon size="18px">heart-filled</Icon> : <Icon size="18px">heart</Icon>}
+          <Icon size="18px">Bookmark</Icon>
+            {/* {isFavorite ? <Icon size="18px">eye</Icon> : <Icon size="18px">Bookmark</Icon>} */}
           </FavoriteButton>
         </CardMedia>
 
@@ -209,12 +210,12 @@ export default function NonFinancialServiceCard(props: NonFinancialServiceCardPr
           <StyledParagraph data-fulltext={name}>{name}</StyledParagraph>
           <StyledH4 fontWeight={700}>{subTitle}</StyledH4>
 
-          <FlexBox justifyContent="flex-start" alignItems="center" mb="1rem">
+          {/* <FlexBox justifyContent="flex-start" alignItems="center" mb="1rem">
             <Rating value={4} color="warn" size="small" />
             <Small fontWeight={600} color="gray.500" ml=".3rem">
               ({reviews})
             </Small>
-          </FlexBox>
+          </FlexBox> */}
           <StyledH5 fontWeight={700}>{description}</StyledH5>
           <Box display="flex" alignItems="center" justifyContent="space-between" flexWrap="wrap" > {/* Replaced gap with margin for spacing */}
             <StyledButton mt={3}>

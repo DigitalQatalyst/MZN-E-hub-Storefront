@@ -17,27 +17,25 @@ const CardBox = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   width: "100%",
   minHeight: "200px",
-  height: "300px",
+  height: "260px",
   padding: "16px",
   transition: "all 0.3s",
   borderRadius: "8px",
   background: "#FFF",
-  border: `1px solid ${theme.colors.gray[100]}`,
+  border: `1px solid ${theme.colors.gray[400]}`,
   "&:hover": {
     ".product-img": {
       transform: "scale(1.1)",
     },
   },
-  overflow: "hidden",
 }));
 
 const CardMedia = styled(Box)(({ theme }) => ({
   width: "100%",
   maxHeight: "300px",
   cursor: "pointer",
-  overflow: "hidden",
   position: "relative",
-  marginBottom: "16px",
+  marginBottom: "15px", // Added to increase gap between CardMedia and Box below
   ".product-img": {
     transition: "0.3s",
     width: "100%",
@@ -119,8 +117,8 @@ const StyledButton = styled(DefaultButton)`
 `;
 
 const StyledImage = styled(NextImage)`
-  width: 63px;
-  height: 63px;
+  width: 73px;
+  height: 73px;
   flex-shrink: 0;
   aspect-ratio: 1/1;
 `;
@@ -138,23 +136,6 @@ const StyledParagraph = styled(Paragraph)`
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  position: relative;
-  &:hover::after {
-    content: attr(data-fulltext);
-    position: absolute;
-    background: #fff;
-    border: 1px solid #ccc;
-    padding: 4px 8px;
-    z-index: 10;
-    white-space: normal;
-    max-width: 250px; // Increased max-width to allow longer names to display
-    left: 0;
-    top: calc(100% + 4px); // Slightly adjusted to add spacing below title
-    box-sizing: border-box;
-    // Added to ensure hover text stays within card boundaries
-    width: fit-content;
-    min-width: 100%; // Ensures hover text is at least as wide as the card
-  }
 `;
 
 const LearnMoreWrapper = styled.div`
@@ -202,20 +183,21 @@ export default function ProductCard19(props: ProductCard19Props) {
           </EyeButton>
 
           <FavoriteButton onClick={handleFavorite}>
-            {isFavorite ? <Icon size="18px">heart-filled</Icon> : <Icon size="18px">heart</Icon>}
+          <Icon size="18px">Bookmark</Icon>
+            {/* {isFavorite ? <Icon size="18px">eye</Icon> : <Icon size="18px">Bookmark</Icon>} */}
           </FavoriteButton>
         </CardMedia>
 
         <Box textAlign="left">
-          <StyledParagraph data-fulltext={name}>{name}</StyledParagraph>
+          <StyledParagraph>{name}</StyledParagraph>
           <StyledH4 fontWeight={700}>{subTitle}</StyledH4>
 
-          <FlexBox justifyContent="flex-start" alignItems="center" mb="1rem">
+          {/* <FlexBox justifyContent="flex-start" alignItems="center" mb="1rem">
             <Rating value={4} color="warn" size="small" />
             <Small fontWeight={600} color="gray.500" ml=".3rem">
               ({reviews})
             </Small>
-          </FlexBox>
+          </FlexBox> */}
           <StyledH5 fontWeight={700}>{description}</StyledH5>
           <Box display="flex" alignItems="center" justifyContent="space-between">
             <StyledButton mt={3}>

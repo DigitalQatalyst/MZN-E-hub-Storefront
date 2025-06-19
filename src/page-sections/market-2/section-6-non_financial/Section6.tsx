@@ -5,13 +5,13 @@ import Grid from "@component/grid/Grid";
 import NavLink from "@component/nav-link";
 import { H3 } from "@component/Typography";
 import Container from "@component/Container";
-import { ProductCard19 } from "@component/product-cards";
 import { useState, useEffect } from "react";
 import client from "@lib/graphQLClient";
 import TabBar from "@component/tab-bar/TabBar";
 import Sidebar from "./side-bar/Sidebar";
 import { ShowingText } from "./styles";
 import Section2 from "../section-2/Section2";
+import NonFinancialServiceCard from "@component/product-cards/NonFinancialServiceCard";
 
 // GraphQL Query
 const GET_PRODUCTS = `
@@ -559,7 +559,7 @@ export default function Section6() {
                       boxShadow: hoveredCardId === product.id ? "0 4px 8px rgba(0, 0, 0, 0.1)" : "none",
                     }}
                   >
-                    <ProductCard19
+                    <NonFinancialServiceCard
                       id={product.id}
                       slug={product.slug}
                       name={product.name}

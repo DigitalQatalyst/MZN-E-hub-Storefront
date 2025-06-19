@@ -1,18 +1,31 @@
 import Card from "@component/Card";
 import { List, CheckboxLabel, ServiceTypeTitle, ShowingText } from "../styles";
 
+type CategoryFilterKeys =
+  | "eventsAndNetworking"
+  | "partnershipsAndOpportunities"
+  | "academyAndTraining"
+  | "operationalAdvisory"
+  | "proximityIncubators"
+  | "incentivesListing"
+  | "digitalSolutions"
+  | "exportAndTradeFacilitation"
+  | "legalComplianceAndLicensing";
+
 interface CategoriesFilters {
-  legalCompliance: {
-    regulatoryCompliance: boolean;
-    legalAdvisory: boolean;
-    businessLicensing: boolean;
-  };
-  incentivesListing: boolean;
+  eventsAndNetworking: boolean;
+  partnershipsAndOpportunities: boolean;
+  academyAndTraining: boolean;
+  operationalAdvisory: boolean;
   proximityIncubators: boolean;
+  incentivesListing: boolean;
+  digitalSolutions: boolean;
+  exportAndTradeFacilitation: boolean;
+  legalComplianceAndLicensing: boolean;
 }
 
 interface BusinessStageFilters {
-  inception: boolean;
+  conception: boolean;
   growth: boolean;
   maturity: boolean;
   restructuring: boolean;
@@ -44,7 +57,7 @@ interface SidebarProps {
   setProvidedByFilters: React.Dispatch<React.SetStateAction<ProvidedByFilters>>;
   pricingModelFilters: PricingModelFilters;
   setPricingModelFilters: React.Dispatch<React.SetStateAction<PricingModelFilters>>;
-  handleCategoriesChange: (category: string, subcategory?: string) => void;
+  handleCategoriesChange: (category: CategoryFilterKeys) => void;
   handleBusinessStageChange: (stage: keyof BusinessStageFilters) => void;
   handleProvidedByChange: (provider: keyof ProvidedByFilters) => void;
   handlePricingModelChange: (model: keyof PricingModelFilters) => void;
@@ -83,92 +96,52 @@ export default function Sidebar({
           height: "95%",
           borderRadius: "3px",
           padding: "1rem 2rem",
-          backgroundColor: "#FFFFFF"
+          backgroundColor: "#FFFFFF",
         }}
       >
         <List>
           <ServiceTypeTitle>Categories :</ServiceTypeTitle>
-          <CheckboxLabel style={{ display: 'flex', alignItems: 'center' }}>
+          <CheckboxLabel>
             <input
               type="checkbox"
-              id="legal-compliance"
-              title="Legal, Compliance & Lic..."
-              checked={
-                categoriesFilters.legalCompliance.regulatoryCompliance ||
-                categoriesFilters.legalCompliance.legalAdvisory ||
-                categoriesFilters.legalCompliance.businessLicensing
-              }
-              onChange={() => {
-                const allChecked = !(
-                  categoriesFilters.legalCompliance.regulatoryCompliance ||
-                  categoriesFilters.legalCompliance.legalAdvisory ||
-                  categoriesFilters.legalCompliance.businessLicensing
-                );
-                setCategoriesFilters((prev) => ({
-                  ...prev,
-                  legalCompliance: {
-                    regulatoryCompliance: allChecked,
-                    legalAdvisory: allChecked,
-                    businessLicensing: allChecked,
-                  },
-                }));
-              }}
+              id="events-and-networking"
+              title="Events & Networking"
+              checked={categoriesFilters.eventsAndNetworking}
+              onChange={() => handleCategoriesChange("eventsAndNetworking")}
             />
-            <label htmlFor="legal-compliance" style={{ marginRight: '0.5rem' }}>Legal, Compliance & Lic...</label>
-            <img 
-              src="/assets/images/non_financial_marketplace/chevron-down.svg" 
-              alt="dropdown" 
-              style={{ verticalAlign: 'middle' }} 
-            />
+            <label htmlFor="events-and-networking">Events & Networking</label>
           </CheckboxLabel>
-          <CheckboxLabel style={{ marginLeft: '1rem' }}>
+          <CheckboxLabel>
             <input
               type="checkbox"
-              id="regulatory-compliance"
-              title="Regulatory Compliance"
-              checked={categoriesFilters.legalCompliance.regulatoryCompliance}
-              onChange={() => handleCategoriesChange("legalCompliance", "regulatoryCompliance")}
+              id="partnerships-and-opportunities"
+              title="Partnerships & Opportunities"
+              checked={categoriesFilters.partnershipsAndOpportunities}
+              onChange={() => handleCategoriesChange("partnershipsAndOpportunities")}
             />
-            <label htmlFor="regulatory-compliance">Regulatory Compliance</label>
+            <label htmlFor="partnerships-and-opportunities">Partnerships & Opportunities</label>
           </CheckboxLabel>
-          <CheckboxLabel style={{ marginLeft: '1rem' }}>
+          <CheckboxLabel>
             <input
               type="checkbox"
-              id="legal-advisory"
-              title="Legal Advisory"
-              checked={categoriesFilters.legalCompliance.legalAdvisory}
-              onChange={() => handleCategoriesChange("legalCompliance", "legalAdvisory")}
+              id="academy-and-training"
+              title="Academy & Training"
+              checked={categoriesFilters.academyAndTraining}
+              onChange={() => handleCategoriesChange("academyAndTraining")}
             />
-            <label htmlFor="legal-advisory">Legal Advisory</label>
+            <label htmlFor="academy-and-training">Academy & Training</label>
           </CheckboxLabel>
-          <CheckboxLabel style={{ marginLeft: '1rem' }}>
+          <CheckboxLabel>
             <input
               type="checkbox"
-              id="business-licensing"
-              title="Business Licensing & Per..."
-              checked={categoriesFilters.legalCompliance.businessLicensing}
-              onChange={() => handleCategoriesChange("legalCompliance", "businessLicensing")}
+              id="operational-advisory"
+              title="Operational Advisory"
+              checked={categoriesFilters.operationalAdvisory}
+              onChange={() => handleCategoriesChange("operationalAdvisory")}
             />
-            <label htmlFor="business-licensing">Business Licensing & Per...</label>
+            <label htmlFor="operational-advisory">Operational Advisory</label>
           </CheckboxLabel>
-
-          <CheckboxLabel style={{ display: 'flex', alignItems: 'center' }}>
-            <input
-              type="checkbox"
-              id="incentives-listing"
-              title="Incentives Listing"
-              checked={categoriesFilters.incentivesListing}
-              onChange={() => handleCategoriesChange("incentivesListing")}
-            />
-            <label htmlFor="incentives-listing" style={{ marginRight: '0.5rem' }}>Incentives Listing</label>
-            <img 
-              src="/assets/images/non_financial_marketplace/chevron-down.svg" 
-              alt="dropdown" 
-              style={{ verticalAlign: 'middle' }} 
-            />
-          </CheckboxLabel>
-
-          <CheckboxLabel style={{ display: 'flex', alignItems: 'center' }}>
+          <CheckboxLabel>
             <input
               type="checkbox"
               id="proximity-incubators"
@@ -176,25 +149,60 @@ export default function Sidebar({
               checked={categoriesFilters.proximityIncubators}
               onChange={() => handleCategoriesChange("proximityIncubators")}
             />
-            <label htmlFor="proximity-incubators" style={{ marginRight: '0.5rem' }}>Proximity Incubators</label>
-            <img 
-              src="/assets/images/non_financial_marketplace/chevron-down.svg" 
-              alt="dropdown" 
-              style={{ verticalAlign: 'middle' }} 
+            <label htmlFor="proximity-incubators">Proximity Incubators</label>
+          </CheckboxLabel>
+          <CheckboxLabel>
+            <input
+              type="checkbox"
+              id="incentives-listing"
+              title="Incentives Listing"
+              checked={categoriesFilters.incentivesListing}
+              onChange={() => handleCategoriesChange("incentivesListing")}
             />
+            <label htmlFor="incentives-listing">Incentives Listing</label>
+          </CheckboxLabel>
+          <CheckboxLabel>
+            <input
+              type="checkbox"
+              id="digital-solutions"
+              title="Digital Solutions"
+              checked={categoriesFilters.digitalSolutions}
+              onChange={() => handleCategoriesChange("digitalSolutions")}
+            />
+            <label htmlFor="digital-solutions">Digital Solutions</label>
+          </CheckboxLabel>
+          <CheckboxLabel>
+            <input
+              type="checkbox"
+              id="export-and-trade-facilitation"
+              title="Export & Trade Facilitation"
+              checked={categoriesFilters.exportAndTradeFacilitation}
+              onChange={() => handleCategoriesChange("exportAndTradeFacilitation")}
+            />
+            <label htmlFor="export-and-trade-facilitation">Export & Trade Facilitation</label>
+          </CheckboxLabel>
+          <CheckboxLabel>
+            <input
+              type="checkbox"
+              id="legal-compliance-and-licensing"
+              title="Legal, Compliance & Licensing"
+              checked={categoriesFilters.legalComplianceAndLicensing}
+              onChange={() => handleCategoriesChange("legalComplianceAndLicensing")}
+            />
+            <label htmlFor="legal-compliance-and-licensing">Legal, Compliance & Licensing</label>
           </CheckboxLabel>
         </List>
 
         <List>
-          <ServiceTypeTitle>Business Stage :</ServiceTypeTitle>
+          <ServiceTypeTitle>Business Stage:</ServiceTypeTitle>
           <CheckboxLabel>
             <input
               type="checkbox"
-              id="inception"
-              checked={businessStageFilters.inception}
-              onChange={() => handleBusinessStageChange("inception")}
+              id="conception"
+              checked={businessStageFilters.conception}
+              onChange={() => handleBusinessStageChange("conception")}
             />
-            <label htmlFor="inception">Inception</label>
+            <label htmlFor="conception">Conception</label>
           </CheckboxLabel>
           <CheckboxLabel>
             <input
@@ -237,7 +245,7 @@ export default function Sidebar({
         </List>
 
         <List>
-          <ServiceTypeTitle>Provided By :</ServiceTypeTitle>
+          <ServiceTypeTitle>Provided By:</ServiceTypeTitle>
           <CheckboxLabel>
             <input
               type="checkbox"
@@ -290,7 +298,7 @@ export default function Sidebar({
         </List>
 
         <List>
-          <ServiceTypeTitle>Pricing Model :</ServiceTypeTitle>
+          <ServiceTypeTitle>Pricing Model:</ServiceTypeTitle>
           <CheckboxLabel>
             <input
               type="checkbox"
@@ -342,13 +350,13 @@ export default function Sidebar({
             <label htmlFor="government-subsidised">Government Subsidised</label>
           </CheckboxLabel>
         </List>
-        {/* Adding padding-bottom to create space at the bottom when no service is available */}
-        <div style={{ paddingBottom: '2rem' }} />
+        <div style={{ paddingBottom: "2rem" }} />
       </Card>
       {(areFiltersApplied() ? totalFilteredItems : totalItems) > 0 && (
         <ShowingText>
           Showing {(currentPage - 1) * productsPerPage + 1}-
-          {Math.min(currentPage * productsPerPage, areFiltersApplied() ? totalFilteredItems : totalItems)} of {areFiltersApplied() ? totalFilteredItems : totalItems} Services
+          {Math.min(currentPage * productsPerPage, areFiltersApplied() ? totalFilteredItems : totalItems)} of{" "}
+          {areFiltersApplied() ? totalFilteredItems : totalItems} Services
         </ShowingText>
       )}
     </>

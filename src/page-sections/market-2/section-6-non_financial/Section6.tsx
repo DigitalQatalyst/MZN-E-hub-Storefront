@@ -5,17 +5,13 @@ import Grid from "@component/grid/Grid";
 import NavLink from "@component/nav-link";
 import { H3 } from "@component/Typography";
 import Container from "@component/Container";
-import NonFinancialServiceCard from "@component/product-cards/NonFinancialServiceCard";
+import { ProductCard19 } from "@component/product-cards";
 import { useState, useEffect } from "react";
 import client from "@lib/graphQLClient";
-import TabBar from '@component/tab-bar/TabBar';
-
-
-// STYLED COMPONENTS
-import { ShowingText } from "./styles";
-
-import Section2 from "../section-2/Section2";
+import TabBar from "@component/tab-bar/TabBar";
 import Sidebar from "./side-bar/Sidebar";
+import { ShowingText } from "./styles";
+import Section2 from "../section-2/Section2";
 
 // GraphQL Query
 const GET_PRODUCTS = `
@@ -38,6 +34,7 @@ const GET_PRODUCTS = `
         }
         customFields {
           Partner
+          Cost
         }
       }
       totalItems
@@ -46,14 +43,9 @@ const GET_PRODUCTS = `
 `;
 
 interface FacetValue {
-  facet: {
-    id: string;
-    name: string;
-    code: string;
-  };
   id: string;
-  name: string;
   code: string;
+  name: string;
 }
 
 interface Product {
@@ -64,6 +56,7 @@ interface Product {
   facetValues: FacetValue[];
   customFields: {
     Partner: string;
+    Cost?: number;
   };
 }
 
@@ -79,6 +72,28 @@ interface GetProductsVariables {
   take: number;
 }
 
+type CategoryFilterKeys =
+  | "eventsAndNetworking"
+  | "partnershipsAndOpportunities"
+  | "academyAndTraining"
+  | "operationalAdvisory"
+  | "proximityIncubators"
+  | "incentivesListing"
+  | "digitalSolutions"
+  | "exportAndTradeFacilitation"
+  | "legalComplianceAndLicensing";
+
+type CategoryCodes =
+  | "events-&-networking"
+  | "partnerships-&-opportunities"
+  | "academy-&-training"
+  | "operational-advisory"
+  | "proximity-incubators"
+  | "incentives-listing"
+  | "digital-solutions"
+  | "export-&-trade-facilitation"
+  | "legal-compliance-&-licensing";
+
 export default function Section6() {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -91,19 +106,23 @@ export default function Section6() {
   const productsPerPage = 15;
 
   // State for Categories filters
-  const [categoriesFilters, setCategoriesFilters] = useState({
-    legalCompliance: {
-      regulatoryCompliance: false,
-      legalAdvisory: false,
-      businessLicensing: false,
-    },
-    incentivesListing: false,
+  const [categoriesFilters, setCategoriesFilters] = useState<{
+    [key in CategoryFilterKeys]: boolean;
+  }>({
+    eventsAndNetworking: false,
+    partnershipsAndOpportunities: false,
+    academyAndTraining: false,
+    operationalAdvisory: false,
     proximityIncubators: false,
+    incentivesListing: false,
+    digitalSolutions: false,
+    exportAndTradeFacilitation: false,
+    legalComplianceAndLicensing: false,
   });
 
   // State for Business Stage filters
   const [businessStageFilters, setBusinessStageFilters] = useState({
-    inception: false,
+    conception: false,
     growth: false,
     maturity: false,
     restructuring: false,
@@ -135,9 +154,7 @@ export default function Section6() {
   // Check if any filters are applied
   const areFiltersApplied = () => {
     return (
-      Object.values(categoriesFilters.legalCompliance).some((value) => value) ||
-      categoriesFilters.incentivesListing ||
-      categoriesFilters.proximityIncubators ||
+      Object.values(categoriesFilters).some((value) => value) ||
       Object.values(businessStageFilters).some((value) => value) ||
       Object.values(providedByFilters).some((value) => value) ||
       Object.values(pricingModelFilters).some((value) => value)
@@ -169,47 +186,65 @@ export default function Section6() {
 
           console.log("All products fetched:", allProducts.length);
 
-          // Filter for Non-Financial Services (facetValue.id: "67") only, exclude Financial Services (facetValue.id: "66")
+          // Filter for Non-Financial Services (facetValue.id: "67") and exclude financial (facetValue.id: "66")
           const nonFinancialServicesOnly = allProducts.filter((product) =>
             product.facetValues.some((fv) => fv.id === "67") &&
             !product.facetValues.some((fv) => fv.id === "66")
           );
           console.log("Filtered to Non-Financial Services only:", nonFinancialServicesOnly.length);
 
+          // Set totalItems to the count of non-financial services only
           setTotalItems(nonFinancialServicesOnly.length);
 
-          // Apply filters to non-financial services
-          const selectedCategories: string[] = [];
-          if (categoriesFilters.legalCompliance.regulatoryCompliance) selectedCategories.push("Regulatory Compliance");
-          if (categoriesFilters.legalCompliance.legalAdvisory) selectedCategories.push("Legal Advisory");
-          if (categoriesFilters.legalCompliance.businessLicensing) selectedCategories.push("Business Licensing & Per...");
-          if (categoriesFilters.incentivesListing) selectedCategories.push("Incentives Listing");
-          if (categoriesFilters.proximityIncubators) selectedCategories.push("Proximity Incubators");
+          // Apply other filters to non-financial services only
+          const selectedCategories = Object.keys(categoriesFilters)
+            .filter((key) => categoriesFilters[key as CategoryFilterKeys])
+            .map((key) => {
+              switch (key) {
+                case "eventsAndNetworking": return "events-&-networking";
+                case "partnershipsAndOpportunities": return "partnerships-&-opportunities";
+                case "academyAndTraining": return "academy-&-training";
+                case "operationalAdvisory": return "operational-advisory";
+                case "proximityIncubators": return "proximity-incubators";
+                case "incentivesListing": return "incentives-listing";
+                case "digitalSolutions": return "digital-solutions";
+                case "exportAndTradeFacilitation": return "export-&-trade-facilitation";
+                case "legalComplianceAndLicensing": return "legal-compliance-&-licensing";
+                default: return "" as CategoryCodes;
+              }
+            }) as CategoryCodes[];
           console.log("Selected Categories:", selectedCategories);
 
           const selectedStages = Object.keys(businessStageFilters)
             .filter((key) => businessStageFilters[key])
-            .map((key) => key.charAt(0).toUpperCase() + key.slice(1));
+            .map((key) => key);
           console.log("Selected Stages:", selectedStages);
 
           const selectedProviders = Object.keys(providedByFilters)
             .filter((key) => providedByFilters[key])
             .map((key) => {
-              if (key === "khalifaFund") return "Khalifa Fund";
-              if (key === "hub71") return "Hub 71";
-              if (key === "adSmeHub") return "AD SME Hub";
-              return key.charAt(0).toUpperCase() + key.slice(1);
+              switch (key) {
+                case "khalifaFund": return "khalifa-fund";
+                case "adSmeHub": return "ad-sme-hub";
+                case "hub71": return "hub71";
+                case "adgm": return "adgm";
+                case "other": return "other";
+                default: return key;
+              }
             });
           console.log("Selected Providers:", selectedProviders);
 
           const selectedPricingModels = Object.keys(pricingModelFilters)
             .filter((key) => pricingModelFilters[key])
             .map((key) => {
-              if (key === "subscriptionBased") return "Subscription-Based";
-              if (key === "payPerService") return "Pay Per Service";
-              if (key === "oneTimeFee") return "One-Time Fee";
-              if (key === "governmentSubsidised") return "Government Subsidised";
-              return key.charAt(0).toUpperCase() + key.slice(1);
+              switch (key) {
+                case "subscriptionBased": return "subscription-based";
+                case "payPerService": return "pay-per-service";
+                case "oneTimeFee": return "one-time-fee";
+                case "governmentSubsidised": return "government-subsidized";
+                case "free": return "free";
+                default: return key;
+              }
             });
           console.log("Selected Pricing Models:", selectedPricingModels);
 
@@ -221,32 +256,32 @@ export default function Section6() {
             : nonFinancialServicesOnly.filter((product) => {
                 const matchesCategory =
                   selectedCategories.length === 0 ||
-                  product.facetValues.some(
-                    (facetValue) =>
-                      facetValue.facet.code === "category" &&
-                      selectedCategories.includes(facetValue.name)
+                  product.facetValues.some((facetValue) =>
+                    selectedCategories.includes(facetValue.code as CategoryCodes)
                   );
                 const matchesStage =
                   selectedStages.length === 0 ||
-                  product.facetValues.some(
-                    (facetValue) =>
-                      facetValue.facet.code === "business-stage" &&
-                      selectedStages.includes(facetValue.name)
+                  product.facetValues.some((facetValue) =>
+                    facetValue.code && selectedStages.includes(facetValue.code)
                   );
                 const matchesProvider =
                   selectedProviders.length === 0 ||
-                  product.facetValues.some(
-                    (facetValue) =>
-                      facetValue.facet.code === "provided-by" &&
-                      selectedProviders.includes(facetValue.name)
+                  product.facetValues.some((facetValue) =>
+                    facetValue.code && selectedProviders.includes(facetValue.code)
                   );
                 const matchesPricingModel =
                   selectedPricingModels.length === 0 ||
-                  product.facetValues.some(
-                    (facetValue) =>
-                      facetValue.facet.code === "pricing-model" &&
-                      selectedPricingModels.includes(facetValue.name)
-                  );
+                  product.facetValues.some((facetValue) =>
+                    facetValue.code && selectedPricingModels.includes(facetValue.code)
+                  ) ||
+                  (selectedPricingModels.includes("one-time-fee") &&
+                    product.customFields?.Cost && product.customFields.Cost > 0);
+                console.log(`Filtering ${product.name} (id: ${product.id}):`, {
+                  matchesCategory,
+                  matchesStage,
+                  matchesProvider,
+                  matchesPricingModel,
+                });
                 return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
               });
           console.log("Final filtered products count:", filtered.length);
@@ -256,7 +291,7 @@ export default function Section6() {
 
           const startIndex = (currentPage - 1) * productsPerPage;
           const endIndex = startIndex + productsPerPage;
-          setProducts(filtered);
+          setProducts(filtered.slice(startIndex, endIndex));
           setFilteredProducts(filtered.slice(startIndex, endIndex));
         } else {
           console.log("No filters applied, fetching all non-financial services...");
@@ -277,7 +312,7 @@ export default function Section6() {
 
           console.log("All products fetched:", allProducts.length);
 
-          // Filter for Non-Financial Services (facetValue.id: "67") only, exclude Financial Services (facetValue.id: "66")
+          // Filter for Non-Financial Services (facetValue.id: "67") and exclude financial (facetValue.id: "66")
           const nonFinancialServicesOnly = allProducts.filter((product) =>
             product.facetValues.some((fv) => fv.id === "67") &&
             !product.facetValues.some((fv) => fv.id === "66")
@@ -290,7 +325,7 @@ export default function Section6() {
 
           const startIndex = (currentPage - 1) * productsPerPage;
           const endIndex = startIndex + productsPerPage;
-          setProducts(nonFinancialServicesOnly);
+          setProducts(nonFinancialServicesOnly.slice(startIndex, endIndex));
           setFilteredProducts(nonFinancialServicesOnly.slice(startIndex, endIndex));
         }
       } catch (error) {
@@ -306,100 +341,99 @@ export default function Section6() {
 
   // Apply filters whenever products, categoriesFilters, businessStageFilters, providedByFilters, or pricingModelFilters change
   useEffect(() => {
-    const selectedCategories: string[] = [];
-    if (categoriesFilters.legalCompliance.regulatoryCompliance) selectedCategories.push("Regulatory Compliance");
-    if (categoriesFilters.legalCompliance.legalAdvisory) selectedCategories.push("Legal Advisory");
-    if (categoriesFilters.legalCompliance.businessLicensing) selectedCategories.push("Business Licensing & Per...");
-    if (categoriesFilters.incentivesListing) selectedCategories.push("Incentives Listing");
-    if (categoriesFilters.proximityIncubators) selectedCategories.push("Proximity Incubators");
-
+    const selectedCategories = Object.keys(categoriesFilters)
+      .filter((key) => categoriesFilters[key as CategoryFilterKeys])
+      .map((key) => {
+        switch (key) {
+          case "eventsAndNetworking": return "events-&-networking";
+          case "partnershipsAndOpportunities": return "partnerships-&-opportunities";
+          case "academyAndTraining": return "academy-&-training";
+          case "operationalAdvisory": return "operational-advisory";
+          case "proximityIncubators": return "proximity-incubators";
+          case "incentivesListing": return "incentives-listing";
+          case "digitalSolutions": return "digital-solutions";
+          case "exportAndTradeFacilitation": return "export-&-trade-facilitation";
+          case "legalComplianceAndLicensing": return "legal-compliance-&-licensing";
+          default: return "" as CategoryCodes;
+        }
+      }) as CategoryCodes[];
     const selectedStages = Object.keys(businessStageFilters)
       .filter((key) => businessStageFilters[key])
-      .map((key) => key.charAt(0).toUpperCase() + key.slice(1));
-
+      .map((key) => key);
     const selectedProviders = Object.keys(providedByFilters)
       .filter((key) => providedByFilters[key])
       .map((key) => {
-        if (key === "khalifaFund") return "Khalifa Fund";
-        if (key === "hub71") return "Hub 71";
-        if (key === "adSmeHub") return "AD SME Hub";
-        return key.charAt(0).toUpperCase() + key.slice(1);
+        switch (key) {
+          case "khalifaFund": return "khalifa-fund";
+          case "adSmeHub": return "ad-sme-hub";
+          case "hub71": return "hub71";
+          case "adgm": return "adgm";
+          case "other": return "other";
+          default: return key;
+        }
       });
-
     const selectedPricingModels = Object.keys(pricingModelFilters)
       .filter((key) => pricingModelFilters[key])
       .map((key) => {
-        if (key === "subscriptionBased") return "Subscription-Based";
-        if (key === "payPerService") return "Pay Per Service";
-        if (key === "oneTimeFee") return "One-Time Fee";
-        if (key === "governmentSubsidised") return "Government Subsidised";
-        return key.charAt(0).toUpperCase() + key.slice(1);
+        switch (key) {
+          case "subscriptionBased": return "subscription-based";
+          case "payPerService": return "pay-per-service";
+          case "oneTimeFee": return "one-time-fee";
+          case "governmentSubsidised": return "government-subsidized";
+          case "free": return "free";
+          default: return key;
+        }
       });
 
-    let filtered: Product[] = [];
     if (
       selectedCategories.length === 0 &&
       selectedStages.length === 0 &&
       selectedProviders.length === 0 &&
       selectedPricingModels.length === 0
     ) {
-      filtered = allFilteredProducts;
+      setFilteredProducts(products);
     } else {
-      filtered = allFilteredProducts.filter((product) => {
+      const filtered = products.filter((product) => {
         const matchesCategory =
           selectedCategories.length === 0 ||
-          product.facetValues.some(
-            (facetValue) =>
-              facetValue.facet.code === "category" &&
-              selectedCategories.includes(facetValue.name)
+          product.facetValues.some((facetValue) =>
+            selectedCategories.includes(facetValue.code as CategoryCodes)
           );
         const matchesStage =
           selectedStages.length === 0 ||
-          product.facetValues.some(
-            (facetValue) =>
-              facetValue.facet.code === "business-stage" &&
-              selectedStages.includes(facetValue.name)
+          product.facetValues.some((facetValue) =>
+            facetValue.code && selectedStages.includes(facetValue.code)
           );
         const matchesProvider =
           selectedProviders.length === 0 ||
-          product.facetValues.some(
-            (facetValue) =>
-              facetValue.facet.code === "provided-by" &&
-              selectedProviders.includes(facetValue.name)
+          product.facetValues.some((facetValue) =>
+            facetValue.code && selectedProviders.includes(facetValue.code)
           );
         const matchesPricingModel =
           selectedPricingModels.length === 0 ||
-          product.facetValues.some(
-            (facetValue) =>
-              facetValue.facet.code === "pricing-model" &&
-              selectedPricingModels.includes(facetValue.name)
-          );
+          product.facetValues.some((facetValue) =>
+            facetValue.code && selectedPricingModels.includes(facetValue.code)
+          ) ||
+          (selectedPricingModels.includes("one-time-fee") &&
+            product.customFields?.Cost && product.customFields.Cost > 0);
+        console.log(`Filtering ${product.name} (id: ${product.id}):`, {
+          matchesCategory,
+          matchesStage,
+          matchesProvider,
+          matchesPricingModel,
+        });
         return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
       });
+      setFilteredProducts(filtered);
     }
+  }, [products, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters]);
 
-    setTotalFilteredItems(filtered.length);
-    const startIndex = (currentPage - 1) * productsPerPage;
-    const endIndex = startIndex + productsPerPage;
-    setFilteredProducts(filtered.slice(startIndex, endIndex));
-  }, [allFilteredProducts, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters, currentPage]);
-
-  // Handle checkbox changes for Categories filters
-  const handleCategoriesChange = (category: string, subcategory?: string) => {
-    if (subcategory) {
-      setCategoriesFilters((prev) => ({
-        ...prev,
-        [category]: {
-          ...prev[category],
-          [subcategory]: !prev[category][subcategory],
-        },
-      }));
-    } else {
-      setCategoriesFilters((prev) => ({
-        ...prev,
-        [category]: !prev[category],
-      }));
-    }
+  // Handle checkbox changes for Categories
+  const handleCategoriesChange = (category: CategoryFilterKeys) => {
+    setCategoriesFilters((prev) => ({
+      ...prev,
+      [category]: !prev[category],
+    }));
     setCurrentPage(1);
   };
 
@@ -447,12 +481,9 @@ export default function Section6() {
   };
 
   return (
-    <Container pt="4rem" style={{ marginTop: '-45px' }}>
+    <Container pt="4rem" style={{ marginTop: "-45px" }}>
       <TabBar />
-      <Section2 
-        resultsCount={areFiltersApplied() ? totalFilteredItems : totalItems} 
-        style={{ marginBottom: "2rem" }}
-      />
+      <Section2 resultsCount={areFiltersApplied() ? totalFilteredItems : totalItems} style={{ marginBottom: "2rem" }} />
       <Grid container spacing={3}>
         <Grid item md={3} xs={12}>
           <Sidebar
@@ -528,7 +559,7 @@ export default function Section6() {
                       boxShadow: hoveredCardId === product.id ? "0 4px 8px rgba(0, 0, 0, 0.1)" : "none",
                     }}
                   >
-                    <NonFinancialServiceCard
+                    <ProductCard19
                       id={product.id}
                       slug={product.slug}
                       name={product.name}
@@ -582,6 +613,7 @@ export default function Section6() {
                     backgroundColor: currentPage === index + 1 ? "#002180" : "transparent",
                     color: currentPage === index + 1 ? "#fff" : "#002180",
                     cursor: "pointer",
+                    display: "inline-block",
                   }}
                 >
                   {index + 1}

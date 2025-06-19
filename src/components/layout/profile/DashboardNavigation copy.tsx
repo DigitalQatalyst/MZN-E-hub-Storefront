@@ -38,18 +38,28 @@ const Sidebar = () => {
             alignItems: 'center',
             gap: '8px'
           }}>
+            <img 
+              src="/assets/images/sidebar/futuretech-logo.png" 
+              alt="FutureTech LLC Logo"
+              style={{
+                width: '24px',
+                height: '24px',
+                borderRadius: '4px',
+                objectFit: 'cover'
+              }}
+            />
             <span style={{
               fontWeight: '500',
               color: '#111827'
             }}>FutureTech LLC</span>
           </div>
-          <ChevronDown style={{ width: '16px', height: '16px', color: '#242424' }} />
+          <ChevronDown style={{ width: '16px', height: '16px', color: '#6b7280' }} />
         </div>
       </div>
 
       {/* Navigation */}
       <div style={{ flex: 1, paddingTop: '16px', paddingBottom: '16px' }}>
-        {/* Overview - Active */}
+        {/* Dashboard - Active */}
         <div style={{ paddingLeft: '16px', paddingRight: '16px', marginBottom: '24px' }}>
           <div style={{
             display: 'flex',
@@ -61,11 +71,11 @@ const Sidebar = () => {
             paddingBottom: '8px',
             backgroundColor: '#0030E3',
             color: 'white',
-            borderRadius: '4px',
+            borderRadius: '8px',
             cursor: 'pointer'
           }}>
-            <img src="/images/dashboard-customize-light.svg" alt="Search" height="20px" />
-            <span style={{ fontWeight: '500' }}>Overview</span>
+            <LayoutDashboard style={{ width: '20px', height: '20px' }} />
+            <span style={{ fontWeight: '500' }}>Dashboard</span>
           </div>
         </div>
 
@@ -74,11 +84,12 @@ const Sidebar = () => {
           <h3 style={{
             fontSize: '12px',
             fontWeight: '600',
-            color: '#242424',
+            color: '#6b7280',
+            textTransform: 'uppercase',
             letterSpacing: '0.05em',
             marginBottom: '8px'
           }}>
-            Essentials
+            PROFILE DATA
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
             <div style={{
@@ -96,8 +107,8 @@ const Sidebar = () => {
             }}
             onMouseEnter={() => setHoveredItem('firm-info')}
             onMouseLeave={() => setHoveredItem(null)}>
-              <img src="/images/vertical-shades-closed.svg" alt="Search" height="20px" color='#151515' />
-              <span>Profile</span>
+              <Building2 style={{ width: '20px', height: '20px', color: '#6b7280' }} />
+              <span>Firm Information</span>
             </div>
             <div style={{
               display: 'flex',
@@ -114,8 +125,8 @@ const Sidebar = () => {
             }}
             onMouseEnter={() => setHoveredItem('firm-wallet')}
             onMouseLeave={() => setHoveredItem(null)}>
-              <img src="/images/home-storage.svg" alt="Search" height="20px" color='#151515' />
-              <span>Documents</span>
+              <Wallet style={{ width: '20px', height: '20px', color: '#6b7280' }} />
+              <span>Firm Wallet</span>
             </div>
           </div>
         </div>
@@ -125,11 +136,12 @@ const Sidebar = () => {
           <h3 style={{
             fontSize: '12px',
             fontWeight: '600',
-            color: '#242424',
+            color: '#6b7280',
+            textTransform: 'uppercase',
             letterSpacing: '0.05em',
             marginBottom: '8px'
           }}>
-            Transactions
+            TRANSACTION DATA
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
             <div style={{
@@ -147,8 +159,8 @@ const Sidebar = () => {
             }}
             onMouseEnter={() => setHoveredItem('non-financial')}
             onMouseLeave={() => setHoveredItem(null)}>
-              <img src="/images/overview.svg" alt="Search" height="20px" color='#151515' />
-              <span>Requests</span>
+              <FileText style={{ width: '20px', height: '20px', color: '#6b7280' }} />
+              <span>Non-Financial</span>
             </div>
             <div style={{
               display: 'flex',
@@ -165,8 +177,8 @@ const Sidebar = () => {
             }}
             onMouseEnter={() => setHoveredItem('financial')}
             onMouseLeave={() => setHoveredItem(null)}>
-              <img src="/images/analytics.svg" alt="Search" height="20px" color='#151515' />
-              <span>Insights</span>
+              <DollarSign style={{ width: '20px', height: '20px', color: '#6b7280' }} />
+              <span>Financial</span>
             </div>
           </div>
         </div>
@@ -176,11 +188,12 @@ const Sidebar = () => {
           <h3 style={{
             fontSize: '12px',
             fontWeight: '600',
-            color: '#242424',
+            color: '#6b7280',
+            textTransform: 'uppercase',
             letterSpacing: '0.05em',
             marginBottom: '8px'
           }}>
-            Settings & Support
+            SETTINGS & SUPPORT
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
             <div style={{
@@ -198,8 +211,8 @@ const Sidebar = () => {
             }}
             onMouseEnter={() => setHoveredItem('org-settings')}
             onMouseLeave={() => setHoveredItem(null)}>
-              <img src="/images/settings.svg" alt="Search" height="20px" color='#151515' />
-              <span>Settings</span>
+              <Settings style={{ width: '20px', height: '20px', color: '#6b7280' }} />
+              <span>Organisation Settings</span>
             </div>
             <div style={{
               display: 'flex',
@@ -216,8 +229,8 @@ const Sidebar = () => {
             }}
             onMouseEnter={() => setHoveredItem('help-support')}
             onMouseLeave={() => setHoveredItem(null)}>
-              <img src="/images/contact-support.svg" alt="Search" height="20px" color='#151515' />
-              <span>Support</span>
+              <HelpCircle style={{ width: '20px', height: '20px', color: '#6b7280' }} />
+              <span>Help & Support</span>
             </div>
           </div>
         </div>

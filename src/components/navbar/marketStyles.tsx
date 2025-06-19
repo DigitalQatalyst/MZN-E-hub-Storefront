@@ -4,8 +4,11 @@ import styled from "styled-components";
 const StyledNavbar = styled.div`
   position: relative;
   height: 76px;
-  background: linear-gradient(90deg, #0030E3 0%, #0030E1 11.79%, #002EDC 21.38%, #002DD3 29.12%, #002AC8 35.34%, #0027BA 40.37%, #0024AA 44.56%, #002099 48.24%, #001C86 51.76%, #001872 55.44%, #00145E 59.63%, #00104A 64.66%, #000B36 70.88%, #000723 78.62%, #000411 88.21%, #000000 100%);
-
+  background: var(--MZN-Gradient-Style, linear-gradient(90deg, 
+    #01E5D1 0%, #02E4D1 8.12%, #04E2D2 14.47%, #07DFD3 19.42%, 
+    #0CDAD5 23.32%, #12D5D7 26.54%, #18CEDA 29.42%, #20C7DD 32.34%, 
+    #29BEE0 35.66%, #33B5E4 39.72%, #3DABE8 44.89%, #48A0EC 51.54%, 
+    #5395F1 60.01%, #6089F5 70.67%, #6C7DFA 83.88%, #7970FF 100%));
   
   backdrop-filter: blur(6px);
   box-shadow: ${getTheme("shadows.regular")};

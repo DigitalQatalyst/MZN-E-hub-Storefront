@@ -36,7 +36,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
  
         {/* Categories Section */}
         <Categories open={navListOpen}>
-          <Button width="320px" height="40px" bg="body.default" variant="text" marginRight={400} borderRadius={6}>
+          <Button width="320px" height="40px" bg="body.default" variant="text" marginRight={550} borderRadius={6}>
             <img src="/images/explore.svg" alt="Explore" />
             <Typography
               mr="150px"

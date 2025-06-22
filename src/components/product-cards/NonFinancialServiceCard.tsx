@@ -240,7 +240,7 @@ export default function NonFinancialServiceCard(props: NonFinancialServiceCardPr
       <ProductQuickView
         open={openDialog}
         onClose={toggleDialog}
-        product={{ id, images, subTitle, description, slug, title: name }}
+        product={{ id, images, subTitle, description, slug, title: name, title1: name }}
       />
     </Fragment>
   );

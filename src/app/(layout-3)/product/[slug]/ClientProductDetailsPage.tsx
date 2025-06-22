@@ -107,7 +107,6 @@ export default function ClientProductDetailsPage({ slug }: { slug: string }) {
             id: response.product.id,
             slug: response.product.slug,
             title: response.product.name || "",
-            title1: response.product.name || "", // Add this line to satisfy Product type
             name: response.product.name || "",
             subTitle: customFields.Partner || "",
             description: response.product.description || "",

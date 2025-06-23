@@ -21,14 +21,14 @@ export default async function Profile() {
 
   const infoList = [
     {
-      count: "06", // Total count
+      count: "06",
       subtitle: "Funding Requests",
       approved: 3,
       pending: 2,
       declined: 1,
     },
     {
-      count: "04", // Total count
+      count: "04",
       subtitle: "Active Services",
       grants: 3,
       marketAccess: 1,

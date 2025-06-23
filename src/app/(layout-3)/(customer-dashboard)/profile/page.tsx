@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Fragment } from "react";
 import { format } from "date-fns";
@@ -33,7 +33,7 @@ export default async function Profile() {
       grants: 3,
       marketAccess: 1,
     },
-  
+
   ];
 
   return (
@@ -57,7 +57,7 @@ export default async function Profile() {
 
                     <FlexBox alignItems="center">
                       <Typography fontSize="14px" color="text.hint">
-                      TL-1234567-UAE
+                        TL-1234567-UAE
                       </Typography>
 
                       {/* <Typography ml="4px" fontSize="14px" color="primary.main">
@@ -97,35 +97,35 @@ export default async function Profile() {
 
                     {item.approved !== undefined && (
                       <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '10px' }}>
-                      <Small color="text.muted" textAlign="center">
-                        Approved: {item.approved}
-                      </Small>
-                      <Small color="text.muted" textAlign="center">
-                        Pending: {item.pending}
-                      </Small>
-                      <Small color="text.muted" textAlign="center">
-                        Declined: {item.declined}
-                      </Small>
-                    </div>
-                  )}
-                
-                  {item.grants !== undefined && (
-                    <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '10px' }}>
-                      <Small color="text.muted" textAlign="center">
-                        Grants: {item.grants}
-                      </Small>
-                      <Small color="text.muted" textAlign="center">
-                        Market Access: {item.marketAccess}
-                      </Small>
-                    </div>
-                  )}
-                </FlexBox>
+                        <Small color="text.muted" textAlign="center">
+                          Approved: {item.approved}
+                        </Small>
+                        <Small color="text.muted" textAlign="center">
+                          Pending: {item.pending}
+                        </Small>
+                        <Small color="text.muted" textAlign="center">
+                          Declined: {item.declined}
+                        </Small>
+                      </div>
+                    )}
+
+                    {item.grants !== undefined && (
+                      <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '10px' }}>
+                        <Small color="text.muted" textAlign="center">
+                          Grants: {item.grants}
+                        </Small>
+                        <Small color="text.muted" textAlign="center">
+                          Market Access: {item.marketAccess}
+                        </Small>
+                      </div>
+                    )}
+                  </FlexBox>
                 </Grid>
               ))}
             </Grid>
           </Grid>
 
-          
+
         </Grid>
       </Box>
 

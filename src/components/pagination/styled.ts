@@ -25,7 +25,6 @@ export const StyledPagination = styled.div`
         border-radius: 5px;
         outline: none;
         border: 1px solid transparent;
-        border-radius: 50%;
         @media only screen and (max-width: 450px) {
           margin: 4px;
         }

@@ -33,7 +33,6 @@ export default function Pagination({
       padding="6px"
       color="primary"
       overflow="hidden"
-      borderRadius="50%"
       className="control-button">
       <Icon defaultcolor="currentColor" variant="small">
         chevron-left
@@ -47,7 +46,6 @@ export default function Pagination({
       padding="6px"
       color="primary"
       overflow="hidden"
-      borderRadius="50%"
       className="control-button">
       <Icon defaultcolor="currentColor" variant="small">
         chevron-right
@@ -74,7 +72,7 @@ export default function Pagination({
         onPageChange={handlePageChange}
         pageRangeDisplayed={pageRangeDisplayed}
         marginPagesDisplayed={marginPagesDisplayed}
-        // subContainerClassName="pages pagination"
+      // subContainerClassName="pages pagination"
       />
     </StyledPagination>
   );

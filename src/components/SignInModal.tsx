@@ -81,16 +81,16 @@ const SignInModal = () => {
               background: "#F9FAFB"
             }}
           />
-          <Button style={{ width: "100%", height: 44, fontWeight: 600, fontSize: 16, background: "#2563EB", marginBottom: 18 }} variant="contained" color="primary">
+          <Button style={{ width: "100%", height: 44, fontWeight: 500, fontSize: 16, background: "#0030E3", marginBottom: 18 }} variant="contained" color="primary">
             Sign in with email
           </Button>
           <Box style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
-            <Typography style={{ fontSize: 14, color: "#2563EB", fontWeight: 500, cursor: "pointer" }}>
+            <Typography style={{ fontSize: 14, color: "#002180", fontWeight: 500, cursor: "pointer" }}>
               Forgot password?
             </Typography>
-            <Typography style={{ fontSize: 14, color: "#6B7280" }}>
+            <Typography style={{ fontSize: 14, color: "#000" }}>
               Don't have an account?{' '}
-              <span style={{ color: "#2563EB", fontWeight: 600, cursor: "pointer" }} onClick={() => open("signup")}>Sign Up</span>
+              <span style={{ color: "#002180", fontWeight: 600, cursor: "pointer" }} onClick={() => open("signup")}>Sign Up</span>
             </Typography>
           </Box>
           <Box style={{ display: "flex", alignItems: "center", margin: "18px 0 18px 0" }}>

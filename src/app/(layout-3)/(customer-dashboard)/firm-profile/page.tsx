@@ -62,7 +62,6 @@ export default function FirmProfile() {
                     variant="contained"
                     size="small"
                     background-color="#0030E3"
-                    // color="fff"
                     sx={{
                       textTransform: "none",
                       fontWeight: 500,

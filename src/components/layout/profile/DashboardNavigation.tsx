@@ -1,18 +1,78 @@
 "use client"
 import React, { useState } from 'react';
-import { 
-  LayoutDashboard, 
-  Building2, 
-  Wallet, 
-  FileText, 
-  DollarSign, 
-  Settings, 
-  HelpCircle,
-  ChevronDown 
-} from 'lucide-react';
+import { useRouter, usePathname } from 'next/navigation';
+import { ChevronDown } from 'lucide-react';
+
+interface NavItem {
+  id: string;
+  label: string;
+  icon: string;
+  route: string;
+}
 
 const Sidebar = () => {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const essentialItems: NavItem[] = [
+    { id: 'profile', label: 'Profile', icon: '/images/vertical-shades-closed.svg', route: '/firm-profile' },
+    { id: 'documents', label: 'Documents', icon: '/images/home-storage.svg', route: '/#' },
+  ];
+
+  const transactionItems: NavItem[] = [
+    { id: 'requests', label: 'Requests', icon: '/images/overview.svg', route: '/#' },
+    { id: 'insights', label: 'Insights', icon: '/images/analytics.svg', route: '/#' },
+  ];
+
+  const settingsItems: NavItem[] = [
+    { id: 'settings', label: 'Settings', icon: '/images/settings.svg', route: '/#' },
+    { id: 'support', label: 'Support', icon: '/images/contact-support.svg', route: '/#' },
+  ];
+
+  const handleNavigation = (route: string) => {
+    router.push(route);
+  };
+
+  const isActive = (route: string) => pathname === route;
+
+  const renderNavItem = (item: NavItem) => {
+    const active = isActive(item.route);
+    
+    return (
+      <div
+        key={item.id}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          paddingLeft: '12px',
+          paddingRight: '12px',
+          paddingTop: '8px',
+          paddingBottom: '8px',
+          backgroundColor: active ? '#0030E3' : hoveredItem === item.id ? '#f9fafb' : 'transparent',
+          color: active ? 'white' : '#374151',
+          borderRadius: '8px',
+          cursor: 'pointer',
+          fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
+        }}
+        onMouseEnter={() => setHoveredItem(item.id)}
+        onMouseLeave={() => setHoveredItem(null)}
+        onClick={() => handleNavigation(item.route)}
+      >
+        <img 
+          src={item.icon} 
+          alt={item.label} 
+          height="20px"
+          style={{
+            filter: active ? 'brightness(0) invert(1)' : 'none'
+          }}
+        />
+        <span style={{ fontWeight: '500' }}>{item.label}</span>
+      </div>
+    );
+  };
+
   return (
     <div style={{
       width: '256px',
@@ -51,7 +111,7 @@ const Sidebar = () => {
 
       {/* Navigation */}
       <div style={{ flex: 1, paddingTop: '16px', paddingBottom: '16px' }}>
-        {/* Overview - Active */}
+        {/* Overview - Dashboard */}
         <div style={{ paddingLeft: '16px', paddingRight: '16px', marginBottom: '24px' }}>
           <div style={{
             display: 'flex',
@@ -61,12 +121,23 @@ const Sidebar = () => {
             paddingRight: '12px',
             paddingTop: '8px',
             paddingBottom: '8px',
-            backgroundColor: '#0030E3',
-            color: 'white',
+            backgroundColor: isActive('/dashboard') ? '#0030E3' : hoveredItem === 'overview' ? '#f9fafb' : 'transparent',
+            color: isActive('/dashboard') ? 'white' : '#374151',
             borderRadius: '4px',
-            cursor: 'pointer'
-          }}>
-            <img src="/images/dashboard-customize-light.svg" alt="Search" height="20px" />
+            cursor: 'pointer',
+            fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
+          }}
+          onMouseEnter={() => setHoveredItem('overview')}
+          onMouseLeave={() => setHoveredItem(null)}
+          onClick={() => handleNavigation('/dashboard')}>
+            <img 
+              src="/images/dashboard-customize-light.svg" 
+              alt="Dashboard" 
+              height="20px" 
+              style={{
+                filter: isActive('/dashboard') ? 'brightness(0) invert(1)' : 'brightness(0) opacity(0.6)'
+              }}
+            />
             <span style={{ 
               fontWeight: '500',
               fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
@@ -74,7 +145,7 @@ const Sidebar = () => {
           </div>
         </div>
 
-        {/* Profile Data Section */}
+        {/* Essentials Section */}
         <div style={{ paddingLeft: '16px', paddingRight: '16px', marginBottom: '16px' }}>
           <h3 style={{
             fontSize: '12px',
@@ -87,48 +158,11 @@ const Sidebar = () => {
             Essentials
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              paddingLeft: '12px',
-              paddingRight: '12px',
-              paddingTop: '8px',
-              paddingBottom: '8px',
-              color: '#374151',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              backgroundColor: hoveredItem === 'firm-info' ? '#f9fafb' : 'transparent',
-              fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
-            }}
-            onMouseEnter={() => setHoveredItem('firm-info')}
-            onMouseLeave={() => setHoveredItem(null)}>
-              <img src="/images/vertical-shades-closed.svg" alt="Search" height="20px" color='#151515' />
-              <span>Profile</span>
-            </div>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              paddingLeft: '12px',
-              paddingRight: '12px',
-              paddingTop: '8px',
-              paddingBottom: '8px',
-              color: '#374151',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              backgroundColor: hoveredItem === 'firm-wallet' ? '#f9fafb' : 'transparent',
-              fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
-            }}
-            onMouseEnter={() => setHoveredItem('firm-wallet')}
-            onMouseLeave={() => setHoveredItem(null)}>
-              <img src="/images/home-storage.svg" alt="Search" height="20px" color='#151515' />
-              <span>Documents</span>
-            </div>
+            {essentialItems.map(renderNavItem)}
           </div>
         </div>
 
-        {/* Transaction Data Section */}
+        {/* Transactions Section */}
         <div style={{ paddingLeft: '16px', paddingRight: '16px', marginBottom: '16px' }}>
           <h3 style={{
             fontSize: '12px',
@@ -141,44 +175,7 @@ const Sidebar = () => {
             Transactions
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              paddingLeft: '12px',
-              paddingRight: '12px',
-              paddingTop: '8px',
-              paddingBottom: '8px',
-              color: '#374151',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              backgroundColor: hoveredItem === 'non-financial' ? '#f9fafb' : 'transparent',
-              fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
-            }}
-            onMouseEnter={() => setHoveredItem('non-financial')}
-            onMouseLeave={() => setHoveredItem(null)}>
-              <img src="/images/overview.svg" alt="Search" height="20px" color='#151515' />
-              <span>Requests</span>
-            </div>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              paddingLeft: '12px',
-              paddingRight: '12px',
-              paddingTop: '8px',
-              paddingBottom: '8px',
-              color: '#374151',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              backgroundColor: hoveredItem === 'financial' ? '#f9fafb' : 'transparent',
-              fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
-            }}
-            onMouseEnter={() => setHoveredItem('financial')}
-            onMouseLeave={() => setHoveredItem(null)}>
-              <img src="/images/analytics.svg" alt="Search" height="20px" color='#151515' />
-              <span>Insights</span>
-            </div>
+            {transactionItems.map(renderNavItem)}
           </div>
         </div>
 
@@ -195,44 +192,7 @@ const Sidebar = () => {
             Settings & Support
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              paddingLeft: '12px',
-              paddingRight: '12px',
-              paddingTop: '8px',
-              paddingBottom: '8px',
-              color: '#374151',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              backgroundColor: hoveredItem === 'org-settings' ? '#f9fafb' : 'transparent',
-              fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
-            }}
-            onMouseEnter={() => setHoveredItem('org-settings')}
-            onMouseLeave={() => setHoveredItem(null)}>
-              <img src="/images/settings.svg" alt="Search" height="20px" color='#151515' />
-              <span>Settings</span>
-            </div>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              paddingLeft: '12px',
-              paddingRight: '12px',
-              paddingTop: '8px',
-              paddingBottom: '8px',
-              color: '#374151',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              backgroundColor: hoveredItem === 'help-support' ? '#f9fafb' : 'transparent',
-              fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
-            }}
-            onMouseEnter={() => setHoveredItem('help-support')}
-            onMouseLeave={() => setHoveredItem(null)}>
-              <img src="/images/contact-support.svg" alt="Search" height="20px" color='#151515' />
-              <span>Support</span>
-            </div>
+            {settingsItems.map(renderNavItem)}
           </div>
         </div>
       </div>

@@ -20,7 +20,6 @@ export const metadata: Metadata = {
   keywords: ["e-commerce", "e-commerce template", "next.js", "react", "bonik"]
 };
  
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">

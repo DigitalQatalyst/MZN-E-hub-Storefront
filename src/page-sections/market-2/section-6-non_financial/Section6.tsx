@@ -5,15 +5,14 @@ import Grid from "@component/grid/Grid";
 import NavLink from "@component/nav-link";
 import { H3 } from "@component/Typography";
 import Container from "@component/Container";
-import { ProductCard19 } from "@component/product-cards";
 import { useState, useEffect } from "react";
 import client from "@lib/graphQLClient";
-import TabBar from '@component/tab-bar/TabBar';
-
-// STYLED COMPONENTS
-import { List, ListItem, DropdownIcon, DropdownText, CheckboxLabel, ServiceTypeTitle, ShowingText } from "./styles";
-
+import TabBar from "@component/tab-bar/TabBar";
+import Sidebar from "./side-bar/Sidebar";
+import { ShowingText } from "./styles";
 import Section2 from "../section-2/Section2";
+import NonFinancialServiceCard from "@component/product-cards/NonFinancialServiceCard";
+
 // GraphQL Query
 const GET_PRODUCTS = `
   query GetProducts($skip: Int!, $take: Int!) {
@@ -34,7 +33,8 @@ const GET_PRODUCTS = `
           code
         }
         customFields {
-          partner
+          Partner
+          Cost
         }
       }
       totalItems
@@ -43,14 +43,9 @@ const GET_PRODUCTS = `
 `;
 
 interface FacetValue {
-  facet: {
-    id: string;
-    name: string;
-    code: string;
-  };
   id: string;
-  name: string;
   code: string;
+  name: string;
 }
 
 interface Product {
@@ -60,7 +55,8 @@ interface Product {
   description: string;
   facetValues: FacetValue[];
   customFields: {
-    partner: string;
+    Partner: string;
+    Cost?: number;
   };
 }
 
@@ -76,6 +72,28 @@ interface GetProductsVariables {
   take: number;
 }
 
+type CategoryFilterKeys =
+  | "eventsAndNetworking"
+  | "partnershipsAndOpportunities"
+  | "academyAndTraining"
+  | "operationalAdvisory"
+  | "proximityIncubators"
+  | "incentivesListing"
+  | "digitalSolutions"
+  | "exportAndTradeFacilitation"
+  | "legalComplianceAndLicensing";
+
+type CategoryCodes =
+  | "events-&-networking"
+  | "partnerships-&-opportunities"
+  | "academy-&-training"
+  | "operational-advisory"
+  | "proximity-incubators"
+  | "incentives-listing"
+  | "digital-solutions"
+  | "export-&-trade-facilitation"
+  | "legal-compliance-&-licensing";
+
 export default function Section6() {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -84,22 +102,27 @@ export default function Section6() {
   const [totalItems, setTotalItems] = useState(0);
   const [totalFilteredItems, setTotalFilteredItems] = useState(0);
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
   const productsPerPage = 15;
 
   // State for Categories filters
-  const [categoriesFilters, setCategoriesFilters] = useState({
-    legalCompliance: {
-      regulatoryCompliance: false,
-      legalAdvisory: false,
-      businessLicensing: false,
-    },
-    incentivesListing: false,
+  const [categoriesFilters, setCategoriesFilters] = useState<{
+    [key in CategoryFilterKeys]: boolean;
+  }>({
+    eventsAndNetworking: false,
+    partnershipsAndOpportunities: false,
+    academyAndTraining: false,
+    operationalAdvisory: false,
     proximityIncubators: false,
+    incentivesListing: false,
+    digitalSolutions: false,
+    exportAndTradeFacilitation: false,
+    legalComplianceAndLicensing: false,
   });
 
   // State for Business Stage filters
   const [businessStageFilters, setBusinessStageFilters] = useState({
-    inception: false,
+    conception: false,
     growth: false,
     maturity: false,
     restructuring: false,
@@ -131,9 +154,7 @@ export default function Section6() {
   // Check if any filters are applied
   const areFiltersApplied = () => {
     return (
-      Object.values(categoriesFilters.legalCompliance).some((value) => value) ||
-      categoriesFilters.incentivesListing ||
-      categoriesFilters.proximityIncubators ||
+      Object.values(categoriesFilters).some((value) => value) ||
       Object.values(businessStageFilters).some((value) => value) ||
       Object.values(providedByFilters).some((value) => value) ||
       Object.values(pricingModelFilters).some((value) => value)
@@ -143,10 +164,11 @@ export default function Section6() {
   // Fetch products data on component mount or page change
   useEffect(() => {
     const fetchData = async () => {
-      console.log("Fetching data from GraphQL...");
+      setLoading(true);
+      console.log("Fetching data from GraphQL... Current Page:", currentPage, "Skip:", (currentPage - 1) * productsPerPage, "Take:", productsPerPage);
       try {
         if (areFiltersApplied()) {
-          // Fetch all products for filtering
+          console.log("Filters are applied, fetching all products for filtering...");
           const allProducts: Product[] = [];
           let currentSkip = 0;
           let total = 0;
@@ -156,105 +178,161 @@ export default function Section6() {
               skip: currentSkip,
               take: productsPerPage,
             });
+            console.log("Fetched batch of products:", data.products.items.length, "Total Items:", data.products.totalItems);
             allProducts.push(...data.products.items);
             total = data.products.totalItems;
             currentSkip += productsPerPage;
           } while (currentSkip < total);
 
-          setTotalItems(total);
+          console.log("All products fetched:", allProducts.length);
 
-          // Apply filters to all products
-          const selectedCategories: string[] = [];
-          if (categoriesFilters.legalCompliance.regulatoryCompliance) selectedCategories.push("Regulatory Compliance");
-          if (categoriesFilters.legalCompliance.legalAdvisory) selectedCategories.push("Legal Advisory");
-          if (categoriesFilters.legalCompliance.businessLicensing) selectedCategories.push("Business Licensing & Per...");
-          if (categoriesFilters.incentivesListing) selectedCategories.push("Incentives Listing");
-          if (categoriesFilters.proximityIncubators) selectedCategories.push("Proximity Incubators");
+          // Filter for Non-Financial Services (facetValue.id: "67") and exclude financial (facetValue.id: "66")
+          const nonFinancialServicesOnly = allProducts.filter((product) =>
+            product.facetValues.some((fv) => fv.id === "67") &&
+            !product.facetValues.some((fv) => fv.id === "66")
+          );
+          console.log("Filtered to Non-Financial Services only:", nonFinancialServicesOnly.length);
+
+          // Set totalItems to the count of non-financial services only
+          setTotalItems(nonFinancialServicesOnly.length);
+
+          // Apply other filters to non-financial services only
+          const selectedCategories = Object.keys(categoriesFilters)
+            .filter((key) => categoriesFilters[key as CategoryFilterKeys])
+            .map((key) => {
+              switch (key) {
+                case "eventsAndNetworking": return "events-&-networking";
+                case "partnershipsAndOpportunities": return "partnerships-&-opportunities";
+                case "academyAndTraining": return "academy-&-training";
+                case "operationalAdvisory": return "operational-advisory";
+                case "proximityIncubators": return "proximity-incubators";
+                case "incentivesListing": return "incentives-listing";
+                case "digitalSolutions": return "digital-solutions";
+                case "exportAndTradeFacilitation": return "export-&-trade-facilitation";
+                case "legalComplianceAndLicensing": return "legal-compliance-&-licensing";
+                default: return "" as CategoryCodes;
+              }
+            }) as CategoryCodes[];
           console.log("Selected Categories:", selectedCategories);
 
           const selectedStages = Object.keys(businessStageFilters)
             .filter((key) => businessStageFilters[key])
-            .map((key) => key.charAt(0).toUpperCase() + key.slice(1));
+            .map((key) => key);
+          console.log("Selected Stages:", selectedStages);
 
           const selectedProviders = Object.keys(providedByFilters)
             .filter((key) => providedByFilters[key])
             .map((key) => {
-              if (key === "khalifaFund") return "Khalifa Fund";
-              if (key === "hub71") return "Hub 71";
-              if (key === "adSmeHub") return "AD SME Hub";
-              return key.charAt(0).toUpperCase() + key.slice(1);
+              switch (key) {
+                case "khalifaFund": return "khalifa-fund";
+                case "adSmeHub": return "ad-sme-hub";
+                case "hub71": return "hub71";
+                case "adgm": return "adgm";
+                case "other": return "other";
+                default: return key;
+              }
             });
+          console.log("Selected Providers:", selectedProviders);
 
           const selectedPricingModels = Object.keys(pricingModelFilters)
             .filter((key) => pricingModelFilters[key])
             .map((key) => {
-              if (key === "subscriptionBased") return "Subscription-Based";
-              if (key === "payPerService") return "Pay Per Service";
-              if (key === "oneTimeFee") return "One-Time Fee";
-              if (key === "governmentSubsidised") return "Government Subsidised";
-              return key.charAt(0).toUpperCase() + key.slice(1);
+              switch (key) {
+                case "subscriptionBased": return "subscription-based";
+                case "payPerService": return "pay-per-service";
+                case "oneTimeFee": return "one-time-fee";
+                case "governmentSubsidised": return "government-subsidized";
+                case "free": return "free";
+                default: return key;
+              }
             });
+          console.log("Selected Pricing Models:", selectedPricingModels);
 
           const filtered = selectedCategories.length === 0 &&
             selectedStages.length === 0 &&
             selectedProviders.length === 0 &&
             selectedPricingModels.length === 0
-            ? allProducts
-            : allProducts.filter((product) => {
+            ? nonFinancialServicesOnly
+            : nonFinancialServicesOnly.filter((product) => {
                 const matchesCategory =
                   selectedCategories.length === 0 ||
-                  product.facetValues.some(
-                    (facetValue) =>
-                      facetValue.facet.code === "category" &&
-                      selectedCategories.includes(facetValue.name)
+                  product.facetValues.some((facetValue) =>
+                    selectedCategories.includes(facetValue.code as CategoryCodes)
                   );
                 const matchesStage =
                   selectedStages.length === 0 ||
-                  product.facetValues.some(
-                    (facetValue) =>
-                      facetValue.facet.code === "business-stage" &&
-                      selectedStages.includes(facetValue.name)
+                  product.facetValues.some((facetValue) =>
+                    facetValue.code && selectedStages.includes(facetValue.code)
                   );
                 const matchesProvider =
                   selectedProviders.length === 0 ||
-                  product.facetValues.some(
-                    (facetValue) =>
-                      facetValue.facet.code === "provided-by" &&
-                      selectedProviders.includes(facetValue.name)
+                  product.facetValues.some((facetValue) =>
+                    facetValue.code && selectedProviders.includes(facetValue.code)
                   );
                 const matchesPricingModel =
                   selectedPricingModels.length === 0 ||
-                  product.facetValues.some(
-                    (facetValue) =>
-                      facetValue.facet.code === "pricing-model" &&
-                      selectedPricingModels.includes(facetValue.name)
-                  );
+                  product.facetValues.some((facetValue) =>
+                    facetValue.code && selectedPricingModels.includes(facetValue.code)
+                  ) ||
+                  (selectedPricingModels.includes("one-time-fee") &&
+                    product.customFields?.Cost && product.customFields.Cost > 0);
+                console.log(`Filtering ${product.name} (id: ${product.id}):`, {
+                  matchesCategory,
+                  matchesStage,
+                  matchesProvider,
+                  matchesPricingModel,
+                });
                 return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
               });
+          console.log("Final filtered products count:", filtered.length);
 
           setAllFilteredProducts(filtered);
           setTotalFilteredItems(filtered.length);
 
-          // Update products for the current page
           const startIndex = (currentPage - 1) * productsPerPage;
           const endIndex = startIndex + productsPerPage;
           setProducts(filtered.slice(startIndex, endIndex));
           setFilteredProducts(filtered.slice(startIndex, endIndex));
         } else {
-          // Fetch only the current page when no filters are applied
-          const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
-            skip: (currentPage - 1) * productsPerPage,
-            take: productsPerPage,
-          });
-          console.log("Data fetched successfully:", data);
-          setProducts(data.products.items);
-          setFilteredProducts(data.products.items);
-          setAllFilteredProducts(data.products.items);
-          setTotalItems(data.products.totalItems);
-          setTotalFilteredItems(data.products.totalItems);
+          console.log("No filters applied, fetching all non-financial services...");
+          const allProducts: Product[] = [];
+          let currentSkip = 0;
+          let total = 0;
+
+          do {
+            const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
+              skip: currentSkip,
+              take: productsPerPage,
+            });
+            console.log("Fetched batch of products:", data.products.items.length, "Total Items:", data.products.totalItems);
+            allProducts.push(...data.products.items);
+            total = data.products.totalItems;
+            currentSkip += productsPerPage;
+          } while (currentSkip < total);
+
+          console.log("All products fetched:", allProducts.length);
+
+          // Filter for Non-Financial Services (facetValue.id: "67") and exclude financial (facetValue.id: "66")
+          const nonFinancialServicesOnly = allProducts.filter((product) =>
+            product.facetValues.some((fv) => fv.id === "67") &&
+            !product.facetValues.some((fv) => fv.id === "66")
+          );
+          console.log("Filtered to Non-Financial Services only:", nonFinancialServicesOnly.length);
+
+          setTotalItems(nonFinancialServicesOnly.length);
+          setAllFilteredProducts(nonFinancialServicesOnly);
+          setTotalFilteredItems(nonFinancialServicesOnly.length);
+
+          const startIndex = (currentPage - 1) * productsPerPage;
+          const endIndex = startIndex + productsPerPage;
+          setProducts(nonFinancialServicesOnly.slice(startIndex, endIndex));
+          setFilteredProducts(nonFinancialServicesOnly.slice(startIndex, endIndex));
         }
       } catch (error) {
         console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+        console.log("Fetching completed. Loading set to false.");
       }
     };
 
@@ -263,34 +341,48 @@ export default function Section6() {
 
   // Apply filters whenever products, categoriesFilters, businessStageFilters, providedByFilters, or pricingModelFilters change
   useEffect(() => {
-    const selectedCategories: string[] = [];
-    if (categoriesFilters.legalCompliance.regulatoryCompliance) selectedCategories.push("Regulatory Compliance");
-    if (categoriesFilters.legalCompliance.legalAdvisory) selectedCategories.push("Legal Advisory");
-    if (categoriesFilters.legalCompliance.businessLicensing) selectedCategories.push("Business Licensing & Per...");
-    if (categoriesFilters.incentivesListing) selectedCategories.push("Incentives Listing");
-    if (categoriesFilters.proximityIncubators) selectedCategories.push("Proximity Incubators");
-
+    const selectedCategories = Object.keys(categoriesFilters)
+      .filter((key) => categoriesFilters[key as CategoryFilterKeys])
+      .map((key) => {
+        switch (key) {
+          case "eventsAndNetworking": return "events-&-networking";
+          case "partnershipsAndOpportunities": return "partnerships-&-opportunities";
+          case "academyAndTraining": return "academy-&-training";
+          case "operationalAdvisory": return "operational-advisory";
+          case "proximityIncubators": return "proximity-incubators";
+          case "incentivesListing": return "incentives-listing";
+          case "digitalSolutions": return "digital-solutions";
+          case "exportAndTradeFacilitation": return "export-&-trade-facilitation";
+          case "legalComplianceAndLicensing": return "legal-compliance-&-licensing";
+          default: return "" as CategoryCodes;
+        }
+      }) as CategoryCodes[];
     const selectedStages = Object.keys(businessStageFilters)
       .filter((key) => businessStageFilters[key])
-      .map((key) => key.charAt(0).toUpperCase() + key.slice(1));
-
+      .map((key) => key);
     const selectedProviders = Object.keys(providedByFilters)
       .filter((key) => providedByFilters[key])
       .map((key) => {
-        if (key === "khalifaFund") return "Khalifa Fund";
-        if (key === "hub71") return "Hub 71";
-        if (key === "adSmeHub") return "AD SME Hub";
-        return key.charAt(0).toUpperCase() + key.slice(1);
+        switch (key) {
+          case "khalifaFund": return "khalifa-fund";
+          case "adSmeHub": return "ad-sme-hub";
+          case "hub71": return "hub71";
+          case "adgm": return "adgm";
+          case "other": return "other";
+          default: return key;
+        }
       });
-
     const selectedPricingModels = Object.keys(pricingModelFilters)
       .filter((key) => pricingModelFilters[key])
       .map((key) => {
-        if (key === "subscriptionBased") return "Subscription-Based";
-        if (key === "payPerService") return "Pay Per Service";
-        if (key === "oneTimeFee") return "One-Time Fee";
-        if (key === "governmentSubsidised") return "Government Subsidised";
-        return key.charAt(0).toUpperCase() + key.slice(1);
+        switch (key) {
+          case "subscriptionBased": return "subscription-based";
+          case "payPerService": return "pay-per-service";
+          case "oneTimeFee": return "one-time-fee";
+          case "governmentSubsidised": return "government-subsidized";
+          case "free": return "free";
+          default: return key;
+        }
       });
 
     if (
@@ -304,54 +396,44 @@ export default function Section6() {
       const filtered = products.filter((product) => {
         const matchesCategory =
           selectedCategories.length === 0 ||
-          product.facetValues.some(
-            (facetValue) =>
-              facetValue.facet.code === "category" &&
-              selectedCategories.includes(facetValue.name)
+          product.facetValues.some((facetValue) =>
+            selectedCategories.includes(facetValue.code as CategoryCodes)
           );
         const matchesStage =
           selectedStages.length === 0 ||
-          product.facetValues.some(
-            (facetValue) =>
-              facetValue.facet.code === "business-stage" &&
-              selectedStages.includes(facetValue.name)
+          product.facetValues.some((facetValue) =>
+            facetValue.code && selectedStages.includes(facetValue.code)
           );
         const matchesProvider =
           selectedProviders.length === 0 ||
-          product.facetValues.some(
-            (facetValue) =>
-              facetValue.facet.code === "provided-by" &&
-              selectedProviders.includes(facetValue.name)
+          product.facetValues.some((facetValue) =>
+            facetValue.code && selectedProviders.includes(facetValue.code)
           );
         const matchesPricingModel =
           selectedPricingModels.length === 0 ||
-          product.facetValues.some(
-            (facetValue) =>
-              facetValue.facet.code === "pricing-model" &&
-              selectedPricingModels.includes(facetValue.name)
-          );
+          product.facetValues.some((facetValue) =>
+            facetValue.code && selectedPricingModels.includes(facetValue.code)
+          ) ||
+          (selectedPricingModels.includes("one-time-fee") &&
+            product.customFields?.Cost && product.customFields.Cost > 0);
+        console.log(`Filtering ${product.name} (id: ${product.id}):`, {
+          matchesCategory,
+          matchesStage,
+          matchesProvider,
+          matchesPricingModel,
+        });
         return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
       });
       setFilteredProducts(filtered);
     }
   }, [products, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters]);
 
-  // Handle checkbox changes for Categories filters
-  const handleCategoriesChange = (category: string, subcategory?: string) => {
-    if (subcategory) {
-      setCategoriesFilters((prev) => ({
-        ...prev,
-        [category]: {
-          ...prev[category],
-          [subcategory]: !prev[category][subcategory],
-        },
-      }));
-    } else {
-      setCategoriesFilters((prev) => ({
-        ...prev,
-        [category]: !prev[category],
-      }));
-    }
+  // Handle checkbox changes for Categories
+  const handleCategoriesChange = (category: CategoryFilterKeys) => {
+    setCategoriesFilters((prev) => ({
+      ...prev,
+      [category]: !prev[category],
+    }));
     setCurrentPage(1);
   };
 
@@ -399,291 +481,53 @@ export default function Section6() {
   };
 
   return (
-    <Container pt="4rem" style={{ marginTop: '-45px' }}>
+    <Container pt="4rem" style={{ marginTop: "-45px" }}>
       <TabBar />
-      <Section2 
-        resultsCount={areFiltersApplied() ? totalFilteredItems : totalItems} 
-        style={{ marginBottom: "2rem" }}
-      />
+      <Section2 resultsCount={areFiltersApplied() ? totalFilteredItems : totalItems} style={{ marginBottom: "2rem" }} />
       <Grid container spacing={3}>
         <Grid item md={3} xs={12}>
-          <Card
-            elevation={0}
-            style={{
-              border: 0,
-              height: "95%",
-              borderRadius: "3px",
-              padding: "1rem 2rem",
-              backgroundColor: "#FFFFFF"
-            }}>
-            <List>
-              <ServiceTypeTitle>Categories :</ServiceTypeTitle>
-              <CheckboxLabel style={{ display: 'flex', alignItems: 'center' }}>
-                <input
-                  type="checkbox"
-                  id="legal-compliance"
-                  title="Legal, Compliance & Lic..."
-                  checked={
-                    categoriesFilters.legalCompliance.regulatoryCompliance ||
-                    categoriesFilters.legalCompliance.legalAdvisory ||
-                    categoriesFilters.legalCompliance.businessLicensing
-                  }
-                  onChange={() => {
-                    const allChecked = !(
-                      categoriesFilters.legalCompliance.regulatoryCompliance ||
-                      categoriesFilters.legalCompliance.legalAdvisory ||
-                      categoriesFilters.legalCompliance.businessLicensing
-                    );
-                    setCategoriesFilters((prev) => ({
-                      ...prev,
-                      legalCompliance: {
-                        regulatoryCompliance: allChecked,
-                        legalAdvisory: allChecked,
-                        businessLicensing: allChecked,
-                      },
-                    }));
-                    setCurrentPage(1);
-                  }}
-                />
-                <label htmlFor="legal-compliance" style={{ marginRight: '0.5rem' }}>Legal, Compliance & Lic...</label>
-                <img 
-                  src="/assets/images/non_financial_marketplace/chevron-down.svg" 
-                  alt="dropdown" 
-                  style={{ verticalAlign: 'middle' }} 
-                />
-              </CheckboxLabel>
-              <CheckboxLabel style={{ marginLeft: '1rem' }}>
-                <input
-                  type="checkbox"
-                  id="regulatory-compliance"
-                  title="Regulatory Compliance"
-                  checked={categoriesFilters.legalCompliance.regulatoryCompliance}
-                  onChange={() => handleCategoriesChange("legalCompliance", "regulatoryCompliance")}
-                />
-                <label htmlFor="regulatory-compliance">Regulatory Compliance</label>
-              </CheckboxLabel>
-              <CheckboxLabel style={{ marginLeft: '1rem' }}>
-                <input
-                  type="checkbox"
-                  id="legal-advisory"
-                  title="Legal Advisory"
-                  checked={categoriesFilters.legalCompliance.legalAdvisory}
-                  onChange={() => handleCategoriesChange("legalCompliance", "legalAdvisory")}
-                />
-                <label htmlFor="legal-advisory">Legal Advisory</label>
-              </CheckboxLabel>
-              <CheckboxLabel style={{ marginLeft: '1rem' }}>
-                <input
-                  type="checkbox"
-                  id="business-licensing"
-                  title="Business Licensing & Per..."
-                  checked={categoriesFilters.legalCompliance.businessLicensing}
-                  onChange={() => handleCategoriesChange("legalCompliance", "businessLicensing")}
-                />
-                <label htmlFor="business-licensing">Business Licensing & Per...</label>
-              </CheckboxLabel>
-
-              <CheckboxLabel style={{ display: 'flex', alignItems: 'center' }}>
-                <input
-                  type="checkbox"
-                  id="incentives-listing"
-                  title="Incentives Listing"
-                  checked={categoriesFilters.incentivesListing}
-                  onChange={() => handleCategoriesChange("incentivesListing")}
-                />
-                <label htmlFor="incentives-listing" style={{ marginRight: '0.5rem' }}>Incentives Listing</label>
-                <img 
-                  src="/assets/images/non_financial_marketplace/chevron-down.svg" 
-                  alt="dropdown" 
-                  style={{ verticalAlign: 'middle' }} 
-                />
-              </CheckboxLabel>
-
-              <CheckboxLabel style={{ display: 'flex', alignItems: 'center' }}>
-                <input
-                  type="checkbox"
-                  id="proximity-incubators"
-                  title="Proximity Incubators"
-                  checked={categoriesFilters.proximityIncubators}
-                  onChange={() => handleCategoriesChange("proximityIncubators")}
-                />
-                <label htmlFor="proximity-incubators" style={{ marginRight: '0.5rem' }}>Proximity Incubators</label>
-                <img 
-                  src="/assets/images/non_financial_marketplace/chevron-down.svg" 
-                  alt="dropdown" 
-                  style={{ verticalAlign: 'middle' }} 
-                />
-              </CheckboxLabel>
-            </List>
-
-            <List>
-              <ServiceTypeTitle>Business Stage :</ServiceTypeTitle>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="inception"
-                  checked={businessStageFilters.inception}
-                  onChange={() => handleBusinessStageChange("inception")}
-                />
-                <label htmlFor="inception">Inception</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="growth"
-                  title="Growth"
-                  checked={businessStageFilters.growth}
-                  onChange={() => handleBusinessStageChange("growth")}
-                />
-                <label htmlFor="growth">Growth</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="maturity"
-                  checked={businessStageFilters.maturity}
-                  onChange={() => handleBusinessStageChange("maturity")}
-                />
-                <label htmlFor="maturity">Maturity</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="restructuring"
-                  title="Restructuring"
-                  checked={businessStageFilters.restructuring}
-                  onChange={() => handleBusinessStageChange("restructuring")}
-                />
-                <label htmlFor="restructuring">Restructuring</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="other"
-                  checked={businessStageFilters.other}
-                  onChange={() => handleBusinessStageChange("other")}
-                />
-                <label htmlFor="other">Other</label>
-              </CheckboxLabel>
-            </List>
-
-            <List>
-              <ServiceTypeTitle>Provided By :</ServiceTypeTitle>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="adgm"
-                  title="ADGM"
-                  checked={providedByFilters.adgm}
-                  onChange={() => handleProvidedByChange("adgm")}
-                />
-                <label htmlFor="adgm">ADGM</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="khalifa-fund"
-                  title="Khalifa Fund"
-                  checked={providedByFilters.khalifaFund}
-                  onChange={() => handleProvidedByChange("khalifaFund")}
-                />
-                <label htmlFor="khalifa-fund">Khalifa Fund</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="hub71"
-                  checked={providedByFilters.hub71}
-                  onChange={() => handleProvidedByChange("hub71")}
-                />
-                <label htmlFor="hub71">Hub 71</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="ad-sme-hub"
-                  title="AD SME Hub"
-                  checked={providedByFilters.adSmeHub}
-                  onChange={() => handleProvidedByChange("adSmeHub")}
-                />
-                <label htmlFor="ad-sme-hub">AD SME Hub</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="other-checkbox"
-                  title="Other"
-                  checked={providedByFilters.other}
-                  onChange={() => handleProvidedByChange("other")}
-                />
-                <label htmlFor="other-checkbox">Other</label>
-              </CheckboxLabel>
-            </List>
-
-            <List>
-              <ServiceTypeTitle>Pricing Model :</ServiceTypeTitle>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="free"
-                  title="Free"
-                  checked={pricingModelFilters.free}
-                  onChange={() => handlePricingModelChange("free")}
-                />
-                <label htmlFor="free">Free</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="subscription-based"
-                  title="Subscription-Based"
-                  checked={pricingModelFilters.subscriptionBased}
-                  onChange={() => handlePricingModelChange("subscriptionBased")}
-                />
-                <label htmlFor="subscription-based">Subscription-Based</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="pay-per-service"
-                  title="Pay Per Service"
-                  checked={pricingModelFilters.payPerService}
-                  onChange={() => handlePricingModelChange("payPerService")}
-                />
-                <label htmlFor="pay-per-service">Pay Per Service</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="one-time-fee"
-                  title="One-Time Fee"
-                  checked={pricingModelFilters.oneTimeFee}
-                  onChange={() => handlePricingModelChange("oneTimeFee")}
-                />
-                <label htmlFor="one-time-fee">One-Time Fee</label>
-              </CheckboxLabel>
-              <CheckboxLabel>
-                <input
-                  type="checkbox"
-                  id="government-subsidised"
-                  title="Government Subsidised"
-                  checked={pricingModelFilters.governmentSubsidised}
-                  onChange={() => handlePricingModelChange("governmentSubsidised")}
-                />
-                <label htmlFor="government-subsidised">Government Subsidised</label>
-              </CheckboxLabel>
-            </List>
-          </Card>
-          {(areFiltersApplied() ? totalFilteredItems : totalItems) > 0 && (
-            <ShowingText>
-              Showing {(currentPage - 1) * productsPerPage + 1}-
-              {Math.min(currentPage * productsPerPage, areFiltersApplied() ? totalFilteredItems : totalItems)} of {areFiltersApplied() ? totalFilteredItems : totalItems} Services
-            </ShowingText>
-          )}
+          <Sidebar
+            categoriesFilters={categoriesFilters}
+            setCategoriesFilters={setCategoriesFilters}
+            businessStageFilters={businessStageFilters}
+            setBusinessStageFilters={setBusinessStageFilters}
+            providedByFilters={providedByFilters}
+            setProvidedByFilters={setProvidedByFilters}
+            pricingModelFilters={pricingModelFilters}
+            setPricingModelFilters={setPricingModelFilters}
+            handleCategoriesChange={handleCategoriesChange}
+            handleBusinessStageChange={handleBusinessStageChange}
+            handleProvidedByChange={handleProvidedByChange}
+            handlePricingModelChange={handlePricingModelChange}
+            totalItems={totalItems}
+            totalFilteredItems={totalFilteredItems}
+            currentPage={currentPage}
+            productsPerPage={productsPerPage}
+            areFiltersApplied={areFiltersApplied}
+          />
         </Grid>
 
         <Grid item md={9} xs={12}>
-          {currentProducts.length === 0 ? (
+          {loading ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "300px",
+                backgroundColor: "#f8f8f8",
+                borderRadius: "8px",
+                border: "1px solid #e0e0e0",
+                marginTop: "1rem",
+                fontSize: "1.5rem",
+                color: "#555",
+                textAlign: "center",
+                padding: "2rem",
+              }}
+            >
+              Loading services...
+            </div>
+          ) : currentProducts.length === 0 ? (
             <div
               style={{
                 display: "flex",
@@ -715,11 +559,11 @@ export default function Section6() {
                       boxShadow: hoveredCardId === product.id ? "0 4px 8px rgba(0, 0, 0, 0.1)" : "none",
                     }}
                   >
-                    <ProductCard19
+                    <NonFinancialServiceCard
                       id={product.id}
                       slug={product.slug}
                       name={product.name}
-                      subTitle={product.customFields.partner}
+                      subTitle={product.customFields.Partner}
                       description={product.description}
                       img={defaultImage}
                       images={defaultImages}
@@ -769,6 +613,7 @@ export default function Section6() {
                     backgroundColor: currentPage === index + 1 ? "#002180" : "transparent",
                     color: currentPage === index + 1 ? "#fff" : "#002180",
                     cursor: "pointer",
+                    display: "inline-block",
                   }}
                 >
                   {index + 1}

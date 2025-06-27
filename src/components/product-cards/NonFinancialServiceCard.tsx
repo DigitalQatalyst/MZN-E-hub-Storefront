@@ -17,25 +17,27 @@ const CardBox = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   width: "100%",
   minHeight: "200px",
-  height: "260px",
+  height: "300px",
   padding: "16px",
   transition: "all 0.3s",
   borderRadius: "8px",
   background: "#FFF",
-  border: `1px solid ${theme.colors.gray[400]}`,
+  border: `1px solid ${theme.colors.gray[100]}`,
   "&:hover": {
     ".product-img": {
       transform: "scale(1.1)",
     },
   },
+  overflow: "hidden",
 }));
 
 const CardMedia = styled(Box)(({ theme }) => ({
   width: "100%",
   maxHeight: "300px",
   cursor: "pointer",
+  // overflow: "hidden",
   position: "relative",
-  marginBottom: "15px", // Added to increase gap between CardMedia and Box below
+  marginBottom: "15px",
   ".product-img": {
     transition: "0.3s",
     width: "100%",
@@ -94,14 +96,14 @@ const StyledH5 = styled(H4)`
 const StyledButton = styled(DefaultButton)`
   display: flex;
   text-align: left;
-  padding: 7px 1px;
+  padding: 4px 8px; /* Reduced padding */
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
   align-self: stretch;
   border-radius: 100px;
-  width: 98px;
-  height: 25px;
+  width: 80px; /* Reduced width */
+  height: 20px; /* Reduced height */
   background-color: transparent;
   border: 1px solid #ccc;
   transition: background-color 0.3s, color 0.3s;
@@ -110,7 +112,7 @@ const StyledButton = styled(DefaultButton)`
     color: #000;
     text-align: center;
     font-family: "Open Sans";
-    font-size: 10px;
+    font-size: 10px; /* Reduced font size */
     font-style: normal;
     font-weight: 300;
   }
@@ -136,17 +138,33 @@ const StyledParagraph = styled(Paragraph)`
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  position: relative;
+  &:hover::after {
+    content: attr(data-fulltext);
+    position: absolute;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 4px 8px;
+    z-index: 10;
+    white-space: normal;
+    max-width: 250px;
+    left: 0;
+    top: calc(100% + 4px);
+    box-sizing: border-box;
+    width: fit-content;
+    min-width: 100%;
+  }
 `;
 
 const LearnMoreWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 5px;
+  gap: 3px; /* Reduced gap */
   margin-top: 10px;
 `;
 
-type ProductCard19Props = {
+type NonFinancialServiceCardProps = {
   img: string;
   name: string;
   slug: string;
@@ -158,7 +176,7 @@ type ProductCard19Props = {
   className?: string;
 };
 
-export default function ProductCard19(props: ProductCard19Props) {
+export default function NonFinancialServiceCard(props: NonFinancialServiceCardProps) {
   const { img, name, subTitle, description, reviews, id, slug, images } = props;
 
   const { state, dispatch } = useAppContext();
@@ -189,7 +207,7 @@ export default function ProductCard19(props: ProductCard19Props) {
         </CardMedia>
 
         <Box textAlign="left">
-          <StyledParagraph>{name}</StyledParagraph>
+          <StyledParagraph data-fulltext={name}>{name}</StyledParagraph>
           <StyledH4 fontWeight={700}>{subTitle}</StyledH4>
 
           {/* <FlexBox justifyContent="flex-start" alignItems="center" mb="1rem">
@@ -199,17 +217,20 @@ export default function ProductCard19(props: ProductCard19Props) {
             </Small>
           </FlexBox> */}
           <StyledH5 fontWeight={700}>{description}</StyledH5>
-          <Box display="flex" alignItems="center" justifyContent="space-between">
+          <Box display="flex" alignItems="center" justifyContent="space-between" flexWrap="wrap" > {/* Replaced gap with margin for spacing */}
             <StyledButton mt={3}>
-              <span>Funding & Loans</span>
+              <span>Start-Up</span>
+            </StyledButton>
+            <StyledButton mt={3}>
+              <span>All Industries</span>
             </StyledButton>
 
             <Link href={`/product/${slug}`} style={{ textDecoration: "none" }}>
               <LearnMoreWrapper style={{ cursor: "pointer" }}>
-                <Paragraph color="#002180" mr="0.5rem">
+                <Paragraph color="#002180" mr="0.3rem" fontSize="10px"> {/* Reduced font size */}
                   View Details
                 </Paragraph>
-                <Icon color="#002180">arrow_forward</Icon>
+                <Icon color="#002180" size="14px">arrow_forward</Icon> {/* Reduced icon size */}
               </LearnMoreWrapper>
             </Link>
           </Box>

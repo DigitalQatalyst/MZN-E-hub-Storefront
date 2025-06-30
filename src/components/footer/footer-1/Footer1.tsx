@@ -14,9 +14,20 @@ import Typography, { Paragraph } from "@component/Typography";
 import Button from "@component/buttons/Button";
 
 // STYLED COMPONENTS
-import { StyledLink, SubscribeInput, SubscribeButton, SubscribeContainer } from "./styles";
+import {
+  StyledLink,
+  SubscribeInput,
+  SubscribeButton,
+  SubscribeContainer,
+} from "./styles";
 // CUSTOM DATA
-import { aboutLinks, customerCareLinks, iconList,  partners,legalLinks } from "./data";
+import {
+  aboutLinks,
+  customerCareLinks,
+  iconList,
+  partners,
+  legalLinks,
+} from "./data";
 
 export default function Footer1() {
   const [email, setEmail] = useState("");
@@ -35,11 +46,16 @@ export default function Footer1() {
             <Grid container spacing={3}>
               <Grid item lg={4} md={6} sm={6} xs={12}>
                 <Link href="/">
-                  <Image alt="logo" mb="1rem" src="/assets/images/mzn_logos/Asset 10 (1).svg" />
+                  <Image
+                    alt="logo"
+                    mb="1rem"
+                    src="/assets/images/mzn_logos/Asset 10 (1).svg"
+                  />
                 </Link>
 
                 <Paragraph mb="1.25rem" color="gray.500" maxWidth="320px">
-                Stay updated with the latest business insights, opportunities, and services from MZN.
+                  Stay updated with the latest business insights, opportunities,
+                  and services from MZN.
                 </Paragraph>
 
                 {/* <AppStore /> */}
@@ -48,25 +64,32 @@ export default function Footer1() {
                   <SubscribeContainer>
                     <SubscribeInput
                       type="email"
-                      placeholder="Your email"
+                      placeholder="Enter Your email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
-                    <SubscribeButton type="submit">
-                      Subscribe
-                    </SubscribeButton>
+                    <SubscribeButton type="submit">Subscribe</SubscribeButton>
                   </SubscribeContainer>
                 </form>
 
-                <Box bg="var(--KF-BG-Dark-Blue, #002180)" py="1rem" textAlign="center">
+                <Box
+                  bg="var(--KF-BG-Dark-Blue, #002180)"
+                  py="1rem"
+                  textAlign="center"
+                >
                   <FlexBox alignItems="center" style={{ marginTop: "6rem" }}>
                     {/* "2024" text  */}
-                    <Typography color="white" fontSize="11px" fontWeight="400" mr="1rem">
-                      © 2024 
+                    <Typography
+                      color="white"
+                      fontSize="11px"
+                      fontWeight="400"
+                      mr="1rem"
+                    >
+                      © 2024
                     </Typography>
                     {/* Logo */}
-                    <Image 
-                      src="/assets/images/mzn_logos/Layer 1.svg" 
+                    <Image
+                      src="/assets/images/mzn_logos/Layer 1.svg"
                       alt="MZN Logo"
                       width="30.156px"
                       height="12.999px"
@@ -75,8 +98,13 @@ export default function Footer1() {
                 </Box>
               </Grid>
 
-              <Grid item lg={2} md={6} sm={6} xs={12}>
-                <Typography mb="1.25rem" lineHeight="1" fontSize={20} fontWeight="600">
+              <Grid item lg={3} md={6} sm={6} xs={12}>
+                <Typography
+                  mb="1.25rem"
+                  lineHeight="1"
+                  fontSize={20}
+                  fontWeight="600"
+                >
                   Quick Links
                 </Typography>
 
@@ -89,8 +117,13 @@ export default function Footer1() {
                 </div>
               </Grid>
 
-              <Grid item lg={2} md={6} sm={6} xs={12}>
-                <Typography mb="1.25rem" lineHeight="1" fontSize={20} fontWeight="600">
+              <Grid item lg={3} md={6} sm={6} xs={12}>
+                <Typography
+                  mb="1.25rem"
+                  lineHeight="1"
+                  fontSize={20}
+                  fontWeight="600"
+                >
                   Get to Know Us
                 </Typography>
 
@@ -104,40 +137,42 @@ export default function Footer1() {
               </Grid>
 
               <Grid item lg={2} md={6} sm={6} xs={12}>
-                <Typography mb="1.25rem" lineHeight="1" fontSize={20} fontWeight="600">
-                 Partners
+                <Typography
+                  mb="1.25rem"
+                  lineHeight="1"
+                  fontSize={20}
+                  fontWeight="600"
+                >
+                  Partners
                 </Typography>
 
                 <div>
-                  { partners.map((item, ind) => (
-                    <StyledLink href="/" key={ind}>
-                      {item}
-                    </StyledLink>
-                  ))}
-                </div>
-              </Grid>
-
-              <Grid item lg={2} md={6} sm={6} xs={12}>
-              <Typography mb="1.25rem" lineHeight="1" fontSize={20} fontWeight="600">
-                Legal
-                </Typography>
-
-                <div>
-                  {legalLinks.map((item, ind) => (
+                  {partners.map((item, ind) => (
                     <StyledLink href="/" key={ind}>
                       {item}
                     </StyledLink>
                   ))}
                 </div>
 
-                <FlexBox className="flex" mx="-5px" style={{ marginTop: "8rem" }}>
+                <FlexBox
+                  className="flex"
+                  mx="-5px"
+                  style={{ marginTop: "8rem" }}
+                >
                   {iconList.map((item) => (
                     <a
                       href={item.url}
                       target="_blank"
                       key={item.iconName}
-                      rel="noreferrer noopenner">
-                      <Box m="5px" p="10px" size="small" borderRadius="50%" bg="rgba(0,0,0,0.2)">
+                      rel="noreferrer noopenner"
+                    >
+                      <Box
+                        m="5px"
+                        p="10px"
+                        size="small"
+                        borderRadius="50%"
+                        bg="rgba(0,0,0,0.2)"
+                      >
                         <Icon size="12px" defaultcolor="auto">
                           {item.iconName}
                         </Icon>

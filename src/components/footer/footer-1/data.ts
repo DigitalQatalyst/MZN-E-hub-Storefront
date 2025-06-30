@@ -1,34 +1,31 @@
-export const aboutLinks = [
-  "Explore Services",
-  "Resources",
-  "FAQs"
-];
+export const aboutLinks = ["Business in AbuDhabi", "Help Centre", "FAQs"];
 
 export const customerCareLinks = [
-  "About MZN",
+  "About Enterprise Journey",
   "Updates",
-  "Contact Us"
+  "Contact Us",
 ];
 
 export const partners = [
-  "Khalifa Fund",
-  "DED",
-  "AdCoC",
-  "ADIO",
-  "ADGM",
-  "Hub 71"
+  "Become a Partner",
+  "Government Entities",
+  "Corporates",
+  "International",
 ];
 
 export const legalLinks = [
   "Privacy Policy",
   "Cookie Policy",
-  "Terms of Service"
+  "Terms of Service",
 ];
 
 export const iconList = [
   // { iconName: "facebook", url: "https://www.facebook.com/UILibOfficial" },
   { iconName: "google", url: "/" },
   { iconName: "twitter", url: "/" },
-  { iconName: "youtube", url: "https://www.youtube.com/channel/UCsIyD-TSO1wQFz-n2Y4i3Rg" },
-  { iconName: "instagram", url: "/" }
+  {
+    iconName: "youtube",
+    url: "https://www.youtube.com/channel/UCsIyD-TSO1wQFz-n2Y4i3Rg",
+  },
+  { iconName: "instagram", url: "/" },
 ];

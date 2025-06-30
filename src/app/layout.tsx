@@ -9,6 +9,7 @@ import StyledContext from "@context/StyledContext";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import NProgressBar from "@component/NProgress";
+import KfBot from "@component/bot/KfBot";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
@@ -34,6 +35,7 @@ export default function RootLayout({
               {children}
               <NProgressBar />
             </StyledContext>
+            <KfBot />
           </AppProvider>
         </StyledComponentsRegistry>
       </body>

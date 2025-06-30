@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 
 import Box from "@component/Box";
 import { Button as DefaultButton } from "@component/buttons";

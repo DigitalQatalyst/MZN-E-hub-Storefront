@@ -1,9 +1,20 @@
 "use client";
 import React, { useEffect } from "react";
 
+declare global {
+  interface Window {
+    voiceflow?: {
+      chat?: {
+        load: (options: any) => void;
+        open?: () => void;
+        close?: () => void;
+      };
+    };
+  }
+}
+
 const KfBot = () => {
   useEffect(() => {
-    // Prevent adding the script multiple times
     if (document.getElementById("voiceflow-script")) return;
 
     const script = document.createElement("script");
@@ -28,6 +39,7 @@ const KfBot = () => {
 
     document.body.appendChild(script);
   }, []);
+
   return <div id="vf-widget"></div>;
 };
 

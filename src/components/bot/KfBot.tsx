@@ -3,13 +3,7 @@ import React, { useEffect } from "react";
 
 declare global {
   interface Window {
-    voiceflow?: {
-      chat?: {
-        load: (options: any) => void;
-        open?: () => void;
-        close?: () => void;
-      };
-    };
+    voiceflow?: { chat?: { load: (opts: any) => Promise<void> } };
   }
 }
 
@@ -19,28 +13,36 @@ const KfBot = () => {
 
     const script = document.createElement("script");
     script.id = "voiceflow-script";
-    script.type = "text/javascript";
     script.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
-
-    script.onload = function () {
-      if (window.voiceflow?.chat?.load) {
-        window.voiceflow.chat.load({
+    script.onload = () => {
+      window.voiceflow?.chat
+        ?.load({
           verify: { projectID: "6849bea9894655c0d600d259" },
           url: "https://general-runtime.voiceflow.com",
           versionID: "production",
-          voice: {
-            url: "https://runtime-api.voiceflow.com",
+          assistant: {
+            stylesheet:
+              "data:text/css;base64," +
+              btoa(`
+              .vfrc-launcher {
+                background-color: #ffffff !important;
+                color: #ffffff !important;
+                 width: 60px !important;
+                  height: 60px !important;
+                  border-radius: 50% !important;
+              }
+              .vfrc-launcher:hover {
+                background-color: #ffffff !important;
+              }
+            `),
           },
-        });
-      } else {
-        console.error("Voiceflow chat failed to initialize.");
-      }
+        })
+        .catch(console.error);
     };
-
     document.body.appendChild(script);
   }, []);
 
-  return <div id="vf-widget"></div>;
+  return null;
 };
 
 export default KfBot;

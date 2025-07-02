@@ -35,6 +35,8 @@ interface CustomFields {
   Status: string;
   tags: string[];
   BusinessStage: string;
+  Nationality: string;
+  LegalStructure: string;
   ProcessingTime: string;
   RegistrationValidity: string;
   relatedServices: RelatedService[];
@@ -50,6 +52,11 @@ interface ProductResponse {
     name: string;
     slug: string;
     description: string;
+    facetValues: {
+      id: string;
+      name: string;
+      code: string;
+    }[];
     customFields: CustomFields;
   };
 }
@@ -64,36 +71,42 @@ export default function ClientProductDetailsPage({ slug }: { slug: string }) {
         console.log("Slug:", slug); // Log slug for debugging
         const response = await client.request<ProductResponse>(
           `
-          query GetProduct($slug: String!) {
+   query GetProduct($slug: String!) {
             product(slug: $slug) {
+                id
+            name
+            slug
+            description
+            facetValues {
+              facet {
+                id
+                name
+                code
+              }
               id
               name
-              slug
-              description
-              customFields {
-                Partner
-                Rating
-                Code
-                Status
-                BusinessStage
-                Nationality
-                DiversityandInclusion
-                LegalStructure
-                CustomerType
-                Industry
-                ProcessingTime
-                RegistrationValidity
-                Cost
-                Steps
-                TermsOfService
-                RequiredDocuments
-                RelatedServices {
-                  id
-                  name
-                }
+              code
+            }
+            customFields {
+              Nationality
+              LegalStructure
+              Industry
+              BusinessStage
+              ProcessingTime
+              RegistrationValidity
+              Cost
+              Steps
+              TermsOfService
+              RequiredDocuments
+              RelatedServices {
+                id
+                name
+                slug
               }
             }
-          }
+          
+      }
+    }
         `,
           { slug }
         );
@@ -107,7 +120,7 @@ export default function ClientProductDetailsPage({ slug }: { slug: string }) {
             id: response.product.id,
             slug: response.product.slug,
             title: response.product.name || "",
-            title1: response.product.name || "", // Add this line to satisfy Product type
+            title1: response.product.name || "",
             name: response.product.name || "",
             subTitle: customFields.Partner || "",
             description: response.product.description || "",
@@ -116,8 +129,10 @@ export default function ClientProductDetailsPage({ slug }: { slug: string }) {
             reviews: 50,
             status: customFields.Status || "",
             code: customFields.Code || "",
-            businessStages: customFields.tags || [],
-            highlightedStage: customFields.BusinessStage || "",
+            // businessStages: customFields.tags || [],
+            businessStage: customFields.BusinessStage || "",
+            Nationality: customFields.Nationality || "",
+            LegalStructure: customFields.LegalStructure || "",
             processingTime: customFields.ProcessingTime || "",
             registrationValidity: customFields.RegistrationValidity || "",
             relatedServices: (customFields.relatedServices || []).map(
@@ -137,6 +152,11 @@ export default function ClientProductDetailsPage({ slug }: { slug: string }) {
             steps: customFields.Steps,
             termsOfService: customFields.TermsOfService,
             requiredDocuments: customFields.RequiredDocuments,
+            facetValues: (response.product.facetValues || []).map((facet) => ({
+              id: facet.id,
+              name: facet.name,
+              code: facet.code,
+            })),
           });
         }
       } catch (error) {

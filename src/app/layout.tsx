@@ -30,8 +30,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={openSans.className}>
+        <KfBot />
         <StyledComponentsRegistry>
-          <KfBot />
           <AppProvider>
             <ModalProvider>
               <StyledContext>

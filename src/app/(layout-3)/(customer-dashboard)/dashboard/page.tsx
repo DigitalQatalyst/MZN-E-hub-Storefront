@@ -16,18 +16,10 @@ import DashboardPageHeader from "@component/layout/DashboardPageHeader";
 import { EditProfileButton } from "@sections/customer-dashboard/profile";
 import { ServiceRequestsTrendCard } from "./ServiceRequestsTrendCard";
 import { ActivityOverviewCard } from "./ActivityOverviewCard";
+import ProfileCompletionCard from "./ProfileCompletionCard";
 
 export default function Dashboard() {
   // const user = await api.getUser();
-
-  // Mock data for the cards
-  const activityData = {
-    totalServices: 14,
-    approved: 8,
-    underReview: 4,
-    rejected: 2,
-    approvalRate: 85
-  };
 
   return (
     <Fragment>
@@ -35,75 +27,7 @@ export default function Dashboard() {
         <Grid container spacing={3}>
           {/* Top Row - Profile Completion Card */}
           <Grid item lg={6} md={6} sm={12} xs={12}>
-            <Card
-              p="24px"
-              ml="-36px"
-              mb="20px"
-              borderRadius={12}
-              style={{
-                background: 'linear-gradient(135deg, #6366f1 0%, #06b6d4 100%)',
-                color: 'white',
-                width: '556px',
-                height: '240px',
-                position: 'relative',
-                overflow: 'hidden'
-              }}
-            >
-              <FlexBox justifyContent="space-between" alignItems="flex-start" height="100%">
-                <Box>
-                  <H3 color="white" mb="8px" fontWeight="600">
-                    My Profile Completion
-                  </H3>
-                  <Typography fontSize="14px" color="rgba(255,255,255,0.8)" mb="16px">
-                    Access a wider range of tailored services,<br />
-                    and personalized support.
-                  </Typography>
-                  <Typography 
-                    fontSize="14px" 
-                    color="white" 
-                    style={{ textDecoration: 'underline', cursor: 'pointer' }}
-                  >
-                    Complete your profile &gt;
-                  </Typography>
-                </Box>
-                
-                <Box style={{ position: 'relative' }}>
-                  <svg width="120" height="120" viewBox="0 0 120 120">
-                    <circle
-                      cx="60"
-                      cy="60"
-                      r="50"
-                      fill="none"
-                      stroke="rgba(255,255,255,0.2)"
-                      strokeWidth="10"
-                    />
-                    <circle
-                      cx="60"
-                      cy="60"
-                      r="50"
-                      fill="none"
-                      stroke="white"
-                      strokeWidth="10"
-                      strokeDasharray={`${2 * Math.PI * 50 * 0.6} ${2 * Math.PI * 50}`}
-                      strokeDashoffset={2 * Math.PI * 50 * 0.25}
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                  <Box 
-                    style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      textAlign: 'center'
-                    }}
-                  >
-                    <Typography fontSize="32px" fontWeight="bold" color="white">60%</Typography>
-                    <Typography fontSize="12px" color="rgba(255,255,255,0.8)">Complete</Typography>
-                  </Box>
-                </Box>
-              </FlexBox>
-            </Card>
+            <ProfileCompletionCard completionPercentage={50} />
           </Grid>
 
           {/* Top Row - Quick Access Card */}

@@ -16,11 +16,10 @@ import { ShowingText } from "./styles";
 
 import Section2 from "../section-2/Section2";
 
-
 // GraphQL Query
 const GET_PRODUCTS = `
-  query GetProducts($skip: Int!, $take: Int!) {
-    products(options: { skip: $skip, take: $take }) {
+  query GetProducts($take: Int!) {
+    products(options: { take: $take }) {
       items {
         id
         name
@@ -37,8 +36,19 @@ const GET_PRODUCTS = `
           code
         }
         customFields {
-          Partner
+          Industry
+          BusinessStage
+          ProcessingTime
+          RegistrationValidity
           Cost
+          Steps
+          TermsOfService
+          RequiredDocuments
+          RelatedServices {
+            id
+            name
+            slug
+          }
         }
       }
       totalItems
@@ -59,8 +69,19 @@ interface Product {
   description: string;
   facetValues: FacetValue[];
   customFields: {
-    Partner: string;
+    Industry?: string;
+    BusinessStage?: string;
+    ProcessingTime?: string;
+    RegistrationValidity?: string;
     Cost?: number;
+    Steps?: string;
+    TermsOfService?: string;
+    RequiredDocuments?: string;
+    RelatedServices?: {
+      id: string;
+      name: string;
+      slug: string;
+    }[];
   };
 }
 
@@ -72,7 +93,6 @@ interface GetProductsData {
 }
 
 interface GetProductsVariables {
-  skip: number;
   take: number;
 }
 
@@ -161,168 +181,113 @@ export default function Section6() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      console.log("Fetching data from GraphQL... Current Page:", currentPage, "Skip:", (currentPage - 1) * productsPerPage, "Take:", productsPerPage);
+      console.log("Fetching data from GraphQL... Take:", productsPerPage);
       try {
-        if (areFiltersApplied()) {
-          console.log("Filters are applied, fetching all products for filtering...");
-          const allProducts: Product[] = [];
-          let currentSkip = 0;
-          let total = 0;
+        const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
+          take: 31,
+        });
+        console.log("Fetched products:", data.products.items.length, "Total Items:", data.products.totalItems);
 
-          do {
-            const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
-              skip: currentSkip,
-              take: productsPerPage,
-            });
-            console.log("Fetched batch of products:", data.products.items.length, "Total Items:", data.products.totalItems);
-            allProducts.push(...data.products.items);
-            total = data.products.totalItems;
-            currentSkip += productsPerPage;
-          } while (currentSkip < total);
+        // Filter for Financial Services (facetValue.id: "66") and exclude non-financial (facetValue.id: "67")
+        const financialServicesOnly = data.products.items.filter((product) =>
+          product.facetValues.some((fv) => fv.id === "66") &&
+          !product.facetValues.some((fv) => fv.id === "67")
+        );
+        console.log("Filtered to Financial Services only:", financialServicesOnly.length);
 
-          console.log("All products fetched:", allProducts.length);
+        // Apply other filters
+        const selectedCategories = Object.keys(categoriesFilters)
+          .filter((key) => categoriesFilters[key as CategoryFilterKeys])
+          .map((key) => {
+            switch (key) {
+              case "businessOperationsFinancing": return "business-operations-financing";
+              case "projectSpecializedFinancing": return "project-specialized-financing";
+              case "growthExpansionFinancing": return "growth-expansion-financing";
+              case "loanManagementAdjustments": return "loan-management-adjustments";
+              case "businessAssetFinancing": return "business-asset-financing";
+              case "investmentEquityFinancing": return "investment-equity-financing";
+              default: return "";
+            }
+          }) as CategoryCodes[];
 
-          // Filter for Financial Services (facetValue.id: "66") and exclude non-financial (facetValue.id: "67")
-          const financialServicesOnly = allProducts.filter((product) =>
-            product.facetValues.some((fv) => fv.id === "66") &&
-            !product.facetValues.some((fv) => fv.id === "67")
-          );
-          console.log("Filtered to Financial Services only:", financialServicesOnly.length);
+        const selectedStages = Object.keys(businessStageFilters)
+          .filter((key) => businessStageFilters[key])
+          .map((key) => key);
 
-          // Set totalItems to the count of financial services only
-          setTotalItems(financialServicesOnly.length);
+        const selectedProviders = Object.keys(providedByFilters)
+          .filter((key) => providedByFilters[key])
+          .map((key) => {
+            switch (key) {
+              case "khalifaFund": return "khalifa-fund";
+              case "adSmeHub": return "ad-sme-hub";
+              case "hub71": return "hub71";
+              case "adgm": return "adgm";
+              case "other": return "other";
+              default: return key;
+            }
+          });
 
-          // Apply other filters to financial services only
-          const selectedCategories = Object.keys(categoriesFilters)
-            .filter((key) => categoriesFilters[key as CategoryFilterKeys])
-            .map((key) => {
-              switch (key) {
-                case "businessOperationsFinancing": return "business-operations-financing";
-                case "projectSpecializedFinancing": return "project-specialized-financing";
-                case "growthExpansionFinancing": return "growth-expansion-financing";
-                case "loanManagementAdjustments": return "loan-management-adjustments";
-                case "businessAssetFinancing": return "business-asset-financing";
-                case "investmentEquityFinancing": return "investment-equity-financing";
-                default: return "";
-              }
-            }) as CategoryCodes[];
-          console.log("Selected Categories:", selectedCategories);
+        const selectedPricingModels = Object.keys(pricingModelFilters)
+          .filter((key) => pricingModelFilters[key])
+          .map((key) => {
+            switch (key) {
+              case "subscriptionBased": return "subscription-based";
+              case "payPerService": return "pay-per-service";
+              case "oneTimeFee": return "one-time-fee";
+              case "governmentSubsidised": return "government-subsidized";
+              case "free": return "free";
+              default: return key;
+            }
+          });
 
-          const selectedStages = Object.keys(businessStageFilters)
-            .filter((key) => businessStageFilters[key])
-            .map((key) => key);
-          console.log("Selected Stages:", selectedStages);
-
-          const selectedProviders = Object.keys(providedByFilters)
-            .filter((key) => providedByFilters[key])
-            .map((key) => {
-              switch (key) {
-                case "khalifaFund": return "khalifa-fund";
-                case "adSmeHub": return "ad-sme-hub";
-                case "hub71": return "hub71";
-                case "adgm": return "adgm";
-                case "other": return "other";
-                default: return key;
-              }
-            });
-          console.log("Selected Providers:", selectedProviders);
-
-          const selectedPricingModels = Object.keys(pricingModelFilters)
-            .filter((key) => pricingModelFilters[key])
-            .map((key) => {
-              switch (key) {
-                case "subscriptionBased": return "subscription-based";
-                case "payPerService": return "pay-per-service";
-                case "oneTimeFee": return "one-time-fee";
-                case "governmentSubsidised": return "government-subsidized";
-                case "free": return "free";
-                default: return key;
-              }
-            });
-          console.log("Selected Pricing Models:", selectedPricingModels);
-
-          const filtered = selectedCategories.length === 0 &&
-            selectedStages.length === 0 &&
-            selectedProviders.length === 0 &&
-            selectedPricingModels.length === 0
-            ? financialServicesOnly
-            : financialServicesOnly.filter((product) => {
-                const matchesCategory =
-                  selectedCategories.length === 0 ||
-                  product.facetValues.some((facetValue) =>
-                    selectedCategories.includes(facetValue.code as CategoryCodes)
-                  );
-                const matchesStage =
-                  selectedStages.length === 0 ||
-                  product.facetValues.some((facetValue) =>
-                    facetValue.code && selectedStages.includes(facetValue.code)
-                  );
-                const matchesProvider =
-                  selectedProviders.length === 0 ||
-                  product.facetValues.some((facetValue) =>
-                    facetValue.code && selectedProviders.includes(facetValue.code)
-                  );
-                const matchesPricingModel =
-                  selectedPricingModels.length === 0 ||
-                  product.facetValues.some((facetValue) =>
-                    facetValue.code && selectedPricingModels.includes(facetValue.code)
-                  ) ||
-                  (selectedPricingModels.includes("one-time-fee") &&
-                    product.customFields?.Cost && product.customFields.Cost > 0);
-                console.log(`Filtering ${product.name} (id: ${product.id}):`, {
-                  matchesCategory,
-                  matchesStage,
-                  matchesProvider,
-                  matchesPricingModel
-                });
-                return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
+        const filtered = selectedCategories.length === 0 &&
+          selectedStages.length === 0 &&
+          selectedProviders.length === 0 &&
+          selectedPricingModels.length === 0
+          ? financialServicesOnly
+          : financialServicesOnly.filter((product) => {
+              const matchesCategory =
+                selectedCategories.length === 0 ||
+                product.facetValues.some((facetValue) =>
+                  selectedCategories.includes(facetValue.code as CategoryCodes)
+                );
+              const matchesStage =
+                selectedStages.length === 0 ||
+                product.facetValues.some((facetValue) =>
+                  facetValue.code && selectedStages.includes(facetValue.code)
+                ) ||
+                (product.customFields?.BusinessStage && selectedStages.includes(product.customFields.BusinessStage));
+              const matchesProvider =
+                selectedProviders.length === 0 ||
+                product.facetValues.some((facetValue) =>
+                  facetValue.code && selectedProviders.includes(facetValue.code)
+                );
+              const matchesPricingModel =
+                selectedPricingModels.length === 0 ||
+                product.facetValues.some((facetValue) =>
+                  facetValue.code && selectedPricingModels.includes(facetValue.code)
+                ) ||
+                (selectedPricingModels.includes("one-time-fee") &&
+                  product.customFields?.Cost && product.customFields.Cost > 0);
+              console.log(`Filtering ${product.name} (id: ${product.id}):`, {
+                matchesCategory,
+                matchesStage,
+                matchesProvider,
+                matchesPricingModel
               });
-          console.log("Final filtered products count:", filtered.length);
-
-          setAllFilteredProducts(filtered);
-          setTotalFilteredItems(filtered.length);
-
-          const startIndex = (currentPage - 1) * productsPerPage;
-          const endIndex = startIndex + productsPerPage;
-          setProducts(filtered.slice(startIndex, endIndex));
-          setFilteredProducts(filtered.slice(startIndex, endIndex));
-        } else {
-          console.log("No filters applied, fetching all financial services...");
-          const allProducts: Product[] = [];
-          let currentSkip = 0;
-          let total = 0;
-
-          do {
-            const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
-              skip: currentSkip,
-              take: productsPerPage,
+              return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
             });
-            console.log("Fetched batch of products:", data.products.items.length, "Total Items:", data.products.totalItems);
-            allProducts.push(...data.products.items);
-            total = data.products.totalItems;
-            currentSkip += productsPerPage;
-          } while (currentSkip < total);
 
-          console.log("All products fetched:", allProducts.length);
+        setTotalItems(financialServicesOnly.length);
+        setAllFilteredProducts(filtered);
+        setTotalFilteredItems(filtered.length);
 
-          // Filter for Financial Services (facetValue.id: "66") and exclude non-financial (facetValue.id: "67")
-          const financialServicesOnly = allProducts.filter((product) =>
-            product.facetValues.some((fv) => fv.id === "66") &&
-            !product.facetValues.some((fv) => fv.id === "67")
-          );
-          console.log("Filtered to Financial Services only:", financialServicesOnly.length);
-
-          setTotalItems(financialServicesOnly.length);
-          setAllFilteredProducts(financialServicesOnly);
-          setTotalFilteredItems(financialServicesOnly.length);
-
-          const startIndex = (currentPage - 1) * productsPerPage;
-          const endIndex = startIndex + productsPerPage;
-          setProducts(financialServicesOnly.slice(startIndex, endIndex));
-          setFilteredProducts(financialServicesOnly.slice(startIndex, endIndex));
-        }
+        const startIndex = (currentPage - 1) * productsPerPage;
+        const endIndex = startIndex + productsPerPage;
+        setProducts(filtered.slice(startIndex, endIndex));
+        setFilteredProducts(filtered.slice(startIndex, endIndex));
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching products:", error.response?.errors || error.message);
       } finally {
         setLoading(false);
         console.log("Fetching completed. Loading set to false.");
@@ -393,7 +358,8 @@ export default function Section6() {
           selectedStages.length === 0 ||
           product.facetValues.some((facetValue) =>
             facetValue.code && selectedStages.includes(facetValue.code)
-          );
+          ) ||
+          (product.customFields?.BusinessStage && selectedStages.includes(product.customFields.BusinessStage));
         const matchesProvider =
           selectedProviders.length === 0 ||
           product.facetValues.some((facetValue) =>
@@ -508,9 +474,9 @@ export default function Section6() {
                 justifyContent: "center",
                 alignItems: "center",
                 height: "300px",
-                backgroundColor: "#f8f8f8",
-                borderRadius: "8px",
-                border: "1px solid #e0e0e0",
+                // backgroundColor: "#f8f8f8",
+                // borderRadius: "8px",
+                // border: "1px solid #e0e0e0",
                 marginTop: "1rem",
                 fontSize: "1.5rem",
                 color: "#555",
@@ -518,7 +484,24 @@ export default function Section6() {
                 padding: "2rem",
               }}
             >
-              Loading services...
+              <div
+                style={{
+                  border: "4px solid #f3f3f3",
+                  borderTop: "4px solid #002180",
+                  borderRadius: "50%",
+                  width: "40px",
+                  height: "40px",
+                  animation: "spin 1s linear infinite",
+                }}
+              ></div>
+              <style>
+                {`
+                  @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                  }
+                `}
+              </style>
             </div>
           ) : currentProducts.length === 0 ? (
             <div
@@ -527,9 +510,9 @@ export default function Section6() {
                 justifyContent: "center",
                 alignItems: "center",
                 height: "300px",
-                backgroundColor: "#f8f8f8",
-                borderRadius: "8px",
-                border: "1px solid #e0e0e0",
+                // backgroundColor: "#f8f8f8",
+                // borderRadius: "8px",
+                // border: "1px solid #e0e0e0",
                 marginTop: "1rem",
                 fontSize: "1.5rem",
                 color: "#555",
@@ -556,7 +539,7 @@ export default function Section6() {
                       id={product.id}
                       slug={product.slug}
                       name={product.name}
-                      subTitle={product.customFields.Partner}
+                      subTitle={product.customFields.Industry}
                       description={product.description}
                       img={defaultImage}
                       images={defaultImages}

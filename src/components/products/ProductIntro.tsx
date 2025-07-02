@@ -157,11 +157,7 @@ export default function ProductIntro({ product }: Props) {
                   <BiSolidInfoCircle color="#747474" />
                 </FlexBox>
                 <FlexBox flexWrap="wrap" style={{ gap: "10px" }}>
-                  {businessStages.map((stage, index) => (
-                    <Span className="tags" key={index}>
-                      {stage}
-                    </Span>
-                  ))}
+                  <Span className="tags">{product?.businessStage}</Span>
                 </FlexBox>
               </FlexBox>
               <FlexBox flexDirection="column" style={{ gap: "10px" }}>
@@ -169,11 +165,8 @@ export default function ProductIntro({ product }: Props) {
                   <Span> Segment</Span> <BiSolidInfoCircle color="#747474" />
                 </FlexBox>
                 <FlexBox flexWrap="wrap" style={{ gap: "10px" }}>
-                  {segments.map((segment, index) => (
-                    <Span className="tags" key={index}>
-                      {segment}
-                    </Span>
-                  ))}
+                  <Span className="tags">{product.Nationality}</Span>
+                  <Span className="tags">{product.LegalStructure}</Span>
                 </FlexBox>
               </FlexBox>
 
@@ -182,9 +175,9 @@ export default function ProductIntro({ product }: Props) {
                   <Span> Categories</Span> <BiSolidInfoCircle color="#747474" />
                 </FlexBox>
                 <FlexBox flexWrap="wrap" style={{ gap: "20px" }}>
-                  {categories.map((category, index) => (
+                  {product.facetValues.map((category, index) => (
                     <Span className="tags" key={index}>
-                      {category}
+                      {category.name}
                     </Span>
                   ))}
                 </FlexBox>

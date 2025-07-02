@@ -56,9 +56,7 @@ export default function Footer1() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
-                    <SubscribeButton type="submit">
-                      Subscribe
-                    </SubscribeButton>
+                    <SubscribeButton type="submit">Subscribe</SubscribeButton>
                   </SubscribeContainer>
                 </form>
 
@@ -85,8 +83,13 @@ export default function Footer1() {
 
               </Grid>
 
-              <Grid item lg={2} md={6} sm={6} xs={12}>
-                <Typography mb="1.25rem" lineHeight="1" fontSize={20} fontWeight="600">
+              <Grid item lg={3} md={6} sm={6} xs={12}>
+                <Typography
+                  mb="1.25rem"
+                  lineHeight="1"
+                  fontSize={20}
+                  fontWeight="600"
+                >
                   Quick Links
                 </Typography>
 
@@ -99,8 +102,13 @@ export default function Footer1() {
                 </div>
               </Grid>
 
-              <Grid item lg={2} md={6} sm={6} xs={12}>
-                <Typography mb="1.25rem" lineHeight="1" fontSize={20} fontWeight="600">
+              <Grid item lg={3} md={6} sm={6} xs={12}>
+                <Typography
+                  mb="1.25rem"
+                  lineHeight="1"
+                  fontSize={20}
+                  fontWeight="600"
+                >
                   Get to Know Us
                 </Typography>
 

@@ -1,5 +1,6 @@
 "use client";
 
+
 import Card from "@component/Card";
 import Grid from "@component/grid/Grid";
 import NavLink from "@component/nav-link";
@@ -49,6 +50,19 @@ const GET_PRODUCTS = `
             name
             slug
           }
+          Industry
+          BusinessStage
+          ProcessingTime
+          RegistrationValidity
+          Cost
+          Steps
+          TermsOfService
+          RequiredDocuments
+          RelatedServices {
+            id
+            name
+            slug
+          }
         }
       }
       totalItems
@@ -61,6 +75,7 @@ interface FacetValue {
   code: string;
   name: string;
 }
+
 
 interface Product {
   id: string;
@@ -85,12 +100,14 @@ interface Product {
   };
 }
 
+
 interface GetProductsData {
   products: {
     items: Product[];
     totalItems: number;
   };
 }
+
 
 interface GetProductsVariables {
   take: number;
@@ -136,6 +153,7 @@ export default function Section6() {
     investmentEquityFinancing: false,
   });
 
+
   // State for Business Stage filters
   const [businessStageFilters, setBusinessStageFilters] = useState({
     conception: false,
@@ -144,6 +162,7 @@ export default function Section6() {
     restructuring: false,
     other: false,
   });
+
 
   // State for Provided By filters
   const [providedByFilters, setProvidedByFilters] = useState({
@@ -154,6 +173,7 @@ export default function Section6() {
     other: false,
   });
 
+
   // State for Pricing Model filters
   const [pricingModelFilters, setPricingModelFilters] = useState({
     free: false,
@@ -163,9 +183,11 @@ export default function Section6() {
     governmentSubsidised: false,
   });
 
+
   const defaultImage = "/assets/images/mzn_logos/mzn_logo.png";
   const defaultImages = [defaultImage];
   const defaultReviews = 0;
+
 
   // Check if any filters are applied
   const areFiltersApplied = () => {
@@ -176,6 +198,7 @@ export default function Section6() {
       Object.values(pricingModelFilters).some((value) => value)
     );
   };
+
 
   // Fetch products data on component mount or page change
   useEffect(() => {
@@ -294,6 +317,7 @@ export default function Section6() {
       }
     };
 
+
     fetchData();
   }, [currentPage, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters]);
 
@@ -339,6 +363,7 @@ export default function Section6() {
           default: return key;
         }
       });
+
 
     if (
       selectedCategories.length === 0 &&
@@ -393,14 +418,18 @@ export default function Section6() {
     setCurrentPage(1);
   };
 
+
   // Handle checkbox changes for Business Stage filters
-  const handleBusinessStageChange = (stage: keyof typeof businessStageFilters) => {
+  const handleBusinessStageChange = (
+    stage: keyof typeof businessStageFilters
+  ) => {
     setBusinessStageFilters((prev) => ({
       ...prev,
       [stage]: !prev[stage],
     }));
     setCurrentPage(1);
   };
+
 
   // Handle checkbox changes for Provided By filters
   const handleProvidedByChange = (provider: keyof typeof providedByFilters) => {
@@ -411,8 +440,11 @@ export default function Section6() {
     setCurrentPage(1);
   };
 
+
   // Handle checkbox changes for Pricing Model filters
-  const handlePricingModelChange = (model: keyof typeof pricingModelFilters) => {
+  const handlePricingModelChange = (
+    model: keyof typeof pricingModelFilters
+  ) => {
     setPricingModelFilters((prev) => ({
       ...prev,
       [model]: !prev[model],
@@ -420,13 +452,16 @@ export default function Section6() {
     setCurrentPage(1);
   };
 
+
   // Calculate the total number of pages based on filtered or total items
   const totalPages = areFiltersApplied()
     ? Math.ceil(totalFilteredItems / productsPerPage)
     : Math.ceil(totalItems / productsPerPage);
 
+
   // Slice the filtered products to show on the current page
   const currentProducts = filteredProducts;
+
 
   const handlePagination = (direction: "next" | "prev") => {
     if (direction === "next" && currentPage < totalPages) {
@@ -436,8 +471,9 @@ export default function Section6() {
     }
   };
 
+
   return (
-    <Container pt="4rem" style={{ marginTop: '-45px' }}>
+    <Container pt="4rem" style={{ marginTop: "-45px" }}>
       <TabBar />
       <Section2 
         resultsCount={areFiltersApplied() ? totalFilteredItems : totalItems} 
@@ -465,6 +501,7 @@ export default function Section6() {
             areFiltersApplied={areFiltersApplied}
           />
         </Grid>
+
 
         <Grid item md={9} xs={12}>
           {loading ? (
@@ -531,8 +568,14 @@ export default function Section6() {
                     onMouseLeave={() => setHoveredCardId(null)}
                     style={{
                       transition: "all 0.3s ease",
-                      transform: hoveredCardId === product.id ? "scale(1.02)" : "scale(1)",
-                      boxShadow: hoveredCardId === product.id ? "0 4px 8px rgba(0, 0, 0, 0.1)" : "none",
+                      transform:
+                        hoveredCardId === product.id
+                          ? "scale(1.02)"
+                          : "scale(1)",
+                      boxShadow:
+                        hoveredCardId === product.id
+                          ? "0 4px 8px rgba(0, 0, 0, 0.1)"
+                          : "none",
                     }}
                   >
                     <ProductCard19
@@ -551,6 +594,7 @@ export default function Section6() {
               ))}
             </Grid>
           )}
+
 
           {(areFiltersApplied() ? totalFilteredItems : totalItems) > 0 && (
             <div
@@ -574,8 +618,12 @@ export default function Section6() {
                   cursor: currentPage === 1 ? "not-allowed" : "pointer",
                 }}
               >
-                <img src="assets/images/avatars/chevron-right.svg" alt="Previous" />
+                <img
+                  src="assets/images/avatars/chevron-right.svg"
+                  alt="Previous"
+                />
               </button>
+
 
               {[...Array(totalPages)].map((_, index) => (
                 <button
@@ -586,7 +634,8 @@ export default function Section6() {
                     borderRadius: "50%",
                     padding: "0.5rem 1rem",
                     margin: "0 0.5rem",
-                    backgroundColor: currentPage === index + 1 ? "#002180" : "transparent",
+                    backgroundColor:
+                      currentPage === index + 1 ? "#002180" : "transparent",
                     color: currentPage === index + 1 ? "#fff" : "#002180",
                     cursor: "pointer",
                     display: "inline-block",
@@ -595,6 +644,7 @@ export default function Section6() {
                   {index + 1}
                 </button>
               ))}
+
 
               <button
                 onClick={() => handlePagination("next")}
@@ -605,7 +655,8 @@ export default function Section6() {
                   padding: "0.5rem",
                   margin: "0 0.5rem",
                   backgroundColor: "transparent",
-                  cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                  cursor:
+                    currentPage === totalPages ? "not-allowed" : "pointer",
                 }}
               >
                 <img src="assets/images/avatars/chevron-left.svg" alt="Next" />

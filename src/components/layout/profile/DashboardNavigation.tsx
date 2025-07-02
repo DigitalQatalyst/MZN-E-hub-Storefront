@@ -54,7 +54,7 @@ const Sidebar = () => {
           color: active ? 'white' : '#374151',
           borderRadius: '8px',
           cursor: 'pointer',
-          fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
+          fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
         }}
         onMouseEnter={() => setHoveredItem(item.id)}
         onMouseLeave={() => setHoveredItem(null)}
@@ -81,7 +81,7 @@ const Sidebar = () => {
       borderRight: '1px solid #e5e7eb',
       display: 'flex',
       flexDirection: 'column',
-      fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
+      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
     }}>
       {/* Company Selector */}
       <div style={{
@@ -102,7 +102,7 @@ const Sidebar = () => {
             <span style={{
               fontWeight: '500',
               color: '#0030E3',
-              fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
+              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
             }}>FutureTech LLC</span>
           </div>
           <ChevronDown style={{ width: '16px', height: '16px', color: '#0030E3' }} />
@@ -125,7 +125,7 @@ const Sidebar = () => {
             color: isActive('/dashboard') ? 'white' : '#374151',
             borderRadius: '4px',
             cursor: 'pointer',
-            fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
           }}
           onMouseEnter={() => setHoveredItem('overview')}
           onMouseLeave={() => setHoveredItem(null)}
@@ -140,7 +140,7 @@ const Sidebar = () => {
             />
             <span style={{ 
               fontWeight: '500',
-              fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
+              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
             }}>Overview</span>
           </div>
         </div>
@@ -153,7 +153,7 @@ const Sidebar = () => {
             color: '#242424',
             letterSpacing: '0.05em',
             marginBottom: '8px',
-            fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
           }}>
             Essentials
           </h3>
@@ -170,7 +170,7 @@ const Sidebar = () => {
             color: '#242424',
             letterSpacing: '0.05em',
             marginBottom: '8px',
-            fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
           }}>
             Transactions
           </h3>
@@ -187,7 +187,7 @@ const Sidebar = () => {
             color: '#242424',
             letterSpacing: '0.05em',
             marginBottom: '8px',
-            fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
           }}>
             Settings & Support
           </h3>

@@ -26,7 +26,7 @@ export default function Section6({ carList, carBrands }: Props) {
     name: "Green SME Network",
     members: "3.2K Members",
     category: "Sustainability",
-    imageSrc: "/images/image 1.jpg",
+    imageSrc: "/images/image 9.png",
     link: "/community/green-sme-network",
   },
   {
@@ -99,10 +99,10 @@ export default function Section6({ carList, carBrands }: Props) {
   };
 
   return (
-    <Container mb="80px">
+    <Container mb="4.5rem">
       <FlexBox>
         <Hidden down={768} mr="1.75rem">
-          <Box shadow={6} borderRadius={10} padding="1.25rem" bg="white">
+          <Box shadow={6} borderRadius={18} padding="1.25rem" bg="white">
             {/* {carBrands.map((brand) => (
               <StyledProductCategory
                 mb="0.75rem"
@@ -119,8 +119,8 @@ export default function Section6({ carList, carBrands }: Props) {
                 <span className="product-category-title">{brand.name}</span>
               </StyledProductCategory>
             ))} */}
-
 <StyledProductCategory>
+ 
   <Box display="flex" flexDirection="column" alignItems="flex-start" marginBottom={3}>
     <span style={{
       fontSize: '14px',
@@ -134,7 +134,7 @@ export default function Section6({ carList, carBrands }: Props) {
       display="flex" 
       alignItems="center" 
       marginTop={1} 
-      padding="8px"
+      padding="12px"
       borderRadius="8px"
       width="100%"
       maxWidth="280px"
@@ -166,9 +166,27 @@ export default function Section6({ carList, carBrands }: Props) {
       <Box width={24} height={24} marginRight={2} display="flex" justifyContent="center" alignItems="center">
         <NextImage width={24} height={24} alt="favourites-icon" src="/images/Avatar (3).png" />
       </Box>
-      <span style={{ fontSize: '12px', color: '#6C757D', fontWeight: 400 }}>
-        Keep your favorites at your fingertips. Favorites will appear here.
-      </span>
+      <span 
+  style={{
+    fontSize: '10px', 
+    color: '#6C757D', 
+    fontWeight: 400, 
+    backgroundColor: '#E7F1FF',  // light blue background
+    borderRadius: '8px',  // rounded corners
+    borderWidth: '0.5px',  // border width
+    borderColor: '#0030E3',
+    gap: '16px',  // space between items (may not affect a single element)
+    paddingTop: '8px',  // top padding
+    paddingRight: '16px',  // right padding
+    paddingBottom: '8px',  // bottom padding
+    paddingLeft: '16px',  // left padding
+    display: 'inline-block',  // make it an inline block element
+    width: '264px',  // fixed width
+    height: '56px',  // fixed height
+  }}
+>
+  Keep your favorites at your fingertips. Favorites will appear here.
+</span>
     </Box>
   </Box>
 </StyledProductCategory>
@@ -190,9 +208,28 @@ export default function Section6({ carList, carBrands }: Props) {
       <Box width={24} height={24} marginRight={2} display="flex" justifyContent="center" alignItems="center">
         <NextImage width={24} height={24} alt="communities-icon" src="/images/Avatar (2).png" />
       </Box>
-      <span style={{ fontSize: '12px', color: '#6C757D', fontWeight: 400 }}>
-        No communities yet
-      </span>
+      <span 
+  style={{
+    fontSize: '10px', 
+    color: '#6C757D', 
+    fontWeight: 400, 
+    backgroundColor: '#E7F1FF',  // light blue background
+    borderRadius: '8px',  // rounded corners
+    borderWidth: '0.5px',  // border width
+    borderColor: '#0030E3',
+    gap: '16px',  // space between items (may not affect a single element)
+    paddingTop: '8px',  // top padding
+    paddingRight: '16px',  // right padding
+    paddingBottom: '8px',  // bottom padding
+    paddingLeft: '16px',  // left padding
+    display: 'inline-block',  // make it an inline block element
+    width: '264px',  // fixed width
+    height: '56px',  // fixed height
+  }}
+>
+  No communities yet
+</span>
+
     </Box>
   </Box>
 </StyledProductCategory>
@@ -205,21 +242,21 @@ export default function Section6({ carList, carBrands }: Props) {
   p="0"
 >
   <span 
-    id="all" 
-    className="product-category-title" 
-    style={{ 
-      fontSize: '14px', 
-      fontWeight: 600, 
-      color: '#0061F2',  // Blue color for text
-      textDecoration: 'underline',
-      marginTop: '20px',
-      cursor: 'pointer'
-    }}
-  >
+  id="all" 
+  className="product-category-title" 
+  style={{ 
+    fontFamily: 'Inter',  // Use Inter font-family
+    fontSize: '10px',  // Font size set to 10px
+    lineHeight: '20px',  // Line height set to 20px
+    letterSpacing: '0px',  // Letter spacing set to 0px
+    color: '#0061F2',  // Blue color for text
+    marginTop: '20px',  // Margin top set to 20px
+    cursor: 'pointer'  // Change cursor to pointer on hover
+  }}
+>
     Discover communities
   </span>
 </StyledProductCategory>
-
 
 
 

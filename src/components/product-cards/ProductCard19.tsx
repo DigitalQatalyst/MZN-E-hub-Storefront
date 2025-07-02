@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { useState, Fragment } from "react";
 import styled from "styled-components";
@@ -199,7 +200,11 @@ export default function ProductCard19(props: ProductCard19Props) {
             </Small>
           </FlexBox> */}
           <StyledH5 fontWeight={700}>{description}</StyledH5>
-          <Box display="flex" alignItems="center" justifyContent="space-between">
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
             <StyledButton mt={3}>
               <span>Funding & Loans</span>
             </StyledButton>

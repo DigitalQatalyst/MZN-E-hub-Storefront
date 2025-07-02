@@ -1,5 +1,5 @@
 "use client";
- 
+
 import Box from "../Box";
 import Card from "../Card";
 import Badge from "../badge";
@@ -11,7 +11,7 @@ import { Button } from "../buttons";
 import Container from "../Container";
 import Typography, { Span } from "../Typography";
 import Categories from "../categories/Categories";
- 
+
 import StyledNavbar from "./marketStyles";
 
 interface Nav {
@@ -21,10 +21,10 @@ interface Nav {
   badge: string;
   extLink?: boolean;
 }
- 
+
 type NavbarProps = { navListOpen?: boolean };
 // ==============================================================
- 
+
 export default function Navbar({ navListOpen }: NavbarProps) {
   return (
     <StyledNavbar>

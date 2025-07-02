@@ -15,8 +15,9 @@ import Typography, { H3, H5, Small } from "@component/Typography";
 import DashboardPageHeader from "@component/layout/DashboardPageHeader";
 import { EditProfileButton } from "@sections/customer-dashboard/profile";
 import { ServiceRequestsTrendCard } from "./ServiceRequestsTrendCard";
+import { ActivityOverviewCard } from "./ActivityOverviewCard";
 
-export default async function Profile() {
+export default function Dashboard() {
   // const user = await api.getUser();
 
   // Mock data for the cards
@@ -189,146 +190,7 @@ export default async function Profile() {
 
           {/* Bottom Row - Activity Overview Card */}
           <Grid item lg={6} md={6} sm={12} xs={12}>
-            <Card 
-              p="24px"
-              ml="-36px"
-              borderRadius={12}
-              style={{
-                width: '556px',
-                height: '362px',
-                border: '1px solid #e5e7eb'
-              }}
-            >
-              <FlexBox justifyContent="space-between" alignItems="center" mb="16px">
-                <Box>
-                  <H5 mb="4px" fontWeight="600">My Activity Overview</H5>
-                  <Typography fontSize="14px" color="text.hint">Last 30 Days</Typography>
-                </Box>
-                <Typography fontSize="18px" color="text.hint">⋯</Typography>
-              </FlexBox>
-
-              <FlexBox alignItems="flex-start" justifyContent="space-between" height="calc(100% - 60px)">
-                <Box>
-                  <H3 fontSize="48px" fontWeight="bold" mb="8px" color="text.primary">
-                    {activityData.totalServices}
-                  </H3>
-                  <Typography fontSize="16px" color="text.hint" mb="24px">
-                    Total Services Requested
-                  </Typography>
-
-                  <FlexBox flexDirection="column">
-                    <FlexBox alignItems="center">
-                      <Box 
-                        style={{ 
-                          width: '24px', 
-                          height: '24px', 
-                          backgroundColor: '#f3f4f6', 
-                          borderRadius: '4px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          marginRight: '12px'
-                        }}
-                      >
-                        💳
-                      </Box>
-                      <Box>
-                        <Typography fontSize="14px" fontWeight="500">Approved</Typography>
-                        <Typography fontSize="12px" color="text.hint">
-                          {String(activityData.approved).padStart(2, '0')} Services
-                        </Typography>
-                      </Box>
-                    </FlexBox>
-
-                    <FlexBox alignItems="center" style={{ marginTop: '12px' }}>
-                      <Box 
-                        style={{ 
-                          width: '24px', 
-                          height: '24px', 
-                          backgroundColor: '#f3f4f6', 
-                          borderRadius: '4px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          marginRight: '12px'
-                        }}
-                      >
-                        ⏱️
-                      </Box>
-                      <Box>
-                        <Typography fontSize="14px" fontWeight="500">Under Review</Typography>
-                        <Typography fontSize="12px" color="text.hint">
-                          {String(activityData.underReview).padStart(2, '0')} Services
-                        </Typography>
-                      </Box>
-                    </FlexBox>
-
-                    <FlexBox alignItems="center" style={{ marginTop: '12px' }}>
-                      <Box 
-                        style={{ 
-                          width: '24px', 
-                          height: '24px', 
-                          backgroundColor: '#f3f4f6', 
-                          borderRadius: '4px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          marginRight: '12px'
-                        }}
-                      >
-                        ⏰
-                      </Box>
-                      <Box>
-                        <Typography fontSize="14px" fontWeight="500">Rejected</Typography>
-                        <Typography fontSize="12px" color="text.hint">
-                          {String(activityData.rejected).padStart(2, '0')} Services
-                        </Typography>
-                      </Box>
-                    </FlexBox>
-                  </FlexBox>
-                </Box>
-
-                <Box style={{ position: 'relative' }}>
-                  <svg width="140" height="140" viewBox="0 0 140 140">
-                    <circle
-                      cx="70"
-                      cy="70"
-                      r="55"
-                      fill="none"
-                      stroke="#e5e7eb"
-                      strokeWidth="8"
-                    />
-                    <circle
-                      cx="70"
-                      cy="70"
-                      r="55"
-                      fill="none"
-                      stroke="#0030E3"
-                      strokeWidth="8"
-                      strokeDasharray={`${2 * Math.PI * 55 * 0.85} ${2 * Math.PI * 55}`}
-                      strokeDashoffset={2 * Math.PI * 55 * 0.25}
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                  <Box
-                    style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      textAlign: 'center'
-                    }}
-                  >
-                    <Typography fontSize="12px" color="text.hint" mb="4px">
-                      Service Approval Rate
-                    </Typography>
-                    <Typography fontSize="32px" fontWeight="bold" color="#0030E3">
-                      {activityData.approvalRate}%
-                    </Typography>
-                  </Box>
-                </Box>
-              </FlexBox>
-            </Card>
+            <ActivityOverviewCard />
           </Grid>
 
           {/* Bottom Row - Service Requests Trend Card with ApexCharts */}

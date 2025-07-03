@@ -4,6 +4,7 @@ import { useState } from "react";
 import dynamic from 'next/dynamic';
 import type { SyntheticEvent } from 'react';
 import type { ApexOptions } from 'apexcharts';
+import Image from "next/image";
 
 // MUI imports
 import Tab from '@mui/material/Tab';
@@ -38,13 +39,13 @@ export function ServiceRequestsTrendCard() {
     {
       type: 'financial',
       label: 'Financial Requests',
-      icon: '💳',
+      icon: '/images/columns.svg',
       series: [{ data: [2, 1, 4, 3, 1, 2, 3, 2, 1] }]
     },
     {
       type: 'non-financial',
       label: 'Non-Financial Requests',
-      icon: '📄',
+      icon: '/images/shield-check.svg',
       series: [{ data: [0, 0, 0, 0, 0, 0, 0, 0, 0] }]
     }
   ];
@@ -175,7 +176,7 @@ export function ServiceRequestsTrendCard() {
             '& .MuiTab-root': { 
               textTransform: 'none',
               minWidth: 'auto',
-              width: '150px',
+              width: '180px',
               height: '71px',
               mr: 2,
               p: '12px',
@@ -203,7 +204,27 @@ export function ServiceRequestsTrendCard() {
               value={tab.type}
               label={
                 <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-                  <Box style={{ fontSize: '20px' }}>{tab.icon}</Box>
+                  <Box style={{ 
+                    width: '24px', 
+                    height: '24px', 
+                    backgroundColor: '#7367F014', 
+                    borderRadius: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginRight: '12px'
+                  }}>
+                    <Image
+                      src={tab.icon}
+                      alt={tab.type}
+                      width={16}
+                      height={16}
+                      style={{
+                        objectFit: 'contain',
+                        filter: 'brightness(0) saturate(100%) invert(41%) sepia(8%) saturate(1567%) hue-rotate(203deg) brightness(95%) contrast(84%)'
+                      }}
+                    />
+                  </Box>
                   <span style={{ fontSize: '12px', lineHeight: 1.2 }}>{tab.label}</span>
                 </Box>
               }

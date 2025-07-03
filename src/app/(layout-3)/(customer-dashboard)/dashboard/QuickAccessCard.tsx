@@ -5,6 +5,7 @@ import Card from "@component/Card";
 import FlexBox from "@component/FlexBox";
 import Typography, { H5 } from "@component/Typography";
 import { ChevronRight } from "lucide-react";
+import Image from "next/image";
 
 interface QuickAccessItem {
   icon: string;
@@ -29,14 +30,14 @@ const QuickAccessCard: React.FC<QuickAccessCardProps> = ({
 }) => {
   const quickAccessItems: QuickAccessItem[] = [
     {
-      icon: "📄",
+      icon: "/images/copy.svg",
       title: `${draftCount} Draft Service Requests`,
       subtitle: "Resume where you left off",
       count: draftCount,
       onClick: onDraftClick,
     },
     {
-      icon: "📋",
+      icon: "/images/hourglass.svg",
       title: `${reviewCount} Services Under Review`,
       subtitle: "Track Progress",
       count: reviewCount,
@@ -69,7 +70,7 @@ const QuickAccessCard: React.FC<QuickAccessCardProps> = ({
             key={index}
             alignItems="center"
             justifyContent="space-between"
-            p="12px 16px"
+            my="12px"
             borderRadius={8}
             onClick={item.onClick}
             style={{
@@ -91,7 +92,16 @@ const QuickAccessCard: React.FC<QuickAccessCardProps> = ({
                   marginRight: "12px",
                 }}
               >
-                {item.icon}
+                <Image
+                  src={item.icon}
+                  alt={item.title}
+                  width={16}
+                  height={16}
+                  style={{ 
+                    objectFit: 'contain',
+                    filter: 'brightness(0) saturate(100%) invert(41%) sepia(8%) saturate(1567%) hue-rotate(203deg) brightness(95%) contrast(84%)'
+                  }}
+                />
               </Box>
               <Box>
                 <Typography fontSize="14px" fontWeight="500">
@@ -113,8 +123,8 @@ const QuickAccessCard: React.FC<QuickAccessCardProps> = ({
                 justifyContent: "center",
               }}
                 >
-                <Typography fontSize="18px" color="#A8AAAE" display={"flex"} alignItems="center" justifyContent="center">
-                    <ChevronRight />
+                <Typography color="#A8AAAE" display={"flex"} alignItems="center" justifyContent="center">
+                    <ChevronRight size={16} />
                 </Typography>
             </Box>
           </FlexBox>

@@ -1,6 +1,7 @@
 "use client"
 
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
 import { ApexOptions } from 'apexcharts'
 import Card from "@component/Card"
 import Box from "@component/Box"
@@ -142,19 +143,19 @@ export const ActivityOverviewCard = () => {
 
   const serviceData = [
     {
-      icon: '💳',
+      icon: '/images/ticket.svg',
       title: 'Approved',
       value: String(activityData.approved).padStart(2, '0') + ' Services',
       bgColor: '#f3f4f6'
     },
     {
-      icon: '⏱️',
-      title: 'Under Review', 
+      icon: '/images/circle-check.svg',
+      title: 'Under Review',
       value: String(activityData.underReview).padStart(2, '0') + ' Services',
       bgColor: '#f3f4f6'
     },
     {
-      icon: '⏰',
+      icon: '/images/clock.svg',
       title: 'Rejected',
       value: String(activityData.rejected).padStart(2, '0') + ' Services',
       bgColor: '#f3f4f6'
@@ -205,7 +206,16 @@ export const ActivityOverviewCard = () => {
                     marginRight: '12px'
                   }}
                 >
-                  {item.icon}
+                  <Image
+                    src={item.icon}
+                    alt={item.title}
+                    width={16}
+                    height={16}
+                    style={{ 
+                      objectFit: 'contain',
+                      filter: 'brightness(0) saturate(100%) invert(41%) sepia(8%) saturate(1567%) hue-rotate(203deg) brightness(95%) contrast(84%)'
+                    }}
+                  />
                 </Box>
                 <Box>
                   <Typography fontSize="14px" fontWeight="500">{item.title}</Typography>

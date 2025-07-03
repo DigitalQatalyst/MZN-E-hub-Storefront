@@ -4,6 +4,7 @@ import Box from "@component/Box";
 import Card from "@component/Card";
 import FlexBox from "@component/FlexBox";
 import Typography, { H3 } from "@component/Typography";
+import { useRouter } from 'next/navigation';
 
 // Dynamically import ReactApexChart to avoid SSR issues
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
@@ -15,6 +16,7 @@ interface ProfileCompletionCardProps {
 export default function ProfileCompletionCard({ 
   completionPercentage = 60 
 }: ProfileCompletionCardProps) {
+  const router = useRouter();
   const chartOptions: ApexOptions = {
     colors: ['#ffffff'],
     stroke: { 
@@ -127,6 +129,7 @@ export default function ProfileCompletionCard({
               fontSize="14px" 
               color="white" 
               style={{ textDecoration: 'underline', cursor: 'pointer' }}
+              onClick={() => router.push('/firm-profile')}
             >
               Complete your profile &gt;
             </Typography>

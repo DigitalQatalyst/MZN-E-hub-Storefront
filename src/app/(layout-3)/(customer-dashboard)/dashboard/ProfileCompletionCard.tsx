@@ -23,7 +23,7 @@ export default function ProfileCompletionCard({
     },
     legend: { show: false },
     tooltip: { 
-      enabled: true,
+      enabled: false,
       theme: false as any,
       style: {
         fontSize: '12px',

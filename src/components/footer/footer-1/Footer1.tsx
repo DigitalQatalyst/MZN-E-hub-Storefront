@@ -1,25 +1,27 @@
 "use client";
 
 import Link from "next/link";
-
 import { useState } from "react";
-import Box from "@component/Box";
 import Image from "@component/Image";
 import Grid from "@component/grid/Grid";
 import Icon from "@component/icon/Icon";
 import FlexBox from "@component/FlexBox";
-import AppStore from "@component/AppStore";
 import Container from "@component/Container";
 import Typography, { Paragraph } from "@component/Typography";
-import Button from "@component/buttons/Button";
 
 // STYLED COMPONENTS
 import {
   StyledLink,
+  SubscribeContainer,
   SubscribeInput,
   SubscribeButton,
-  SubscribeContainer,
+  FooterContainer,
+  ContentContainer,
+  CopyrightContainer,
+  IconContainer,
+  SmallTag,
 } from "./styles";
+
 // CUSTOM DATA
 import {
   aboutLinks,
@@ -34,37 +36,34 @@ export default function Footer1() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle the subscribe action
     console.log("Subscribed with email:", email);
   };
 
   return (
     <footer>
-      <Box bg="var(--KF-BG-Dark-Blue, #002180)">
-        <Container p="1rem" color="white">
-          <Box py="5rem" overflow="hidden">
+      <FooterContainer>
+        <Container p="1rem">
+          <ContentContainer>
             <Grid container spacing={3}>
-              <Grid item lg={4} md={6} sm={6} xs={12}>
+              <Grid item lg={6} md={6} sm={6} xs={12}>
                 <Link href="/">
                   <Image
                     alt="logo"
                     mb="1rem"
-                    src="/assets/images/mzn_logos/Asset 10 (1).svg"
+                    src="/assets/images/tab_bar/Subtract.svg"
                   />
                 </Link>
 
-                <Paragraph mb="1.25rem" color="gray.500" maxWidth="320px">
+                <Paragraph mb="1.25rem" color="#FFFFFF" maxWidth="320px">
                   Stay updated with the latest business insights, opportunities,
                   and services from MZN.
                 </Paragraph>
 
-                {/* <AppStore /> */}
-                {/* Subscribe form */}
                 <form onSubmit={handleSubmit}>
                   <SubscribeContainer>
                     <SubscribeInput
                       type="email"
-                      placeholder="Enter Your email"
+                      placeholder="Enter your email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
@@ -72,33 +71,28 @@ export default function Footer1() {
                   </SubscribeContainer>
                 </form>
 
-                <Box
-                  bg="var(--KF-BG-Dark-Blue, #002180)"
-                  py="1rem"
-                  textAlign="center"
-                >
-                  <FlexBox alignItems="center" style={{ marginTop: "6rem" }}>
-                    {/* "2024" text  */}
-                    <Typography
-                      color="white"
-                      fontSize="11px"
-                      fontWeight="400"
-                      mr="1rem"
-                    >
-                      © 2024
-                    </Typography>
-                    {/* Logo */}
-                    <Image
-                      src="/assets/images/mzn_logos/Layer 1.svg"
-                      alt="MZN Logo"
-                      width="30.156px"
-                      height="12.999px"
-                    />
+                <CopyrightContainer>
+                  <FlexBox
+                    alignItems="center"
+                    justifyContent="space-between"
+                    style={{ marginTop: "6rem", width: "100%" }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <StyledLink href="#" style={{ marginRight: "1rem" }}>
+                        Privacy Policy
+                      </StyledLink>
+                      <StyledLink href="#" style={{ marginRight: "1rem" }}>
+                        Terms of Service
+                      </StyledLink>
+                      <StyledLink href="#">
+                        © 2025 Enterprise Journey
+                      </StyledLink>
+                    </div>
                   </FlexBox>
-                </Box>
+                </CopyrightContainer>
               </Grid>
 
-              <Grid item lg={3} md={6} sm={6} xs={12}>
+              <Grid item lg={2} md={6} sm={6} xs={12}>
                 <Typography
                   mb="1.25rem"
                   lineHeight="1"
@@ -117,7 +111,7 @@ export default function Footer1() {
                 </div>
               </Grid>
 
-              <Grid item lg={3} md={6} sm={6} xs={12}>
+              <Grid item lg={2} md={6} sm={6} xs={12}>
                 <Typography
                   mb="1.25rem"
                   lineHeight="1"
@@ -128,15 +122,40 @@ export default function Footer1() {
                 </Typography>
 
                 <div>
-                  {customerCareLinks.map((item, ind) => (
+                  <StyledLink href="/">About Enterprise Journey</StyledLink>
+                  <StyledLink href="/">
+                    Updates <SmallTag>New</SmallTag>
+                  </StyledLink>
+                  <StyledLink href="/">Contact Us</StyledLink>
+                </div>
+              </Grid>
+
+              {/* <Grid item lg={2} md={6} sm={6} xs={12}>
+                <Typography mb="1.25rem" lineHeight="1" fontSize={20} fontWeight="600">
+                  Partners
+                </Typography>
+
+                <div>
+                  {partners.map((item, ind) => (
                     <StyledLink href="/" key={ind}>
                       {item}
                     </StyledLink>
                   ))}
                 </div>
-              </Grid>
+              </Grid> */}
 
               <Grid item lg={2} md={6} sm={6} xs={12}>
+                {/* <Typography mb="1.25rem" lineHeight="1" fontSize={20} fontWeight="600">
+                  Legal
+                </Typography>
+
+                <div>
+                  {legalLinks.map((item, ind) => (
+                    <StyledLink href="/" key={ind}>
+                      {item}
+                    </StyledLink>
+                  ))}
+                </div> */}
                 <Typography
                   mb="1.25rem"
                   lineHeight="1"
@@ -157,34 +176,31 @@ export default function Footer1() {
                 <FlexBox
                   className="flex"
                   mx="-5px"
-                  style={{ marginTop: "8rem" }}
+                  style={{ marginTop: "2rem" }}
                 >
-                  {iconList.map((item) => (
-                    <a
-                      href={item.url}
-                      target="_blank"
-                      key={item.iconName}
-                      rel="noreferrer noopenner"
-                    >
-                      <Box
-                        m="5px"
-                        p="10px"
-                        size="small"
-                        borderRadius="50%"
-                        bg="rgba(0,0,0,0.2)"
-                      >
-                        <Icon size="12px" defaultcolor="auto">
-                          {item.iconName}
-                        </Icon>
-                      </Box>
-                    </a>
-                  ))}
+                  <IconContainer>
+                    <img
+                      src={`/assets/images/avatars/Social-icons.svg`} // Referencing the specific icon in the SVG
+                      alt={"Social Icons"}
+                      width="150" // Set the icon size here
+                      height="150" // Set the icon size here
+                    />
+                  </IconContainer>
                 </FlexBox>
+
+                {/* <IconContainer>
+                  <img
+                    src={`/assets/images/avatars/Social-icons.svg`} // Referencing the specific icon in the SVG
+                    alt={"Social Icons"}
+                    width="24" // Set the icon size here
+                    height="24" // Set the icon size here
+                  />
+                </IconContainer> */}
               </Grid>
             </Grid>
-          </Box>
+          </ContentContainer>
         </Container>
-      </Box>
+      </FooterContainer>
     </footer>
   );
 }

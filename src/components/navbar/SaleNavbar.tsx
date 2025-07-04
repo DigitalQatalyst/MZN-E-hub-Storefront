@@ -10,7 +10,10 @@ type SaleNavbarProps = {
 };
 // ===========================================================
 
-export default function SaleNavbar({ saleCategoryList, onChange }: SaleNavbarProps) {
+export default function SaleNavbar({
+  saleCategoryList,
+  onChange,
+}: SaleNavbarProps) {
   const [selected, setSelected] = useState(1);
 
   const handleCategoryClick = useCallback(
@@ -34,8 +37,12 @@ export default function SaleNavbar({ saleCategoryList, onChange }: SaleNavbarPro
           ml={ind === 0 ? "auto" : "unset"}
           onClick={handleCategoryClick(ind)}
           bg={ind === selected ? "primary.light" : "transparent"}
-          mr={ind === saleCategoryList.length - 1 ? "auto" : "unset"}>
-          <Icon size="1.75rem" color={ind === selected ? "primary" : "secondary"}>
+          mr={ind === saleCategoryList.length - 1 ? "auto" : "unset"}
+        >
+          <Icon
+            size="1.75rem"
+            color={ind === selected ? "primary" : "secondary"}
+          >
             {item.icon}
           </Icon>
 
@@ -43,7 +50,8 @@ export default function SaleNavbar({ saleCategoryList, onChange }: SaleNavbarPro
             fontSize="12px"
             textAlign="center"
             fontWeight={ind === selected ? "600" : "400"}
-            color={ind === selected ? "primary.main" : "inherit"}>
+            color={ind === selected ? "primary.main" : "inherit"}
+          >
             {item.title}
           </H5>
         </FlexBox>

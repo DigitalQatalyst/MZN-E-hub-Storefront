@@ -15,7 +15,7 @@ const ContentColumn = styled.div`
   padding: 10px 80px 10px 80px;
   display: flex;
   flex-direction: column;
-  font-family: 'Abhaya Libre', serif;
+  font-family: "Abhaya Libre", serif;
   align-items: flex-start;
   width: 100%;
 `;
@@ -27,13 +27,13 @@ const Subheading = styled.div`
 const SubheadingText = styled.span`
   font-size: 16px;
   font-weight: 500;
-  color: #1A1A1A;
+  color: #1a1a1a;
   cursor: default;
 `;
 
 const MarketplaceSubheadingText = styled(SubheadingText)`
-  border-bottom: 2px solid #0030E3;
-  color: var(--KF-BG-Blue, #0030E3);
+  border-bottom: 2px solid #0030e3;
+  color: var(--KF-BG-Blue, #0030e3);
   text-align: center;
   font-family: Inter;
   font-size: 16px;
@@ -76,7 +76,7 @@ const StyledBody = styled.p`
 
 const ExploreAllButton = styled(DefaultButton)`
   background-color: transparent;
-  color: #0030E3;
+  color: #0030e3;
   border: none;
   font-size: 16px;
   font-weight: 500;
@@ -86,7 +86,7 @@ const ExploreAllButton = styled(DefaultButton)`
   padding: 0;
 
   &:hover {
-    color: #A9C9FF;
+    color: #a9c9ff;
   }
 `;
 
@@ -102,7 +102,7 @@ export default async function Section15() {
     { breakpoint: 1279, settings: { slidesToShow: 4 } },
     { breakpoint: 959, settings: { slidesToShow: 3 } },
     { breakpoint: 650, settings: { slidesToShow: 2 } },
-    { breakpoint: 500, settings: { slidesToShow: 1 } }
+    { breakpoint: 500, settings: { slidesToShow: 1 } },
   ];
 
   return (
@@ -110,15 +110,26 @@ export default async function Section15() {
       <ContentColumn>
         <StyledHeader>IN THE SPOTLIGHT</StyledHeader>
         <StyledBody>
-          Discover this quarter's top-performing<br />
+          Discover this quarter's top-performing
+          <br />
           marketplaces and services.
         </StyledBody>
         <Subheading>
-          <MarketplaceSubheadingText>Featured Services</MarketplaceSubheadingText>
+          <MarketplaceSubheadingText>
+            Featured Services
+          </MarketplaceSubheadingText>
         </Subheading>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
           <Description>
-            A quick look at the most active this quarter—driven by SME demand<br /> and partner momentum.
+            A quick look at the most active this quarter—driven by SME demand
+            <br /> and partner momentum.
           </Description>
           <ExploreAllButton>
             Explore more <span>→</span>

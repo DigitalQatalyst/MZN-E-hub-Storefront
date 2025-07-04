@@ -276,7 +276,7 @@ export default function ProductDetails({ product }: Props) {
           padding: "3rem",
         }}
       >
-        <Image
+        {/* <Image
           src="/images/chat.png"
           alt="chat"
           width={50}
@@ -310,7 +310,7 @@ export default function ProductDetails({ product }: Props) {
           }}
         >
           {1}
-        </span>
+        </span> */}
         <TabContainer>
           <TabButton
             active={activeTab === "description"}

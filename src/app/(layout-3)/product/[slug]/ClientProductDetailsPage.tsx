@@ -71,33 +71,32 @@ export default function ClientProductDetailsPage({ slug }: { slug: string }) {
         console.log("Slug:", slug); // Log slug for debugging
         const response = await client.request<ProductResponse>(
           `
-query GetProduct($slug: String!) {
-            product(slug: $slug) {
-              id
-              name
-              slug
-              description
-              customFields {           
-                BusinessStage
-                Nationality                
-                LegalStructure
-                CustomerType
-                Industry
-                ProcessingTime
-                RegistrationValidity
-                Cost
-                Steps
-                TermsOfService
-                RequiredDocuments
-                RelatedServices {
-                  id
-                  name
+            query GetProduct($slug: String!) {
+              product(slug: $slug) {
+                id
+                name
+                slug
+                description
+                customFields { 
+                  CustomerType
+                  BusinessStage
+                  Nationality                
+                  LegalStructure
+                  CustomerType
+                  Industry
+                  ProcessingTime
+                  RegistrationValidity
+                  Cost
+                  Steps
+                  TermsOfService
+                  RequiredDocuments
+                  RelatedServices {
+                    id
+                    name
+                  }
                 }
               }
             }
-          
-      }
-    }
         `,
           { slug }
         );

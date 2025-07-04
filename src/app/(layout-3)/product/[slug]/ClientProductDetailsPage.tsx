@@ -35,6 +35,8 @@ interface CustomFields {
   Status: string;
   tags: string[];
   BusinessStage: string;
+  Nationality: string;
+  LegalStructure: string;
   ProcessingTime: string;
   RegistrationValidity: string;
   relatedServices: RelatedService[];
@@ -50,6 +52,11 @@ interface ProductResponse {
     name: string;
     slug: string;
     description: string;
+    facetValues: {
+      id: string;
+      name: string;
+      code: string;
+    }[];
     customFields: CustomFields;
   };
 }
@@ -88,7 +95,9 @@ query GetProduct($slug: String!) {
                 }
               }
             }
-          }
+          
+      }
+    }
         `,
           { slug }
         );
@@ -110,8 +119,10 @@ query GetProduct($slug: String!) {
             reviews: 50,
             status: customFields.Status || "",
             code: customFields.Code || "",
-            businessStages: customFields.tags || [],
-            highlightedStage: customFields.BusinessStage || "",
+            // businessStages: customFields.tags || [],
+            businessStage: customFields.BusinessStage || "",
+            Nationality: customFields.Nationality || "",
+            LegalStructure: customFields.LegalStructure || "",
             processingTime: customFields.ProcessingTime || "",
             registrationValidity: customFields.RegistrationValidity || "",
             relatedServices: (customFields.relatedServices || []).map(
@@ -131,6 +142,11 @@ query GetProduct($slug: String!) {
             steps: customFields.Steps,
             termsOfService: customFields.TermsOfService,
             requiredDocuments: customFields.RequiredDocuments,
+            facetValues: (response.product.facetValues || []).map((facet) => ({
+              id: facet.id,
+              name: facet.name,
+              code: facet.code,
+            })),
           });
         }
       } catch (error) {

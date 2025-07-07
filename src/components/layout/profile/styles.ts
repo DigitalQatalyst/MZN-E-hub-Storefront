@@ -8,10 +8,6 @@ import NavLink from "@component/nav-link";
 import { getTheme } from "@utils/utils";
 
 export const StyledGrid = styled(Grid)`
-  margin-left: -96px !important;
-  margin-top: -24px !important;
-  padding-left: 0 !important;
-
   @media only screen and (max-width: 1024px) {
     display: none;
   }

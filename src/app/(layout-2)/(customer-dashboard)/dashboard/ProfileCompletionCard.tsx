@@ -100,7 +100,7 @@ export default function ProfileCompletionCard({
   return (
     <Card
       p="24px"
-      ml="-36px"
+      // ml="-36px"
       mb="20px"
       borderRadius={12}
       style={{

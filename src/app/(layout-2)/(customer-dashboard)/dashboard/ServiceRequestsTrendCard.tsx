@@ -151,7 +151,7 @@ export function ServiceRequestsTrendCard() {
   return (
     <Card 
       p="18px" 
-      ml="81px"
+      // ml="81px"
       borderRadius={12}
       style={{ 
         width: '556px',

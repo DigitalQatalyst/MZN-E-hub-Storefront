@@ -48,7 +48,7 @@ const QuickAccessCard: React.FC<QuickAccessCardProps> = ({
   return (
     <Card
       p="24px"
-      ml="81px"
+      // ml="81px"
       mb="20px"
       borderRadius={12}
       style={{

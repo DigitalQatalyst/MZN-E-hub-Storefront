@@ -15,6 +15,7 @@ import { Carousel } from "@component/carousel";
 import { border, display, flexDirection, fontWeight } from "styled-system";
 import Image from "next/image";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
+import "./products.css";
 
 const TabButton = styled(Button)<{ active?: boolean }>`
   padding: 0.75rem 1.5rem;
@@ -279,42 +280,8 @@ export default function ProductDetails({ product }: Props) {
             "0px 1px 2px 0px rgba(0, 33, 128, 0.30), 0px 1px 3px 1px rgba(0, 33, 128, 0.15)",
           padding: "3rem",
         }}
+        className="product-details-container"
       >
-        {/* <Image
-          src="/images/chat.png"
-          alt="chat"
-          width={50}
-          height={50}
-          style={{
-            borderRadius: "50%",
-            position: "absolute",
-            right: "-20px",
-            top: 5,
-          }}
-        />
-        <span
-          style={{
-            position: "absolute",
-            top: 0,
-            right: "-20px",
-            background:
-              "linear-gradient(90deg, #01E5D1 0%, #02E4D1 8.12%, #04E2D2 14.47%, #07DFD3 19.42%, #0CDAD5 23.32%, #12D5D7 26.54%, #18CEDA 29.42%, #20C7DD 32.34%, #29BEE0 35.66%, #33B5E4 39.72%, #3DABE8 44.89%, #48A0EC 51.54%, #5395F1 60.01%, #6089F5 70.67%, #6C7DFA 83.88%, #7970FF 100%)",
-            color: "#fff",
-            width: "15px",
-            height: "15px",
-            borderRadius: "50%",
-            padding: "auto",
-            display: "flex",
-            fontSize: "10px",
-            alignItems: "center",
-            justifyContent: "center",
-            fontWeight: 700,
-            boxShadow: "0 1px 4px rgba(0,0,0,0.15)",
-            zIndex: 2,
-          }}
-        >
-          {1}
-        </span> */}
         <TabContainer>
           {/* <TabButton
             active={activeTab === "description"}
@@ -323,6 +290,7 @@ export default function ProductDetails({ product }: Props) {
             Description
           </TabButton> */}
           <TabButton
+            className="product-details-tab"
             active={activeTab === "steps"}
             onClick={() => setActiveTab("steps")}
           >
@@ -330,12 +298,14 @@ export default function ProductDetails({ product }: Props) {
           </TabButton>
 
           <TabButton
+            className="product-details-tab"
             active={activeTab === "cost"}
             onClick={() => setActiveTab("cost")}
           >
             Cost
           </TabButton>
           <TabButton
+            className="product-details-tab"
             active={activeTab === "documents"}
             onClick={() => setActiveTab("documents")}
           >
@@ -343,6 +313,7 @@ export default function ProductDetails({ product }: Props) {
           </TabButton>
 
           <TabButton
+            className="product-details-tab"
             active={activeTab === "terms"}
             onClick={() => setActiveTab("terms")}
           >

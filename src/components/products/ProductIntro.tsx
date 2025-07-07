@@ -111,12 +111,13 @@ export default function ProductIntro({ product }: Props) {
           </Box>
         </FlexBox>
       </FlexBox>
-      <Grid container spacing={10}>
+      <Grid container spacing={10} className="product-intro-details-wrapper">
         <Grid
           item
           md={6}
           alignItems="center"
           style={{ width: "40%" }}
+          className="product-intro-details-left"
           // style={{ border: "1px solid red" }}
         >
           <FlexBox
@@ -124,6 +125,7 @@ export default function ProductIntro({ product }: Props) {
             mb="1rem"
             mr={"1.5rem"}
             justifyContent="space-between"
+            className="product-intro-details-btn-container"
           >
             <Button
               bg="#0030E3"
@@ -132,12 +134,18 @@ export default function ProductIntro({ product }: Props) {
               variant="contained"
               color={"primary"}
               onClick={() => setShowRegistrationForm(true)}
+              className="product-intro-details-btn-1"
             >
               <p color="#ffffff !important">Start Application</p>
             </Button>
-            <Button color="#002180" height="50px" border={"2px solid #002180"}>
+            <Button
+              color="#002180"
+              height="50px"
+              border={"2px solid #002180"}
+              className="product-intro-details-btn-2"
+            >
               <FaRegBookmark color="#002180" size="20px" />
-              &nbsp; Save
+              <span>Save</span>
             </Button>
             <FlexBox
               justifyContent="s
@@ -149,7 +157,7 @@ export default function ProductIntro({ product }: Props) {
               </Button>
             </FlexBox>
           </FlexBox>
-          <FlexBox>
+          <FlexBox className="product-intro-tags">
             <FlexBox flexDirection="column" style={{ gap: "30px" }}>
               <FlexBox flexDirection="column" style={{ gap: "10px" }}>
                 <FlexBox alignItems="center" style={{ gap: "5px" }}>
@@ -197,6 +205,7 @@ export default function ProductIntro({ product }: Props) {
           md={6}
           alignItems="top"
           justifyContent={"top"}
+          className="product-intro-details-right"
         >
           <Carousel dots arrows slidesToShow={1} responsive={responsive}>
             {assets.map((asset, index) => (

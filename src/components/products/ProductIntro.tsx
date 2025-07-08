@@ -77,7 +77,7 @@ export default function ProductIntro({ product }: Props) {
     "Loan Management & Adjustments",
   ];
   const responsive = [
-    { breakpoint: 959, settings: { slidesToShow: 2 } },
+    { breakpoint: 959, settings: { slidesToShow: 1 } },
     { breakpoint: 650, settings: { slidesToShow: 1 } },
   ];
   return (
@@ -209,7 +209,7 @@ export default function ProductIntro({ product }: Props) {
         >
           <Carousel dots arrows slidesToShow={1} responsive={responsive}>
             {assets.map((asset, index) => (
-              <Grid item xs={12} sm={6} md={4}>
+              <Box key={index} width="100%">
                 {asset.video ? (
                   <Box
                     width="100%"
@@ -304,7 +304,7 @@ export default function ProductIntro({ product }: Props) {
                 ) : (
                   <img src={asset.url} alt="Product Image" />
                 )}
-              </Grid>
+              </Box>
             ))}
           </Carousel>
         </Grid>

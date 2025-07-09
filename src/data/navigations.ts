@@ -2,61 +2,61 @@ const navigations = [
   {
     icon: "all_inclusive",
     title: "Non-Financial",
-    href: "/fashion",
+    href: "",
     menuComponent: "MegaMenu1",
     menuData: {
       categories: [
         {
           title: "Events & Networking",
-          href: "/product/search/events-networking",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/events-networking.png"
         },
         {
           title: "Partnerships & Opportunities",
-          href: "/product/search/partnerships-opportunities",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/partnerships-opportunities.png"
         },
         {
           title: "Academy & Training",
-          href: "/product/search/academy-training",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/academy-training.png"
         },
         {
           title: "Operational Advisory",
-          href: "/product/search/operational-advisory",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/operational-advisory.png"
         },
         {
           title: "Proximity Incubators",
-          href: "/product/search/proximity-incubators",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/proximity-incubators.png"
         },
         {
           title: "Incentives Listing",
-          href: "/product/search/incentives-listing",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/incentives-listing.png"
         },
         {
           title: "Digital Solutions",
-          href: "/product/search/digital-solutions",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/digital-solutions.png"
         },
         {
           title: "Export & Trade Facilitation",
-          href: "/product/search/export-trade-facilitation",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/export-trade-facilitation.png"
         },
         {
           title: "Legal, Compliance & Licensing",
-          href: "/product/search/legal-compliance-licensing",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/legal-compliance-licensing.png"
         }
@@ -72,37 +72,37 @@ const navigations = [
       categories: [
         {
           title: "Business Operations Financing",
-          href: "/product/search/business-operations-financing",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/business-operations-financing.png"
         },
         {
           title: "Project & Specialized Financing",
-          href: "/product/search/project-specialized-financing",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/project-specialized-financing.png"
         },
         {
           title: "Growth & Expansion Financing",
-          href: "/product/search/growth-expansion-financing",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/growth-expansion-financing.png"
         },
         {
           title: "Loan Management & Adjustments",
-          href: "/product/search/loan-management-adjustments",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/loan-management-adjustments.png"
         },
         {
           title: "Business Asset Financing",
-          href: "/product/search/business-asset-financing",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/business-asset-financing.png"
         },
         {
           title: "Investment & Equity Financing",
-          href: "/product/search/investment-equity-financing",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/investment-equity-financing.png"
         }
@@ -112,31 +112,31 @@ const navigations = [
   {
     icon: "local_library",
     title: "Courses",
-    href: "/product/search/bikes",
+    href: "",
     menuComponent: "MegaMenu2",
     menuData: [
       {
         icon: "",
         title: "",
-        href: "/product/search/fashion",
+        href: "",
         megaMenu: "MegaMenu1"
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/electronics",
+        href: "",
         megaMenu: 2
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/home&garden",
+        href: "",
         megaMenu: 3
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/bikes",
+        href: "",
         megaMenu: "MegaMenu1"
       }
     ]
@@ -144,110 +144,110 @@ const navigations = [
   {
     icon: "forum",
     title: "Communities",
-    href: "/product/search/home&garden",
+    href: "",
     menuComponent: "MegaMenu1",
     menuData: {
       categories: [
         {
           title: "",
-          href: "/product/search/man-clothes",
+          href: "",
           subCategories: [
             {
               title: "",
-              href: "/product/search/shirt",
+              href: "",
               imgUrl: "/assets/images/products/categories/shirt.png"
             },
             {
               title: "",
-              href: "/product/search/t-shirt",
+              href: "",
               imgUrl: "/assets/images/products/categories/t-shirt.png"
             },
             {
               title: "",
-              href: "/product/search/pant",
+              href: "",
               imgUrl: "/assets/images/products/categories/pant.png"
             },
             {
               title: "",
-              href: "/product/search/underwear",
+              href: "",
               imgUrl: "/assets/images/products/categories/t-shirt.png"
             }
           ]
         },
         {
           title: "",
-          href: "/product/search/accessories",
+          href: "",
           subCategories: [
             {
               title: "",
-              href: "/product/search/belt",
+              href: "",
               imgUrl: "/assets/images/products/categories/belt.png"
             },
             {
               title: "",
-              href: "/product/search/Hat",
+              href: "",
               imgUrl: "/assets/images/products/categories/hat.png"
             },
             {
               title: "",
-              href: "/product/search/Watches",
+              href: "",
               imgUrl: "/assets/images/products/categories/watch.png"
             },
             {
               title: "",
-              href: "/product/search/Sunglasses",
+              href: "",
               imgUrl: "/assets/images/products/categories/sunglass.png"
             }
           ]
         },
         {
           title: "",
-          href: "/product/search/shoes",
+          href: "",
           subCategories: [
             {
               title: "",
-              href: "/product/search/Sneakers",
+              href: "",
               imgUrl: "/assets/images/products/categories/sneaker.png"
             },
             {
               title: "",
-              href: "/product/search/Sandals",
+              href: "",
               imgUrl: "/assets/images/products/categories/sandal.png"
             },
             {
               title: "",
-              href: "/product/search/Formal",
+              href: "",
               imgUrl: "/assets/images/products/categories/shirt.png"
             },
             {
               title: "",
-              href: "/product/search/Casual",
+              href: "",
               imgUrl: "/assets/images/products/categories/t-shirt.png"
             }
           ]
         },
         {
           title: "",
-          href: "/product/search/bags",
+          href: "",
           subCategories: [
             {
               title: "",
-              href: "/product/search/backpack",
+              href: "",
               imgUrl: "/assets/images/products/categories/backpack.png"
             },
             {
               title: "",
-              href: "/product/search/Crossbody Bags",
+              href: "",
               imgUrl: "/assets/images/products/categories/bag.png"
             },
             {
               title: "",
-              href: "/product/search/Side Bags",
+              href: "",
               imgUrl: "/assets/images/products/categories/mini-bag.png"
             },
             {
               title: "",
-              href: "/product/search/Slides",
+              href: "",
               imgUrl: "/assets/images/products/categories/belt.png"
             }
           ]
@@ -258,192 +258,192 @@ const navigations = [
   {
     icon: "brand_awareness",
     title: "Media",
-    href: "/product/search/gifts",
+    href: "",
     menuComponent: "MegaMenu2",
     menuData: [
       {
         icon: "",
         title: "",
-        href: "/product/search/fashion"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/electronics"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/home&garden"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/bikes"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/gifts"
+            href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/music"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/health&beauty"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/pets"
+        href: ""
       }
     ]
   },
   {
     icon: "crowdsource",
     title: "Investment",
-    href: "/product/search/gifts",
+    href: "",
     menuComponent: "MegaMenu2",
     menuData: [
       {
         icon: "",
         title: "",
-        href: "/product/search/fashion"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/electronics"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/home&garden"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/bikes"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/gifts"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/music"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/health&beauty"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/pets"
+        href: ""
       }
     ]
   },
   {
     icon: "calendar_month",
     title: "Calendar",
-    href: "/product/search/gifts",
+    href: "",
     menuComponent: "MegaMenu2",
     menuData: [
       {
         icon: "",
         title: "",
-        href: "/product/search/fashion"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/electronics"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/home&garden"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/bikes"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/gifts"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/music"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/health&beauty"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/pets"
+        href: ""
       }
     ]
   },
   {
     icon: "rocket_launch",
     title: "Opportunities",
-    href: "/product/search/gifts",
+    href: "",
     menuComponent: "MegaMenu2",
     menuData: [
       {
         icon: "",
         title: "",
-        href: "/product/search/fashion"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/electronics"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/home&garden"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/bikes"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/gifts"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/music"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/health&beauty"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "/product/search/pets"
+        href: ""
       }
     ]
   },

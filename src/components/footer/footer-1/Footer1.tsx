@@ -6,7 +6,6 @@ import Box from "@component/Box";
 import Grid from "@component/grid/Grid";
 import Icon from "@component/icon/Icon";
 import FlexBox from "@component/FlexBox";
-import Container from "@component/Container";
 import Typography, { Paragraph } from "@component/Typography";
 import Image from "next/image";
 
@@ -18,7 +17,7 @@ import { quickLinks, getToKnowUs, partners } from "./data";
 export default function Footer1() {
   const [email, setEmail] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle the subscribe action
     console.log("Subscribed with email:", email);
@@ -34,8 +33,14 @@ export default function Footer1() {
           background: "linear-gradient(94.22deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%)"
         }}
       >
-        <Container p="2rem" color="white">
-          <Box pt="4rem" >
+        <div style={{
+          padding: "2rem",
+          color: "white",
+          maxWidth: "1200px",
+          margin: "0 auto",
+          width: "100%"
+        }}>
+          <Box pt="4rem">
             <Grid container spacing={4} alignItems="flex-start">
               {/* Left Section - Logo, Title, Description & Newsletter */}
               <Grid item lg={6} md={6} sm={12} xs={12}>
@@ -82,7 +87,7 @@ export default function Footer1() {
                           top: '50%',
                           transform: 'translateY(-50%)',
                           backgroundColor: 'white',
-                          color: '#4F46E5',
+                          color: '#0030E3',
                           borderRadius: '8px',
                           fontWeight: '600',
                           border: 'none',
@@ -160,7 +165,7 @@ export default function Footer1() {
                               px="0.5rem" 
                               py="0.25rem" 
                               bg="white" 
-                              color="#4F46E5" 
+                              color="#0030E3" 
                               borderRadius="4px" 
                               fontSize="12px" 
                               fontWeight="600"
@@ -174,7 +179,7 @@ export default function Footer1() {
                   </Grid>
 
                   {/* Partners */}
-                  <Grid item lg={4} md={4} sm={4} xs={12} style={{ marginRight: '-0.5rem' }}>
+                  <Grid item lg={4} md={4} sm={4} xs={12} style={{ marginLeft: '0rem' }}>
                     <Typography 
                       mb="1.5rem" 
                       lineHeight="1" 
@@ -205,7 +210,7 @@ export default function Footer1() {
               </Grid>
             </Grid>
           </Box>
-        </Container>
+        </div>
       </Box>
 
       {/* Bottom Copyright Section */}
@@ -215,7 +220,12 @@ export default function Footer1() {
         }}
         pb="1.5rem"
       >
-        <Container>
+        <div style={{
+          maxWidth: "1200px",
+          margin: "0 auto",
+          width: "100%",
+          padding: "0 2rem"
+        }}>
           <FlexBox 
             justifyContent="space-between" 
             alignItems="center"
@@ -332,7 +342,7 @@ export default function Footer1() {
               </a>
             </FlexBox>
           </FlexBox>
-        </Container>
+        </div>
       </Box>
     </footer>
   );

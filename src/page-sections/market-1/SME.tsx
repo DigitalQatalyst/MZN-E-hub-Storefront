@@ -21,7 +21,7 @@ type Props = { carList: Product[]; carBrands: Brand[] };
 export default function Section6({ carList, carBrands }: Props) {
   const [selected, setSelected] = useState("discussions"); // State for tabs: "discussions", "about", "events"
   const [selectedGroup, setSelectedGroup] = useState(""); // State for selected group in the sidebar
-  const [expandedSection, setExpandedSection] = useState('Quality Content'); 
+  const [expandedSection, setExpandedSection] = useState('Quality Content');
 
   const toggleGuidelinesSection = (sectionName) => {
     setExpandedSection(expandedSection === sectionName ? null : sectionName);
@@ -46,46 +46,48 @@ export default function Section6({ carList, carBrands }: Props) {
   ];
   const guidelines = [
     { title: 'Respectful Communication', content: [] },
-    { title: 'Quality Content', content: [
-      'Share accurate information from accurate sources',
-      'Share accurate information from accurate sources',
-      'Respect intellectual property and cite sources appropriately',
-      'Keep content relevant to the community’s focus area'
-    ]},
+    {
+      title: 'Quality Content', content: [
+        'Share accurate information from accurate sources',
+        'Share accurate information from accurate sources',
+        'Respect intellectual property and cite sources appropriately',
+        'Keep content relevant to the community’s focus area'
+      ]
+    },
     { title: 'Privacy & Confidentiality', content: [] },
     { title: 'Intellectual Property', content: [] },
     { title: 'Commercial Activity', content: [] }
   ];
 
   const events = [
-  {
-    id: "e1",
-    imageSrc: "/assets/images/community Marketplace Details/Blog Image (3).svg",
-    type: "",
-    title: "Carbon Accounting Workshop",
-    date: "24 June 2025",
-    time: "04:30 PM - 06:30 PM",
-    location: "Abu Dhabi SME Hub, Khalifa Fund HQ, Abu Dhabi",
-  },
-  {
-    id: "e2",
-    imageSrc: "/assets/images/community Marketplace Details/Blog Image (2).svg",
-    type: "Webinar",
-    title: "Sustainability in Action",
-    date: "03 Jun 2025",
-    time: "02:00 PM - 03:30 PM",
-    location: "Virtual",
-  },
-  {
-    id: "e3",
-    imageSrc: "assets/images/community Marketplace Details/Blog Image.svg",
-    type: "",
-    title: "SME Sustainability Roundtable",
-    date: "28 Aug 2025",
-    time: "04:30 PM - 06:30 PM",
-    location: "Abu Dhabi SME Hub, Khalifa Fund HQ, Abu Dhabi",
-  },
-];
+    {
+      id: "e1",
+      imageSrc: "/assets/images/community Marketplace Details/Blog Image (3).svg",
+      type: "",
+      title: "Carbon Accounting Workshop",
+      date: "24 June 2025",
+      time: "04:30 PM - 06:30 PM",
+      location: "Abu Dhabi SME Hub, Khalifa Fund HQ, Abu Dhabi",
+    },
+    {
+      id: "e2",
+      imageSrc: "/assets/images/community Marketplace Details/Blog Image (2).svg",
+      type: "Webinar",
+      title: "Sustainability in Action",
+      date: "03 Jun 2025",
+      time: "02:00 PM - 03:30 PM",
+      location: "Virtual",
+    },
+    {
+      id: "e3",
+      imageSrc: "assets/images/community Marketplace Details/Blog Image.svg",
+      type: "",
+      title: "SME Sustainability Roundtable",
+      date: "28 Aug 2025",
+      time: "04:30 PM - 06:30 PM",
+      location: "Abu Dhabi SME Hub, Khalifa Fund HQ, Abu Dhabi",
+    },
+  ];
 
   const handleCategoryClick = (brand: Brand) => () => {
     if (selected === brand.slug) setSelected("");
@@ -169,7 +171,7 @@ export default function Section6({ carList, carBrands }: Props) {
             <NextImage src="/images/image 1.jpg" alt="Community Banner" layout="fill" objectFit="cover" />
 
             {/* Community Title Overlay */}
-            <Box position="absolute" bottom={0} left={0} padding="16px" bg="rgba(0, 0, 0, 0.5)" color="white" width="100%">
+            <Box position="absolute" bottom={0} left={0} padding="16px" bg="transparent" color="white" width="100%">
               <h1>Green SME Network</h1>
             </Box>
           </Box>
@@ -189,9 +191,9 @@ export default function Section6({ carList, carBrands }: Props) {
           </Box>
 
           {/* NEW SECTION: Discussions, About, Events & Groups */}
-          <FlexBox flexWrap="wrap" mt="20px"> 
+          <FlexBox flexWrap="wrap" mt="20px">
             <Box flex="1" padding="20px" maxWidth="100%" minWidth="0">
-              <Box bg="white"  borderRadius={8}>
+              <Box bg="white" borderRadius={8}>
                 {/* Tabs */}
                 <FlexBox borderBottom="1px solid #e0e0e0" mb="20px" shadow={6} flexWrap="wrap" justifyContent="space-between">
                   <Box
@@ -272,14 +274,14 @@ export default function Section6({ carList, carBrands }: Props) {
                       <Box key={discussion.id} bg="white" borderRadius="8px" p="15px" mb="15px" border="1px solid #e0e0e0">
                         <FlexBox alignItems="center" mb="10px" justifyContent="space-between">
                           <FlexBox alignItems="center">
-                           
+
                             <Box width={32} height={32} borderRadius="50%" bg="#e0e0e0" mr="10px"></Box>
                             <Box>
                               <span style={{ fontWeight: 600, fontSize: '14px', color: '#212529' }}>{discussion.author}</span>
                               <span style={{ fontSize: '12px', color: '#6C757D', marginLeft: '8px' }}>{discussion.time}</span>
                             </Box>
                           </FlexBox>
-                        
+
                           <Box cursor="pointer">...</Box>
                         </FlexBox>
                         <p style={{ fontSize: '14px', color: '#212529', lineHeight: '1.5' }}>{discussion.content}</p>
@@ -291,9 +293,9 @@ export default function Section6({ carList, carBrands }: Props) {
                 {/* about section */}
                 {selected === "about" && (
                   <Box>
-                    <Box bg="white" shadow={6} borderRadius="8px" p="20px" mb="20px"> 
+                    <Box bg="white" shadow={6} borderRadius="8px" p="20px" mb="20px">
                       <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '15px', color: '#212529' }}>About this Community</h2>
-                   
+
                       <Box style={{ borderBottom: '1px solid #e0e0e0', marginBottom: '20px' }}></Box>
                       <p style={{ fontSize: '14px', lineHeight: '1.5', color: '#212529' }}>
                         This community brings together sustainability professionals, carbon market experts, and SME leaders who are navigating the complex world of carbon credits and environmental compliance. We share best practices, discuss market trends, and support each other in building more sustainable businesses.
@@ -336,90 +338,90 @@ export default function Section6({ carList, carBrands }: Props) {
 
                       <Box bg="#e6f0ff" p="15px" borderRadius="8px" textAlign="center" mt="20px">
                         <p style={{ fontSize: '13px', color: '#0061F2', lineHeight: '1.4' }}>
-                          By participating in this community, you agree to abide by these guidelines.<br/>
+                          By participating in this community, you agree to abide by these guidelines.<br />
                           Repeated violations may result in temporary or permanent removal from the group.
                         </p>
                       </Box>
                     </Box>
                   </Box>
                 )}
-              {selected === "events" && (
-                <Box>
-                  <h2 style={{ fontSize: '18px', fontWeight: 600, color: '#212529', marginBottom: '15px' }}>
-                    Upcoming Events
-                  </h2>
-                  <Box
-                    style={{
-                      borderBottom: '1px solid #E0E0E0',
-                      marginBottom: '25px',
-                    }}
-                  />
+                {selected === "events" && (
+                  <Box>
+                    <h2 style={{ fontSize: '18px', fontWeight: 600, color: '#212529', marginBottom: '15px' }}>
+                      Upcoming Events
+                    </h2>
+                    <Box
+                      style={{
+                        borderBottom: '1px solid #E0E0E0',
+                        marginBottom: '25px',
+                      }}
+                    />
 
-                  {events.length > 0 ? (
-                    <Grid container spacing={3}>
-                      {events.map((event) => (
-                        <Grid item xs={12} sm={6} md={4} key={event.id}>
-                          <Box bg="white" shadow={6} borderRadius={8} overflow="hidden">
-                            {/* Image container */}
-                            <Box position="relative" width="100%" height="180px" borderRadius="8px 8px 0 0" overflow="hidden">
-                              <NextImage src={event.imageSrc} alt={event.title} layout="responsive" objectFit="cover" width={16} height={9} />
-                              {event.type && (
-                                <Box position="absolute" top="10px" left="10px" bg="rgba(0,0,0,0.6)" color="white" px="8px" py="4px" borderRadius="4px" fontSize="12px" fontWeight={500}>
-                                  {event.type}
-                                </Box>
-                              )}
+                    {events.length > 0 ? (
+                      <Grid container spacing={3}>
+                        {events.map((event) => (
+                          <Grid item xs={12} sm={6} md={4} key={event.id}>
+                            <Box bg="white" shadow={6} borderRadius={8} overflow="hidden">
+                              {/* Image container */}
+                              <Box position="relative" width="100%" height="180px" borderRadius="8px 8px 0 0" overflow="hidden">
+                                <NextImage src={event.imageSrc} alt={event.title} layout="responsive" objectFit="cover" width={16} height={9} />
+                                {event.type && (
+                                  <Box position="absolute" top="10px" left="10px" bg="rgba(0,0,0,0.6)" color="white" px="8px" py="4px" borderRadius="4px" fontSize="12px" fontWeight={500}>
+                                    {event.type}
+                                  </Box>
+                                )}
+                              </Box>
+                              <Box p="15px">
+                                <h4 style={{ fontSize: '15px', fontWeight: 600, color: '#212529', marginBottom: '10px' }}>
+                                  {event.title}
+                                </h4>
+                                <FlexBox alignItems="center" mt="10px" mb="5px">
+                                  <Box width={16} height={16} mr="8px" display="flex" alignItems="center" justifyContent="center">
+                                    <NextImage src="/assets/images/community Marketplace Details/calendar_month.svg" alt="calendar" width={16} height={16} />
+                                  </Box>
+                                  <p style={{ fontSize: '13px', color: '#6C757D' }}>{event.date}, {event.time}</p>
+                                </FlexBox>
+                                <FlexBox alignItems="center" mb="15px">
+                                  <Box width={16} height={16} mr="8px" display="flex" alignItems="center" justifyContent="center">
+                                    <NextImage src="/assets/images/community Marketplace Details/location_on.svg" alt="location" width={16} height={16} />
+                                  </Box>
+                                  <p style={{ fontSize: '13px', color: '#6C757D' }}>{event.location}</p>
+                                </FlexBox>
+                                <button style={{
+                                  backgroundColor: "#A8C3FF",
+                                  color: "white",
+                                  padding: "8px 20px",
+                                  border: "1px solid #A8C3FF",
+                                  borderRadius: "8px",
+                                  cursor: "pointer",
+                                  fontSize: '14px',
+                                  fontWeight: 500,
+                                  transition: 'background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease',
+                                }}
+                                  onMouseEnter={(e) => {
+                                    e.currentTarget.style.backgroundColor = 'transparent';
+                                    e.currentTarget.style.color = '#A8C3FF';
+                                    e.currentTarget.style.borderColor = '#A8C3FF';
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    e.currentTarget.style.backgroundColor = '#A8C3FF';
+                                    e.currentTarget.style.color = 'white';
+                                    e.currentTarget.style.borderColor = '#A8C3FF';
+                                  }}
+                                >
+                                  Register
+                                </button>
+                              </Box>
                             </Box>
-                            <Box p="15px">
-                              <h4 style={{ fontSize: '15px', fontWeight: 600, color: '#212529', marginBottom: '10px' }}>
-                                {event.title}
-                              </h4>
-                              <FlexBox alignItems="center" mt="10px" mb="5px">
-                                <Box width={16} height={16} mr="8px" display="flex" alignItems="center" justifyContent="center">
-                                  <NextImage src="/assets/images/community Marketplace Details/calendar_month.svg" alt="calendar" width={16} height={16} />
-                                </Box>
-                                <p style={{ fontSize: '13px', color: '#6C757D' }}>{event.date}, {event.time}</p>
-                              </FlexBox>
-                              <FlexBox alignItems="center" mb="15px">
-                                <Box width={16} height={16} mr="8px" display="flex" alignItems="center" justifyContent="center">
-                                  <NextImage src="/assets/images/community Marketplace Details/location_on.svg" alt="location" width={16} height={16} />
-                                </Box>
-                                <p style={{ fontSize: '13px', color: '#6C757D' }}>{event.location}</p>
-                              </FlexBox>
-                              <button style={{
-                                backgroundColor: "#A8C3FF",
-                                color: "white",
-                                padding: "8px 20px",
-                                border: "1px solid #A8C3FF",
-                                borderRadius: "8px",
-                                cursor: "pointer",
-                                fontSize: '14px',
-                                fontWeight: 500,
-                                transition: 'background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease',
-                              }}
-                              onMouseEnter={(e) => {
-                                e.currentTarget.style.backgroundColor = 'transparent';
-                                e.currentTarget.style.color = '#A8C3FF';
-                                e.currentTarget.style.borderColor = '#A8C3FF';
-                              }}
-                              onMouseLeave={(e) => {
-                                e.currentTarget.style.backgroundColor = '#A8C3FF';
-                                e.currentTarget.style.color = 'white';
-                                e.currentTarget.style.borderColor = '#A8C3FF';
-                              }}
-                              >
-                                Register
-                              </button>
-                            </Box>
-                          </Box>
-                        </Grid>
-                      ))}
-                    </Grid>
-                  ) : (
-                    <p style={{ fontSize: '14px', color: '#6C757D' }}>No upcoming events.</p>
-                  )}
-                </Box>
-              )}
-                
+                          </Grid>
+                        ))}
+                      </Grid>
+                    ) : (
+                      <p style={{ fontSize: '14px', color: '#6C757D' }}>No upcoming events.</p>
+                    )}
+                  </Box>
+                )}
+
               </Box>
             </Box>
 
@@ -468,7 +470,7 @@ export default function Section6({ carList, carBrands }: Props) {
                 <Box bg="white" shadow={6} borderRadius={8} p="20px" mb="20px">
                   <FlexBox justifyContent="space-between" alignItems="center" mb="20px">
                     <span style={{ fontSize: '16px', fontWeight: 600, color: '#212529' }}>Overview</span>
-                    <Box width={60} height={60}  overflow="hidden">
+                    <Box width={60} height={60} overflow="hidden">
                       <NextImage src="/assets/images/community Marketplace Details/EJP AI Advisor.svg" alt="user profile" width={80} height={80} layout="responsive" />
                       <Box
                         position="absolute"
@@ -526,7 +528,7 @@ export default function Section6({ carList, carBrands }: Props) {
                     }}
                   />
                   <Box style={{ borderBottom: '1px solid #e0e0e0', marginBottom: '20px' }}></Box>
-            
+
                   <FlexBox alignItems="center" mb="10px">
                     <Box width={40} height={40} borderRadius="50%" overflow="hidden" mr="10px">
                       <NextImage src="/assets/images/community Marketplace Details/Avatar.svg" alt="member" width={40} height={40} />
@@ -558,7 +560,7 @@ export default function Section6({ carList, carBrands }: Props) {
                   </FlexBox>
 
                   <span style={{ fontSize: '14px', fontWeight: 600, color: '#898E9E', cursor: 'pointer', paddingTop: '10px', borderTop: '1px solid #EBECEF', display: 'block' }}>Join community to view all members</span>
-                  </Box>
+                </Box>
               </Box>
             )}
 

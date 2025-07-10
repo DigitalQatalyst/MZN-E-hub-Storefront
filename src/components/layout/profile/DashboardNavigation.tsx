@@ -17,7 +17,7 @@ const Sidebar = () => {
 
   const essentialItems: NavItem[] = [
     { id: 'profile', label: 'Profile', icon: '/images/vertical-shades-closed.svg', route: '/firm-profile' },
-    { id: 'documents', label: 'Documents', icon: '/images/home-storage.svg', route: '/#' },
+    { id: 'documents', label: 'Documents', icon: '/images/home-storage.svg', route: '/documents' },
   ];
 
   const transactionItems: NavItem[] = [

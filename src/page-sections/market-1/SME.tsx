@@ -7,13 +7,14 @@ import Grid from "@component/grid/Grid";
 import FlexBox from "@component/FlexBox";
 import Container from "@component/Container";
 import NextImage from "@component/NextImage";
-import { ProductCard1 } from "@component/product-cards";
-import CategorySectionHeader from "@component/CategorySectionHeader";
+// import { ProductCard1 } from "@component/product-cards";
+// import CategorySectionHeader from "@component/CategorySectionHeader";
 import StyledProductCategory from "./styled";
 import Brand from "@models/Brand.model";
 import Product from "@models/product.model";
 import ArrowBackIos from "/public/assets/images/community Marketplace Details/arrow_back_ios.svg";
-
+// Add this import at the top with your other imports:
+import "./SMEStyles.css";
 
 type Props = { carList: Product[]; carBrands: Brand[] };
 
@@ -22,20 +23,52 @@ export default function Section6({ carList, carBrands }: Props) {
   const [selected, setSelected] = useState("discussions"); // State for tabs: "discussions", "about", "events"
   const [selectedGroup, setSelectedGroup] = useState(""); // State for selected group in the sidebar
   const [expandedSection, setExpandedSection] = useState('Quality Content');
-
-  const toggleGuidelinesSection = (sectionName) => {
-    setExpandedSection(expandedSection === sectionName ? null : sectionName);
-  };
-  // Dummy data for discussions and groups (to be replaced with actual data fetching)
-  const discussions = [
+  const [postContent, setPostContent] = useState(""); // New state for post input
+  // Replace your current discussions state (around line 25) with:
+  const [discussions, setDiscussions] = useState([
     {
       id: "1",
-      author: "Black Rock",
-      time: "34 mins",
-      content: "These experiences are shaping how we approach Scope 3 emissions and build partnerships across markets. Let's continue the conversation on how small actions can lead to scalable climate impact...Read more",
+      author: "Layla Hassan",
+      time: "Jul 28 • 14:00",
+      title: "Successfully Secured Khalifa Fund Support for My Startup!",
+      content: "I'm excited to announce that my startup was just approved for funding by the Khalifa Fund! 🎉 The process was incredibly thorough, but now I'm ready to expand. If anyone else has been through this, I'd love to hear about your experience and any tips for successfully navigating the next steps!",
+      category: "Funding & Finance",
+      likes: 21,
+      comments: 3,
+      shares: 2,
+      views: 999
     },
-  ];
+  ]);
+  const toggleGuidelinesSection = (sectionName: string) => {
+    setExpandedSection(expandedSection === sectionName ? null : sectionName);
+  };
 
+  const handleCreatePost = () => {
+    if (postContent.trim()) {
+      const newPost = {
+        id: Date.now().toString(),
+        author: "Current User",
+        time: "now",
+        title: postContent.trim(),
+        content: "",
+        category: "",
+        likes: 0,
+        comments: 0,
+        shares: 0,
+        views: 0
+      };
+
+      setDiscussions([newPost, ...discussions]);
+      setPostContent("");
+    }
+  };
+  // Handle Enter key press in input field
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleCreatePost();
+    }
+  };
   const groups = [
     { id: "esg-compliance", name: "ESG Compliance Help" },
     { id: "carbon-credit", name: "Carbon Credit Conversations" },
@@ -153,418 +186,162 @@ export default function Section6({ carList, carBrands }: Props) {
             </StyledProductCategory>
           </Box>
         </Hidden>
-
-        {/* Main Content */}
         <Box flex="1">
-          {/* Back to Communities link */}
-          <Box display="flex" alignItems="center" marginBottom="16px">
-            <span style={{ fontSize: '14px', fontWeight: 600, color: '#0061F2', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-              <Box display="flex" alignItems="center" justifyContent="center" width={16} height={16} mr="8px">
-                <NextImage src={ArrowBackIos} alt="back arrow" width={11} height={11} />
-              </Box>
-              Back to Communities
-            </span>
-          </Box>
+          {/* Community Header */}
+          <Box className="community-header">
+            <Box className="community-banner">
+              <NextImage
+                src="/images/community-banner.svg"
+                alt="Female Founders in Fintech"
+                fill
+                style={{ objectFit: 'cover' }}
+              />
 
-          {/* Image Container */}
-          <Box position="relative" width="100%" height="300px" borderRadius="8px" overflow="hidden" marginBottom="20px">
-            <NextImage src="/images/image 1.jpg" alt="Community Banner" layout="fill" objectFit="cover" />
+            </Box>
 
-            {/* Community Title Overlay */}
-            <Box position="absolute" bottom={0} left={0} padding="16px" bg="transparent" color="white" width="100%">
-              <h1>Green SME Network</h1>
+            <Box className="community-description">
+              <p>A hub for women revolutionizing the financial services industry through fintech solutions, offering insights into investment strategies and tech-driven financial models.</p>
+              <button className="join-community-btn">Join Community</button>
             </Box>
           </Box>
 
-          <Box
-            padding="16px"
-            bg="#f8f9fa"
-            borderRadius="8px"
-            shadow="0px 2px 10px rgba(0, 0, 0, 0.1)"
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            mb="20px"
-          >
-            <p style={{ marginRight: '16px', maxWidth: '70%', fontSize: '14px', color: '#212529' }}>A community focused on climate innovation, green growth, and sustainable business. Let's shape a better tomorrow 🌍</p>
-            <button style={{ backgroundColor: "#0061F2", color: "white", padding: "8px 16px", border: "none", borderRadius: "8px", cursor: "pointer", fontSize: '14px', fontWeight: 500 }}>Join Community</button>
+          {/* Navigation Tabs */}
+          <Box className="nav-tabs">
+            <Box
+              className={`nav-tab ${selected === "discussions" ? "active" : ""}`}
+              onClick={() => setSelected("discussions")}
+            >
+              Discussions
+            </Box>
+            <Box
+              className={`nav-tab ${selected === "about" ? "active" : ""}`}
+              onClick={() => setSelected("about")}
+            >
+              About
+            </Box>
+            <Box
+              className={`nav-tab ${selected === "members" ? "active" : ""}`}
+              onClick={() => setSelected("members")}
+            >
+              Members
+            </Box>
           </Box>
 
-          {/* NEW SECTION: Discussions, About, Events & Groups */}
-          <FlexBox flexWrap="wrap" mt="20px">
-            <Box flex="1" padding="20px" maxWidth="100%" minWidth="0">
-              <Box bg="white" borderRadius={8}>
-                {/* Tabs */}
-                <FlexBox borderBottom="1px solid #e0e0e0" mb="20px" shadow={6} flexWrap="wrap" justifyContent="space-between">
-                  <Box
-                    flex="1" minWidth="0" p="10px 15px"
-                    cursor="pointer"
-                    onClick={() => setSelected("discussions")}
-                    style={{
-                      borderBottom: selected === "discussions" ? '2px solid #0061F2' : 'none',
-                      color: selected === "discussions" ? '#0061F2' : '#6C757D',
-                      fontWeight: selected === "discussions" ? 600 : 400,
-                    }}
+          {/* Content Area */}
+          {selected === "discussions" && (
+            <Box className="discussions-content">
+              {/* Post Input */}
+              <Box className="post-input-container">
+                <textarea
+                  value={postContent}
+                  onChange={(e) => setPostContent(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Start a discussion in this community"
+                  className="post-textarea"
+                />
+                <FlexBox className="post-actions">
+                  <FlexBox className="post-tools">
+                    <button className="post-tool">
+                      <NextImage src="/images/Group.svg" alt="image" width={16} height={16} />
+                    </button>
+                    <button className="post-tool">
+                      <NextImage src="/images/Group (1).svg" alt="video" width={16} height={16} />
+                    </button>
+                    <button className="post-tool">
+                      <NextImage src="/images/Group (2).svg" alt="attachment" width={16} height={16} />
+                    </button>
+                  </FlexBox>
+                  <button
+                    className="post-submit-btn"
+                    onClick={handleCreatePost}
+                    disabled={!postContent.trim()}
                   >
-                    Discussions
-                  </Box>
-                  <Box
-                    flex="1" minWidth="0" p="10px 15px"
-                    cursor="pointer"
-                    onClick={() => setSelected("about")}
-                    style={{
-                      borderBottom: selected === "about" ? '2px solid #0061F2' : 'none',
-                      color: selected === "about" ? '#0061F2' : '#6C757D',
-                      fontWeight: selected === "about" ? 600 : 400,
-                    }}
-                  >
-                    About
-                  </Box>
-                  <Box
-                    flex="1" minWidth="0" p="10px 15px"
-                    cursor="pointer"
-                    onClick={() => setSelected("events")}
-                    style={{
-                      borderBottom: selected === "events" ? '2px solid #0061F2' : 'none',
-                      color: selected === "events" ? '#0061F2' : '#6C757D',
-                      fontWeight: selected === "events" ? 600 : 400,
-                    }}
-                  >
-                    Events
-                  </Box>
+                    <NextImage src="/images/send_24.svg" alt="attachment" width={16} height={16} />
+                  </button>
                 </FlexBox>
-
-                {/* Content based on selected tab */}
-                {selected === "discussions" && (
-                  <Box>
-                    {/* Start a discussion input */}
-                    <Box bg="#f8f9fa" borderRadius="8px" p="15px" mb="20px" border="1px solid #e0e0e0">
-                      <input
-                        type="text"
-                        placeholder="Start a discussion in this community"
-                        style={{
-                          width: '100%',
-                          border: '1px solid #808390',
-                          borderRadius: '8px',
-                          outline: 'none',
-                          backgroundColor: 'transparent',
-                          fontSize: '14px',
-                          color: '#808390',
-                          padding: '12px 15px',
-                        }}
-                      />
-                      <FlexBox mt="15px" justifyContent="space-between" alignItems="center">
-                        <FlexBox>
-                          <Box width={24} height={24} display="flex" justifyContent="center" alignItems="center" mr="10px">
-                            <NextImage src="/assets/images/community Marketplace Details/Image.svg" alt="image" width={20} height={20} />
-                          </Box>
-                          <Box width={24} height={24} display="flex" justifyContent="center" alignItems="center" mr="10px">
-                            <NextImage src="/assets/images/community Marketplace Details/PlayCircle.svg" alt="video" width={20} height={20} />
-                          </Box>
-                          <Box width={24} height={24} display="flex" justifyContent="center" alignItems="center" mr="10px">
-                            <NextImage src="/assets/images/community Marketplace Details/Paperclip.svg" alt="link" width={20} height={20} />
-                          </Box>
-                        </FlexBox>
-                        <button style={{ backgroundColor: "#0061F2", color: "white", padding: "8px 20px", border: "none", borderRadius: "8px", cursor: "pointer", fontSize: '14px', fontWeight: 500 }}>Post</button>
-                      </FlexBox>
-                    </Box>
-
-                    {/* Discussion List */}
-                    {discussions.map((discussion) => (
-                      <Box key={discussion.id} bg="white" borderRadius="8px" p="15px" mb="15px" border="1px solid #e0e0e0">
-                        <FlexBox alignItems="center" mb="10px" justifyContent="space-between">
-                          <FlexBox alignItems="center">
-
-                            <Box width={32} height={32} borderRadius="50%" bg="#e0e0e0" mr="10px"></Box>
-                            <Box>
-                              <span style={{ fontWeight: 600, fontSize: '14px', color: '#212529' }}>{discussion.author}</span>
-                              <span style={{ fontSize: '12px', color: '#6C757D', marginLeft: '8px' }}>{discussion.time}</span>
-                            </Box>
-                          </FlexBox>
-
-                          <Box cursor="pointer">...</Box>
-                        </FlexBox>
-                        <p style={{ fontSize: '14px', color: '#212529', lineHeight: '1.5' }}>{discussion.content}</p>
-                        <span style={{ fontSize: '12px', color: '#6C757D' }}>Join community to interact with all posts</span>
-                      </Box>
-                    ))}
-                  </Box>
-                )}
-                {/* about section */}
-                {selected === "about" && (
-                  <Box>
-                    <Box bg="white" shadow={6} borderRadius="8px" p="20px" mb="20px">
-                      <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '15px', color: '#212529' }}>About this Community</h2>
-
-                      <Box style={{ borderBottom: '1px solid #e0e0e0', marginBottom: '20px' }}></Box>
-                      <p style={{ fontSize: '14px', lineHeight: '1.5', color: '#212529' }}>
-                        This community brings together sustainability professionals, carbon market experts, and SME leaders who are navigating the complex world of carbon credits and environmental compliance. We share best practices, discuss market trends, and support each other in building more sustainable businesses.
-                      </p>
-                    </Box>
-                    <Box bg="white" shadow={6} borderRadius="8px" p="20px">
-                      <h3 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '10px', color: '#212529' }}>Community Guidelines</h3>
-                      <p style={{ fontSize: '14px', lineHeight: '1.5', marginBottom: '15px', color: '#212529' }}>
-                        To ensure a productive and welcoming environment for all members, we ask everyone to follow these community guidelines:
-                      </p>
-
-                      {guidelines.map((section, index) => (
-                        <Box key={section.title} mb="15px">
-                          <FlexBox
-                            alignItems="center"
-                            justifyContent="space-between"
-                            cursor="pointer"
-                            onClick={() => toggleGuidelinesSection(section.title)}
-                            style={{ paddingBottom: '10px', borderBottom: index < guidelines.length - 1 ? '1px solid #e0e0e0' : 'none' }}
-                          >
-                            <span style={{ fontSize: '14px', fontWeight: 500, color: '#6C757D' }}>{section.title}</span>
-                            {/* <NextImage
-                              src={`/assets/images/community Marketplace Details/${expandedSection === section.title ? 'arrow-up.svg' : 'arrow-down.svg'}`}
-                              alt="toggle"
-                              width={16}
-                              height={16}
-                            /> */}
-                          </FlexBox>
-                          {expandedSection === section.title && section.content.length > 0 && (
-                            <Box mt="10px" pl="15px">
-                              <ul style={{ listStyleType: 'disc', paddingLeft: '20px', fontSize: '13px', color: '#6C757D' }}>
-                                {section.content.map((item, i) => (
-                                  <li key={i} style={{ marginBottom: '5px' }}>{item}</li>
-                                ))}
-                              </ul>
-                            </Box>
-                          )}
-                        </Box>
-                      ))}
-
-                      <Box bg="#e6f0ff" p="15px" borderRadius="8px" textAlign="center" mt="20px">
-                        <p style={{ fontSize: '13px', color: '#0061F2', lineHeight: '1.4' }}>
-                          By participating in this community, you agree to abide by these guidelines.<br />
-                          Repeated violations may result in temporary or permanent removal from the group.
-                        </p>
-                      </Box>
-                    </Box>
-                  </Box>
-                )}
-                {selected === "events" && (
-                  <Box>
-                    <h2 style={{ fontSize: '18px', fontWeight: 600, color: '#212529', marginBottom: '15px' }}>
-                      Upcoming Events
-                    </h2>
-                    <Box
-                      style={{
-                        borderBottom: '1px solid #E0E0E0',
-                        marginBottom: '25px',
-                      }}
-                    />
-
-                    {events.length > 0 ? (
-                      <Grid container spacing={3}>
-                        {events.map((event) => (
-                          <Grid item xs={12} sm={6} md={4} key={event.id}>
-                            <Box bg="white" shadow={6} borderRadius={8} overflow="hidden">
-                              {/* Image container */}
-                              <Box position="relative" width="100%" height="180px" borderRadius="8px 8px 0 0" overflow="hidden">
-                                <NextImage src={event.imageSrc} alt={event.title} layout="responsive" objectFit="cover" width={16} height={9} />
-                                {event.type && (
-                                  <Box position="absolute" top="10px" left="10px" bg="rgba(0,0,0,0.6)" color="white" px="8px" py="4px" borderRadius="4px" fontSize="12px" fontWeight={500}>
-                                    {event.type}
-                                  </Box>
-                                )}
-                              </Box>
-                              <Box p="15px">
-                                <h4 style={{ fontSize: '15px', fontWeight: 600, color: '#212529', marginBottom: '10px' }}>
-                                  {event.title}
-                                </h4>
-                                <FlexBox alignItems="center" mt="10px" mb="5px">
-                                  <Box width={16} height={16} mr="8px" display="flex" alignItems="center" justifyContent="center">
-                                    <NextImage src="/assets/images/community Marketplace Details/calendar_month.svg" alt="calendar" width={16} height={16} />
-                                  </Box>
-                                  <p style={{ fontSize: '13px', color: '#6C757D' }}>{event.date}, {event.time}</p>
-                                </FlexBox>
-                                <FlexBox alignItems="center" mb="15px">
-                                  <Box width={16} height={16} mr="8px" display="flex" alignItems="center" justifyContent="center">
-                                    <NextImage src="/assets/images/community Marketplace Details/location_on.svg" alt="location" width={16} height={16} />
-                                  </Box>
-                                  <p style={{ fontSize: '13px', color: '#6C757D' }}>{event.location}</p>
-                                </FlexBox>
-                                <button style={{
-                                  backgroundColor: "#A8C3FF",
-                                  color: "white",
-                                  padding: "8px 20px",
-                                  border: "1px solid #A8C3FF",
-                                  borderRadius: "8px",
-                                  cursor: "pointer",
-                                  fontSize: '14px',
-                                  fontWeight: 500,
-                                  transition: 'background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease',
-                                }}
-                                  onMouseEnter={(e) => {
-                                    e.currentTarget.style.backgroundColor = 'transparent';
-                                    e.currentTarget.style.color = '#A8C3FF';
-                                    e.currentTarget.style.borderColor = '#A8C3FF';
-                                  }}
-                                  onMouseLeave={(e) => {
-                                    e.currentTarget.style.backgroundColor = '#A8C3FF';
-                                    e.currentTarget.style.color = 'white';
-                                    e.currentTarget.style.borderColor = '#A8C3FF';
-                                  }}
-                                >
-                                  Register
-                                </button>
-                              </Box>
-                            </Box>
-                          </Grid>
-                        ))}
-                      </Grid>
-                    ) : (
-                      <p style={{ fontSize: '14px', color: '#6C757D' }}>No upcoming events.</p>
-                    )}
-                  </Box>
-                )}
-
               </Box>
-            </Box>
 
-            {/* Right Column: Groups - Conditionally rendered */}
-            {selected === "discussions" && (
-              <Box flex="1" minWidth="0" padding="0 20px" style={{ maxWidth: '280px' }}>
-                <Box bg="white" shadow={6} borderRadius={8} p="20px">
-                  <FlexBox justifyContent="space-between" alignItems="center" mb="20px">
-                    <span style={{ fontSize: '16px', fontWeight: 600, color: '#212529' }}>Groups</span>
-                    {/* User Profile Icon */}
-                    <Box width={60} height={60} overflow="hidden">
-                      <NextImage src="assets/images/community Marketplace Details/EJP AI Advisor.svg" alt="user profile" width={80} height={80} layout="responsive" />
-                    </Box>
-                  </FlexBox>
-                  <p style={{ fontSize: '14px', color: '#6C757D', marginBottom: '15px' }}>Discover groups in the community</p>
-
-                  {/* Groups List */}
-                  {groups.map((group) => (
-                    <FlexBox
-                      key={group.id}
-                      alignItems="center"
-                      mb="10px"
-                      p="8px"
-                      borderRadius="8px"
-                      bg={selectedGroup === group.id ? "#e6f0ff" : "transparent"}
-                      onClick={() => setSelectedGroup(group.id)}
-                      cursor="pointer"
-                      justifyContent="space-between"
-                    >
-                      <FlexBox alignItems="center">
-                        {/* Placeholder for group icon */}
-                        <Box width={24} height={24} display="flex" justifyContent="center" alignItems="center" mr="10px" bg="#f0f2f5" borderRadius="4px">
-                          <NextImage src="/assets/images/community Marketplace Details/money_bag.svg" alt="folicon" width={16} height={16} />
-                        </Box>
-                        <span style={{ fontSize: '14px', color: '#212529' }}>{group.name}</span>
-                      </FlexBox>
-                      <Box cursor="pointer">...</Box>
+              {/* Discussion Posts */}
+              {discussions.map((discussion) => (
+                <Box key={discussion.id} className="discussion-post">
+                  <FlexBox className="post-header">
+                    <FlexBox alignItems="center">
+                      <Box className="post-avatar">
+                        <NextImage src="/images/32px.jpg" alt="avatar" width={40} height={40} />
+                      </Box>
+                      <Box>
+                        <h4 className="post-author">{discussion.author}</h4>
+                        <span className="post-time">{discussion.time}</span>
+                      </Box>
                     </FlexBox>
-                  ))}
+                  </FlexBox>
+
+                  <Box className="post-content">
+                    <h3 className="post-title">{discussion.title}</h3>
+                    <p className="post-description">{discussion.content}</p>
+                    <Box className="post-category">
+                      <span className="category-tag">{discussion.category}</span>
+                    </Box>
+                  </Box>
+
+                  <FlexBox className="post-engagement">
+                    <FlexBox className="engagement-actions">
+                      <span className="engagement-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                          <path d="M5.83464 8.33464V18.3346M12.5013 4.9013L11.668 8.33464H16.5263C16.785 8.33464 17.0402 8.39488 17.2717 8.51059C17.5031 8.6263 17.7044 8.79431 17.8596 9.0013C18.0149 9.2083 18.1198 9.44859 18.1661 9.70316C18.2124 9.95773 18.1987 10.2196 18.1263 10.468L16.1846 17.1346C16.0837 17.4808 15.8731 17.7849 15.5846 18.0013C15.2961 18.2177 14.9453 18.3346 14.5846 18.3346H3.33464C2.89261 18.3346 2.46868 18.159 2.15612 17.8465C1.84356 17.5339 1.66797 17.11 1.66797 16.668V10.0013C1.66797 9.55927 1.84356 9.13535 2.15612 8.82279C2.46868 8.51023 2.89261 8.33464 3.33464 8.33464H5.63464C5.94471 8.33447 6.24858 8.24781 6.5121 8.0844C6.77561 7.92099 6.98832 7.68731 7.1263 7.40964L10.0013 1.66797C10.3943 1.67284 10.7811 1.76644 11.1328 1.9418C11.4845 2.11715 11.7921 2.36972 12.0325 2.68064C12.2729 2.99155 12.4399 3.35277 12.5211 3.7373C12.6023 4.12184 12.5955 4.51975 12.5013 4.9013Z" stroke="#818C99" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                        {discussion.likes}
+                      </span>
+                      <span className="engagement-item"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <g opacity="0.7" clip-path="url(#clip0_7497_78400)">
+                          <path d="M6.53302 18.7763C6.34291 18.6221 6.1891 18.4279 6.08252 18.2076C5.97594 17.9872 5.91921 17.7461 5.91636 17.5013V15.7513H4.58302C4.20654 15.7679 3.83073 15.7059 3.47948 15.5694C3.12823 15.4328 2.80924 15.2247 2.54276 14.9582C2.27629 14.6918 2.06817 14.3728 1.93164 14.0215C1.79511 13.6703 1.73314 13.2945 1.74969 12.918V5.41798C1.73314 5.0415 1.79511 4.66569 1.93164 4.31444C2.06817 3.9632 2.27629 3.6442 2.54276 3.37772C2.80924 3.11125 3.12823 2.90313 3.47948 2.7666C3.83073 2.63007 4.20654 2.5681 4.58302 2.58465H15.4164C15.7928 2.5681 16.1687 2.63007 16.5199 2.7666C16.8711 2.90313 17.1901 3.11125 17.4566 3.37772C17.7231 3.6442 17.9312 3.9632 18.0677 4.31444C18.2043 4.66569 18.2662 5.0415 18.2497 5.41798V12.918C18.2662 13.2945 18.2043 13.6703 18.0677 14.0215C17.9312 14.3728 17.7231 14.6918 17.4566 14.9582C17.1901 15.2247 16.8711 15.4328 16.5199 15.5694C16.1687 15.7059 15.7928 15.7679 15.4164 15.7513H11.533L8.43302 18.468C8.21458 18.7509 7.89673 18.9401 7.54392 18.9974C7.19111 19.0547 6.82973 18.9756 6.53302 18.7763ZM10.6414 14.5347C10.8532 14.3478 11.1256 14.2442 11.408 14.243H15.4164C15.5956 14.2597 15.7764 14.2367 15.9457 14.1756C16.1151 14.1145 16.2689 14.0168 16.3962 13.8895C16.5235 13.7622 16.6212 13.6084 16.6823 13.439C16.7434 13.2697 16.7664 13.0889 16.7497 12.9097V5.40965C16.7664 5.23039 16.7434 5.04965 16.6823 4.8803C16.6212 4.71094 16.5235 4.55714 16.3962 4.42983C16.2689 4.30253 16.1151 4.20485 15.9457 4.14374C15.7764 4.08264 15.5956 4.05962 15.4164 4.07632H4.58302C4.40299 4.05943 4.22146 4.0826 4.05144 4.14418C3.88143 4.20575 3.72716 4.3042 3.5997 4.43246C3.47224 4.56072 3.37475 4.7156 3.31424 4.88599C3.25372 5.05639 3.23168 5.23806 3.24969 5.41798V12.918C3.23299 13.0972 3.25601 13.278 3.31712 13.4473C3.37822 13.6167 3.4759 13.7705 3.6032 13.8978C3.73051 14.0251 3.88431 14.1228 4.05367 14.1839C4.22302 14.245 4.40376 14.268 4.58302 14.2513H6.66636C7.24969 14.418 7.24969 14.418 7.41636 15.0013V17.3597L10.6414 14.5347Z" fill="#818C99" />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_7497_78400">
+                            <rect width="20" height="20" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg> {discussion.comments}</span>
+                      <span className="engagement-item"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <g opacity="0.7" clip-path="url(#clip0_7497_78403)">
+                          <path d="M10.0834 6.55766V3.66599C10.085 3.45717 10.146 3.25309 10.2592 3.07764C10.3725 2.90219 10.5333 2.7626 10.723 2.67519C10.9127 2.58779 11.1233 2.55618 11.3303 2.58407C11.5372 2.61195 11.732 2.69818 11.8918 2.83266L19.3418 9.16599C19.5638 9.35502 19.7017 9.62447 19.7251 9.91512C19.7485 10.2058 19.6556 10.4938 19.4668 10.716L19.3418 10.841L11.8918 17.1743C11.732 17.3088 11.5372 17.395 11.3303 17.4229C11.1233 17.4508 10.9127 17.4192 10.723 17.3318C10.5333 17.2444 10.3725 17.1048 10.2592 16.9293C10.146 16.7539 10.085 16.5498 10.0834 16.341V13.466C6.18342 13.5577 3.41676 14.3743 1.84176 15.8577C1.69097 15.9972 1.49931 16.0847 1.29505 16.107C1.09079 16.1294 0.884757 16.0855 0.707338 15.9819C0.529919 15.8782 0.390512 15.7203 0.309683 15.5314C0.228855 15.3425 0.210885 15.1326 0.258424 14.9327C1.53342 9.63266 4.85009 6.79933 10.0834 6.55766ZM11.5834 4.54099V8.04099H10.8334C6.41676 8.04099 3.56676 9.91599 2.17509 13.7577C4.21676 12.5493 7.10842 11.9577 10.8334 11.9577H11.5834V15.4577L18.0084 9.99933L11.5834 4.54099Z" fill="#818C99" />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_7497_78403">
+                            <rect width="20" height="20" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>{discussion.shares}</span>
+                    </FlexBox>
+                    <span className="post-views"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10" fill="none">
+                      <g opacity="0.5" clip-path="url(#clip0_7497_78406)">
+                        <path d="M7 10C2.8 10 0 6 0 5C0 4 2.8 0 7 0C11.2 0 14 4 14 5C14 6 11.2 10 7 10ZM7 8.5C8.9 8.5 10.5 6.9 10.5 5C10.5 3.1 8.9 1.5 7 1.5C5.1 1.5 3.5 3.1 3.5 5C3.5 6.9 5.1 8.5 7 8.5ZM7 6.6C6.1 6.6 5.4 5.9 5.4 5C5.4 4.1 6.1 3.4 7 3.4C7.9 3.4 8.6 4.1 8.6 5C8.6 5.9 7.9 6.6 7 6.6Z" fill="#818C99" />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_7497_78406">
+                          <rect width="14" height="10" fill="white" />
+                        </clipPath>
+                      </defs>
+                    </svg> {discussion.views}</span>
+                  </FlexBox>
                 </Box>
-              </Box>
-            )}
-            {selected === "about" && (
-              <Box flex="1" minWidth="0" padding="0 20px" style={{ maxWidth: '280px' }}>
-                {/* Overview Section */}
-                <Box bg="white" shadow={6} borderRadius={8} p="20px" mb="20px">
-                  <FlexBox justifyContent="space-between" alignItems="center" mb="20px">
-                    <span style={{ fontSize: '16px', fontWeight: 600, color: '#212529' }}>Overview</span>
-                    <Box width={60} height={60} overflow="hidden">
-                      <NextImage src="/assets/images/community Marketplace Details/EJP AI Advisor.svg" alt="user profile" width={80} height={80} layout="responsive" />
-                      <Box
-                        position="absolute"
-                        top={0}
-                        right={0}
-                        bg="#0061F2"
-                        color="white"
-                        borderRadius="50%"
-                        width="16px"
-                        height="16px"
-                        display="flex"
-                        justifyContent="center"
-                        alignItems="center"
-                        fontSize="10px"
-                        fontWeight="bold"
-                        zIndex={1}
-                        style={{ transform: 'translate(25%, -25%)' }}
-                      >
-                        1
-                      </Box>
-                    </Box>
-                  </FlexBox>
-                  <p style={{ fontSize: '14px', color: '#6C757D', marginBottom: '20px', marginTop: '-2rem' }}>View community details</p>
-                  <Box style={{ borderBottom: '1px solid #e0e0e0', marginBottom: '20px' }}></Box>
-                  <FlexBox alignItems="center" mb="10px">
-                    <Box width={20} height={20} mr="10px">
-                      <NextImage src="/assets/images/community Marketplace Details/calendar_today.svg" alt="calendar" width={20} height={20} />
-                    </Box>
-                    <span style={{ fontSize: '14px', color: '#898E9E' }}>Created December 2023</span>
-                  </FlexBox>
+              ))}
+            </Box>
+          )}
 
-                  <FlexBox alignItems="center" mb="20px">
-                    <Box width={20} height={20} mr="10px">
-                      <NextImage src="/assets/images/community Marketplace Details/group.svg" alt="members" width={20} height={20} />
-                    </Box>
-                    <span style={{ fontSize: '14px', color: '#898E9E' }}>3.2k Members</span>
-                  </FlexBox>
-                </Box>
+          {selected === "about" && (
+            <Box className="about-content">
+              <h2>About this Community</h2>
+              <p>This community brings together female founders and leaders in the fintech space to share insights, opportunities, and support each other's growth.</p>
+            </Box>
+          )}
 
-                <Box bg="white" shadow={6} borderRadius={8} p="20px">
-                  <h3 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '15px', color: '#212529' }}>Members</h3>
-                  <p style={{ fontSize: '14px', color: '#6C757D', marginBottom: '15px' }}>View members in this community</p>
-                  <Box style={{ borderBottom: '1px solid #e0e0e0', marginTop: '20px', marginBottom: '20px' }}></Box>
-                  <input
-                    type="text"
-                    placeholder="Search members..."
-                    style={{
-                      width: '100%',
-                      padding: '8px 12px',
-                      border: '1px solid #B1B4BB',
-                      borderRadius: '8px',
-                      marginBottom: '15px',
-                      fontSize: '14px',
-                      color: '#B1B4BB',
-                    }}
-                  />
-                  <Box style={{ borderBottom: '1px solid #e0e0e0', marginBottom: '20px' }}></Box>
-
-                  <FlexBox alignItems="center" mb="10px">
-                    <Box width={40} height={40} borderRadius="50%" overflow="hidden" mr="10px">
-                      <NextImage src="/assets/images/community Marketplace Details/Avatar.svg" alt="member" width={40} height={40} />
-                    </Box>
-                    <Box>
-                      <span style={{ fontSize: '14px', fontWeight: 500, color: '#212529' }}>Karim Abdullah</span>
-                      <span style={{ fontSize: '12px', backgroundColor: '#FFE4E6', color: '#C15B76', padding: '3px 8px', borderRadius: '4px', marginLeft: '8px' }}>Admin</span>
-                    </Box>
-                  </FlexBox>
-
-                  <FlexBox alignItems="center" mb="10px">
-                    <Box width={40} height={40} borderRadius="50%" overflow="hidden" mr="10px">
-                      <NextImage src="/assets/images/community Marketplace Details/Avatar 2.svg" alt="member" width={40} height={40} />
-                    </Box>
-                    <Box>
-                      <span style={{ fontSize: '14px', fontWeight: 500, color: '#212529' }}>Layla Hassan</span>
-                      <span style={{ fontSize: '12px', backgroundColor: '#FEF3C7', color: '#A05827', padding: '3px 8px', borderRadius: '4px', marginLeft: '8px' }}>Moderator</span>
-                    </Box>
-                  </FlexBox>
-
-                  <FlexBox alignItems="center" mb="20px">
-                    <Box width={40} height={40} borderRadius="50%" overflow="hidden" mr="10px">
-                      <NextImage src="/assets/images/community Marketplace Details/Avatar 1.svg" alt="member" width={40} height={40} />
-                    </Box>
-                    <Box>
-                      <span style={{ fontSize: '14px', fontWeight: 500, color: '#212529' }}>Omar Al-Farouq</span>
-                      <span style={{ fontSize: '12px', backgroundColor: '#FEF3C7', color: '#A05827', padding: '3px 8px', borderRadius: '4px', marginLeft: '8px' }}>Moderator</span>
-                    </Box>
-                  </FlexBox>
-
-                  <span style={{ fontSize: '14px', fontWeight: 600, color: '#898E9E', cursor: 'pointer', paddingTop: '10px', borderTop: '1px solid #EBECEF', display: 'block' }}>Join community to view all members</span>
-                </Box>
-              </Box>
-            )}
-
-          </FlexBox>
+          {selected === "members" && (
+            <Box className="members-content">
+              <h2>Community Members</h2>
+              <p>10k+ active members in this community</p>
+            </Box>
+          )}
         </Box>
       </FlexBox>
     </Container>

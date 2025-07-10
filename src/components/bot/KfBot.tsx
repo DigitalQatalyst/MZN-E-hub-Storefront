@@ -49,11 +49,13 @@ const KfBot = () => {
       };
 
       const eventMap: Record<string, string> = {
-        "/finance": "Navigation_to_Finance_Marketplace",
-        "/non-finance": "Navigation_To_The_Non_Finance_Marketplace",
+        "/services": "Navigation_to_Finance_Marketplace",
+        "/non-financial-marketplace":
+          "Navigation_To_The_Non_Finance_Marketplace",
       };
 
       const eventName = eventMap[path];
+      console.log("event", eventName);
 
       // Always close first to reset cleanly
       window.voiceflow?.chat?.close?.();

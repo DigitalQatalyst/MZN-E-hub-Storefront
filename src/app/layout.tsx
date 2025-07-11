@@ -26,6 +26,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // get pathname
+
   return (
     <html lang="en">
       <body className={openSans.className}>

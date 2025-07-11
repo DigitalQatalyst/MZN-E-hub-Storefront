@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect } from "react";
-import { usePathname } from "next/navigation"; // Import to detect pathname changes
 
 declare global {
   interface Window {
@@ -14,11 +13,8 @@ declare global {
   }
 }
 
-const KfBot = () => {
-  const pathname = usePathname(); // Get the current pathname
-
+const ServiceBot = () => {
   useEffect(() => {
-    // Check if the script is already loaded
     if (document.getElementById("voiceflow-script")) return;
 
     const script = document.createElement("script");
@@ -26,6 +22,8 @@ const KfBot = () => {
     script.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
 
     script.onload = () => {
+      const path = window.location.pathname;
+
       const stylesheet =
         "data:text/css;base64," +
         btoa(`
@@ -54,19 +52,12 @@ const KfBot = () => {
         "/services": "Navigation_to_Finance_Marketplace",
         "/non-financial-marketplace":
           "Navigation_To_The_Non_Finance_Marketplace",
-        // Add other pages as needed
       };
 
-      // Close the bot first to ensure a clean reset before loading a new page's interaction
-      const closeBot = () => {
-        window.voiceflow?.chat?.close?.();
-      };
+      const eventName = eventMap[path];
 
-      // Dynamically fetch the event name based on pathname
-      const eventName = eventMap[pathname];
-
-      // Always close the bot before setting up the new interaction
-      closeBot();
+      // Always close first to reset cleanly
+      window.voiceflow?.chat?.close?.();
 
       // Extend config for finance/non-finance pages
       const config =
@@ -101,22 +92,13 @@ const KfBot = () => {
         .catch(console.error);
     };
 
-    // Append the script to the document body to load the Voiceflow script
     document.body.appendChild(script);
-
-    // Cleanup function to close the bot on component unmount or page change
-    return () => {
-      const bot = window.voiceflow?.chat;
-      if (bot) {
-        bot.close?.(); // Close the bot when the component unmounts or pathname changes
-      }
-    };
-  }, [pathname]); // Only re-run the effect when the pathname changes
+  }, []);
 
   return null;
 };
 
-export default KfBot;
+export default ServiceBot;
 
 // "use client";
 // import React, { useEffect } from "react";

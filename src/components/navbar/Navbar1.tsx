@@ -61,6 +61,10 @@ export default function Navbar({ navListOpen }: NavbarProps) {
     });
   }
 
+  if (accounts.length > 0) {
+    console.log("accounts", accounts);
+  }
+
   const renderNestedNav = (list: any[], isRoot = false) => {
     return list?.map((nav: Nav) => {
       if (isRoot) {
@@ -216,8 +220,8 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           </AuthenticatedTemplate>
           <UnauthenticatedTemplate>
             <Button className="sign-in-btn" variant="outlined" mr="10px" ml="10px" onClick={handleLogin}>Sign In</Button>
+            <Button className="sign-up-button" variant="contained" onClick={() => open("signup")}>Sign Up</Button>
           </UnauthenticatedTemplate>
-          <Button className="sign-up-button" variant="contained" onClick={() => open("signup")}>Sign Up</Button>
           {modalType === "signup" && <SignUpModal />}
           {modalType === "signin" && <SignInModal />}
         </FlexBox>

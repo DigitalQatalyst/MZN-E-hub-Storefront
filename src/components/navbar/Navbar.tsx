@@ -62,7 +62,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           </Button>
         </Categories>
 
-        {/* Hardcoded Navigation Links */}
+        {/* Hardcoded Navigation Links 
         <FlexBox style={{ gap: 32 }}>
           <NavLink className="nav-link" href="#">
             <FlexBox alignItems="center">
@@ -75,6 +75,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             </FlexBox>
           </NavLink>
         </FlexBox>
+        */}
 
         {/* Search Icon, Sign In, and Sign Up Buttons */}
         <FlexBox alignItems="center" style={{ gap: "15px" }}>

@@ -11,7 +11,11 @@ interface RelatedService {
   rating: number;
   tags: string[];
 }
-
+interface facets {
+  id: string;
+  name: string;
+  code: string;
+}
 interface Product {
   // Base fields (used by ProductCard19)
   id: string | number;
@@ -19,6 +23,7 @@ interface Product {
   title: string;
   subTitle: string;
   description: string;
+  facetValues?: facets[];
   images: string[];
   reviews?: number;
   rating?: number;
@@ -36,7 +41,9 @@ interface Product {
   // Service-specific fields
   code?: string;
   businessStages?: string[];
-  highlightedStage?: string;
+  businessStage?: string;
+  Nationality?: string;
+  LegalStructure?: string;
   processingTime?: string;
   registrationValidity?: string;
   cost?: string;
@@ -44,6 +51,10 @@ interface Product {
   termsOfService?: string[];
   requiredDocuments?: string[];
   relatedServices?: RelatedService[];
+  customFields?: {
+    BusinessStage?: string;
+    Nationality?: string;
+  };
 
   // For backward compatibility
   name?: string; // some components might still use name instead of title

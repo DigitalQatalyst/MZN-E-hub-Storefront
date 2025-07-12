@@ -12,8 +12,10 @@ import styled from "styled-components";
 import client from "@lib/graphQLClient";
 import { relatedProducts } from "__server__/__db__/related-products/data";
 import { Carousel } from "@component/carousel";
-import { border, fontWeight } from "styled-system";
+import { border, display, flexDirection, fontWeight } from "styled-system";
 import Image from "next/image";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
+import "./products.css";
 
 const TabButton = styled(Button)<{ active?: boolean }>`
   padding: 0.75rem 1.5rem;
@@ -46,7 +48,7 @@ const TabButton = styled(Button)<{ active?: boolean }>`
       position: absolute;
       left: 0;
       right: 0;
-      bottom: -2px;
+      bottom: -10px;
       height: 3px;
       background: #0030E3;
       border-radius: 2px 2px 0 0;
@@ -84,6 +86,9 @@ interface Props {
 
 export default function ProductDetails({ product }: Props) {
   const [activeTab, setActiveTab] = useState<TabType>("description");
+  const [showAllDocs, setShowAllDocs] = useState(false);
+  const [showAllSteps, setShowAllSteps] = useState(false); // Add this state
+
   console.log(product);
   const responsive = [
     { breakpoint: 959, settings: { slidesToShow: 2 } },
@@ -108,30 +113,73 @@ export default function ProductDetails({ product }: Props) {
     </ContentBox>
   );
 
-  const renderDocuments = () => (
-    <ContentBox display="flex" style={{ gap: "1rem" }}>
-      <DocumentItem mb="1rem" flex="1">
-        <Span fontWeight="bold">Overview</Span>
-        <p>{product.description}</p>
-      </DocumentItem>
-      <DocumentItem flex="1">
-        <Span fontWeight="bold">Required Documents</Span>
-        {product?.requiredDocuments && product?.requiredDocuments.length > 0 ? (
-          <ol style={{ paddingLeft: "4%" }}>
-            {product.requiredDocuments.map((doc, index) => (
-              <li key={index}>
-                <DocumentItem as="span" mb="0">
-                  {doc}
-                </DocumentItem>
-              </li>
-            ))}
-          </ol>
-        ) : (
-          <DocumentItem>No documents listed.</DocumentItem>
-        )}
-      </DocumentItem>
-    </ContentBox>
-  );
+  const renderDocuments = () => {
+    const docs = product?.requiredDocuments || [];
+    const showButton = docs.length > 4;
+    const visibleDocs = showAllDocs ? docs : docs.slice(0, 4);
+
+    return (
+      <ContentBox display="flex" style={{ gap: "1rem" }}>
+        <DocumentItem
+          mb="1rem"
+          flex="1"
+          style={{ display: "flex", flexDirection: "column" }}
+        >
+          <Span fontWeight="bold">Overview</Span>
+          <span>{product.description}</span>
+        </DocumentItem>
+        <DocumentItem flex="1">
+          <Span fontWeight="bold">Required Documents</Span>
+          {docs.length > 0 ? (
+            <>
+              <ol style={{ paddingLeft: "4%" }}>
+                {visibleDocs.map((doc, index) => (
+                  <li key={index}>
+                    <DocumentItem as="span" mb="0">
+                      {doc}
+                    </DocumentItem>
+                  </li>
+                ))}
+              </ol>
+              {showButton && (
+                <Span
+                  style={{
+                    marginTop: "0.5rem",
+                    padding: 0,
+                    fontSize: 14,
+                    fontWeight: 600,
+                  }}
+                  onClick={() => setShowAllDocs((prev) => !prev)}
+                >
+                  {showAllDocs ? (
+                    <FlexBox
+                      alignItems="center"
+                      color="#0030E3"
+                      cursor="pointer"
+                    >
+                      <Span mr="1rem">Show Less</Span>
+                      <FaAngleUp />
+                    </FlexBox>
+                  ) : (
+                    <FlexBox
+                      alignItems="center"
+                      color="#0030E3"
+                      cursor="pointer"
+                    >
+                      <Span mr="1rem">Show More</Span>
+                      <FaAngleDown />
+                    </FlexBox>
+                  )}
+                </Span>
+              )}
+            </>
+          ) : (
+            <DocumentItem>No documents listed.</DocumentItem>
+          )}
+        </DocumentItem>
+      </ContentBox>
+    );
+  };
 
   const renderCost = () => (
     <ContentBox>
@@ -142,25 +190,57 @@ export default function ProductDetails({ product }: Props) {
     </ContentBox>
   );
 
-  const renderSteps = () => (
-    <ContentBox>
-      <DocumentItem mb="1rem" style={{ fontWeight: "bold" }}>
-        Steps:
-      </DocumentItem>
-      {product?.steps && product?.steps.length > 0 ? (
-        <ol style={{ paddingLeft: "2%" }}>
-          {product?.steps.map((step, index) => (
-            <li key={index}>
-              {" "}
-              <DocumentItem as="span">{step}</DocumentItem>
-            </li>
-          ))}
-        </ol>
-      ) : (
-        <DocumentItem>No steps listed.</DocumentItem>
-      )}
-    </ContentBox>
-  );
+  const renderSteps = () => {
+    const steps = product?.steps || [];
+    const showButton = steps.length > 4;
+    const visibleSteps = showAllSteps ? steps : steps.slice(0, 4);
+
+    return (
+      <ContentBox>
+        <DocumentItem mb="1rem" style={{ fontWeight: "bold" }}>
+          Steps:
+        </DocumentItem>
+        {steps.length > 0 ? (
+          <>
+            <ol style={{ paddingLeft: "2%" }}>
+              {visibleSteps.map((step, index) => (
+                <li key={index}>
+                  <DocumentItem as="span">{step}</DocumentItem>
+                </li>
+              ))}
+            </ol>
+            {showButton && (
+              <Span
+                style={{
+                  marginTop: "0.5rem",
+                  padding: 0,
+                  fontSize: 14,
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  display: "inline-block",
+                }}
+                onClick={() => setShowAllSteps((prev) => !prev)}
+              >
+                {showAllSteps ? (
+                  <FlexBox alignItems="center" color="#0030E3" cursor="pointer">
+                    <Span mr="1rem">Show Less</Span>
+                    <FaAngleUp />
+                  </FlexBox>
+                ) : (
+                  <FlexBox alignItems="center" color="#0030E3" cursor="pointer">
+                    <Span mr="1rem">Show More</Span>
+                    <FaAngleDown />
+                  </FlexBox>
+                )}
+              </Span>
+            )}
+          </>
+        ) : (
+          <DocumentItem>No steps listed.</DocumentItem>
+        )}
+      </ContentBox>
+    );
+  };
 
   const renderTerms = () => (
     <ContentBox>
@@ -200,50 +280,17 @@ export default function ProductDetails({ product }: Props) {
             "0px 1px 2px 0px rgba(0, 33, 128, 0.30), 0px 1px 3px 1px rgba(0, 33, 128, 0.15)",
           padding: "3rem",
         }}
+        className="product-details-container"
       >
-        <Image
-          src="/images/chat.png"
-          alt="chat"
-          width={50}
-          height={50}
-          style={{
-            borderRadius: "50%",
-            position: "absolute",
-            right: "-20px",
-            top: 5,
-          }}
-        />
-        <span
-          style={{
-            position: "absolute",
-            top: 0,
-            right: "-20px",
-            background:
-              "linear-gradient(90deg, #01E5D1 0%, #02E4D1 8.12%, #04E2D2 14.47%, #07DFD3 19.42%, #0CDAD5 23.32%, #12D5D7 26.54%, #18CEDA 29.42%, #20C7DD 32.34%, #29BEE0 35.66%, #33B5E4 39.72%, #3DABE8 44.89%, #48A0EC 51.54%, #5395F1 60.01%, #6089F5 70.67%, #6C7DFA 83.88%, #7970FF 100%)",
-            color: "#fff",
-            width: "15px",
-            height: "15px",
-            borderRadius: "50%",
-            padding: "auto",
-            display: "flex",
-            fontSize: "10px",
-            alignItems: "center",
-            justifyContent: "center",
-            fontWeight: 700,
-            boxShadow: "0 1px 4px rgba(0,0,0,0.15)",
-            zIndex: 2,
-          }}
-        >
-          {1}
-        </span>
         <TabContainer>
-          <TabButton
+          {/* <TabButton
             active={activeTab === "description"}
             onClick={() => setActiveTab("description")}
           >
             Description
-          </TabButton>
+          </TabButton> */}
           <TabButton
+            className="product-details-tab"
             active={activeTab === "steps"}
             onClick={() => setActiveTab("steps")}
           >
@@ -251,12 +298,14 @@ export default function ProductDetails({ product }: Props) {
           </TabButton>
 
           <TabButton
+            className="product-details-tab"
             active={activeTab === "cost"}
             onClick={() => setActiveTab("cost")}
           >
             Cost
           </TabButton>
           <TabButton
+            className="product-details-tab"
             active={activeTab === "documents"}
             onClick={() => setActiveTab("documents")}
           >
@@ -264,12 +313,22 @@ export default function ProductDetails({ product }: Props) {
           </TabButton>
 
           <TabButton
+            className="product-details-tab"
             active={activeTab === "terms"}
             onClick={() => setActiveTab("terms")}
           >
             Terms Of Service
           </TabButton>
         </TabContainer>
+        <hr
+          style={{
+            height: "3px",
+            background: "#D8E0E9",
+            border: "none",
+            marginLeft: "1.95rem",
+            marginRight: "1.95rem",
+          }}
+        />
 
         {renderTabContent()}
       </Box>

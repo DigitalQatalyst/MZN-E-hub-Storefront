@@ -12,6 +12,7 @@ import Section16 from "@sections/market-1/Section16";
 import Section17 from "@sections/market-1/Section17";
 import Section2 from "@sections/market-1/Section2";
 import Section19 from "@sections/market-1/Section19";
+import MsalWrapper from "@component/MsalWrapper";
 
 
 export default async function Market1() {
@@ -19,6 +20,7 @@ export default async function Market1() {
   
 
   return (
+    <MsalWrapper>
     <main>
       {/* HERO CAROUSEL AREA
       <Section1 />
@@ -36,5 +38,6 @@ export default async function Market1() {
       <Footer1 />
 
     </main>
+    </MsalWrapper>
   );
 }

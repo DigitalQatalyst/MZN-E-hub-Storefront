@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useReducer, useContext, createContext, PropsWithChildren } from "react";
+import { useMemo, useReducer, useContext, createContext, PropsWithChildren } from "react";
 
 // TYPES
 import { ActionType, InitialState, ContextProps } from "./types";
@@ -29,7 +29,6 @@ const reducer = (state: InitialState, action: ActionType) => {
         return { ...state, cart: filteredCart };
       }
 
-      // IF PRODUCT ALREADY EXITS IN CART
       if (exist) {
         const newCart = cartList.map((item) =>
           item.id === cartItem.id ? { ...item, qty: cartItem.qty } : item
@@ -40,9 +39,8 @@ const reducer = (state: InitialState, action: ActionType) => {
 
       return { ...state, cart: [...cartList, cartItem] };
 
-    default: {
+    default:
       return state;
-    }
   }
 };
 
@@ -50,7 +48,11 @@ export function AppProvider({ children }: PropsWithChildren) {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch]);
 
-  return <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>;
+  return (
+    <AppContext.Provider value={contextValue}>
+      {children}
+    </AppContext.Provider>
+  );
 }
 
 export const useAppContext = () => useContext(AppContext);

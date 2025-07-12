@@ -1,13 +1,3 @@
-
-
-
-
-
-
-
-
-
-
 "use client";
 
 import { useState } from "react";
@@ -52,6 +42,42 @@ const CREATE_CUSTOMER_MUTATION = `
       ... on ErrorResult {
         errorCode
         message
+      }
+    }
+  }
+`;
+
+const UPDATE_CUSTOMER_MUTATION = `
+  mutation UpdateCustomer($input: UpdateCustomerInput!) {
+    updateCustomer(input: $input) {
+      ... on Customer {
+        id
+        firstName
+        lastName
+        emailAddress
+        phoneNumber
+        customFields {
+          additionalMessage
+          serviceEnquiryType
+        }
+      }
+      ... on ErrorResult {
+        errorCode
+        message
+      }
+    }
+  }
+`;
+
+const GET_CUSTOMER_BY_EMAIL = `
+  query GetCustomerByEmail($emailAddress: String!) {
+    customers(options: { filter: { emailAddress: { eq: $emailAddress } } }) {
+      items {
+        id
+        firstName
+        lastName
+        emailAddress
+        phoneNumber
       }
     }
   }
@@ -361,26 +387,76 @@ export default function Section19() {
 
     console.log("Authenticated successfully with token:", authToken);
 
-    // Step 2: Prepare and send the createCustomer mutation
-    const payload = {
-      query: CREATE_CUSTOMER_MUTATION,
-      variables: {
-        input: {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          emailAddress: formData.email,
-          phoneNumber: formData.phoneNumber,
-          customFields: {
-            additionalMessage: formData.message,
-            serviceEnquiryType: formData.enquiryType,
-          },
-        },
-      },
-    };
-
-    console.log("Submitting payload:", payload);
+    // Step 2: Handle multiple enquiries from the same email
+    console.log("Authenticated successfully with token:", authToken);
 
     try {
+      // First, check if a customer with this email already exists
+      const checkCustomerResponse = await fetch("https://22af-54-37-203-255.ngrok-free.app/admin-api", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({
+          query: GET_CUSTOMER_BY_EMAIL,
+          variables: {
+            emailAddress: formData.email,
+          },
+        }),
+      });
+
+      const checkCustomerData = await checkCustomerResponse.json();
+      console.log("Customer check response:", JSON.stringify(checkCustomerData, null, 2));
+
+      let payload;
+      let isUpdate = false;
+
+      if (checkCustomerData?.data?.customers?.items?.length > 0) {
+        // Customer exists, update them with new enquiry
+        const existingCustomer = checkCustomerData.data.customers.items[0];
+        isUpdate = true;
+        
+        // Create a unique identifier for this enquiry by appending timestamp
+        const timestamp = new Date().toISOString();
+        const enquiryId = `${formData.enquiryType}-${timestamp}`;
+        
+        payload = {
+          query: UPDATE_CUSTOMER_MUTATION,
+          variables: {
+            input: {
+              id: existingCustomer.id,
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              phoneNumber: formData.phoneNumber,
+              customFields: {
+                additionalMessage: `[${enquiryId}] ${formData.message}`,
+                serviceEnquiryType: formData.enquiryType,
+              },
+            },
+          },
+        };
+        console.log("Updating existing customer:", payload);
+      } else {
+        // Customer doesn't exist, create new one
+        payload = {
+          query: CREATE_CUSTOMER_MUTATION,
+          variables: {
+            input: {
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              emailAddress: formData.email,
+              phoneNumber: formData.phoneNumber,
+              customFields: {
+                additionalMessage: formData.message,
+                serviceEnquiryType: formData.enquiryType,
+              },
+            },
+          },
+        };
+        console.log("Creating new customer:", payload);
+      }
+
       const response = await fetch("https://22af-54-37-203-255.ngrok-free.app/admin-api", {
         method: "POST",
         headers: {
@@ -391,7 +467,9 @@ export default function Section19() {
       });
 
       const data = await response.json();
-      console.log("CreateCustomer mutation response:", JSON.stringify(data, null, 2));
+      console.log(`${isUpdate ? 'Update' : 'Create'}Customer mutation response:`, JSON.stringify(data, null, 2));
+
+      const customerData = isUpdate ? data?.data?.updateCustomer : data?.data?.createCustomer;
 
       if (data.errors && Array.isArray(data.errors)) {
         setAlertMessage("❌ Submission failed: " + data.errors[0].message);
@@ -401,9 +479,9 @@ export default function Section19() {
           console.error(`Error ${index + 1}:`, error.message);
         });
         console.groupEnd();
-      } else if (data?.data?.createCustomer?.id || data?.data?.createCustomer?.__typename === "Customer") {
+      } else if (customerData?.id || customerData?.__typename === "Customer") {
         setAlertHeader("Inquiry Submitted Successfully!");
-        setAlertMessage("Thank you! your inquiry has been submitted successfully. We'll get back to you soon.");
+        setAlertMessage(`Thank you! Your inquiry has been ${isUpdate ? 'updated' : 'submitted'} successfully. We'll get back to you soon.`);
         setShowAlert(true);
         // Reset form after successful submission
         setFormData({
@@ -414,8 +492,13 @@ export default function Section19() {
           enquiryType: "",
           message: "",
         });
-      } else if (data?.data?.createCustomer?.__typename === "ErrorResult") {
-        setAlertMessage(`⚠️ ${data.data.createCustomer.message}`);
+      } else if (customerData?.__typename === "ErrorResult") {
+        // Handle specific error cases
+        if (customerData.errorCode === "EMAIL_ADDRESS_CONFLICT_ERROR") {
+          setAlertMessage("⚠️ An enquiry with this email already exists. Please use a different email or contact us directly.");
+        } else {
+          setAlertMessage(`⚠️ ${customerData.message}`);
+        }
         setShowAlert("error");
       } else {
         console.error("Unexpected response structure:", JSON.stringify(data, null, 2));
@@ -446,7 +529,7 @@ export default function Section19() {
           <StyledHeader>CONTACT OUR TEAM</StyledHeader>
           <StyledBody>Ready to Make an Enquiry?</StyledBody>
           <Description>
-            Tell us what you’re looking for and we’ll get back to you shortly. For<br></br> additional information you can also visit our{" "}
+            Tell us what you're looking for and we'll get back to you shortly. For<br></br> additional information you can also visit our{" "}
             <HelpLink>Help Center</HelpLink>.
           </Description>
         </ContentColumn>

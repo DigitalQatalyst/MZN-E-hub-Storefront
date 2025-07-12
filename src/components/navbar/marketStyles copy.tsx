@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const StyledNavbar = styled.div`
   position: relative;
-  height: 76px;
+  height: 60px;
   background: var(--MZN-Gradient-Style, linear-gradient(90deg, 
     #01E5D1 0%, #02E4D1 8.12%, #04E2D2 14.47%, #07DFD3 19.42%, 
     #0CDAD5 23.32%, #12D5D7 26.54%, #18CEDA 29.42%, #20C7DD 32.34%, 
@@ -48,53 +48,28 @@ const StyledNavbar = styled.div`
   }
 
   .sign-up-button {
-    display: flex;
-    padding: 10px 24px;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  padding: 10px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 
-    /* Prevent text from wrapping */
-    white-space: nowrap;
+  /* Prevent text from wrapping */
+  white-space: nowrap;
 
-    /* Adjust width so the text fits properly */
-    min-width: 100px;
+  /* Adjust width so the text fits properly */
+  min-width: 100px;
 
-    background: white;
-    color: blue;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s ease, color 0.3s ease;
-  }
+  background: white;
+  color: blue;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
 
-  /* User Profile Photo Styles */
-  .profile-photo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+}
 
-  .profile-initials {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #fff;
-    border: 2px solid #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #000;
-    font-weight: 600;
-    font-size: 14px;
-    font-family: "Helvetica Neue", sans-serif;
-    transition: all 0.3s ease;
 
-    &:hover {
-      border-color: #0030E3;
-      transform: scale(1.05);
-    }
-  }
 
   .nav-link:last-child {
     margin-right: 0px;
@@ -125,7 +100,7 @@ const StyledNavbar = styled.div`
   }
 
   .dropdown-icon {
-    color: #0030E3;
+    color: ${getTheme("colors.text.muted")};
   }
   @media only screen and (max-width: 900px) {
     display: none;
@@ -134,7 +109,7 @@ const StyledNavbar = styled.div`
   /* Dropdown Icon Style */
   .dropdown-icon {
     width: 12px;  /* Adjust width based on your icon size */
-    height: 24px;
+    height: auto;
     margin-left: 6px;  /* Adds space between the text and the icon */
     transition: transform 0.3s ease;  /* Optional: Adds smooth transition effect */
   }

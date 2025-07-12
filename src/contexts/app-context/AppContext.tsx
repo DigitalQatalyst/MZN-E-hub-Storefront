@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useReducer, useContext, createContext, PropsWithChildren } from "react";
+import React, { useMemo, useReducer, useContext, createContext, PropsWithChildren } from "react";
 
 // TYPES
 import { ActionType, InitialState, ContextProps } from "./types";
@@ -11,7 +11,7 @@ const INITIAL_STATE = { cart: INITIAL_CART, isHeaderFixed: false };
 
 export const AppContext = createContext<ContextProps>({
   state: INITIAL_STATE,
-  dispatch: () => {}
+  dispatch: () => { }
 });
 
 const reducer = (state: InitialState, action: ActionType) => {
@@ -20,9 +20,9 @@ const reducer = (state: InitialState, action: ActionType) => {
       return { ...state, isHeaderFixed: action.payload };
 
     case "CHANGE_CART_AMOUNT":
-      let cartList = state.cart;
-      let cartItem = action.payload;
-      let exist = cartList.find((item) => item.id === cartItem.id);
+      const cartList = state.cart;
+      const cartItem = action.payload;
+      const exist = cartList.find((item) => item.id === cartItem.id);
 
       if (cartItem.qty < 1) {
         const filteredCart = cartList.filter((item) => item.id !== cartItem.id);
@@ -53,4 +53,4 @@ export function AppProvider({ children }: PropsWithChildren) {
   return <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>;
 }
 
-export const useAppContext = () => useContext<ContextProps>(AppContext);
+export const useAppContext = () => useContext(AppContext);

@@ -23,8 +23,7 @@ export default function Section6({ carList, carBrands }: Props) {
   const [selected, setSelected] = useState("discussions"); // State for tabs: "discussions", "about", "events"
   const [selectedGroup, setSelectedGroup] = useState(""); // State for selected group in the sidebar
   const [expandedSection, setExpandedSection] = useState('Quality Content');
-  const [postContent, setPostContent] = useState(""); // New state for post input
-  // Replace your current discussions state (around line 25) with:
+  const [postContent, setPostContent] = useState("");
   const [discussions, setDiscussions] = useState([
     {
       id: "1",
@@ -39,6 +38,7 @@ export default function Section6({ carList, carBrands }: Props) {
       views: 999
     },
   ]);
+  const [searchTerm, setSearchTerm] = useState('');
   const toggleGuidelinesSection = (sectionName: string) => {
     setExpandedSection(expandedSection === sectionName ? null : sectionName);
   };
@@ -77,21 +77,86 @@ export default function Section6({ carList, carBrands }: Props) {
     { id: "esg-policy-exchange", name: "ESG Policy Exchange" },
     { id: "green-energy-solutions", name: "Green Energy Solutions" },
   ];
+  // Update the guidelines array with dummy data (around line 75):
   const guidelines = [
-    { title: 'Respectful Communication', content: [] },
     {
-      title: 'Quality Content', content: [
-        'Share accurate information from accurate sources',
-        'Share accurate information from accurate sources',
-        'Respect intellectual property and cite sources appropriately',
-        'Keep content relevant to the community’s focus area'
+      title: 'Respectful Communication',
+      content: [
+        'Treat all members with respect and courtesy',
+        'Use professional language and avoid offensive content',
+        'Listen actively and respond thoughtfully to others',
+        'Avoid personal attacks or discriminatory language'
       ]
     },
-    { title: 'Privacy & Confidentiality', content: [] },
-    { title: 'Intellectual Property', content: [] },
-    { title: 'Commercial Activity', content: [] }
+    {
+      title: 'Quality Content',
+      content: [
+        'Share accurate information from reliable sources',
+        'Provide valuable insights and meaningful contributions',
+        'Respect intellectual property and cite sources appropriately',
+        'Keep content relevant to the community\'s focus area'
+      ]
+    },
+    {
+      title: 'Privacy & Confidentiality',
+      content: [
+        'Respect the privacy of other members',
+        'Do not share personal information without permission',
+        'Keep confidential business information secure',
+        'Report any privacy concerns to community moderators'
+      ]
+    },
+    {
+      title: 'Intellectual Property',
+      content: [
+        'Respect copyrights and trademarks',
+        'Give proper attribution when sharing content',
+        'Do not plagiarize or copy others\' work',
+        'Seek permission before sharing proprietary information'
+      ]
+    },
+    {
+      title: 'Commercial Activity',
+      content: [
+        'Avoid excessive self-promotion or spam',
+        'Focus on value-driven content over sales pitches',
+        'Disclose any commercial interests or affiliations',
+        'Respect community guidelines about promotional content'
+      ]
+    }
   ];
-
+  const members = [
+    {
+      id: 1,
+      name: 'Karim Abdullah',
+      role: 'admin',
+      avatar: '/images/image 1.jpg'
+    },
+    {
+      id: 2,
+      name: 'Layla Hassan',
+      role: 'moderator',
+      avatar: '/images/image 2.jpg'
+    },
+    {
+      id: 3,
+      name: 'Omar Al-Farouk',
+      role: 'moderator',
+      avatar: '/images/image 3.jpg'
+    },
+    {
+      id: 4,
+      name: 'Sarah Johnson',
+      role: 'member',
+      avatar: '/images/image 2.jpg'
+    },
+    {
+      id: 5,
+      name: 'Ahmed Ali',
+      role: 'member',
+      avatar: '/images/image 1.jpg'
+    }
+  ];
   const events = [
     {
       id: "e1",
@@ -126,6 +191,10 @@ export default function Section6({ carList, carBrands }: Props) {
     if (selected === brand.slug) setSelected("");
     else setSelected(brand.slug);
   };
+
+  const filteredMembers = members.filter(member =>
+    member.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <Container mb="80px">
@@ -256,7 +325,9 @@ export default function Section6({ carList, carBrands }: Props) {
                     onClick={handleCreatePost}
                     disabled={!postContent.trim()}
                   >
-                    <NextImage src="/images/send_24.svg" alt="attachment" width={16} height={16} />
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                      <path d="M2.01 21L23 12L2.01 3L2 10L17 12L2 14L2.01 21Z" fill="#6c757d" />
+                    </svg>
                   </button>
                 </FlexBox>
               </Box>
@@ -331,19 +402,123 @@ export default function Section6({ carList, carBrands }: Props) {
 
           {selected === "about" && (
             <Box className="about-content">
-              <h2>About this Community</h2>
-              <p>This community brings together female founders and leaders in the fintech space to share insights, opportunities, and support each other's growth.</p>
+              <Box className="about-info-container">
+                <h2>About this Community</h2>
+                <p>This community brings together female founders and leaders in the fintech space to share insights, opportunities, and support each other's growth in the financial technology sector. We foster entrepreneurs in fintech who connect, share insights, and collaborate on groundbreaking solutions that are transforming the financial sector industry. From payment systems to blockchain and digital lending, the space fosters discussions on trading, trading, investment strategies, and technology-driven financial models. Join us to connect with like-minded leaders, share resources, and drive the future of financial innovation.</p>
+              </Box>
+              <Box className="community-guidelines">
+                <h3>Community Guidelines</h3>
+                <p>To ensure a productive and welcoming environment for all members, we ask everyone to follow these community guidelines:</p>
+
+                {guidelines.map((guideline, index) => (
+                  <Box key={index} className="guideline-item">
+                    <FlexBox
+                      className="guideline-header"
+                      onClick={() => toggleGuidelinesSection(guideline.title)}
+                    >
+                      <span className="guideline-title">{guideline.title}</span>
+                      <span className="guideline-arrow">
+                        {expandedSection === guideline.title ? (
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <mask id="mask0_7497_78730" style={{ maskType: "alpha" }} maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                              <rect width="24" height="24" fill="#D9D9D9" />
+                            </mask>
+                            <g mask="url(#mask0_7497_78730)">
+                              <path d="M11.9995 15.0398L6.3457 9.38578L7.39945 8.33203L11.9995 12.9168L16.5995 8.33203L17.6532 9.38578L11.9995 15.0398Z" fill="#1C1B1F" />
+                            </g>
+                          </svg>
+                        ) : (
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ transform: 'rotate(-90deg)' }}>
+                            <mask id="mask0_7497_78730" style={{ maskType: "alpha" }} maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                              <rect width="24" height="24" fill="#D9D9D9" />
+                            </mask>
+                            <g mask="url(#mask0_7497_78730)">
+                              <path d="M11.9995 15.0398L6.3457 9.38578L7.39945 8.33203L11.9995 12.9168L16.5995 8.33203L17.6532 9.38578L11.9995 15.0398Z" fill="#1C1B1F" />
+                            </g>
+                          </svg>
+                        )}
+                      </span>
+                    </FlexBox>
+                    {expandedSection === guideline.title && guideline.content.length > 0 && (
+                      <Box className="guideline-content">
+                        {guideline.content.map((item, itemIndex) => (
+                          <Box key={itemIndex} className="guideline-point">
+                            • {item}
+                          </Box>
+                        ))}
+                      </Box>
+                    )}
+                  </Box>
+                ))}
+
+                <p className="guidelines-footer" style={{ color: '#5088FF' }}>
+                  By participating in this community, you agree to abide by these guidelines.{' '}
+
+                  <span className="guidelines-link">
+                    Therefore members may result in temporary or permanent removal from the group.
+                  </span>
+                </p>
+              </Box>
             </Box>
           )}
 
           {selected === "members" && (
             <Box className="members-content">
-              <h2>Community Members</h2>
-              <p>10k+ active members in this community</p>
+              <h2>Members</h2>
+              <p className="members-subtitle">View members in this community</p>
+
+              <Box className="members-search">
+                <input
+                  type="text"
+                  placeholder="Search members..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="search-input"
+                />
+                {searchTerm && (
+                  <button
+                    className="search-clear"
+                    onClick={() => setSearchTerm('')}
+                  >
+                    ×
+                  </button>
+                )}
+              </Box>
+
+              <Box className="member-list">
+                {filteredMembers.length > 0 ? (
+                  filteredMembers.map((member) => (
+                    <Box key={member.id} className="member-item">
+                      <Box className="member-info">
+                        <Box className="member-avatar">
+                          <NextImage
+                            src={member.avatar}
+                            alt={member.name}
+                            width={40}
+                            height={40}
+                          />
+                        </Box>
+                        <h4 className="member-name">{member.name}</h4>
+                      </Box>
+                      <span className={`member-role ${member.role}`}>
+                        {member.role.charAt(0).toUpperCase() + member.role.slice(1)}
+                      </span>
+                    </Box>
+                  ))
+                ) : (
+                  <Box className="no-members-found">
+                    <p>No members found matching "{searchTerm}"</p>
+                  </Box>
+                )}
+              </Box>
+
+              <a href="#" className="join-community-link">
+                Join community to view all members
+              </a>
             </Box>
           )}
         </Box>
       </FlexBox>
-    </Container>
+    </Container >
   );
 }

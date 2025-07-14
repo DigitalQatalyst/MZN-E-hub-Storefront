@@ -1,5 +1,5 @@
 "use client";
- 
+
 import Box from "../Box";
 import Card from "../Card";
 import Badge from "../badge";
@@ -11,7 +11,7 @@ import { Button } from "../buttons";
 import Container from "../Container";
 import Typography, { Span } from "../Typography";
 import Categories from "../categories/Categories";
- 
+
 import StyledNavbar from "./marketStyles";
 
 interface Nav {
@@ -21,74 +21,82 @@ interface Nav {
   badge: string;
   extLink?: boolean;
 }
- 
+
 type NavbarProps = { navListOpen?: boolean };
 // ==============================================================
- 
+
 export default function Navbar({ navListOpen }: NavbarProps) {
   return (
     <StyledNavbar>
-      <Container height="100%" display="flex" alignItems="center" justifyContent="space-between">
+      <Container
+        height="100%"
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+      >
         {/* Logo Section */}
         <Box className="navbar-logo">
-          <img src="/assets/images/tab_bar/Subtract.svg" alt="MZN Enterprise Hub" height="40px" />
+          <img src="/assets/images/tab_bar/Subtract.svg" alt="MZN Enterprise Hub" height="100%"style={{marginLeft: "-88px"}} />
         </Box>
- 
+
         {/* Categories Section */}
         <Categories open={navListOpen}>
-          <Button width="278px" height="40px" bg="body.default" variant="text">
-            <Icon>categories</Icon>
+          <Button width="320px" height="40px" bg="body.default" variant="text" marginRight={550} borderRadius={6}>
+            <img src="/images/explore.svg" alt="Explore" />
             <Typography
-              ml="10px"
+              mr="150px"
               flex="1 1 0"
-              fontFamily='"Open Sans", sans-serif'
-              fontSize="16px"
+              fontFamily='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
+              fontSize="14px"
               fontStyle="normal"
-              fontWeight="600"
+              fontWeight="400"
               lineHeight="26px"
-              color="#002180"
+              color="#0030E3"
             >
-              Explore
+              Explores
             </Typography>
- 
+
             <Icon className="dropdown-icon" variant="small">
               chevron-right
             </Icon>
           </Button>
         </Categories>
 
-        {/* Hardcoded Navigation Links */}
+        {/* Hardcoded Navigation Links 
         <FlexBox style={{ gap: 32 }}>
           <NavLink className="nav-link" href="#">
             <FlexBox alignItems="center">
               <Span className="nav-link">Business in AbuDhabi</Span>
             </FlexBox>
           </NavLink>
-          <NavLink className="nav-link" href="#">
+          <NavLink className="nav-link" href="/faq">
             <FlexBox alignItems="center">
               <Span className="nav-link">Help Centre</Span>
             </FlexBox>
           </NavLink>
         </FlexBox>
+        */}
 
         {/* Search Icon, Sign In, and Sign Up Buttons */}
         <FlexBox alignItems="center" style={{ gap: "15px" }}>
           {/* Search Icon (Replace with your actual SVG) */}
           <Box className="search-icon" style={{ cursor: "pointer" }}>
-            <img src="/assets/images/logos/search.svg" alt="Search" height="24px" />
+            <img src="/assets/images/logos/search.svg" alt="Search" height="20px" />
           </Box>
  
-          {/* Sign In & Sign Up Buttons */}
-          <Button className="sign-in-btn" variant="outlined">
-            Sign In
-          </Button>
+          {/* Bookmark Icon */}
+          <Box className="search-icon" style={{ cursor: "pointer" }}>
+            <img src="/images/bookmark.svg" alt="Bookmark" height="24px" />
+          </Box>
  
-          <Button className="sign-up-button" variant="contained">
-            Sign Up
-          </Button>
+          {/* User Profile Photo */}
+          <Box className="profile-photo" style={{ cursor: "pointer" }}>
+            <div className="profile-initials">
+              MW
+            </div>
+          </Box>
         </FlexBox>
       </Container>
     </StyledNavbar>
   );
 }
- 

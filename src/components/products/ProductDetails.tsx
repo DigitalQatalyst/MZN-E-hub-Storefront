@@ -12,7 +12,7 @@ import styled from "styled-components";
 import client from "@lib/graphQLClient";
 import { relatedProducts } from "__server__/__db__/related-products/data";
 import { Carousel } from "@component/carousel";
-import { border, fontWeight } from "styled-system";
+import { border, display, flexDirection, fontWeight } from "styled-system";
 import Image from "next/image";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 
@@ -47,7 +47,7 @@ const TabButton = styled(Button)<{ active?: boolean }>`
       position: absolute;
       left: 0;
       right: 0;
-      bottom: -2px;
+      bottom: -10px;
       height: 3px;
       background: #0030E3;
       border-radius: 2px 2px 0 0;
@@ -119,9 +119,13 @@ export default function ProductDetails({ product }: Props) {
 
     return (
       <ContentBox display="flex" style={{ gap: "1rem" }}>
-        <DocumentItem mb="1rem" flex="1">
+        <DocumentItem
+          mb="1rem"
+          flex="1"
+          style={{ display: "flex", flexDirection: "column" }}
+        >
           <Span fontWeight="bold">Overview</Span>
-          <p>{product.description}</p>
+          <span>{product.description}</span>
         </DocumentItem>
         <DocumentItem flex="1">
           <Span fontWeight="bold">Required Documents</Span>
@@ -312,12 +316,12 @@ export default function ProductDetails({ product }: Props) {
           {1}
         </span>
         <TabContainer>
-          <TabButton
+          {/* <TabButton
             active={activeTab === "description"}
             onClick={() => setActiveTab("description")}
           >
             Description
-          </TabButton>
+          </TabButton> */}
           <TabButton
             active={activeTab === "steps"}
             onClick={() => setActiveTab("steps")}
@@ -345,6 +349,15 @@ export default function ProductDetails({ product }: Props) {
             Terms Of Service
           </TabButton>
         </TabContainer>
+        <hr
+          style={{
+            height: "3px",
+            background: "#D8E0E9",
+            border: "none",
+            marginLeft: "1.95rem",
+            marginRight: "1.95rem",
+          }}
+        />
 
         {renderTabContent()}
       </Box>

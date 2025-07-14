@@ -6,9 +6,11 @@ import Sidebar from "../profile/DashboardNavigation";
 import { StyledGrid } from "../profile/styles";
 
 // In Layout.tsx
-export default function CustomerDashboardLayout({ children }: PropsWithChildren) {
+export default function CustomerDashboardLayout({
+  children,
+}: PropsWithChildren) {
   return (
-    <Grid container >
+    <Grid horizontal_spacing={40} container>
       <StyledGrid item lg={2.25} xs={12}>
         <Sidebar />
       </StyledGrid>

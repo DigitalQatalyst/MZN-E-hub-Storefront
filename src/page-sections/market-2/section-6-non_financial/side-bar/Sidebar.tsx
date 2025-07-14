@@ -192,6 +192,7 @@ export default function Sidebar({
             <label htmlFor="legal-compliance-and-licensing">Legal, Compliance & Licensing</label>
           </CheckboxLabel>
         </List>
+        <div style={{ width: "236px", height: "1px", background: "#D8E0E9" }} />
 
         <List>
           <ServiceTypeTitle>Business Stage:</ServiceTypeTitle>
@@ -243,6 +244,7 @@ export default function Sidebar({
             <label htmlFor="other">Other</label>
           </CheckboxLabel>
         </List>
+        <div style={{ width: "236px", height: "1px", background: "#D8E0E9" }} />
 
         <List>
           <ServiceTypeTitle>Provided By:</ServiceTypeTitle>
@@ -296,6 +298,7 @@ export default function Sidebar({
             <label htmlFor="other-checkbox">Other</label>
           </CheckboxLabel>
         </List>
+        <div style={{ width: "236px", height: "1px", background: "#D8E0E9" }} />
 
         <List>
           <ServiceTypeTitle>Pricing Model:</ServiceTypeTitle>
@@ -350,6 +353,7 @@ export default function Sidebar({
             <label htmlFor="government-subsidised">Government sponsered </label>
           </CheckboxLabel>
         </List>
+        <div style={{ width: "236px", height: "1px", background: "#D8E0E9" }} />
         <div style={{ paddingBottom: "2rem" }} />
       </Card>
       {(areFiltersApplied() ? totalFilteredItems : totalItems) > 0 && (

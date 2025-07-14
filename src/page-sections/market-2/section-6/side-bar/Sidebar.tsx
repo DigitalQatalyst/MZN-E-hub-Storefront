@@ -156,6 +156,7 @@ export default function Sidebar({
             <label htmlFor="investment-equity-financing">Investment & Equity Financing</label>
           </CheckboxLabel>
         </List>
+        <div style={{ width: "236px", height: "1px", background: "#D8E0E9" }} />
 
         <List>
           <ServiceTypeTitle>Business Stage:</ServiceTypeTitle>
@@ -207,6 +208,7 @@ export default function Sidebar({
             <label htmlFor="other">Other</label>
           </CheckboxLabel>
         </List>
+        <div style={{ width: "236px", height: "1px", background: "#D8E0E9" }} />
 
         <List>
           <ServiceTypeTitle>Provided By:</ServiceTypeTitle>
@@ -260,6 +262,7 @@ export default function Sidebar({
             <label htmlFor="other-checkbox">Other</label>
           </CheckboxLabel>
         </List>
+        <div style={{ width: "236px", height: "1px", background: "#D8E0E9" }} />
 
         <List>
           <ServiceTypeTitle>Pricing Model:</ServiceTypeTitle>
@@ -314,6 +317,7 @@ export default function Sidebar({
             <label htmlFor="government-subsidised">Government sponsered</label>
           </CheckboxLabel>
         </List>
+        <div style={{ width: "236px", height: "1px", background: "#D8E0E9" }} />
         {/* Adding padding-bottom to create space at the bottom when no service is available */}
         <div style={{ paddingBottom: '2rem' }} />
       </Card>

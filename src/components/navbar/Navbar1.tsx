@@ -50,7 +50,11 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   const { instance, accounts } = useMsal();
 
   function handleLogin() {
-    instance.loginRedirect().catch((e) => {
+    instance.loginRedirect({
+      scopes: ["openid"],
+      redirectUri: "https://mzn-e-hub-storefront-5akxqw2kr-digitalqatalysts-projects.vercel.app/dashboard",
+      extraQueryParameters: { prompt: "login" }
+    }).catch((e) => {
       console.log(e);
     });
   }

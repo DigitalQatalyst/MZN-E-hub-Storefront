@@ -87,7 +87,7 @@ export default function Sidebar({
         elevation={0}
         style={{
           border: 0,
-          height: "95%",
+          height: "94%",
           borderRadius: "3px",
           padding: "1rem 2rem",
           backgroundColor: "#FFFFFF",
@@ -156,6 +156,7 @@ export default function Sidebar({
             <label htmlFor="investment-equity-financing">Investment & Equity Financing</label>
           </CheckboxLabel>
         </List>
+        <div style={{ width: "236px", height: "1px", background: "#D8E0E9" }} />
 
         <List>
           <ServiceTypeTitle>Business Stage:</ServiceTypeTitle>
@@ -166,7 +167,7 @@ export default function Sidebar({
               checked={businessStageFilters.conception}
               onChange={() => handleBusinessStageChange("conception")}
             />
-            <label htmlFor="conception">Conception</label>
+            <label htmlFor="conception">Inception</label>
           </CheckboxLabel>
           <CheckboxLabel>
             <input
@@ -207,6 +208,7 @@ export default function Sidebar({
             <label htmlFor="other">Other</label>
           </CheckboxLabel>
         </List>
+        <div style={{ width: "236px", height: "1px", background: "#D8E0E9" }} />
 
         <List>
           <ServiceTypeTitle>Provided By:</ServiceTypeTitle>
@@ -260,6 +262,7 @@ export default function Sidebar({
             <label htmlFor="other-checkbox">Other</label>
           </CheckboxLabel>
         </List>
+        <div style={{ width: "236px", height: "1px", background: "#D8E0E9" }} />
 
         <List>
           <ServiceTypeTitle>Pricing Model:</ServiceTypeTitle>
@@ -281,7 +284,7 @@ export default function Sidebar({
               checked={pricingModelFilters.subscriptionBased}
               onChange={() => handlePricingModelChange("subscriptionBased")}
             />
-            <label htmlFor="subscription-based">Subscription-Based</label>
+            <label htmlFor="subscription-based">Subscription-based</label>
           </CheckboxLabel>
           <CheckboxLabel>
             <input
@@ -301,7 +304,7 @@ export default function Sidebar({
               checked={pricingModelFilters.oneTimeFee}
               onChange={() => handlePricingModelChange("oneTimeFee")}
             />
-            <label htmlFor="one-time-fee">One-Time Fee</label>
+            <label htmlFor="one-time-fee">One time fee</label>
           </CheckboxLabel>
           <CheckboxLabel>
             <input
@@ -311,9 +314,10 @@ export default function Sidebar({
               checked={pricingModelFilters.governmentSubsidised}
               onChange={() => handlePricingModelChange("governmentSubsidised")}
             />
-            <label htmlFor="government-subsidised">Government Subsidised</label>
+            <label htmlFor="government-subsidised">Government sponsered</label>
           </CheckboxLabel>
         </List>
+        <div style={{ width: "236px", height: "1px", background: "#D8E0E9" }} />
         {/* Adding padding-bottom to create space at the bottom when no service is available */}
         <div style={{ paddingBottom: '2rem' }} />
       </Card>

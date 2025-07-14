@@ -8,7 +8,7 @@ const TabBar: React.FC = () => {
 
   const routeToTabMap: { [key: string]: string } = {
     '/non-financial-marketplace': 'Non-Financial',
-    '/services': 'Financial',
+    '/financial-marketplace': 'Financial',
     '/courses': 'Courses',
     '/community-marketplace': 'Communities',
     '/media': 'Media',
@@ -45,7 +45,7 @@ const TabBar: React.FC = () => {
         Non-Financial
       </Tab>
       <Tab
-        onClick={() => handleTabClick('Financial', '/services')}
+        onClick={() => handleTabClick('Financial', '/financial-marketplace')}
         active={activeTab === 'Financial'}
       >
         <img 

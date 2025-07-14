@@ -8,13 +8,12 @@ import Container from "@component/Container";
 import { ProductCard19 } from "@component/product-cards";
 import { useState, useEffect } from "react";
 import client from "@lib/graphQLClient";
-import TabBar from '@component/tab-bar/TabBar';
+import TabBar from "@component/tab-bar/TabBar";
 import Sidebar from "./side-bar/Sidebar";
+import Section2 from "../section-2/Section2";
 
 // STYLED COMPONENTS
 import { ShowingText } from "./styles";
-
-import Section2 from "../section-2/Section2";
 
 // GraphQL Query
 const GET_PRODUCTS = `
@@ -96,7 +95,7 @@ interface GetProductsVariables {
   take: number;
 }
 
-type CategoryFilterKeys = 
+type CategoryFilterKeys =
   | "businessOperationsFinancing"
   | "projectSpecializedFinancing"
   | "growthExpansionFinancing"
@@ -104,7 +103,7 @@ type CategoryFilterKeys =
   | "businessAssetFinancing"
   | "investmentEquityFinancing";
 
-type CategoryCodes = 
+type CategoryCodes =
   | "business-operations-financing"
   | "project-specialized-financing"
   | "growth-expansion-financing"
@@ -122,9 +121,10 @@ export default function Section6() {
   const [totalFilteredItems, setTotalFilteredItems] = useState(0);
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
   const productsPerPage = 15;
 
-  // State for Categories filters with updated type
+  // State for Categories filters
   const [categoriesFilters, setCategoriesFilters] = useState<{
     [key in CategoryFilterKeys]: boolean;
   }>({
@@ -173,7 +173,8 @@ export default function Section6() {
       Object.values(categoriesFilters).some((value) => value) ||
       Object.values(businessStageFilters).some((value) => value) ||
       Object.values(providedByFilters).some((value) => value) ||
-      Object.values(pricingModelFilters).some((value) => value)
+      Object.values(pricingModelFilters).some((value) => value) ||
+      searchQuery.trim() !== ""
     );
   };
 
@@ -206,7 +207,7 @@ export default function Section6() {
               case "loanManagementAdjustments": return "loan-management-adjustments";
               case "businessAssetFinancing": return "business-asset-financing";
               case "investmentEquityFinancing": return "investment-equity-financing";
-              default: return "";
+              default: return "" as CategoryCodes;
             }
           }) as CategoryCodes[];
 
@@ -240,43 +241,45 @@ export default function Section6() {
             }
           });
 
-        const filtered = selectedCategories.length === 0 &&
-          selectedStages.length === 0 &&
-          selectedProviders.length === 0 &&
-          selectedPricingModels.length === 0
-          ? financialServicesOnly
-          : financialServicesOnly.filter((product) => {
-              const matchesCategory =
-                selectedCategories.length === 0 ||
-                product.facetValues.some((facetValue) =>
-                  selectedCategories.includes(facetValue.code as CategoryCodes)
-                );
-              const matchesStage =
-                selectedStages.length === 0 ||
-                product.facetValues.some((facetValue) =>
-                  facetValue.code && selectedStages.includes(facetValue.code)
-                ) ||
-                (product.customFields?.BusinessStage && selectedStages.includes(product.customFields.BusinessStage));
-              const matchesProvider =
-                selectedProviders.length === 0 ||
-                product.facetValues.some((facetValue) =>
-                  facetValue.code && selectedProviders.includes(facetValue.code)
-                );
-              const matchesPricingModel =
-                selectedPricingModels.length === 0 ||
-                product.facetValues.some((facetValue) =>
-                  facetValue.code && selectedPricingModels.includes(facetValue.code)
-                ) ||
-                (selectedPricingModels.includes("one-time-fee") &&
-                  product.customFields?.Cost && product.customFields.Cost > 0);
-              console.log(`Filtering ${product.name} (id: ${product.id}):`, {
-                matchesCategory,
-                matchesStage,
-                matchesProvider,
-                matchesPricingModel
-              });
-              return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
-            });
+        const filtered = financialServicesOnly.filter((product) => {
+          const matchesCategory =
+            selectedCategories.length === 0 ||
+            product.facetValues.some((facetValue) =>
+              selectedCategories.includes(facetValue.code as CategoryCodes)
+            );
+          const matchesStage =
+            selectedStages.length === 0 ||
+            product.facetValues.some((facetValue) =>
+              facetValue.code && selectedStages.includes(facetValue.code)
+            ) ||
+            (product.customFields?.BusinessStage && selectedStages.includes(product.customFields.BusinessStage));
+          const matchesProvider =
+            selectedProviders.length === 0 ||
+            product.facetValues.some((facetValue) =>
+              facetValue.code && selectedProviders.includes(facetValue.code)
+            );
+          const matchesPricingModel =
+            selectedPricingModels.length === 0 ||
+            product.facetValues.some((facetValue) =>
+              facetValue.code && selectedPricingModels.includes(facetValue.code)
+            ) ||
+            (selectedPricingModels.includes("one-time-fee") &&
+              product.customFields?.Cost && product.customFields.Cost > 0);
+          const matchesSearch =
+            searchQuery.trim() === "" ||
+            product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            product.facetValues.some((facetValue) =>
+              facetValue.name.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+          console.log(`Filtering ${product.name} (id: ${product.id}):`, {
+            matchesCategory,
+            matchesStage,
+            matchesProvider,
+            matchesPricingModel,
+            matchesSearch,
+          });
+          return matchesCategory && matchesStage && matchesProvider && matchesPricingModel && matchesSearch;
+        });
 
         setTotalItems(financialServicesOnly.length);
         setAllFilteredProducts(filtered);
@@ -295,94 +298,7 @@ export default function Section6() {
     };
 
     fetchData();
-  }, [currentPage, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters]);
-
-  // Apply filters whenever products, categoriesFilters, businessStageFilters, providedByFilters, or pricingModelFilters change
-  useEffect(() => {
-    const selectedCategories = Object.keys(categoriesFilters)
-      .filter((key) => categoriesFilters[key as CategoryFilterKeys])
-      .map((key) => {
-        switch (key) {
-          case "businessOperationsFinancing": return "business-operations-financing";
-          case "projectSpecializedFinancing": return "project-specialized-financing";
-          case "growthExpansionFinancing": return "growth-expansion-financing";
-          case "loanManagementAdjustments": return "loan-management-adjustments";
-          case "businessAssetFinancing": return "business-asset-financing";
-          case "investmentEquityFinancing": return "investment-equity-financing";
-          default: return "";
-        }
-      }) as CategoryCodes[];
-    const selectedStages = Object.keys(businessStageFilters)
-      .filter((key) => businessStageFilters[key])
-      .map((key) => key);
-    const selectedProviders = Object.keys(providedByFilters)
-      .filter((key) => providedByFilters[key])
-      .map((key) => {
-        switch (key) {
-          case "khalifaFund": return "khalifa-fund";
-          case "adSmeHub": return "ad-sme-hub";
-          case "hub71": return "hub71";
-          case "adgm": return "adgm";
-          case "other": return "other";
-          default: return key;
-        }
-      });
-    const selectedPricingModels = Object.keys(pricingModelFilters)
-      .filter((key) => pricingModelFilters[key])
-      .map((key) => {
-        switch (key) {
-          case "subscriptionBased": return "subscription-based";
-          case "payPerService": return "pay-per-service";
-          case "oneTimeFee": return "one-time-fee";
-          case "governmentSubsidised": return "government-subsidized";
-          case "free": return "free";
-          default: return key;
-        }
-      });
-
-    if (
-      selectedCategories.length === 0 &&
-      selectedStages.length === 0 &&
-      selectedProviders.length === 0 &&
-      selectedPricingModels.length === 0
-    ) {
-      setFilteredProducts(products);
-    } else {
-      const filtered = products.filter((product) => {
-        const matchesCategory =
-          selectedCategories.length === 0 ||
-          product.facetValues.some((facetValue) =>
-            selectedCategories.includes(facetValue.code as CategoryCodes)
-          );
-        const matchesStage =
-          selectedStages.length === 0 ||
-          product.facetValues.some((facetValue) =>
-            facetValue.code && selectedStages.includes(facetValue.code)
-          ) ||
-          (product.customFields?.BusinessStage && selectedStages.includes(product.customFields.BusinessStage));
-        const matchesProvider =
-          selectedProviders.length === 0 ||
-          product.facetValues.some((facetValue) =>
-            facetValue.code && selectedProviders.includes(facetValue.code)
-          );
-        const matchesPricingModel =
-          selectedPricingModels.length === 0 ||
-          product.facetValues.some((facetValue) =>
-            facetValue.code && selectedPricingModels.includes(facetValue.code)
-          ) ||
-          (selectedPricingModels.includes("one-time-fee") &&
-            product.customFields?.Cost && product.customFields.Cost > 0);
-        console.log(`Filtering ${product.name} (id: ${product.id}):`, {
-          matchesCategory,
-          matchesStage,
-          matchesProvider,
-          matchesPricingModel
-        });
-        return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
-      });
-      setFilteredProducts(filtered);
-    }
-  }, [products, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters]);
+  }, [currentPage, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters, searchQuery]);
 
   // Handle checkbox changes for Categories
   const handleCategoriesChange = (category: CategoryFilterKeys) => {
@@ -437,11 +353,13 @@ export default function Section6() {
   };
 
   return (
-    <Container pt="4rem" style={{ marginTop: '-45px' }}>
+    <Container pt="4rem" style={{ marginTop: "-45px" }}>
       <TabBar />
-      <Section2 
-        resultsCount={areFiltersApplied() ? totalFilteredItems : totalItems} 
+      <Section2
+        resultsCount={areFiltersApplied() ? totalFilteredItems : totalItems}
         style={{ marginBottom: "2rem" }}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
       />
       <Grid container spacing={3}>
         <Grid item md={3} xs={12}>
@@ -474,9 +392,6 @@ export default function Section6() {
                 justifyContent: "center",
                 alignItems: "center",
                 height: "300px",
-                // backgroundColor: "#f8f8f8",
-                // borderRadius: "8px",
-                // border: "1px solid #e0e0e0",
                 marginTop: "1rem",
                 fontSize: "1.5rem",
                 color: "#555",
@@ -510,9 +425,6 @@ export default function Section6() {
                 justifyContent: "center",
                 alignItems: "center",
                 height: "300px",
-                // backgroundColor: "#f8f8f8",
-                // borderRadius: "8px",
-                // border: "1px solid #e0e0e0",
                 marginTop: "1rem",
                 fontSize: "1.5rem",
                 color: "#555",
@@ -552,7 +464,7 @@ export default function Section6() {
             </Grid>
           )}
 
-          {(areFiltersApplied() ? totalFilteredItems : totalItems) > 0 && (
+          {totalPages > 1 && (
             <div
               style={{
                 display: "flex",

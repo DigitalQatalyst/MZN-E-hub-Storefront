@@ -15,18 +15,22 @@ import {
 } from "./styles";
 import Search from "@component/search/Search";
 
-// Extend props to include HTML attributes like 'style'
-export default function Section2({ resultsCount = 0, ...props }: { resultsCount?: number } & React.HTMLAttributes<HTMLDivElement>) {
+// Extend props to include HTML attributes like 'style' and search handling
+export default function Section2({ 
+  resultsCount = 0, 
+  searchQuery,
+  setSearchQuery,
+  ...props 
+}: { 
+  resultsCount?: number;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+} & React.HTMLAttributes<HTMLDivElement>) {
   const [activeButton, setActiveButton] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
   const [category, setCategory] = useState("all");
 
   const handleButtonClick = (button: string) => {
     setActiveButton(button);
-  };
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -68,7 +72,7 @@ export default function Section2({ resultsCount = 0, ...props }: { resultsCount?
             <option value="legal">Legal</option>
             {/* Add more categories as needed */}
           </CategoryDropdown>
-          <Search/>
+          <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
         </CenterSection>
 
         <RightSection>

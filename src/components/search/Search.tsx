@@ -1,15 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import {
   SearchInputWrapper,
   SearchInput,
   SearchIcon,
 } from "./styles";
 
-export default function Search() {
-  const [searchQuery, setSearchQuery] = useState("");
+interface SearchProps {
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+}
 
+export default function Search({ searchQuery, setSearchQuery }: SearchProps) {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
@@ -18,7 +21,7 @@ export default function Search() {
     <SearchInputWrapper>
       <SearchInput
         type="search"
-        placeholder="Search services"
+        placeholder="Search by name or category..."
         aria-label="Search services"
         value={searchQuery}
         onChange={handleSearchChange}

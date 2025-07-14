@@ -473,7 +473,7 @@ export default function Section6() {
             </Grid>
           )}
 
-          {(areFiltersApplied() ? totalFilteredItems : totalItems) > 0 && (
+          {totalPages > 1 && (
             <div
               style={{
                 display: "flex",

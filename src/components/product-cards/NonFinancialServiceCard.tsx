@@ -17,7 +17,7 @@ const CardBox = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   width: "100%",
   minHeight: "200px",
-  height: "300px",
+  height: "260px",
   padding: "16px",
   transition: "all 0.3s",
   borderRadius: "8px",
@@ -28,7 +28,7 @@ const CardBox = styled(Box)(({ theme }) => ({
       transform: "scale(1.1)",
     },
   },
-  overflow: "hidden",
+  // overflow: "hidden",
 }));
 
 const CardMedia = styled(Box)(({ theme }) => ({

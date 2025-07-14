@@ -1,4 +1,5 @@
-import { Fragment } from "react";
+"use client"
+import React, { Fragment } from "react";
 // GLOBAL CUSTOM COMPONENTS
 import Box from "@component/Box";
 import NavbarMarketplace from "@component/navbar/NavbarMarketplace";

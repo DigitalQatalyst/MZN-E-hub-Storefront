@@ -1,3 +1,4 @@
+"use client"
 import { Fragment } from "react";
 // GLOBAL CUSTOM COMPONENTS
 import Box from "@component/Box";

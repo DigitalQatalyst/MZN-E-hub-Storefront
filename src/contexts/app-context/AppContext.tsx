@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useReducer, useContext, createContext, PropsWithChildren } from "react";
+import React, { useMemo, useReducer, useContext, createContext, PropsWithChildren } from "react";
 
 // TYPES
 import { ActionType, InitialState, ContextProps } from "./types";

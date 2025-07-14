@@ -67,9 +67,9 @@ export default function Section2({
             onChange={handleCategoryChange}
           >
             <option value="all">All Categories</option>
-            <option value="finance">Finance</option>
+            {/* <option value="finance">Finance</option>
             <option value="support">Business Support</option>
-            <option value="legal">Legal</option>
+            <option value="legal">Legal</option> */}
             {/* Add more categories as needed */}
           </CategoryDropdown>
           <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />

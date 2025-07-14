@@ -26,7 +26,11 @@ export default function Search({ searchQuery, setSearchQuery }: SearchProps) {
         value={searchQuery}
         onChange={handleSearchChange}
       />
-      <SearchIcon src="/assets/images/avatars/search-icon.svg" alt="Search icon" />
+      <SearchIcon
+        src="/assets/images/avatars/search-icon.svg"
+        alt="Search icon"
+        hasText={searchQuery.trim().length > 0}
+      />
     </SearchInputWrapper>
   );
 }

@@ -1,9 +1,9 @@
 "use client";
-
+ 
 import { useState } from "react";
 import CategorySectionCreator from "@component/CategorySectionCreator";
 import styled from "styled-components";
-
+ 
 // GraphQL Mutations
 const LOGIN_MUTATION = `
   mutation Login($username: String!, $password: String!) {
@@ -21,6 +21,29 @@ const LOGIN_MUTATION = `
         errorCode
         message
       }
+    }
+  }
+`;
+
+const SUBMIT_ENQUIRY_MUTATION = `
+  mutation SubmitEnquiry(
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $phoneNumber: String!
+    $additionalMessage: String!
+    $serviceEnquiryType: String!
+  ) {
+    submitEnquiry(
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      phoneNumber: $phoneNumber
+      additionalMessage: $additionalMessage
+      serviceEnquiryType: $serviceEnquiryType
+    ) {
+      success
+      message
     }
   }
 `;
@@ -82,7 +105,7 @@ const GET_CUSTOMER_BY_EMAIL = `
     }
   }
 `;
-
+ 
 // STYLED COMPONENTS
 const ContentWrapper = styled.div`
   display: flex;
@@ -90,7 +113,7 @@ const ContentWrapper = styled.div`
   align-items: flex-start;
   padding: 60px 80px;
 `;
-
+ 
 const ContentColumn = styled.div`
   color: #000;
   display: flex;
@@ -99,7 +122,7 @@ const ContentColumn = styled.div`
   align-items: flex-start;
   max-width: 50%;
 `;
-
+ 
 const StyledHeader = styled.p`
   color: var(--KF-BG-Black, #000);
   font-family: Inter;
@@ -111,7 +134,7 @@ const StyledHeader = styled.p`
   text-transform: uppercase;
   margin: 0;
 `;
-
+ 
 const StyledBody = styled.p`
   color: #000;
   font-family: "FS Kim Trial";
@@ -122,7 +145,7 @@ const StyledBody = styled.p`
   letter-spacing: var(--Display-Medium-Tracking, 0px);
   margin: 0 0 16px 0;
 `;
-
+ 
 const Description = styled.p`
   color: var(--KF-BG-Black, #000);
   font-family: Inter;
@@ -131,13 +154,13 @@ const Description = styled.p`
   font-weight: 400;
   line-height: var(--Body-Large-Line-Height, 24px); /* 150% */
 `;
-
+ 
 const HelpLink = styled.a`
   color: #0030E3;
   text-decoration: underline;
   cursor: pointer;
 `;
-
+ 
 const FormColumn = styled.div`
   display: flex;
   width: 585px;
@@ -151,28 +174,28 @@ const FormColumn = styled.div`
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 `;
-
+ 
 const FormRow = styled.div`
   display: flex;
   gap: 16px;
   margin-bottom: 0;
   width: 100%;
 `;
-
+ 
 const FormFieldWrapper = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 4px;
 `;
-
+ 
 const FormLabel = styled.label`
   font-family: "Helvetica Neue";
   font-size: 14px;
   color: #000;
   font-weight: 400;
 `;
-
+ 
 const FormField = styled.input`
   flex: 1;
   min-width: 0;
@@ -185,14 +208,14 @@ const FormField = styled.input`
   color: #000;
   box-sizing: border-box;
 `;
-
+ 
 const FormSelectWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 4px;
 `;
-
+ 
 const FormSelect = styled.select`
   width: 100%;
   padding: 10px;
@@ -207,14 +230,14 @@ const FormSelect = styled.select`
   background-repeat: no-repeat;
   background-position: right 10px center;
 `;
-
+ 
 const FormTextareaWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 4px;
 `;
-
+ 
 const FormTextarea = styled.textarea`
   width: 100%;
   height: 100px;
@@ -226,7 +249,7 @@ const FormTextarea = styled.textarea`
   color: #000;
   resize: none;
 `;
-
+ 
 const PrivacyText = styled.p`
   color: var(--Light-Text-Primary, text-primary);
   font-feature-settings: 'liga' off, 'clig' off;
@@ -237,7 +260,7 @@ const PrivacyText = styled.p`
   line-height: 15px;
   margin: 0;
 `;
-
+ 
 const PrivacyLink = styled.a`
   color: #5088FF;
   font-feature-settings: 'liga' off, 'clig' off;
@@ -249,7 +272,7 @@ const PrivacyLink = styled.a`
   text-decoration-line: underline;
   cursor: pointer;
 `;
-
+ 
 const SubmitButton = styled.button<{ disabled?: boolean }>`
   background-color: ${({ disabled }) => (disabled ? "#ccc" : "#0030E3")};
   color: #fff;
@@ -262,7 +285,7 @@ const SubmitButton = styled.button<{ disabled?: boolean }>`
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   width: 35%;
 `;
-
+ 
 const AlertPopup = styled.div`
   position: fixed;
   top: 40px;
@@ -277,7 +300,7 @@ const AlertPopup = styled.div`
   z-index: 1000;
   text-align: center;
 `;
-
+ 
 const AlertHeader = styled.div`
   font-family: "Helvetica Neue";
   font-size: 18px;
@@ -285,14 +308,14 @@ const AlertHeader = styled.div`
   color: #555;
   margin-bottom: 12px;
 `;
-
+ 
 const AlertText = styled.div`
   color: #555;
   font-family: "Helvetica Neue";
   font-size: 14px;
   line-height: 1.5;
 `;
-
+ 
 const AlertClose = styled.button`
   position: absolute;
   top: 8px;
@@ -303,7 +326,7 @@ const AlertClose = styled.button`
   cursor: pointer;
   color: #666;
 `;
-
+ 
 export default function Section19() {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -316,7 +339,8 @@ export default function Section19() {
   const [showAlert, setShowAlert] = useState<null | true | "error">(null);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertHeader, setAlertHeader] = useState("");
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
+ 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
@@ -324,12 +348,18 @@ export default function Section19() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Enhanced email validation function
+  const isValidEmail = (email: string): boolean => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  };
+ 
   // Validate form to enable/disable submit button
   const isFormValid = () => {
     return (
       formData.firstName.match(/^[A-Za-z]+$/) &&
       formData.lastName.match(/^[A-Za-z]+$/) &&
-      formData.email.match(/^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/) &&
+      isValidEmail(formData.email) &&
       formData.phoneNumber.match(/^[0-9]{1,11}$/) &&
       [
         "Funding Request",
@@ -346,9 +376,19 @@ export default function Section19() {
       formData.message.trim() !== ""
     );
   };
-
+ 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!isFormValid()) {
+      setAlertHeader("Validation Error");
+      setAlertMessage("❌ Please fill in all fields correctly.");
+      setShowAlert("error");
+      setTimeout(() => setShowAlert(null), 3000);
+      return;
+    }
+
+    setIsSubmitting(true);
     console.log("Form submitted with data:", formData);
 
     // Client-side validation for enquiryType
@@ -356,42 +396,86 @@ export default function Section19() {
       setAlertMessage("❌ Please select a valid enquiry type.");
       setShowAlert("error");
       setTimeout(() => setShowAlert(null), 3000);
+      setIsSubmitting(false);
       return;
     }
-
-    // Step 1: Authenticate with the Admin API
-    const loginResponse = await fetch("https://22af-54-37-203-255.ngrok-free.app/admin-api", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: LOGIN_MUTATION,
-        variables: {
-          username: "superadmin",
-          password: "superadmin",
-        },
-      }),
-    });
-
-    const loginData = await loginResponse.json();
-    const authToken = loginResponse.headers.get("vendure-auth-token");
-
-    if (!authToken || loginData?.login?.__typename === "ErrorResult") {
-      console.error("Login failed:", loginData);
-      setAlertMessage("❌ Failed to authenticate with Vendure Admin API.");
-      setShowAlert("error");
-      setTimeout(() => setShowAlert(null), 3000);
-      return;
-    }
-
-    console.log("Authenticated successfully with token:", authToken);
-
-    // Step 2: Handle multiple enquiries from the same email
-    console.log("Authenticated successfully with token:", authToken);
 
     try {
-      // First, check if a customer with this email already exists
+      // Step 1: First try the new submitEnquiry mutation
+      const submitResponse = await fetch("https://22af-54-37-203-255.ngrok-free.app/admin-api", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query: SUBMIT_ENQUIRY_MUTATION,
+          variables: {
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            phoneNumber: formData.phoneNumber,
+            additionalMessage: formData.message,
+            serviceEnquiryType: formData.enquiryType,
+          },
+        }),
+      });
+
+      const submitData = await submitResponse.json();
+      console.log("SubmitEnquiry mutation response:", JSON.stringify(submitData, null, 2));
+
+      // If submitEnquiry works, use it
+      if (submitData?.data?.submitEnquiry?.success) {
+        setAlertHeader("Inquiry Submitted Successfully!");
+        setAlertMessage(submitData.data.submitEnquiry.message || "Thank you! Your inquiry has been submitted successfully. We'll get back to you soon.");
+        setShowAlert(true);
+        // Reset form after successful submission
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phoneNumber: "",
+          enquiryType: "",
+          message: "",
+        });
+        setIsSubmitting(false);
+        setTimeout(() => setShowAlert(null), 5000);
+        return;
+      }
+
+      // If submitEnquiry fails or doesn't exist, fall back to original logic
+      console.log("SubmitEnquiry mutation failed, falling back to original logic");
+
+      // Step 2: Authenticate with the Admin API
+      const loginResponse = await fetch("https://22af-54-37-203-255.ngrok-free.app/admin-api", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query: LOGIN_MUTATION,
+          variables: {
+            username: "superadmin",
+            password: "superadmin",
+          },
+        }),
+      });
+
+      const loginData = await loginResponse.json();
+      const authToken = loginResponse.headers.get("vendure-auth-token");
+
+      if (!authToken || loginData?.data?.login?.__typename === "ErrorResult") {
+        console.error("Login failed:", loginData);
+        setAlertHeader("Authentication Error");
+        setAlertMessage("❌ Failed to authenticate with Vendure Admin API.");
+        setShowAlert("error");
+        setTimeout(() => setShowAlert(null), 3000);
+        setIsSubmitting(false);
+        return;
+      }
+
+      console.log("Authenticated successfully with token:", authToken);
+
+      // Step 3: Check if customer exists
       const checkCustomerResponse = await fetch("https://22af-54-37-203-255.ngrok-free.app/admin-api", {
         method: "POST",
         headers: {
@@ -416,11 +500,11 @@ export default function Section19() {
         // Customer exists, update them with new enquiry
         const existingCustomer = checkCustomerData.data.customers.items[0];
         isUpdate = true;
-        
+       
         // Create a unique identifier for this enquiry by appending timestamp
         const timestamp = new Date().toISOString();
         const enquiryId = `${formData.enquiryType}-${timestamp}`;
-        
+       
         payload = {
           query: UPDATE_CUSTOMER_MUTATION,
           variables: {
@@ -457,6 +541,7 @@ export default function Section19() {
         console.log("Creating new customer:", payload);
       }
 
+      // Step 4: Create or update customer
       const response = await fetch("https://22af-54-37-203-255.ngrok-free.app/admin-api", {
         method: "POST",
         headers: {
@@ -472,6 +557,7 @@ export default function Section19() {
       const customerData = isUpdate ? data?.data?.updateCustomer : data?.data?.createCustomer;
 
       if (data.errors && Array.isArray(data.errors)) {
+        setAlertHeader("Submission Error");
         setAlertMessage("❌ Submission failed: " + data.errors[0].message);
         setShowAlert("error");
         console.group("🛑 GraphQL Errors");
@@ -494,6 +580,7 @@ export default function Section19() {
         });
       } else if (customerData?.__typename === "ErrorResult") {
         // Handle specific error cases
+        setAlertHeader("Submission Error");
         if (customerData.errorCode === "EMAIL_ADDRESS_CONFLICT_ERROR") {
           setAlertMessage("⚠️ An enquiry with this email already exists. Please use a different email or contact us directly.");
         } else {
@@ -502,19 +589,23 @@ export default function Section19() {
         setShowAlert("error");
       } else {
         console.error("Unexpected response structure:", JSON.stringify(data, null, 2));
+        setAlertHeader("Submission Error");
         setAlertMessage("⚠️ Unexpected response from server. Please try again.");
         setShowAlert("error");
       }
     } catch (error) {
       console.error("Network/GraphQL error:", error);
+      setAlertHeader("Network Error");
       setAlertMessage("🚫 Network error. Please try again later.");
       setShowAlert("error");
+    } finally {
+      setIsSubmitting(false);
     }
 
-    // Hide alert after 3 seconds
-    setTimeout(() => setShowAlert(null), 3000);
+    // Hide alert after 5 seconds
+    setTimeout(() => setShowAlert(null), 5000);
   };
-
+ 
   return (
     <CategorySectionCreator>
       {showAlert && (
@@ -568,12 +659,11 @@ export default function Section19() {
               <FormField
                 type="email"
                 name="email"
-                placeholder="johndoe@gmail.com"
+                placeholder="johndoe@example.com"
                 value={formData.email}
                 onChange={handleChange}
                 required
-                pattern="^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$"
-                title="Email must be a valid Gmail or Yahoo address"
+                title="Please enter a valid email address"
               />
             </FormFieldWrapper>
             <FormFieldWrapper>
@@ -589,7 +679,7 @@ export default function Section19() {
                 maxLength={20}
                 title="Phone number should only contain numbers and be up to 11 characters"
               />
-            </FormFieldWrapper> 
+            </FormFieldWrapper>
           </FormRow>
           <FormRow>
             <FormSelectWrapper>
@@ -632,8 +722,8 @@ export default function Section19() {
             * By submitting this form, you agree to our{" "}
             <PrivacyLink>Privacy Policy</PrivacyLink>.
           </PrivacyText>
-          <SubmitButton type="submit">
-            Submit Enquiry
+          <SubmitButton type="submit" disabled={!isFormValid() || isSubmitting}>
+            {isSubmitting ? "Submitting..." : "Submit Enquiry"}
           </SubmitButton>
         </FormColumn>
       </ContentWrapper>

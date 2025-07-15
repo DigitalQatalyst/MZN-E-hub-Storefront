@@ -18,6 +18,7 @@ import StyledNavbar from "./styles";
 import { useModal } from "@context/ModalContext";
 import SignUpModal from "../JoinModal";
 import { useMsal, AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
+import { useRouter } from "next/navigation";
 
 // Updated navbarNavigations data
 const navbarNavigations = [
@@ -48,11 +49,12 @@ type NavbarProps = { navListOpen?: boolean };
 export default function Navbar({ navListOpen }: NavbarProps) {
   const { open, modalType } = useModal();
   const { instance, accounts } = useMsal();
+  const router = useRouter();
 
   function handleLogin() {
     instance.loginRedirect({
       scopes: ["openid"],
-      redirectUri: "https://mzn-e-hub-storefront-5akxqw2kr-digitalqatalysts-projects.vercel.app/dashboard",
+      redirectUri: window.location.origin, // Redirect back to landing page
       extraQueryParameters: { prompt: "login" }
     }).catch((e) => {
       console.log(e);
@@ -63,6 +65,10 @@ export default function Navbar({ navListOpen }: NavbarProps) {
     instance.logoutRedirect().catch((e) => {
       console.log(e);
     });
+  }
+
+  function handleProfileClick() {
+    window.location.href = "https://mzn-e-hub-storefront-5akxqw2kr-digitalqatalysts-projects.vercel.app/dashboard";
   }
 
   if (accounts.length > 0) {
@@ -206,7 +212,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           </Button>
         </Categories>
 
-        {/* Navigation Links and Sign In/Sign Up Buttons */}
+        {/* Navigation Links and Authentication Section */}
         <FlexBox alignItems="center" style={{ gap: "15px", marginLeft: "auto" }}>
           {/* Navigation Links */}
           <FlexBox style={{ gap: 32 }}>
@@ -218,14 +224,59 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             <img src="/assets/images/logos/search.svg" alt="Search" height="14px" />
           </Box>
 
-          {/* Sign In & Sign Up Buttons */}
+          {/* Authenticated User - Logout Button and Profile Icon */}
           <AuthenticatedTemplate>
-            <Button className="sign-in-btn" variant="outlined" mr="10px" ml="10px" onClick={handleLogout}>Logout</Button>
+            <FlexBox alignItems="center" style={{ gap: "10px" }}>
+              <Button 
+                className="sign-in-btn" 
+                variant="outlined" 
+                mr="10px" 
+                ml="10px" 
+                onClick={handleLogout}
+              >
+                Logout
+              </Button>
+              <Box 
+                className="profile-icon" 
+                style={{ 
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                  backgroundColor: "#f0f0f0",
+                  border: "2px solid #002180",
+                  transition: "all 0.3s ease"
+                }}
+                onClick={handleProfileClick}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = "#e0e0e0";
+                  e.currentTarget.style.transform = "scale(1.05)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "#f0f0f0";
+                  e.currentTarget.style.transform = "scale(1)";
+                }}
+              >
+                <Icon size="20px" color="#002180">
+                  user
+                </Icon>
+              </Box>
+            </FlexBox>
           </AuthenticatedTemplate>
+
+          {/* Unauthenticated User - Sign In & Sign Up Buttons */}
           <UnauthenticatedTemplate>
-            <Button className="sign-in-btn" variant="outlined" mr="10px" ml="10px" onClick={handleLogin}>Sign In</Button>
-            <Button className="sign-up-button" variant="contained" onClick={() => open("signup")}>Sign Up</Button>
+            <Button className="sign-in-btn" variant="outlined" mr="10px" ml="10px" onClick={handleLogin}>
+              Sign In
+            </Button>
+            <Button className="sign-up-button" variant="contained" onClick={() => open("signup")}>
+              Sign Up
+            </Button>
           </UnauthenticatedTemplate>
+          
           {modalType === "signup" && <SignUpModal />}
           {modalType === "signin" && <SignInModal />}
         </FlexBox>

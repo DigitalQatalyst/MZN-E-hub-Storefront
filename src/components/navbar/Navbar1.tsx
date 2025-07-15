@@ -71,6 +71,13 @@ export default function Navbar({ navListOpen }: NavbarProps) {
     window.location.href = "https://mzn-e-hub-storefront-5akxqw2kr-digitalqatalysts-projects.vercel.app/dashboard";
   }
 
+  // Sign Up URL
+  const SIGNUP_URL = "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_Signup&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fmzn-e-hub-storefront-5akxqw2kr-digitalqatalysts-projects.vercel.app%2Fdashboard&scope=openid&response_type=code&prompt=login&code_challenge_method=S256&code_challenge=uPSCPoX1IbZeEy61vNSmgjyHSSPFWhaVq5Btdo0fMHY";
+
+  function handleSignUp() {
+    window.location.href = SIGNUP_URL;
+  }
+
   if (accounts.length > 0) {
     console.log("accounts", accounts);
   }
@@ -272,7 +279,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             <Button className="sign-in-btn" variant="outlined" mr="10px" ml="10px" onClick={handleLogin}>
               Sign In
             </Button>
-            <Button className="sign-up-button" variant="contained" onClick={() => open("signup")}>
+            <Button className="sign-up-button" variant="contained" onClick={handleSignUp}>
               Sign Up
             </Button>
           </UnauthenticatedTemplate>

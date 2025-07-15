@@ -13,12 +13,13 @@ import { ShowingText } from "./styles";
 import Section2 from "../section-2/Section2";
 import NonFinancialServiceCard from "@component/product-cards/NonFinancialServiceCard";
 
-// GraphQL Query
+// GraphQL Query (unchanged)
 const GET_PRODUCTS = `
   query GetProducts($take: Int!) {
     products(options: { take: $take }) {
       items {
         id
+        createdAt
         name
         slug
         description
@@ -64,6 +65,7 @@ interface Product {
   name: string;
   slug: string;
   description: string;
+  createdAt: string; // Ensure createdAt is included
   facetValues: FacetValue[];
   customFields: {
     Industry?: string;
@@ -115,7 +117,13 @@ type CategoryCodes =
   | "export-&-trade-facilitation"
   | "legal-compliance-&-licensing";
 
-export default function Section6() {
+export default function Section6({
+  activeButton,
+  setActiveButton,
+}: {
+  activeButton: string;
+  setActiveButton: (button: string) => void;
+}) {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [allFilteredProducts, setAllFilteredProducts] = useState<Product[]>([]);
@@ -180,8 +188,17 @@ export default function Section6() {
       Object.values(businessStageFilters).some((value) => value) ||
       Object.values(providedByFilters).some((value) => value) ||
       Object.values(pricingModelFilters).some((value) => value) ||
-      searchQuery.trim() !== ""
+      searchQuery.trim() !== "" ||
+      activeButton === "newAdditions" // Include activeButton in filter check
     );
+  };
+
+  // Function to check if a product is less than 5 days old
+  const isNewAddition = (createdAt: string): boolean => {
+    const createdDate = new Date(createdAt);
+    const currentDate = new Date();
+    const fiveDaysAgo = new Date(currentDate.getTime() - 5 * 24 * 60 * 60 * 1000); // 5 days in milliseconds
+    return createdDate >= fiveDaysAgo;
   };
 
   // Fetch products data on component mount or page change
@@ -196,11 +213,19 @@ export default function Section6() {
         console.log("Fetched products:", data.products.items.length, "Total Items:", data.products.totalItems);
 
         // Filter for Non-Financial Services (facetValue.id: "67") and exclude financial (facetValue.id: "66")
-        const nonFinancialServicesOnly = data.products.items.filter((product) =>
+        let nonFinancialServicesOnly = data.products.items.filter((product) =>
           product.facetValues.some((fv) => fv.id === "67") &&
           !product.facetValues.some((fv) => fv.id === "66")
         );
         console.log("Filtered to Non-Financial Services only:", nonFinancialServicesOnly.length);
+
+        // Apply "New Additions" filter if active
+        if (activeButton === "newAdditions") {
+          nonFinancialServicesOnly = nonFinancialServicesOnly.filter((product) =>
+            isNewAddition(product.createdAt)
+          );
+          console.log("Filtered to New Additions (less than 5 days old):", nonFinancialServicesOnly.length);
+        }
 
         // Apply other filters
         const selectedCategories = Object.keys(categoriesFilters)
@@ -307,7 +332,7 @@ export default function Section6() {
     };
 
     fetchData();
-  }, [currentPage, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters, searchQuery]);
+  }, [currentPage, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters, searchQuery, activeButton]);
 
   // Handle checkbox changes for Categories
   const handleCategoriesChange = (category: CategoryFilterKeys) => {
@@ -319,7 +344,7 @@ export default function Section6() {
   };
 
   // Handle checkbox changes for Business Stage filters
-  const handleBusinessStageChange = stage  => {
+  const handleBusinessStageChange = (stage: keyof typeof businessStageFilters) => {
     setBusinessStageFilters((prev) => ({
       ...prev,
       [stage]: !prev[stage],
@@ -364,11 +389,13 @@ export default function Section6() {
   return (
     <Container pt="4rem" style={{ marginTop: "-45px" }}>
       <TabBar />
-      <Section2 
-        resultsCount={areFiltersApplied() ? totalFilteredItems : totalItems} 
-        style={{ marginBottom: "2rem" }} 
+      <Section2
+        resultsCount={areFiltersApplied() ? totalFilteredItems : totalItems}
+        style={{ marginBottom: "2rem" }}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
+        activeButton={activeButton}
+        setActiveButton={setActiveButton}
       />
       <Grid container spacing={3}>
         <Grid item md={3} xs={12}>

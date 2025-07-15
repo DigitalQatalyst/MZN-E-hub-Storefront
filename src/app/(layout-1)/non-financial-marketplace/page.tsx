@@ -1,4 +1,7 @@
-import { Fragment } from "react";
+"use client";
+
+
+import { Fragment, useState } from "react";
 // GLOBAL CUSTOM COMPONENTS
 import Box from "@component/Box";
 import NavbarMarketplace from "@component/navbar/NavbarMarketplace";
@@ -8,6 +11,9 @@ import Section6 from "@sections/market-2/section-6-non_financial/Section6";
 
 
 export default function MarketTwo() {
+  const [activeButton, setActiveButton] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  
   return (
     <Fragment>
       {/* NAVBAR AREA */}
@@ -30,7 +36,7 @@ export default function MarketTwo() {
           {/* <Section5 /> */}
 
           {/* ELECTRONICS CATEGORY BASED PRODUCTS AREA */}
-          <Section6 />
+          <Section6 activeButton={activeButton} setActiveButton={setActiveButton} />
 
           {/* SALES OFFER BANNERS AREA */}
           {/* <Section7 /> */}

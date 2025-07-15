@@ -15,18 +15,20 @@ import {
 } from "./styles";
 import Search from "@component/search/Search";
 
-// Extend props to include HTML attributes like 'style' and search handling
-export default function Section2({ 
-  resultsCount = 0, 
+export default function Section2({
+  resultsCount = 0,
   searchQuery,
   setSearchQuery,
-  ...props 
-}: { 
+  setActiveButton, // Add setActiveButton to props
+  activeButton, // Add activeButton to props
+  ...props
+}: {
   resultsCount?: number;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
+  setActiveButton: (button: string) => void; // Add type for setActiveButton
+  activeButton: string; // Add type for activeButton
 } & React.HTMLAttributes<HTMLDivElement>) {
-  const [activeButton, setActiveButton] = useState("");
   const [category, setCategory] = useState("all");
 
   const handleButtonClick = (button: string) => {
@@ -67,9 +69,6 @@ export default function Section2({
             onChange={handleCategoryChange}
           >
             <option value="all">All Categories</option>
-            {/* <option value="finance">Finance</option>
-            <option value="support">Business Support</option>
-            <option value="legal">Legal</option> */}
             {/* Add more categories as needed */}
           </CategoryDropdown>
           <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />

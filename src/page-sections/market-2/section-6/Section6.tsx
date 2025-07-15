@@ -21,6 +21,7 @@ const GET_PRODUCTS = `
     products(options: { take: $take }) {
       items {
         id
+        createdAt
         name
         slug
         description
@@ -66,6 +67,7 @@ interface Product {
   name: string;
   slug: string;
   description: string;
+  createdAt: string; // Ensure createdAt is included
   facetValues: FacetValue[];
   customFields: {
     Industry?: string;
@@ -112,7 +114,13 @@ type CategoryCodes =
   | "investment-equity-financing"
   | "";
 
-export default function Section6() {
+export default function Section6({
+  activeButton,
+  setActiveButton,
+}: {
+  activeButton: string;
+  setActiveButton: (button: string) => void;
+}) {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [allFilteredProducts, setAllFilteredProducts] = useState<Product[]>([]);
@@ -174,8 +182,17 @@ export default function Section6() {
       Object.values(businessStageFilters).some((value) => value) ||
       Object.values(providedByFilters).some((value) => value) ||
       Object.values(pricingModelFilters).some((value) => value) ||
-      searchQuery.trim() !== ""
+      searchQuery.trim() !== "" ||
+      activeButton === "newAdditions" // Include activeButton in filter check
     );
+  };
+
+  // Function to check if a product is less than 5 days old
+  const isNewAddition = (createdAt: string): boolean => {
+    const createdDate = new Date(createdAt);
+    const currentDate = new Date();
+    const fiveDaysAgo = new Date(currentDate.getTime() - 5 * 24 * 60 * 60 * 1000); // 5 days in milliseconds
+    return createdDate >= fiveDaysAgo;
   };
 
   // Fetch products data on component mount or page change
@@ -190,11 +207,19 @@ export default function Section6() {
         console.log("Fetched products:", data.products.items.length, "Total Items:", data.products.totalItems);
 
         // Filter for Financial Services (facetValue.id: "66") and exclude non-financial (facetValue.id: "67")
-        const financialServicesOnly = data.products.items.filter((product) =>
+        let financialServicesOnly = data.products.items.filter((product) =>
           product.facetValues.some((fv) => fv.id === "66") &&
           !product.facetValues.some((fv) => fv.id === "67")
         );
         console.log("Filtered to Financial Services only:", financialServicesOnly.length);
+
+        // Apply "New Additions" filter if active
+        if (activeButton === "newAdditions") {
+          financialServicesOnly = financialServicesOnly.filter((product) =>
+            isNewAddition(product.createdAt)
+          );
+          console.log("Filtered to New Additions (less than 5 days old):", financialServicesOnly.length);
+        }
 
         // Apply other filters
         const selectedCategories = Object.keys(categoriesFilters)
@@ -298,7 +323,7 @@ export default function Section6() {
     };
 
     fetchData();
-  }, [currentPage, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters, searchQuery]);
+  }, [currentPage, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters, searchQuery, activeButton]);
 
   // Handle checkbox changes for Categories
   const handleCategoriesChange = (category: CategoryFilterKeys) => {
@@ -360,6 +385,8 @@ export default function Section6() {
         style={{ marginBottom: "2rem" }}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
+        activeButton={activeButton}
+        setActiveButton={setActiveButton}
       />
       <Grid container spacing={3}>
         <Grid item md={3} xs={12}>

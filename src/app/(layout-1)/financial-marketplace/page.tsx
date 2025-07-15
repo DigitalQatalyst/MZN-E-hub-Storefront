@@ -1,13 +1,17 @@
-import { Fragment } from "react";
+"use client";
+
+import { Fragment, useState } from "react";
 // GLOBAL CUSTOM COMPONENTS
 import Box from "@component/Box";
 import NavbarMarketplace from "@component/navbar/NavbarMarketplace";
 // PAGE SECTION COMPONENTS
-
+import Section2 from "@sections/market-2/section-2";
 import Section6 from "@sections/market-2/section-6";
 
-
 export default function MarketTwo() {
+  const [activeButton, setActiveButton] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+
   return (
     <Fragment>
       {/* NAVBAR AREA */}
@@ -16,40 +20,44 @@ export default function MarketTwo() {
       <Box bg="#F6F6F6">
         {/* HERO CAROUSEL AREA */}
         {/* <Section1 /> */}
-      
-        {/* SERVICE LIST AREA --- To be results section*/}
-          {/* <Section2 /> */}
 
-          {/* TOP CATEGORIES AREA */}
-          {/* <Section3 /> */}
+        {/* SERVICE LIST AREA --- To be results section */}
+        {/* <Section2
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          activeButton={activeButton}
+          setActiveButton={setActiveButton}
+        /> */}
 
-          {/* DEAL OF THE DAY PRODUCTS AREA */}
-          {/* <Section4 /> */}
+        {/* TOP CATEGORIES AREA */}
+        {/* <Section3 /> */}
 
-          {/* NEW ARRIVALS AND BEST SELLER OFFER BANNER AREA */}
-          {/* <Section5 /> */}
+        {/* DEAL OF THE DAY PRODUCTS AREA */}
+        {/* <Section4 /> */}
 
-          {/* ELECTRONICS CATEGORY BASED PRODUCTS AREA */}
-          <Section6 />
+        {/* NEW ARRIVALS AND BEST SELLER OFFER BANNER AREA */}
+        {/* <Section5 /> */}
 
-          {/* SALES OFFER BANNERS AREA */}
-          {/* <Section7 /> */}
+        {/* ELECTRONICS CATEGORY BASED PRODUCTS AREA */}
+        <Section6 activeButton={activeButton} setActiveButton={setActiveButton} />
 
-          {/* MEN'S CATEGORY BASED PRODUCTS AREA */}
-          {/* <Section6 data={[]} /> */} {/* Empty data passed */}
+        {/* SALES OFFER BANNERS AREA */}
+        {/* <Section7 /> */}
 
-          {/* DISCOUNT OFFER BANNER AREA */}
-          {/* <Section8 /> */}
+        {/* MEN'S CATEGORY BASED PRODUCTS AREA */}
+        {/* <Section6 data={[]} /> */} {/* Empty data passed */}
 
-          {/* WOMEN'S CATEGORY BASED PRODUCTS AREA */}
-          {/* <Section6 data={[]} /> */} {/* Empty data passed */}
+        {/* DISCOUNT OFFER BANNER AREA */}
+        {/* <Section8 /> */}
 
-          {/* FEATURES BRAND LIST AREA */}
-          {/* <Section9 brands={[]} /> */} {/* Empty data passed */}
+        {/* WOMEN'S CATEGORY BASED PRODUCTS AREA */}
+        {/* <Section6 data={[]} /> */} {/* Empty data passed */}
 
-          {/* SELECTED PRODUCTS AREA */}
-          {/* <Section10 products={[]} /> */} {/* Empty data passed */}
-        
+        {/* FEATURES BRAND LIST AREA */}
+        {/* <Section9 brands={[]} /> */} {/* Empty data passed */}
+
+        {/* SELECTED PRODUCTS AREA */}
+        {/* <Section10 products={[]} /> */} {/* Empty data passed */}
       </Box>
     </Fragment>
   );

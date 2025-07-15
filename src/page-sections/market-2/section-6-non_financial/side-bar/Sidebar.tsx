@@ -354,7 +354,7 @@ export default function Sidebar({
           </CheckboxLabel>
         </List>
         <div style={{ width: "236px", height: "1px", background: "#D8E0E9" }} />
-        <div style={{ paddingBottom: "2rem" }} />
+        <div style={{ paddingBottom: "5rem" }} />
       </Card>
       {(areFiltersApplied() ? totalFilteredItems : totalItems) > 0 && (
         <ShowingText>

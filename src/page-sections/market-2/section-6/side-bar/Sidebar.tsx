@@ -319,7 +319,7 @@ export default function Sidebar({
         </List>
         <div style={{ width: "236px", height: "1px", background: "#D8E0E9" }} />
         {/* Adding padding-bottom to create space at the bottom when no service is available */}
-        <div style={{ paddingBottom: '2rem' }} />
+        <div style={{ paddingBottom: '5rem' }} />
       </Card>
       {(areFiltersApplied() ? totalFilteredItems : totalItems) > 0 && (
         <ShowingText>

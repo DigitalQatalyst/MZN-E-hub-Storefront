@@ -129,14 +129,20 @@ export default function ProductIntro({ product }: Props) {
           >
             <Button
               bg="#0030E3"
-              padding="0 50px"
+              padding="0 10px"
               height="55px"
               variant="contained"
               color={"primary"}
               onClick={() => setShowRegistrationForm(true)}
               className="product-intro-details-btn-1"
             >
-              <p color="#ffffff !important">Start Application</p>
+              <p
+                color="#ffffff !important"
+                className="product-intro-details-btn-1-paragraph"
+                style={{ width: "max-content" }}
+              >
+                Start Application
+              </p>
             </Button>
             <Button
               color="#002180"
@@ -152,7 +158,12 @@ export default function ProductIntro({ product }: Props) {
             Pace-between"
               width="10%"
             >
-              <Button width="100%" height="50px" border={"2px solid #002180"}>
+              <Button
+                width="100%"
+                height="50px"
+                border={"2px solid #002180"}
+                className="product-intro-details-btn-3"
+              >
                 <Icon color="#002180">share 1</Icon>
               </Button>
             </FlexBox>
@@ -207,7 +218,14 @@ export default function ProductIntro({ product }: Props) {
           justifyContent={"top"}
           className="product-intro-details-right"
         >
-          <Carousel dots arrows slidesToShow={1} responsive={responsive}>
+          <Carousel
+            dots
+            arrows
+            slidesToShow={1}
+            responsive={responsive}
+            dotColor="gray"
+            dotStyles={{ bottom: "-40px" }}
+          >
             {assets.map((asset, index) => (
               <Box key={index} width="100%">
                 {asset.video ? (

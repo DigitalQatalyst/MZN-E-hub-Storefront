@@ -21,7 +21,7 @@ const TabButton = styled(Button)<{ active?: boolean }>`
   padding: 0.75rem 1.5rem;
   border: none;
   box-shadow: none;
-  color: ${({ active }) => (active ? "#0030E3" : "#002180")};
+  color: ${({ active }) => (active ? "#0030E3" : "#747474")};
   font-size: 18px;
   font-style: normal;
   font-weight: 600;
@@ -134,12 +134,27 @@ export default function ProductDetails({ product }: Props) {
             <>
               <ol style={{ paddingLeft: "4%" }}>
                 {visibleDocs.map((doc, index) => (
-                  <li key={index}>
+                  <li key={index} style={{ marginBottom: "1rem" }}>
                     <DocumentItem as="span" mb="0">
                       {doc}
                     </DocumentItem>
                   </li>
                 ))}
+                {(!product?.relatedServices ||
+                  product.relatedServices.length === 0) && (
+                  <Grid item xs={12} sm={6} md={4}>
+                    <ProductCard20
+                      id="placeholder"
+                      partner=""
+                      slug="#"
+                      name="No Related Services"
+                      rating={0}
+                      description="{doc}"
+                      images={["/images/placeholder.png"]}
+                      subTitle="Check back later"
+                    />
+                  </Grid>
+                )}
               </ol>
               {showButton && (
                 <Span
@@ -204,7 +219,7 @@ export default function ProductDetails({ product }: Props) {
           <>
             <ol style={{ paddingLeft: "2%" }}>
               {visibleSteps.map((step, index) => (
-                <li key={index}>
+                <li key={index} style={{ marginBottom: "1rem" }}>
                   <DocumentItem as="span">{step}</DocumentItem>
                 </li>
               ))}
@@ -333,27 +348,48 @@ export default function ProductDetails({ product }: Props) {
         {renderTabContent()}
       </Box>
 
-      {product?.relatedServices && product?.relatedServices.length > 0 && (
+      {product?.relatedServices && product?.relatedServices.length > 0 ? (
         <Box mt="3rem">
           <H3 color="#002180" mb="1.5rem">
             Related Services
           </H3>
           <Carousel slidesToShow={3} responsive={responsive}>
-            {product?.relatedServices &&
-              product?.relatedServices.map((service) => (
-                <Grid item xs={12} sm={6} md={4} key={service.id}>
-                  <ProductCard20
-                    id={service.id}
-                    partner={service.partner}
-                    slug={service.slug}
-                    name={service.name}
-                    rating={service.rating}
-                    description={service.description}
-                    images={service.images}
-                    subTitle={service.subTitle}
-                  />
-                </Grid>
-              ))}
+            {product.relatedServices.map((service) => (
+              <Grid item xs={12} sm={6} md={4} key={service.id}>
+                <ProductCard20
+                  id={service.id}
+                  partner={service.partner}
+                  slug={service.slug}
+                  name={service.name}
+                  rating={service.rating}
+                  description={service.description}
+                  images={service.images}
+                  subTitle={service.subTitle}
+                />
+              </Grid>
+            ))}
+          </Carousel>
+        </Box>
+      ) : (
+        <Box mt="3rem">
+          <H3 color="#002180" mb="1.5rem">
+            Related Services
+          </H3>
+          <Carousel arrows={false} slidesToShow={3} responsive={responsive}>
+            {Array.from({ length: 3 }).map((_, idx) => (
+              <ProductCard20
+                key={`placeholder-${idx}`}
+                id={`placeholder-${idx}`}
+                partner=""
+                slug="#"
+                name="No Related Services"
+                rating={0}
+                description="Currently there are no related services available."
+                images={["/images/placeholder.png"]}
+                subTitle="Check back later"
+                className="product-card"
+              />
+            ))}
           </Carousel>
         </Box>
       )}

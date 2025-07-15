@@ -7,7 +7,14 @@
   align-items: center;
   gap: 4px;
 }
+
+.product-intro-details-right {
+  margin-bottom: 2.5rem;
+}
 .product-intro-details-btn-1 {
+}
+.product-intro-details-btn-2 {
+  gap: 10px;
 }
 @media screen and (max-width: 576px) {
   .product-intro-details-wrapper {
@@ -25,9 +32,13 @@
     padding: 0 24px !important;
     height: 50px !important;
   }
+  .product-intro-details-btn-1-paragraph {
+    font-size: 11px !important;
+  }
   .product-intro-details-btn-2 {
     display: flex !important;
     align-items: center !important;
+    font-size: 11px !important;
   }
   .product-intro-tags {
     width: max-content !important;
@@ -50,29 +61,38 @@
 }
 @media screen and (min-width: 577px) and (max-width: 1024px) {
   .product-intro-details-wrapper {
-    gap: 2rem !important;
+    gap: 4rem !important;
   }
   .product-intro-details-btn-container {
     gap: 10px !important;
     margin-right: 0 !important;
+    width: 100%;
   }
 
   .product-intro-details-btn-1 {
     padding: 0 24px !important;
     height: 50px !important;
   }
+
   .product-intro-details-btn-2 {
     display: flex !important;
     align-items: center !important;
   }
   .product-intro-details-right {
-    /* width: 60% !important; */
-    /* margin-top: 20px !important; */
+    width: 50% !important;
+    margin-right: 0 !important;
   }
 }
 @media screen and (max-width: 344px) {
   .product-details-tab {
     padding: 16px !important;
     font-size: 12px !important;
+  }
+  .product-intro-details-btn-2 {
+    gap: 5px;
+    padding: 0 15px !important;
+  }
+  .product-intro-details-btn-3 {
+    padding: 0 15px !important;
   }
 }

@@ -157,7 +157,7 @@ const LearnMoreWrapper = styled.div`
   justify-content: center;
   align-items: center;
   gap: 5px;
-  margin-top: 10px;
+  margin-top: 15px;
 `;
 
 type ProductCard19Props = {

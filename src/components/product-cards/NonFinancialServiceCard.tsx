@@ -173,7 +173,7 @@ const LearnMoreWrapper = styled.div`
   justify-content: center;
   align-items: center;
   gap: 3px; /* Reduced gap */
-  margin-top: 10px;
+  margin-top: 15px;
 `;
 
 type NonFinancialServiceCardProps = {

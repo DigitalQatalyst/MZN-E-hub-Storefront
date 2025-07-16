@@ -30,6 +30,10 @@ const KfBot = () => {
                  width: 60px !important;
                   height: 60px !important;
                   border-radius: 50% !important;
+                 position: fixed !important;
+                top: 50% !important;
+                right: 15px !important;
+                transform: translateY(-50%) !important;
               }
               .vfrc-launcher:hover {
                 background-color: #ffffff !important;

@@ -39,7 +39,7 @@ export const DotList = styled("ul")(({ theme }) => ({
     justifyContent: "center",
     transition: "all 0.4s",
     "&.slick-active span": { backgroundColor: theme.colors.primary.main },
-    "&.slick-active": { width: 20, height: 20 },
+    "&.slick-active": { width: 20 },
   },
 }));
 
@@ -61,7 +61,7 @@ export const ArrowButton = styled("div")(({ theme }) => ({
   padding: 0,
   opacity: 1,
   top: "110%",
-  color: theme.colors.secondary.main,
+  color: "rgba(15, 52, 96, 1)",
   display: "flex",
   cursor: "pointer",
   position: "absolute",

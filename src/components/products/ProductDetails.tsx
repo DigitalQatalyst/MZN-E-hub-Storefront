@@ -85,7 +85,7 @@ interface Props {
 }
 
 export default function ProductDetails({ product }: Props) {
-  const [activeTab, setActiveTab] = useState<TabType>("description");
+  const [activeTab, setActiveTab] = useState<TabType>("steps");
   const [showAllDocs, setShowAllDocs] = useState(false);
   const [showAllSteps, setShowAllSteps] = useState(false); // Add this state
 
@@ -140,21 +140,6 @@ export default function ProductDetails({ product }: Props) {
                     </DocumentItem>
                   </li>
                 ))}
-                {(!product?.relatedServices ||
-                  product.relatedServices.length === 0) && (
-                  <Grid item xs={12} sm={6} md={4}>
-                    <ProductCard20
-                      id="placeholder"
-                      partner=""
-                      slug="#"
-                      name="No Related Services"
-                      rating={0}
-                      description="{doc}"
-                      images={["/images/placeholder.png"]}
-                      subTitle="Check back later"
-                    />
-                  </Grid>
-                )}
               </ol>
               {showButton && (
                 <Span
@@ -375,19 +360,24 @@ export default function ProductDetails({ product }: Props) {
           <H3 color="#002180" mb="1.5rem">
             Related Services
           </H3>
-          <Carousel arrows={false} slidesToShow={3} responsive={responsive}>
+          <Carousel
+            arrows={false}
+            slidesToShow={4}
+            responsive={responsive}
+            className=""
+          >
             {Array.from({ length: 3 }).map((_, idx) => (
               <ProductCard20
                 key={`placeholder-${idx}`}
                 id={`placeholder-${idx}`}
-                partner=""
+                partner="by Khalifa Fund"
                 slug="#"
-                name="No Related Services"
-                rating={0}
-                description="Currently there are no related services available."
+                name="Microfinance Funding Scheme"
+                reviews={12}
+                description="Through this service you may get the necessary finances for day to day operations of the SME. Offers."
                 images={["/images/placeholder.png"]}
-                subTitle="Check back later"
-                className="product-card"
+                subTitle="by Khalifa Fund"
+                className=""
               />
             ))}
           </Carousel>

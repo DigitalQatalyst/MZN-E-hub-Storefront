@@ -73,8 +73,8 @@ export default function ProductIntro({ product }: Props) {
     "Emiratis",
   ];
   const categories = [
-    "Loan Modification & Refinancing",
-    "Loan Management & Adjustments",
+    { name: "Loan Modification & Refinancing" },
+    { name: "Loan Management & Adjustments" },
   ];
   const responsive = [
     { breakpoint: 959, settings: { slidesToShow: 1 } },
@@ -103,7 +103,7 @@ export default function ProductIntro({ product }: Props) {
             {product?.title}
           </H2>
           <Span mb="1rem" fontWeight={500}>
-            powered by {product?.subTitle}
+            powered by {product?.subTitle || "Khalifa Fund"}
           </Span>
           <Box mb="45px" width="70%">
             {product?.description ||
@@ -193,8 +193,15 @@ export default function ProductIntro({ product }: Props) {
                 <FlexBox alignItems="center" style={{ gap: "5px" }}>
                   <Span> Categories</Span> <BiSolidInfoCircle color="#747474" />
                 </FlexBox>
-                <FlexBox flexWrap="wrap" style={{ gap: "20px" }}>
+                {/* <FlexBox flexWrap="wrap" style={{ gap: "20px" }}>
                   {product.facetValues.map((category, index) => (
+                    <Span className="tags" key={index}>
+                      {category.name || "Loan Modification & Refinancing"}
+                    </Span>
+                  ))}
+                </FlexBox> */}
+                <FlexBox className="categories">
+                  {categories.map((category, index) => (
                     <Span className="tags" key={index}>
                       {category.name}
                     </Span>

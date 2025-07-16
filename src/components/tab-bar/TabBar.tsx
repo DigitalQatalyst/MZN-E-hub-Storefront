@@ -1,11 +1,11 @@
+"use client"
 import React, { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { TabBarContainer, Tab } from './styles';
-
+ 
 const TabBar: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
-
   const routeToTabMap: { [key: string]: string } = {
     '/non-financial-marketplace': 'Non-Financial',
     '/financial-marketplace': 'Financial',
@@ -24,23 +24,23 @@ const TabBar: React.FC = () => {
   useEffect(() => {
     setActiveTab(routeToTabMap[pathname] || 'Financial');
   }, [pathname]);
-
+ 
   const handleTabClick = (tabName: string, path: string) => {
     setActiveTab(tabName);
     router.push(path);
   };
-
+ 
   return (
     <TabBarContainer>
       <Tab
         onClick={() => handleTabClick('Non-Financial', '/non-financial-marketplace')}  
         active={activeTab === 'Non-Financial'}
       >
-        <img 
-          src={activeTab === 'Non-Financial' 
-            ? '/assets/images/tab_bar/all_inclusive_active.svg' 
-            : '/assets/images/tab_bar/all_inclusive.svg'} 
-          alt="icon" 
+        <img
+          src={activeTab === 'Non-Financial'
+            ? '/assets/images/tab_bar/all_inclusive_active.svg'
+            : '/assets/images/tab_bar/all_inclusive.svg'}
+          alt="icon"
         />
         Non-Financial
       </Tab>
@@ -48,11 +48,11 @@ const TabBar: React.FC = () => {
         onClick={() => handleTabClick('Financial', '/financial-marketplace')}
         active={activeTab === 'Financial'}
       >
-        <img 
-          src={activeTab === 'Financial' 
-            ? '/assets/images/tab_bar/money_bag.svg' 
-            : '/assets/images/tab_bar/money_bag_inactive.svg'} 
-          alt="icon" 
+        <img
+          src={activeTab === 'Financial'
+            ? '/assets/images/tab_bar/money_bag.svg'
+            : '/assets/images/tab_bar/money_bag_inactive.svg'}
+          alt="icon"
         />
         Financial
       </Tab>
@@ -101,5 +101,5 @@ const TabBar: React.FC = () => {
     </TabBarContainer>
   );
 };
-
+ 
 export default TabBar;

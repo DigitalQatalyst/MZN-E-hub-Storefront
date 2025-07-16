@@ -2,181 +2,281 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import Image from "@component/Image";
+import { Linkedin, Twitter, Youtube, Instagram } from "lucide-react";
+import Box from "@component/Box";
 import Grid from "@component/grid/Grid";
-import Icon from "@component/icon/Icon";
 import FlexBox from "@component/FlexBox";
-import Container from "@component/Container";
 import Typography, { Paragraph } from "@component/Typography";
 
 // STYLED COMPONENTS
-import { 
-  StyledLink, 
-  SubscribeContainer, 
-  SubscribeInput, 
-  SubscribeButton,
-  FooterContainer,
-  ContentContainer,
-  CopyrightContainer,
-  IconContainer,
-  SmallTag
-} from "./styles";
+import { StyledLink, SubscribeInput, SubscribeButton } from "./styles";
 
-// CUSTOM DATA
-import { aboutLinks, customerCareLinks, iconList, partners, legalLinks } from "./data";
+// IMPORT FOOTER DATA
+import { footerData, socialMediaLinks } from "./data";
 
 export default function Footer1() {
   const [email, setEmail] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Subscribed with email:", email);
+    // Reset form after submission
+    setEmail("");
   };
+
+  // Render a footer column with links and optional badges
+  const renderFooterColumn = (columnKey: string, columnData: any) => (
+    <Grid item lg={2.4} md={4} sm={6} xs={12} key={columnKey}>
+      <Typography 
+        mb="1.5rem" 
+        lineHeight="1" 
+        fontSize="14px" 
+        fontWeight="600"
+        color="white"
+      >
+        {columnData.title}
+      </Typography>
+      <div>
+        {columnData.links.map((linkItem: any, index: number) => (
+          <StyledLink 
+            href={linkItem.url} 
+            key={index}
+            style={{ 
+              color: 'rgba(255,255,255,0.8)',
+              display: 'block',
+              marginBottom: '0.75rem',
+              fontSize: '14px',
+              textDecoration: 'none',
+              transition: 'color 0.2s ease'
+            }}
+          >
+            {linkItem.name}
+            {/* Add badge if present */}
+            {linkItem.badge && (
+              <Box 
+                as="span" 
+                ml="0.5rem" 
+                px="0.5rem" 
+                py="0.25rem" 
+                style={{
+                  backgroundColor: 'white',
+                  color: '#0030E3',
+                  borderRadius: '4px',
+                  fontSize: '12px',
+                  fontWeight: '600'
+                }}
+              >
+                {linkItem.badge}
+              </Box>
+            )}
+          </StyledLink>
+        ))}
+      </div>
+    </Grid>
+  );
 
   return (
     <footer>
-      <FooterContainer>
-        <Container p="1rem">
-          <ContentContainer>
-            <Grid container spacing={3}>
-              <Grid item lg={6} md={6} sm={6} xs={12}>
-                <Link href="/">
-                  <Image alt="logo" mb="1rem" src="/assets/images/logos/mzn_logo.svg" />
-                </Link>
+      {/* Main Footer Section with Blue Gradient */}
+      <Box 
+        position="relative"
+        overflow="hidden"
+        style={{
+          background: "linear-gradient(94.22deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%)"
+        }}
+      >
+        <div style={{
+          color: "white",
+          margin: "0 auto",
+          width: "100%",
+          padding: "0 4rem"
+        }}>
+          {/* Header Section - Logo, Description & Newsletter */}
+          <Box pt="4rem" pb="3rem">
+            {/* Logo Section */}
+            <Box mb="2rem">
+              <img src="/assets/images/tab_bar/Subtract.svg" alt="MZN Enterprise Hub" height="100%" width="240rem" />
+            </Box>
 
-                <Paragraph mb="1.25rem" color="#FFFFFF" maxWidth="320px">
-                  Stay updated with the latest business insights, opportunities, and services from MZN.
+            {/* Description and Newsletter Section */}
+            <FlexBox 
+              justifyContent="space-between" 
+              alignItems="flex-start"
+              flexDirection={{ xs: "column", lg: "row" }}
+            >
+              {/* Left Section - Description */}
+              <Box maxWidth="500px" mr={{ lg: "2rem" }}>
+                <Paragraph 
+                  color="rgba(255,255,255,0.8)" 
+                  fontSize="14px"
+                  lineHeight="1.5"
+                >
+                  Stay updated with the latest business insights, opportunities, and services from Enterprise Journey.
                 </Paragraph>
+              </Box>
 
+              {/* Right Section - Newsletter Subscription */}
+              <Box width={{ xs: "100%", lg: "560px" }} mt={{ xs: "2rem", lg: "0" }}>
                 <form onSubmit={handleSubmit}>
-                  <SubscribeContainer>
+                  <Box position="relative">
                     <SubscribeInput
                       type="email"
                       placeholder="Enter your email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
+                      required
+                      style={{
+                        width: '100%',
+                        backgroundColor: 'transparent',
+                        border: '1px solid rgba(255,255,255,0.2)',
+                        color: 'white',
+                        borderRadius: '12px',
+                        padding: '14px 120px 14px 16px', // Extra right padding for button
+                        fontSize: '16px',
+                        outline: 'none',
+                        transition: 'border-color 0.2s ease'
+                      }}
                     />
-                    <SubscribeButton type="submit">
+                    <SubscribeButton 
+                      type="submit"
+                      style={{
+                        position: 'absolute',
+                        right: '6px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        backgroundColor: 'white',
+                        color: '#0030E3',
+                        borderRadius: '8px',
+                        fontWeight: '600',
+                        border: 'none',
+                        padding: '10px 20px',
+                        fontSize: '14px',
+                        cursor: 'pointer',
+                        transition: 'transform 0.2s ease',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
                       Subscribe
                     </SubscribeButton>
-                  </SubscribeContainer>
+                  </Box>
                 </form>
+              </Box>
+            </FlexBox>
+          </Box>
 
-                <CopyrightContainer>
-                  <FlexBox 
-                    alignItems="center" 
-                    justifyContent="space-between" 
-                    style={{ marginTop: "6rem", width: "100%" }}
-                  >
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <StyledLink href="#" style={{ marginRight: "1rem" }}>
-                        Privacy Policy
-                      </StyledLink>
-                      <StyledLink href="#" style={{ marginRight: "1rem" }}>
-                        Terms of Service
-                      </StyledLink>
-                      <StyledLink href="#">
-                        © 2025 Enterprise Journey
-                      </StyledLink>
-                    </div>
-                  </FlexBox>
-                </CopyrightContainer>
+          {/* Horizontal Separator Line */}
+          <Box
+            style={{
+              height: '4px',
+              backgroundColor: '#5088FF',
+              marginBottom: '3rem',
+              borderRadius: '4px',
+            }}
+          />
 
-
-              </Grid>
-
-              <Grid item lg={2} md={6} sm={6} xs={12}>
-                <Typography mb="1.25rem" lineHeight="1" fontSize={20} fontWeight="600">
-                  Quick Links
-                </Typography>
-
-                <div>
-                  {aboutLinks.map((item, ind) => (
-                    <StyledLink href="/" key={ind}>
-                      {item}
-                    </StyledLink>
-                  ))}
-                </div>
-              </Grid>
-
-              <Grid item lg={2} md={6} sm={6} xs={12}>
-                <Typography mb="1.25rem" lineHeight="1" fontSize={20} fontWeight="600">
-                  Get to Know Us
-                </Typography>
-
-                <div>
-                  <StyledLink href="/">About Enterprise Journey</StyledLink>
-                  <StyledLink href="/">
-                    Updates <SmallTag>New</SmallTag>
-                  </StyledLink>
-                  <StyledLink href="/">Contact Us</StyledLink>
-                </div>
-              </Grid>
-
-              {/* <Grid item lg={2} md={6} sm={6} xs={12}>
-                <Typography mb="1.25rem" lineHeight="1" fontSize={20} fontWeight="600">
-                  Partners
-                </Typography>
-
-                <div>
-                  {partners.map((item, ind) => (
-                    <StyledLink href="/" key={ind}>
-                      {item}
-                    </StyledLink>
-                  ))}
-                </div>
-              </Grid> */}
-
-              <Grid item lg={2} md={6} sm={6} xs={12}>
-                {/* <Typography mb="1.25rem" lineHeight="1" fontSize={20} fontWeight="600">
-                  Legal
-                </Typography>
-
-                <div>
-                  {legalLinks.map((item, ind) => (
-                    <StyledLink href="/" key={ind}>
-                      {item}
-                    </StyledLink>
-                  ))}
-                </div> */}
-                <Typography mb="1.25rem" lineHeight="1" fontSize={20} fontWeight="600">
-                  Partners
-                </Typography>
-
-                <div>
-                  {partners.map((item, ind) => (
-                    <StyledLink href="/" key={ind}>
-                      {item}
-                    </StyledLink>
-                  ))}
-                </div>
-
-                <FlexBox className="flex" mx="-5px" style={{ marginTop: "2rem" }}>
-                  <IconContainer>
-                    <img
-                      src={`/assets/images/avatars/Social-icons.svg`} // Referencing the specific icon in the SVG
-                      alt={"Social Icons"}
-                      width="150" // Set the icon size here
-                      height="150" // Set the icon size here
-                    />
-                  </IconContainer>
-                </FlexBox>
-
-                {/* <IconContainer>
-                  <img
-                    src={`/assets/images/avatars/Social-icons.svg`} // Referencing the specific icon in the SVG
-                    alt={"Social Icons"}
-                    width="24" // Set the icon size here
-                    height="24" // Set the icon size here
-                  />
-                </IconContainer> */}
-
-
-              </Grid>
+          {/* Links Section - 5 Columns */}
+          <Box pb="3rem">
+            <Grid container spacing={4}>
+              {Object.entries(footerData).map(([key, data]) => 
+                renderFooterColumn(key, data)
+              )}
             </Grid>
-          </ContentContainer>
-        </Container>
-      </FooterContainer>
+          </Box>
+        </div>
+      </Box>
+
+      {/* Bottom Copyright Section */}
+      <Box
+        style={{
+          background: "linear-gradient(94.22deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%)"
+        }}
+        pb="2rem"
+      >
+        <div style={{
+          margin: "0 auto",
+          width: "100%",
+          padding: "0 4rem"
+        }}>
+          <FlexBox 
+            justifyContent="space-between" 
+            alignItems="center"
+            flexDirection={{ xs: "column", md: "row" }}
+          >
+            {/* Left Section - Legal Links & Copyright */}
+            <FlexBox 
+              alignItems="center" 
+              flexDirection={{ xs: "column", sm: "row" }}
+              mb={{ xs: "1rem", md: "0" }}
+            >
+              <FlexBox alignItems="center">
+                <Typography 
+                  component={Link}
+                  href="/"
+                  color="rgba(255,255,255,0.8)" 
+                  fontSize="14px" 
+                  fontWeight="400"
+                  mr="1rem"
+                  style={{ textDecoration: 'none' }}
+                >
+                  Privacy Policy
+                </Typography>
+                <Typography 
+                  component={Link}
+                  href="/"
+                  color="rgba(255,255,255,0.8)" 
+                  fontSize="14px" 
+                  fontWeight="400"
+                  mr="1rem"
+                  style={{ textDecoration: 'none' }}
+                >
+                  Terms of Service
+                </Typography>
+              </FlexBox>
+              <Typography color="rgba(255,255,255,0.8)" fontSize="14px" mt={{ xs: "0.5rem", sm: "0" }}>
+                © 2025 Enterprise Journey
+              </Typography>
+            </FlexBox>
+
+            {/* Right Section - Social Media Icons */}
+            <FlexBox>
+              {socialMediaLinks.map((social, index) => {
+                // Map icon names to lucide-react components
+                const IconComponent = social.icon === 'linkedin' ? Linkedin :
+                                    social.icon === 'twitter' ? Twitter :
+                                    social.icon === 'youtube' ? Youtube :
+                                    social.icon === 'instagram' ? Instagram : Linkedin;
+                
+                return (
+                  <a
+                    key={social.name}
+                    href={social.url}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    style={{ textDecoration: 'none' }}
+                    aria-label={`Follow us on ${social.name}`}
+                  >
+                    <Box 
+                      ml={index > 0 ? "0.5rem" : "0"}
+                      p="0.75rem" 
+                      borderRadius="6px" 
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      style={{
+                        transition: 'background-color 0.2s ease',
+                        color: 'rgba(255,255,255,0.8)',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <IconComponent size={20} />
+                    </Box>
+                  </a>
+                );
+              })}
+            </FlexBox>
+          </FlexBox>
+        </div>
+      </Box>
     </footer>
   );
 }

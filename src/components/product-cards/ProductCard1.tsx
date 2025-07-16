@@ -19,6 +19,7 @@ import ProductQuickView from "@component/products/ProductQuickView";
 
 import { calculateDiscount, currency, getTheme } from "@utils/utils";
 import { deviceSize } from "@utils/constants";
+import { FaArrowRight } from "react-icons/fa";
 
 // STYLED COMPONENT
 const Wrapper = styled(Card)`
@@ -110,25 +111,36 @@ const Wrapper = styled(Card)`
 
 interface ProductCard1Props extends CardProps {
   off?: number;
-  slug: string;
-  title: string;
-  price: number;
-  imgUrl: string;
-  rating: number;
-  images: string[];
+  slug?: string;
+  title?: string;
+  price?: number;
+  imgUrl?: string;
+  rating?: number;
+  images?: string[];
   id?: string | number;
+  category?: string;  // Added category to match the design
+  memberCount?: string;  // Added member count
+  name?: string;
+  members?: string;
+  imageSrc?: string;
+  link?: string;
 }
 
-
 export default function ProductCard1({
-  id,
   off,
   slug,
   title,
   price,
   imgUrl,
-  images,
   rating = 4,
+  images,
+  id,
+  category,
+  memberCount,
+  name,
+  members,
+  imageSrc,
+  link,
   ...props
 }: ProductCard1Props) {
   const [open, setOpen] = useState(false);
@@ -158,7 +170,7 @@ export default function ProductCard1({
       <Wrapper borderRadius={8} {...props}>
         <div className="image-holder">
 
-          <FlexBox className="extra-icons">
+          {/* <FlexBox className="extra-icons">
             <IconButton size="small" padding="0.5rem" onClick={toggleDialog}>
               <Icon color="secondary" variant="small">
                 eye-alt
@@ -170,10 +182,10 @@ export default function ProductCard1({
                 heart
               </Icon>
             </IconButton>
-          </FlexBox>
+          </FlexBox> */}
 
           <Link href={`/market-2`}>
-            <NextImage alt={title} width={277} src={imgUrl} height={270}/>
+            <NextImage alt={title} width={277} src={imageSrc} height={270}/>
           </Link>
         </div>
 
@@ -183,26 +195,34 @@ export default function ProductCard1({
               <Link href={`/market-2`}>
                 <H3
                   mb="10px"
-                  title={title}
+                  title={name}
                   fontSize="14px"
                   textAlign="left"
                   fontWeight="600"
                   className="title"
                   color="text.secondary">
-                  {title}
+                  {name}
                 </H3>
               </Link>
                 
               <FlexBox alignItems="center" mb="10px">
                   <SemiSpan color="black" fontWeight="600" mr="0.5rem">
-                    {currency(price)}
+                    {memberCount || "3.2K"}
                   </SemiSpan>
               </FlexBox>
-              <Rating value={rating || 0} outof={5} color="warn" readOnly />
-              <Button className="learn-more" variant="outlined" color="primary" fullwidth marginTop={"20px"}>
-                Learn More
-              </Button>
-          
+              
+              {/* <Button className="Sustainability" variant="outlined" color="primary" fullwidth marginTop={"20px"}>
+                Sustainability
+              </Button> */}
+          <FlexBox>
+            <FlexBox>
+              {category}
+            </FlexBox>
+            <FlexBox>
+              <Link href={link || `/market-2`}>View details</Link>
+          <FaArrowRight />
+            </FlexBox>
+          </FlexBox>
             </Box>
         
 

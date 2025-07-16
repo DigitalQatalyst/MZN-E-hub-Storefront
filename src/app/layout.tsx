@@ -17,10 +17,14 @@ export const metadata: Metadata = {
   description:
     "Enterprise journey platform is a platform that provides services to entrepreneurs and startups in the UAE. It offers a range of resources, including mentorship programs, and access to funding opportunities.",
   authors: [{ name: "DigitalQatalyst", url: "https://digitalqatalyst.com" }],
-  keywords: ["e-commerce", "e-commerce template", "next.js", "react", "bonik"]
+  keywords: ["e-commerce", "e-commerce template", "next.js", "react", "bonik"],
 };
- 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body className={openSans.className}>

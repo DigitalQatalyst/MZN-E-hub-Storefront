@@ -144,19 +144,32 @@ const LearnMoreWrapper = styled.div`
 `;
 
 type ProductCard19Props = {
-  img: string;
-  name: string;
-  slug: string;
-  description: string;
-  subTitle: string;
-  reviews: number;
-  images: string[];
-  id: string | number;
+  img?: string;
+  name?: string;
+  slug?: string;
+  description?: string;
+  subTitle?: string;
+  partner?: string;
+  reviews?: number;
+  images?: string[];
+  id?: string | number;
   className?: string;
+  rating?: number;
 };
 
 export default function ProductCard20(props: ProductCard19Props) {
-  const { img, name, subTitle, description, reviews, id, slug, images } = props;
+  const {
+    img,
+    partner,
+    rating,
+    name,
+    subTitle,
+    description,
+    reviews,
+    id,
+    slug,
+    images,
+  } = props;
 
   const { state, dispatch } = useAppContext();
   const [openDialog, setOpenDialog] = useState(false);

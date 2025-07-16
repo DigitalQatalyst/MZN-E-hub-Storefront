@@ -19,29 +19,29 @@ export const StyledLink = styled(Link)`
 // New Styled Components for the Subscribe Form
 export const SubscribeContainer = styled.div`
   display: flex;
-  width: 80%;
-  height: 37px;
-  background-color: var(--KF-BG-Dark-Blue, #002180);
+  width: 377px;
+  height: 56px;
+  background: rgba(41, 41, 41, 0.05);
   border-radius: 5px;
 `;
 
 export const SubscribeInput = styled.input`
   flex: 1;
   padding: 0.75rem;
-  border: none;
-  border-radius: 5px 0 0 5px;
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  border-radius: 5px 0 0 5px; /* Round only the left corners */
   color: #FFFFFF;
   font-family: "Public Sans", sans-serif;
-  background-color:rgb(66, 82, 200);
+  background-color: rgba(41, 41, 41, 0.05);
   &::placeholder {
-    color: #FFFFFF;
+    color: #FFFFFF;;
   }
 `;
 
 export const SubscribeButton = styled.button`
   border: none;
   background-color: var(--KF-BG-White, #FFF);
-  color: var(--B-500, #1A1A1A);
+  color: #0030E3;
   padding: 0.75rem 1.5rem;
   font-weight: 500;
   cursor: pointer;

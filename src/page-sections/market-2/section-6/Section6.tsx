@@ -521,14 +521,16 @@ export default function Section6({
                   key={index}
                   onClick={() => setCurrentPage(index + 1)}
                   style={{
-                    border: "1px solid #002180",
-                    borderRadius: "50%",
+                    // border: "1px solid #002180",
+                    // borderRadius: "50%",
+                    border: currentPage === index + 1 ? "1px solid #002180" : "none",
+                    borderRadius: currentPage === index + 1 ? "50%" : "none",
                     padding: "0.5rem 1rem",
                     margin: "0 0.5rem",
-                    backgroundColor: currentPage === index + 1 ? "#002180" : "transparent",
-                    color: currentPage === index + 1 ? "#fff" : "#002180",
+                    backgroundColor: currentPage === index + 1 ? "transparent" :"transparent",
+                    color: currentPage === index + 1 ? "#002180" : "#002180",
                     cursor: "pointer",
-                    display: "inline-block",
+                    // display: "inline-block",
                   }}
                 >
                   {index + 1}

@@ -3493,7 +3493,6 @@ export const products = [
   },
 ];
 
-
 // brands
 export const brands = [
   {

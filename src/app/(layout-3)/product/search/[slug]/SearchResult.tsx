@@ -103,13 +103,13 @@ export default function SearchResult({ sortOptions }: Props) {
           <ProductFilterCard />
         </Grid>
 
-        <Grid item lg={9} xs={12}>
+        {/* <Grid item lg={9} xs={12}>
           {view === "grid" ? (
             <ProductGridView products={db.slice(95, 104)} />
           ) : (
             <ProductListView products={db.slice(95, 104)} />
           )}
-        </Grid>
+        </Grid> */}
       </Grid>
     </>
   );

@@ -26,7 +26,6 @@ export default function DashboardPageHeader({ iconName, title, button }: Dashboa
     <Box mb="1.5rem" mt="-1rem">
       <FlexBox justifyContent="space-between" alignItems="center" mt="1rem">
         <FlexBox alignItems="center">
-          {iconName ? <Icon color="primary">{iconName}</Icon> : null}
           <H2 ml="12px" my="0px" lineHeight="1" whitespace="pre">
             {title}
           </H2>

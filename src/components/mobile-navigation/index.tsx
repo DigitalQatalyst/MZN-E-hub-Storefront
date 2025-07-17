@@ -1,3 +1,5 @@
+"use client";
+
 import styled from "styled-components";
 
 import { Chip } from "@component/Chip";
@@ -48,7 +50,7 @@ export default function MobileNavigationBar() {
   const width = useWindowSize();
   const { state } = useAppContext();
 
-  if (width <= 900) {
+  if (width <= 0) {
     return (
       <Wrapper>
         {list.map((item) => (
@@ -67,7 +69,8 @@ export default function MobileNavigationBar() {
                 bg="primary.main"
                 position="absolute"
                 color="primary.text"
-                left="calc(50% + 8px)">
+                left="calc(50% + 8px)"
+              >
                 {state.cart.length}
               </Chip>
             )}
@@ -84,5 +87,5 @@ const list = [
   { title: "Home", icon: "home", href: "/" },
   { title: "Category", icon: "category", href: "/mobile-category-nav" },
   { title: "Cart", icon: "bag", href: "/cart" },
-  { title: "Account", icon: "user-2", href: "/profile" }
+  { title: "Account", icon: "user-2", href: "/profile" },
 ];

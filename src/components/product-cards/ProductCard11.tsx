@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import styled from "styled-components";
 
@@ -64,7 +65,12 @@ export default function ProductCard11(props: ProductCard11Props) {
         </H6>
 
         <FlexBox alignItems="center">
-          <SemiSpan pr="0.3rem" fontWeight="600" color="primary.main" lineHeight="1">
+          <SemiSpan
+            pr="0.3rem"
+            fontWeight="600"
+            color="primary.main"
+            lineHeight="1"
+          >
             {calculateDiscount(price, off)}
           </SemiSpan>
 

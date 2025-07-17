@@ -16,6 +16,11 @@ const getTopRatedBrand = async () => {
   return response.data;
 };
 
+const getPopularProducts = async (): Promise<Product[]> => {
+  const response = await axios.get("/api/grocery-1/products?tag=popular");
+  return response.data;  
+};
+
 const getNewArrivalList = async (): Promise<Product[]> => {
   const response = await axios.get("/api/market-1/new-arrivals");
   return response.data;
@@ -91,6 +96,11 @@ const getTopCategories = async (): Promise<Category[]> => {
   return response.data;
 };
 
+const getBotCategories = async (): Promise<Category[]> => {
+  const response = await axios.get("/api/market-1/bot-categories");
+  return response.data;
+};
+
 const getBigDiscountList = async (): Promise<Product[]> => {
   const response = await axios.get("/api/market-1/big-discounts");
   return response.data;
@@ -111,7 +121,9 @@ export default {
   getMobileBrands,
   getOpticsBrands,
   getTopCategories,
+  getBotCategories,
   getTopRatedBrand,
+  getPopularProducts,
   getNewArrivalList,
   getBigDiscountList,
   getTopRatedProduct

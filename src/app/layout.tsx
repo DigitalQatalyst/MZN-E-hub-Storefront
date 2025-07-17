@@ -9,27 +9,36 @@ import StyledContext from "@context/StyledContext";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import NProgressBar from "@component/NProgress";
+import KfBot from "@component/bot/KfBot";
+import { ModalProvider } from "@context/ModalContext";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Bonik - The Best React eCommerce Template",
+  title: "Enterprise Journey by Khalifa fund",
   description:
-    "Bonik is a React Next.js E-commerce template. Build SEO friendly Online store, delivery app and Multi vendor store",
-  authors: [{ name: "UI-LIB", url: "https://ui-lib.com" }],
-  keywords: ["e-commerce", "e-commerce template", "next.js", "react", "bonik"]
+    "Enterprise journey platform is a platform that provides services to entrepreneurs and startups in the UAE. It offers a range of resources, including mentorship programs, and access to funding opportunities.",
+  authors: [{ name: "DigitalQatalyst", url: "https://digitalqatalyst.com" }],
+  keywords: ["e-commerce", "e-commerce template", "next.js", "react", "bonik"],
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body className={openSans.className}>
         <StyledComponentsRegistry>
           <AppProvider>
-            <StyledContext>
-              {children}
+            <ModalProvider>
+              <StyledContext>
+                {children}
               <NProgressBar />
-            </StyledContext>
+              </StyledContext>
+              <KfBot />
+            </ModalProvider>
           </AppProvider>
         </StyledComponentsRegistry>
       </body>

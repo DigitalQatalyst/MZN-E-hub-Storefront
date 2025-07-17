@@ -8,6 +8,7 @@ import { Header } from "@component/header";
 import { Footer1 } from "@component/footer";
 import MobileNavigationBar from "@component/mobile-navigation";
 import StyledAppLayout from "./styles";
+import KfBot from "@component/bot/KfBot";
 
 // ===============================================================================
 type Props = { title?: string; navbar?: ReactElement; children: ReactNode };
@@ -16,18 +17,23 @@ type Props = { title?: string; navbar?: ReactElement; children: ReactNode };
 export default function ShopLayout({ navbar, children }: Props) {
   return (
     <StyledAppLayout>
-      <Topbar />
+      {/* <Topbar /> */}
 
-      <Sticky fixedOn={0} scrollDistance={300}>
+      {/* <Sticky fixedOn={0} scrollDistance={300}>
         <Header />
-      </Sticky>
+      </Sticky> */}
 
       {navbar ? <div className="section-after-sticky">{navbar}</div> : null}
-      {navbar ? children : <div className="section-after-sticky">{children}</div>}
+      {navbar ? (
+        children
+      ) : (
+        <div className="section-after-sticky">{children}</div>
+      )}
 
       <MobileNavigationBar />
 
       <Footer1 />
+      <KfBot />
     </StyledAppLayout>
   );
 }

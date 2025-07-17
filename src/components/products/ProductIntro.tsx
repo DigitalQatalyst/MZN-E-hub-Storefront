@@ -1,25 +1,33 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import Link from "next/link";
-import { useState } from "react";
-
+import { useState, useCallback, useRef } from "react";
+import RegistrationForm from "@component/forms/RegistrationForm";
 import Box from "@component/Box";
 import Image from "@component/Image";
 import Rating from "@component/rating";
-import Avatar from "@component/avatar";
 import Grid from "@component/grid/Grid";
 import Icon from "@component/icon/Icon";
 import FlexBox from "@component/FlexBox";
 import { Button } from "@component/buttons";
-import { H1, H2, H3, H6, SemiSpan } from "@component/Typography";
+import { H2, H4, H5, H6, SemiSpan, Span } from "@component/Typography";
 import { useAppContext } from "@context/app-context";
-import { currency } from "@utils/utils";
 import Product from "@models/product.model";
+import { FaRegBookmark } from "react-icons/fa";
+import { IoShareSocial } from "react-icons/io5";
+import { IoIosArrowBack, IoMdArrowBack } from "react-icons/io";
+import Link from "next/link";
+import { border } from "styled-system";
+import { FaRegClock } from "react-icons/fa";
+import { BsClipboardMinus } from "react-icons/bs";
+import { IoPlaySharp } from "react-icons/io5";
+import { BiSolidInfoCircle } from "react-icons/bi";
+import "./products.css";
+import { Carousel } from "@component/carousel";
 
 // ========================================
 interface Props {
-  product: Product;  // Accepting full product object
+  product: Product; // Accepting full product object
 }
 // ========================================
 
@@ -27,135 +35,269 @@ export default function ProductIntro({ product }: Props) {
   const param = useParams();
   const { state, dispatch } = useAppContext();
   const [selectedImage, setSelectedImage] = useState(0);
-  const safeImages = ["/assets/images/products/Home & Garden/3.Aloe Vera Plant.png"];
+  const [imageLoading, setImageLoading] = useState(true);
+  const [showRegistrationForm, setShowRegistrationForm] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleImageLoad = () => {
+    setImageLoading(false);
+  };
+  const assets = [
+    { video: true, url: "/assets/Videos/KF_Service Request.mp4" },
+    { video: true, url: "/assets/Videos/KF_Service Request.mp4" },
+    { video: true, url: "/assets/Videos/KF_Service Request.mp4" },
+    { video: true, url: "/assets/Videos/KF_Service Request.mp4" },
+  ];
 
   const routerId = param.slug as string;
-  const cartItem = state.cart.find((item) => item.id === product.id || item.id === routerId);
-
-  const handleImageClick = (ind: number) => () => setSelectedImage(ind);
-
-  const handleCartAmountChange = (amount: number) => () => {
-    dispatch({
-      type: "CHANGE_CART_AMOUNT",
-      payload: {
-        price: product.price,
-        qty: amount,
-        name: product.title,
-        imgUrl: safeImages[0],
-        id: product.id || routerId
-      }
-    });
+  const handleImageClick = (ind: number) => () => {
+    setImageLoading(true);
+    setSelectedImage(ind);
   };
 
+  const handlePlayClick = () => {
+    setShowVideo(true);
+    setTimeout(() => {
+      videoRef.current?.play();
+    }, 0);
+  };
+  const businessStages = ["Start-up", "Scale-up", "Idea"];
+  const segments = [
+    "Sole Proprietorship",
+    "Partnership",
+    "Medium Enterprises",
+    "Limited Liability Company (LLC)",
+    "Small Enterprises",
+    "UAE National ",
+    "Emiratis",
+  ];
+  const categories = [
+    "Loan Modification & Refinancing",
+    "Loan Management & Adjustments",
+  ];
+  const responsive = [
+    { breakpoint: 959, settings: { slidesToShow: 2 } },
+    { breakpoint: 650, settings: { slidesToShow: 1 } },
+  ];
   return (
-    <Box overflow="hidden">
-      <Grid container justifyContent="center" alignItems="center" spacing={16}>
-        <Grid item md={6} xs={12} alignItems="center">
-          <div>
-            <FlexBox mb="50px" overflow="hidden" borderRadius={16} justifyContent="center">
-              {safeImages.length > 0 ? (
-                <Image
-                  width={300}
-                  height={300}
-                  src={safeImages[selectedImage]}
-                  style={{ display: "block", width: "100%", height: "auto" }}
-                />
-              ) : (
-                <Box width={300} height={300} bg="gray.100" />
-              )}
-            </FlexBox>
+    <Box overflow="hidden" borderRadius="12px" padding={"12px"}>
+      <FlexBox justifyContent="space-between">
+        <FlexBox flexDirection={"column"}>
+          <Link
+            href="/services"
+            style={{
+              display: "flex",
+              gap: "10px",
+              alignItems: "center",
+              fontSize: "16px",
+              marginBottom: "1.5rem",
+            }}
+            color="#002180"
+          >
+            <IoMdArrowBack size={30} color="#0030E3" />
+            <Span color="#002180">Back to Financial Services</Span>
+          </Link>
 
-            <FlexBox overflow="auto">
-              {safeImages.map((url, ind) => (
-                <Box
-                  key={ind}
-                  size={70}
-                  bg="white"
-                  minWidth={70}
-                  display="flex"
-                  cursor="pointer"
-                  border="1px solid"
-                  borderRadius="10px"
-                  alignItems="center"
-                  justifyContent="center"
-                  ml={ind === 0 ? "auto" : ""}
-                  mr={ind === safeImages.length - 1 ? "auto" : "10px"}
-                  borderColor={selectedImage === ind ? "primary.main" : "gray.400"}
-                  onClick={handleImageClick(ind)}>
-                  <Avatar src={url} borderRadius="10px" size={65} />
-                </Box>
-              ))}
-            </FlexBox>
-          </div>
-        </Grid>
-
-        <Grid item md={6} xs={12} alignItems="center">
-          <H1 mb="1rem">{product.title}</H1>
-
-          <FlexBox alignItems="center" mb="1rem">
-            <SemiSpan>Brand:</SemiSpan>
-            <H6 ml="8px">{product.brand}</H6>
-          </FlexBox>
-
-          <FlexBox alignItems="center" mb="1rem">
-            <SemiSpan>Rated:</SemiSpan>
-            <Box ml="8px" mr="8px">
-              <Rating color="warn" value={4} outof={5} />
-            </Box>
-            <H6>(50)</H6>
-          </FlexBox>
-
-          <Box mb="24px">
-            <H2 color="primary.main" mb="4px" lineHeight="1">
-              {currency(product.price)}
-            </H2>
-
-            <SemiSpan color="inherit">Stock Available</SemiSpan>
+          <H2 mb="1rem" color="#0030E3">
+            {product?.title}
+          </H2>
+          <Span mb="1rem" fontWeight={500}>
+            powered by {product?.subTitle}
+          </Span>
+          <Box mb="45px" width="70%">
+            {product?.description ||
+              "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."}
           </Box>
-
-          {!cartItem?.qty ? (
+        </FlexBox>
+      </FlexBox>
+      <Grid container spacing={10}>
+        <Grid
+          item
+          md={6}
+          alignItems="center"
+          style={{ width: "40%" }}
+          // style={{ border: "1px solid red" }}
+        >
+          <FlexBox
+            alignItems="center"
+            mb="1rem"
+            mr={"1.5rem"}
+            justifyContent="space-between"
+          >
             <Button
-              mb="36px"
-              size="small"
-              color="primary"
+              bg="#0030E3"
+              padding="0 50px"
+              height="55px"
               variant="contained"
-              onClick={handleCartAmountChange(1)}>
-              Add to Cart
+              color={"primary"}
+              onClick={() => setShowRegistrationForm(true)}
+            >
+              <p color="#ffffff !important">Start Application</p>
             </Button>
-          ) : (
-            <FlexBox alignItems="center" mb="36px">
-              <Button
-                p="9px"
-                size="small"
-                color="primary"
-                variant="outlined"
-                onClick={handleCartAmountChange(cartItem?.qty - 1)}>
-                <Icon variant="small">minus</Icon>
-              </Button>
-
-              <H3 fontWeight="600" mx="20px">
-                {cartItem?.qty.toString().padStart(2, "0")}
-              </H3>
-
-              <Button
-                p="9px"
-                size="small"
-                color="primary"
-                variant="outlined"
-                onClick={handleCartAmountChange(cartItem?.qty + 1)}>
-                <Icon variant="small">plus</Icon>
+            <Button color="#002180" height="50px" border={"2px solid #002180"}>
+              <FaRegBookmark color="#002180" size="20px" />
+              &nbsp; Save
+            </Button>
+            <FlexBox
+              justifyContent="s
+            Pace-between"
+              width="10%"
+            >
+              <Button width="100%" height="50px" border={"2px solid #002180"}>
+                <Icon color="#002180">share 1</Icon>
               </Button>
             </FlexBox>
-          )}
-
-          <FlexBox alignItems="center" mb="1rem">
-            <SemiSpan>Sold By:</SemiSpan>
-            <Link href={`/shops/${product.shop.slug}`}>
-              <H6 lineHeight="1" ml="8px">
-                {product.shop.name}
-              </H6>
-            </Link>
           </FlexBox>
+          <FlexBox>
+            <FlexBox flexDirection="column" style={{ gap: "30px" }}>
+              <FlexBox flexDirection="column" style={{ gap: "10px" }}>
+                <FlexBox alignItems="center" style={{ gap: "5px" }}>
+                  <Span> Business Stage</Span>{" "}
+                  <BiSolidInfoCircle color="#747474" />
+                </FlexBox>
+                <FlexBox flexWrap="wrap" style={{ gap: "10px" }}>
+                  <Span className="tags">{product?.businessStage}</Span>
+                </FlexBox>
+              </FlexBox>
+              <FlexBox flexDirection="column" style={{ gap: "10px" }}>
+                <FlexBox alignItems="center" style={{ gap: "5px" }}>
+                  <Span> Segment</Span> <BiSolidInfoCircle color="#747474" />
+                </FlexBox>
+                <FlexBox flexWrap="wrap" style={{ gap: "10px" }}>
+                  <Span className="tags">{product.Nationality}</Span>
+                  <Span className="tags">{product.LegalStructure}</Span>
+                </FlexBox>
+              </FlexBox>
+
+              <FlexBox flexDirection="column" style={{ gap: "10px" }}>
+                <FlexBox alignItems="center" style={{ gap: "5px" }}>
+                  <Span> Categories</Span> <BiSolidInfoCircle color="#747474" />
+                </FlexBox>
+                <FlexBox flexWrap="wrap" style={{ gap: "20px" }}>
+                  {product.facetValues.map((category, index) => (
+                    <Span className="tags" key={index}>
+                      {category.name}
+                    </Span>
+                  ))}
+                </FlexBox>
+              </FlexBox>
+            </FlexBox>
+          </FlexBox>
+
+          <RegistrationForm
+            open={showRegistrationForm}
+            onClose={() => setShowRegistrationForm(false)}
+            productSlug={product?.slug}
+          />
+        </Grid>
+        <Grid
+          style={{ width: "55%" }}
+          item
+          md={6}
+          alignItems="top"
+          justifyContent={"top"}
+        >
+          <Carousel dots arrows slidesToShow={1} responsive={responsive}>
+            {assets.map((asset, index) => (
+              <Grid item xs={12} sm={6} md={4}>
+                {asset.video ? (
+                  <Box
+                    width="100%"
+                    height="300px"
+                    style={{
+                      position: "relative",
+                      // borderRadius: "8px",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {/* Always render the video */}
+                    <video
+                      ref={videoRef}
+                      src={asset.url}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        // borderRadius: "8px",
+                        display: "block",
+                        filter: !showVideo ? "brightness(0.7)" : "none",
+                      }}
+                      playsInline
+                      controls={showVideo}
+                    />
+                    {!showVideo && (
+                      <Box
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          background: "rgba(0,0,0,0.15)",
+                          zIndex: 2,
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "flex-end",
+                          alignItems: "flex-start",
+                          padding: "24px",
+                        }}
+                      >
+                        {/* Logo */}
+                        <img
+                          src="/images/Logo2 (3).png"
+                          alt="Logo"
+                          style={{
+                            width: 70,
+                            marginBottom: "auto",
+                            marginTop: 5,
+                          }}
+                        />
+                        {/* Title and Subtitle */}
+                        <div style={{ color: "#fff", marginBottom: 10 }}>
+                          <div
+                            style={{
+                              fontWeight: 700,
+                              fontSize: 22,
+                              marginBottom: 3,
+                            }}
+                          >
+                            {product?.title}
+                          </div>
+                          <div style={{ fontWeight: 400, fontSize: 14 }}>
+                            Explore Tailored Funding Solutions for Your SME’s
+                            Growth and Innovation
+                          </div>
+                        </div>
+                        {/* Play Button */}
+                        <button
+                          onClick={handlePlayClick}
+                          style={{
+                            position: "absolute",
+                            left: "50%",
+                            top: "50%",
+                            transform: "translate(-50%, -50%)",
+                            background: "#fff",
+                            border: "none",
+                            borderRadius: "50%",
+                            width: 56,
+                            height: 56,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                            cursor: "pointer",
+                          }}
+                          aria-label="Play Video"
+                        >
+                          <IoPlaySharp size={30} color="#0030E3" />
+                        </button>
+                      </Box>
+                    )}
+                  </Box>
+                ) : (
+                  <img src={asset.url} alt="Product Image" />
+                )}
+              </Grid>
+            ))}
+          </Carousel>
         </Grid>
       </Grid>
     </Box>

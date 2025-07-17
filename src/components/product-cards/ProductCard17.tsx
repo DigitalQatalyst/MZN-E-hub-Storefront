@@ -12,7 +12,7 @@ import { Button } from "@component/buttons";
 import NextImage from "@component/NextImage";
 import { IconButton } from "@component/buttons";
 import { H4, Paragraph, Small } from "@component/Typography";
-import ProductQuickView from "@component/products/ProductQuickView";
+// import ProductQuickView from "@component/products/ProductQuickView";
 import { useAppContext } from "@context/app-context";
 import { currency } from "@utils/utils";
 import { theme } from "@utils/theme";
@@ -128,11 +128,11 @@ export default function ProductCard17(props: ProductCard17Props) {
         </QuickViewButton>
       </CardMedia>
 
-      <ProductQuickView
+      {/* <ProductQuickView
         open={openDialog}
         onClose={toggleDialog}
-        product={{ id, images, slug, price, title }}
-      />
+        product={{ id, images, price, title, slug }}
+      /> */}
 
       <Box p={1} textAlign="center">
         <Small color="gray.500">{category}</Small>

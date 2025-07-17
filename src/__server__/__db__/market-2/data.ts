@@ -1,0 +1,839 @@
+// carousel data
+export const mainCarouselData = [
+  {
+    id: 1,
+    title: "Lifestyle collection",
+    category: "Men",
+    discount: 30,
+    imgUrl: "/assets/images/banners/banner-15.jpg",
+    description: "Get Free Shipping on orders over $99.00",
+    buttonText: "Shop Now",
+    buttonLink: "#",
+  },
+  {
+    id: 2,
+    title: "Lifestyle collection",
+    category: "Women",
+    discount: 35,
+    imgUrl: "/assets/images/banners/banner-25.jpg",
+    description: "Get Free Shipping on orders over $99.00",
+    buttonText: "Shop Now",
+    buttonLink: "#",
+  },
+];
+
+// categories
+export const categories = [
+  {
+    id: "51cc79e6-c0d8-40e6-b9a5-a3a0c5931242",
+    subTitle: "Toys",
+    icon: null,
+    image: "/assets/images/categories/cat-1.jpg",
+    slug: "toys",
+    parent: [],
+    description: null,
+    for: { demo: "market-2", type: "top-categories" },
+  },
+  {
+    id: "c1a775f6-7bc5-4722-9c2e-841cae78b93c",
+    subTitle: "Sports",
+    icon: null,
+    image: "/assets/images/categories/cat-2.jpg",
+    slug: "sports",
+    parent: [],
+    description: null,
+    for: { demo: "market-2", type: "top-categories" },
+  },
+  {
+    id: "dc829abb-9667-4d59-ad2b-5ef455202188",
+    subTitle: "Gaming",
+    icon: null,
+    image: "/assets/images/categories/cat-3.jpg",
+    slug: "gaming",
+    parent: [],
+    description: null,
+    for: { demo: "market-2", type: "top-categories" },
+  },
+  {
+    id: "9c35917b-c0c6-4583-9145-6285b50b49ad",
+    subTitle: "Furniture",
+    icon: null,
+    image: "/assets/images/categories/cat-4.jpg",
+    slug: "furniture",
+    parent: [],
+    description: null,
+    for: { demo: "market-2", type: "top-categories" },
+  },
+  {
+    id: "e13157eb-e9c5-4a24-a59b-98382b7eb3ea",
+    subTitle: "Fashion",
+    icon: null,
+    image: "/assets/images/categories/cat-1.jpg",
+    slug: "fashion",
+    parent: [],
+    description: null,
+    for: { demo: "market-2", type: "top-categories" },
+  },
+  {
+    id: "c71a65bd-5c01-444e-82fe-3ef09462aff6",
+    subTitle: "Cameras",
+    icon: null,
+    image: "/assets/images/categories/cat-6.jpg",
+    slug: "cameras",
+    parent: [],
+    description: null,
+    for: { demo: "market-2", type: "top-categories" },
+  },
+];
+
+// products
+export const products = [
+  {
+    id: "6e8f151b-277b-4465-97b6-547f6a72e5c9",
+    slug: "silver-high-neck-sweater",
+    shop: {
+      id: "d3a8d0c3-ea4d-4caa-858e-954fee09ff24",
+      slug: "scarlett-beauty",
+      user: {
+        id: "ba29997c-ed76-4f59-ae31-111dfa532b75",
+        email: "Clementina_Raynor@yahoo.com",
+        phone: "821.333.9362 x9878",
+        avatar:
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1006.jpg",
+        password: "673_HVvWUdYguFe",
+        dateOfBirth: "2003-06-14T15:18:27.382Z",
+        verified: true,
+        subTitle: {
+          firstName: "Aracely",
+          lastName: "Doyle",
+        },
+      },
+      email: "Amira.McDermott83@yahoo.com",
+      subTitle: "Scarlett Beauty",
+      phone: "(613) 343-9004",
+      address: "845 N. Stonybrook Ave. Tonawanda, NY 14210, Denmark",
+      verified: false,
+      coverPicture: "/assets/images/banners/cycle.png",
+      profilePicture: "/assets/images/faces/propic.png",
+      socialLinks: {
+        facebook: null,
+        youtube: null,
+        twitter: null,
+        instagram: null,
+      },
+    },
+
+    // PIC 1
+
+    title: "Microfinance Funding Scheme",
+    brand: null,
+    subTitle: "by Khalifa Fund", 
+    size: null,
+    colors: [],
+    discount: 0,
+    thumbnail: "/assets/images/mzn_logos/mzn_logo.png",
+    images: [
+      "/assets/images/mzn_logos/mzn_logo.png",
+      "/assets/images/mzn_logos/mzn_logo.png",
+    ],
+    categories: ["Men's Fashion"],
+    status: null,
+    reviews: [],
+    for: {
+      demo: "market-2",
+      type: "deals-of-the-day",
+    },
+  },
+  {
+    id: "76d14d65-21d0-4b41-8ee1-eef4c2232793",
+    slug: "yellow-casual-sweater",
+    shop: {
+      id: "d3a8d0c3-ea4d-4caa-858e-954fee09ff24",
+      slug: "scarlett-beauty",
+      user: {
+        id: "ba29997c-ed76-4f59-ae31-111dfa532b75",
+        email: "Clementina_Raynor@yahoo.com",
+        phone: "821.333.9362 x9878",
+        avatar:
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1006.jpg",
+        password: "673_HVvWUdYguFe",
+        dateOfBirth: "2003-06-14T15:18:27.382Z",
+        verified: true,
+        subTitle: {
+          firstName: "Aracely",
+          lastName: "Doyle",
+        },
+      },
+      email: "Amira.McDermott83@yahoo.com",
+      subTitle: "Scarlett Beauty",
+      phone: "(613) 343-9004",
+      address: "845 N. Stonybrook Ave. Tonawanda, NY 14210, Denmark",
+      verified: false,
+      coverPicture: "/assets/images/banners/cycle.png",
+      profilePicture: "/assets/images/faces/propic.png",
+      socialLinks: {
+        facebook: null,
+        youtube: null,
+        twitter: null,
+        instagram: null,
+      },
+    },
+
+    // PIC 2
+
+    title: "Microfinance Funding Scheme",
+    brand: null,
+    subTitle:"by Khalifa Fund",
+    size: null,
+    colors: [],
+    discount: 0,
+    thumbnail: "/assets/images/mzn_logos/mzn_logo.png",
+    images: [
+      "/assets/images/mzn_logos/mzn_logo.png",
+      "/assets/images/mzn_logos/mzn_logo.png",
+    ],
+    categories: ["Women's Fashion"],
+    status: null,
+    reviews: [],
+    for: {
+      demo: "market-2",
+      type: "deals-of-the-day",
+    },
+  },
+  {
+    id: "0fffb188-98d8-47f7-8189-254f06cad488",
+    slug: "denim-blue-jeans",
+    shop: {
+      id: "d3a8d0c3-ea4d-4caa-858e-954fee09ff24",
+      slug: "scarlett-beauty",
+      user: {
+        id: "ba29997c-ed76-4f59-ae31-111dfa532b75",
+        email: "Clementina_Raynor@yahoo.com",
+        phone: "821.333.9362 x9878",
+        avatar:
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1006.jpg",
+        password: "673_HVvWUdYguFe",
+        dateOfBirth: "2003-06-14T15:18:27.382Z",
+        verified: true,
+        subTitle: {
+          firstName: "Aracely",
+          lastName: "Doyle",
+        },
+      },
+      email: "Amira.McDermott83@yahoo.com",
+      subTitle: "Scarlett Beauty",
+      phone: "(613) 343-9004",
+      address: "845 N. Stonybrook Ave. Tonawanda, NY 14210, Denmark",
+      verified: false,
+      coverPicture: "/assets/images/banners/cycle.png",
+      profilePicture: "/assets/images/faces/propic.png",
+      socialLinks: {
+        facebook: null,
+        youtube: null,
+        twitter: null,
+        instagram: null,
+      },
+    },
+
+    // PIC 3
+
+    title: "Microfinance Funding Scheme",
+    brand: null,
+    subTitle: "by Khalifa Fund",
+    size: null,
+    colors: [],
+    discount: 0,
+    thumbnail: "/assets/images/mzn_logos/mzn_logo.png",
+    images: [
+      "/assets/images/mzn_logos/mzn_logo.png",
+      "/assets/images/mzn_logos/mzn_logo.png",
+    ],
+    categories: ["Men's Fashion"],
+    status: null,
+    reviews: [],
+    for: {
+      demo: "market-2",
+      type: "deals-of-the-day",
+    },
+  },
+  {
+    id: "fb0a22ee-dbae-4ca0-87cf-a2fdde344dec",
+    slug: "black-white-sweater",
+    shop: {
+      id: "d3a8d0c3-ea4d-4caa-858e-954fee09ff24",
+      slug: "scarlett-beauty",
+      user: {
+        id: "ba29997c-ed76-4f59-ae31-111dfa532b75",
+        email: "Clementina_Raynor@yahoo.com",
+        phone: "821.333.9362 x9878",
+        avatar:
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1006.jpg",
+        password: "673_HVvWUdYguFe",
+        dateOfBirth: "2003-06-14T15:18:27.382Z",
+        verified: true,
+        subTitle: {
+          firstName: "Aracely",
+          lastName: "Doyle",
+        },
+      },
+      email: "Amira.McDermott83@yahoo.com",
+      subTitle: "Scarlett Beauty",
+      phone: "(613) 343-9004",
+      address: "845 N. Stonybrook Ave. Tonawanda, NY 14210, Denmark",
+      verified: false,
+      coverPicture: "/assets/images/banners/cycle.png",
+      profilePicture: "/assets/images/faces/propic.png",
+      socialLinks: {
+        facebook: null,
+        youtube: null,
+        twitter: null,
+        instagram: null,
+      },
+    },
+
+    // PIC 4
+
+    title: "Microfinance Funding Scheme",
+    brand: null,
+    subTitle:  "by Khalifa Fund",
+    size: null,
+    colors: [],
+    discount: 0,
+    thumbnail: "/assets/images/mzn_logos/mzn_logo.png",
+    images: [
+      "/assets/images/mzn_logos/mzn_logo.png",
+      "/assets/images/mzn_logos/mzn_logo.png",
+    ],
+    categories: ["Men's Fashion"],
+    status: null,
+    reviews: [],
+    for: {
+      demo: "market-2",
+      type: "deals-of-the-day",
+    },
+  },
+  {
+    id: "94452fd4-89fb-426e-b90e-db955517d167",
+    slug: "gray-overcoat-women",
+    shop: {
+      id: "14f0aa30-b962-47e4-aab9-b6b9b40f3d6c",
+      slug: "scroll-through",
+      user: {
+        id: "dea7c262-0866-4fa7-a92a-0327e204d010",
+        email: "Fausto.Schowalter@gmail.com",
+        phone: "859-699-8461 x50403",
+        avatar:
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1048.jpg",
+        password: "1qfhl8ZZ88W6ain",
+        dateOfBirth: "1974-02-27T05:00:31.895Z",
+        verified: true,
+        subTitle: {
+          firstName: "Dan",
+          lastName: "Purdy",
+        },
+      },
+      email: "Jayce_Corkery32@gmail.com",
+      subTitle: "Scroll Through",
+      phone: "(613) 343-9004",
+      address: "845 N. Stonybrook Ave. Tonawanda, NY 14210, Denmark",
+      verified: false,
+      coverPicture: "/assets/images/banners/banner.png",
+      profilePicture: "/assets/images/faces/propic(1).png",
+      socialLinks: {
+        facebook: null,
+        youtube: null,
+        twitter: null,
+        instagram: null,
+      },
+    },
+
+    // PIC 1
+
+    title: "Microfinance Funding Scheme",
+    brand: null,
+    subTitle:  "by by Khalifa Fund",
+    size: null,
+    colors: [],
+    discount: 0,
+    thumbnail: "/assets/images/mzn_logos/mzn_logo.png",
+    images: [
+      "/assets/images/mzn_logos/mzn_logo.png",
+      "/assets/images/mzn_logos/mzn_logo.png",
+    ],
+    categories: ["Women's Fashion"],
+    status: null,
+    reviews: [],
+    for: {
+      demo: "market-2",
+      type: "deals-of-the-day",
+    },
+  },
+  {
+    id: "c5aa31dc-56db-4328-b3de-ad9383510405",
+    slug: "women's-fashion",
+    shop: {
+      id: "ab657fb2-89c6-4f1e-b034-6bebfc3d864c",
+      slug: "word-wide-wishes",
+      user: {
+        id: "d1d88484-5ec0-4d53-b394-6b7cbc1f6440",
+        email: "Marlin63@gmail.com",
+        phone: "(700) 338-5159 x24398",
+        avatar:
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1124.jpg",
+        password: "GwaFEehjyCfdvxR",
+        dateOfBirth: "1967-07-25T08:37:16.955Z",
+        verified: true,
+        subTitle: {
+          firstName: "Sharon",
+          lastName: "Lebsack",
+        },
+      },
+      email: "Mortimer28@gmail.com",
+      subTitle: "Word Wide Wishes",
+      phone: "(613) 343-9004",
+      address: "845 N. Stonybrook Ave. Tonawanda, NY 14210, Denmark",
+      verified: false,
+      coverPicture: "/assets/images/banners/banner-7.png",
+      profilePicture: "/assets/images/faces/propic(6).png",
+      socialLinks: {
+        facebook: null,
+        youtube: null,
+        twitter: null,
+        instagram: null,
+      },
+    },
+
+    // PIC 6
+
+    title: "Microfinance Funding Scheme",
+    brand: null,
+    subTitle:  "by by Khalifa Fund",
+    size: null,
+    colors: [],
+    discount: 0,
+    thumbnail: "/assets/images/mzn_logos/mzn_logo.png",
+    images: [
+      "/assets/images/mzn_logos/mzn_logo.png",
+      "/assets/images/mzn_logos/mzn_logo.png",
+    ],
+    categories: ["Fashion"],
+    status: null,
+    reviews: [],
+    for: {
+      demo: "market-2",
+      type: "deals-of-the-day",
+    },
+  },
+  {
+    id: "4b687a8d-2d14-4724-9f07-f550e582c3ca",
+    slug: "nike-red",
+    shop: {
+      id: "ac69bc02-6218-4e73-a1d7-637bb80d8546",
+      slug: "constant-shoppers",
+      user: {
+        id: "ba29997c-ed76-4f59-ae31-111dfa532b75",
+        email: "Clementina_Raynor@yahoo.com",
+        phone: "821.333.9362 x9878",
+        avatar:
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1006.jpg",
+        password: "673_HVvWUdYguFe",
+        dateOfBirth: "2003-06-14T15:18:27.382Z",
+        verified: true,
+        subTitle: {
+          firstName: "Aracely",
+          lastName: "Doyle",
+        },
+      },
+      email: "Salvatore26@yahoo.com",
+      subTitle: "Constant Shoppers",
+      phone: "(613) 343-9004",
+      address: "845 N. Stonybrook Ave. Tonawanda, NY 14210, Denmark",
+      verified: false,
+      coverPicture: "/assets/images/banners/banner-4.png",
+      profilePicture: "/assets/images/faces/propic(3).png",
+      socialLinks: {
+        facebook: null,
+        youtube: null,
+        twitter: null,
+        instagram: null,
+      },
+    },
+
+    // PIC 7
+    
+    title: "Microfinance Funding Scheme",
+    brand: null,
+    subTitle:  "by Khalifa Fund",
+    size: null,
+    colors: [],
+    discount: 0,
+    thumbnail: "/assets/images/mzn_logos/mzn_logo.png",
+    images: [
+      "/assets/images/mzn_logos/mzn_logo.png",
+      "/assets/images/mzn_logos/mzn_logo.png",
+    ],
+    categories: ["Men's Fashion"],
+    status: null,
+    reviews: [],
+    for: {
+      demo: "market-2",
+      type: "deals-of-the-day",
+    },
+  },
+  {
+    id: "d0dd72e2-8624-4792-8248-8cc1d2d913c9",
+    slug: "north-star-blue",
+    shop: {
+      id: "a02892b3-c442-49d4-8ac1-24fede12a300",
+      slug: "anytime-buys",
+      user: {
+        id: "366ee083-9219-47fa-a4b6-dff04ec010cf",
+        email: "Junius.Farrell@gmail.com",
+        phone: "558.717.4898 x4537",
+        avatar:
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/520.jpg",
+        password: "IszXJOR5PSVUckz",
+        dateOfBirth: "1989-09-12T14:49:00.812Z",
+        verified: true,
+        subTitle: {
+          firstName: "Dee",
+          lastName: "Lynch",
+        },
+      },
+      email: "Furman_Schneider@gmail.com",
+      subTitle: "Anytime Buys",
+      phone: "(613) 343-9004",
+      address: "845 N. Stonybrook Ave. Tonawanda, NY 14210, Denmark",
+      verified: false,
+      coverPicture: "/assets/images/banners/banner-6.png",
+      profilePicture: "/assets/images/faces/propic(1).png",
+      socialLinks: {
+        facebook: null,
+        youtube: null,
+        twitter: null,
+        instagram: null,
+      },
+    },
+
+    // PIC 8
+
+   title: "Microfinance Funding Scheme",
+    brand: null,
+    subTitle:  "by Khalifa Fund",
+    size: null,
+    colors: [],
+    discount: 0,
+    thumbnail: "/assets/images/mzn_logos/mzn_logo.png",
+    images: [
+      "/assets/images/mzn_logos/mzn_logo.png",
+      "/assets/images/mzn_logos/mzn_logo.png",
+    ],
+    categories: ["Women's Fashion"],
+    status: null,
+    reviews: [],
+    for: {
+      demo: "market-2",
+      type: "deals-of-the-day",
+    },
+  },
+  // PIC 9
+  {
+    id: "e3f7a9b2-d6c1-4a6d-b76d-8bbf111be001",
+    slug: "corporate-finance",
+    shop: {
+      id: "9d2d5b82-0cc7-4b29-b537-b8a32d2db33d",
+      slug: "business-solution-providers",
+      user: {
+        id: "d7f14d7c-2ed0-4fa3-a2b1-fec4438ec123",
+        email: "leonard72@gmail.com",
+        phone: "(500) 917-8211 x9872",
+        avatar:
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/210.jpg",
+        password: "WzNejY9x8Lz95Hg",
+        dateOfBirth: "1980-04-15T09:02:39.218Z",
+        verified: true,
+        subTitle: {
+          firstName: "Leonard",
+          lastName: "Jackson",
+        },
+      },
+      email: "johnson83@gmail.com",
+      subTitle: "Business Solution Providers",
+      phone: "(845) 657-4678",
+      address: "45 Tuxedo St, Chicago, IL 60606, USA",
+      verified: true,
+      coverPicture: "/assets/images/mzn_logos/mzn_logo.png",
+      profilePicture: "/assets/images/mzn_logos/mzn_logo.png",
+      socialLinks: {
+        facebook: null,
+        youtube: null,
+        twitter: null,
+        instagram: null,
+      },
+    },
+    title: "Corporate Finance Solutions",
+    brand: null,
+    subTitle:  "by Khalifa Fund",
+    size: null,
+    colors: [],
+    discount: 15,
+    thumbnail: "/assets/images/mzn_logos/mzn_logo.png",
+    images: [
+      "/assets/images/mzn_logos/mzn_logo.png",
+      "/assets/images/mzn_logos/mzn_logo.png",
+    ],
+    categories: ["Business Services"],
+    status: null,
+    reviews: [],
+    for: {
+      demo: "market-3",
+      type: "business-services",
+    },
+  },
+ 
+  // PIC 10
+  {
+    id: "ea1594ac-60f9-4ffb-85ff-ece99c8b2b94",
+    slug: "real-estate-advisory",
+    shop: {
+      id: "564ed7f2-6e6b-41db-926b-c6a0b62b4c44",
+      slug: "real-estate-solution",
+      user: {
+        id: "3fb5411d-d0a1-4e1f-b1f4-3870b23401f9",
+        email: "elizabeth.davis@gmail.com",
+        phone: "(400) 763-9372",
+        avatar:
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/320.jpg",
+        password: "dZJkT8w9L6c7N8xR",
+        dateOfBirth: "1995-11-22T13:45:00.567Z",
+        verified: true,
+        subTitle: {
+          firstName: "Elizabeth",
+          lastName: "Davis",
+        },
+      },
+      email: "marcus99@yahoo.com",
+      subTitle: "Real Estate Solutions",
+      phone: "(800) 567-8901",
+      address: "36 Lincoln Ave, San Francisco, CA 94110, USA",
+      verified: true,
+      coverPicture: "/assets/images/banners/banner-10.png",
+      profilePicture: "/assets/images/faces/propic(9).png",
+      socialLinks: {
+        facebook: null,
+        youtube: null,
+        twitter: null,
+        instagram: null,
+      },
+    },
+    title: "Real Estate Advisory Services",
+    brand: null,
+    subTitle: 450,
+    size: null,
+    colors: [],
+    discount: 10,
+    thumbnail: "/assets/images/mzn_logos/mzn_logo.png",
+    images: [
+      "/assets/images/mzn_logos/mzn_logo.png",
+      "/assets/images/mzn_logos/mzn_logo.png",
+    ],
+    categories: ["Real Estate"],
+    status: null,
+    reviews: [],
+    for: {
+      demo: "market-4",
+      type: "real-estate-services",
+    },
+  },
+  // PIC 11
+  {
+    id: "f71ac9a2-0a3f-4961-818d-cba0dd520e7a",
+    slug: "management-consulting",
+    shop: {
+      id: "62f89ff7-741d-4661-8e3b-c129c96a9c3d",
+      slug: "top-consultants",
+      user: {
+        id: "b0fa8a0f-1b87-46f1-8508-8586f5d04219",
+        email: "daniel77@yahoo.com",
+        phone: "(600) 826-7334",
+        avatar:
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/521.jpg",
+        password: "U5YfeMwLzJ3hQzA",
+        dateOfBirth: "1988-02-05T10:32:47.102Z",
+        verified: true,
+        subTitle: {
+          firstName: "Daniel",
+          lastName: "Kim",
+        },
+      },
+      email: "hannah83@gmail.com",
+      subTitle: "Top Consultants",
+      phone: "(913) 980-2376",
+      address: "123 North Ave, Dallas, TX 75201, USA",
+      verified: true,
+      coverPicture: "/assets/images/banners/banner-11.png",
+      profilePicture: "/assets/images/faces/propic(10).png",
+      socialLinks: {
+        facebook: null,
+        youtube: null,
+        twitter: null,
+        instagram: null,
+      },
+    },
+    title: "Management Consulting Services",
+    brand: null,
+    subTitle:  "by Khalifa Fund",
+    size: null,
+    colors: [],
+    discount: 20,
+    thumbnail: "/assets/images/mzn_logos/mzn_logo.png",
+    images: [
+      "/assets/images/mzn_logos/mzn_logo.png",
+      "/assets/images/mzn_logos/mzn_logo.png",
+    ],
+    categories: ["Consulting"],
+    status: null,
+    reviews: [],
+    for: {
+      demo: "market-1",
+      type: "consulting-services",
+    },
+  },
+  // PIC 12
+  {
+    id: "a916b2c9-417d-432b-a71c-f2498573c789",
+    slug: "legal-advisory",
+    shop: {
+      id: "ab983c9d-4a71-4713-bbfe-8e40f28a0131",
+      slug: "lawyers-and-legal-experts",
+      user: {
+        id: "c0c9a2b5-87b6-4c8f-b18c-d12b2341ab25",
+        email: "james25@gmail.com",
+        phone: "(450) 792-9321",
+        avatar:
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/422.jpg",
+        password: "W8Azn2zR4YqVXf8",
+        dateOfBirth: "1975-09-19T12:11:53.924Z",
+        verified: true,
+        subTitle: {
+          firstName: "James",
+          lastName: "Lee",
+        },
+      },
+      email: "robert68@gmail.com",
+      subTitle: "Lawyers & Legal Experts",
+      phone: "(844) 101-2378",
+      address: "123 Elm St, Chicago, IL 60601, USA",
+      verified: true,
+      coverPicture: "/assets/images/banners/banner-12.png",
+      profilePicture: "/assets/images/faces/propic(11).png",
+      socialLinks: {
+        facebook: null,
+        youtube: null,
+        twitter: null,
+        instagram: null,
+      },
+    },
+    title: "Legal Advisory Services",
+    brand: null,
+    subTitle:  "by Khalifa Fund",
+    size: null,
+    colors: [],
+    discount: 1,
+    thumbnail: "/assets/images/mzn_logos/mzn_logo.png",
+    images: [
+      "/assets/images/mzn_logos/mzn_logo.png",
+      "/assets/images/mzn_logos/mzn_logo.png",
+    ],
+    categories: ["Legal"],
+    status: null,
+    reviews: [],
+    for: {
+      demo: "market-6",
+      type: "legal-services",
+    },
+  },
+];
+    
+ 
+
+// services
+export const serviceList = [
+  {
+    id: "ee272e30-0309-4e8a-966c-f63410c58289",
+    icon: "delivery_truck_speed",
+    title: "Grow Faster",
+    description: "Scale with speed",
+  },
+  {
+    id: "1f30c35b-5b76-42c0-822f-83ecbfb64869",
+    icon: "chart_data",
+    title: "Grow Smarter",
+    description: "Maximize resources wisely",
+  },
+  {
+    id: "a4c3968e-93ba-444b-a68f-2e6dd9a5eb1a",
+    icon: "acute",
+    title: "Every little help",
+    description: "Support when it counts",
+  }
+];
+
+// single category data
+export const singleCategory = {
+  title: "Electronic",
+  children: [
+    "Wireless Speaker",
+    "Tablet",
+    "Smartphone",
+    "Laptop",
+    "iMac",
+    "Game Controller",
+    "Drone",
+    "Apple",
+  ],
+};
+
+// brands
+export const brandList = [
+  {
+    id: "9aee1898-23e0-4965-8f0d-427dc963ae07",
+    slug: "alibaba",
+    subTitle: "AliBaba",
+    image: "/assets/images/brands/alibaba.png",
+    type: "fashion",
+    for: { demo: "market-2", type: "top-brands" },
+  },
+  {
+    id: "024ec2a2-7ca7-46c2-8990-f78ac4215dd1",
+    slug: "levis",
+    subTitle: "Levis",
+    image: "/assets/images/brands/levis.png",
+    type: "fashion",
+    for: { demo: "market-2", type: "top-brands" },
+  },
+  {
+    id: "e370f16a-90e2-4f26-b9af-a38d6f645a4c",
+    slug: "lotto",
+    subTitle: "Lotto",
+    image: "/assets/images/brands/lotto.png",
+    type: "fashion",
+    for: { demo: "market-2", type: "top-brands" },
+  },
+  {
+    id: "d8f4c60e-6bac-4fdc-9880-999fbddac97d",
+    slug: "raymond",
+    subTitle: "Raymond",
+    image: "/assets/images/brands/raymond.png",
+    type: "fashion",
+    for: { demo: "market-2", type: "top-brands" },
+  },
+  {
+    id: "0c74cb7c-6082-4640-9380-815928be7127",
+    slug: "samsung",
+    subTitle: "Samsung",
+    image: "/assets/images/brands/samsung.png",
+    type: "fashion",
+    for: { demo: "market-2", type: "top-brands" },
+  },
+];

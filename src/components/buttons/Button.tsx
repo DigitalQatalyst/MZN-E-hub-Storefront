@@ -42,9 +42,9 @@ const StyledButton = styled.button.withConfig({
       justifyContent: "center",
       alignItems: "center",
       outline: "none",
-      border: "none",
+      border: "2px solid #99B2FF",
       cursor: "pointer",
-      padding: "11px 1.5rem",
+      padding: "20px 1.5rem",
       fontSize: "1rem",
       fontWeight: 600,
       fontFamily: "inherit",
@@ -104,7 +104,7 @@ const StyledButton = styled.button.withConfig({
         contained: {
           border: "none",
           color: `${color}.text`,
-          bg: `${color}.main`,
+          bg: `${color}.button`,
           "&:focus": {
             boxShadow: `0px 1px 4px 0px ${theme.colors[color ? color : ""]?.light}`
           },

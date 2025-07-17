@@ -5,13 +5,13 @@ import { useState } from "react";
 import Box from "@component/Box";
 import Shop from "@models/shop.model";
 import FlexBox from "@component/FlexBox";
-import { H5 } from "@component/Typography";
+import { H4,} from "@component/Typography";
 import Product from "@models/product.model";
 import ProductReview from "@component/products/ProductReview";
-import AvailableShops from "@component/products/AvailableShops";
 import RelatedProducts from "@component/products/RelatedProducts";
-import FrequentlyBought from "@component/products/FrequentlyBought";
 import ProductDescription from "@component/products/ProductDescription";
+import ProductCost from "./ProductCost";
+import ProductQuiz from "./ProductQuiz";
 
 // ==============================================================
 type Props = {
@@ -27,40 +27,74 @@ export default function ProductView({ shops, relatedProducts, frequentlyBought }
 
   return (
     <>
-      <FlexBox borderBottom="1px solid" borderColor="gray.400" mt="80px" mb="26px">
-        <H5
-          mr="25px"
-          p="4px 10px"
-          className="cursor-pointer"
-          borderColor="primary.main"
-          onClick={handleOptionClick("description")}
-          borderBottom={selectedOption === "description" ? "2px solid" : ""}
-          color={selectedOption === "description" ? "primary.main" : "text.muted"}>
-          Description
-        </H5>
+      <Box padding={"12px"} border="2px solid #e0e0e0" borderTop="1px solid #e0e0e0" borderRadius="8px" mt="8vh" mb="8vh">
+        <FlexBox
+          mt="20px"
+          mb="26px"
+        >
+          <H4
+            mr="40px"
+            p="4px 10px"
+            className="cursor-pointer"
+            borderColor="primary.main"
+            onClick={handleOptionClick("description")}
+            borderBottom={selectedOption === "description" ? "2px solid" : ""}
+            color={
+              selectedOption === "description" ? "primary.step" : "text.muted"
+            }
+          >
+            Required Documents
+          </H4>
+          <H4
+            mr="40px"
+            p="4px 10px"
+            className="cursor-pointer"
+            borderColor="primary.main"
+            onClick={handleOptionClick("information")}
+            borderBottom={selectedOption === "information" ? "2px solid" : ""}
+            color={selectedOption === "information" ? "primary.step" : "text.muted"}
+          >
+            Cost
+          </H4>
+          <H4
+            mr="40px"
+            p="4px 10px"
+            className="cursor-pointer"
+            borderColor="primary.main"
+            onClick={handleOptionClick("review")}
+            borderBottom={selectedOption === "review" ? "2px solid" : ""}
+            color={selectedOption === "review" ? "primary.step" : "text.muted"}
+          >
+            Steps
+          </H4>
+          <H4
+            p="4px 10px"
+            className="cursor-pointer"
+            borderColor="primary.main"
+            onClick={handleOptionClick("questions")}
+            borderBottom={selectedOption === "questions" ? "2px solid" : ""}
+            color={selectedOption === "questions" ? "primary.step" : "text.muted"}
+          >
+            Terms Of Service
+          </H4>
+        </FlexBox>
 
-        <H5
-          p="4px 10px"
-          className="cursor-pointer"
-          borderColor="primary.main"
-          onClick={handleOptionClick("review")}
-          borderBottom={selectedOption === "review" ? "2px solid" : ""}
-          color={selectedOption === "review" ? "primary.main" : "text.muted"}>
-          Review (3)
-        </H5>
-      </FlexBox>
-
-      {/* DESCRIPTION AND REVIEW TAB DETAILS */}
-      <Box mb="50px">
-        {selectedOption === "description" && <ProductDescription />}
-        {selectedOption === "review" && <ProductReview />}
+        {/* DESCRIPTION AND REVIEW TAB DETAILS */}
+        <Box mb="50px">
+          {selectedOption === "description" && <ProductDescription />}
+          {selectedOption === "information" && <ProductCost />}
+          {selectedOption === "review" && <ProductReview />}
+          {selectedOption === "questions" && <ProductQuiz />}
+        </Box>
       </Box>
 
+
+
       {/* FREQUENTLY BOUGHT TOGETHER PRODUCTS */}
-      {frequentlyBought && <FrequentlyBought products={frequentlyBought} />}
+      {/* {frequentlyBought && <FrequentlyBought products={frequentlyBought} />} */}
 
       {/* AVAILABLE SHOPS */}
-      {shops && <AvailableShops shops={shops} />}
+      {/* {shops && <AvailableShops shops={shops} />} */}
 
       {/* RELATED PRODUCTS */}
       {relatedProducts && <RelatedProducts products={relatedProducts} />}

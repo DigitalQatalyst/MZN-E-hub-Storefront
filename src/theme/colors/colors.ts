@@ -13,21 +13,26 @@ const gray = {
 
 const textColor = {
   hint: gray[600],
-  muted: gray[600],
+  muted: "#002180",
   primary: gray[900],
   disabled: gray[400],
   secondary: gray[800]
 };
 
 const bodyColor = {
-  default: gray[100],
+  default: gray["white"],
   paper: gray["white"],
   text: textColor.primary
 };
 
+const grad = "linear-gradient(180deg, #FFF 0%, #FDFDFF 9.41%, #F7F8FE 17.07%, #EDF0FD 23.24%, #E0E6FC 28.21%, #D1D9FA 32.23%, #BFCBF8 35.57%, #ABBBF6 38.51%, #96AAF4 41.31%, #8098F1 44.25%, #6A86EF 47.6%, #5373EC 51.62%, #3D61EA 56.58%, #2750E7 62.76%, #133FE5 70.41%, #0030E3 79.82%)"
+
 const primaryColor = {
-  light: "#FFE1E6",
-  main: "#E94560",
+  light: "#FFE1E6",//#002180
+  main: "#0030E3",
+  step: "#0030E3",
+  button: "#002180",
+  //step: "#E8FF63",
   dark: "#4F4CB6",
   text: "#ffffff",
   100: "#FCE9EC",
@@ -38,7 +43,8 @@ const primaryColor = {
   600: "#E63E58",
   700: "#E3364E",
   800: "#DF2E44",
-  900: "#D91F33"
+  900: "#D91F33",
+  gradient: grad
 };
 
 const secondaryColor = {

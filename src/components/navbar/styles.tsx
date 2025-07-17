@@ -4,17 +4,67 @@ import styled from "styled-components";
 const StyledNavbar = styled.div`
   position: relative;
   height: 60px;
-  background: ${getTheme("colors.body.paper")};
-  box-shadow: ${getTheme("shadows.regular")};
+  //background: inherit;
+  //box-shadow: ${getTheme("shadows.regular")};
 
   .nav-link {
+    color: #FFF;
+    font-family: "Helvetica Neue", sans-serif;
     font-size: 14px;
-    /* margin-right: 32px; */
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px; /* 157.143% */
     cursor: pointer;
-    &:hover {
-      color: ${getTheme("colors.primary.main")};
-    }
+    transition: color 0.3s ease;
+
+    // // &:hover {
+    // //   color: ${getTheme("colors.primary.main")};
+    // // }
   }
+
+  .sign-in-btn {
+    display: flex;
+    padding: 10px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex: 1 0 0;
+    align-self: stretch;
+    border-radius: 8px;
+    border: 1px solid #fff; /* Adjust border color if needed */
+    color: #fff; /* Text color */
+    background: transparent; /* Transparent background */
+    transition: all 0.3s ease;
+
+    // // &:hover {
+    // //   background: rgba(255, 255, 255, 0.2); /* Light hover effect */
+    // // }
+  }
+
+  .sign-up-button {
+  display: flex;
+  padding: 10px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  /* Prevent text from wrapping */
+  white-space: nowrap;
+
+  /* Adjust width so the text fits properly */
+  min-width: 100px;
+
+  background: white;
+  color: blue;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+
+}
+
+
+
   .nav-link:last-child {
     margin-right: 0px;
   }
@@ -48,6 +98,19 @@ const StyledNavbar = styled.div`
   }
   @media only screen and (max-width: 900px) {
     display: none;
+  }
+
+  /* Dropdown Icon Style */
+  .dropdown-icon {
+    width: 12px;  /* Adjust width based on your icon size */
+    height: auto;
+    margin-left: 6px;  /* Adds space between the text and the icon */
+    transition: transform 0.3s ease;  /* Optional: Adds smooth transition effect */
+  }
+
+  /* Hover Effect for Dropdown Icon */
+  .nav-link:hover .dropdown-icon {
+    transform: rotate(180deg);  /* Optional: Adds rotation effect on hover */
   }
 `;
 

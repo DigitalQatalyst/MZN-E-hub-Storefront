@@ -51,11 +51,11 @@ const KfBot = () => {
       };
 
       const eventMap: Record<string, string> = {
-        "/services": "Navigation_to_Finance_Marketplace",
-        "/non-financial-marketplace":
-          "Navigation_To_The_Non_Finance_Marketplace",
-        // Add other pages as needed
+        "/finance": "Navigation_to_Finance_Marketplace",
+        "/non-finance": "Navigation_To_The_Non_Finance_Marketplace",
       };
+
+      const eventName = eventMap[path];
 
       // Close the bot first to ensure a clean reset before loading a new page's interaction
       const closeBot = () => {

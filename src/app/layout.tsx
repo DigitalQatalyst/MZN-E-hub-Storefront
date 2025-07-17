@@ -1,3 +1,4 @@
+import './globals.css'; // adjust the path if your CSS file is elsewhere
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 // THEME PROVIDER
@@ -27,7 +28,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={openSans.className}>
+      <body 
+      suppressHydrationWarning
+      className={openSans.className}>
         <StyledComponentsRegistry>
           <AppProvider>
             <StyledContext>

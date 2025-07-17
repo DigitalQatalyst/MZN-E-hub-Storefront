@@ -6,7 +6,6 @@ import FlexBox from "@component/FlexBox";
 import Grid from "@component/grid/Grid";
 import { ProductCard19, ProductCard20 } from "@component/product-cards";
 import { H3, H4, H6, Paragraph, SemiSpan, Span } from "@component/Typography";
-import { H3, H4, H6, Paragraph, SemiSpan, Span } from "@component/Typography";
 import Product from "@models/product.model";
 import { useState } from "react";
 import styled from "styled-components";
@@ -86,7 +85,6 @@ const DocumentItem = styled(Paragraph)`
   margin-bottom: 0.75rem;
 `;
 
-type TabType = "description" | "documents" | "cost" | "steps" | "terms";
 type TabType = "description" | "documents" | "cost" | "steps" | "terms";
 
 interface Props {
@@ -251,9 +249,7 @@ export default function ProductDetails({ product }: Props) {
 
   const renderTerms = () => (
     <ContentBox>
-      {/* <DocumentItem mb="1rem">Terms of Service</DocumentItem> */}
-      {product?.termsOfService && product?.termsOfService.length > 0 ? (
-        product?.termsOfService.map((term, index) => (
+      
       {/* <DocumentItem mb="1rem">Terms of Service</DocumentItem> */}
       {product?.termsOfService && product?.termsOfService.length > 0 ? (
         product?.termsOfService.map((term, index) => (
@@ -286,7 +282,6 @@ export default function ProductDetails({ product }: Props) {
     <Box mt="2rem">
       <Box
         style={{
-          position: "relative",
           position: "relative",
           borderRadius: "8px",
           boxShadow:
@@ -368,8 +363,6 @@ export default function ProductDetails({ product }: Props) {
           <TabButton
             active={activeTab === "description"}
             onClick={() => setActiveTab("description")}
-            active={activeTab === "description"}
-            onClick={() => setActiveTab("description")}
           >
             Description
             Description
@@ -395,8 +388,6 @@ export default function ProductDetails({ product }: Props) {
             Cost
           </TabButton>
           <TabButton
-            active={activeTab === "documents"}
-            onClick={() => setActiveTab("documents")}
             active={activeTab === "documents"}
             onClick={() => setActiveTab("documents")}
           >

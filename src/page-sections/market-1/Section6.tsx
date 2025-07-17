@@ -233,16 +233,10 @@ export default function Section6({ carList, carBrands }: Props) {
 
           <Grid container spacing={6}>
             {MZNCommunities.map((item, ind) => (
-            {MZNCommunities.map((item, ind) => (
               <Grid item lg={4} sm={6} xs={12} key={ind}>
                 <ProductCard1
                   hoverEffect
                   id={item.id}
-                  name={item.name}
-                  memberCount={item.members}
-                  imageSrc={item.imageSrc}
-                  link={item.link}
-                  category={item.category}
                   name={item.name}
                   memberCount={item.members}
                   imageSrc={item.imageSrc}

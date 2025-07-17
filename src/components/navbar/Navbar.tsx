@@ -53,6 +53,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
  
             <Icon className="dropdown-icon" variant="small">
               chevron-right
+              chevron-right
             </Icon>
           </Button>
         </Categories>

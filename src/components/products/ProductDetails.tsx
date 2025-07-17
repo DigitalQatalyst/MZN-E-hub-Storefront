@@ -6,6 +6,7 @@ import FlexBox from "@component/FlexBox";
 import Grid from "@component/grid/Grid";
 import { ProductCard19, ProductCard20 } from "@component/product-cards";
 import { H3, H4, H6, Paragraph, SemiSpan, Span } from "@component/Typography";
+import { H3, H4, H6, Paragraph, SemiSpan, Span } from "@component/Typography";
 import Product from "@models/product.model";
 import { useState } from "react";
 import styled from "styled-components";
@@ -29,6 +30,14 @@ const TabButton = styled(Button)<{ active?: boolean }>`
   &:hover {
     background-color: #fff;
     color: #0030e3;
+    box-shadow: none;
+  }
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  &:active {
+    box-shadow: none;
     box-shadow: none;
   }
   &:focus {
@@ -77,6 +86,7 @@ const DocumentItem = styled(Paragraph)`
   margin-bottom: 0.75rem;
 `;
 
+type TabType = "description" | "documents" | "cost" | "steps" | "terms";
 type TabType = "description" | "documents" | "cost" | "steps" | "terms";
 
 interface Props {
@@ -179,7 +189,9 @@ export default function ProductDetails({ product }: Props) {
   const renderCost = () => (
     <ContentBox>
       {/* <DocumentItem mb="1rem">Service Cost Details</DocumentItem> */}
+      {/* <DocumentItem mb="1rem">Service Cost Details</DocumentItem> */}
       <DocumentItem>
+        {product?.cost || "No cost information available."}
         {product?.cost || "No cost information available."}
       </DocumentItem>
     </ContentBox>
@@ -242,6 +254,9 @@ export default function ProductDetails({ product }: Props) {
       {/* <DocumentItem mb="1rem">Terms of Service</DocumentItem> */}
       {product?.termsOfService && product?.termsOfService.length > 0 ? (
         product?.termsOfService.map((term, index) => (
+      {/* <DocumentItem mb="1rem">Terms of Service</DocumentItem> */}
+      {product?.termsOfService && product?.termsOfService.length > 0 ? (
+        product?.termsOfService.map((term, index) => (
           <DocumentItem key={index}>{term}</DocumentItem>
         ))
       ) : (
@@ -252,6 +267,8 @@ export default function ProductDetails({ product }: Props) {
 
   const renderTabContent = () => {
     switch (activeTab) {
+      case "description":
+        return renderDescription();
       case "description":
         return renderDescription();
       case "documents":
@@ -269,6 +286,7 @@ export default function ProductDetails({ product }: Props) {
     <Box mt="2rem">
       <Box
         style={{
+          position: "relative",
           position: "relative",
           borderRadius: "8px",
           boxShadow:
@@ -311,13 +329,58 @@ export default function ProductDetails({ product }: Props) {
         >
           {1}
         </span>
+        <Image
+          src="/images/chat.png"
+          alt="chat"
+          width={50}
+          height={50}
+          style={{
+            borderRadius: "50%",
+            position: "absolute",
+            right: "-20px",
+            top: 5,
+          }}
+        />
+        <span
+          style={{
+            position: "absolute",
+            top: 0,
+            right: "-20px",
+            background:
+              "linear-gradient(90deg, #01E5D1 0%, #02E4D1 8.12%, #04E2D2 14.47%, #07DFD3 19.42%, #0CDAD5 23.32%, #12D5D7 26.54%, #18CEDA 29.42%, #20C7DD 32.34%, #29BEE0 35.66%, #33B5E4 39.72%, #3DABE8 44.89%, #48A0EC 51.54%, #5395F1 60.01%, #6089F5 70.67%, #6C7DFA 83.88%, #7970FF 100%)",
+            color: "#fff",
+            width: "15px",
+            height: "15px",
+            borderRadius: "50%",
+            padding: "auto",
+            display: "flex",
+            fontSize: "10px",
+            alignItems: "center",
+            justifyContent: "center",
+            fontWeight: 700,
+            boxShadow: "0 1px 4px rgba(0,0,0,0.15)",
+            zIndex: 2,
+          }}
+        >
+          {1}
+        </span>
         <TabContainer>
           <TabButton
             active={activeTab === "description"}
             onClick={() => setActiveTab("description")}
+            active={activeTab === "description"}
+            onClick={() => setActiveTab("description")}
           >
             Description
+            Description
           </TabButton>
+          <TabButton
+            active={activeTab === "steps"}
+            onClick={() => setActiveTab("steps")}
+          >
+            Steps
+          </TabButton>
+
           <TabButton
             active={activeTab === "steps"}
             onClick={() => setActiveTab("steps")}
@@ -334,9 +397,13 @@ export default function ProductDetails({ product }: Props) {
           <TabButton
             active={activeTab === "documents"}
             onClick={() => setActiveTab("documents")}
+            active={activeTab === "documents"}
+            onClick={() => setActiveTab("documents")}
           >
             Required Documents
+            Required Documents
           </TabButton>
+
 
           <TabButton
             active={activeTab === "terms"}
@@ -349,6 +416,30 @@ export default function ProductDetails({ product }: Props) {
         {renderTabContent()}
       </Box>
 
+      {product?.relatedServices && product?.relatedServices.length > 0 && (
+        <Box mt="3rem">
+          <H3 color="#002180" mb="1.5rem">
+            Related Services
+          </H3>
+          <Carousel slidesToShow={3} responsive={responsive}>
+            {product?.relatedServices &&
+              product?.relatedServices.map((service) => (
+                <Grid item xs={12} sm={6} md={4} key={service.id}>
+                  <ProductCard20
+                    id={service.id}
+                    partner={service.partner}
+                    slug={service.slug}
+                    name={service.name}
+                    rating={service.rating}
+                    description={service.description}
+                    images={service.images}
+                    subTitle={service.subTitle}
+                  />
+                </Grid>
+              ))}
+          </Carousel>
+        </Box>
+      )}
       {product?.relatedServices && product?.relatedServices.length > 0 && (
         <Box mt="3rem">
           <H3 color="#002180" mb="1.5rem">

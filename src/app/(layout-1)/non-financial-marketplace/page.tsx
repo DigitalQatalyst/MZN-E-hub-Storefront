@@ -9,7 +9,6 @@ import NavbarMarketplace from "@component/navbar/NavbarMarketplace";
 
 import Section6 from "@sections/market-2/section-6-non_financial/Section6";
 
-
 export default function MarketTwo() {
   const [activeButton, setActiveButton] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -22,7 +21,6 @@ export default function MarketTwo() {
       <Box bg="#F6F6F6">
         {/* HERO CAROUSEL AREA */}
         {/* <Section1 /> */}
-      
         {/* SERVICE LIST AREA --- To be results section*/}
           {/* <Section2 /> */}
 

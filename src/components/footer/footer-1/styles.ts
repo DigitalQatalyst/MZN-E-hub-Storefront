@@ -29,11 +29,14 @@ export const SubscribeInput = styled.input`
   flex: 1;
   padding: 0.75rem;
   border: 1px solid rgba(255, 255, 255, 0.20);
+  border: 1px solid rgba(255, 255, 255, 0.20);
   border-radius: 5px 0 0 5px; /* Round only the left corners */
   color: #FFFFFF;
   font-family: "Public Sans", sans-serif;
   background-color: rgba(41, 41, 41, 0.05);
+  background-color: rgba(41, 41, 41, 0.05);
   &::placeholder {
+    color: #FFFFFF;;
     color: #FFFFFF;;
   }
 `;
@@ -41,6 +44,7 @@ export const SubscribeInput = styled.input`
 export const SubscribeButton = styled.button`
   border: none;
   background-color: var(--KF-BG-White, #FFF);
+  color: #0030E3;
   color: #0030E3;
   padding: 0.75rem 1.5rem;
   font-weight: 500;

@@ -139,10 +139,21 @@ export default function Navbar({ navListOpen }: NavbarProps) {
 
   return (
     <StyledNavbar>
-      <Container height="100%" display="flex" alignItems="center" justifyContent="space-between">
+      <Container
+        height="100%"
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+      >
         {/* Logo Section */}
-        <Box className="navbar-logo">
-          <img src="/assets/images/tab_bar/Subtract.svg" alt="MZN Enterprise Hub" height="40px" />
+        <Box className="navbar-logo" style={{ cursor: "pointer" }}>
+          <a href="/">
+            <img
+              src="/assets/images/tab_bar/Subtract.svg"
+              alt="MZN Enterprise Hub"
+              height="40px"
+            />
+          </a>
         </Box>
  
         {/* Categories Section */}
@@ -186,7 +197,11 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         <FlexBox alignItems="center" style={{ gap: "15px" }}>
           {/* Search Icon (Replace with your actual SVG) */}
           <Box className="search-icon" style={{ cursor: "pointer" }}>
-            <img src="/assets/images/logos/search.svg" alt="Search" height="24px" />
+            <img
+              src="/assets/images/logos/search.svg"
+              alt="Search"
+              height="24px"
+            />
           </Box>
  
           {/* Sign In & Sign Up Buttons */}

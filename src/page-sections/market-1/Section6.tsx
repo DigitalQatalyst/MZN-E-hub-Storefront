@@ -99,7 +99,7 @@ export default function Section6({ carList, carBrands }: Props) {
   };
 
   return (
-    <Container mb="80px">
+    <Container mb="4.5rem">
       <FlexBox>
         <Hidden down={768} mr="1.75rem">
           <Box shadow={6} borderRadius={10} padding="1.25rem" bg="white">
@@ -229,13 +229,20 @@ export default function Section6({ carList, carBrands }: Props) {
 
         <Box flex="1 1 0" minWidth="0px">
           <CategorySectionHeader title="" seeMoreLink="#" />
+          <CategorySectionHeader title="" seeMoreLink="#" />
 
           <Grid container spacing={6}>
+            {MZNCommunities.map((item, ind) => (
             {MZNCommunities.map((item, ind) => (
               <Grid item lg={4} sm={6} xs={12} key={ind}>
                 <ProductCard1
                   hoverEffect
                   id={item.id}
+                  name={item.name}
+                  memberCount={item.members}
+                  imageSrc={item.imageSrc}
+                  link={item.link}
+                  category={item.category}
                   name={item.name}
                   memberCount={item.members}
                   imageSrc={item.imageSrc}

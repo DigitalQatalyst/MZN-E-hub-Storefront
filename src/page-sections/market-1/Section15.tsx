@@ -1,11 +1,16 @@
 "use client";
 
 import Box from "@component/Box";
+import Box from "@component/Box";
 import { Button as DefaultButton } from "@component/buttons";
+import { Carousel } from "@component/carousel";
+import { ProductCard19 } from "@component/product-cards";
 import { Carousel } from "@component/carousel";
 import { ProductCard19 } from "@component/product-cards";
 import CategorySectionCreator from "@component/CategorySectionCreator";
 import styled from "styled-components";
+// API FUNCTIONS
+import api from "@utils/__api__/market-1";
 // API FUNCTIONS
 import api from "@utils/__api__/market-1";
 
@@ -13,10 +18,12 @@ import api from "@utils/__api__/market-1";
 const ContentColumn = styled.div`
   color: #000;
   padding: 10px 80px 10px 80px;
+  padding: 10px 80px 10px 80px;
   display: flex;
   flex-direction: column;
-  font-family: 'Abhaya Libre', serif;
+  font-family: "Abhaya Libre", serif;
   align-items: flex-start;
+  width: 100%;
   width: 100%;
 `;
 
@@ -24,6 +31,7 @@ const Subheading = styled.div`
   display: flex;
 `;
 
+const SubheadingText = styled.span`
 const SubheadingText = styled.span`
   font-size: 16px;
   font-weight: 500;
@@ -61,6 +69,7 @@ const StyledHeader = styled.p`
   letter-spacing: var(--Title-Large-Tracking, 0px);
   text-transform: uppercase;
   margin: 0;
+  margin: 0;
 `;
 
 const StyledBody = styled.p`
@@ -71,6 +80,7 @@ const StyledBody = styled.p`
   font-weight: 400;
   line-height: var(--Display-Medium-Line-Height, 52px); /* 108.333% */
   letter-spacing: var(--Display-Medium-Tracking, 0px);
+  margin: 0;
   margin: 0;
 `;
 
@@ -91,7 +101,13 @@ const ExploreAllButton = styled(DefaultButton)`
 `;
 
 const CarouselWrapper = styled(Box)`
+const CarouselWrapper = styled(Box)`
   width: 100%;
+  overflow: hidden;
+`;
+
+export default async function Section15() {
+  const products = await api.getFlashDeals();
   overflow: hidden;
 `;
 
@@ -110,7 +126,8 @@ export default async function Section15() {
       <ContentColumn>
         <StyledHeader>IN THE SPOTLIGHT</StyledHeader>
         <StyledBody>
-          Discover this quarter's top-performing<br />
+          Discover this quarter's top-performing
+          <br />
           marketplaces and services.
         </StyledBody>
         <Subheading>

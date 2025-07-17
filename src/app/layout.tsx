@@ -9,6 +9,7 @@ import StyledContext from "@context/StyledContext";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import NProgressBar from "@component/NProgress";
+import KfBot from "@component/bot/KfBot";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
   description:
     "Enterprise journey platform is a platform that provides services to entrepreneurs and startups in the UAE. It offers a range of resources, including mentorship programs, and access to funding opportunities.",
   authors: [{ name: "DigitalQatalyst", url: "https://digitalqatalyst.com" }],
+  keywords: ["e-commerce", "e-commerce template", "next.js", "react", "bonik"],
   keywords: ["e-commerce", "e-commerce template", "next.js", "react", "bonik"],
 };
 
@@ -34,6 +36,7 @@ export default function RootLayout({
               {children}
               <NProgressBar />
             </StyledContext>
+            <KfBot />
           </AppProvider>
         </StyledComponentsRegistry>
       </body>

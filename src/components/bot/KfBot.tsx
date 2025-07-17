@@ -55,7 +55,7 @@ const KfBot = () => {
         "/non-finance": "Navigation_To_The_Non_Finance_Marketplace",
       };
 
-      const eventName = eventMap[path];
+      // const eventName = eventMap[path];
 
       // Close the bot first to ensure a clean reset before loading a new page's interaction
       const closeBot = () => {

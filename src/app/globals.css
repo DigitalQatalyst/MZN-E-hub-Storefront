@@ -1,3 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom Toast Styles */
+.success-toast {
+  background-color: #10b981 !important; /* Green background */
+  color: #fef7f0 !important; /* Warm white text */
+  border: none !important;
+}
+
+.error-toast {
+  background-color: #ef4444 !important; /* Red background */
+  color: #fef7f0 !important; /* Warm white text */
+  border: none !important;
+}
+
+.warning-toast {
+  background-color: #f59e0b !important; /* Yellow/amber background */
+  color: #fef7f0 !important; /* Warm white text */
+  border: none !important;
+}
+
+/* Override any default Sonner styling */
+.success-toast svg,
+.error-toast svg,
+.warning-toast svg {
+  color: #fef7f0 !important; /* Warm white for icons */
+}
+
+.success-toast [data-description],
+.error-toast [data-description],
+.warning-toast [data-description] {
+  color: #fef7f0 !important; /* Warm white for description text */
+}

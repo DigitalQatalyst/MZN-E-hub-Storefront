@@ -7,12 +7,20 @@ import { pinata } from '@lib/pinata';
 import { Loader2, Trash2Icon, CloudUpload } from 'lucide-react';
 // import { cn } from '@lib/actions';
 import { deleteImage } from '@lib/actions';
+import { UploadedFile } from '../../app/(layout-2)/(customer-dashboard)/documents/page';
+import { ActivityItem } from './RecentActivity';
 
-export function Dropzone() {
-  const [files, setFiles] = useState<Array<{file:File; uploading: boolean; id?:string}>>([]);
+interface DropzoneProps {
+  uploadedFiles: UploadedFile[];
+  setUploadedFiles: React.Dispatch<React.SetStateAction<UploadedFile[]>>;
+  addActivity: (type: ActivityItem['type'], fileName: string, fileId?: string) => void;
+}
+
+export function Dropzone({ uploadedFiles, setUploadedFiles, addActivity }: DropzoneProps) {
+  const [uploadingFiles, setUploadingFiles] = useState<Array<{file:File; uploading: boolean}>>([]);
 
 
-  const uploadFile = async (file: File) => {
+  const uploadFile = useCallback(async (file: File) => {
   try {
      //set uploading to true
     const keyRequest = await fetch('/api/key');
@@ -31,41 +39,38 @@ export function Dropzone() {
     const uploadData = await uploadResponse.json();
     console.log(`This is the upload data: ${uploadData}`)
 
-    //set uploading to false
-    setFiles((prevFiles) => 
-      prevFiles.map((f) =>
-        f.file === file ? { ...f, uploading: false, id: uploadData.cid } : f
-      )
+    // Remove from uploading state
+    setUploadingFiles((prevFiles) => 
+      prevFiles.filter((f) => f.file !== file)
     );
+
+    // Add to uploaded files (new files appear first)
+    const newUploadedFile: UploadedFile = {
+      id: uploadData.cid,
+      name: file.name,
+      size: file.size,
+      uploadDate: new Date(),
+      cid: uploadData.cid
+    };
+
+    setUploadedFiles((prevFiles) => [newUploadedFile, ...prevFiles]);
+    addActivity('uploaded', file.name, uploadData.cid);
     toast.success(`File ${file.name} uploaded successfully`);
 
   } catch (error) {
-      setFiles((prevFiles) => prevFiles.map((f) =>(
-      f.file === file ? {...f,uploading:false}: f)));
+    // Remove from uploading state on error
+    setUploadingFiles((prevFiles) => prevFiles.filter((f) => f.file !== file));
     console.log(error);
     toast.error("Something went wrong");
   }
-};
+}, [setUploadedFiles, addActivity]);
 
-
-const removeFile = async(fileId:string, fileName:string) =>{
-  if(fileId){
-    const result = await deleteImage(fileId);
-    if(result.success){
-      setFiles((prevFiles) => prevFiles.filter((f) => f.id !== fileId ))
-    }
-    toast.warning (`File ${fileName} deleted!`)
-  }
-  else {
-    toast.error('Error deleting file...')
-  }
-}
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     
     // Do something with the files
     if(acceptedFiles){
-      setFiles((prevFiles)=>[...prevFiles,
+      setUploadingFiles((prevFiles)=>[...prevFiles,
         ...acceptedFiles
         .map((file)=>({file, uploading:true}))
       ])
@@ -73,7 +78,7 @@ const removeFile = async(fileId:string, fileName:string) =>{
       acceptedFiles.forEach(uploadFile)
     }
 
-  }, []);
+  }, [uploadFile]);
 
  const rejectedFiles = useCallback((fileRejection:FileRejection[])=> {
 if(fileRejection.length){
@@ -139,6 +144,26 @@ if (invalidType) {
           Select Files
         </Button>
       </div>
+      
+      {/* Show uploading files */}
+      {uploadingFiles.length > 0 && (
+        <div className="mt-4 w-full" style={{ width: '1116px' }}>
+          <h3 className="text-sm font-medium text-gray-600 mb-2">Uploading files...</h3>
+          <div className="space-y-2">
+            {uploadingFiles.map((fileItem, index) => (
+              <div key={index} className="flex items-center justify-between bg-gray-50 rounded-lg p-3">
+                <div className="flex items-center space-x-3">
+                  <Loader2 className="w-4 h-4 animate-spin text-blue-500" />
+                  <span className="text-sm text-gray-700">{fileItem.file.name}</span>
+                </div>
+                <span className="text-xs text-gray-500">
+                  {(fileItem.file.size / 1024 / 1024).toFixed(1)} MB
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

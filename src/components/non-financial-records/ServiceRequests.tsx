@@ -1,6 +1,6 @@
 'use client'
-import React, { useState, useEffect } from 'react';
-import { MoreVertical } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { MoreVertical, Edit, Eye, Trash2 } from 'lucide-react';
 
 interface ServiceRequest {
   id: string;
@@ -76,6 +76,8 @@ const ServiceRequestsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
+  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+  const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const itemsPerPage = 6;
 
   // Handle responsive design by detecting screen size changes
@@ -89,6 +91,41 @@ const ServiceRequestsPage: React.FC = () => {
     
     return () => window.removeEventListener('resize', checkIsMobile);
   }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (openDropdownId && dropdownRefs.current[openDropdownId]) {
+        const dropdownElement = dropdownRefs.current[openDropdownId];
+        if (dropdownElement && !dropdownElement.contains(event.target as Node)) {
+          setOpenDropdownId(null);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [openDropdownId]);
+
+  const toggleDropdown = (itemId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setOpenDropdownId(openDropdownId === itemId ? null : itemId);
+  };
+
+  const handleEdit = (itemId: string) => {
+    console.log('Edit item:', itemId);
+    setOpenDropdownId(null);
+  };
+
+  const handleView = (itemId: string) => {
+    console.log('View item:', itemId);
+    setOpenDropdownId(null);
+  };
+
+  const handleDelete = (itemId: string) => {
+    console.log('Delete item:', itemId);
+    setOpenDropdownId(null);
+  };
 
   // Filter data based on active filter and search term
   const filteredData = mockData.filter(item => {
@@ -368,26 +405,116 @@ const ServiceRequestsPage: React.FC = () => {
                   </td>
                   
                   {/* Action Menu Column */}
-                  <td style={{ padding: isMobile ? '12px 8px' : '16px' }}>
-                    <button
-                      style={{
-                        padding: '4px',
-                        backgroundColor: 'transparent',
-                        border: 'none',
-                        cursor: 'pointer',
-                        color: '#6b7280',
-                        borderRadius: '4px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        transition: 'background-color 0.2s ease'
-                      }}
-                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
-                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-                      aria-label="More options"
+                  <td style={{ padding: isMobile ? '12px 8px' : '16px', position: 'relative' }}>
+                    <div 
+                      ref={(ref) => { dropdownRefs.current[item.id] = ref; }}
+                      style={{ position: 'relative', display: 'inline-block' }}
                     >
-                      <MoreVertical size={16} />
-                    </button>
+                      <button
+                        onClick={(e) => toggleDropdown(item.id, e)}
+                        style={{
+                          padding: '4px',
+                          backgroundColor: 'transparent',
+                          border: 'none',
+                          cursor: 'pointer',
+                          color: '#6b7280',
+                          borderRadius: '4px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          transition: 'background-color 0.2s ease'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                        aria-label="More options"
+                      >
+                        <MoreVertical size={16} />
+                      </button>
+                      
+                      {/* Dropdown menu */}
+                      {openDropdownId === item.id && (
+                        <div style={{
+                          position: 'absolute',
+                          right: 0,
+                          top: '100%',
+                          marginTop: '4px',
+                          width: '140px',
+                          backgroundColor: 'white',
+                          border: '1px solid #e5e7eb',
+                          borderRadius: '6px',
+                          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                          zIndex: 10,
+                          overflow: 'hidden'
+                        }}>
+                          <button 
+                            onClick={() => handleView(item.id)}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              width: '100%',
+                              textAlign: 'left',
+                              padding: '8px 12px',
+                              fontSize: '14px',
+                              color: '#374151',
+                              backgroundColor: 'transparent',
+                              border: 'none',
+                              cursor: 'pointer',
+                              transition: 'background-color 0.2s ease'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'}
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                          >
+                            <Eye size={14} />
+                            View
+                          </button>
+                          <button 
+                            onClick={() => handleEdit(item.id)}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              width: '100%',
+                              textAlign: 'left',
+                              padding: '8px 12px',
+                              fontSize: '14px',
+                              color: '#374151',
+                              backgroundColor: 'transparent',
+                              border: 'none',
+                              cursor: 'pointer',
+                              transition: 'background-color 0.2s ease'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'}
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                          >
+                            <Edit size={14} />
+                            Edit
+                          </button>
+                          <button 
+                            onClick={() => handleDelete(item.id)}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              width: '100%',
+                              textAlign: 'left',
+                              padding: '8px 12px',
+                              fontSize: '14px',
+                              color: '#dc2626',
+                              backgroundColor: 'transparent',
+                              border: 'none',
+                              cursor: 'pointer',
+                              transition: 'background-color 0.2s ease'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#fef2f2'}
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                          >
+                            <Trash2 size={14} />
+                            Delete
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}

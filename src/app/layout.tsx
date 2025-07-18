@@ -10,6 +10,7 @@ import StyledContext from "@context/StyledContext";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import NProgressBar from "@component/NProgress";
+import { Toaster } from "@component/ui/Sonner";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
@@ -36,6 +37,7 @@ export default function RootLayout({
             <StyledContext>
               {children}
               <NProgressBar />
+              <Toaster />
             </StyledContext>
           </AppProvider>
         </StyledComponentsRegistry>

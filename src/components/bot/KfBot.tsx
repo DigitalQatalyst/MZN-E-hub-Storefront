@@ -15,6 +15,8 @@ declare global {
   }
 }
 
+// page specific detection enabled
+
 const KfBot = () => {
   const pathname = usePathname();
   const isInitialized = useRef(false);

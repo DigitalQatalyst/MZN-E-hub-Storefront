@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect } from "react";
-import { usePathname } from "next/navigation"; // Import to detect pathname changes
+import React, { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 declare global {
   interface Window {
@@ -9,160 +9,119 @@ declare global {
         load: (opts: any) => Promise<void>;
         close?: () => void;
         interact?: (payload: any) => void;
+        destroy?: () => void;
       };
     };
   }
 }
 
 const KfBot = () => {
-  const pathname = usePathname(); // Get the current pathname
+  const pathname = usePathname();
+  const isInitialized = useRef(false);
 
   useEffect(() => {
-    // Check if the script is already loaded
-    if (document.getElementById("voiceflow-script")) return;
+    const initializeVoiceflow = async () => {
+      // If already initialized, destroy the existing instance
+      if (isInitialized.current && window.voiceflow?.chat) {
+        window.voiceflow.chat.destroy?.();
+        window.voiceflow.chat.close?.();
+      }
 
-    const script = document.createElement("script");
-    script.id = "voiceflow-script";
-    script.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
+      // Remove existing script if it exists
+      const existingScript = document.getElementById("voiceflow-script");
+      if (existingScript) {
+        existingScript.remove();
+      }
 
-    script.onload = () => {
-      const stylesheet =
-        "data:text/css;base64," +
-        btoa(`
-        .vfrc-launcher {
-          background-color: #ffffff !important;
-          color: #ffffff !important;
-          width: 60px !important;
-          height: 60px !important;
-          border-radius: 50% !important;
-        }
-        .vfrc-launcher:hover {
-          background-color: #ffffff !important;
-        }
-      `);
+      // Create and load new script
+      const script = document.createElement("script");
+      script.id = "voiceflow-script";
+      script.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
 
-      const sharedConfig = {
-        verify: { projectID: "6849bea9894655c0d600d259" },
-        url: "https://general-runtime.voiceflow.com",
-        versionID: "production",
-        assistant: {
-          stylesheet,
-        },
-      };
-
-      const eventMap: Record<string, string> = {
-        "/finance": "Navigation_to_Finance_Marketplace",
-        "/non-finance": "Navigation_To_The_Non_Finance_Marketplace",
-      };
-
-      // const eventName = eventMap[path];
-
-      // Close the bot first to ensure a clean reset before loading a new page's interaction
-      const closeBot = () => {
-        window.voiceflow?.chat?.close?.();
-      };
-
-      // Dynamically fetch the event name based on pathname
-      const eventName = eventMap[pathname];
-
-      // Always close the bot before setting up the new interaction
-      closeBot();
-
-      // Extend config for finance/non-finance pages
-      const config =
-        eventName != null
-          ? {
-              ...sharedConfig,
-              voice: {
-                url: "https://runtime-api.voiceflow.com",
-              },
-              assistant: {
-                ...sharedConfig.assistant,
-                persistence: "sessionStorage",
-              },
-            }
-          : sharedConfig;
-
-      window.voiceflow?.chat
-        ?.load(config)
-        .then(() => {
-          if (eventName) {
-            console.log(`Triggering event for: ${eventName}`);
-            window.voiceflow?.chat?.interact?.({
-              type: "event",
-              payload: {
-                event: {
-                  name: eventName,
-                },
-              },
-            });
+      script.onload = async () => {
+        const stylesheet =
+          "data:text/css;base64," +
+          btoa(`
+          .vfrc-launcher {
+            background-color: #ffffff !important;
+            color: #ffffff !important;
+            width: 60px !important;
+            height: 60px !important;
+            border-radius: 50% !important;
           }
-        })
-        .catch(console.error);
+          .vfrc-launcher:hover {
+            background-color: #ffffff !important;
+          }
+        `);
+
+        const sharedConfig = {
+          verify: { projectID: "6849bea9894655c0d600d259" },
+          url: "https://general-runtime.voiceflow.com",
+          versionID: "production",
+          assistant: {
+            stylesheet,
+          },
+        };
+
+        const eventMap: Record<string, string> = {
+          "/financial-marketplace": "Navigation_to_Finance_Marketplace",
+          "/non-financial-marketplace":
+            "Navigation_To_The_Non_Finance_Marketplace",
+        };
+
+        const eventName = eventMap[pathname];
+
+        const config =
+          eventName != null
+            ? {
+                ...sharedConfig,
+                voice: {
+                  url: "https://runtime-api.voiceflow.com",
+                },
+                assistant: {
+                  ...sharedConfig.assistant,
+                  persistence: "sessionStorage",
+                },
+              }
+            : sharedConfig;
+
+        try {
+          await window.voiceflow?.chat?.load(config);
+          isInitialized.current = true;
+
+          if (eventName) {
+            // Add a small delay to ensure the widget is fully loaded
+            setTimeout(() => {
+              console.log(`Triggering event for: ${eventName}`);
+              window.voiceflow?.chat?.interact?.({
+                type: "event",
+                payload: {
+                  event: {
+                    name: eventName,
+                  },
+                },
+              });
+            }, 500);
+          }
+        } catch (error) {
+          console.error("Failed to load Voiceflow:", error);
+        }
+      };
+
+      document.body.appendChild(script);
     };
 
-    // Append the script to the document body to load the Voiceflow script
-    document.body.appendChild(script);
+    initializeVoiceflow();
 
-    // Cleanup function to close the bot on component unmount or page change
+    // Cleanup function
     return () => {
-      const bot = window.voiceflow?.chat;
-      if (bot) {
-        bot.close?.(); // Close the bot when the component unmounts or pathname changes
+      if (window.voiceflow?.chat) {
+        window.voiceflow.chat.close?.();
       }
     };
-  }, [pathname]); // Only re-run the effect when the pathname changes
+  }, [pathname]);
 
   return null;
 };
 
 export default KfBot;
-
-// "use client";
-// import React, { useEffect } from "react";
-
-// declare global {
-//   interface Window {
-//     voiceflow?: { chat?: { load: (opts: any) => Promise<void> } };
-//   }
-// }
-
-// const KfBot = () => {
-//   useEffect(() => {
-//     if (document.getElementById("voiceflow-script")) return;
-
-//     const script = document.createElement("script");
-//     script.id = "voiceflow-script";
-//     script.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
-//     script.onload = () => {
-//       window.voiceflow?.chat
-//         ?.load({
-//           verify: { projectID: "6849bea9894655c0d600d259" },
-//           url: "https://general-runtime.voiceflow.com",
-//           versionID: "production",
-//           assistant: {
-//             stylesheet:
-//               "data:text/css;base64," +
-//               btoa(`
-//               .vfrc-launcher {
-//                 background-color: #ffffff !important;
-//                 color: #ffffff !important;
-//                  width: 60px !important;
-//                   height: 60px !important;
-//                   border-radius: 50% !important;
-//               }
-//               .vfrc-launcher:hover {
-//                 background-color: #ffffff !important;
-//               }
-//             `),
-//           },
-//         })
-//         .catch(console.error);
-//     };
-//     document.body.appendChild(script);
-//   }, []);
-
-//   return null;
-// };
-
-// export default KfBot;

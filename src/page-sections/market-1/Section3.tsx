@@ -11,10 +11,12 @@ import Box from "@component/Box";
 import { colors } from "theme/colors/colors";
 import { FullWrapper } from "@component/footer/footer-2/styles";
 import { useState, useEffect } from "react";
+import styles from "./Section3.module.css";
 
 export default function Section3() {
   const [categoryList, setCategoryList] = useState([]);
   const [activeTab, setActiveTab] = useState("entrepreneur");
+  
 
   // Fetch categories based on active tab
   useEffect(() => {
@@ -109,39 +111,47 @@ export default function Section3() {
               </Link>
             </FlexBox>
           </FlexBox>
-          <FlexBox justifyContent="flex-start" mb="2rem">
+          <FlexBox
+            className={styles["tab-switcher"]}
+            justifyContent="flex-start"
+            mb="2rem"
+            style={{
+              gap: "8px",
+              flexWrap: "wrap",
+              overflowX: "auto",
+              background: "transparent",
+              paddingBottom: "2px",
+            }}
+          >
             <Box
+              padding="1rem"
               style={{
-                display: "flex",
-                width: "fit-content",
+                cursor: "pointer",
+                borderBottom: activeTab === "entrepreneur" ? "2px solid #374DEF" : "2px solid transparent",
+                color: activeTab === "entrepreneur" ? "#374DEF" : "#222",
+                fontWeight: activeTab === "entrepreneur" ? "bold" : "normal",
+                background: "transparent",
+                whiteSpace: "nowrap",
+                transition: "border 0.2s, color 0.2s",
               }}
+              onClick={() => setActiveTab("entrepreneur")}
             >
-              <Box
-                padding="1rem"
-                style={{
-                  cursor: "pointer",
-                  borderBottom:
-                    activeTab === "entrepreneur" ? "2px solid #ffffff" : "none",
-                  color: activeTab === "entrepreneur" ? "#fff" : "#fff",
-                  fontWeight: activeTab === "entrepreneur" ? "bold" : "normal",
-                }}
-                onClick={() => setActiveTab("entrepreneur")}
-              >
-                Getting Started as an Entrepreneur
-              </Box>
-              <Box
-                padding="1rem"
-                style={{
-                  cursor: "pointer",
-                  borderBottom:
-                    activeTab === "partner" ? "2px solid #ffffff" : "none",
-                  color: activeTab === "partner" ? "#fff" : "#fff",
-                  fontWeight: activeTab === "partner" ? "bold" : "normal",
-                }}
-                onClick={() => setActiveTab("partner")}
-              >
-                Getting Started as a Partner
-              </Box>
+              Getting Started as an Entrepreneur
+            </Box>
+            <Box
+              padding="1rem"
+              style={{
+                cursor: "pointer",
+                borderBottom: activeTab === "partner" ? "2px solid #374DEF" : "2px solid transparent",
+                color: activeTab === "partner" ? "#374DEF" : "#222",
+                fontWeight: activeTab === "partner" ? "bold" : "normal",
+                background: "transparent",
+                whiteSpace: "nowrap",
+                transition: "border 0.2s, color 0.2s",
+              }}
+              onClick={() => setActiveTab("partner")}
+            >
+              Getting Started as a Partner
             </Box>
           </FlexBox>
           {/* <FlexBox justifyContent="flex-start" mb="2rem">

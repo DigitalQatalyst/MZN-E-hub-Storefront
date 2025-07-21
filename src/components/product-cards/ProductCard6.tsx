@@ -16,7 +16,7 @@ const ProductCard6 = ({ title, subtitle, imgUrl }: ProductCard6Props) => {
   return (
     <Card
       display="flex"
-      width={546}
+      width={500}
       padding="20px 21px 20px 20px"
       flexDirection="column"
       justifyContent="center"

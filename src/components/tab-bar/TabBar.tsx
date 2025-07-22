@@ -36,7 +36,7 @@ const TabBar: React.FC = () => {
         onClick={() =>
           handleTabClick("Non-Financial", "/non-financial-marketplace")
         }
-        active={activeTab === "Non-Financial" ? true : undefined}
+        $active={activeTab === "Non-Financial" ? true : undefined}
       >
         <img
           src={
@@ -50,7 +50,7 @@ const TabBar: React.FC = () => {
       </Tab>
       <Tab
         onClick={() => handleTabClick("Financial", "/services")}
-        active={activeTab === "Financial"}
+        $active={activeTab === "Financial"}
       >
         <img
           src={
@@ -64,14 +64,14 @@ const TabBar: React.FC = () => {
       </Tab>
       <Tab
         onClick={() => handleTabClick("Courses", "#")}
-        active={activeTab === "Courses"}
+        $active={activeTab === "Courses"}
       >
         <img src="/assets/images/tab_bar/local_library.svg" alt="icon" />
         Courses
       </Tab>
       <Tab
         onClick={() => handleTabClick("Communities", "/community-marketplace")}
-        active={activeTab === "Communities" ? true : undefined}
+        $active={activeTab === "Communities" ? true : undefined}
       >
         <img
           src={
@@ -85,28 +85,28 @@ const TabBar: React.FC = () => {
       </Tab>
       <Tab
         onClick={() => handleTabClick("Media", "#")}
-        active={activeTab === "Media"}
+        $active={activeTab === "Media"}
       >
         <img src="/assets/images/tab_bar/brand_awareness.svg" alt="icon" />
         Media
       </Tab>
       <Tab
         onClick={() => handleTabClick("Investment", "#")}
-        active={activeTab === "Investment"}
+        $active={activeTab === "Investment"}
       >
         <img src="/assets/images/tab_bar/crowdsource.svg" alt="icon" />
         Investment
       </Tab>
       <Tab
         onClick={() => handleTabClick("Calendar", "#")}
-        active={activeTab === "Calendar"}
+        $active={activeTab === "Calendar"}
       >
         <img src="/assets/images/tab_bar/calendar_month.svg" alt="icon" />
         Calendar
       </Tab>
       <Tab
         onClick={() => handleTabClick("Opportunities", "#")}
-        active={activeTab === "Opportunities"}
+        $active={activeTab === "Opportunities"}
       >
         <img src="/assets/images/tab_bar/rocket_launch.svg" alt="icon" />
         Opportunities

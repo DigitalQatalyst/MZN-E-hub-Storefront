@@ -11,6 +11,6 @@ export const Card1 = styled(Card).withConfig({
   position: relative;
   padding: 1.5rem 1.75rem;
   @media only screen and (max-width: 678px) {
-    padding: 1rem;
+    padding: 1rem; 
   }
 `;

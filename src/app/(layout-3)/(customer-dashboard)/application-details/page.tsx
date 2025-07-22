@@ -244,6 +244,7 @@ const page = () => {
                     </Box>
                   </Box>
                 </Box>
+                {/* Financial Summary Section */}
 
                 {/* Updates Card */}
                 <Box

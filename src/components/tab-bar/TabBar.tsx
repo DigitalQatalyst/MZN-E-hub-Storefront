@@ -10,7 +10,7 @@ const TabBar: React.FC = () => {
     '/non-financial-marketplace': 'Non-Financial',
     '/services': 'Financial',
     '/courses': 'Courses',
-    '/community-marketplace': 'Communities',
+    '/community-details': 'Communities',
     '/media': 'Media',
     '/investment': 'Investment',
     '/calendar': 'Calendar',

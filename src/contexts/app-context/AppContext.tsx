@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useReducer, useContext, createContext, PropsWithChildren } from "react";
+import React from "react";
 
 // TYPES
 import { ActionType, InitialState, ContextProps } from "./types";
@@ -9,7 +9,8 @@ import { INITIAL_CART } from "./data";
 
 const INITIAL_STATE = { cart: INITIAL_CART, isHeaderFixed: false };
 
-export const AppContext = createContext<ContextProps>({
+// Always create the context - don't make it conditional
+export const AppContext = React.createContext<ContextProps>({
   state: INITIAL_STATE,
   dispatch: () => { }
 });
@@ -39,14 +40,15 @@ const reducer = (state: InitialState, action: ActionType) => {
 
       return { ...state, cart: [...cartList, cartItem] };
 
-    default:
+    default: {
       return state;
+    }
   }
 };
 
-export function AppProvider({ children }: PropsWithChildren) {
-  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
-  const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch]);
+export function AppProvider({ children }: React.PropsWithChildren) {
+  const [state, dispatch] = React.useReducer(reducer, INITIAL_STATE);
+  const contextValue = React.useMemo(() => ({ state, dispatch }), [state, dispatch]);
 
   return (
     <AppContext.Provider value={contextValue}>
@@ -55,4 +57,6 @@ export function AppProvider({ children }: PropsWithChildren) {
   );
 }
 
-export const useAppContext = () => useContext(AppContext);
+export const useAppContext = () => {
+  return React.useContext(AppContext);
+};

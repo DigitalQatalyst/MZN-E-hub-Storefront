@@ -319,6 +319,7 @@
     display: flex;
     align-items: center;
     gap: 4px;
+    transition: all 0.2s ease;
     /* Add gap between icon and number */
 }
 
@@ -379,7 +380,20 @@ svg {
 }
 
 .engagement-item:hover {
-    color: #0061f2;
+    transform: scale(1.05);
+    color: #0061F2 !important;
+}
+
+.engagement-item:active {
+    transform: scale(0.95);
+}
+
+.engagement-item svg path {
+    transition: stroke 0.2s ease;
+}
+
+.engagement-item:hover svg path {
+    stroke: #0061F2;
 }
 
 .post-views {

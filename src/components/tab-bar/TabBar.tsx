@@ -31,7 +31,7 @@ const TabBar: React.FC = () => {
   };
 
   return (
-    <TabBarContainer>
+    <TabBarContainer style={{ borderBottom: "1px solid #E2E8F0" }}>
       <Tab
         onClick={() =>
           handleTabClick("Non-Financial", "/non-financial-marketplace")

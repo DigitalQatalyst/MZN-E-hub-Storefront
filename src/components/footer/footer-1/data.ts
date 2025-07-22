@@ -1,13 +1,25 @@
 export const aboutLinks = [
   "Business in AbuDhabi",
-  "Help Centre",
+  "Help Center",
+  "FAQs"
+];
+
+export const quickLinks = [
+  "Explore Services",
+  "Resources",
   "FAQs"
 ];
 
 export const customerCareLinks = [
+  "About MZN",
+  "Updates",
+  "Contact Us"
+];
+
+export const getToKnowUs = [
   "About Enterprise Journey",
   "Updates",
-  "Contact Us",
+  "Contact Us"
 ];
 
 export const partners = [

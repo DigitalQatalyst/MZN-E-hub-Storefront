@@ -1,358 +1,163 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 import Box from "@component/Box";
 import Hidden from "@component/hidden";
-import Grid from "@component/grid/Grid";
 import FlexBox from "@component/FlexBox";
 import Container from "@component/Container";
-import NextImage from "@component/NextImage";
-import { ProductCard1 } from "@component/product-cards";
-import CategorySectionHeader from "@component/CategorySectionHeader";
-import StyledProductCategory from "./styled";
-import Brand from "@models/Brand.model";
-import Product from "@models/product.model";
+import { Home, Compass, Users, Bell, MessageCircle } from "lucide-react";
 
-// ==============================================================
-type Props = { carList: Product[]; carBrands: Brand[] };
-// ==============================================================
+export default function Section6() {
+  const [activeItem, setActiveItem] = useState("My Communities");
 
-export default function Section6({ carList, carBrands }: Props) {
-  const [selected, setSelected] = useState("");
-
-  const MZNCommunities = [
+  const navItems = [
+    { label: "Home", icon: <Home size={18} />, href: "/" },
+    { label: "Explore", icon: <Compass size={18} />, href: "/explore" },
     {
-      id: "green-sme-network", // <-- added id
-      name: "Green SME Network",
-      members: "3.2K Members",
-      category: "Sustainability",
-      imageSrc: "/images/image 9.png",
-      link: "/community/green-sme-network",
+      label: "My Communities",
+      icon: <Users size={18} />,
+      href: "/community-marketplace",
     },
     {
-      id: "fintech-growth-circle", // <-- added id
-      name: "FinTech Growth Circle",
-      members: "3.2K Members",
-      category: "Finance",
-      imageSrc: "/images/image 2.png",
-      link: "/community/fintech-growth-circle",
+      label: "Notifications",
+      icon: <Bell size={18} />,
+      href: "/notifications",
     },
-    {
-      id: "women-led-enterprises", // <-- added id
-      name: "Women-Led Enterprises",
-      members: "3.2K Members",
-      category: "Leadership",
-      imageSrc: "/images/image 3.png",
-      link: "/community/women-led-enterprises",
-    },
-    {
-      id: "digital-transformation-for-smes", // <-- added id
-      name: "Digital Transformation for SMEs",
-      members: "3.2K Members",
-      category: "E-commerce",
-      imageSrc: "/images/image 4.png",
-      link: "/community/digital-transformation-for-smes",
-    },
-    {
-      id: "youth-innovation-network", // <-- added id
-      name: "Youth Innovation Network",
-      members: "3.2K Members",
-      category: "Innovation",
-      imageSrc: "/images/image 5.png",
-      link: "/community/youth-innovation-network",
-    },
-    {
-      id: "export-ready-smes-hub", // <-- added id
-      name: "Export-Ready SMEs Hub",
-      members: "3.2K Members",
-      category: "Supply Chain",
-      imageSrc: "/images/image 6.png",
-      link: "/community/export-ready-smes-hub",
-    },
-    {
-      id: "sme-policy-regulation-hub", // <-- added id
-      name: "SME Policy & Regulation Hub",
-      members: "3.2K Members",
-      category: "Policy",
-      imageSrc: "/images/image 7.png",
-      link: "/community/sme-policy-regulation-hub",
-    },
-    {
-      id: "sell-beyond-uae", // <-- added id
-      name: "Sell Beyond UAE",
-      members: "3.2K Members",
-      category: "Global Markets",
-      imageSrc: "/images/image 8.png",
-      link: "/community/sell-beyond-uae",
-    },
-    {
-      id: "logistics-exporters-network", // <-- added id
-      name: "Logistics & Exporters Network",
-      members: "3.2K Members",
-      category: "Supply Chain",
-      imageSrc: "/images/image 9.png",
-      link: "/community/logistics-exporters-network",
-    },
+    { label: "Messages", icon: <MessageCircle size={18} />, href: "/messages" },
   ];
-  const handleCategoryClick = (brand: Brand) => () => {
-    if (selected === brand.slug) setSelected("");
-    else setSelected(brand.slug);
-  };
 
   return (
     <Container mb="4.5rem">
       <FlexBox>
-        {/*sidebar*/}
+        {/* Sidebar */}
         <Hidden down={768} mr="1.75rem" ml="-4rem">
-          <Box shadow={6} borderRadius={18} padding="1.25rem" bg="white">
-            {/* {carBrands.map((brand) => (
-              <StyledProductCategory
-                mb="0.75rem"
-                id={brand.id}
-                key={brand.id}
-                title={brand.name}
-                onClick={handleCategoryClick(brand)}
-                shadow={selected === brand.slug ? 4 : null}
-                bg={selected === brand.slug ? "white" : "gray.100"}>
-                <Box width={20} height={20}>
-                  <NextImage width={20} height={20} alt="apple" src={brand.image} />
-                </Box>
-
-                <span className="product-category-title">{brand.name}</span>
-              </StyledProductCategory>
-            ))} */}
-            <StyledProductCategory>
-              <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="flex-start"
-                marginBottom={3}
-              >
-                <span
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: 600,
-                    marginBottom: "8px",
-                    color: "#000000", // dark text for headings
-                  }}
-                >
-                  Explore
-                </span>
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  marginTop={1}
-                  padding="12px"
-                  borderRadius="8px"
-                  width="100%"
-                  maxWidth="280px"
-                >
-                  <Box
-                    width={24}
-                    height={24}
-                    marginRight={2}
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
+          <Box
+            padding="0 1.25rem"
+            bg="white"
+            width="240px"
+            height="50%"
+            style={{
+              borderRight: "1px solid #E2E8F0",
+              position: "relative",
+              top: "30px",
+            }}
+          >
+            <nav className="flex flex-col gap-2">
+              {navItems.map((item, i) => {
+                const isActive = activeItem === item.label;
+                return (
+                  <Link
+                    href={item.href}
+                    key={i}
+                    style={{ textDecoration: "none" }}
                   >
-                    <NextImage
-                      width={24}
-                      height={24}
-                      alt="explore-icon"
-                      src="/images/Avatar (2).png"
-                    />
-                  </Box>
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      color: "#212121",
-                      fontWeight: 600,
-                    }}
-                  >
-                    Communities
-                  </span>
-                </Box>
-              </Box>
-            </StyledProductCategory>
-
-            <StyledProductCategory>
-              <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="flex-start"
-                marginBottom={4}
-              >
-                <span
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: 600,
-                    marginBottom: "8px",
-                    color: "#000",
-                  }}
-                >
-                  Favourites
-                </span>
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  marginTop={1}
-                  padding="12px"
-                  borderRadius="8px"
-                  width="100%"
-                  maxWidth="280px"
-                >
-                  <Box
-                    width={24}
-                    height={24}
-                    marginRight={2}
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <NextImage
-                      width={24}
-                      height={24}
-                      alt="favourites-icon"
-                      src="/images/Avatar (3).png"
-                    />
-                  </Box>
-                  <span
-                    style={{
-                      fontSize: "10px",
-                      color: "#6C757D",
-                      fontWeight: 400,
-                      backgroundColor: "#E7F1FF", // light blue background
-                      borderRadius: "8px", // rounded corners
-                      borderWidth: "0.5px", // border width
-                      borderColor: "#0030E3",
-                      gap: "16px", // space between items (may not affect a single element)
-                      paddingTop: "8px", // top padding
-                      paddingRight: "16px", // right padding
-                      paddingBottom: "8px", // bottom padding
-                      paddingLeft: "16px", // left padding
-                      display: "inline-block", // make it an inline block element
-                      width: "264px", // fixed width
-                      height: "56px", // fixed height
-                    }}
-                  >
-                    Keep your favorites at your fingertips. Favorites will
-                    appear here.
-                  </span>
-                </Box>
-              </Box>
-            </StyledProductCategory>
-
-            <StyledProductCategory>
-              <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="flex-start"
-                marginBottom={4}
-              >
-                <span
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: 600,
-                    marginBottom: "8px",
-                    color: "#000",
-                  }}
-                >
-                  Communities
-                </span>
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  marginTop={1}
-                  padding="12px"
-                  borderRadius="8px"
-                  width="100%"
-                  maxWidth="280px"
-                >
-                  <Box
-                    width={24}
-                    height={24}
-                    marginRight={2}
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <NextImage
-                      width={24}
-                      height={24}
-                      alt="communities-icon"
-                      src="/images/Avatar (2).png"
-                    />
-                  </Box>
-                  <span
-                    style={{
-                      fontSize: "10px",
-                      color: "#6C757D",
-                      fontWeight: 400,
-                      backgroundColor: "#E7F1FF", // light blue background
-                      borderRadius: "8px", // rounded corners
-                      borderWidth: "0.5px", // border width
-                      borderColor: "#0030E3",
-                      gap: "16px", // space between items (may not affect a single element)
-                      paddingTop: "8px", // top padding
-                      paddingRight: "16px", // right padding
-                      paddingBottom: "8px", // bottom padding
-                      paddingLeft: "16px", // left padding
-                      display: "inline-block", // make it an inline block element
-                      width: "264px", // fixed width
-                      height: "56px", // fixed height
-                    }}
-                  >
-                    No communities yet
-                  </span>
-                </Box>
-              </Box>
-            </StyledProductCategory>
-
-            <StyledProductCategory
-              id="all"
-              mt="2rem"
-              shadow={selected.match("all") ? 4 : null}
-              bg="transparent"
-              p="0"
-            >
-              <span
-                id="all"
-                className="product-category-title"
-                style={{
-                  fontFamily: "Inter", // Use Inter font-family
-                  fontSize: "10px", // Font size set to 10px
-                  lineHeight: "20px", // Line height set to 20px
-                  letterSpacing: "0px", // Letter spacing set to 0px
-                  color: "#0061F2", // Blue color for text
-                  marginTop: "20px", // Margin top set to 20px
-                  cursor: "pointer", // Change cursor to pointer on hover
-                }}
-              >
-                Discover communities
-              </span>
-            </StyledProductCategory>
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      flexDirection="row"
+                      padding="10px"
+                      borderRadius="8px"
+                      onClick={() => setActiveItem(item.label)}
+                      style={{
+                        backgroundColor: isActive ? "blue" : "transparent",
+                        color: isActive ? "white" : "#212121",
+                        fontWeight: isActive ? 600 : 500,
+                        cursor: "pointer",
+                        transition: "all 0.2s ease-in-out",
+                        gap: "12px",
+                      }}
+                    >
+                      <span>{item.icon}</span>
+                      <span style={{ fontSize: "14px" }}>{item.label}</span>
+                    </Box>
+                  </Link>
+                );
+              })}
+            </nav>
           </Box>
         </Hidden>
 
-        <Box flex="1 1 0" minWidth="0px">
-          <CategorySectionHeader title="" seeMoreLink="#" />
-
-          <Grid container spacing={6}>
-            {MZNCommunities.map((item, ind) => (
-              <Grid item lg={4} sm={6} xs={12} key={ind}>
-                <ProductCard1
-                  hoverEffect
-                  id={item.id}
-                  name={item.name}
-                  memberCount={item.members}
-                  imageSrc={item.imageSrc}
-                  link={item.link}
-                  category={item.category}
-                />
-              </Grid>
-            ))}
-          </Grid>
+        {/* Main Content */}
+        <Box
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "70px",
+          }}
+        >
+          <div className="flex flex-col items-center text-center gap-4">
+            <div>
+              <img
+                src="/images/bro.png"
+                alt="Empty State"
+                className="w-64 h-auto"
+              />
+            </div>
+            <div>
+              <div style={{ alignSelf: "stretch" }}>
+                <h2
+                  style={{
+                    color: "#6E6E6E",
+                    textAlign: "center",
+                    fontFeatureSettings: "'liga' off, 'clig' off",
+                    fontFamily: "Helvetica Neue, sans-serif",
+                    fontSize: "24px",
+                    fontStyle: "normal",
+                    fontWeight: "500",
+                    lineHeight: "20px",
+                  }}
+                >
+                  You haven’t joined any communities yet
+                </h2>
+              </div>
+              <div style={{ alignSelf: "stretch" }}>
+                <p
+                  style={{
+                    color: "#6E6E6E",
+                    textAlign: "center",
+                    fontSize: "16px",
+                    fontStyle: "normal",
+                    fontWeight: "400",
+                    lineHeight: "20px",
+                    fontFamily: "Helvetica Neue, sans-serif",
+                  }}
+                >
+                  Discover communities that match your interests, industry, or
+                  goals.
+                </p>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  padding: "15px 20px",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
+                <button
+                  style={{
+                    margin: "8px",
+                    backgroundColor: "#0030E3",
+                    color: "white",
+                    padding: "12px 16px",
+                    borderRadius: "8px",
+                    fontSize: "14px",
+                    cursor: "pointer",
+                    border: "none",
+                    fontFamily: "Helvetica Neue, sans-serif",
+                  }}
+                >
+                  Explore Communities
+                </button>
+              </div>
+            </div>
+          </div>
         </Box>
       </FlexBox>
     </Container>

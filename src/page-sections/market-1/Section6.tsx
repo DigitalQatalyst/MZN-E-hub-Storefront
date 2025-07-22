@@ -1,358 +1,656 @@
 "use client";
 
 import { useState } from "react";
-
 import Box from "@component/Box";
 import Hidden from "@component/hidden";
-import Grid from "@component/grid/Grid";
 import FlexBox from "@component/FlexBox";
 import Container from "@component/Container";
-import NextImage from "@component/NextImage";
-import { ProductCard1 } from "@component/product-cards";
-import CategorySectionHeader from "@component/CategorySectionHeader";
-import StyledProductCategory from "./styled";
-import Brand from "@models/Brand.model";
-import Product from "@models/product.model";
+import {
+  Home,
+  Compass,
+  Users,
+  Bell,
+  MessageCircle,
+  MessageSquare,
+  Search,
+  TrendingUp,
+  Clock,
+  Star,
+  ThumbsUp,
+  Eye,
+  MoreHorizontal,
+  ChevronDown,
+  ShareIcon,
+  Share2,
+  Camera,
+  Smile,
+  Paperclip,
+  Send,
+} from "lucide-react";
 
-// ==============================================================
-type Props = { carList: Product[]; carBrands: Brand[] };
-// ==============================================================
+const posts = [
+  {
+    id: 1,
+    author: "Collins Abdullahi",
+    image: "/assets/images/faces/7.png",
+    time: "12 Jun • 05:10",
+    title: "Implementing Blockchain for Supply Chain Transparency",
+    content:
+      "After several months of testing, we have successfully integrated blockchain technology into our supply chain management. This has provided unprecedented transparency in tracking goods from source to consumer, significantly reducing fraud and improving customer trust.",
+    tags: ["Blockchain & Web3"],
+    likes: 21,
+    comments: 4,
+    views: 390,
+    replies: [
+      {
+        author: "Omar Al-Farouq",
+        image: "/assets/images/faces/2.jpg",
+        content:
+          "Absolutely fantastic! It's amazing to see how technology keeps improving. Such similar issues in our different industries when it comes to writing code for blockchain and supply chain. Looking forward to reading more about your journey.",
+        date: "10 Jun • 14:20",
+      },
+      {
+        author: "Kattia Abdullah",
+        image: "/assets/images/faces/3.jpg",
+        content:
+          "Collins, Great to hear your thoughts! Completely agree, and it's exciting to see how blockchain will continue to revolutionize various industries across the board.",
+        date: "17 Jun • 07:10",
+      },
+      {
+        author: "Aamir Muhammad",
+        image: "/assets/images/faces/4.jpg",
+        content: "How does it work with top event-loop management systems?",
+        date: "11 Jun • 09:10",
+      },
+      {
+        author: "Yusuf Saad",
+        image: "/assets/images/faces/5.jpg",
+        content:
+          "Impressive work. I watch blockchain's potential for eliminating transparency in the supply chain as a game-changing. I'm excited to see where this will take the industry moving forward.",
+        date: "19 Jun • 05:10",
+      },
+    ],
+  },
+  {
+    id: 2,
+    author: "Jaila Hassan",
+    image: "/assets/images/faces/face-2.png",
+    time: "11 Jun • 09:10",
+    title: "Successfully Secured Khalifa Fund Support for My Startup!",
+    content:
+      "I'm excited to announce that my startup was just approved for funding by the Khalifa Fund 🎉 The process was incredibly thorough, and we're happy to expand. If anyone else has been through this, I'd love to hear about your experience and any tips for successfully navigating this next phase!",
+    tags: ["Funding & Finance"],
+    likes: 25,
+    comments: 4,
+    views: 520,
+  },
+  {
+    id: 3,
+    author: "Ali Khatri",
+    image: "/assets/images/faces/face-7.jpg",
+    time: "13 Jun • 06:10",
+    title: "Implementing Data-Driven Strategies to Boost Business Growth",
+    content:
+      "As part of our ongoing efforts to scale our business, we've recently implemented a more data-driven approach across all departments. By leveraging analytics to track customer behavior, optimize marketing campaigns, and improve operational efficiency, we've seen a 35% increase in overall performance metrics.",
+    tags: ["Growth & Scaling"],
+    likes: 31,
+    comments: 3,
+    shares: 5,
+    views: 780,
+  },
+];
 
-export default function Section6({ carList, carBrands }: Props) {
-  const [selected, setSelected] = useState("");
+export default function Section6() {
+  const [activeItem, setActiveItem] = useState("Home");
+  const [activeFilter, setActiveFilter] = useState("All Posts");
+  const [showReplies, setShowReplies] = useState({});
 
-  const MZNCommunities = [
+  const navItems = [
+    { label: "Home", icon: "/assets/images/icons/home.svg" },
+    { label: "Explore", icon: "/assets/images/icons/explore.svg" },
+    { label: "My Communities", icon: "/assets/images/icons/groups_2.svg" },
     {
-      id: "green-sme-network", // <-- added id
-      name: "Green SME Network",
-      members: "3.2K Members",
-      category: "Sustainability",
-      imageSrc: "/images/image 9.png",
-      link: "/community/green-sme-network",
+      label: "Notifications",
+      icon: "/assets/images/icons/notifications_unread.svg",
     },
-    {
-      id: "fintech-growth-circle", // <-- added id
-      name: "FinTech Growth Circle",
-      members: "3.2K Members",
-      category: "Finance",
-      imageSrc: "/images/image 2.png",
-      link: "/community/fintech-growth-circle",
-    },
-    {
-      id: "women-led-enterprises", // <-- added id
-      name: "Women-Led Enterprises",
-      members: "3.2K Members",
-      category: "Leadership",
-      imageSrc: "/images/image 3.png",
-      link: "/community/women-led-enterprises",
-    },
-    {
-      id: "digital-transformation-for-smes", // <-- added id
-      name: "Digital Transformation for SMEs",
-      members: "3.2K Members",
-      category: "E-commerce",
-      imageSrc: "/images/image 4.png",
-      link: "/community/digital-transformation-for-smes",
-    },
-    {
-      id: "youth-innovation-network", // <-- added id
-      name: "Youth Innovation Network",
-      members: "3.2K Members",
-      category: "Innovation",
-      imageSrc: "/images/image 5.png",
-      link: "/community/youth-innovation-network",
-    },
-    {
-      id: "export-ready-smes-hub", // <-- added id
-      name: "Export-Ready SMEs Hub",
-      members: "3.2K Members",
-      category: "Supply Chain",
-      imageSrc: "/images/image 6.png",
-      link: "/community/export-ready-smes-hub",
-    },
-    {
-      id: "sme-policy-regulation-hub", // <-- added id
-      name: "SME Policy & Regulation Hub",
-      members: "3.2K Members",
-      category: "Policy",
-      imageSrc: "/images/image 7.png",
-      link: "/community/sme-policy-regulation-hub",
-    },
-    {
-      id: "sell-beyond-uae", // <-- added id
-      name: "Sell Beyond UAE",
-      members: "3.2K Members",
-      category: "Global Markets",
-      imageSrc: "/images/image 8.png",
-      link: "/community/sell-beyond-uae",
-    },
-    {
-      id: "logistics-exporters-network", // <-- added id
-      name: "Logistics & Exporters Network",
-      members: "3.2K Members",
-      category: "Supply Chain",
-      imageSrc: "/images/image 9.png",
-      link: "/community/logistics-exporters-network",
-    },
+    { label: "Messages", icon: "/assets/images/icons/inbox.svg" },
   ];
-  const handleCategoryClick = (brand: Brand) => () => {
-    if (selected === brand.slug) setSelected("");
-    else setSelected(brand.slug);
+
+  const filters = [
+    { label: "All Posts", icon: <MessageSquare size={16} /> },
+    { label: "Trending", icon: <TrendingUp size={16} /> },
+    { label: "Recents", icon: <Clock size={16} /> },
+    { label: "Popular", icon: <Star size={16} /> },
+  ];
+
+  const toggleReplies = (postId) => {
+    setShowReplies((prev) => ({
+      ...prev,
+      [postId]: !prev[postId],
+    }));
   };
 
   return (
-    <Container mb="4.5rem">
-      <FlexBox>
-        {/*sidebar*/}
+    <Container mb="4.5rem" >
+      <FlexBox alignItems="flex-start">
+        {/* Sidebar */}
         <Hidden down={768} mr="1.75rem" ml="-4rem">
-          <Box shadow={6} borderRadius={18} padding="1.25rem" bg="white">
-            {/* {carBrands.map((brand) => (
-              <StyledProductCategory
-                mb="0.75rem"
-                id={brand.id}
-                key={brand.id}
-                title={brand.name}
-                onClick={handleCategoryClick(brand)}
-                shadow={selected === brand.slug ? 4 : null}
-                bg={selected === brand.slug ? "white" : "gray.100"}>
-                <Box width={20} height={20}>
-                  <NextImage width={20} height={20} alt="apple" src={brand.image} />
-                </Box>
-
-                <span className="product-category-title">{brand.name}</span>
-              </StyledProductCategory>
-            ))} */}
-            <StyledProductCategory>
-              <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="flex-start"
-                marginBottom={3}
-              >
-                <span
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: 600,
-                    marginBottom: "8px",
-                    color: "#000000", // dark text for headings
-                  }}
-                >
-                  Explore
-                </span>
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  marginTop={1}
-                  padding="12px"
-                  borderRadius="8px"
-                  width="100%"
-                  maxWidth="280px"
-                >
-                  <Box
-                    width={24}
-                    height={24}
-                    marginRight={2}
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <NextImage
-                      width={24}
-                      height={24}
-                      alt="explore-icon"
-                      src="/images/Avatar (2).png"
-                    />
-                  </Box>
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      color: "#212121",
-                      fontWeight: 600,
-                    }}
-                  >
-                    Communities
-                  </span>
-                </Box>
-              </Box>
-            </StyledProductCategory>
-
-            <StyledProductCategory>
-              <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="flex-start"
-                marginBottom={4}
-              >
-                <span
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: 600,
-                    marginBottom: "8px",
-                    color: "#000",
-                  }}
-                >
-                  Favourites
-                </span>
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  marginTop={1}
-                  padding="12px"
-                  borderRadius="8px"
-                  width="100%"
-                  maxWidth="280px"
-                >
-                  <Box
-                    width={24}
-                    height={24}
-                    marginRight={2}
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <NextImage
-                      width={24}
-                      height={24}
-                      alt="favourites-icon"
-                      src="/images/Avatar (3).png"
-                    />
-                  </Box>
-                  <span
-                    style={{
-                      fontSize: "10px",
-                      color: "#6C757D",
-                      fontWeight: 400,
-                      backgroundColor: "#E7F1FF", // light blue background
-                      borderRadius: "8px", // rounded corners
-                      borderWidth: "0.5px", // border width
-                      borderColor: "#0030E3",
-                      gap: "16px", // space between items (may not affect a single element)
-                      paddingTop: "8px", // top padding
-                      paddingRight: "16px", // right padding
-                      paddingBottom: "8px", // bottom padding
-                      paddingLeft: "16px", // left padding
-                      display: "inline-block", // make it an inline block element
-                      width: "264px", // fixed width
-                      height: "56px", // fixed height
-                    }}
-                  >
-                    Keep your favorites at your fingertips. Favorites will
-                    appear here.
-                  </span>
-                </Box>
-              </Box>
-            </StyledProductCategory>
-
-            <StyledProductCategory>
-              <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="flex-start"
-                marginBottom={4}
-              >
-                <span
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: 600,
-                    marginBottom: "8px",
-                    color: "#000",
-                  }}
-                >
-                  Communities
-                </span>
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  marginTop={1}
-                  padding="12px"
-                  borderRadius="8px"
-                  width="100%"
-                  maxWidth="280px"
-                >
-                  <Box
-                    width={24}
-                    height={24}
-                    marginRight={2}
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <NextImage
-                      width={24}
-                      height={24}
-                      alt="communities-icon"
-                      src="/images/Avatar (2).png"
-                    />
-                  </Box>
-                  <span
-                    style={{
-                      fontSize: "10px",
-                      color: "#6C757D",
-                      fontWeight: 400,
-                      backgroundColor: "#E7F1FF", // light blue background
-                      borderRadius: "8px", // rounded corners
-                      borderWidth: "0.5px", // border width
-                      borderColor: "#0030E3",
-                      gap: "16px", // space between items (may not affect a single element)
-                      paddingTop: "8px", // top padding
-                      paddingRight: "16px", // right padding
-                      paddingBottom: "8px", // bottom padding
-                      paddingLeft: "16px", // left padding
-                      display: "inline-block", // make it an inline block element
-                      width: "264px", // fixed width
-                      height: "56px", // fixed height
-                    }}
-                  >
-                    No communities yet
-                  </span>
-                </Box>
-              </Box>
-            </StyledProductCategory>
-
-            <StyledProductCategory
-              id="all"
-              mt="2rem"
-              shadow={selected.match("all") ? 4 : null}
-              bg="transparent"
-              p="0"
+          <Box
+            borderRight="1px solid #E2E8F0"
+            marginRight={146}
+            padding="1.25rem"
+            bg="white"
+            width="240px"
+          >
+            <nav
+              style={{ display: "flex", flexDirection: "column", gap: "8px" }}
             >
-              <span
-                id="all"
-                className="product-category-title"
-                style={{
-                  fontFamily: "Inter", // Use Inter font-family
-                  fontSize: "10px", // Font size set to 10px
-                  lineHeight: "20px", // Line height set to 20px
-                  letterSpacing: "0px", // Letter spacing set to 0px
-                  color: "#0061F2", // Blue color for text
-                  marginTop: "20px", // Margin top set to 20px
-                  cursor: "pointer", // Change cursor to pointer on hover
-                }}
-              >
-                Discover communities
-              </span>
-            </StyledProductCategory>
+              {navItems.map((item) => {
+                const isActive = activeItem === item.label;
+
+                return (
+                  <Box
+                    key={item.label}
+                    display="flex"
+                    alignItems="center"
+                    flexDirection="row"
+                    padding="10px"
+                    borderRadius="16px"
+                    onClick={() => setActiveItem(item.label)}
+                    style={{
+                      backgroundColor: isActive ? "#0030E3" : "transparent",
+                      cursor: "pointer",
+                      gap: "12px",
+                      transition: "all 0.2s ease-in-out",
+                    }}
+                  >
+                    <img
+                      src={item.icon}
+                      alt={`${item.label} icon`}
+                      height="24px"
+                      style={{
+                        filter: isActive
+                          ? "brightness(0) invert(1)" // makes it white
+                          : "brightness(0)", // gray/dark
+                        transition: "filter 0.2s ease",
+                      }}
+                    />
+
+                    <span
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: isActive ? 600 : 500,
+                        color: isActive ? "white" : "#6E6E6E",
+                        transition: "color 0.2s ease",
+                      }}
+                    >
+                      {item.label}
+                    </span>
+                  </Box>
+                );
+              })}
+            </nav>
           </Box>
         </Hidden>
 
+        {/* Main Content */}
         <Box flex="1 1 0" minWidth="0px">
-          <CategorySectionHeader title="" seeMoreLink="#" />
+          {/* Banner Image */}
+          <Box
+            position="relative"
+            overflow="hidden"
+            width="100%"
+            height="200px"
+          >
+            <img
+              src="/images/image-65.png"
+              alt="Welcome to EJP Community"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                display: "block",
+              }}
+            />
 
-          <Grid container spacing={6}>
-            {MZNCommunities.map((item, ind) => (
-              <Grid item lg={4} sm={6} xs={12} key={ind}>
-                <ProductCard1
-                  hoverEffect
-                  id={item.id}
-                  name={item.name}
-                  memberCount={item.members}
-                  imageSrc={item.imageSrc}
-                  link={item.link}
-                  category={item.category}
-                />
-              </Grid>
+            <Box
+              position="absolute"
+              top={0}
+              left={0}
+              width="100%"
+              height="100%"
+              padding="30px"
+              style={{
+                background: "#244EB2CC",
+              }}
+            />
+
+            <Box
+              position="absolute"
+              top="50%"
+              left="5%"
+              color="white"
+              textAlign="left"
+              style={{ transform: "translateY(-50%)" }}
+            >
+              <h1 style={{ fontSize: 40, fontWeight: 500, marginBottom: 8 }}>
+                Welcome to the{" "}
+                <span style={{ color: "#85B6FF" }}>
+                  EJP <br /> Community
+                </span>
+              </h1>
+              <p style={{ fontSize: 16, lineHeight: "1.5" }}>
+                Join a thriving community of professionals, learn together,
+                collaborate, and grow across industries.
+              </p>
+            </Box>
+          </Box>
+
+          {/* Filter Buttons & Search */}
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            marginTop="2rem"
+            alignItems="center"
+            flexWrap="wrap"
+            style={{ gap: "1rem", padding: "1rem 0" }}
+          >
+            {/* Filter Buttons */}
+            <Box display="flex" style={{ gap: "1rem", flexWrap: "wrap" }}>
+              {filters.map((filter) => (
+                <button
+                  key={filter.label}
+                  onClick={() => setActiveFilter(filter.label)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    padding: "8px 16px",
+                    borderRadius: "8px",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    border: "1px solid",
+                    borderColor:
+                      activeFilter === filter.label ? "#0030E3" : "#D1D5DB",
+                    backgroundColor:
+                      activeFilter === filter.label ? "#0030E3" : "#FFFFFF",
+                    color:
+                      activeFilter === filter.label ? "#FFFFFF" : "#374151",
+                    transition: "all 0.3s",
+                    cursor: "pointer",
+                  }}
+                >
+                  {filter.icon}
+                  {filter.label}
+                </button>
+              ))}
+            </Box>
+
+            {/* Search */}
+            <Box position="relative" width="240px">
+              <input
+                type="text"
+                placeholder="Search"
+                style={{
+                  width: "100%",
+                  padding: "10px",
+                  fontSize: "14px",
+                  border: "1px solid #D1D5DB",
+                  borderRadius: "8px",
+                  outline: "none",
+                  alignItems: "flex-end",
+                }}
+              />
+            </Box>
+          </Box>
+
+          {/* Posts Feed */}
+          <Box
+            style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}
+          >
+            {posts.map((post) => (
+              <Box
+                key={post.id}
+                style={{
+                  backgroundColor: "white",
+                  border: "1px solid #E5E7EB",
+                  borderRadius: "12px",
+                  padding: "1.5rem",
+                }}
+              >
+                {/* Post Header */}
+                <FlexBox
+                  alignItems="center"
+                  justifyContent="space-between"
+                  mb="1rem"
+                >
+                  <FlexBox
+                    alignItems="center"
+                    justifyContent="space-between"
+                    mb="1rem"
+                  >
+                    <FlexBox alignItems="center" style={{ gap: "12px" }}>
+                      <img
+                        src={post.image} 
+                        alt={post.author}
+                        style={{
+                          width: "40px",
+                          height: "40px",
+                          borderRadius: "50%",
+                          objectFit: "cover",
+                        }}
+                      />
+                      <Box>
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            fontWeight: "600",
+                            color: "#2A5885",
+                          }}
+                        >
+                          {post.author}
+                        </div>
+                        <div style={{ fontSize: "12px", color: "#818C99" }}>
+                          {post.time}
+                        </div>
+                      </Box>
+                    </FlexBox>
+                  </FlexBox>
+                </FlexBox>
+
+                {/* Post Content */}
+                <Box mb="1rem">
+                  <h3
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "600",
+                      color: "#111827",
+                      marginBottom: "0.5rem",
+                      lineHeight: "1.5",
+                    }}
+                  >
+                    {post.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontSize: "14px",
+                      color: "#374151",
+                      lineHeight: "1.6",
+                      margin: 0,
+                    }}
+                  >
+                    {post.content}
+                  </p>
+                </Box>
+
+                {/* Tags */}
+                {post.tags && (
+                  <FlexBox
+                    mb="1rem"
+                    style={{ gap: "0.5rem", flexWrap: "wrap" }}
+                  >
+                    {post.tags.map((tag, index) => (
+                      <span
+                        key={index}
+                        style={{
+                          backgroundColor: "#EFF6FF",
+                          color: "#1D4EDF",
+                          padding: "4px 12px",
+                          borderRadius: "8px",
+                          fontSize: "12px",
+                          fontWeight: "500",
+                        }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </FlexBox>
+                )}
+
+                {/* Post Actions */}
+                <FlexBox
+                  alignItems="center"
+                  justifyContent="space-between"
+                  pt="1rem"
+                  // style={{ borderTop: "1px solid #F3F4F6" }}
+                >
+                  <FlexBox alignItems="center" style={{ gap: "1.5rem" }}>
+                    <FlexBox
+                      alignItems="center"
+                      style={{ gap: "6px", cursor: "pointer" }}
+                    >
+                      <ThumbsUp size={20} style={{ color: "#818C99" }} />
+                      <span style={{ fontSize: "14px", color: "#818C99" }}>
+                        {post.likes}
+                      </span>
+                    </FlexBox>
+                    <FlexBox
+                      alignItems="center"
+                      style={{ gap: "6px", cursor: "pointer" }}
+                      onClick={() => toggleReplies(post.id)}
+                    >
+                      <img
+                        src="/assets/images/icons/messages square_24.svg"
+                        alt="share icon"
+                        height="24px"
+                      />
+                      <span style={{ fontSize: "14px", color: "#818C99" }}>
+                        {post.comments}
+                      </span>
+                    </FlexBox>
+                    <FlexBox
+                      alignItems="center"
+                      style={{ gap: "6px", cursor: "pointer" }}
+                    >
+                      <img
+                        src="/assets/images/icons/share_24.svg"
+                        alt="share icon"
+                        height="24px"
+                      />
+                      <span style={{ fontSize: "14px", color: "#818C99" }}>
+                        {post.shares}
+                      </span>
+                    </FlexBox>
+                  </FlexBox>
+                  <FlexBox alignItems="center" style={{ gap: "6px" }}>
+                    <Eye size={16} style={{ color: "#818C99" }} />
+                    <span style={{ fontSize: "14px", color: "#818C99" }}>
+                      {post.views}
+                    </span>
+                  </FlexBox>
+                </FlexBox>
+
+                {/* Replies Section */}
+                {post.replies && showReplies[post.id] && (
+                  <Box
+                    mt="1rem"
+                    pt="1rem"
+                    style={{ borderTop: "1px solid #F3F4F6" }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "4px",
+                        fontSize: "14px",
+                        fontWeight: 600,
+                        marginBottom: "1rem",
+                        color: "#2A5885",
+                      }}
+                    >
+                      View replies
+                      <img
+                        src="/assets/images/icons/chevron-down.svg"
+                        alt="chevron icon"
+                        height="24px"
+                        style={{
+                          filter:
+                            "invert(30%) sepia(63%) saturate(621%) hue-rotate(176deg) brightness(92%) contrast(91%)",
+                        }}
+                      />
+                    </div>
+
+                    {post.replies.map((reply, index) => (
+                      <Box
+                        key={index}
+                        mb="1rem"
+                        p="0.75rem"
+                        style={{
+                          borderBottom: "1px solid #F3F4F6",
+                          // borderLeft: "3px solid #3B82F6"
+                        }}
+                      >
+                        <FlexBox
+                          alignItems="center"
+                          mb="0.5rem"
+                          style={{ gap: "8px" }}
+                        >
+                          <img
+                            src={reply.image}
+                            alt={reply.author}
+                            style={{
+                              width: "24px",
+                              height: "24px",
+                              borderRadius: "50%",
+                              objectFit: "cover",
+                            }}
+                          />
+                          <span
+                            style={{
+                              fontSize: "13px",
+                              fontWeight: "600",
+                              color: "#2A5885",
+                            }}
+                          >
+                            {reply.author}
+                          </span>
+                        </FlexBox>
+
+                        <Box style={{ paddingLeft: "32px" }}>
+                          {/* Reply Text */}
+                          <p
+                            style={{
+                              fontSize: "13px",
+                              color: "#4B5563",
+                              lineHeight: "1.5",
+                              marginBottom: "0.5rem",
+                            }}
+                          >
+                            {reply.content}
+                          </p>
+
+                          {/* Date + Like/Comment */}
+                          <FlexBox
+                            justifyContent="space-between"
+                            alignItems="center"
+                            style={{ fontSize: "12px", color: "#818C99" }}
+                          >
+                            {/* Left: Static or dynamic date */}
+                            <span>{reply.date || "Jul 22"}</span>
+
+                            {/* Right: Action Icons */}
+                            <FlexBox
+                              alignItems="center"
+                              style={{ gap: "1rem" }}
+                            >
+                              <FlexBox
+                                alignItems="center"
+                                style={{ gap: "4px", cursor: "pointer" }}
+                              >
+                                <ThumbsUp
+                                  size={14}
+                                  style={{ color: "#818C99" }}
+                                />
+                                <span>2</span>
+                              </FlexBox>
+                              <FlexBox
+                                alignItems="center"
+                                style={{ gap: "4px", cursor: "pointer" }}
+                              >
+                                <MessageSquare
+                                  size={14}
+                                  style={{ color: "#818C99" }}
+                                />
+                                <span>1</span>
+                              </FlexBox>
+                            </FlexBox>
+                          </FlexBox>
+                        </Box>
+                      </Box>
+                    ))}
+
+                    {/* Reply Input */}
+                    <Box mt="1rem" pl="32px">
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "8px",
+                          width: "100%",
+                        }}
+                      >
+                        {/* Input with embedded right icons */}
+                        <div style={{ position: "relative", flex: 1 }}>
+                          <input
+                            type="text"
+                            placeholder="Write a reply..."
+                            style={{
+                              width: "100%",
+                              padding: "10px 100px 10px 12px", // space for icons on the right
+                              fontSize: "14px",
+                              border: "1px solid #D1D5DB",
+                              borderRadius: "6px",
+                              outline: "none",
+                              backgroundColor: "white",
+                            }}
+                          />
+
+                          {/* Right icons inside input */}
+                          <div
+                            style={{
+                              position: "absolute",
+                              right: "12px",
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              display: "flex",
+                              gap: "8px",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Paperclip size={18} color="#6B7280" />
+                            <Camera size={18} color="#6B7280" />
+                            <Smile size={18} color="#6B7280" />
+                          </div>
+                        </div>
+
+                        {/* Send icon outside input */}
+                        <div
+                          style={{
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            height: "38px",
+                            width: "38px",
+                            borderRadius: "50%",
+                            // backgroundColor: "#2563EB",
+                          }}
+                        >
+                          <img
+                            src="assets/images/icons/send.svg"
+                            style={{
+                              height: "24",
+                              width: "24",
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </Box>
+                  </Box>
+                )}
+              </Box>
             ))}
-          </Grid>
+          </Box>
         </Box>
       </FlexBox>
     </Container>

@@ -45,7 +45,7 @@ export default async function Market1() {
       <Section13 />
 
       {/* CAR LIST AREA */}
-      <Section6 carBrands={carBrands} carList={carList} />
+      <Section6 />
 
       {/* MOBILE PHONES AREA */}
       <Section7

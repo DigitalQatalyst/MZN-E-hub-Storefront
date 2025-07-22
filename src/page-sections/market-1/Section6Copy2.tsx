@@ -9,8 +9,8 @@ import FlexBox from "@component/FlexBox";
 import Container from "@component/Container";
 import { Home, Compass, Users, Bell, MessageCircle } from "lucide-react";
 
-export default function Section6() {
-  const [activeItem, setActiveItem] = useState("My Communities");
+export default function Section6Copy() {
+  const [activeItem, setActiveItem] = useState("Messages");
 
   const navItems = [
     { label: "Home", icon: <Home size={18} />, href: "/" },
@@ -78,7 +78,6 @@ export default function Section6() {
             </nav>
           </Box>
         </Hidden>
-
         {/* Main Content */}
         <Box
           style={{
@@ -87,13 +86,19 @@ export default function Section6() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            marginTop: "70px",
           }}
         >
           <div className="flex flex-col items-center text-center gap-4">
-            <div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: "70px",
+              }}
+            >
               <img
-                src="/images/bro.png"
+                src="/images/mailbox.png"
                 alt="Empty State"
                 className="w-64 h-auto"
               />
@@ -112,7 +117,7 @@ export default function Section6() {
                     lineHeight: "20px",
                   }}
                 >
-                  You haven’t joined any communities yet
+                  No messages yet
                 </h2>
               </div>
               <div style={{ alignSelf: "stretch" }}>
@@ -120,15 +125,17 @@ export default function Section6() {
                   style={{
                     color: "#6E6E6E",
                     textAlign: "center",
+                    fontFamily: "Helvetica Neue, sans-serif",
                     fontSize: "16px",
                     fontStyle: "normal",
                     fontWeight: "400",
                     lineHeight: "20px",
-                    fontFamily: "Helvetica Neue, sans-serif",
                   }}
                 >
-                  Discover communities that match your interests, industry, or
-                  goals.
+                  Discover communities, connect with others, and start
+                  meaningful conversations.
+                  <br />
+                  Your messages will appear here once you begin interacting.
                 </p>
               </div>
               <div

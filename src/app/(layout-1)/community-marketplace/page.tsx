@@ -14,9 +14,8 @@ import Section11 from "@sections/market-1/Section11";
 import Section12 from "@sections/market-1/Section12";
 import Section13 from "@sections/market-1/Section13";
 import NavbarMarketplace from "@component/navbar/NavbarMarketplace";
-import TabBar from '@component/tab-bar/TabBar';
+import TabBar from "@component/tab-bar/TabBar";
 import Container from "@component/Container";
-
 
 export default async function Market1() {
   const carList = await api.getCarList();
@@ -32,15 +31,16 @@ export default async function Market1() {
     <main>
       {/* NAVBAR AREA */}
       <NavbarMarketplace />
-      
+
       {/* TABBAR AREA */}
-      <Container><TabBar /></Container>
+      <Container>
+        <TabBar />
+      </Container>
       {/* HERO CAROUSEL AREA */}
       {/* <Section1 /> */}
 
       {/* FLASH DEAL PRODUCTS AREA */}
       {/* <Section2 /> */}
-
       {/* TOP CATEGORIES AREA */}
       {/* <Section3 /> */}
 
@@ -54,7 +54,7 @@ export default async function Market1() {
       {/* <Section13 /> */}
 
       {/* CAR LIST AREA */}
-      <Section6 carBrands={carBrands} carList={carList} />
+      <Section6 />
 
       {/* MOBILE PHONES AREA */}
       {/* <Section7

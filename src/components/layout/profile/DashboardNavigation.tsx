@@ -32,7 +32,7 @@ const Sidebar = () => {
       id: "chats",
       label: "Chats",
       icon: "/images/chat.svg",
-      route: "/chats",
+      route: "/chat",
     },
   ];
 
@@ -47,7 +47,7 @@ const Sidebar = () => {
       id: "insights",
       label: "Insights",
       icon: "/images/analytics.svg",
-      route: "/#",
+      route: "/application-details",
     },
   ];
 

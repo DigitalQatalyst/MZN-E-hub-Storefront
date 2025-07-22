@@ -109,10 +109,12 @@ export const CheckboxLabel = styled.label`
     background-size: cover;
     background-position: center;
     cursor: pointer;
+    border-radius: 4px; /* Add border radius here */
 
     &:checked {
       background-image: url("/assets/images/non_financial_marketplace/check.svg");
       background-color: #002180;
+      border-radius: 4px; /* Ensure border radius applies when checked */
     }
   }
 

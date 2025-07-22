@@ -9,7 +9,6 @@ import NavLink from "@component/nav-link";
 import Icon from "@component/icon/Icon";
 import FlexBox from "@component/FlexBox";
 import { Span, H6 } from "@component/Typography";
-import { Accordion, AccordionHeader } from "@component/accordion";
 
 // Styled Components
 

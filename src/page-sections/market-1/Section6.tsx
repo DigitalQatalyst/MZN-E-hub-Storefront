@@ -39,7 +39,7 @@ const posts = [
       "After several months of testing, we have successfully integrated blockchain technology into our supply chain management. This has provided unprecedented transparency in tracking goods from source to consumer, significantly reducing fraud and improving customer trust.",
     tags: ["Blockchain & Web3"],
     likes: 21,
-    comments: 4,
+    comments: 4, 
     views: 390,
     replies: [
       {
@@ -240,8 +240,7 @@ export default function Section6() {
                 </span>
               </h1>
               <p style={{ fontSize: 16, lineHeight: "1.5" }}>
-                Join a thriving community of professionals, learn together,
-                collaborate, and grow across industries.
+                Join a dynamic ecosystem of businesses and service providers—share insights, discover opportunities, and build meaningful connections across sectors.
               </p>
             </Box>
           </Box>

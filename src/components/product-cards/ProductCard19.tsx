@@ -179,14 +179,14 @@ export default function ProductCard19(props: ProductCard19Props) {
             <StyledImage src={img} width={63} height={63} alt="category" />
           </Link>
 
-          <EyeButton onClick={() => setOpenDialog(true)}>
+          {/* <EyeButton onClick={() => setOpenDialog(true)}>
             <Icon size="18px">eye</Icon>
-          </EyeButton>
+          </EyeButton> */}
 
-          <FavoriteButton onClick={handleFavorite}>
-          <Icon size="18px">Bookmark</Icon>
+          {/* <FavoriteButton onClick={handleFavorite}>
+          <Icon size="18px">Bookmark</Icon> */}
             {/* {isFavorite ? <Icon size="18px">eye</Icon> : <Icon size="18px">Bookmark</Icon>} */}
-          </FavoriteButton>
+          {/* </FavoriteButton> */}
         </CardMedia>
 
         <Box textAlign="left">

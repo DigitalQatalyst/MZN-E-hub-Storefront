@@ -144,7 +144,7 @@ const navigations = [
   {
     icon: "forum",
     title: "Communities",
-    href: "",
+    href: "https://mzn-e-hub-storefront-git-unifieddemo-digitalqatalysts-projects.vercel.app/community-marketplace",
     menuComponent: "MegaMenu1",
     menuData: {
       categories: [
@@ -258,7 +258,7 @@ const navigations = [
   {
     icon: "brand_awareness",
     title: "Media",
-    href: "",
+    href: "https://kf-ej-media-marketplace-reruapfib-digitalqatalysts-projects.vercel.app/media/",
     menuComponent: "MegaMenu2",
     menuData: [
       {

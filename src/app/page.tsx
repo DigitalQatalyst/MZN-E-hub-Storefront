@@ -21,7 +21,7 @@ export default async function Market1() {
 
   return (
     <MsalWrapper>
-    <main>
+    <main> 
       {/* HERO CAROUSEL AREA
       <Section1 />
       FLASH DEAL PRODUCTS AREA */}

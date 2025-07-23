@@ -17,6 +17,12 @@ const WelcomeSection = styled.section`
   font-family: 'Abhaya Libre', serif;
   gap: 2rem;
   margin-bottom: 2rem;
+  @media (max-width: 1199px) {
+    padding: 32px 32px 32px 32px;
+  }
+  @media (max-width: 899px) {
+    padding: 16px 8px 16px 8px;
+  }
 `;
 
 const ContentColumn = styled.div`
@@ -46,6 +52,14 @@ const EventsContainer = styled.div`
   gap: 2rem;
   width: 100%;
   flex-wrap: nowrap;
+  @media (max-width: 899px) {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  @media (max-width: 599px) {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 `;
 
 const EventCard = styled.div`
@@ -57,6 +71,13 @@ const EventCard = styled.div`
   gap: 1rem;
   flex: 1 1 0;
   min-width: 0;
+  @media (max-width: 899px) {
+    flex: 1 1 100%;
+    border-radius: 8px;
+  }
+  @media (max-width: 599px) {
+    border-radius: 6px;
+  }
 `;
 
 const EventImage = styled.div`
@@ -79,6 +100,9 @@ const EventTitle = styled.h4`
   font-weight: 400;
   color: #FFF;
   margin: 0;
+  @media (max-width: 899px) {
+    font-size: 16px;
+  }
 `;
 
 const EventMeta = styled.div`

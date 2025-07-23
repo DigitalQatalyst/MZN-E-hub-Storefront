@@ -14,7 +14,7 @@ import { useAppContext } from "@context/app-context";
 // STYLED COMPONENTS
 const StyledBazaarCard = styled(Card)(({ theme }) => ({
   margin: "auto",
-  height: "296px",
+  height: "310px",
   flexShrink: 0,
   display: "flex",
   overflow: "hidden",
@@ -28,15 +28,38 @@ const StyledBazaarCard = styled(Card)(({ theme }) => ({
   "&:hover": {
     boxShadow: theme.shadows[2],
     "& .controller": { right: 10 }
-  }
+  },
+  '@media (max-width: 1199px)': {
+    height: '270px',
+    borderRadius: '10px',
+  },
+  '@media (max-width: 899px)': {
+    height: '220px',
+    borderRadius: '8px',
+  },
+  '@media (max-width: 599px)': {
+    height: 'auto',
+    minHeight: '160px',
+    borderRadius: '6px',
+    margin: '0',
+  },
 }));
 
 const ImageWrapper = styled(Box)({
-  padding: "20px 200px 20px 20px",
-  textAlign: "center",
-  position: "relative",
+  padding: "20px",
   display: "flex",
-  justifyContent: "center",
+  justifyContent: "flex-start",
+  alignItems: "center",
+  position: "relative",
+  minHeight: "100px",
+  '@media (max-width: 899px)': {
+    padding: '12px',
+    minHeight: '60px',
+  },
+  '@media (max-width: 599px)': {
+    padding: '8px',
+    minHeight: '40px',
+  },
 });
 
 const ImageBox = styled(Box)({
@@ -49,6 +72,13 @@ const ImageBox = styled(Box)({
 });
 
 const ContentWrapper = styled(Box)({
+  paddingBottom: 8,
+  '@media (max-width: 899px)': {
+    paddingBottom: 4,
+  },
+  '@media (max-width: 599px)': {
+    paddingBottom: 2,
+  },
   "& .title": {
     overflow: "hidden",
     whiteSpace: "normal",
@@ -99,7 +129,7 @@ const StyledTitle1 = styled(H3)(({ wordCount }) => ({
 }));
 
 const StyledSubtitle = styled("p")({
-    padding: "0 0 40px 20px",
+  padding: "0 0 40px 20px",
   color: "var(--KF-BG-Black, #000)",
   fontFamily: '"Helvetica Neue"',
   fontSize: "14px",

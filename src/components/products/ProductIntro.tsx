@@ -24,6 +24,8 @@ import { IoPlaySharp } from "react-icons/io5";
 import { BiSolidInfoCircle } from "react-icons/bi";
 import "./products.css";
 import { Carousel } from "@component/carousel";
+import { MdLaunch, MdOutlineLaunch, MdShare } from "react-icons/md";
+import { GiShare } from "react-icons/gi";
 
 // ========================================
 interface Props {
@@ -95,11 +97,13 @@ export default function ProductIntro({ product }: Props) {
             }}
             color="#002180"
           >
-            <IoMdArrowBack size={30} color="#0030E3" />
-            <Span color="#002180">Back to Financial Services</Span>
+            <IoMdArrowBack size={12} color="#0030E3" />
+            <Span color="#0030E3" fontSize={12} fontWeight={500}>
+              Back to Financial Services
+            </Span>
           </Link>
 
-          <H2 mb="1rem" color="#0030E3">
+          <H2 mb="1rem" color="#0030E3" fontFamily="FS Kim Trial">
             {product?.title}
           </H2>
           <Span mb="1rem" fontWeight={500}>
@@ -143,29 +147,25 @@ export default function ProductIntro({ product }: Props) {
               >
                 Start Application
               </p>
+              <Icon marginLeft={"10px"}>launch</Icon>
             </Button>
             <Button
               color="#002180"
               height="50px"
-              border={"2px solid #002180"}
+              border={"2px solid #0030E3"}
               className="product-intro-details-btn-2"
             >
-              <FaRegBookmark color="#002180" size="20px" />
-              <span>Save</span>
+              <FaRegBookmark color="#0030E3" size="20px" />
+              <span style={{ color: "#0030E3" }}>Save</span>
             </Button>
             <FlexBox
               justifyContent="s
             Pace-between"
               width="10%"
             >
-              <Button
-                width="100%"
-                height="50px"
-                border={"2px solid #002180"}
-                className="product-intro-details-btn-3"
-              >
-                <Icon color="#002180">share 1</Icon>
-              </Button>
+              <Span className="product-intro-details-btn-3">
+                <GiShare color="#0030E3" size="20px" />
+              </Span>
             </FlexBox>
           </FlexBox>
           <FlexBox className="product-intro-tags">

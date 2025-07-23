@@ -16,9 +16,13 @@ import { border, display, flexDirection, fontWeight } from "styled-system";
 import Image from "next/image";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import "./products.css";
+import { FaAngleRight } from "react-icons/fa";
+import { IoArrowForward } from "react-icons/io5";
+import Link from "next/link";
 
 const TabButton = styled(Button)<{ active?: boolean }>`
   padding: 0.75rem 1.5rem;
+  width: 200px;
   border: none;
   box-shadow: none;
   color: ${({ active }) => (active ? "#0030E3" : "#747474")};
@@ -338,7 +342,7 @@ export default function ProductDetails({ product }: Props) {
           <H3 color="#002180" mb="1.5rem">
             Related Services
           </H3>
-          <Carousel slidesToShow={3} responsive={responsive}>
+          <Carousel slidesToShow={4} responsive={responsive}>
             {product.relatedServices.map((service) => (
               <Grid item xs={12} sm={6} md={4} key={service.id}>
                 <ProductCard20
@@ -357,9 +361,20 @@ export default function ProductDetails({ product }: Props) {
         </Box>
       ) : (
         <Box mt="3rem">
-          <H3 color="#002180" mb="1.5rem">
-            Related Services
-          </H3>
+          <FlexBox color="#0030E3" mb="1.5rem" justifyContent="space-between">
+            <H3 color="#0030E3">Related Services</H3>
+            <Link
+              href="/services"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                color: "#0030E3",
+              }}
+            >
+              Explore More
+              <IoArrowForward />
+            </Link>
+          </FlexBox>
           <Carousel
             arrows={false}
             slidesToShow={4}

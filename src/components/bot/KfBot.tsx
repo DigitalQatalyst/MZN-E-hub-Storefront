@@ -27,8 +27,8 @@ const KfBot = () => {
               .vfrc-launcher {
                 background-color: #ffffff !important;
                 color: #ffffff !important;
-                 width: 60px !important;
-                  height: 60px !important;
+                 width: 40px !important;
+                  height: 40px !important;
                   border-radius: 50% !important;
                  position: fixed !important;
                 top: 50% !important;

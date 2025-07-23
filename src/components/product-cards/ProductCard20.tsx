@@ -21,6 +21,7 @@ const CardBox = styled(Box)(({ theme }) => ({
   height: "auto",
   padding: "16px",
   marginBottom: "20px",
+  marginTop: "20px",
   transition: "all 0.3s",
   borderRadius: "8px",
   background: "#FFF",

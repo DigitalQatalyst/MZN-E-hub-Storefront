@@ -15,6 +15,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { chats } from "./constants";
 import { Input } from "@mui/material";
 import { FaMicrophone } from "react-icons/fa";
+import PaymentSchedule from "./components/PaymentSchedule";
 
 const page = () => {
   return (
@@ -159,6 +160,7 @@ const page = () => {
                 </Box>
 
                 {/* Table Head */}
+                <PaymentSchedule />
               </Box>
             </Box>
           </Grid>

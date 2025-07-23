@@ -209,12 +209,12 @@ export default function ProductCard20(props: ProductCard19Props) {
           <StyledParagraph>{name}</StyledParagraph>
           <StyledH4 fontWeight={700}>{subTitle}</StyledH4>
 
-          <FlexBox justifyContent="flex-start" alignItems="center" mb="1rem">
+          {/* <FlexBox justifyContent="flex-start" alignItems="center" mb="1rem">
             <Rating value={4} color="warn" size="small" />
             <Small fontWeight={600} color="gray.500" ml=".3rem">
               ({reviews})
             </Small>
-          </FlexBox>
+          </FlexBox> */}
           <StyledH5 fontWeight={700}>{description}</StyledH5>
           <Box
             display="flex"

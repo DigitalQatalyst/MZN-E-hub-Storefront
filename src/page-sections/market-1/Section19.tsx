@@ -142,7 +142,7 @@ const ContentColumn = styled.div`
   align-items: flex-start;
   flex: 1;
   max-width: 50%;
-  padding-top: 40px;
+  /* Removed padding-top: 40px to align with FormColumn */
   
   @media (max-width: 1199px) {
     max-width: 45%;
@@ -236,16 +236,16 @@ const FeatureContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding-top: 40px;
+  margin-top: 40px; /* Changed from padding-top to margin-top for better spacing */
   
   @media (max-width: 899px) {
     align-items: center;
-    padding-top: 20px;
+    margin-top: 20px;
   }
   
   @media (max-width: 480px) {
     align-items: flex-start;
-    padding-top: 16px;
+    margin-top: 16px;
   }
 `;
 
@@ -280,6 +280,7 @@ const FormColumn = styled.form`
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  align-self: flex-start; /* Added to ensure form starts at the top */
   
   @media (max-width: 1199px) {
     max-width: 100%;

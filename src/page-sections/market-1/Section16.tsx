@@ -11,7 +11,7 @@ import Icon from "@component/icon/Icon";
 const WelcomeSection = styled.section`
   background-color: #0030E3;
   color: white;
-  padding: 50px 120px 50px 120px;
+  padding: 90px 120px 50px 120px;
   display: flex;
   flex-direction: column;
   font-family: 'Abhaya Libre', serif;
@@ -28,7 +28,6 @@ const WelcomeSection = styled.section`
 const ContentColumn = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 `;
 
 const FeaturedEvents = styled.div`

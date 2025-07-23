@@ -15,47 +15,39 @@ type ProductCard6Props = {
 const ProductCard6 = ({ title, subtitle, imgUrl }: ProductCard6Props) => {
   return (
     <Box
-      
       style={{
-        width: "100%",
+        width: "546px",
         maxWidth: "100%",
         boxSizing: "border-box"
       }}
     >
       <Card
         style={{
-          padding: "2rem",
+          padding: "20px 21px 20px 20px",
           height: "auto",
           minHeight: "200px",
+          width: "546px",
+          maxWidth: "100%",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "flex-start",
+          justifyContent: "center",
+          alignItems: "flex-start",
+          gap: "4px",
           boxSizing: "border-box",
-          width: "100%",
-          maxWidth: "100%",
           overflow: "hidden",
-          backgroundColor: "white",
-          borderRadius: "16px",
-          border: "none",
-          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)"
+          backgroundColor: "#FFF",
+          borderRadius: "8px",
+          border: "0.5px solid #D1D1D1",
+          boxShadow: "none"
         }}
         hoverEffect
       >
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            gap: "1.5rem",
-            height: "100%"
-          }}
-        >
+        <Box>
           <H4
             style={{
               margin: 0,
-              lineHeight: "1.4",
-              fontSize: "1.25rem",
               fontWeight: "700",
+              lineHeight: "1.4",
               color: "#333",
               wordWrap: "break-word",
               overflow: "hidden",
@@ -70,16 +62,17 @@ const ProductCard6 = ({ title, subtitle, imgUrl }: ProductCard6Props) => {
           <H5
             style={{
               margin: 0,
-              lineHeight: "1.6",
-              fontSize: "1rem",
-              color: "#666",
+              marginTop: "1rem",
               fontWeight: "400",
+              lineHeight: "1.6",
+              color: "#666",
+              whiteSpace: "normal",
+              wordBreak: "break-word",
               wordWrap: "break-word",
               overflow: "hidden",
               display: "-webkit-box",
               WebkitLineClamp: 4,
-              WebkitBoxOrient: "vertical",
-              flex: 1
+              WebkitBoxOrient: "vertical"
             }}
           >
             {subtitle}

@@ -25,12 +25,12 @@ import styled from "styled-components";
 // Updated navbarNavigations data
 const navbarNavigations = [
   {
-    title: "Business in AbuDhabi",
+    title: "Discover AbuDhabi",
     url: "/development",
     extLink: false,
   },
   {
-    title: "Help center",
+    title: "Help Centre",
     url: "https://mzn-e-hub-storefront-cmzcnvx8o-digitalqatalysts-projects.vercel.app/faq",
     extLink: false,
   },
@@ -45,6 +45,7 @@ const ResponsiveNavbar = styled(StyledNavbar)`
   .navbar-container {
     padding-left: 54px;
     padding-right: 54px;
+    padding-top: 17px;
     max-width: 100%;
   }
   
@@ -751,7 +752,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             <UnauthenticatedTemplate>
               <FlexBox className="mobile-auth-buttons" alignItems="center" style={{ gap: "8px" }}>
                 <Button className="sign-in-btn" variant="outlined" onClick={handleLogin}>
-                  Sign In
+                Become a Partner
                 </Button>
                 <Button className="sign-up-button" variant="contained" onClick={handleSignUp}>
                   Sign Up

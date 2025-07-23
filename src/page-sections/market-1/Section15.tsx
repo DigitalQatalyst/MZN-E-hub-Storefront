@@ -80,7 +80,7 @@ const StyledBody = styled.p`
   font-family: "FS Kim Trial";
   font-size: 48px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 550;
   line-height: var(--Display-Medium-Line-Height, 52px); /* 108.333% */
   letter-spacing: var(--Display-Medium-Tracking, 0px);
   margin: 0;

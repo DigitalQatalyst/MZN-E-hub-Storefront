@@ -16,8 +16,7 @@ const CardBox = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   width: "100%",
-  minHeight: "200px",
-  height: "260px",
+  minHeight: "200px", // Removed fixed height
   padding: "16px",
   transition: "all 0.3s",
   borderRadius: "8px",
@@ -45,7 +44,7 @@ const CardMedia = styled(Box)(({ theme }) => ({
   ".product-img": {
     transition: "0.3s",
     width: "100%",
-    height: "100%",
+    height: "auto", // Changed to auto for responsive scaling
   },
 }));
 
@@ -55,9 +54,9 @@ const EyeButton = styled(IconButton)(() => ({
   position: "absolute",
   transition: "right 0.3s .1s",
   background: "transparent",
-  display: "none", // Initially hidden
+  display: "none",
   "&.eye-button": {
-    display: "none", // Ensure initial state is hidden
+    display: "none",
   },
 }));
 
@@ -67,9 +66,9 @@ const FavoriteButton = styled(IconButton)(() => ({
   position: "absolute",
   background: "transparent",
   transition: "right 0.3s .2s",
-  display: "none", // Initially hidden
+  display: "none",
   "&.favorite-button": {
-    display: "none", // Ensure initial state is hidden
+    display: "none",
   },
 }));
 
@@ -108,14 +107,14 @@ const StyledH5 = styled(H4)`
 const StyledButton = styled(DefaultButton)`
   display: flex;
   text-align: left;
-  padding: 4px 8px; /* Reduced padding */
+  padding: 4px 8px;
   justify-content: center;
   align-items: center;
   gap: 5px;
   align-self: stretch;
   border-radius: 100px;
-  width: 80px; /* Reduced width */
-  height: 20px; /* Reduced height */
+  width: auto; // Changed to auto for responsiveness
+  height: 20px;
   background-color: transparent;
   border: 1px solid #ccc;
   transition: background-color 0.3s, color 0.3s;
@@ -124,7 +123,7 @@ const StyledButton = styled(DefaultButton)`
     color: #000;
     text-align: center;
     font-family: "Open Sans";
-    font-size: 10px; /* Reduced font size */
+    font-size: 10px;
     font-style: normal;
     font-weight: 300;
   }
@@ -132,7 +131,7 @@ const StyledButton = styled(DefaultButton)`
 
 const StyledImage = styled(NextImage)`
   width: 73px;
-  height: 73px;
+  height: auto; // Changed to auto for responsive scaling
   flex-shrink: 0;
   aspect-ratio: 1/1;
 `;
@@ -172,8 +171,8 @@ const LearnMoreWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 3px; /* Reduced gap */
-  margin-top: 15px;
+  gap: 5px;
+  // margin-top: 15px;
 `;
 
 type NonFinancialServiceCardProps = {
@@ -208,9 +207,9 @@ export default function NonFinancialServiceCard(props: NonFinancialServiceCardPr
             <StyledImage src={img} width={63} height={63} alt="category" />
           </Link>
 
-          <EyeButton className="eye-button" onClick={() => setOpenDialog(true)}>
+          {/* <EyeButton className="eye-button" onClick={() => setOpenDialog(true)}>
             <Icon size="18px">eye</Icon>
-          </EyeButton>
+          </EyeButton> */}
 
           <FavoriteButton className="favorite-button" onClick={handleFavorite}>
             <Icon size="18px">Bookmark</Icon>
@@ -221,27 +220,21 @@ export default function NonFinancialServiceCard(props: NonFinancialServiceCardPr
           <StyledParagraph data-fulltext={name}>{name}</StyledParagraph>
           <StyledH4 fontWeight={700}>{subTitle}</StyledH4>
 
-          {/* <FlexBox justifyContent="flex-start" alignItems="center" mb="1rem">
-            <Rating value={4} color="warn" size="small" />
-            <Small fontWeight={600} color="gray.500" ml=".3rem">
-              ({reviews})
-            </Small>
-          </FlexBox> */}
           <StyledH5 fontWeight={700}>{description}</StyledH5>
-          <Box display="flex" alignItems="center" justifyContent="space-between" flexWrap="wrap" > {/* Replaced gap with margin for spacing */}
-            <StyledButton mt={3}>
+          <Box display="flex" alignItems="center" justifyContent="space-between" flexWrap="wrap" mt="1rem">
+            <StyledButton>
               <span>Start-Up</span>
             </StyledButton>
-            <StyledButton mt={3}>
+            <StyledButton>
               <span>All Industries</span>
             </StyledButton>
 
             <Link href={`/product/${slug}`} style={{ textDecoration: "none" }}>
               <LearnMoreWrapper style={{ cursor: "pointer" }}>
-                <Paragraph color="#002180" mr="0.3rem" fontSize="10px"> {/* Reduced font size */}
+                <Paragraph color="#002180" mr="0.3rem" fontSize="10px">
                   View Details
                 </Paragraph>
-                <Icon color="#002180" size="14px">arrow_forward</Icon> {/* Reduced icon size */}
+                <Icon color="#002180" size="14px">arrow_forward</Icon>
               </LearnMoreWrapper>
             </Link>
           </Box>

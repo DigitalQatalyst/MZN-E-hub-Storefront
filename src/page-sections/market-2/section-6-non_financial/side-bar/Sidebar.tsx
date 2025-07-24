@@ -93,7 +93,7 @@ export default function Sidebar({
         elevation={0}
         style={{
           border: 0,
-          height: "94%",
+          height: "auto", // Changed from "94%" to "auto" for dynamic height
           borderRadius: "3px",
           padding: "1rem 2rem",
           backgroundColor: "#FFFFFF",

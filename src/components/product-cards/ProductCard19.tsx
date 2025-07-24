@@ -17,13 +17,11 @@ const CardBox = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   width: "100%",
-  minHeight: "200px",
-  height: "260px",
+  minHeight: "200px", // Removed fixed height
   padding: "16px",
   transition: "all 0.3s",
   borderRadius: "8px",
   background: "#FFF",
-  // border: "1px solid #efefefff",
   boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.15), 0px 1px 3px 1px rgba(0, 0, 0, 0.08)",
   "&:hover": {
     ".product-img": {
@@ -43,11 +41,11 @@ const CardMedia = styled(Box)(({ theme }) => ({
   maxHeight: "300px",
   cursor: "pointer",
   position: "relative",
-  marginBottom: "15px", // Added to increase gap between CardMedia and Box below
+  marginBottom: "15px",
   ".product-img": {
     transition: "0.3s",
     width: "100%",
-    height: "100%",
+    height: "auto", // Changed to auto for responsive scaling
   },
 }));
 
@@ -57,9 +55,9 @@ const EyeButton = styled(IconButton)(() => ({
   position: "absolute",
   transition: "right 0.3s .1s",
   background: "transparent",
-  display: "none", // Initially hidden
+  display: "none",
   "&.eye-button": {
-    display: "none", // Ensure initial state is hidden
+    display: "none",
   },
 }));
 
@@ -69,9 +67,9 @@ const FavoriteButton = styled(IconButton)(() => ({
   position: "absolute",
   background: "transparent",
   transition: "right 0.3s .2s",
-  display: "none", // Initially hidden
+  display: "none",
   "&.favorite-button": {
-    display: "none", // Ensure initial state is hidden
+    display: "none",
   },
 }));
 
@@ -116,7 +114,7 @@ const StyledButton = styled(DefaultButton)`
   gap: 10px;
   align-self: stretch;
   border-radius: 100px;
-  width: 98px;
+  width: auto; // Changed to auto for responsiveness
   height: 25px;
   background-color: transparent;
   border: 1px solid #ccc;
@@ -134,7 +132,7 @@ const StyledButton = styled(DefaultButton)`
 
 const StyledImage = styled(NextImage)`
   width: 73px;
-  height: 73px;
+  height: auto; // Changed to auto for responsive scaling
   flex-shrink: 0;
   aspect-ratio: 1/1;
 `;
@@ -159,7 +157,7 @@ const LearnMoreWrapper = styled.div`
   justify-content: center;
   align-items: center;
   gap: 5px;
-  margin-top: 15px;
+  // margin-top: 15px;
 `;
 
 type ProductCard19Props = {
@@ -194,9 +192,9 @@ export default function ProductCard19(props: ProductCard19Props) {
             <StyledImage src={img} width={63} height={63} alt="category" />
           </Link>
 
-          <EyeButton className="eye-button" onClick={() => setOpenDialog(true)}>
+          {/* <EyeButton className="eye-button" onClick={() => setOpenDialog(true)}>
             <Icon size="18px">eye</Icon>
-          </EyeButton>
+          </EyeButton> */}
 
           <FavoriteButton className="favorite-button" onClick={handleFavorite}>
             <Icon size="18px">Bookmark</Icon>
@@ -207,19 +205,14 @@ export default function ProductCard19(props: ProductCard19Props) {
           <StyledParagraph>{name}</StyledParagraph>
           <StyledH4 fontWeight={700}>{subTitle}</StyledH4>
 
-          {/* <FlexBox justifyContent="flex-start" alignItems="center" mb="1rem">
-            <Rating value={4} color="warn" size="small" />
-            <Small fontWeight={600} color="gray.500" ml=".3rem">
-              ({reviews})
-            </Small>
-          </FlexBox> */}
           <StyledH5 fontWeight={700}>{description}</StyledH5>
           <Box
             display="flex"
             alignItems="center"
             justifyContent="space-between"
+            mt="1rem" // Replaced mt={3} with relative unit
           >
-            <StyledButton mt={3}>
+            <StyledButton>
               <span>Funding & Loans</span>
             </StyledButton>
 

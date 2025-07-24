@@ -102,25 +102,31 @@ export const CheckboxLabel = styled.label`
 
   input[type="checkbox"] {
     appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 1.25rem; // Fixed rem unit
+    height: 1.25rem; // Fixed rem unit
     margin-right: 0.5rem;
     background-image: url("/assets/images/non_financial_marketplace/Checkbox.svg");
-    background-size: cover;
+    background-size: 100% 100%; // Force uniform scaling to fill the container
+    background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
-    border-radius: 4px; /* Add border radius here */
+    border-radius: 4px;
+    flex-shrink: 0; // Prevent shrinking
 
     &:checked {
       background-image: url("/assets/images/non_financial_marketplace/check.svg");
       background-color: #002180;
-      border-radius: 4px; /* Ensure border radius applies when checked */
+      background-size: 100% 100%; // Force uniform scaling for checked state
+      background-repeat: no-repeat;
+      background-position: center;
+      border-radius: 4px;
     }
   }
 
   label {
     font-size: 14px;
     color: #333;
+    flex-grow: 1; // Allow label to grow and push checkbox to consistent size
   }
 `;
 

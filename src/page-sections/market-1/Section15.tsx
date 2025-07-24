@@ -65,7 +65,7 @@ const Description = styled.p`
 
 const StyledHeader = styled.p`
   color: #000;
-  font-family: "Helvetica Neue";
+  font-family: "Open Sans", sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;

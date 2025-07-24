@@ -25,19 +25,21 @@ const KfBot = () => {
               "data:text/css;base64," +
               btoa(`
               .vfrc-launcher {
-                background-color: #ffffff !important;
-                color: #ffffff !important;
-                 width: 40px !important;
-                  height: 40px !important;
-                  border-radius: 50% !important;
+                
                  position: fixed !important;
                 top: 50% !important;
                 right: 15px !important;
                 transform: translateY(-50%) !important;
+                box-shadow: none !important;
+                border: 1px solid #01E5D1 !important;
               }
               .vfrc-launcher:hover {
                 background-color: #ffffff !important;
               }
+                .vfrc-launcher::before {
+  content: url('/assets/images/KF/KFbotLauncher.png') !important;
+  
+}
             `),
           },
         })

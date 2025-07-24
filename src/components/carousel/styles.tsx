@@ -39,7 +39,7 @@ export const DotList = styled("ul")(({ theme }) => ({
     justifyContent: "center",
     transition: "all 0.4s",
     "&.slick-active span": { backgroundColor: theme.colors.primary.main },
-    "&.slick-active": { width: 20 },
+    "&.slick-active": { transform: "scale(1.5)" },
   },
 }));
 

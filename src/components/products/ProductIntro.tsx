@@ -15,7 +15,11 @@ import { useAppContext } from "@context/app-context";
 import Product from "@models/product.model";
 import { FaRegBookmark } from "react-icons/fa";
 import { IoShareSocial } from "react-icons/io5";
-import { IoIosArrowBack, IoMdArrowBack } from "react-icons/io";
+import {
+  IoIosArrowBack,
+  IoMdArrowBack,
+  IoMdArrowForward,
+} from "react-icons/io";
 import Link from "next/link";
 import { border } from "styled-system";
 import { FaRegClock } from "react-icons/fa";
@@ -200,7 +204,11 @@ export default function ProductIntro({ product }: Props) {
                     </Span>
                   ))}
                 </FlexBox> */}
-                <FlexBox className="categories">
+                <FlexBox
+                  flexDirection="column"
+                  className="categories"
+                  style={{ gap: "10px" }}
+                >
                   {categories.map((category, index) => (
                     <Span className="tags" key={index}>
                       {category.name}
@@ -225,7 +233,7 @@ export default function ProductIntro({ product }: Props) {
           justifyContent={"top"}
           className="product-intro-details-right"
         >
-          <Carousel
+          {/* <Carousel
             dots
             arrows
             slidesToShow={1}
@@ -245,7 +253,6 @@ export default function ProductIntro({ product }: Props) {
                       overflow: "hidden",
                     }}
                   >
-                    {/* Always render the video */}
                     <video
                       ref={videoRef}
                       src={asset.url}
@@ -274,7 +281,6 @@ export default function ProductIntro({ product }: Props) {
                           padding: "24px",
                         }}
                       >
-                        {/* Logo */}
                         <img
                           src="/images/Logo2 (3).png"
                           alt="Logo"
@@ -284,7 +290,7 @@ export default function ProductIntro({ product }: Props) {
                             marginTop: 5,
                           }}
                         />
-                        {/* Title and Subtitle */}
+           
                         <div style={{ color: "#fff", marginBottom: 10 }}>
                           <div
                             style={{
@@ -300,7 +306,7 @@ export default function ProductIntro({ product }: Props) {
                             Growth and Innovation
                           </div>
                         </div>
-                        {/* Play Button */}
+                    
                         <button
                           onClick={handlePlayClick}
                           style={{
@@ -329,6 +335,90 @@ export default function ProductIntro({ product }: Props) {
                 ) : (
                   <img src={asset.url} alt="Product Image" />
                 )}
+              </Box>
+            ))}
+          </Carousel> */}
+          <Carousel
+            dots
+            arrows
+            slidesToShow={1}
+            responsive={responsive}
+            dotColor="gray"
+            dotStyles={{ bottom: "-40px" }}
+          >
+            {assets.map((asset, index) => (
+              <Box key={index} width="100%">
+                <Box
+                  width="100%"
+                  height="300px"
+                  style={{
+                    position: "relative",
+                    // borderRadius: "8px",
+                    overflow: "hidden",
+                    boxShadow: "0 4px 4px 0 rgba(0, 0, 0, 0.25)",
+                    borderRadius: "6px",
+                  }}
+                >
+                  <Box
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      background: "white",
+                      zIndex: 2,
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "flex-end",
+                      alignItems: "flex-start",
+                      padding: "24px",
+                    }}
+                  >
+                    <img
+                      src="/images/khalifa-fund-logo.svg"
+                      alt="Logo"
+                      style={{
+                        width: 32,
+                        height: 21,
+                        marginBottom: "auto",
+                      }}
+                    />
+
+                    {/* Title and Subtitle */}
+                    <FlexBox
+                      alignItems="flex-end"
+                      justifyContent="space-between"
+                    >
+                      <div style={{ width: "70%" }}>
+                        <div
+                          style={{
+                            fontWeight: 700,
+                            fontSize: 45,
+                            marginBottom: 3,
+                            color: "#0030E3",
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            minHeight: "1.2em", // Ensures space for 2 lines
+                            lineHeight: "1.2", // Adjust if needed for better spacing
+                          }}
+                        >
+                          {product?.title}
+                        </div>
+                        <div
+                          style={{
+                            color: "black",
+                            fontWeight: 400,
+                            fontSize: 16,
+                          }}
+                        >
+                          Explore Tailored Funding Solutions for Your SME’s
+                          Growth and Innovation
+                        </div>
+                      </div>
+                      <IoMdArrowForward size={20} width={"50%"} />
+                    </FlexBox>
+                  </Box>
+                </Box>
               </Box>
             ))}
           </Carousel>

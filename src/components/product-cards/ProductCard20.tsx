@@ -222,15 +222,17 @@ export default function ProductCard20(props: ProductCard19Props) {
             justifyContent="space-between"
           >
             <StyledButton mt={3}>
-              <span>Funding & Loans</span>
+              <span style={{ fontSize: "10px" }}>Funding & Loans</span>
             </StyledButton>
 
             <Link href={`/product/${slug}`} style={{ textDecoration: "none" }}>
               <LearnMoreWrapper style={{ cursor: "pointer" }}>
-                <Paragraph color="#002180" mr="0.5rem">
+                <Paragraph color="#002180" mr="0.5rem" fontSize={"10px"}>
                   View Details
                 </Paragraph>
-                <Icon color="#002180">arrow_forward</Icon>
+                <Icon color="#002180" size="16px">
+                  arrow_forward
+                </Icon>
               </LearnMoreWrapper>
             </Link>
           </Box>

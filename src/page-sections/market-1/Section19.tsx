@@ -165,7 +165,7 @@ const ContentColumn = styled.div`
 
 const StyledHeader = styled.p`
   color: var(--KF-BG-Black, #000);
-  font-family: Inter;
+  font-family: "Open Sans", sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;

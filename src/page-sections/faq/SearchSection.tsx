@@ -56,8 +56,8 @@ const SearchSection = () => {
               placeholder="Search"
               style={{ width: "350px", borderRadius: "7px" }}
               InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
+                endAdornment: (
+                  <InputAdornment position="end">
                     <BsSearch size={20} color="black" />
                   </InputAdornment>
                 ),

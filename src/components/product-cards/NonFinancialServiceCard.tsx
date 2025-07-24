@@ -17,25 +17,29 @@ const CardBox = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   width: "100%",
   minHeight: "200px",
-  height: "300px",
+  height: "260px",
   padding: "16px",
   transition: "all 0.3s",
   borderRadius: "8px",
   background: "#FFF",
-  border: `1px solid ${theme.colors.gray[100]}`,
+  boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.15), 0px 1px 3px 1px rgba(0, 0, 0, 0.08)",
   "&:hover": {
     ".product-img": {
       transform: "scale(1.1)",
     },
+    ".eye-button": {
+      display: "block",
+    },
+    ".favorite-button": {
+      display: "block",
+    },
   },
-  overflow: "hidden",
 }));
 
 const CardMedia = styled(Box)(({ theme }) => ({
   width: "100%",
   maxHeight: "300px",
   cursor: "pointer",
-  // overflow: "hidden",
   position: "relative",
   marginBottom: "15px",
   ".product-img": {
@@ -51,6 +55,10 @@ const EyeButton = styled(IconButton)(() => ({
   position: "absolute",
   transition: "right 0.3s .1s",
   background: "transparent",
+  display: "none", // Initially hidden
+  "&.eye-button": {
+    display: "none", // Ensure initial state is hidden
+  },
 }));
 
 const FavoriteButton = styled(IconButton)(() => ({
@@ -59,6 +67,10 @@ const FavoriteButton = styled(IconButton)(() => ({
   position: "absolute",
   background: "transparent",
   transition: "right 0.3s .2s",
+  display: "none", // Initially hidden
+  "&.favorite-button": {
+    display: "none", // Ensure initial state is hidden
+  },
 }));
 
 const StyledH4 = styled(H4)`
@@ -161,7 +173,7 @@ const LearnMoreWrapper = styled.div`
   justify-content: center;
   align-items: center;
   gap: 3px; /* Reduced gap */
-  margin-top: 10px;
+  margin-top: 15px;
 `;
 
 type NonFinancialServiceCardProps = {
@@ -196,13 +208,12 @@ export default function NonFinancialServiceCard(props: NonFinancialServiceCardPr
             <StyledImage src={img} width={63} height={63} alt="category" />
           </Link>
 
-          <EyeButton onClick={() => setOpenDialog(true)}>
+          <EyeButton className="eye-button" onClick={() => setOpenDialog(true)}>
             <Icon size="18px">eye</Icon>
           </EyeButton>
 
-          <FavoriteButton onClick={handleFavorite}>
-          <Icon size="18px">Bookmark</Icon>
-            {/* {isFavorite ? <Icon size="18px">eye</Icon> : <Icon size="18px">Bookmark</Icon>} */}
+          <FavoriteButton className="favorite-button" onClick={handleFavorite}>
+            <Icon size="18px">Bookmark</Icon>
           </FavoriteButton>
         </CardMedia>
 

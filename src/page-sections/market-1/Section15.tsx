@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 // STYLED COMPONENTS
 const ContentColumn = styled.div`
   color: #000;
-  padding: 40px 80px 10px 80px;
+  padding: 10px 80px;
   display: flex;
   flex-direction: column;
   font-family: "Abhaya Libre", serif;
@@ -36,13 +36,13 @@ const Subheading = styled.div`
 const SubheadingText = styled.span`
   font-size: 16px;
   font-weight: 500;
-  color: #1a1a1a;
+  color: #1A1A1A;
   cursor: default;
 `;
 
 const MarketplaceSubheadingText = styled(SubheadingText)`
-  border-bottom: 2px solid #0030e3;
-  color: var(--KF-BG-Blue, #0030e3);
+  border-bottom: 2px solid #0030E3;
+  color: var(--KF-BG-Blue, #0030E3);
   text-align: center;
   font-family: Inter;
   font-size: 16px;
@@ -89,7 +89,7 @@ const StyledBody = styled.p`
 
 const ExploreAllButton = styled(DefaultButton)`
   background-color: transparent;
-  color: #0030e3;
+  color: #0030E3;
   border: none;
   font-size: 16px;
   font-weight: 500;
@@ -97,6 +97,10 @@ const ExploreAllButton = styled(DefaultButton)`
   align-items: center;
   gap: 0.5rem;
   padding: 0;
+
+  &:hover {
+    color: #A9C9FF;
+  }
 `;
 
 const CarouselWrapper = styled(Box)`
@@ -243,9 +247,7 @@ export default function Section15() {
           services.
         </StyledBody>
         <Subheading>
-          <MarketplaceSubheadingText>
-            Featured Services
-          </MarketplaceSubheadingText>
+          <MarketplaceSubheadingText>Featured Services</MarketplaceSubheadingText>
         </Subheading>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
           <Description>

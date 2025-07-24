@@ -1,21 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import Icon from "./icon/Icon";
 import FlexBox from "./FlexBox";
-import { H2, H5, SemiSpan } from "./Typography";
+import { H2, H5 } from "./Typography";
 import { Button } from "./buttons";
 import { useState } from "react";
 import { colors } from "@utils/themeColors";
-import {
-  TextField,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
-  InputAdornment,
-} from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
+import { TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 
 // ==============================================================
 
@@ -62,44 +53,23 @@ export default function CategorySectionHeader({
         >
           {title}
         </H2>
+        <H5 />
       </FlexBox>
 
-      {/* Continuous Search Bar with Category Dropdown and Search Field */}
-      <FlexBox
-        justifyContent="flex-start"
-        alignItems="center"
-        width="100%"
-        maxWidth="520px"
-        style={{
-          border: "1px solid #D8E0E9", // Continuous border around the whole section
-          borderRadius: "0", // No rounding, sharp edges
-          padding: "0", // Remove padding around the border
-        }}
-      >
+      {/* Category Selection with Search Bar Side by Side */}
+      <FlexBox justifyContent="flex-start" alignItems="center" width="100%" maxWidth="520px">
         {/* Category Dropdown */}
-        <FormControl
-          variant="outlined"
-          style={{
-            width: "50%",
-            margin: "0", // Remove margin to eliminate gap between elements
-            borderRight: "1px solid #D8E0E9", // Subtle separation between dropdown and search bar
-            borderRadius: "0", // Remove rounded corners
-          }}
-        >
-          <InputLabel id="category-select-label"></InputLabel>
+        <FormControl variant="outlined" style={{ width: "50%" }}>
+          <InputLabel id="category-select-label">Category</InputLabel>
           <Select
             labelId="category-select-label"
             value={selectedCategory}
             onChange={(e) => handleCategoryChange(e.target.value as string)}
+            label="Category"
             displayEmpty
-            style={{
-              border: "none", // Remove the border from the dropdown itself
-            }}
           >
             {categories
-              .filter((category) =>
-                category.toLowerCase().includes(searchTerm.toLowerCase())
-              )
+              .filter((category) => category.toLowerCase().includes(searchTerm.toLowerCase()))
               .map((category) => (
                 <MenuItem key={category} value={category}>
                   {category}
@@ -115,12 +85,29 @@ export default function CategorySectionHeader({
           fullWidth
           value={searchTerm}
           onChange={handleSearchChange}
-          style={{
-            width: "50%", // Takes up the remaining space
-            border: "none", // Remove the border from the text field
-            borderRadius: "0", // Ensure no rounded corners for the text field
-          }}
+          style={{ width: "50%" }}
         />
+      </FlexBox>
+
+      {/* Category Selection Buttons */}
+      <FlexBox>
+        {categories.map((category) => (
+          <Link href={category === "View All" ? "/services" : "#"} key={category}>
+            <Button
+              onClick={() => handleCategoryChange(category)}
+              style={{
+                marginRight: "8px",
+                border: `1px solid ${selectedCategory === category ? colors.primary.main : "#D8E0E9"}`,
+                color: selectedCategory === category ? colors.primary.main : "#2B3445",
+                backgroundColor: "transparent",
+                padding: "8px 16px",
+                borderRadius: "4px",
+              }}
+            >
+              {category}
+            </Button>
+          </Link>
+        ))}
       </FlexBox>
     </FlexBox>
   );

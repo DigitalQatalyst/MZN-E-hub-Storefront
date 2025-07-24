@@ -195,10 +195,10 @@ export const CategoryDropdown = styled.select`
 //   position: relative;
 //   flex: 1;
 // `;
-export const SearchInputWrapper = styled.div`
-  position: relative;
-  flex: 1;
-`;
+// export const SearchInputWrapper = styled.div`
+//   position: relative;
+//   flex: 1;
+// `;
 
 // export const SearchInput = styled.input`
 //   width: 100%;
@@ -214,28 +214,28 @@ export const SearchInputWrapper = styled.div`
 //     box-shadow: 0 0 5px rgba(0, 48, 227, 0.5);
 //   }
 // `;
-export const SearchInput = styled.input`
-  width: 100%;
-  padding: 10px 12px;
-  font-size: 14px;
-  font-family: 'Open Sans', sans-serif;
-  border: 1px solid #ccc;
-  border-radius: 0 6px 6px 0;
-  outline: none;
+// export const SearchInput = styled.input`
+//   width: 100%;
+//   padding: 10px 12px;
+//   font-size: 14px;
+//   font-family: 'Open Sans', sans-serif;
+//   border: 1px solid #ccc;
+//   border-radius: 0 6px 6px 0;
+//   outline: none;
 
-  // &:focus {
-  //   border-color: var(--KF-BG-Blue, #0030E3);
-  //   box-shadow: 0 0 5px rgba(0, 48, 227, 0.5);
-  // }
-`;
+//   // &:focus {
+//   //   border-color: var(--KF-BG-Blue, #0030E3);
+//   //   box-shadow: 0 0 5px rgba(0, 48, 227, 0.5);
+//   // }
+// `;
 
-export const SearchIcon = styled.img`
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 16px;     /* adjust as needed */
-  height: 16px;
-  cursor: pointer;
-  pointer-events: none; /* so input gets focus on click */
-`;
+// export const SearchIcon = styled.img`
+//   position: absolute;
+//   right: 12px;
+//   top: 50%;
+//   transform: translateY(-50%);
+//   width: 16px;     /* adjust as needed */
+//   height: 16px;
+//   cursor: pointer;
+//   pointer-events: none; /* so input gets focus on click */
+// `;

@@ -16,8 +16,8 @@ const ContentColumn = styled.div`
   padding: 10px 80px;
   display: flex;
   flex-direction: column;
-  font-family: "Abhaya Libre", serif;
-  font-family: "Abhaya Libre", serif;
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
   align-items: flex-start;
   width: 100%;
 
@@ -65,7 +65,7 @@ const Description = styled.p`
 
 const StyledHeader = styled.p`
   color: #000;
-  font-family: "Helvetica Neue";
+  font-family: "Open Sans", sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -253,7 +253,7 @@ export default function Section15() {
           <Description>
             A quick look at the most active services this quarter—driven by SME demand<br /> and partner momentum.
           </Description>
-          <Link href={`/services`}>
+          <Link href={`/financial-marketplace`} style={{ textDecoration: "none" }}>
             <ExploreAllButton>
               Explore more <span>→</span>
             </ExploreAllButton>

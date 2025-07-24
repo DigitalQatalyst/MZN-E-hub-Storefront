@@ -9,7 +9,8 @@ import { H3 } from "@component/Typography";
 const WelcomeSection = styled.section`
   background-color: #0030E3;
   color: white;
-  font-family: 'Abhaya Libre', serif;
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
   margin-bottom: 2rem;
   
   /* Mobile first */
@@ -298,7 +299,7 @@ const ComingSoonLabel = styled.div`
 
 const StyledSubHeader = styled.p`
   color: #FFF;
-  font-family: "Helvetica Neue";
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   text-transform: uppercase;

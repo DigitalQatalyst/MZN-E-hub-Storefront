@@ -101,17 +101,10 @@ const SearchButton = styled.button`
 const NavbarWrapper = styled.div`
   position: relative;
   z-index: 4;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-
-  @media (max-width: 899px) {
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding-top: 12px;
-    padding-left: 12px;
-  }
+  width: 100vw;
+  display: block;
+  margin: 0;
+  padding: 0;
 `;
 
 const HeroContent = styled.div`

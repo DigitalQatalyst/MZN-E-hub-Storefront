@@ -45,8 +45,8 @@ const ResponsiveNavbar = styled(StyledNavbar)`
   .navbar-container {
     max-width: 1440px;
     margin: 0 auto;
-    padding-left: 4px;
-    padding-right: 4px;
+    padding-left: 0px;
+    padding-right: 0px;
     padding-top: 17px;
     width: 100%;
   }
@@ -72,8 +72,8 @@ const ResponsiveNavbar = styled(StyledNavbar)`
   /* Large Desktop (1440px and above) */
   @media (min-width: 1440px) {
     .navbar-container {
-      padding-left: 8px;
-      padding-right: 8px;
+      padding-left: 0px;
+      padding-right: 0px;
     }
     .logo-categories-gap {
       margin-left: 20px;
@@ -83,8 +83,8 @@ const ResponsiveNavbar = styled(StyledNavbar)`
   /* Standard Desktop (1200px - 1439px) */
   @media (min-width: 1200px) and (max-width: 1439px) {
     .navbar-container {
-      padding-left: 4px;
-      padding-right: 4px;
+      padding-left: 0px;
+      padding-right: 0px;
     }
     .logo-categories-gap {
       margin-left: 16px;
@@ -94,8 +94,8 @@ const ResponsiveNavbar = styled(StyledNavbar)`
   /* Medium Desktop/Laptop (1024px - 1199px) */
   @media (min-width: 1024px) and (max-width: 1199px) {
     .navbar-container {
-      padding-left: 2px;
-      padding-right: 2px;
+      padding-left: 0px;
+      padding-right: 0px;
     }
     .logo-categories-gap {
       margin-left: 8px;
@@ -105,8 +105,8 @@ const ResponsiveNavbar = styled(StyledNavbar)`
   /* Tablet styles (769px - 1023px) */
   @media (min-width: 769px) and (max-width: 1023px) {
     .navbar-container {
-      padding-left: 16px;
-      padding-right: 16px;
+      padding-left: 0px;
+      padding-right: 0px;
     }
     .logo-categories-gap {
       margin-left: 12px;
@@ -122,8 +122,8 @@ const ResponsiveNavbar = styled(StyledNavbar)`
   /* Mobile styles (<= 768px) */
   @media (max-width: 768px) {
     .navbar-container {
-      padding-left: 8px;
-      padding-right: 8px;
+      padding-left: 0px;
+      padding-right: 0px;
     }
     .logo-categories-gap {
       margin-left: 8px;
@@ -156,8 +156,8 @@ const ResponsiveNavbar = styled(StyledNavbar)`
   /* Small mobile styles (<= 480px) */
   @media (max-width: 480px) {
     .navbar-container {
-      padding-left: 4px;
-      padding-right: 4px;
+      padding-left: 0px;
+      padding-right: 0px;
     }
     .logo-categories-gap {
       margin-left: 2px;
@@ -580,7 +580,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             </Box>
 
             {/* Navigation Links */}
-            <FlexBox ml="200px"  style={{ gap: 32 }}>
+            <FlexBox ml="270px"  style={{ gap: 32 }}>
               {renderNestedNav(navbarNavigations, true)}
             </FlexBox>
 

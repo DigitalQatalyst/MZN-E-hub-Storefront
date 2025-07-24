@@ -360,7 +360,7 @@ export default function ProductDetails({ product }: Props) {
           {1}
         </span>
         <TabContainer>
-          {/* <TabButton
+          <TabButton
             active={activeTab === "description"}
             onClick={() => setActiveTab("description")}
           >

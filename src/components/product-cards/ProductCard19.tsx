@@ -196,7 +196,7 @@ export default function ProductCard19(props: ProductCard19Props) {
 
           <EyeButton className="eye-button" onClick={() => setOpenDialog(true)}>
             <Icon size="18px">eye</Icon>
-          </EyeButton> */}
+          </EyeButton>
 
           <FavoriteButton className="favorite-button" onClick={handleFavorite}>
             <Icon size="18px">Bookmark</Icon>

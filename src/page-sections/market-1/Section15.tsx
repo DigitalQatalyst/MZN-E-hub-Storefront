@@ -13,13 +13,20 @@ import { useEffect, useState } from "react";
 // STYLED COMPONENTS
 const ContentColumn = styled.div`
   color: #000;
-  padding: 10px 80px 10px 80px;
+  padding: 40px 80px 10px 80px;
   display: flex;
   flex-direction: column;
   font-family: "Abhaya Libre", serif;
   font-family: "Abhaya Libre", serif;
   align-items: flex-start;
   width: 100%;
+
+  @media (max-width: 1199px) {
+    padding: 10px 32px 10px 32px;
+  }
+  @media (max-width: 899px) {
+    padding: 10px 8px 10px 8px;
+  }
 `;
 
 const Subheading = styled.div`
@@ -51,6 +58,9 @@ const Description = styled.p`
   font-size: var(--Body-Large-Size, 16px);
   font-style: normal;
   font-weight: 400;
+  @media (max-width: 899px) {
+    font-size: 14px;
+  }
 `;
 
 const StyledHeader = styled.p`
@@ -62,6 +72,7 @@ const StyledHeader = styled.p`
   line-height: var(--Title-Large-Line-Height, 28px); /* 175% */
   letter-spacing: var(--Title-Large-Tracking, 0px);
   text-transform: uppercase;
+  padding-bottom: 8px;
   margin: 0;
 `;
 
@@ -70,7 +81,7 @@ const StyledBody = styled.p`
   font-family: "FS Kim Trial";
   font-size: 48px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 550;
   line-height: var(--Display-Medium-Line-Height, 52px); /* 108.333% */
   letter-spacing: var(--Display-Medium-Tracking, 0px);
   margin: 0;

@@ -1,0 +1,12 @@
+.tab-switcher {
+  display: flex;
+  flex-direction: row;
+}
+
+@media (min-width: 1600px) {
+  .tab-switcher {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+} 

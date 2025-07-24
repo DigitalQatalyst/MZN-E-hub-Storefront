@@ -13,7 +13,7 @@ const HeroSection = styled.section`
   flex-direction: column;
   position: relative;
   text-align: center;
-  height: 640px;
+  height: 100vh;
   min-height: 400px;
   top: 0;
   left: 0;

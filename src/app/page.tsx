@@ -30,7 +30,7 @@ export default async function Market1() {
       <Section14 />
       <Section15 />
       <Section16 />
-      <Section17 />
+      <Section17 /> 
       {/* <Section2 />  */}
       {/* TOP CATEGORIES AREA */}
       <Section3 />

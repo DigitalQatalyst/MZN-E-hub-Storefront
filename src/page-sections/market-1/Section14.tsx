@@ -298,12 +298,12 @@ const ComingSoonLabel = styled.div`
 
 const StyledSubHeader = styled.p`
   color: #FFF;
-  font-family: "Helvetica Neue", sans-serif;
+  font-family: "Helvetica Neue";
   font-style: normal;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0px;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
   
   /* Mobile */
   font-size: 12px;
@@ -333,6 +333,7 @@ const StyledPlatformHeader = styled.h1`
   font-style: normal;
   font-weight: 400;
   letter-spacing: 0px;
+  margin-top: 10px;
   margin-bottom: 1rem;
   line-height: 1.2;
   

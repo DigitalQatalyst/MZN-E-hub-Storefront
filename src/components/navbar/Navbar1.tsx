@@ -43,24 +43,28 @@ const ResponsiveNavbar = styled(StyledNavbar)`
   
   /* Desktop styles - default (1200px and above) */
   .navbar-container {
-    padding-left: 54px;
-    padding-right: 54px;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding-left: 4px;
+    padding-right: 4px;
     padding-top: 17px;
-    max-width: 100%;
+    width: 100%;
   }
-  
+  .navbar-logo {
+    min-width: 140px;
+  }
+  .sign-up-button {
+    min-width: 100px;
+  }
   .logo-categories-gap {
-    margin-left: 57px;
+    margin-left: 16px;
   }
-  
   .mobile-menu-toggle {
     display: none;
   }
-  
   .desktop-nav {
     display: flex;
   }
-  
   .mobile-nav {
     display: none;
   }
@@ -68,110 +72,76 @@ const ResponsiveNavbar = styled(StyledNavbar)`
   /* Large Desktop (1440px and above) */
   @media (min-width: 1440px) {
     .navbar-container {
-      padding-left: 4%; /* ~58px at 1440px */
-      padding-right: 4%; /* ~58px at 1440px */
+      padding-left: 8px;
+      padding-right: 8px;
     }
-    
     .logo-categories-gap {
-      margin-left: 4%; /* ~58px at 1440px */
+      margin-left: 20px;
     }
   }
   
   /* Standard Desktop (1200px - 1439px) */
   @media (min-width: 1200px) and (max-width: 1439px) {
     .navbar-container {
-      padding-left: 54px;
-      padding-right: 54px;
+      padding-left: 4px;
+      padding-right: 4px;
     }
-    
     .logo-categories-gap {
-      margin-left: 57px;
+      margin-left: 16px;
     }
   }
   
   /* Medium Desktop/Laptop (1024px - 1199px) */
   @media (min-width: 1024px) and (max-width: 1199px) {
     .navbar-container {
-      padding-left: 3.5%; /* ~36px at 1024px */
-      padding-right: 3.5%; /* ~36px at 1024px */
+      padding-left: 2px;
+      padding-right: 2px;
     }
-    
     .logo-categories-gap {
-      margin-left: 4%; /* ~41px at 1024px */
-    }
-    
-    .navbar-logo img {
-      height: 36px;
-    }
-    
-    .categories-button {
-      width: 220px !important;
-      height: 38px !important;
-      
-      .typography {
-        font-size: 15px;
-      }
-    }
-    
-    .nav-link {
-      font-size: 15px;
-    }
-    
-    .sign-in-btn,
-    .sign-up-button {
-      padding: 9px 18px;
-      font-size: 15px;
+      margin-left: 8px;
     }
   }
   
   /* Tablet styles (769px - 1023px) */
   @media (min-width: 769px) and (max-width: 1023px) {
     .navbar-container {
-      padding-left: 3%; /* ~23px at 768px */
-      padding-right: 3%; /* ~23px at 768px */
+      padding-left: 16px;
+      padding-right: 16px;
     }
-    
     .logo-categories-gap {
-      margin-left: 3.5%; /* ~27px at 768px */
+      margin-left: 12px;
     }
-    
-    .navbar-logo img {
-      height: 35px;
+    .navbar-logo {
+      min-width: 120px;
     }
-    
-    .categories-button {
-      width: 200px !important;
-      height: 36px !important;
-      
-      .typography {
-        font-size: 14px;
-      }
-    }
-    
-    .nav-link {
-      font-size: 14px;
-    }
-    
-    .sign-in-btn,
     .sign-up-button {
-      padding: 8px 16px;
-      font-size: 14px;
-    }
-    
-    .desktop-nav {
-      gap: 24px !important;
+      min-width: 90px;
     }
   }
   
-  /* Mobile styles (481px - 768px) */
-  @media (min-width: 481px) and (max-width: 768px) {
+  /* Mobile styles (<= 768px) */
+  @media (max-width: 768px) {
     .navbar-container {
-      padding-left: 4%; /* ~19px at 480px */
-      padding-right: 4%; /* ~19px at 480px */
+      padding-left: 8px;
+      padding-right: 8px;
     }
-    
-    .mobile-menu-toggle {
+    .logo-categories-gap {
+      margin-left: 8px;
+    }
+    .navbar-logo {
+      min-width: 100px;
+    }
+    .sign-up-button {
+      min-width: 80px;
+    }
+    .desktop-nav {
+      display: none;
+    }
+    .mobile-nav {
       display: flex;
+    }
+    .mobile-menu-toggle {
+      display: flex !important;
       align-items: center;
       justify-content: center;
       background: none;
@@ -180,93 +150,23 @@ const ResponsiveNavbar = styled(StyledNavbar)`
       padding: 8px;
       border-radius: 4px;
       transition: background-color 0.3s ease;
-      
-      &:hover {
-        background-color: rgba(0, 33, 128, 0.1);
-      }
-    }
-    
-    .desktop-nav {
-      display: none;
-    }
-    
-    .navbar-logo img {
-      height: 32px;
-    }
-    
-    .categories-section {
-      display: none;
-    }
-    
-    .search-icon {
-      display: none;
-    }
-
-    .profile-icon {
-      display: none;
-    }
-    
-    .mobile-nav {
-      display: flex;
     }
   }
   
-  /* Small mobile styles (320px - 480px) */
+  /* Small mobile styles (<= 480px) */
   @media (max-width: 480px) {
     .navbar-container {
-      padding-left: 5%; /* ~16px at 320px */
-      padding-right: 5%; /* ~16px at 320px */
+      padding-left: 4px;
+      padding-right: 4px;
     }
-    
-    .mobile-menu-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 6px;
-      border-radius: 4px;
-      transition: background-color 0.3s ease;
-      
-      &:hover {
-        background-color: rgba(0, 33, 128, 0.1);
-      }
+    .logo-categories-gap {
+      margin-left: 2px;
     }
-    
-    .desktop-nav {
-      display: none;
+    .navbar-logo {
+      min-width: 80px;
     }
-    
-    .navbar-logo img {
-      height: 28px;
-    }
-    
-    .categories-section {
-      display: none;
-    }
-    
-    .search-icon {
-      display: none;
-    }
-
-    .profile-icon {
-      display: none;
-    }
-    
-    .mobile-nav {
-      display: flex;
-    }
-    
-    .mobile-auth-buttons {
-      gap: 6px !important;
-      
-      .sign-in-btn,
-      .sign-up-button {
-        padding: 6px 10px;
-        font-size: 12px;
-        min-width: 55px;
-      }
+    .sign-up-button {
+      min-width: 60px;
     }
   }
 `;
@@ -639,7 +539,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           justifyContent="space-between"
         >
           {/* Logo Section */}
-          <Box className="navbar-logo">
+          <Box className="navbar-logo"  mr="50px">
             <img src="/assets/images/logos/mzn_logo.svg" alt="MZN Enterprise Hub" height="40px" />
           </Box>
 
@@ -680,7 +580,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             </Box>
 
             {/* Navigation Links */}
-            <FlexBox ml="130px"  style={{ gap: 32 }}>
+            <FlexBox ml="180px"  style={{ gap: 32 }}>
               {renderNestedNav(navbarNavigations, true)}
             </FlexBox>
 
@@ -689,8 +589,11 @@ export default function Navbar({ navListOpen }: NavbarProps) {
               <img src="/assets/images/logos/search.svg" alt="Search" height="14px" />
             </Box>
 
+            {/* In the profile-icon Box, conditionally hide the <img> if the user is authenticated */}
             <Box className="profile-icon" style={{ cursor: "pointer" }}>
-              <img src="/assets/images/logos/profile.svg" alt="profile" height="24px" />
+              {accounts.length === 0 && (
+                <img src="/assets/images/logos/profile.svg" alt="profile" height="24px" />
+              )}
             </Box>
 
             {/* Authentication Section */}

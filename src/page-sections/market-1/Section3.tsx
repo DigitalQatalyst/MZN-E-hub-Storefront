@@ -87,6 +87,7 @@ const ResponsiveH5 = styled(H5)`
   /* Mobile */
   font-size: 12px;
   line-height: 1.4;
+  margin-bottom: 0;
   
   /* Small tablet */
   @media (min-width: 480px) {
@@ -107,7 +108,6 @@ const ResponsiveH5 = styled(H5)`
 
 const ResponsiveH1 = styled(H1)`
   margin-bottom: 1rem;
-  margin-top: 1rem;
   line-height: 1.2;
   
   /* Mobile */
@@ -122,14 +122,14 @@ const ResponsiveH1 = styled(H1)`
   @media (min-width: 768px) {
     font-size: clamp(28px, 4vw, 36px);
     margin-bottom: 1.25rem;
-    margin-top: 1.25rem;
+    margin-top: 5px;
   }
   
   /* Desktop */
   @media (min-width: 1024px) {
     font-size: clamp(32px, 3vw, 40px);
     margin-bottom: 1.5rem;
-    margin-top: 1.5rem;
+    margin-top: 5px;
   }
 `;
 
@@ -193,12 +193,7 @@ const TabButton = styled(Box)<{ active: boolean }>`
   white-space: nowrap;
   transition: border 0.2s, font-weight 0.2s;
   flex-shrink: 0;
-  opacity: ${props => props.active ? '1' : '0.8'};
-  
-  &:hover {
-    opacity: 1;
-    border-bottom-color: ${props => props.active ? '#FFF' : 'transparent'};
-  }
+  opacity: 1;
   
   /* Mobile */
   padding: 0.75rem 1rem;
@@ -286,7 +281,7 @@ export default function Section3() {
 
   // Responsive carousel settings
   const responsive = [
-    { breakpoint: 1200, settings: { slidesToShow: 2 } }, // Large desktop: 3 slides
+    { breakpoint: 1200, settings: { slidesToShow: 2.2} }, // Large desktop: 3 slides
     { breakpoint: 959, settings: { slidesToShow: 2 } },  // Tablet: 2 slides
     { breakpoint: 650, settings: { slidesToShow: 1.2 } }, // Small tablet: 1.2 slides (shows peek of next)
     { breakpoint: 480, settings: { slidesToShow: 1 } },   // Mobile: 1 slide
@@ -295,7 +290,7 @@ export default function Section3() {
   // Get initial slides to show based on screen size
   const getInitialSlidesToShow = () => {
     if (typeof window !== 'undefined') {
-      if (window.innerWidth >= 1200) return 2;
+      if (window.innerWidth >= 1200) return 2.2;
       if (window.innerWidth >= 960) return 2;
       if (window.innerWidth >= 650) return 1.2;
       return 1;
@@ -325,6 +320,7 @@ export default function Section3() {
               </ResponsiveH5>
               <ResponsiveH1
                 color="#000"
+                fontSize="48px"
                 fontFamily="FS Kim Trial"
               >
                 Getting started is easy
@@ -337,7 +333,7 @@ export default function Section3() {
               </ResponsiveDescription>
             </ContentColumn>
             <ButtonColumn>
-              <Link href="/signup">
+              <Link href="/development">
                 <ResponsiveButton
                   className="SignUp"
                   variant="contained"

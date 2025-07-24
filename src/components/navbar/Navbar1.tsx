@@ -31,7 +31,7 @@ const navbarNavigations = [
   },
   {
     title: "Help Centre",
-    url: "https://mzn-e-hub-storefront-cmzcnvx8o-digitalqatalysts-projects.vercel.app/faq",
+    url: "/faq",
     extLink: false,
   },
 ];

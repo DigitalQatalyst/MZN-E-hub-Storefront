@@ -249,7 +249,7 @@ export default function Section15() {
           <Description>
             A quick look at the most active services this quarter—driven by SME demand<br /> and partner momentum.
           </Description>
-          <Link href={`https://mzn-e-hub-storefront-git-unifieddemo-digitalqatalysts-projects.vercel.app/services`}>
+          <Link href={`/financial-marketplace`} style={{ textDecoration: "none" }}>
             <ExploreAllButton>
               Explore more <span>→</span>
             </ExploreAllButton>

@@ -144,7 +144,7 @@ const navigations = [
   {
     icon: "forum",
     title: "Communities",
-    href: "https://mzn-e-hub-storefront-git-unifieddemo-digitalqatalysts-projects.vercel.app/community-marketplace",
+    href: "/community-marketplace",
     menuComponent: "MegaMenu1",
     menuData: {
       categories: [

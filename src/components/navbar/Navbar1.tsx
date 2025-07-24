@@ -580,7 +580,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             </Box>
 
             {/* Navigation Links */}
-            <FlexBox ml="180px"  style={{ gap: 32 }}>
+            <FlexBox ml="200px"  style={{ gap: 32 }}>
               {renderNestedNav(navbarNavigations, true)}
             </FlexBox>
 

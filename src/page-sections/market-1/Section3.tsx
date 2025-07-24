@@ -281,7 +281,7 @@ export default function Section3() {
 
   // Responsive carousel settings
   const responsive = [
-    { breakpoint: 1200, settings: { slidesToShow: 2.2} }, // Large desktop: 3 slides
+    { breakpoint: 1200, settings: { slidesToShow: 2} }, // Large desktop: 3 slides
     { breakpoint: 959, settings: { slidesToShow: 2 } },  // Tablet: 2 slides
     { breakpoint: 650, settings: { slidesToShow: 1.2 } }, // Small tablet: 1.2 slides (shows peek of next)
     { breakpoint: 480, settings: { slidesToShow: 1 } },   // Mobile: 1 slide
@@ -290,7 +290,7 @@ export default function Section3() {
   // Get initial slides to show based on screen size
   const getInitialSlidesToShow = () => {
     if (typeof window !== 'undefined') {
-      if (window.innerWidth >= 1200) return 2.2;
+      if (window.innerWidth >= 1200) return 2;
       if (window.innerWidth >= 960) return 2;
       if (window.innerWidth >= 650) return 1.2;
       return 1;

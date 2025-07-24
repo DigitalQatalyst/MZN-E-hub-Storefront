@@ -12,7 +12,8 @@ const WelcomeSection = styled.section`
   padding: 50px 120px 0px 120px;
   display: flex;
   flex-direction: column;
-  font-family: 'Abhaya Libre', serif;
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
   gap: 2rem;
  
   @media (max-width: 1199px) {

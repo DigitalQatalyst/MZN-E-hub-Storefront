@@ -115,6 +115,8 @@ const ContentWrapper = styled.div`
   gap: 2rem;
   padding: 60px 80px;
   min-height: 100vh;
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
   
   @media (max-width: 1199px) {
     padding: 40px 32px;

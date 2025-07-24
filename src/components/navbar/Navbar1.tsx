@@ -44,9 +44,6 @@ const ResponsiveNavbar = styled(StyledNavbar)`
   /* Desktop styles - default (1200px and above) */
   .navbar-container {
     max-width: 1440px;
-    margin: 0 auto;
-    padding-left: 0px;
-    padding-right: 0px;
     padding-top: 17px;
     width: 100%;
   }
@@ -71,10 +68,7 @@ const ResponsiveNavbar = styled(StyledNavbar)`
   
   /* Large Desktop (1440px and above) */
   @media (min-width: 1440px) {
-    .navbar-container {
-      padding-left: 0px;
-      padding-right: 0px;
-    }
+    
     .logo-categories-gap {
       margin-left: 20px;
     }
@@ -82,10 +76,7 @@ const ResponsiveNavbar = styled(StyledNavbar)`
   
   /* Standard Desktop (1200px - 1439px) */
   @media (min-width: 1200px) and (max-width: 1439px) {
-    .navbar-container {
-      padding-left: 0px;
-      padding-right: 0px;
-    }
+    
     .logo-categories-gap {
       margin-left: 16px;
     }
@@ -93,13 +84,8 @@ const ResponsiveNavbar = styled(StyledNavbar)`
   
   /* Medium Desktop/Laptop (1024px - 1199px) */
   @media (min-width: 1024px) and (max-width: 1199px) {
-    .navbar-container {
-      padding-left: 0px;
-      padding-right: 0px;
-    }
-    .logo-categories-gap {
-      margin-left: 8px;
-    }
+    
+    
   }
   
   /* Tablet styles (769px - 1023px) */
@@ -108,9 +94,7 @@ const ResponsiveNavbar = styled(StyledNavbar)`
       padding-left: 0px;
       padding-right: 0px;
     }
-    .logo-categories-gap {
-      margin-left: 12px;
-    }
+    
     .navbar-logo {
       min-width: 120px;
     }
@@ -125,9 +109,7 @@ const ResponsiveNavbar = styled(StyledNavbar)`
       padding-left: 0px;
       padding-right: 0px;
     }
-    .logo-categories-gap {
-      margin-left: 8px;
-    }
+    
     .navbar-logo {
       min-width: 100px;
     }

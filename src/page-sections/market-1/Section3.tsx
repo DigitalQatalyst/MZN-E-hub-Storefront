@@ -15,6 +15,8 @@ import styled from "styled-components";
 
 // RESPONSIVE STYLED COMPONENTS
 const ResponsiveContainer = styled(FlexBox)`
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
   /* Mobile first */
   padding: 1rem;
   
@@ -84,6 +86,8 @@ const ButtonColumn = styled(FlexBox)`
 `;
 
 const ResponsiveH5 = styled(H5)`
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
   /* Mobile */
   font-size: 12px;
   line-height: 1.4;
@@ -107,6 +111,8 @@ const ResponsiveH5 = styled(H5)`
 `;
 
 const ResponsiveH1 = styled(H1)`
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
   margin-bottom: 1rem;
   line-height: 1.2;
   
@@ -134,6 +140,8 @@ const ResponsiveH1 = styled(H1)`
 `;
 
 const ResponsiveDescription = styled(H5)`
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
   /* Mobile */
   font-size: 14px;
   line-height: 1.4;
@@ -218,6 +226,8 @@ const TabButton = styled(Box)<{ active: boolean }>`
 `;
 
 const ResponsiveButton = styled(Button)`
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
   /* Mobile */
   padding: 0.75rem 1.5rem;
   font-size: 14px;

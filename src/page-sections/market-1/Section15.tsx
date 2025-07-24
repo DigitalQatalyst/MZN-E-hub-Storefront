@@ -16,7 +16,8 @@ const ContentColumn = styled.div`
   padding: 40px 80px 10px 80px;
   display: flex;
   flex-direction: column;
-  font-family: "Abhaya Libre", serif;
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
   align-items: flex-start;
   width: 100%;
 

@@ -1,31 +1,56 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Box from "@component/Box";
 import Hidden from "@component/hidden";
 import Grid from "@component/grid/Grid";
 import FlexBox from "@component/FlexBox";
 import Container from "@component/Container";
 import NextImage from "@component/NextImage";
-// import { ProductCard1 } from "@component/product-cards";
-// import CategorySectionHeader from "@component/CategorySectionHeader";
 import StyledProductCategory from "./styled";
 import Brand from "@models/Brand.model";
 import Product from "@models/product.model";
-import ArrowBackIos from "/public/assets/images/community Marketplace Details/arrow_back_ios.svg";
-// Add this import at the top with your other imports:
 import "./SMEStyles.css";
 
 type Props = { carList: Product[]; carBrands: Brand[] };
 
+interface Comment {
+  id: string;
+  author: string;
+  text: string;
+  time: string;
+}
+
+interface Discussion {
+  id: string;
+  author: string;
+  time: string;
+  title: string;
+  content: string;
+  category: string;
+  likes: number;
+  comments: number;
+  shares: number;
+  views: number;
+  files?: File[];
+  commentsList?: Comment[];
+}
 
 export default function Section6({ carList, carBrands }: Props) {
-  const [selected, setSelected] = useState("discussions"); // State for tabs: "discussions", "about", "events"
-  const [selectedGroup, setSelectedGroup] = useState(""); // State for selected group in the sidebar
-  const [expandedSection, setExpandedSection] = useState('Quality Content');
+  const [selected, setSelected] = useState("discussions");
+  const [selectedGroup, setSelectedGroup] = useState("");
+  const [expandedSection, setExpandedSection] = useState<string | null>('Quality Content');
   const [postContent, setPostContent] = useState("");
   const [sidebarSelected, setSidebarSelected] = useState("my-communities");
-  const [discussions, setDiscussions] = useState([
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  // Comment modal state
+  const [showCommentModal, setShowCommentModal] = useState(false);
+  const [selectedPostForComment, setSelectedPostForComment] = useState<string>("");
+  const [commentText, setCommentText] = useState("");
+
+  const [discussions, setDiscussions] = useState<Discussion[]>([
     {
       id: "1",
       author: "Layla Hassan",
@@ -36,40 +61,86 @@ export default function Section6({ carList, carBrands }: Props) {
       likes: 21,
       comments: 3,
       shares: 2,
-      views: 999
+      views: 999,
+      files: [],
+      commentsList: []
     },
   ]);
+  
   const [searchTerm, setSearchTerm] = useState('');
+
+  // File upload handlers
+  const handleFileUpload = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      const fileArray = Array.from(files);
+      const validFiles = fileArray.filter(file => {
+        const isValidType = file.type.startsWith('image/') ||
+          file.type === 'application/pdf' ||
+          file.type.startsWith('video/');
+        const isValidSize = file.size <= 10 * 1024 * 1024; // 10MB limit
+        return isValidType && isValidSize;
+      });
+
+      setSelectedFiles(prev => [...prev, ...validFiles]);
+    }
+    event.target.value = '';
+  };
+
+  const removeFile = (index: number) => {
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const formatFileSize = (bytes: number) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
+  // Guidelines expansion handler
   const toggleGuidelinesSection = (sectionName: string) => {
     setExpandedSection(expandedSection === sectionName ? null : sectionName);
   };
 
+  // Post creation handler
   const handleCreatePost = () => {
-    if (postContent.trim()) {
-      const newPost = {
+    if (postContent.trim() || selectedFiles.length > 0) {
+      const newPost: Discussion = {
         id: Date.now().toString(),
         author: "Current User",
         time: "now",
-        title: postContent.trim(),
-        content: "",
+        title: postContent.trim() || "File attachment post",
+        content: postContent.trim(),
         category: "",
         likes: 0,
         comments: 0,
         shares: 0,
-        views: 0
+        views: 0,
+        files: [...selectedFiles],
+        commentsList: []
       };
 
       setDiscussions([newPost, ...discussions]);
       setPostContent("");
+      setSelectedFiles([]);
     }
   };
-  // Handle Enter key press in input field
+
+  // Keyboard handler for post creation
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleCreatePost();
     }
   };
+
+  // Like post handler
   const handleLikePost = (postId: string) => {
     setDiscussions(prevDiscussions =>
       prevDiscussions.map(discussion =>
@@ -79,6 +150,151 @@ export default function Section6({ carList, carBrands }: Props) {
       )
     );
   };
+
+  // Share post handler
+  const handleSharePost = (postId: string) => {
+    const post = discussions.find(d => d.id === postId);
+    if (!post) return;
+
+    const shareText = `${post.title}\n\n${post.content}\n\nShared from: ${window.location.href}`;
+
+    if (navigator.share) {
+      navigator.share({
+        title: post.title || 'Community Post',
+        text: post.content || post.title,
+        url: window.location.href
+      }).catch(() => {
+        // Fallback to clipboard if native sharing fails
+        navigator.clipboard.writeText(shareText).then(() => {
+          alert('Post content copied to clipboard!');
+        });
+      });
+    } else {
+      // Fallback for browsers without native sharing
+      navigator.clipboard.writeText(shareText).then(() => {
+        alert('Post content copied to clipboard!');
+      }).catch(() => {
+        alert('Failed to copy to clipboard');
+      });
+    }
+    
+    // Increment share count
+    setDiscussions(prevDiscussions =>
+      prevDiscussions.map(discussion =>
+        discussion.id === postId
+          ? { ...discussion, shares: discussion.shares + 1 }
+          : discussion
+      )
+    );
+  };
+
+  // View post handler (increments when content is clicked)
+  const handleViewPost = (postId: string) => {
+    setDiscussions(prevDiscussions =>
+      prevDiscussions.map(discussion =>
+        discussion.id === postId
+          ? { ...discussion, views: discussion.views + 1 }
+          : discussion
+      )
+    );
+  };
+
+  // Comment submission handler
+  const handleSubmitComment = () => {
+    if (commentText.trim()) {
+      const newComment: Comment = {
+        id: Date.now().toString(),
+        author: "Current User",
+        text: commentText.trim(),
+        time: "now"
+      };
+
+      setDiscussions(prevDiscussions =>
+        prevDiscussions.map(discussion =>
+          discussion.id === selectedPostForComment
+            ? { 
+                ...discussion, 
+                comments: discussion.comments + 1,
+                commentsList: [...(discussion.commentsList || []), newComment]
+              }
+            : discussion
+        )
+      );
+      
+      // Reset modal state
+      setCommentText("");
+      setShowCommentModal(false);
+      setSelectedPostForComment("");
+    }
+  };
+
+  // Open comment modal
+  const handleMessageAuthor = (authorName: string, postId: string) => {
+    setSelectedPostForComment(postId);
+    setShowCommentModal(true);
+  };
+
+  // Comment Modal Component
+  const CommentModal = () => (
+    <Box 
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        display: showCommentModal ? 'flex' : 'none',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 1000
+      }}
+      onClick={() => setShowCommentModal(false)}
+    >
+      <Box 
+        className="comment-modal"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <Box className="comment-modal-header">
+          <h3>Add Comment</h3>
+          <button 
+            className="close-modal-btn"
+            onClick={() => setShowCommentModal(false)}
+          >
+            ×
+          </button>
+        </Box>
+        
+        <Box className="comment-modal-body">
+          <textarea
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+            placeholder="Write your comment..."
+            className="comment-textarea"
+            autoFocus
+          />
+        </Box>
+        
+        <Box className="comment-modal-footer">
+          <button 
+            className="cancel-comment-btn"
+            onClick={() => setShowCommentModal(false)}
+          >
+            Cancel
+          </button>
+          <button 
+            className="submit-comment-btn"
+            onClick={handleSubmitComment}
+            disabled={!commentText.trim()}
+          >
+            Post Comment
+          </button>
+        </Box>
+      </Box>
+    </Box>
+  );
+
+  // Static data
   const groups = [
     { id: "esg-compliance", name: "ESG Compliance Help" },
     { id: "carbon-credit", name: "Carbon Credit Conversations" },
@@ -135,6 +351,7 @@ export default function Section6({ carList, carBrands }: Props) {
       ]
     }
   ];
+
   const members = [
     {
       id: 1,
@@ -167,35 +384,6 @@ export default function Section6({ carList, carBrands }: Props) {
       avatar: '/images/image 1.jpg'
     }
   ];
-  const events = [
-    {
-      id: "e1",
-      imageSrc: "/assets/images/community Marketplace Details/Blog Image (3).svg",
-      type: "",
-      title: "Carbon Accounting Workshop",
-      date: "24 June 2025",
-      time: "04:30 PM - 06:30 PM",
-      location: "Abu Dhabi SME Hub, Khalifa Fund HQ, Abu Dhabi",
-    },
-    {
-      id: "e2",
-      imageSrc: "/assets/images/community Marketplace Details/Blog Image (2).svg",
-      type: "Webinar",
-      title: "Sustainability in Action",
-      date: "03 Jun 2025",
-      time: "02:00 PM - 03:30 PM",
-      location: "Virtual",
-    },
-    {
-      id: "e3",
-      imageSrc: "assets/images/community Marketplace Details/Blog Image.svg",
-      type: "",
-      title: "SME Sustainability Roundtable",
-      date: "28 Aug 2025",
-      time: "04:30 PM - 06:30 PM",
-      location: "Abu Dhabi SME Hub, Khalifa Fund HQ, Abu Dhabi",
-    },
-  ];
 
   const handleCategoryClick = (brand: Brand) => () => {
     if (selected === brand.slug) setSelected("");
@@ -208,6 +396,7 @@ export default function Section6({ carList, carBrands }: Props) {
 
   return (
     <Container mb="80px">
+      <CommentModal />
       <FlexBox>
         {/* Sidebar */}
         <Hidden down={768} mr="1.75rem">
@@ -358,6 +547,7 @@ export default function Section6({ carList, carBrands }: Props) {
             </StyledProductCategory>
           </Box>
         </Hidden>
+
         <Box flex="1">
           {sidebarSelected === "my-communities" && (
             <>
@@ -370,7 +560,6 @@ export default function Section6({ carList, carBrands }: Props) {
                     fill
                     style={{ objectFit: 'cover' }}
                   />
-
                 </Box>
 
                 <Box className="community-description">
@@ -413,9 +602,38 @@ export default function Section6({ carList, carBrands }: Props) {
                       placeholder="Start a discussion in this community"
                       className="post-textarea"
                     />
+                    
+                    {/* File Preview - Shows selected files before posting */}
+                    {selectedFiles.length > 0 && (
+                      <Box className="file-preview-container">
+                        {selectedFiles.map((file, index) => (
+                          <Box key={index} className="file-preview-item">
+                            <FlexBox alignItems="center" justifyContent="space-between">
+                              <FlexBox alignItems="center">
+                                <Box className="file-icon">
+                                  {file.type.startsWith('image/') ? '🖼️' :
+                                    file.type.startsWith('video/') ? '🎥' : '📄'}
+                                </Box>
+                                <Box className="file-info">
+                                  <span className="file-name">{file.name}</span>
+                                  <span className="file-size">{formatFileSize(file.size)}</span>
+                                </Box>
+                              </FlexBox>
+                              <button
+                                className="remove-file-btn"
+                                onClick={() => removeFile(index)}
+                              >
+                                ×
+                              </button>
+                            </FlexBox>
+                          </Box>
+                        ))}
+                      </Box>
+                    )}
+                    
                     <FlexBox className="post-actions">
                       <FlexBox className="post-tools">
-                        <button className="post-tool">
+                        <button className="post-tool" onClick={handleFileUpload}>
                           <NextImage src="/images/Group.svg" alt="image" width={16} height={16} />
                         </button>
                         <button className="post-tool">
@@ -428,13 +646,23 @@ export default function Section6({ carList, carBrands }: Props) {
                       <button
                         className="post-submit-btn"
                         onClick={handleCreatePost}
-                        disabled={!postContent.trim()}
+                        disabled={!postContent.trim() && selectedFiles.length === 0}
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
                           <path d="M2.01 21L23 12L2.01 3L2 10L17 12L2 14L2.01 21Z" fill="#6c757d" />
                         </svg>
                       </button>
                     </FlexBox>
+                    
+                    {/* Hidden File Input */}
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      multiple
+                      accept="image/*,video/*,.pdf"
+                      onChange={handleFileChange}
+                      style={{ display: 'none' }}
+                    />
                   </Box>
 
                   {/* Discussion Posts */}
@@ -452,54 +680,83 @@ export default function Section6({ carList, carBrands }: Props) {
                         </FlexBox>
                       </FlexBox>
 
-                      <Box className="post-content">
+                      <Box className="post-content" onClick={() => handleViewPost(discussion.id)} style={{ cursor: 'pointer' }}>
                         <h3 className="post-title">{discussion.title}</h3>
                         <p className="post-description">{discussion.content}</p>
-                        <Box className="post-category">
-                          <span className="category-tag">{discussion.category}</span>
-                        </Box>
+                        
+                        {/* Display uploaded files in posts */}
+                        {discussion.files && discussion.files.length > 0 && (
+                          <Box className="post-files">
+                            {discussion.files.map((file, index) => (
+                              <Box key={index} className="post-file-item">
+                                <span className="file-icon">
+                                  {file.type.startsWith('image/') ? '🖼️' :
+                                    file.type.startsWith('video/') ? '🎥' : '📄'}
+                                </span>
+                                <span className="file-name">{file.name}</span>
+                              </Box>
+                            ))}
+                          </Box>
+                        )}
+                        
+                        {discussion.category && (
+                          <Box className="post-category">
+                            <span className="category-tag">{discussion.category}</span>
+                          </Box>
+                        )}
                       </Box>
 
                       <FlexBox className="post-engagement">
                         <FlexBox className="engagement-actions">
-                          <span className="engagement-item" onClick={() => handleLikePost(discussion.id)}
-                            style={{ cursor: 'pointer' }}>
+                          <span className="engagement-item" onClick={() => handleLikePost(discussion.id)} style={{ cursor: 'pointer' }}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                               <path d="M5.83464 8.33464V18.3346M12.5013 4.9013L11.668 8.33464H16.5263C16.785 8.33464 17.0402 8.39488 17.2717 8.51059C17.5031 8.6263 17.7044 8.79431 17.8596 9.0013C18.0149 9.2083 18.1198 9.44859 18.1661 9.70316C18.2124 9.95773 18.1987 10.2196 18.1263 10.468L16.1846 17.1346C16.0837 17.4808 15.8731 17.7849 15.5846 18.0013C15.2961 18.2177 14.9453 18.3346 14.5846 18.3346H3.33464C2.89261 18.3346 2.46868 18.159 2.15612 17.8465C1.84356 17.5339 1.66797 17.11 1.66797 16.668V10.0013C1.66797 9.55927 1.84356 9.13535 2.15612 8.82279C2.46868 8.51023 2.89261 8.33464 3.33464 8.33464H5.63464C5.94471 8.33447 6.24858 8.24781 6.5121 8.0844C6.77561 7.92099 6.98832 7.68731 7.1263 7.40964L10.0013 1.66797C10.3943 1.67284 10.7811 1.76644 11.1328 1.9418C11.4845 2.11715 11.7921 2.36972 12.0325 2.68064C12.2729 2.99155 12.4399 3.35277 12.5211 3.7373C12.6023 4.12184 12.5955 4.51975 12.5013 4.9013Z" stroke="#818C99" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                             {discussion.likes}
                           </span>
-                          <span className="engagement-item"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                            <g opacity="0.7" clip-path="url(#clip0_7497_78400)">
-                              <path d="M6.53302 18.7763C6.34291 18.6221 6.1891 18.4279 6.08252 18.2076C5.97594 17.9872 5.91921 17.7461 5.91636 17.5013V15.7513H4.58302C4.20654 15.7679 3.83073 15.7059 3.47948 15.5694C3.12823 15.4328 2.80924 15.2247 2.54276 14.9582C2.27629 14.6918 2.06817 14.3728 1.93164 14.0215C1.79511 13.6703 1.73314 13.2945 1.74969 12.918V5.41798C1.73314 5.0415 1.79511 4.66569 1.93164 4.31444C2.06817 3.9632 2.27629 3.6442 2.54276 3.37772C2.80924 3.11125 3.12823 2.90313 3.47948 2.7666C3.83073 2.63007 4.20654 2.5681 4.58302 2.58465H15.4164C15.7928 2.5681 16.1687 2.63007 16.5199 2.7666C16.8711 2.90313 17.1901 3.11125 17.4566 3.37772C17.7231 3.6442 17.9312 3.9632 18.0677 4.31444C18.2043 4.66569 18.2662 5.0415 18.2497 5.41798V12.918C18.2662 13.2945 18.2043 13.6703 18.0677 14.0215C17.9312 14.3728 17.7231 14.6918 17.4566 14.9582C17.1901 15.2247 16.8711 15.4328 16.5199 15.5694C16.1687 15.7059 15.7928 15.7679 15.4164 15.7513H11.533L8.43302 18.468C8.21458 18.7509 7.89673 18.9401 7.54392 18.9974C7.19111 19.0547 6.82973 18.9756 6.53302 18.7763ZM10.6414 14.5347C10.8532 14.3478 11.1256 14.2442 11.408 14.243H15.4164C15.5956 14.2597 15.7764 14.2367 15.9457 14.1756C16.1151 14.1145 16.2689 14.0168 16.3962 13.8895C16.5235 13.7622 16.6212 13.6084 16.6823 13.439C16.7434 13.2697 16.7664 13.0889 16.7497 12.9097V5.40965C16.7664 5.23039 16.7434 5.04965 16.6823 4.8803C16.6212 4.71094 16.5235 4.55714 16.3962 4.42983C16.2689 4.30253 16.1151 4.20485 15.9457 4.14374C15.7764 4.08264 15.5956 4.05962 15.4164 4.07632H4.58302C4.40299 4.05943 4.22146 4.0826 4.05144 4.14418C3.88143 4.20575 3.72716 4.3042 3.5997 4.43246C3.47224 4.56072 3.37475 4.7156 3.31424 4.88599C3.25372 5.05639 3.23168 5.23806 3.24969 5.41798V12.918C3.23299 13.0972 3.25601 13.278 3.31712 13.4473C3.37822 13.6167 3.4759 13.7705 3.6032 13.8978C3.73051 14.0251 3.88431 14.1228 4.05367 14.1839C4.22302 14.245 4.40376 14.268 4.58302 14.2513H6.66636C7.24969 14.418 7.24969 14.418 7.41636 15.0013V17.3597L10.6414 14.5347Z" fill="#818C99" />
-                            </g>
-                            <defs>
-                              <clipPath id="clip0_7497_78400">
-                                <rect width="20" height="20" fill="white" />
-                              </clipPath>
-                            </defs>
-                          </svg> {discussion.comments}</span>
-                          <span className="engagement-item"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                            <g opacity="0.7" clip-path="url(#clip0_7497_78403)">
-                              <path d="M10.0834 6.55766V3.66599C10.085 3.45717 10.146 3.25309 10.2592 3.07764C10.3725 2.90219 10.5333 2.7626 10.723 2.67519C10.9127 2.58779 11.1233 2.55618 11.3303 2.58407C11.5372 2.61195 11.732 2.69818 11.8918 2.83266L19.3418 9.16599C19.5638 9.35502 19.7017 9.62447 19.7251 9.91512C19.7485 10.2058 19.6556 10.4938 19.4668 10.716L19.3418 10.841L11.8918 17.1743C11.732 17.3088 11.5372 17.395 11.3303 17.4229C11.1233 17.4508 10.9127 17.4192 10.723 17.3318C10.5333 17.2444 10.3725 17.1048 10.2592 16.9293C10.146 16.7539 10.085 16.5498 10.0834 16.341V13.466C6.18342 13.5577 3.41676 14.3743 1.84176 15.8577C1.69097 15.9972 1.49931 16.0847 1.29505 16.107C1.09079 16.1294 0.884757 16.0855 0.707338 15.9819C0.529919 15.8782 0.390512 15.7203 0.309683 15.5314C0.228855 15.3425 0.210885 15.1326 0.258424 14.9327C1.53342 9.63266 4.85009 6.79933 10.0834 6.55766ZM11.5834 4.54099V8.04099H10.8334C6.41676 8.04099 3.56676 9.91599 2.17509 13.7577C4.21676 12.5493 7.10842 11.9577 10.8334 11.9577H11.5834V15.4577L18.0084 9.99933L11.5834 4.54099Z" fill="#818C99" />
-                            </g>
-                            <defs>
-                              <clipPath id="clip0_7497_78403">
-                                <rect width="20" height="20" fill="white" />
-                              </clipPath>
-                            </defs>
-                          </svg>{discussion.shares}</span>
+                          
+                          <span className="engagement-item" onClick={() => handleMessageAuthor(discussion.author, discussion.id)} style={{ cursor: 'pointer' }}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                              <g opacity="0.7" clipPath="url(#clip0_7497_78400)">
+                                <path d="M6.53302 18.7763C6.34291 18.6221 6.1891 18.4279 6.08252 18.2076C5.97594 17.9872 5.91921 17.7461 5.91636 17.5013V15.7513H4.58302C4.20654 15.7679 3.83073 15.7059 3.47948 15.5694C3.12823 15.4328 2.80924 15.2247 2.54276 14.9582C2.27629 14.6918 2.06817 14.3728 1.93164 14.0215C1.79511 13.6703 1.73314 13.2945 1.74969 12.918V5.41798C1.73314 5.0415 1.79511 4.66569 1.93164 4.31444C2.06817 3.9632 2.27629 3.6442 2.54276 3.37772C2.80924 3.11125 3.12823 2.90313 3.47948 2.7666C3.83073 2.63007 4.20654 2.5681 4.58302 2.58465H15.4164C15.7928 2.5681 16.1687 2.63007 16.5199 2.7666C16.8711 2.90313 17.1901 3.11125 17.4566 3.37772C17.7231 3.6442 17.9312 3.9632 18.0677 4.31444C18.2043 4.66569 18.2662 5.0415 18.2497 5.41798V12.918C18.2662 13.2945 18.2043 13.6703 18.0677 14.0215C17.9312 14.3728 17.7231 14.6918 17.4566 14.9582C17.1901 15.2247 16.8711 15.4328 16.5199 15.5694C16.1687 15.7059 15.7928 15.7679 15.4164 15.7513H11.533L8.43302 18.468C8.21458 18.7509 7.89673 18.9401 7.54392 18.9974C7.19111 19.0547 6.82973 18.9756 6.53302 18.7763ZM10.6414 14.5347C10.8532 14.3478 11.1256 14.2442 11.408 14.243H15.4164C15.5956 14.2597 15.7764 14.2367 15.9457 14.1756C16.1151 14.1145 16.2689 14.0168 16.3962 13.8895C16.5235 13.7622 16.6212 13.6084 16.6823 13.439C16.7434 13.2697 16.7664 13.0889 16.7497 12.9097V5.40965C16.7664 5.23039 16.7434 5.04965 16.6823 4.8803C16.6212 4.71094 16.5235 4.55714 16.3962 4.42983C16.2689 4.30253 16.1151 4.20485 15.9457 4.14374C15.7764 4.08264 15.5956 4.05962 15.4164 4.07632H4.58302C4.40299 4.05943 4.22146 4.0826 4.05144 4.14418C3.88143 4.20575 3.72716 4.3042 3.5997 4.43246C3.47224 4.56072 3.37475 4.7156 3.31424 4.88599C3.25372 5.05639 3.23168 5.23806 3.24969 5.41798V12.918C3.23299 13.0972 3.25601 13.278 3.31712 13.4473C3.37822 13.6167 3.4759 13.7705 3.6032 13.8978C3.73051 14.0251 3.88431 14.1228 4.05367 14.1839C4.22302 14.245 4.40376 14.268 4.58302 14.2513H6.66636C7.24969 14.418 7.24969 14.418 7.41636 15.0013V17.3597L10.6414 14.5347Z" fill="#818C99" />
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_7497_78400">
+                                  <rect width="20" height="20" fill="white" />
+                                </clipPath>
+                              </defs>
+                            </svg>
+                            {discussion.comments}
+                          </span>
+                          
+                          <span className="engagement-item" onClick={() => handleSharePost(discussion.id)} style={{ cursor: 'pointer' }}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                              <g opacity="0.7" clipPath="url(#clip0_7497_78403)">
+                                <path d="M10.0834 6.55766V3.66599C10.085 3.45717 10.146 3.25309 10.2592 3.07764C10.3725 2.90219 10.5333 2.7626 10.723 2.67519C10.9127 2.58779 11.1233 2.55618 11.3303 2.58407C11.5372 2.61195 11.732 2.69818 11.8918 2.83266L19.3418 9.16599C19.5638 9.35502 19.7017 9.62447 19.7251 9.91512C19.7485 10.2058 19.6556 10.4938 19.4668 10.716L19.3418 10.841L11.8918 17.1743C11.732 17.3088 11.5372 17.395 11.3303 17.4229C11.1233 17.4508 10.9127 17.4192 10.723 17.3318C10.5333 17.2444 10.3725 17.1048 10.2592 16.9293C10.146 16.7539 10.085 16.5498 10.0834 16.341V13.466C6.18342 13.5577 3.41676 14.3743 1.84176 15.8577C1.69097 15.9972 1.49931 16.0847 1.29505 16.107C1.09079 16.1294 0.884757 16.0855 0.707338 15.9819C0.529919 15.8782 0.390512 15.7203 0.309683 15.5314C0.228855 15.3425 0.210885 15.1326 0.258424 14.9327C1.53342 9.63266 4.85009 6.79933 10.0834 6.55766ZM11.5834 4.54099V8.04099H10.8334C6.41676 8.04099 3.56676 9.91599 2.17509 13.7577C4.21676 12.5493 7.10842 11.9577 10.8334 11.9577H11.5834V15.4577L18.0084 9.99933L11.5834 4.54099Z" fill="#818C99" />
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_7497_78403">
+                                  <rect width="20" height="20" fill="white" />
+                                </clipPath>
+                              </defs>
+                            </svg>
+                            {discussion.shares}
+                          </span>
                         </FlexBox>
-                        <span className="post-views"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10" fill="none">
-                          <g opacity="0.5" clip-path="url(#clip0_7497_78406)">
-                            <path d="M7 10C2.8 10 0 6 0 5C0 4 2.8 0 7 0C11.2 0 14 4 14 5C14 6 11.2 10 7 10ZM7 8.5C8.9 8.5 10.5 6.9 10.5 5C10.5 3.1 8.9 1.5 7 1.5C5.1 1.5 3.5 3.1 3.5 5C3.5 6.9 5.1 8.5 7 8.5ZM7 6.6C6.1 6.6 5.4 5.9 5.4 5C5.4 4.1 6.1 3.4 7 3.4C7.9 3.4 8.6 4.1 8.6 5C8.6 5.9 7.9 6.6 7 6.6Z" fill="#818C99" />
-                          </g>
-                          <defs>
-                            <clipPath id="clip0_7497_78406">
-                              <rect width="14" height="10" fill="white" />
-                            </clipPath>
-                          </defs>
-                        </svg> {discussion.views}</span>
+                        
+                        <span className="post-views" style={{ cursor: 'pointer' }}>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10" fill="none">
+                            <g opacity="0.5" clipPath="url(#clip0_7497_78406)">
+                              <path d="M7 10C2.8 10 0 6 0 5C0 4 2.8 0 7 0C11.2 0 14 4 14 5C14 6 11.2 10 7 10ZM7 8.5C8.9 8.5 10.5 6.9 10.5 5C10.5 3.1 8.9 1.5 7 1.5C5.1 1.5 3.5 3.1 3.5 5C3.5 6.9 5.1 8.5 7 8.5ZM7 6.6C6.1 6.6 5.4 5.9 5.4 5C5.4 4.1 6.1 3.4 7 3.4C7.9 3.4 8.6 4.1 8.6 5C8.6 5.9 7.9 6.6 7 6.6Z" fill="#818C99" />
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_7497_78406">
+                                <rect width="14" height="10" fill="white" />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                          {discussion.views}
+                        </span>
                       </FlexBox>
                     </Box>
                   ))}
@@ -510,7 +767,7 @@ export default function Section6({ carList, carBrands }: Props) {
                 <Box className="about-content">
                   <Box className="about-info-container">
                     <h2>About this Community</h2>
-                    <p>This community brings together female founders and leaders in the fintech space to share insights, opportunities, and support each other's growth in the financial technology sector. We foster entrepreneurs in fintech who connect, share insights, and collaborate on groundbreaking solutions that are transforming the financial sector industry. From payment systems to blockchain and digital lending, the space fosters discussions on trading, trading, investment strategies, and technology-driven financial models. Join us to connect with like-minded leaders, share resources, and drive the future of financial innovation.</p>
+                    <p>This community brings together female founders and leaders in the fintech space to share insights, opportunities, and support each other's growth in the financial technology sector. We foster entrepreneurs in fintech who connect, share insights, and collaborate on groundbreaking solutions that are transforming the financial sector industry. From payment systems to blockchain and digital lending, the space fosters discussions on trading, investment strategies, and technology-driven financial models. Join us to connect with like-minded leaders, share resources, and drive the future of financial innovation.</p>
                   </Box>
                   <Box className="community-guidelines">
                     <h3>Community Guidelines</h3>
@@ -557,11 +814,10 @@ export default function Section6({ carList, carBrands }: Props) {
                       </Box>
                     ))}
 
-                    <p className="guidelines-footer" style={{ color: '#5088FF' }}>
+                    <p className="guidelines-footer">
                       By participating in this community, you agree to abide by these guidelines.{' '}
-
                       <span className="guidelines-link">
-                        Therefore members may result in temporary or permanent removal from the group.
+                        Violations may result in temporary or permanent removal from the group.
                       </span>
                     </p>
                   </Box>
@@ -688,6 +944,6 @@ export default function Section6({ carList, carBrands }: Props) {
           )}
         </Box>
       </FlexBox>
-    </Container >
+    </Container>
   );
 }

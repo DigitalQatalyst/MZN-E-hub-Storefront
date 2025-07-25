@@ -682,6 +682,439 @@ svg {
     color: #0061f2;
 }
 
+.file-preview-container {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+}
+
+.file-preview-item {
+    padding: 8px;
+    margin-bottom: 8px;
+    background-color: white;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+}
+
+.file-icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.file-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.file-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #495057;
+}
+
+.file-size {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.remove-file-btn {
+    background: none;
+    border: none;
+    color: #dc3545;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.remove-file-btn:hover {
+    background-color: #f8d7da;
+    border-radius: 50%;
+}
+
+/* Comment Modal Styles */
+.comment-modal {
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 400px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+}
+
+.comment-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #e2e8f0;
+    background-color: #f8f9fa;
+}
+
+.comment-modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a202c;
+}
+
+.close-modal-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #6c757d;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.close-modal-btn:hover {
+    background-color: #e9ecef;
+}
+
+.comment-textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.comment-textarea:focus {
+    border-color: #0061f2;
+    box-shadow: 0 0 0 3px rgba(0, 97, 242, 0.1);
+}
+
+.comment-textarea::placeholder {
+    color: #9ca3af;
+}
+
+.comment-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 20px;
+    border-top: 1px solid #e2e8f0;
+    background-color: #f8f9fa;
+}
+
+.cancel-comment-btn {
+    padding: 8px 16px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #6c757d;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.cancel-comment-btn:hover {
+    background-color: #f8f9fa;
+    border-color: #ced4da;
+}
+
+.submit-comment-btn {
+    padding: 8px 16px;
+    border: none;
+    background: #0061f2;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.submit-comment-btn:hover:not(:disabled) {
+    background-color: #0056d3;
+}
+
+.submit-comment-btn:disabled {
+    background-color: #ced4da;
+    cursor: not-allowed;
+}
+
+/* File preview styles (if not already added) */
+.file-preview-container {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+}
+
+.file-preview-item {
+    padding: 8px;
+    margin-bottom: 8px;
+    background-color: white;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+}
+
+.file-icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.file-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.file-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #495057;
+}
+
+.file-size {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.remove-file-btn {
+    background: none;
+    border: none;
+    color: #dc3545;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.remove-file-btn:hover {
+    background-color: #f8d7da;
+    border-radius: 50%;
+}
+
+/* Comment Modal Styles */
+.comment-modal {
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 400px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+}
+
+.comment-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #e2e8f0;
+    background-color: #f8f9fa;
+}
+
+.comment-modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a202c;
+}
+
+.close-modal-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #6c757d;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.close-modal-btn:hover {
+    background-color: #e9ecef;
+}
+
+.comment-modal-body {
+    padding: 20px;
+}
+
+.comment-textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.comment-textarea:focus {
+    border-color: #0061f2;
+    box-shadow: 0 0 0 3px rgba(0, 97, 242, 0.1);
+}
+
+.comment-textarea::placeholder {
+    color: #9ca3af;
+}
+
+.comment-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 20px;
+    border-top: 1px solid #e2e8f0;
+    background-color: #f8f9fa;
+}
+
+.cancel-comment-btn {
+    padding: 8px 16px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #6c757d;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.cancel-comment-btn:hover {
+    background-color: #f8f9fa;
+    border-color: #ced4da;
+}
+
+.submit-comment-btn {
+    padding: 8px 16px;
+    border: none;
+    background: #0061f2;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.submit-comment-btn:hover:not(:disabled) {
+    background-color: #0056d3;
+}
+
+.submit-comment-btn:disabled {
+    background-color: #ced4da;
+    cursor: not-allowed;
+}
+
+/* File preview styles */
+.file-preview-container {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+}
+
+.file-preview-item {
+    padding: 8px;
+    margin-bottom: 8px;
+    background-color: white;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+}
+
+.file-icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.file-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.file-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #495057;
+}
+
+.file-size {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.remove-file-btn {
+    background: none;
+    border: none;
+    color: #dc3545;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.remove-file-btn:hover {
+    background-color: #f8d7da;
+    border-radius: 50%;
+}
+
+/* Post files display */
+.post-files {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.post-file-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    padding: 5px;
+    background-color: white;
+    border-radius: 4px;
+}
+
+.post-file-item .file-icon {
+    margin-right: 8px;
+}
+
+.post-file-item .file-name {
+    font-size: 13px;
+    color: #495057;
+}
+
 @media (max-width: 768px) {
     .members-search .search-input {
         padding: 10px 40px 10px 12px;

@@ -15,17 +15,17 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
 }) => {
   return (
     <div style={styles.serviceCard}>
-      <div style={styles.cardHeader}>
+      <div>
         <img
           src="/assets/images/banners/logo.png"
           alt="Khalifa Fund"
-          style={{ height: 24, marginBottom: 8 }}
+          style={{ height: 20, marginBottom: 6 }}
         />
+        <h3 style={styles.title}>{title}</h3>
+        <p style={styles.subtitle}>by Khalifa Fund</p>
+        <div style={styles.rating}>{"⭐".repeat(rating)}</div>
+        <p style={styles.description}>{description}</p>
       </div>
-      <h3 style={styles.title}>{title}</h3>
-      <p style={styles.subtitle}>by Khalifa Fund</p>
-      <div style={styles.rating}>{"⭐".repeat(rating)}</div>
-      <p style={styles.description}>{description}</p>
       <a href={detailsLink} style={styles.viewDetails}>
         View Details →
       </a>
@@ -98,48 +98,6 @@ const ServiceCards: React.FC = () => {
       detailsLink: "#",
       rating: 4,
     },
-    {
-      title: "Business Licensing Registration Service",
-      description:
-        "Assists clients with the registration process and helps obtain the necessary licenses to operate their businesses.",
-      detailsLink: "#",
-      rating: 4,
-    },
-    {
-      title: "Mentorship & Advisory Service",
-      description:
-        "Facilitates mentorship connections between SMEs and experts, offering guidance on business development.",
-      detailsLink: "#",
-      rating: 4,
-    },
-    {
-      title: "SME Training Sign-Up",
-      description:
-        "Enables SMEs to sign up for relevant training programs to enhance their business skills.",
-      detailsLink: "#",
-      rating: 4,
-    },
-    {
-      title: "Entrepreneurship Growth Program",
-      description:
-        "Provides structured training programs to equip entrepreneurs with essential business skills.",
-      detailsLink: "#",
-      rating: 4,
-    },
-    {
-      title: "SME Champion Registration",
-      description:
-        "This service allows SMEs to register and gain access to support for SME Champion activities.",
-      detailsLink: "#",
-      rating: 4,
-    },
-    {
-      title: "Business Event Sign-Up",
-      description:
-        "A direct access service to sign-up for events related to business growth and networking.",
-      detailsLink: "#",
-      rating: 4,
-    },
   ];
 
   return (
@@ -160,52 +118,62 @@ const ServiceCards: React.FC = () => {
 const styles: { [key: string]: React.CSSProperties } = {
   container: {
     display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
+    gridTemplateColumns: "repeat(3, 325px)",
     gap: "24px",
-    padding: "24px",
+    padding: "24px 8px",
+    justifyContent: "center",
+    borderRadius: "8px",
+    background: "var(--KF-BG-White, #FFF)",
+    boxShadow:
+      "0 1px 2px 0 rgba(0, 0, 0, 0.30), 0 1px 3px 1px rgba(0, 0, 0, 0.15)",
   },
   serviceCard: {
+    width: "325px",
+    height: "248px",
     border: "1px solid #e0e0e0",
-    borderRadius: "10px",
+    borderRadius: "8px",
     backgroundColor: "#ffffff",
-    padding: "16px",
+    padding: "12px 16px",
     fontFamily: "Arial, sans-serif",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    minHeight: "250px",
-  },
-  cardHeader: {
-    marginBottom: "12px",
+    boxSizing: "border-box",
   },
   title: {
-    fontSize: "16px",
+    fontSize: "14px",
     fontWeight: 600,
     margin: "4px 0",
     color: "#1a1a1a",
+    lineHeight: "1.2",
   },
   subtitle: {
-    fontSize: "13px",
+    fontSize: "12px",
     color: "#777",
     marginBottom: "4px",
   },
   rating: {
-    fontSize: "14px",
+    fontSize: "12px",
     color: "#f5c518",
-    marginBottom: "12px",
+    marginBottom: "6px",
   },
   description: {
-    fontSize: "13px",
+    fontSize: "12px",
     color: "#444",
-    flexGrow: 1,
-    marginBottom: "16px",
+    marginBottom: "8px",
+    lineHeight: "1.4",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    display: "-webkit-box",
+    WebkitLineClamp: 3,
+    WebkitBoxOrient: "vertical",
   },
   viewDetails: {
     fontSize: "13px",
     color: "#0056d2",
     fontWeight: 600,
     textDecoration: "none",
-    marginTop: "auto",
+    alignSelf: "flex-start",
   },
 };
 

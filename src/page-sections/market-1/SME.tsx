@@ -822,9 +822,9 @@ export default function Section6({ carList, carBrands }: Props) {
                       <Box className="post-content" onClick={() => handleViewPost(discussion.id)} style={{ cursor: 'pointer' }}>
                         {/* <h3 className="post-title">{discussion.title}</h3> */}
                         <p
-    className="post-description"
-    dangerouslySetInnerHTML={{ __html: discussion.content }}
-  />
+                          className="post-description"
+                          dangerouslySetInnerHTML={{ __html: discussion.content }}
+                        />
                         {/* Display uploaded files in posts */}
                         {discussion.files && discussion.files.length > 0 && (
                           <Box className="post-files">
@@ -901,7 +901,7 @@ export default function Section6({ carList, carBrands }: Props) {
                             </svg>
                             {discussion.shares}
                           </span>
-                          <Box className="emoji-reaction-container" onClick={() => toggleEmojiPicker(discussion.id)} style={{ position: 'relative' }}>
+                          <Box className="emoji-reaction-container engagement-item" onClick={() => toggleEmojiPicker(discussion.id)} style={{ position: 'relative' }}>
                             <NextImage src="/images/Group (2).svg" alt="attachment" width={16} height={16} />
 
                             {showEmojiPicker === discussion.id && (

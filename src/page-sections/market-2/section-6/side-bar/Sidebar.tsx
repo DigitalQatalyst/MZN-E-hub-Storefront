@@ -314,7 +314,7 @@ export default function Sidebar({
               checked={pricingModelFilters.governmentSubsidised}
               onChange={() => handlePricingModelChange("governmentSubsidised")}
             />
-            <label htmlFor="government-subsidised">Government sponsered</label>
+            <label htmlFor="government-subsidised">Government sponsored</label>
           </CheckboxLabel>
         </List>
         <div style={{ width: "236px", height: "1px", background: "#D8E0E9" }} />

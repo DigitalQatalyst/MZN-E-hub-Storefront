@@ -363,6 +363,7 @@ svg {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    text-align: center;
     padding-top: 12px;
     border-top: 1px solid #f0f0f0;
 }
@@ -1113,6 +1114,353 @@ svg {
 .post-file-item .file-name {
     font-size: 13px;
     color: #495057;
+}
+
+/* NEW: Emoji Reaction Styles */
+
+/* Emoji picker dropdown */
+.emoji-picker {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    width: 200px;
+    z-index: 100;
+    margin-bottom: 8px;
+}
+
+.emoji-option {
+    background: none;
+    border: none;
+    font-size: 18px;
+    padding: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.emoji-option:hover {
+    background-color: #f1f5f9;
+}
+
+/* Post reactions container */
+.post-reactions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 12px 0;
+    padding-bottom: 12px;
+}
+
+.reaction-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 16px;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 14px;
+}
+
+.reaction-item:hover {
+    background: #e9ecef;
+    border-color: #0061f2;
+    transform: scale(1.05);
+}
+
+.reaction-emoji {
+    font-size: 16px;
+    line-height: 1;
+}
+
+.reaction-count {
+    font-size: 12px;
+    font-weight: 500;
+    color: #6c757d;
+    min-width: 12px;
+    text-align: center;
+}
+
+/* Emoji button in engagement actions */
+.emoji-button {
+    font-size: 16px !important;
+}
+
+.emoji-button::before {
+    content: '😊';
+    filter: grayscale(1);
+    opacity: 0.7;
+}
+
+.emoji-reaction-container {
+    position: relative;
+}
+
+/* Reaction tooltip */
+.reaction-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a1a1a;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 200;
+    margin-bottom: 8px;
+    min-width: 120px;
+    max-width: 200px;
+    pointer-events: none;
+    white-space: normal;
+}
+
+.reaction-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid transparent;
+    border-top-color: #1a1a1a;
+}
+
+.tooltip-emoji {
+    margin-right: 6px;
+    font-size: 14px;
+}
+
+.tooltip-users {
+    font-weight: 500;
+}
+
+/* Text direction fixes for textareas */
+.comment-textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s;
+
+    /* Fix cursor position and text direction */
+    direction: ltr !important;
+    text-align: left !important;
+    unicode-bidi: normal !important;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+
+    /* Ensure proper input behavior */
+    box-sizing: border-box;
+    display: block;
+
+    /* Override any inherited RTL styles */
+    margin: 0;
+    vertical-align: baseline;
+}
+
+.comment-textarea:focus {
+    border-color: #0061f2;
+    box-shadow: 0 0 0 3px rgba(0, 97, 242, 0.1);
+    direction: ltr !important;
+    text-align: left !important;
+}
+
+.comment-textarea::placeholder {
+    color: #9ca3af;
+    direction: ltr !important;
+    text-align: left !important;
+}
+
+/* Emoji picker dropdown */
+.emoji-picker {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    width: 200px;
+    z-index: 100;
+    margin-bottom: 8px;
+}
+
+.emoji-option {
+    background: none;
+    border: none;
+    font-size: 18px;
+    padding: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.emoji-option:hover {
+    background-color: #f1f5f9;
+}
+
+.reaction-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 16px;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 14px;
+}
+
+.reaction-item:hover {
+    background: #e9ecef;
+    border-color: #0061f2;
+    transform: scale(1.05);
+}
+
+.reaction-emoji {
+    font-size: 16px;
+    line-height: 1;
+}
+
+.reaction-count {
+    font-size: 12px;
+    font-weight: 500;
+    color: #6c757d;
+    min-width: 12px;
+    text-align: center;
+}
+
+/* Emoji button in engagement actions */
+.emoji-button {
+    font-size: 16px !important;
+}
+
+.emoji-reaction-container {
+    position: relative;
+}
+
+.tooltip-emoji {
+    margin-right: 6px;
+    font-size: 14px;
+}
+
+.tooltip-users {
+    font-weight: 500;
+}
+
+/* Text direction fixes for textareas */
+.comment-textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s;
+
+    /* Fix cursor position and text direction */
+    direction: ltr !important;
+    text-align: left !important;
+    unicode-bidi: normal !important;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+
+    /* Ensure proper input behavior */
+    box-sizing: border-box;
+    display: block;
+
+    /* Override any inherited RTL styles */
+    margin: 0;
+    vertical-align: baseline;
+}
+
+.comment-textarea:focus {
+    border-color: #0061f2;
+    box-shadow: 0 0 0 3px rgba(0, 97, 242, 0.1);
+    direction: ltr !important;
+    text-align: left !important;
+}
+
+.comment-textarea::placeholder {
+    color: #9ca3af;
+    direction: ltr !important;
+    text-align: left !important;
+}
+
+/* NEW: Post creation emoji picker positioning */
+.post-tool-emoji-container {
+    position: relative;
+    display: inline-block;
+}
+
+.post-creation-emoji-picker {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    width: 200px;
+    z-index: 100;
+    margin-bottom: 8px;
+}
+
+/* Ensure the post-tool button maintains its styling */
+.post-tool-emoji-container .post-tool {
+    background: none;
+    border: none;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.post-tool-emoji-container .post-tool:hover {
+    background-color: #f1f5f9;
 }
 
 @media (max-width: 768px) {

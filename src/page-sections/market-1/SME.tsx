@@ -21,11 +21,17 @@ interface Comment {
   time: string;
 }
 
+interface EmojiReaction {
+  emoji: string;
+  users: string[];
+  count: number;
+}
+
 interface Discussion {
   id: string;
   author: string;
   time: string;
-  title: string;
+  // title: string;
   content: string;
   category: string;
   likes: number;
@@ -34,6 +40,7 @@ interface Discussion {
   views: number;
   files?: File[];
   commentsList?: Comment[];
+  reactions?: EmojiReaction[];
 }
 
 export default function Section6({ carList, carBrands }: Props) {
@@ -44,30 +51,40 @@ export default function Section6({ carList, carBrands }: Props) {
   const [sidebarSelected, setSidebarSelected] = useState("my-communities");
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   // Comment modal state
   const [showCommentModal, setShowCommentModal] = useState(false);
   const [selectedPostForComment, setSelectedPostForComment] = useState<string>("");
   const [commentText, setCommentText] = useState("");
+
+  const [showEmojiPicker, setShowEmojiPicker] = useState<string | null>(null);
+  const [hoveredReaction, setHoveredReaction] = useState<{ postId: string, emoji: string } | null>(null);
 
   const [discussions, setDiscussions] = useState<Discussion[]>([
     {
       id: "1",
       author: "Layla Hassan",
       time: "Jul 28 • 14:00",
-      title: "Successfully Secured Khalifa Fund Support for My Startup!",
-      content: "I'm excited to announce that my startup was just approved for funding by the Khalifa Fund! 🎉 The process was incredibly thorough, but now I'm ready to expand. If anyone else has been through this, I'd love to hear about your experience and any tips for successfully navigating the next steps!",
+      // title: "Successfully Secured Khalifa Fund Support for My Startup!",
+      content: "Successfully Secured Khalifa Fund Support for My Startup! <br /> I'm excited to announce that my startup was just approved for funding by the Khalifa Fund! 🎉 The process was incredibly thorough, but now I'm ready to expand. If anyone else has been through this, I'd love to hear about your experience and any tips for successfully navigating the next steps!",
       category: "Funding & Finance",
       likes: 21,
       comments: 3,
       shares: 2,
       views: 999,
       files: [],
-      commentsList: []
+      commentsList: [],
+      reactions: [
+        { emoji: "👍", users: ["Ahmed Ali", "Sarah Johnson"], count: 2 },
+        { emoji: "🎉", users: ["Omar Al-Farouk"], count: 1 },
+        { emoji: "❤️", users: ["Karim Abdullah", "Layla Hassan", "Sarah Johnson"], count: 3 }
+      ]
     },
   ]);
-  
+
   const [searchTerm, setSearchTerm] = useState('');
+
+  const availableEmojis = ['👍', '❤️', '😂', '😮', '😢', '😡', '🎉', '🔥', '💯', '👏'];
 
   // File upload handlers
   const handleFileUpload = () => {
@@ -115,7 +132,7 @@ export default function Section6({ carList, carBrands }: Props) {
         id: Date.now().toString(),
         author: "Current User",
         time: "now",
-        title: postContent.trim() || "File attachment post",
+        // title: postContent.trim() || "File attachment post",
         content: postContent.trim(),
         category: "",
         likes: 0,
@@ -123,7 +140,8 @@ export default function Section6({ carList, carBrands }: Props) {
         shares: 0,
         views: 0,
         files: [...selectedFiles],
-        commentsList: []
+        commentsList: [],
+        reactions: []
       };
 
       setDiscussions([newPost, ...discussions]);
@@ -149,6 +167,72 @@ export default function Section6({ carList, carBrands }: Props) {
           : discussion
       )
     );
+  };
+
+  const handleEmojiReaction = (postId: string, emoji: string) => {
+    const currentUser = "Current User";
+
+    setDiscussions(prevDiscussions =>
+      prevDiscussions.map(discussion => {
+        if (discussion.id !== postId) return discussion;
+
+        const reactions = discussion.reactions || [];
+        const existingReaction = reactions.find(r => r.emoji === emoji);
+
+        if (existingReaction) {
+          // Check if user already reacted with this emoji
+          if (existingReaction.users.includes(currentUser)) {
+            // Remove user's reaction
+            const updatedUsers = existingReaction.users.filter(user => user !== currentUser);
+            if (updatedUsers.length === 0) {
+              // Remove entire reaction if no users left
+              return {
+                ...discussion,
+                reactions: reactions.filter(r => r.emoji !== emoji)
+              };
+            } else {
+              // Update reaction with remaining users
+              return {
+                ...discussion,
+                reactions: reactions.map(r =>
+                  r.emoji === emoji
+                    ? { ...r, users: updatedUsers, count: updatedUsers.length }
+                    : r
+                )
+              };
+            }
+          } else {
+            // Add user to existing reaction
+            return {
+              ...discussion,
+              reactions: reactions.map(r =>
+                r.emoji === emoji
+                  ? { ...r, users: [...r.users, currentUser], count: r.count + 1 }
+                  : r
+              )
+            };
+          }
+        } else {
+          // Create new reaction
+          return {
+            ...discussion,
+            reactions: [...reactions, { emoji, users: [currentUser], count: 1 }]
+          };
+        }
+      })
+    );
+
+    setShowEmojiPicker(null);
+  };
+
+  const toggleEmojiPicker = (postId: string) => {
+    setShowEmojiPicker(showEmojiPicker === postId ? null : postId);
+  };
+
+  const handleInsertEmojiInPost = (emoji: string) => {
+    setPostContent(prevContent => prevContent + emoji);
+    // Close emoji picker after selection
+    setShowEmojiPicker(null);
   };
 
   // Share post handler
@@ -177,7 +261,8 @@ export default function Section6({ carList, carBrands }: Props) {
         alert('Failed to copy to clipboard');
       });
     }
-    
+
+
     // Increment share count
     setDiscussions(prevDiscussions =>
       prevDiscussions.map(discussion =>
@@ -212,15 +297,15 @@ export default function Section6({ carList, carBrands }: Props) {
       setDiscussions(prevDiscussions =>
         prevDiscussions.map(discussion =>
           discussion.id === selectedPostForComment
-            ? { 
-                ...discussion, 
-                comments: discussion.comments + 1,
-                commentsList: [...(discussion.commentsList || []), newComment]
-              }
+            ? {
+              ...discussion,
+              comments: discussion.comments + 1,
+              commentsList: [...(discussion.commentsList || []), newComment]
+            }
             : discussion
         )
       );
-      
+
       // Reset modal state
       setCommentText("");
       setShowCommentModal(false);
@@ -236,7 +321,7 @@ export default function Section6({ carList, carBrands }: Props) {
 
   // Comment Modal Component
   const CommentModal = () => (
-    <Box 
+    <Box
       style={{
         position: 'fixed',
         top: 0,
@@ -251,20 +336,20 @@ export default function Section6({ carList, carBrands }: Props) {
       }}
       onClick={() => setShowCommentModal(false)}
     >
-      <Box 
+      <Box
         className="comment-modal"
         onClick={(e) => e.stopPropagation()}
       >
         <Box className="comment-modal-header">
           <h3>Add Comment</h3>
-          <button 
+          <button
             className="close-modal-btn"
             onClick={() => setShowCommentModal(false)}
           >
             ×
           </button>
         </Box>
-        
+
         <Box className="comment-modal-body">
           <textarea
             value={commentText}
@@ -274,15 +359,15 @@ export default function Section6({ carList, carBrands }: Props) {
             autoFocus
           />
         </Box>
-        
+
         <Box className="comment-modal-footer">
-          <button 
+          <button
             className="cancel-comment-btn"
             onClick={() => setShowCommentModal(false)}
           >
             Cancel
           </button>
-          <button 
+          <button
             className="submit-comment-btn"
             onClick={handleSubmitComment}
             disabled={!commentText.trim()}
@@ -293,6 +378,43 @@ export default function Section6({ carList, carBrands }: Props) {
       </Box>
     </Box>
   );
+
+  const EmojiPicker = ({ postId }: { postId: string }) => (
+    <Box className="emoji-picker">
+      {availableEmojis.map((emoji) => (
+        <button
+          key={emoji}
+          className="emoji-option"
+          onClick={() => handleEmojiReaction(postId, emoji)}
+        >
+          {emoji}
+        </button>
+      ))}
+    </Box>
+  );
+
+  // NEW: Reaction Tooltip Component
+  const ReactionTooltip = ({ postId, emoji }: { postId: string, emoji: string }) => {
+    const discussion = discussions.find(d => d.id === postId);
+    const reaction = discussion?.reactions?.find(r => r.emoji === emoji);
+
+    if (!reaction || !hoveredReaction || hoveredReaction.postId !== postId || hoveredReaction.emoji !== emoji) {
+      return null;
+    }
+
+    return (
+      <Box className="reaction-tooltip">
+        <span className="tooltip-emoji">{emoji}</span>
+        <Box className="tooltip-users">
+          {reaction.users.map((user, index) => (
+            <Box key={index} className="tooltip-user-item">
+              {user}
+            </Box>
+          ))}
+        </Box>
+      </Box>
+    );
+  };
 
   // Static data
   const groups = [
@@ -602,7 +724,8 @@ export default function Section6({ carList, carBrands }: Props) {
                       placeholder="Start a discussion in this community"
                       className="post-textarea"
                     />
-                    
+
+
                     {/* File Preview - Shows selected files before posting */}
                     {selectedFiles.length > 0 && (
                       <Box className="file-preview-container">
@@ -630,7 +753,7 @@ export default function Section6({ carList, carBrands }: Props) {
                         ))}
                       </Box>
                     )}
-                    
+
                     <FlexBox className="post-actions">
                       <FlexBox className="post-tools">
                         <button className="post-tool" onClick={handleFileUpload}>
@@ -639,9 +762,25 @@ export default function Section6({ carList, carBrands }: Props) {
                         <button className="post-tool">
                           <NextImage src="/images/Group (1).svg" alt="video" width={16} height={16} />
                         </button>
-                        <button className="post-tool">
-                          <NextImage src="/images/Group (2).svg" alt="attachment" width={16} height={16} />
-                        </button>
+                        <Box className="post-emoji-container" style={{ position: 'relative' }}>
+                          <button className="post-tool" onClick={() => toggleEmojiPicker('post-creation')}>
+                            <NextImage src="/images/Group (2).svg" alt="attachment" width={16} height={16} />
+                          </button>
+                          {showEmojiPicker === 'post-creation' && (
+                            <Box className="emoji-picker post-creation-emoji-picker">
+                              {availableEmojis.map((emoji) => (
+                                <button
+                                  key={emoji}
+                                  className="emoji-option"
+                                  onClick={() => handleInsertEmojiInPost(emoji)}
+                                >
+                                  {emoji}
+                                </button>
+                              ))}
+                            </Box>
+                          )}
+                        </Box>
+
                       </FlexBox>
                       <button
                         className="post-submit-btn"
@@ -653,7 +792,7 @@ export default function Section6({ carList, carBrands }: Props) {
                         </svg>
                       </button>
                     </FlexBox>
-                    
+
                     {/* Hidden File Input */}
                     <input
                       ref={fileInputRef}
@@ -681,9 +820,11 @@ export default function Section6({ carList, carBrands }: Props) {
                       </FlexBox>
 
                       <Box className="post-content" onClick={() => handleViewPost(discussion.id)} style={{ cursor: 'pointer' }}>
-                        <h3 className="post-title">{discussion.title}</h3>
-                        <p className="post-description">{discussion.content}</p>
-                        
+                        {/* <h3 className="post-title">{discussion.title}</h3> */}
+                        <p
+    className="post-description"
+    dangerouslySetInnerHTML={{ __html: discussion.content }}
+  />
                         {/* Display uploaded files in posts */}
                         {discussion.files && discussion.files.length > 0 && (
                           <Box className="post-files">
@@ -698,7 +839,7 @@ export default function Section6({ carList, carBrands }: Props) {
                             ))}
                           </Box>
                         )}
-                        
+
                         {discussion.category && (
                           <Box className="post-category">
                             <span className="category-tag">{discussion.category}</span>
@@ -706,15 +847,33 @@ export default function Section6({ carList, carBrands }: Props) {
                         )}
                       </Box>
 
+                      {discussion.reactions && discussion.reactions.length > 0 && (
+                        <Box className="post-reactions">
+                          {discussion.reactions.map((reaction) => (
+                            <Box
+                              key={reaction.emoji}
+                              className="reaction-item"
+                              onClick={() => handleEmojiReaction(discussion.id, reaction.emoji)}
+                              onMouseEnter={() => setHoveredReaction({ postId: discussion.id, emoji: reaction.emoji })}
+                              onMouseLeave={() => setHoveredReaction(null)}
+                            >
+                              <span className="reaction-emoji">{reaction.emoji}</span>
+                              <span className="reaction-count">{reaction.count}</span>
+                              <ReactionTooltip postId={discussion.id} emoji={reaction.emoji} />
+                            </Box>
+                          ))}
+                        </Box>
+                      )}
+
                       <FlexBox className="post-engagement">
                         <FlexBox className="engagement-actions">
-                          <span className="engagement-item" onClick={() => handleLikePost(discussion.id)} style={{ cursor: 'pointer' }}>
+                          {/* <span className="engagement-item" onClick={() => handleLikePost(discussion.id)} style={{ cursor: 'pointer' }}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                               <path d="M5.83464 8.33464V18.3346M12.5013 4.9013L11.668 8.33464H16.5263C16.785 8.33464 17.0402 8.39488 17.2717 8.51059C17.5031 8.6263 17.7044 8.79431 17.8596 9.0013C18.0149 9.2083 18.1198 9.44859 18.1661 9.70316C18.2124 9.95773 18.1987 10.2196 18.1263 10.468L16.1846 17.1346C16.0837 17.4808 15.8731 17.7849 15.5846 18.0013C15.2961 18.2177 14.9453 18.3346 14.5846 18.3346H3.33464C2.89261 18.3346 2.46868 18.159 2.15612 17.8465C1.84356 17.5339 1.66797 17.11 1.66797 16.668V10.0013C1.66797 9.55927 1.84356 9.13535 2.15612 8.82279C2.46868 8.51023 2.89261 8.33464 3.33464 8.33464H5.63464C5.94471 8.33447 6.24858 8.24781 6.5121 8.0844C6.77561 7.92099 6.98832 7.68731 7.1263 7.40964L10.0013 1.66797C10.3943 1.67284 10.7811 1.76644 11.1328 1.9418C11.4845 2.11715 11.7921 2.36972 12.0325 2.68064C12.2729 2.99155 12.4399 3.35277 12.5211 3.7373C12.6023 4.12184 12.5955 4.51975 12.5013 4.9013Z" stroke="#818C99" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                             {discussion.likes}
-                          </span>
-                          
+                          </span> */}
+
                           <span className="engagement-item" onClick={() => handleMessageAuthor(discussion.author, discussion.id)} style={{ cursor: 'pointer' }}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                               <g opacity="0.7" clipPath="url(#clip0_7497_78400)">
@@ -728,7 +887,7 @@ export default function Section6({ carList, carBrands }: Props) {
                             </svg>
                             {discussion.comments}
                           </span>
-                          
+
                           <span className="engagement-item" onClick={() => handleSharePost(discussion.id)} style={{ cursor: 'pointer' }}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                               <g opacity="0.7" clipPath="url(#clip0_7497_78403)">
@@ -742,8 +901,15 @@ export default function Section6({ carList, carBrands }: Props) {
                             </svg>
                             {discussion.shares}
                           </span>
+                          <Box className="emoji-reaction-container" onClick={() => toggleEmojiPicker(discussion.id)} style={{ position: 'relative' }}>
+                            <NextImage src="/images/Group (2).svg" alt="attachment" width={16} height={16} />
+
+                            {showEmojiPicker === discussion.id && (
+                              <EmojiPicker postId={discussion.id} />
+                            )}
+                          </Box>
                         </FlexBox>
-                        
+
                         <span className="post-views" style={{ cursor: 'pointer' }}>
                           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10" fill="none">
                             <g opacity="0.5" clipPath="url(#clip0_7497_78406)">

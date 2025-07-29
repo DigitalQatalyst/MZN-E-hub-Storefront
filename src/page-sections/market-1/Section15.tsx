@@ -1,5 +1,5 @@
 "use client";
-
+ 
 import Box from "@component/Box";
 import { Button as DefaultButton } from "@component/buttons";
 import { Carousel } from "@component/carousel";
@@ -9,37 +9,41 @@ import styled from "styled-components";
 import client from "@lib/graphQLClient";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
+ 
 // STYLED COMPONENTS
 const ContentColumn = styled.div`
   color: #000;
-  padding: 40px 80px 10px 80px;
+  padding: 10px 80px 10px 80px;
   display: flex;
   flex-direction: column;
-  font-family: 'Open Sans', sans-serif;
-  font-style: normal;
+  font-family: "Abhaya Libre", serif;
   align-items: flex-start;
   width: 100%;
-
-  @media (max-width: 1199px) {
-    padding: 10px 32px 10px 32px;
+ 
+  @media (max-width: 1024px) {
+    padding: 10px 40px 10px 40px;
   }
-  @media (max-width: 899px) {
-    padding: 10px 8px 10px 8px;
+ 
+  @media (max-width: 768px) {
+    padding: 10px 20px 10px 20px;
+  }
+ 
+  @media (max-width: 480px) {
+    padding: 10px 15px 10px 15px;
   }
 `;
-
+ 
 const Subheading = styled.div`
   display: flex;
 `;
-
+ 
 const SubheadingText = styled.span`
   font-size: 16px;
   font-weight: 500;
   color: #1A1A1A;
   cursor: default;
 `;
-
+ 
 const MarketplaceSubheadingText = styled(SubheadingText)`
   border-bottom: 2px solid #0030E3;
   color: var(--KF-BG-Blue, #0030E3);
@@ -50,43 +54,81 @@ const MarketplaceSubheadingText = styled(SubheadingText)`
   font-weight: 500;
   line-height: 22px; /* 137.5% */
   padding-top: 2rem;
+ 
+  @media (max-width: 768px) {
+    font-size: 14px;
+    line-height: 20px;
+    padding-top: 1.5rem;
+  }
+ 
+  @media (max-width: 480px) {
+    font-size: 13px;
+    line-height: 18px;
+    padding-top: 1rem;
+  }
 `;
-
+ 
 const Description = styled.p`
   color: var(--KF-BG-Black, #000);
   font-family: "Helvetica Neue";
   font-size: var(--Body-Large-Size, 16px);
   font-style: normal;
   font-weight: 400;
-  @media (max-width: 899px) {
+ 
+  @media (max-width: 768px) {
     font-size: 14px;
+    line-height: 20px;
+  }
+ 
+  @media (max-width: 480px) {
+    font-size: 13px;
+    line-height: 18px;
   }
 `;
-
+ 
 const StyledHeader = styled.p`
   color: #000;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Helvetica Neue";
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: var(--Title-Large-Line-Height, 28px); /* 175% */
   letter-spacing: var(--Title-Large-Tracking, 0px);
   text-transform: uppercase;
-  padding-bottom: 8px;
   margin: 0;
+ 
+  @media (max-width: 768px) {
+    font-size: 14px;
+    line-height: 24px;
+  }
+ 
+  @media (max-width: 480px) {
+    font-size: 13px;
+    line-height: 20px;
+  }
 `;
-
+ 
 const StyledBody = styled.p`
   color: #000;
-  font-family: "FS Kim Trial";
+  font-family: "Open Sans";
   font-size: 48px;
   font-style: normal;
-  font-weight: 550;
+  font-weight: 400;
   line-height: var(--Display-Medium-Line-Height, 52px); /* 108.333% */
   letter-spacing: var(--Display-Medium-Tracking, 0px);
   margin: 0;
+ 
+  @media (max-width: 768px) {
+    font-size: 32px;
+    line-height: 36px;
+  }
+ 
+  @media (max-width: 480px) {
+    font-size: 28px;
+    line-height: 32px;
+  }
 `;
-
+ 
 const ExploreAllButton = styled(DefaultButton)`
   background-color: transparent;
   color: #0030E3;
@@ -97,8 +139,16 @@ const ExploreAllButton = styled(DefaultButton)`
   align-items: center;
   gap: 0.5rem;
   padding: 0;
+ 
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+ 
+  @media (max-width: 480px) {
+    font-size: 13px;
+  }
 `;
-
+ 
 const CarouselWrapper = styled(Box)`
   width: 100%;
   overflow: hidden;
@@ -108,13 +158,47 @@ const CarouselWrapper = styled(Box)`
   .slick-list {
     margin: 0 -10px;
   }
+ 
+  @media (max-width: 768px) {
+    .slick-slide {
+      padding: 0 5px;
+    }
+    .slick-list {
+      margin: 0 -5px;
+    }
+  }
+ 
+  @media (max-width: 480px) {
+    .slick-slide {
+      padding: 0 2px;
+    }
+    .slick-list {
+      margin: 0 -2px;
+    }
+  }
 `;
-
+ 
+const ResponsiveDescriptionContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+ 
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+ 
+  @media (max-width: 480px) {
+    gap: 0.75rem;
+  }
+`;
+ 
 // GraphQL Query
 const GET_PRODUCTS = `
-  query {
-    products(options: { take: 100 }) {
-      totalItems
+  query GetProducts($skip: Int!, $take: Int!) {
+    products(options: { skip: $skip, take: $take }) {
       items {
         id
         name
@@ -131,25 +215,14 @@ const GET_PRODUCTS = `
           code
         }
         customFields {
-          Industry
-          BusinessStage
-          ProcessingTime
-          RegistrationValidity
-          Cost
-          Steps
-          TermsOfService
-          RequiredDocuments
-          RelatedServices {
-            id
-            name
-            slug
-          }
+          Partner
         }
       }
+      totalItems
     }
   }
 `;
-
+ 
 interface FacetValue {
   facet: {
     id: string;
@@ -160,13 +233,7 @@ interface FacetValue {
   name: string;
   code: string;
 }
-
-interface RelatedService {
-  id: string;
-  name: string;
-  slug: string;
-}
-
+ 
 interface Product {
   id: string;
   name: string;
@@ -174,47 +241,59 @@ interface Product {
   description: string;
   facetValues: FacetValue[];
   customFields: {
-    Industry?: string;
-    BusinessStage?: string;
-    ProcessingTime?: string;
-    RegistrationValidity?: string;
-    Cost?: string;
-    Steps?: string;
-    TermsOfService?: string;
-    RequiredDocuments?: string;
-    RelatedServices?: RelatedService[];
-    Partner?: string; // Keep for backward compatibility
+    Partner: string;
   };
 }
-
+ 
 interface GetProductsData {
   products: {
     items: Product[];
     totalItems: number;
   };
 }
-
+ 
+interface GetProductsVariables {
+  skip: number;
+  take: number;
+}
+ 
 export default function Section15() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+ 
   const defaultImage = "/assets/images/mzn_logos/mzn_logo.png";
   const defaultImages = [defaultImage];
   const defaultReviews = 0;
-
+ 
   // Fetch products on component mount
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const data = await client.request<GetProductsData>(GET_PRODUCTS);
+        const productsPerPage = 50; // Fetch a reasonable number of products
+        let allProducts: Product[] = [];
+        let currentSkip = 0;
+        let total = 0;
+ 
+        // Fetch all products in batches
+        do {
+          const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
+            skip: currentSkip,
+            take: productsPerPage,
+          });
+          allProducts.push(...data.products.items);
+          total = data.products.totalItems;
+          currentSkip += productsPerPage;
+        } while (currentSkip < total);
+ 
         // Filter for Financial Services (facetValue.id: "66") and exclude non-financial (facetValue.id: "67")
-        const financialServicesOnly = data.products.items.filter(
+        const financialServicesOnly = allProducts.filter(
           (product) =>
             product.facetValues.some((fv) => fv.id === "66") &&
             !product.facetValues.some((fv) => fv.id === "67")
         );
+ 
         setProducts(financialServicesOnly);
       } catch (err) {
         console.error("Error fetching products:", err);
@@ -223,17 +302,17 @@ export default function Section15() {
         setLoading(false);
       }
     };
-
+ 
     fetchData();
   }, []);
-
+ 
   const responsive = [
     { breakpoint: 1279, settings: { slidesToShow: 4, slidesToScroll: 1 } },
     { breakpoint: 959, settings: { slidesToShow: 3, slidesToScroll: 1 } },
     { breakpoint: 650, settings: { slidesToShow: 2, slidesToScroll: 1 } },
     { breakpoint: 500, settings: { slidesToShow: 1, slidesToScroll: 1 } },
   ];
-
+ 
   return (
     <CategorySectionCreator>
       <ContentColumn>
@@ -245,16 +324,16 @@ export default function Section15() {
         <Subheading>
           <MarketplaceSubheadingText>Featured Services</MarketplaceSubheadingText>
         </Subheading>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+        <ResponsiveDescriptionContainer>
           <Description>
             A quick look at the most active services this quarter—driven by SME demand<br /> and partner momentum.
           </Description>
-          <Link href={`/financial-marketplace`} style={{ textDecoration: "none" }}>
+          <Link href={`https://mzn-e-hub-storefront-git-unifieddemo-digitalqatalysts-projects.vercel.app/services`}>
             <ExploreAllButton>
               Explore more <span>→</span>
             </ExploreAllButton>
           </Link>
-        </div>
+        </ResponsiveDescriptionContainer>
         <CarouselWrapper mb="-0.25rem">
           {loading ? (
             <Box py="3rem">

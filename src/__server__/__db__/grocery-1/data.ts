@@ -626,7 +626,7 @@ export const products = [
     },
     title: "500+ Tailored",
     title1: "Services",
-    subTitle: "Explore a curated catalogue of services designed for SMEs-covering funding, training, media exposure, investment opportunities, and more",
+    subTitle: "Explore a curated catalogue of services designed for SMEs-covering funding, training, media exposure, investment opportunities, and more.",
     brand: null,
     price: 146,
     size: null,

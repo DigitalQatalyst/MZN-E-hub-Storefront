@@ -6,6 +6,7 @@ import { H3 } from "@component/Typography";
 import { Button as DefaultButton } from "@component/buttons";
 import Image from "next/image";
 import Icon from "@component/icon/Icon";
+import { useRouter } from "next/navigation";
 
 // STYLED COMPONENTS
 const WelcomeSection = styled.section`
@@ -201,7 +202,7 @@ const PopupSubtitle = styled.p`
 const CloseButton = styled.button`
   background: none;
   border: none;
-  font-size: 24px; /* Increased size */
+  font-size: 24px;
   cursor: pointer;
   color: #666;
 `;
@@ -339,6 +340,7 @@ const Section16: React.FC = () => {
     phoneNumber: "",
   });
   const [showSuccess, setShowSuccess] = useState(false);
+  const router = useRouter();
 
   const handleRegisterClick = (event: Event) => {
     setSelectedEvent(event);
@@ -364,6 +366,10 @@ const Section16: React.FC = () => {
     setShowSuccess(true);
     setFormData({ fullName: "", email: "", phoneNumber: "" });
     setTimeout(() => setShowSuccess(false), 3000);
+  };
+
+  const handleExploreAllClick = () => {
+    router.push("/development");
   };
 
   return (
@@ -447,7 +453,7 @@ const Section16: React.FC = () => {
         <FeaturedEvents>
           <FeaturedEventsHeader>
             <p style={{ fontSize: "16px", fontWeight: "400", fontFamily: "Helvetica Neue" }}>Featured Events</p>
-            <ExploreAllButton>
+            <ExploreAllButton onClick={handleExploreAllClick}>
               Explore all Events <span>→</span>
             </ExploreAllButton>
           </FeaturedEventsHeader>

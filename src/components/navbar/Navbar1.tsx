@@ -711,7 +711,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             <UnauthenticatedTemplate>
               <MobileAuthSection>
                 <button className="mobile-auth-button mobile-sign-in" onClick={handleLogin}>
-                  Sign In
+                Become a Partner
                 </button>
                 <button className="mobile-auth-button mobile-sign-up" onClick={handleSignUp}>
                   Sign Up

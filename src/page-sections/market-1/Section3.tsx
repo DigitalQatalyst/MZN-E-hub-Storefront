@@ -173,21 +173,16 @@ const TabSwitcher = styled(FlexBox)`
   margin-bottom: 1.5rem;
   gap: 0;
   flex-wrap: nowrap;
-  overflow-x: auto;
   background: transparent;
   padding-bottom: 2px;
+  width: 100%;
   
-  /* Hide scrollbar but keep functionality */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  /* Mobile: ensure both tabs are visible */
+  display: flex;
   
   /* Tablet and up */
   @media (min-width: 768px) {
     margin-bottom: 2rem;
-    overflow-x: visible;
     flex-wrap: wrap;
   }
 `;
@@ -198,25 +193,38 @@ const TabButton = styled(Box)<{ active: boolean }>`
   color: #FFF;
   font-weight: ${props => props.active ? 'bold' : 'normal'};
   background: transparent;
-  white-space: nowrap;
   transition: border 0.2s, font-weight 0.2s;
-  flex-shrink: 0;
   opacity: 1;
+  text-align: center;
   
-  /* Mobile */
-  padding: 0.75rem 1rem;
-  font-size: 13px;
+  /* Mobile: equal width, smaller text, allow wrapping */
+  flex: 1;
+  padding: 0.75rem 0.5rem;
+  font-size: 11px;
+  line-height: 1.2;
+  word-wrap: break-word;
+  hyphens: auto;
+  
+  /* Very small screens */
+  @media (max-width: 360px) {
+    font-size: 10px;
+    padding: 0.75rem 0.25rem;
+  }
   
   /* Small tablet */
   @media (min-width: 480px) {
     padding: 0.875rem 1rem;
-    font-size: 14px;
+    font-size: 13px;
+    line-height: 1.3;
   }
   
   /* Tablet and up */
   @media (min-width: 768px) {
     padding: 1rem;
     font-size: 15px;
+    line-height: 1.4;
+    flex: initial;
+    white-space: nowrap;
   }
   
   /* Desktop */
@@ -291,7 +299,7 @@ export default function Section3() {
 
   // Responsive carousel settings
   const responsive = [
-    { breakpoint: 1200, settings: { slidesToShow: 2} }, // Large desktop: 3 slides
+    { breakpoint: 1200, settings: { slidesToShow: 3} }, // Large desktop: 3 slides
     { breakpoint: 959, settings: { slidesToShow: 2 } },  // Tablet: 2 slides
     { breakpoint: 650, settings: { slidesToShow: 1.2 } }, // Small tablet: 1.2 slides (shows peek of next)
     { breakpoint: 480, settings: { slidesToShow: 1 } },   // Mobile: 1 slide
@@ -300,7 +308,7 @@ export default function Section3() {
   // Get initial slides to show based on screen size
   const getInitialSlidesToShow = () => {
     if (typeof window !== 'undefined') {
-      if (window.innerWidth >= 1200) return 2;
+      if (window.innerWidth >= 1200) return 3;
       if (window.innerWidth >= 960) return 2;
       if (window.innerWidth >= 650) return 1.2;
       return 1;

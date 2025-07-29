@@ -98,6 +98,49 @@ const ServiceCards: React.FC = () => {
       detailsLink: "#",
       rating: 4,
     },
+    // New cards
+    {
+      title: "Entrepreneurship Growth Program",
+      description:
+        "Provides structured training programs to equip entrepreneurs with essential business skills.",
+      detailsLink: "#",
+      rating: 4,
+    },
+    {
+      title: "SME Champion Registration",
+      description:
+        "This service allows SMEs to register and gain access to the SME Champion platform.",
+      detailsLink: "#",
+      rating: 4,
+    },
+    {
+      title: "Business Event Sign-Up",
+      description:
+        "Allows users/SMEs to easily register for business events listed in the EJP platform.",
+      detailsLink: "#",
+      rating: 4,
+    },
+    {
+      title: "Business Licensing Registration Service",
+      description:
+        "Assists SMEs with the registration process and helps obtain the necessary licenses to operate their businesses.",
+      detailsLink: "#",
+      rating: 4,
+    },
+    {
+      title: "Mentorship & Advisory Service",
+      description:
+        "Facilitates direct connection between SMEs and mentors, consultants, or strategic stakeholders who assist in business growth.",
+      detailsLink: "#",
+      rating: 4,
+    },
+    {
+      title: "SME Training Sign-Up",
+      description:
+        "Enables SMEs to register for specific training events, providing them with opportunities to attend group trainings.",
+      detailsLink: "#",
+      rating: 4,
+    },
   ];
 
   return (

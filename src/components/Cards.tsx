@@ -122,10 +122,10 @@ const styles: { [key: string]: React.CSSProperties } = {
     gap: "24px",
     padding: "24px 8px",
     justifyContent: "center",
-    borderRadius: "8px",
+    // borderRadius: "0px",
     background: "var(--KF-BG-White, #FFF)",
-    boxShadow:
-      "0 1px 2px 0 rgba(0, 0, 0, 0.30), 0 1px 3px 1px rgba(0, 0, 0, 0.15)",
+    // boxShadow:
+    //   "0 1px 2px 0 rgba(0, 0, 0, 0.30), 0 1px 3px 1px rgba(0, 0, 0, 0.15)",
   },
   serviceCard: {
     width: "325px",

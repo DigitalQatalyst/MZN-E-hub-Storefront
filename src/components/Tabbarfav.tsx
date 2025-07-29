@@ -5,9 +5,9 @@ const Tabbar = () => {
     <div
       style={{
         marginTop: "40px",
-        marginBottom: "28px",
+        marginBottom: "0px",
         width: "100%",
-        borderBottom: "1px solid #e0e0e0",
+        // borderBottom: "1px solid #e0e0e0",
         backgroundColor: "#ffffff",
         padding: "10px 0",
         fontFamily: "Arial, sans-serif",
@@ -19,16 +19,23 @@ const Tabbar = () => {
         >
           <span
             style={{
-              color: "#1a0dab",
+              color: "#0030E3",
               fontWeight: 600,
               marginRight: "8px",
               cursor: "pointer",
-              fontSize: "14px",
+              fontSize: "20px",
+              fontFamily: "FS Kim Trial",
             }}
           >
             Results
           </span>
-          <span style={{ color: "#5f6368", fontSize: "12px" }}>
+          <span
+            style={{
+              color: "#0030E3",
+              fontSize: "12px",
+              fontFamily: "Helvetica Neue",
+            }}
+          >
             15+ Results
           </span>
         </div>

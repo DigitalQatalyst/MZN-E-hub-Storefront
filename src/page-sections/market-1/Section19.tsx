@@ -4,6 +4,7 @@ import { useState } from "react";
 import CategorySectionCreator from "@component/CategorySectionCreator";
 import styled from "styled-components";
 import Icon from "@component/icon/Icon";
+import { useRouter } from "next/navigation";
 
 // GraphQL Mutations (unchanged)
 const LOGIN_MUTATION = `
@@ -144,7 +145,6 @@ const ContentColumn = styled.div`
   align-items: flex-start;
   flex: 1;
   max-width: 50%;
-  /* Removed padding-top: 40px to align with FormColumn */
   
   @media (max-width: 1199px) {
     max-width: 45%;
@@ -165,7 +165,7 @@ const ContentColumn = styled.div`
 
 const StyledHeader = styled.p`
   color: var(--KF-BG-Black, #000);
-  font-family: Inter;
+  font-family: "Open Sans", sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -238,7 +238,7 @@ const FeatureContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-top: 40px; /* Changed from padding-top to margin-top for better spacing */
+  margin-top: 40px;
   
   @media (max-width: 899px) {
     align-items: center;
@@ -282,7 +282,7 @@ const FormColumn = styled.form`
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  align-self: flex-start; /* Added to ensure form starts at the top */
+  align-self: flex-start;
   
   @media (max-width: 1199px) {
     max-width: 100%;
@@ -602,6 +602,7 @@ export default function Section19() {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertHeader, setAlertHeader] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -635,6 +636,14 @@ export default function Section19() {
       ].includes(formData.enquiryType) &&
       formData.message.trim() !== ""
     );
+  };
+
+  const handleHelpLinkClick = () => {
+    router.push("/faq");
+  };
+
+  const handlePrivacyLinkClick = () => {
+    router.push("/development");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -865,7 +874,7 @@ export default function Section19() {
           <StyledBody>Ready to Make an Enquiry?</StyledBody>
           <Description>
             Tell us what you're looking for and we'll get back to you shortly. For
-            additional information you can also visit our <HelpLink>Help Center</HelpLink>.
+            additional information you can also visit our <HelpLink onClick={handleHelpLinkClick}>Help Center</HelpLink>.
           </Description>
           <FeatureContainer>
             <FeatureItem><Icon>mark</Icon> 500+ Tailored Services</FeatureItem>
@@ -974,7 +983,7 @@ export default function Section19() {
           </FormRow>
           
           <PrivacyText>
-            * By submitting this form, you agree to our <PrivacyLink>Privacy Policy</PrivacyLink>.
+            * By submitting this form, you agree to our <PrivacyLink onClick={handlePrivacyLinkClick}>Privacy Policy</PrivacyLink>.
           </PrivacyText>
           
           <SubmitButton type="submit" disabled={!isFormValid() || isSubmitting}>

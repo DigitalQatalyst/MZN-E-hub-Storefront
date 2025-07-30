@@ -4,23 +4,31 @@ import styled from "styled-components";
 import { H3 } from "@component/Typography";
 import { Button as DefaultButton } from "@component/buttons";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 // STYLED COMPONENTS
 const WelcomeSection = styled.section`
-  background-color: #FFF; /* White background as per the image */
+  background-color: #FFF;
   color: #000;
-  padding: 50px 120px 0px 120px;
+  padding: 50px 120px 50px 120px;
   display: flex;
   flex-direction: column;
-  font-family: 'Open Sans', sans-serif;
-  font-style: normal;
+  font-family: 'Abhaya Libre', serif;
   gap: 2rem;
- 
-  @media (max-width: 1199px) {
-    padding: 32px 32px 32px 32px;
+  margin-bottom: 2rem;
+
+  @media (max-width: 1024px) {
+    padding: 40px 80px 40px 80px;
   }
-  @media (max-width: 899px) {
-    padding: 16px 8px 16px 8px;
+
+  @media (max-width: 768px) {
+    padding: 30px 40px 30px 40px;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 20px 20px 20px 20px;
+    gap: 1rem;
   }
 `;
 
@@ -39,23 +47,41 @@ const FeaturedEvents = styled.div`
 const FeaturedEventsHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: flex-start; /* Align items to the top to match the image */
+  align-items: flex-start;
   width: 100%;
   margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 0.75rem;
+  }
 `;
 
 const HeaderTextContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem; /* Spacing between the heading and the new text */
+  gap: 0.5rem;
 `;
 
 const SubText = styled.p`
   font-size: 16px;
   font-family: "Public Sans";
   font-weight: 400;
-  color: #000; /* Gray color to match the style of other secondary text */
+  color: #000;
   margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 13px;
+  }
 `;
 
 const EventsContainer = styled.div`
@@ -64,14 +90,15 @@ const EventsContainer = styled.div`
   align-items: stretch;
   gap: 2rem;
   width: 100%;
-  flex-wrap: nowrap; /* Prevent wrapping to ensure even distribution */
-  @media (max-width: 899px) {
-    flex-wrap: wrap;
+  flex-wrap: nowrap;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
     gap: 1rem;
   }
-  @media (max-width: 599px) {
-    flex-direction: column;
-    gap: 0.5rem;
+
+  @media (max-width: 480px) {
+    gap: 0.75rem;
   }
 `;
 
@@ -81,14 +108,12 @@ const EventCard = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  flex: 1 1 0; /* Equal flex basis for even distribution */
-  min-width: 0; /* Prevent overflow */
-  @media (max-width: 899px) {
-    flex: 1 1 100%;
-    border-radius: 8px;
-  }
-  @media (max-width: 599px) {
-    border-radius: 6px;
+  flex: 1 1 0;
+  min-width: 0;
+
+  @media (max-width: 768px) {
+    flex: none;
+    width: 100%;
   }
 `;
 
@@ -98,37 +123,59 @@ const EventImage = styled.div`
   position: relative;
   border-radius: 12px;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    height: 160px;
+  }
+
+  @media (max-width: 480px) {
+    height: 140px;
+  }
 `;
 
 const EventDetails = styled.div`
   padding-top: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem; /* Reduced gap to match the tighter spacing in the image */
+  gap: 0.5rem;
+
+  @media (max-width: 480px) {
+    gap: 0.25rem;
+  }
 `;
 
 const EventTitle = styled.h4`
-  font-size: 18px; /* Slightly smaller to match the image */
+  font-size: 18px;
   font-weight: 400;
   color: #000;
   margin: 0;
-  @media (max-width: 899px) {
-    font-size: 15px;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 14px;
   }
 `;
 
 const EventMeta = styled.div`
   font-size: 14px;
   font-family: "Public Sans";
-  color: #666; /* Gray color for dates as per the image */
+  color: #666;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+
+  @media (max-width: 480px) {
+    font-size: 13px;
+    gap: 0.25rem;
+  }
 `;
 
 const ExploreAllButton = styled(DefaultButton)`
   background-color: transparent;
-  color: #0030E3; /* Blue color to match the image */
+  color: #0030E3;
   border: none;
   font-size: 16px;
   font-weight: 500;
@@ -138,12 +185,19 @@ const ExploreAllButton = styled(DefaultButton)`
   padding: 0;
 
   &:hover {
-    color: #002180; /* Darker blue on hover */
+    color: #002180;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 13px;
   }
 `;
 
 // TYPES
-
 interface Event {
   id: number;
   image: string;
@@ -179,6 +233,12 @@ const Section16: React.FC = () => {
     },
   ];
 
+  const router = useRouter();
+
+  const handleExploreAllClick = () => {
+    router.push("/development");
+  };
+
   return (
     <div>
       {/* Welcome Section */}
@@ -199,7 +259,7 @@ const Section16: React.FC = () => {
               </p>
               <SubText>Discover the latest news and updates.</SubText>
             </HeaderTextContainer>
-            <ExploreAllButton>
+            <ExploreAllButton onClick={handleExploreAllClick}>
               Explore more <span>→</span>
             </ExploreAllButton>
           </FeaturedEventsHeader>

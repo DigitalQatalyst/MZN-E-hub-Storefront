@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Box from "@component/Box";
 import Hidden from "@component/hidden";
 import FlexBox from "@component/FlexBox";
 import Container from "@component/Container";
+import { getCommunityPosts, Post } from "@utils/__api__/communityMarketPosts";
+import { isAuthenticated, getCurrentUser } from "@utils/__api__/auth";
 import {
   Home,
   Compass,
@@ -28,82 +30,182 @@ import {
   Send,
 } from "lucide-react";
 
-const posts = [
-  {
-    id: 1,
-    author: "Collins Abdullahi",
-    image: "/assets/images/faces/7.png",
-    time: "12 Jun • 05:10",
-    title: "Implementing Blockchain for Supply Chain Transparency",
-    content:
-      "After several months of testing, we have successfully integrated blockchain technology into our supply chain management. This has provided unprecedented transparency in tracking goods from source to consumer, significantly reducing fraud and improving customer trust.",
-    tags: ["Blockchain & Web3"],
-    likes: 21,
-    comments: 4, 
-    views: 390,
-    replies: [
-      {
-        author: "Omar Al-Farouq",
-        image: "/assets/images/faces/2.jpg",
-        content:
-          "Absolutely fantastic! It's amazing to see how technology keeps improving. Such similar issues in our different industries when it comes to writing code for blockchain and supply chain. Looking forward to reading more about your journey.",
-        date: "10 Jun • 14:20",
-      },
-      {
-        author: "Kattia Abdullah",
-        image: "/assets/images/faces/3.jpg",
-        content:
-          "Collins, Great to hear your thoughts! Completely agree, and it's exciting to see how blockchain will continue to revolutionize various industries across the board.",
-        date: "17 Jun • 07:10",
-      },
-      {
-        author: "Aamir Muhammad",
-        image: "/assets/images/faces/4.jpg",
-        content: "How does it work with top event-loop management systems?",
-        date: "11 Jun • 09:10",
-      },
-      {
-        author: "Yusuf Saad",
-        image: "/assets/images/faces/5.jpg",
-        content:
-          "Impressive work. I watch blockchain's potential for eliminating transparency in the supply chain as a game-changing. I'm excited to see where this will take the industry moving forward.",
-        date: "19 Jun • 05:10",
-      },
-    ],
-  },
-  {
-    id: 2,
-    author: "Jaila Hassan",
-    image: "/assets/images/faces/face-2.png",
-    time: "11 Jun • 09:10",
-    title: "Successfully Secured Khalifa Fund Support for My Startup!",
-    content:
-      "I'm excited to announce that my startup was just approved for funding by the Khalifa Fund 🎉 The process was incredibly thorough, and we're happy to expand. If anyone else has been through this, I'd love to hear about your experience and any tips for successfully navigating this next phase!",
-    tags: ["Funding & Finance"],
-    likes: 25,
-    comments: 4,
-    views: 520,
-  },
-  {
-    id: 3,
-    author: "Ali Khatri",
-    image: "/assets/images/faces/face-7.jpg",
-    time: "13 Jun • 06:10",
-    title: "Implementing Data-Driven Strategies to Boost Business Growth",
-    content:
-      "As part of our ongoing efforts to scale our business, we've recently implemented a more data-driven approach across all departments. By leveraging analytics to track customer behavior, optimize marketing campaigns, and improve operational efficiency, we've seen a 35% increase in overall performance metrics.",
-    tags: ["Growth & Scaling"],
-    likes: 31,
-    comments: 3,
-    shares: 5,
-    views: 780,
-  },
-];
+// const hardcodedPosts = [
+//   {
+//     id: 1,
+//     author: "Collins Abdullahi",
+//     image: "/assets/images/faces/7.png",
+//     time: "12 Jun • 05:10",
+//     title: "Implementing Blockchain for Supply Chain Transparency",
+//     content:
+//       "After several months of testing, we have successfully integrated blockchain technology into our supply chain management. This has provided unprecedented transparency in tracking goods from source to consumer, significantly reducing fraud and improving customer trust.",
+//     tags: ["Blockchain & Web3"],
+//     likes: 21,
+//     comments: 4, 
+//     views: 390,
+//     replies: [
+//       {
+//         author: "Omar Al-Farouq",
+//         image: "/assets/images/faces/2.jpg",
+//         content:
+//           "Absolutely fantastic! It's amazing to see how technology keeps improving. Such similar issues in our different industries when it comes to writing code for blockchain and supply chain. Looking forward to reading more about your journey.",
+//         date: "10 Jun • 14:20",
+//       },
+//       {
+//         author: "Kattia Abdullah",
+//         image: "/assets/images/faces/3.jpg",
+//         content:
+//           "Collins, Great to hear your thoughts! Completely agree, and it's exciting to see how blockchain will continue to revolutionize various industries across the board.",
+//         date: "17 Jun • 07:10",
+//       },
+//       {
+//         author: "Aamir Muhammad",
+//         image: "/assets/images/faces/4.jpg",
+//         content: "How does it work with top event-loop management systems?",
+//         date: "11 Jun • 09:10",
+//       },
+//       {
+//         author: "Yusuf Saad",
+//         image: "/assets/images/faces/5.jpg",
+//         content:
+//           "Impressive work. I watch blockchain's potential for eliminating transparency in the supply chain as a game-changing. I'm excited to see where this will take the industry moving forward.",
+//         date: "19 Jun • 05:10",
+//       },
+//     ],
+//   },
+//   {
+//     id: 2,
+//     author: "Jaila Hassan",
+//     image: "/assets/images/faces/face-2.png",
+//     time: "11 Jun • 09:10",
+//     title: "Successfully Secured Khalifa Fund Support for My Startup!",
+//     content:
+//       "I'm excited to announce that my startup was just approved for funding by the Khalifa Fund 🎉 The process was incredibly thorough, and we're happy to expand. If anyone else has been through this, I'd love to hear about your experience and any tips for successfully navigating this next phase!",
+//     tags: ["Funding & Finance"],
+//     likes: 25,
+//     comments: 4,
+//     views: 520,
+//   },
+//   {
+//     id: 3,
+//     author: "Ali Khatri",
+//     image: "/assets/images/faces/face-7.jpg",
+//     time: "13 Jun • 06:10",
+//     title: "Implementing Data-Driven Strategies to Boost Business Growth",
+//     content:
+//       "As part of our ongoing efforts to scale our business, we've recently implemented a more data-driven approach across all departments. By leveraging analytics to track customer behavior, optimize marketing campaigns, and improve operational efficiency, we've seen a 35% increase in overall performance metrics.",
+//     tags: ["Growth & Scaling"],
+//     likes: 31,
+//     comments: 3,
+//     shares: 5,
+//     views: 780,
+//   },
+// ];
 
 export default function Section6() {
   const [activeItem, setActiveItem] = useState("Home");
   const [activeFilter, setActiveFilter] = useState("All Posts");
   const [showReplies, setShowReplies] = useState({});
+  const [displayPosts, setDisplayPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [authStatus, setAuthStatus] = useState<string>("Not authenticated");
+
+  // Function to fetch posts from API
+  const fetchPosts = async () => {
+    setIsLoading(true);
+    setError(null);
+    setAuthStatus("Authenticating...");
+    
+    try {
+      console.log("Starting authentication and post fetch process...");
+      const apiPosts = await getCommunityPosts();
+      
+      // Update auth status after successful authentication
+      if (isAuthenticated()) {
+        const user = getCurrentUser();
+        setAuthStatus(`Authenticated as: ${user?.identifier || 'Unknown'}`);
+      }
+      
+      // Transform API posts to match the display format
+      const transformedPosts = apiPosts.map((post) => ({
+        id: parseInt(post.id),
+        author: `User ${post.author.id}`, // Since we only have author ID
+        image: "/assets/images/faces/7.png", // Default image since API doesn't provide
+        time: new Date(post.createdAt).toLocaleDateString(),
+        title: post.title,
+        content: post.content,
+        tags: [post.tag],
+        likes: Math.floor(Math.random() * 50) + 1, // Random likes since not in API
+        comments: post.comments.length,
+        views: post.views,
+        replies: post.comments.map((comment) => ({
+          author: `User ${comment.author.id}`,
+          image: "/assets/images/faces/2.jpg",
+          content: comment.text,
+          date: new Date(comment.createdAt).toLocaleDateString(),
+        })),
+      }));
+      
+      setDisplayPosts(transformedPosts);
+      console.log(`Successfully loaded ${transformedPosts.length} posts`);
+    } catch (err) {
+      console.error("Error in fetchPosts:", err);
+      setError(err instanceof Error ? err.message : "Failed to load posts. Please try again.");
+      setAuthStatus("Authentication failed");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Handle filter click, especially for "All Posts"
+  const handleFilterClick = async (filterLabel: string) => {
+    setActiveFilter(filterLabel);
+    if (filterLabel === "All Posts") {
+      await fetchPosts();
+    }
+  };
+
+  // Manual authentication function for testing
+  const handleManualAuth = async () => {
+    setIsLoading(true);
+    setError(null);
+    setAuthStatus("Authenticating...");
+    
+    try {
+      const { authService } = await import("@utils/__api__/auth");
+      await authService.login();
+      
+      const user = getCurrentUser();
+      setAuthStatus(`Authenticated as: ${user?.identifier || 'Unknown'}`);
+      console.log("Manual authentication successful");
+    } catch (err) {
+      console.error("Manual authentication failed:", err);
+      setError(err instanceof Error ? err.message : "Authentication failed");
+      setAuthStatus("Authentication failed");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Automatically authenticate and fetch posts on component mount
+  useEffect(() => {
+    const initializeComponent = async () => {
+      // Check current auth status
+      if (isAuthenticated()) {
+        const user = getCurrentUser();
+        setAuthStatus(`Authenticated as: ${user?.identifier || 'Unknown'}`);
+      } else {
+        setAuthStatus("Not authenticated");
+      }
+      
+      // Automatically fetch posts (which will authenticate if needed)
+      console.log("Component mounted - automatically fetching posts");
+      await fetchPosts();
+    };
+    
+    initializeComponent();
+  }, []);
 
   const navItems = [
     { label: "Home", icon: "/assets/images/icons/home.svg" },
@@ -149,6 +251,7 @@ export default function Section6() {
                 const isActive = activeItem === item.label;
 
                 return (
+                  // sidebar navigation box
                   <Box
                     key={item.label}
                     display="flex"
@@ -195,12 +298,13 @@ export default function Section6() {
 
         {/* Main Content */}
         <Box flex="1 1 0" minWidth="0px">
+
           {/* Banner Image */}
           <Box
             position="relative"
             overflow="hidden"
             width="100%"
-            height="200px"
+            height="250px"
           >
             <img
               src="/images/image-65.png"
@@ -210,6 +314,7 @@ export default function Section6() {
                 height: "100%",
                 objectFit: "cover",
                 display: "block",
+              
               }}
             />
 
@@ -245,7 +350,8 @@ export default function Section6() {
             </Box>
           </Box>
 
-          {/* Filter Buttons & Search */}
+       
+             {/* Area surrounding the all posts, trending, recent, popular */}
           <Box
             display="flex"
             justifyContent="space-between"
@@ -259,7 +365,7 @@ export default function Section6() {
               {filters.map((filter) => (
                 <button
                   key={filter.label}
-                  onClick={() => setActiveFilter(filter.label)}
+                  onClick={() => handleFilterClick(filter.label)}
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -285,29 +391,108 @@ export default function Section6() {
               ))}
             </Box>
 
-            {/* Search */}
-            <Box position="relative" width="240px">
-              <input
-                type="text"
-                placeholder="Search"
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  fontSize: "14px",
-                  border: "1px solid #D1D5DB",
-                  borderRadius: "8px",
-                  outline: "none",
-                  alignItems: "flex-end",
-                }}
-              />
+            {/* Search and Auth Status */}
+            <Box display="flex" alignItems="center" style={{ gap: "1rem" }}>
+              {/* Authentication Status and Login Button */}
+              <Box display="flex" alignItems="center" style={{ gap: "0.5rem" }}>
+                <Box
+                  style={{
+                    padding: "8px 12px",
+                    borderRadius: "6px",
+                    fontSize: "12px",
+                    fontWeight: "500",
+                    backgroundColor: isAuthenticated() ? "#ECFDF5" : "#FEF2F2",
+                    color: isAuthenticated() ? "#059669" : "#DC2626",
+                    border: `1px solid ${isAuthenticated() ? "#D1FAE5" : "#FECACA"}`,
+                    minWidth: "160px",
+                    textAlign: "center",
+                  }}
+                >
+                  {authStatus}
+                </Box>
+                
+                {/* Manual Login Button (for testing) */}
+                {!isAuthenticated() && !isLoading && (
+                  <button
+                    onClick={handleManualAuth}
+                    style={{
+                      padding: "8px 12px",
+                      fontSize: "12px",
+                      fontWeight: "500",
+                      backgroundColor: "#3B82F6",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "6px",
+                      cursor: "pointer",
+                      transition: "background-color 0.2s",
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.backgroundColor = "#2563EB";
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.backgroundColor = "#3B82F6";
+                    }}
+                  >
+                    Login
+                  </button>
+                )}
+              </Box>
+              
+              {/* Search */}
+              <Box position="relative" width="240px">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    fontSize: "14px",
+                    border: "1px solid #D1D5DB",
+                    borderRadius: "8px",
+                    outline: "none",
+                    alignItems: "flex-end",
+                  }}
+                />
+              </Box>
             </Box>
           </Box>
 
+          {/* Loading State */}
+          {isLoading && (
+            <Box textAlign="center" p="2rem">
+              <div style={{ fontSize: "16px", color: "#6B7280", marginBottom: "0.5rem" }}>
+                {authStatus === "Authenticating..." ? "Authenticating user..." : "Loading posts..."}
+              </div>
+              <div style={{ fontSize: "14px", color: "#9CA3AF" }}>
+                {authStatus === "Authenticating..." 
+                  ? "Logging in with superadmin credentials..." 
+                  : "Fetching community posts from API..."}
+              </div>
+            </Box>
+          )}
+
+          {/* Error State */}
+          {error && (
+            <Box
+              textAlign="center"
+              p="2rem"
+              style={{
+                backgroundColor: "#FEF2F2",
+                border: "1px solid #FECACA",
+                borderRadius: "8px",
+                color: "#DC2626",
+              }}
+            >
+              {error}
+            </Box>
+          )}
+
           {/* Posts Feed */}
-          <Box
-            style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}
-          >
-            {posts.map((post) => (
+          {!isLoading && !error && (
+            <Box
+              style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}
+            >
+              {displayPosts.map((post) => (
               <Box
                 key={post.id}
                 style={{
@@ -317,7 +502,7 @@ export default function Section6() {
                   padding: "1.5rem",
                 }}
               >
-                {/* Post Header */}
+                {/* Post Header, author profile pic, name and time */}
                 <FlexBox
                   alignItems="center"
                   justifyContent="space-between"
@@ -649,7 +834,8 @@ export default function Section6() {
                 )}
               </Box>
             ))}
-          </Box>
+            </Box>
+          )}
         </Box>
       </FlexBox>
     </Container>

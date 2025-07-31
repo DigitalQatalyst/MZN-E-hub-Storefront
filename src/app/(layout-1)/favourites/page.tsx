@@ -2,9 +2,10 @@ import { Fragment } from "react";
 // GLOBAL CUSTOM COMPONENTS
 import Box from "@component/Box";
 import NavbarMarketplace from "@component/navbar/NavbarMarketplace";
-// Update the import path to the correct location of Cards
-import Cards from "@component/Cards"; // Adjust the import path as necessary
+// Update the import path to the correct location of CardsFav
 import Tabbarfav from "@component/Tabbarfav"; // Adjust the import path as necessary
+import CardsFav from "@component/CardsFav"; // Adjust the import path as necessary
+
 // PAGE SECTION COMPONENTS
 
 // import Section6 from "@sections/market-2/section-6";
@@ -17,7 +18,7 @@ export default function Favourites() {
 
       <Box bg="#F6F6F6">
         <Tabbarfav />
-        <Cards />
+        <CardsFav /> {/* Replaced ProductCard19 with CardsFav */}
         {/* HERO CAROUSEL AREA */}
         {/* <Section1 /> */}
         {/* SERVICE LIST AREA --- To be results section*/}

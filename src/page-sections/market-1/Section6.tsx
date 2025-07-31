@@ -396,13 +396,13 @@ export default function Section6() {
           {isLoading && (
             <Box textAlign="center" p="2rem">
               <div style={{ fontSize: "16px", color: "#6B7280", marginBottom: "0.5rem" }}>
-                {authStatus === "Authenticating..." ? "Authenticating user..." : "Loading posts..."}
+                {authStatus === "Authenticating..." ? "Loading Posts..." : "Loading posts..."}
               </div>
-              <div style={{ fontSize: "14px", color: "#9CA3AF" }}>
+              {/* <div style={{ fontSize: "14px", color: "#9CA3AF" }}>
                 {authStatus === "Authenticating..." 
                   ? "Logging in with superadmin credentials..." 
                   : "Fetching community posts from API..."}
-              </div>
+              </div> */}
             </Box>
           )}
 

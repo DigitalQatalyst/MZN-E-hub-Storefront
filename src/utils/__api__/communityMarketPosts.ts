@@ -95,33 +95,16 @@ export const getCommunityPosts = async (): Promise<Post[]> => {
 
     console.log("Fetching community posts with authenticated session...");
     
-    // Get current session cookies
-    const sessionCookies = getCurrentSessionCookies();
-    
-    // Prepare headers
-    const headers: Record<string, string> = {
-      'Accept-Encoding': 'gzip, deflate, br',
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Connection': 'keep-alive',
-      'DNT': '1',
-      'Origin': 'https://22af-54-37-203-255.ngrok-free.app'
-    };
-    
-    // Add session cookies if available
-    if (sessionCookies) {
-      headers['Cookie'] = sessionCookies;
-      console.log("Including session cookies in request:", sessionCookies);
-    }
-    
-    // Use direct fetch to ensure cookies are properly sent
-    const response = await fetch("https://22af-54-37-203-255.ngrok-free.app/services-api", {
+    // Use Next.js API route to avoid CORS issues
+    const response = await fetch("/api/posts", {
       method: "POST",
-      headers,
+      headers: {
+        'Content-Type': 'application/json',
+      },
       credentials: 'include', // This ensures cookies are included
-      body: JSON.stringify({
-        query: GET_POSTS_QUERY
-      })
+    }).catch(error => {
+      console.error("Network error during posts fetch:", error);
+      throw new Error(`Network error: ${error.message}. Please check if the development server is running.`);
     });
 
     if (!response.ok) {
@@ -156,33 +139,16 @@ export const getCommunityPosts = async (): Promise<Post[]> => {
         console.log("Authentication expired, re-authenticating...");
         await authService.login();
         
-        // Get updated session cookies after re-authentication
-        const retrySessionCookies = getCurrentSessionCookies();
-        
-        // Prepare headers for retry
-        const retryHeaders: Record<string, string> = {
-          'Accept-Encoding': 'gzip, deflate, br',
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Connection': 'keep-alive',
-          'DNT': '1',
-          'Origin': 'https://22af-54-37-203-255.ngrok-free.app'
-        };
-        
-        // Add session cookies if available
-        if (retrySessionCookies) {
-          retryHeaders['Cookie'] = retrySessionCookies;
-          console.log("Including updated session cookies in retry:", retrySessionCookies);
-        }
-        
-        // Retry the request after re-authentication
-        const response = await fetch("https://22af-54-37-203-255.ngrok-free.app/services-api", {
+        // Retry the request after re-authentication using API route
+        const response = await fetch("/api/posts", {
           method: "POST",
-          headers: retryHeaders,
+          headers: {
+            'Content-Type': 'application/json',
+          },
           credentials: 'include',
-          body: JSON.stringify({
-            query: GET_POSTS_QUERY
-          })
+        }).catch(error => {
+          console.error("Network error during retry:", error);
+          throw new Error(`Network error on retry: ${error.message}`);
         });
 
         if (!response.ok) {

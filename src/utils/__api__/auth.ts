@@ -68,22 +68,18 @@ class AuthService {
   public async login(): Promise<CurrentUser> {
     try {
       console.log("Starting authentication with superadmin credentials...");
+      console.log("Attempting to connect to admin-api endpoint...");
       
-      // Use direct fetch to ensure cookies are properly handled by the browser
-      const response = await fetch("https://22af-54-37-203-255.ngrok-free.app/admin-api", {
+      // Use Next.js API route to avoid CORS issues
+      const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
-          'Accept-Encoding': 'gzip, deflate, br',
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Connection': 'keep-alive',
-          'DNT': '1',
-          'Origin': 'https://22af-54-37-203-255.ngrok-free.app'
         },
         credentials: 'include', // This ensures cookies are included and stored
-        body: JSON.stringify({
-          query: LOGIN_MUTATION
-        })
+      }).catch(error => {
+        console.error("Network error during authentication:", error);
+        throw new Error(`Network error: ${error.message}. Please check if the development server is running.`);
       });
 
       if (!response.ok) {
@@ -115,16 +111,7 @@ class AuthService {
         this.currentUser = loginResult as CurrentUser;
         this.isAuthenticated = true;
         
-        // Wait a moment for cookies to be set by the browser
-        await new Promise(resolve => setTimeout(resolve, 100));
-        
-        // Extract session cookies from document.cookie
-        const sessionCookies = this.extractSessionCookies();
-        if (sessionCookies) {
-          console.log("Session cookies extracted:", sessionCookies);
-          setGlobalSession(sessionCookies);
-        }
-        
+        console.log("Authentication successful - session cookies handled by Next.js API");
         console.log("Authentication successful:", this.currentUser);
         return this.currentUser;
       } else if (loginResult && typeof loginResult === 'object' && 'errorCode' in loginResult) {

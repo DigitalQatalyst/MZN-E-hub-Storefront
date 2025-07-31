@@ -691,8 +691,8 @@ export default function Section19() {
       console.log("SubmitEnquiry mutation response:", JSON.stringify(submitData, null, 2));
 
       if (submitData?.data?.submitEnquiry?.success) {
-        setAlertHeader("Inquiry Submitted Successfully!");
-        setAlertMessage(submitData.data.submitEnquiry.message || "Thank you! Your inquiry has been submitted successfully. We'll get back to you soon.");
+        setAlertHeader("Enquiry Submitted Successfully!");
+        setAlertMessage(submitData.data.submitEnquiry.message || "Thank you! Your Enquiry has been submitted successfully. We'll get back to you soon.");
         setShowAlert(true);
         setFormData({
           firstName: "",

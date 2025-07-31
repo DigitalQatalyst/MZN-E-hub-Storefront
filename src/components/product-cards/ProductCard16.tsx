@@ -97,7 +97,7 @@ const ContentWrapper = styled(Box)({
 const StyledTitle = styled(H3)(({ wordCount }) => ({
   padding: "0 40px 0 20px",
   color: "var(--KF-BG-Blue, #0030E3)",
-  fontFamily: '"FS Kim Trial"',
+  fontFamily: '"Open Sans"',
   fontSize: "20px",
   fontStyle: "normal",
   fontWeight: 400,
@@ -114,7 +114,7 @@ const StyledTitle = styled(H3)(({ wordCount }) => ({
 const StyledTitle1 = styled(H3)(({ wordCount }) => ({
   padding: "0 40px 0 20px",
   color: "var(--KF-BG-Blue, #0030E3)",
-  fontFamily: '"FS Kim Trial"',
+  fontFamily: '"Open Sans"',
   fontSize: "20px",
   fontStyle: "normal",
   fontWeight: 400,
@@ -131,7 +131,7 @@ const StyledTitle1 = styled(H3)(({ wordCount }) => ({
 const StyledSubtitle = styled("p")({
   padding: "0 0 40px 20px",
   color: "var(--KF-BG-Black, #000)",
-  fontFamily: '"Helvetica Neue"',
+  fontFamily: '"Open Sans"',
   fontSize: "14px",
   fontStyle: "normal",
   fontWeight: 400,

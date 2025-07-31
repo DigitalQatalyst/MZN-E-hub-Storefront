@@ -55,7 +55,7 @@ const DevelopmentPage: React.FC = () => {
     <DevelopmentSection>
       <ContentColumn>
         <ConstructionIcon>🚧</ConstructionIcon>
-        <H3 fontSize="48px" fontWeight="400" fontFamily="FS Kim Trial">
+        <H3 fontSize="48px" fontWeight="400" fontFamily="Open Sans">
           Page in Development
         </H3>
         <Message>

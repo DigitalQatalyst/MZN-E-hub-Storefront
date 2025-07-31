@@ -182,7 +182,7 @@ const StyledHeader = styled.p`
 
 const StyledBody = styled.h1`
   color: #000;
-  font-family: "FS Kim Trial", serif;
+  font-family: "Open Sans", serif;
   font-size: 48px;
   font-style: normal;
   font-weight: 400;
@@ -209,7 +209,7 @@ const StyledBody = styled.h1`
 
 const Description = styled.p`
   color: var(--KF-BG-Black, #000);
-  font-family: Inter;
+  font-family: Open Sans;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -253,7 +253,7 @@ const FeatureContainer = styled.div`
 
 const FeatureItem = styled.div`
   color: #0030E3;
-  font-family: Inter;
+  font-family: Open Sans;
   font-size: 16px;
   display: flex;
   align-items: center;
@@ -328,7 +328,7 @@ const FormFieldWrapper = styled.div`
 `;
 
 const FormLabel = styled.label`
-  font-family: "Helvetica Neue", sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 14px;
   color: #000;
   font-weight: 500;
@@ -343,7 +343,7 @@ const FormField = styled.input`
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-family: "Helvetica Neue", sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 14px;
   color: #000;
   box-sizing: border-box;
@@ -377,7 +377,7 @@ const FormSelect = styled.select`
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-family: "Helvetica Neue", sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 14px;
   color: #000;
   background-color: #fff;
@@ -420,7 +420,7 @@ const FormTextarea = styled.textarea`
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-family: "Helvetica Neue", sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 14px;
   color: #000;
   resize: vertical;
@@ -478,7 +478,7 @@ const SubmitButton = styled.button<{ disabled?: boolean }>`
   padding: 14px 24px;
   border: none;
   border-radius: 4px;
-  font-family: "Helvetica Neue", sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 16px;
   font-weight: 500;
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
@@ -536,7 +536,7 @@ const AlertPopup = styled.div`
 `;
 
 const AlertHeader = styled.div`
-  font-family: "Helvetica Neue", sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 18px;
   font-weight: bold;
   color: #555;
@@ -550,7 +550,7 @@ const AlertHeader = styled.div`
 
 const AlertText = styled.div`
   color: #555;
-  font-family: "Helvetica Neue", sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 14px;
   line-height: 1.5;
   

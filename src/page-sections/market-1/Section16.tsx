@@ -446,13 +446,13 @@ const Section16: React.FC = () => {
       <WelcomeSection>
         <ContentColumn>
           <p style={{ fontSize: "16px", fontWeight: "400", fontFamily: "Open Sans, sans-serif" }}>JOIN OUR UPCOMING EVENTS</p>
-          <H3 fontSize="48px" fontWeight="400" fontFamily="FS Kim Trial" mb="1rem">
+          <H3 fontSize="48px" fontWeight="400" fontFamily="Open Sans" mb="1rem">
             Workshops, bootcamps, and info sessions <br /> designed to help you grow.
           </H3>
         </ContentColumn>
         <FeaturedEvents>
           <FeaturedEventsHeader>
-            <p style={{ fontSize: "16px", fontWeight: "400", fontFamily: "Helvetica Neue" }}>Featured Events</p>
+            <p style={{ fontSize: "16px", fontWeight: "400", fontFamily: 'Open Sans' }}>Featured Events</p>
             <ExploreAllButton onClick={handleExploreAllClick}>
               Explore all Events <span>→</span>
             </ExploreAllButton>

@@ -28,7 +28,7 @@ const GlobalStyles = createGlobalStyle`
     color: ${({ theme }) => theme.colors.body.text};
     background: ${({ theme }) => theme.colors.body.default};
     /* Use local fonts first, then fallbacks */
-    font-family: 'Abhaya Libre', 'Fira Sans', 'Open Sans', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Abhaya Libre', 'Fira Sans', 'Open Sans', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Droid Sans', 'Open Sans', sans-serif;
   }
 
   html {

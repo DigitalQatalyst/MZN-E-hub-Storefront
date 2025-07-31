@@ -107,7 +107,7 @@ const StyledNavbar = styled.div`
 
   .search-icon {
     width: 24px;
-    height: 24px;
+    height: 20px;
     cursor: pointer;
     transition: transform 0.3s ease;
 
@@ -118,7 +118,7 @@ const StyledNavbar = styled.div`
 
   .profile-icon {
     width: 68px;
-    height: 44px;
+    height: 32px;
     cursor: pointer;
     transition: transform 0.3s ease;
 
@@ -172,18 +172,18 @@ const StyledNavbar = styled.div`
 
     .mobile-right-section {
       flex-direction: column;
-      gap: 16px;
       margin-top: 20px;
       justify-content: flex-start;
 
-      .search-icon {
-        width: 34px;
-        height: 34px;
-      }
 
       .profile-icon {
         width: 44px;
-        height: 44px;
+        height: 30px;
+      }
+
+      .search-icon {
+        width: 44px;
+        height: 30px;
       }
     }
 
@@ -440,7 +440,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
 
         <FlexBox className="right-section">
           <Box className="search-icon">
-            <Icon size="24px" color="#002180">search</Icon>
+            <Icon size="18px" color="#002180">search</Icon>
           </Box>
 
           <AuthenticatedTemplate>
@@ -483,7 +483,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             <FlexBox alignItems="center" style={{ gap: "10px" }}>
               <Box className="profile-icon">
                 {/* <img src="/assets/images/logos/profile.svg" alt="Profile" /> */}
-                <Icon size="44px" color="#002180">profile</Icon>
+                <Icon size="30px" color="#002180">profile</Icon>
               </Box>
               <Button className="become-partner-btn" variant="outlined" onClick={handleLogin}>
                 Become a Partner
@@ -542,7 +542,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
 
           <FlexBox className="mobile-right-section">
             <Box className="search-icon" onClick={toggleMenu}>
-              <Icon size="24px" color="#002180" >search</Icon>
+              <Icon size="18px" color="#002180" >search</Icon>
             </Box>
 
             <AuthenticatedTemplate>

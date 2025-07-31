@@ -822,8 +822,8 @@ export default function Section19() {
         });
         console.groupEnd();
       } else if (customerData?.id || customerData?.__typename === "Customer") {
-        setAlertHeader("Inquiry Submitted Successfully!");
-        setAlertMessage(`Thank you! Your inquiry has been ${isUpdate ? 'updated' : 'submitted'} successfully. We'll get back to you soon.`);
+        setAlertHeader("Enquiry Submitted Successfully!");
+        setAlertMessage(`Thank you! Your Enquiry has been ${isUpdate ? 'updated' : 'submitted'} successfully. We'll get back to you soon.`);
         setShowAlert(true);
         setFormData({
           firstName: "",

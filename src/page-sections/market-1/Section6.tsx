@@ -320,7 +320,7 @@ export default function Section6({ carList, carBrands }: Props) {
                 id="all"
                 className="product-category-title"
                 style={{
-                  fontFamily: "Inter", // Use Inter font-family
+                  fontFamily: 'Open Sans', // Use Inter font-family
                   fontSize: "10px", // Font size set to 10px
                   lineHeight: "20px", // Line height set to 20px
                   letterSpacing: "0px", // Letter spacing set to 0px

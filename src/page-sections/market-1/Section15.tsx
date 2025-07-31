@@ -52,7 +52,7 @@ const MarketplaceSubheadingText = styled(SubheadingText)`
   border-bottom: 2px solid #0030E3;
   color: var(--KF-BG-Blue, #0030E3);
   text-align: center;
-  font-family: Inter;
+  font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
@@ -74,7 +74,7 @@ const MarketplaceSubheadingText = styled(SubheadingText)`
 
 const Description = styled.p`
   color: var(--KF-BG-Black, #000);
-  font-family: "Helvetica Neue";
+  font-family: "Public Sans", sans-serif;
   font-size: var(--Body-Large-Size, 16px);
   font-style: normal;
   font-weight: 400;
@@ -97,7 +97,7 @@ const Description = styled.p`
 
 const StyledHeader = styled.p`
   color: #000;
-  font-family: "Helvetica Neue";
+  font-family: "Public Sans", sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -122,7 +122,7 @@ const StyledHeader = styled.p`
 
 const StyledBody = styled.p`
   color: #000;
-  font-family: "FS Kim Trial";
+  font-family: "Public Sans", sans-serif;
   font-size: 48px;
   font-style: normal;
   font-weight: 550;

@@ -59,7 +59,7 @@ const ResponsiveH1 = styled(H1)`
   margin-bottom: 1.5rem;
   margin-top: 1.5rem;
   color: #000;
-  font-family: "FS Kim Trial";
+  font-family: 'Open Sans', sans-serif;
  
   @media (max-width: 768px) {
     font-size: 2rem;
@@ -77,7 +77,7 @@ const ResponsiveH1 = styled(H1)`
  
 const ResponsiveH5 = styled(H5)`
   color: #000000;
-  font-family: "Helvetica Neue";
+  font-family: 'Open Sans', sans-serif;
  
   @media (max-width: 768px) {
     font-size: 0.95rem;
@@ -92,7 +92,7 @@ const ResponsiveH5 = styled(H5)`
  
 const DescriptionText = styled(H5)`
   color: #000000;
-  font-family: "Helvetica Neue";
+  font-family: 'Open Sans', sans-serif;
  
   @media (max-width: 768px) {
     font-size: 0.95rem;

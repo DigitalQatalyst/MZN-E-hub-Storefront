@@ -12,7 +12,7 @@ const DevelopmentSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: 'Abhaya Libre', serif;
+  font-family: 'Open Sans', serif;
   gap: 2rem;
   min-height: 100vh;
   @media (max-width: 1199px) {
@@ -74,7 +74,7 @@ const Button = styled.button`
   padding: 12px 24px;
   border: none;
   border-radius: 4px;
-  font-family: "Helvetica Neue";
+  font-family: "Public Sans", sans-serif;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;

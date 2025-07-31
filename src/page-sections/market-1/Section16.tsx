@@ -108,7 +108,7 @@ const EventTitle = styled.h4`
 
 const EventMeta = styled.div`
   font-size: 14px;
-  font-family: "FS Kim Trial";
+  font-family: "Public Sans", sans-serif;
   color: #FFF;
   display: flex;
   flex-direction: column;
@@ -215,7 +215,7 @@ const FormFieldWrapper = styled.div`
 `;
 
 const FormLabel = styled.label`
-  font-family: "Helvetica Neue";
+  font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   color: #000;
   font-weight: 400;
@@ -226,7 +226,7 @@ const FormField = styled.input`
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-family: "Helvetica Neue";
+  font-family: "Public Sans", sans-serif;
   font-size: 14px;
   color: #000;
   box-sizing: border-box;
@@ -238,7 +238,7 @@ const SubmitButton = styled.button`
   padding: 12px;
   border: none;
   border-radius: 4px;
-  font-family: "Helvetica Neue";
+  font-family: "Public Sans", sans-serif;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
@@ -287,13 +287,13 @@ const Checkmark = styled.span`
 `;
 
 const SuccessMessage = styled.div`
-  font-family: "Helvetica Neue";
+  font-family: "Public Sans", sans-serif;
   font-size: 16px;
   color: #000;
 `;
 
 const SuccessSubMessage = styled.div`
-  font-family: "Helvetica Neue";
+  font-family: "Public Sans", sans-serif;
   font-size: 14px;
   color: #666;
   margin-top: 8px;

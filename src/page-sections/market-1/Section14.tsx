@@ -330,7 +330,7 @@ const StyledSubHeader = styled.p`
 
 const StyledPlatformHeader = styled.h1`
   color: #FFF;
-  font-family: "FS Kim Trial", serif;
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   letter-spacing: 0px;

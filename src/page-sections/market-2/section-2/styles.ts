@@ -83,7 +83,7 @@ export const IconWrapper = styled.div`
 export const ResultsTitle = styled.h4`
   color: var(--KF-BG-Blue, #0030e3);
   text-align: left;  /* Align text to the left */
-  font-family: "FS Kim Trial";
+  font-family: "Public Sans", sans-serif;
   font-size: 24px;
   font-style: normal;
   font-weight: 400;

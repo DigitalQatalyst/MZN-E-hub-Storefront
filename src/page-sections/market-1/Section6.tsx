@@ -166,27 +166,7 @@ export default function Section6() {
     }
   };
 
-  // Manual authentication function for testing
-  const handleManualAuth = async () => {
-    setIsLoading(true);
-    setError(null);
-    setAuthStatus("Authenticating...");
-    
-    try {
-      const { authService } = await import("@utils/__api__/auth");
-      await authService.login();
-      
-      const user = getCurrentUser();
-      setAuthStatus(`Authenticated as: ${user?.identifier || 'Unknown'}`);
-      console.log("Manual authentication successful");
-    } catch (err) {
-      console.error("Manual authentication failed:", err);
-      setError(err instanceof Error ? err.message : "Authentication failed");
-      setAuthStatus("Authentication failed");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+
 
   // Automatically authenticate and fetch posts on component mount
   useEffect(() => {
@@ -391,53 +371,8 @@ export default function Section6() {
               ))}
             </Box>
 
-            {/* Search and Auth Status */}
+            {/* Search */}
             <Box display="flex" alignItems="center" style={{ gap: "1rem" }}>
-              {/* Authentication Status and Login Button */}
-              <Box display="flex" alignItems="center" style={{ gap: "0.5rem" }}>
-                <Box
-                  style={{
-                    padding: "8px 12px",
-                    borderRadius: "6px",
-                    fontSize: "12px",
-                    fontWeight: "500",
-                    backgroundColor: isAuthenticated() ? "#ECFDF5" : "#FEF2F2",
-                    color: isAuthenticated() ? "#059669" : "#DC2626",
-                    border: `1px solid ${isAuthenticated() ? "#D1FAE5" : "#FECACA"}`,
-                    minWidth: "160px",
-                    textAlign: "center",
-                  }}
-                >
-                  {authStatus}
-                </Box>
-                
-                {/* Manual Login Button (for testing) */}
-                {!isAuthenticated() && !isLoading && (
-                  <button
-                    onClick={handleManualAuth}
-                    style={{
-                      padding: "8px 12px",
-                      fontSize: "12px",
-                      fontWeight: "500",
-                      backgroundColor: "#3B82F6",
-                      color: "white",
-                      border: "none",
-                      borderRadius: "6px",
-                      cursor: "pointer",
-                      transition: "background-color 0.2s",
-                    }}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.backgroundColor = "#2563EB";
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.backgroundColor = "#3B82F6";
-                    }}
-                  >
-                    Login
-                  </button>
-                )}
-              </Box>
-              
               {/* Search */}
               <Box position="relative" width="240px">
                 <input

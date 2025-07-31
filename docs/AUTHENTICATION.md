@@ -37,7 +37,6 @@ The community marketplace now includes an authentication system that automatical
 #### `src/page-sections/market-1/Section6.tsx`
 - Added authentication status display
 - Shows loading states for authentication process
-- Includes manual login button for testing
 - Enhanced error handling with authentication context
 
 ## Usage
@@ -49,10 +48,7 @@ The community marketplace now includes an authentication system that automatical
 4. On successful authentication, fetches posts
 5. Displays posts in the community feed
 
-### Manual Authentication (Testing)
-1. Click the "Login" button (visible when not authenticated)
-2. System attempts authentication
-3. Status indicator updates based on result
+
 
 ### Authentication Status Indicator
 - **Red**: Not authenticated or authentication failed
@@ -82,9 +78,8 @@ The system handles several error scenarios:
 ## Testing
 
 1. **Initial Load**: Check authentication status on page load
-2. **Manual Login**: Use the login button to test authentication
-3. **All Posts**: Click "All Posts" to test full flow (auth + posts)
-4. **Error Cases**: Test with network disconnected to see error handling
+2. **All Posts**: Click "All Posts" to test full flow (auth + posts)
+3. **Error Cases**: Test with network disconnected to see error handling
 
 ## Technical Notes
 

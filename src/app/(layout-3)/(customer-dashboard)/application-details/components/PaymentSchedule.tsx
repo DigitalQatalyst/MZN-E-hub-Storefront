@@ -89,7 +89,7 @@ const PaymentSchedule: React.FC = () => {
         padding: isMobile ? "16px" : "0px",
         marginTop: isMobile ? "16px" : "20px",
         backgroundColor: "white",
-        minHeight: "100vh",
+        // minHeight: "100vh",
       }}
     >
       <div style={{ width: "100%", margin: "0 auto" }}>

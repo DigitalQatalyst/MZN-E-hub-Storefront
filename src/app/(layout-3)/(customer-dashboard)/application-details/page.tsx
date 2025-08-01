@@ -16,6 +16,8 @@ import { chats } from "./constants";
 import { Input } from "@mui/material";
 import { FaMicrophone } from "react-icons/fa";
 import PaymentSchedule from "./components/PaymentSchedule";
+import ApplicationTabs from "./components/ApplicationTabs";
+import MicroFinanceLOan from "./components/MicroFinanceLOan";
 
 const page = () => {
   return (
@@ -52,9 +54,12 @@ const page = () => {
           }}
         >
           <Typography fontSize="16px" color="black" fontWeight="500">
-            In-Service Chat
+            Non-Financial Insights
           </Typography>
         </button>
+      </Box>
+      <Box>
+        <ApplicationTabs />
       </Box>
       {/* Financial Summary Section */}
       <Box style={{ padding: "20px" }}>
@@ -163,6 +168,7 @@ const page = () => {
                 <PaymentSchedule />
               </Box>
             </Box>
+            <MicroFinanceLOan />
           </Grid>
 
           {/* Right Side: Overview and Updates */}

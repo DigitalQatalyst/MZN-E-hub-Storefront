@@ -280,7 +280,7 @@ export default function Section3() {
             <ButtonContainer>
               <Link href="https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_Signup&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fmzn-e-hub-storefront-5akxqw2kr-digitalqatalysts-projects.vercel.app%2Fdashboard&scope=openid&response_type=code&prompt=login&code_challenge_method=S256&code_challenge=uPSCPoX1IbZeEy61vNSmgjyHSSPFWhaVq5Btdo0fMHY">
                 <ResponsiveButton
-                  className="SignUp" 
+                  className="SignUp"  
                   variant="contained"
                   color="#FFF"
                   style={{

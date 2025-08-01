@@ -133,6 +133,12 @@ export const getCommunityPosts = async (): Promise<Post[]> => {
     if (data.errors && data.errors.length > 0) {
       console.error("GraphQL errors details:", JSON.stringify(data.errors, null, 2));
       const error = data.errors[0];
+      
+      // Provide more specific error messages for common issues
+      if (error.message.includes("Cannot return null for non-nullable field")) {
+        throw new Error("API schema issue: Some required fields are missing in the database. Please contact the API team.");
+      }
+      
       throw new Error(`GraphQL error: ${error.message} (Code: ${error.extensions?.code || 'N/A'})`);
     }
     
@@ -178,6 +184,12 @@ export const getCommunityPosts = async (): Promise<Post[]> => {
         
         if (data.errors && data.errors.length > 0) {
           const error = data.errors[0];
+          
+          // Provide more specific error messages for common issues
+          if (error.message.includes("Cannot return null for non-nullable field")) {
+            throw new Error("API schema issue: Some required fields are missing in the database. Please contact the API team.");
+          }
+          
           throw new Error(`GraphQL error: ${error.message} (Code: ${error.extensions?.code || 'N/A'})`);
         }
         
@@ -235,6 +247,12 @@ export const getRecentPosts = async (limit: number = 5): Promise<RecentPost[]> =
     if (data.errors && data.errors.length > 0) {
       console.error("GraphQL errors details:", JSON.stringify(data.errors, null, 2));
       const error = data.errors[0];
+      
+      // Provide more specific error messages for common issues
+      if (error.message.includes("Cannot return null for non-nullable field")) {
+        throw new Error("API schema issue: Some required fields are missing in the database. Please contact the API team.");
+      }
+      
       throw new Error(`GraphQL error: ${error.message} (Code: ${error.extensions?.code || 'N/A'})`);
     }
     
@@ -281,6 +299,12 @@ export const getRecentPosts = async (limit: number = 5): Promise<RecentPost[]> =
         
         if (data.errors && data.errors.length > 0) {
           const error = data.errors[0];
+          
+          // Provide more specific error messages for common issues
+          if (error.message.includes("Cannot return null for non-nullable field")) {
+            throw new Error("API schema issue: Some required fields are missing in the database. Please contact the API team.");
+          }
+          
           throw new Error(`GraphQL error: ${error.message} (Code: ${error.extensions?.code || 'N/A'})`);
         }
         

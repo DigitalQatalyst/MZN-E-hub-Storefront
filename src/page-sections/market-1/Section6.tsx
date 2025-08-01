@@ -110,6 +110,8 @@ export default function Section6() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [authStatus, setAuthStatus] = useState<string>("Not authenticated");
+  const [likedPosts, setLikedPosts] = useState<number[]>([]);
+  const [postLikeCounts, setPostLikeCounts] = useState<{postId: number, likeCount: number}[]>([]);
 
   // Function to fetch posts from API
   const fetchPosts = async () => {
@@ -148,6 +150,15 @@ export default function Section6() {
       }));
       
       setDisplayPosts(transformedPosts);
+      
+      // Initialize like counts for each post and reset liked posts
+      const initialLikeCounts = transformedPosts.map(post => ({
+        postId: post.id,
+        likeCount: post.likes
+      }));
+      setPostLikeCounts(initialLikeCounts);
+      setLikedPosts([]); // Reset liked posts when loading new data
+      
       console.log(`Successfully loaded ${transformedPosts.length} posts`);
     } catch (err) {
       console.error("Error in fetchPosts:", err);
@@ -191,6 +202,15 @@ export default function Section6() {
       }));
       
       setDisplayPosts(transformedPosts);
+      
+      // Initialize like counts for each post and reset liked posts
+      const initialLikeCounts = transformedPosts.map(post => ({
+        postId: post.id,
+        likeCount: post.likes
+      }));
+      setPostLikeCounts(initialLikeCounts);
+      setLikedPosts([]); // Reset liked posts when loading new data
+      
       console.log(`Successfully loaded ${transformedPosts.length} recent posts`);
     } catch (err) {
       console.error("Error in fetchRecentPosts:", err);
@@ -256,6 +276,47 @@ export default function Section6() {
       ...prev,
       [postId]: !prev[postId],
     }));
+  };
+
+  const handleLikeToggle = (postId: number) => {
+    // Toggle liked state
+    setLikedPosts(prev => {
+      const isCurrentlyLiked = prev.includes(postId);
+      if (isCurrentlyLiked) {
+        return prev.filter(id => id !== postId);
+      } else {
+        return [...prev, postId];
+      }
+    });
+
+    // Update like count
+    setPostLikeCounts(prev => {
+      const existingPost = prev.find(p => p.postId === postId);
+      const isCurrentlyLiked = likedPosts.includes(postId);
+      
+      if (existingPost) {
+        return prev.map(p => 
+          p.postId === postId 
+            ? { ...p, likeCount: isCurrentlyLiked ? p.likeCount - 1 : p.likeCount + 1 }
+            : p
+        );
+      } else {
+        // Find original like count from displayPosts
+        const originalPost = displayPosts.find(p => p.id === postId);
+        const originalLikes = originalPost?.likes || 0;
+        return [...prev, { postId, likeCount: isCurrentlyLiked ? originalLikes - 1 : originalLikes + 1 }];
+      }
+    });
+  };
+
+  const getCurrentLikeCount = (postId: number) => {
+    const postLikeData = postLikeCounts.find(p => p.postId === postId);
+    if (postLikeData) {
+      return postLikeData.likeCount;
+    }
+    // Fallback to original like count from displayPosts
+    const originalPost = displayPosts.find(p => p.id === postId);
+    return originalPost?.likes || 0;
   };
 
   return (
@@ -583,10 +644,17 @@ export default function Section6() {
                     <FlexBox
                       alignItems="center"
                       style={{ gap: "6px", cursor: "pointer" }}
+                      onClick={() => handleLikeToggle(post.id)}
                     >
-                      <ThumbsUp size={20} style={{ color: "#818C99" }} />
+                      <ThumbsUp 
+                        size={20} 
+                        style={{ 
+                          color: likedPosts.includes(post.id) ? "#1D4EDF" : "#818C99",
+                          fill: likedPosts.includes(post.id) ? "#EFF6FF" : "none"
+                        }} 
+                      />
                       <span style={{ fontSize: "14px", color: "#818C99" }}>
-                        {post.likes}
+                        {getCurrentLikeCount(post.id)}
                       </span>
                     </FlexBox>
                     <FlexBox

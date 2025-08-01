@@ -5,7 +5,7 @@ import Box from "@component/Box";
 import Hidden from "@component/hidden";
 import FlexBox from "@component/FlexBox";
 import Container from "@component/Container";
-import { getCommunityPosts, Post } from "@utils/__api__/communityMarketPosts";
+import { getCommunityPosts, getRecentPosts, Post, RecentPost } from "@utils/__api__/communityMarketPosts";
 import { isAuthenticated, getCurrentUser } from "@utils/__api__/auth";
 import {
   Home,
@@ -130,7 +130,7 @@ export default function Section6() {
       // Transform API posts to match the display format
       const transformedPosts = apiPosts.map((post) => ({
         id: parseInt(post.id),
-        author: `User ${post.author.id}`, // Since we only have author ID
+        author: `User ${post.id}`, // Use post ID as author since no author data from API
         image: "/assets/images/faces/7.png", // Default image since API doesn't provide
         time: new Date(post.createdAt).toLocaleDateString(),
         title: post.title,
@@ -139,8 +139,8 @@ export default function Section6() {
         likes: Math.floor(Math.random() * 50) + 1, // Random likes since not in API
         comments: post.comments.length,
         views: post.views,
-        replies: post.comments.map((comment) => ({
-          author: `User ${comment.author.id}`,
+        replies: post.comments.map((comment, index) => ({
+          author: `User ${comment.id}`, // Use comment ID as author since no author data
           image: "/assets/images/faces/2.jpg",
           content: comment.text,
           date: new Date(comment.createdAt).toLocaleDateString(),
@@ -158,12 +158,58 @@ export default function Section6() {
     }
   };
 
-  // Handle filter click, especially for "All Posts"
+  // Function to fetch recent posts from API
+  const fetchRecentPosts = async (limit: number = 5) => {
+    setIsLoading(true);
+    setError(null);
+    setAuthStatus("Authenticating...");
+    
+    try {
+      console.log(`Starting authentication and recent posts fetch process with limit ${limit}...`);
+      const apiPosts = await getRecentPosts(limit);
+      
+      // Update auth status after successful authentication
+      if (isAuthenticated()) {
+        const user = getCurrentUser();
+        setAuthStatus(`Authenticated as: ${user?.identifier || 'Unknown'}`);
+      }
+      
+      // Transform API recent posts to match the display format
+      // Since recent posts don't have comments/author data, we'll use defaults
+      const transformedPosts = apiPosts.map((post) => ({
+        id: parseInt(post.id),
+        author: `User ${post.id}`, // Use post ID as author since no author field
+        image: "/assets/images/faces/7.png", // Default image
+        time: new Date(post.createdAt).toLocaleDateString(),
+        title: post.title,
+        content: post.content,
+        tags: [post.tag],
+        likes: Math.floor(Math.random() * 50) + 1, // Random likes since not in API
+        comments: 0, // Recent posts API doesn't include comments
+        views: post.views,
+        replies: [], // No replies for recent posts
+      }));
+      
+      setDisplayPosts(transformedPosts);
+      console.log(`Successfully loaded ${transformedPosts.length} recent posts`);
+    } catch (err) {
+      console.error("Error in fetchRecentPosts:", err);
+      setError(err instanceof Error ? err.message : "Failed to load recent posts. Please try again.");
+      setAuthStatus("Authentication failed");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Handle filter click for different filter types
   const handleFilterClick = async (filterLabel: string) => {
     setActiveFilter(filterLabel);
     if (filterLabel === "All Posts") {
       await fetchPosts();
+    } else if (filterLabel === "Recents") {
+      await fetchRecentPosts(5); // Fetch 5 recent posts
     }
+    // TODO: Add handlers for "Trending" and "Popular" filters when those APIs are available
   };
 
 

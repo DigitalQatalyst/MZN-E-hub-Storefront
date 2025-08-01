@@ -35,16 +35,10 @@ const GET_POSTS_QUERY = `
       views
       createdAt
       updatedAt
-      author {
-        id
-      }
       comments {
         id
         text
         createdAt
-        author {
-          id
-        }
       }
     }
   }
@@ -59,22 +53,39 @@ export interface Post {
   views: number;
   createdAt: string;
   updatedAt: string;
-  author: {
-    id: string;
-  };
   comments: Array<{
     id: string;
     text: string;
     createdAt: string;
-    author: {
-      id: string;
-    };
   }>;
+}
+
+// Interface for recent posts (similar to Post but may have fewer fields)
+export interface RecentPost {
+  id: string;
+  title: string;
+  content: string;
+  tag: string;
+  views: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface PostsResponse {
   data?: {
     posts: Post[];
+  };
+  errors?: Array<{
+    message: string;
+    locations?: Array<{ line: number; column: number }>;
+    path?: string[];
+    extensions?: any;
+  }>;
+}
+
+export interface RecentPostsResponse {
+  data?: {
+    recentPosts: RecentPost[];
   };
   errors?: Array<{
     message: string;
@@ -102,6 +113,9 @@ export const getCommunityPosts = async (): Promise<Post[]> => {
         'Content-Type': 'application/json',
       },
       credentials: 'include', // This ensures cookies are included
+      body: JSON.stringify({
+        queryType: 'all'
+      })
     }).catch(error => {
       console.error("Network error during posts fetch:", error);
       throw new Error(`Network error: ${error.message}. Please check if the development server is running.`);
@@ -146,6 +160,9 @@ export const getCommunityPosts = async (): Promise<Post[]> => {
             'Content-Type': 'application/json',
           },
           credentials: 'include',
+          body: JSON.stringify({
+            queryType: 'all'
+          })
         }).catch(error => {
           console.error("Network error during retry:", error);
           throw new Error(`Network error on retry: ${error.message}`);
@@ -176,5 +193,108 @@ export const getCommunityPosts = async (): Promise<Post[]> => {
     }
     
     throw new Error("Failed to fetch community posts");
+  }
+};
+
+// API function to fetch recent posts with authentication
+export const getRecentPosts = async (limit: number = 5): Promise<RecentPost[]> => {
+  try {
+    // Check if user is authenticated, if not, authenticate first
+    if (!authService.isUserAuthenticated()) {
+      console.log("User not authenticated, logging in...");
+      await authService.login();
+    }
+
+    console.log(`Fetching recent posts with limit ${limit} and authenticated session...`);
+    
+    // Use Next.js API route to avoid CORS issues
+    const response = await fetch("/api/posts", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include', // This ensures cookies are included
+      body: JSON.stringify({
+        queryType: 'recent',
+        limit: limit
+      })
+    }).catch(error => {
+      console.error("Network error during recent posts fetch:", error);
+      throw new Error(`Network error: ${error.message}. Please check if the development server is running.`);
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data: any = await response.json();
+    
+    console.log("Full recent posts response:", JSON.stringify(data, null, 2));
+    
+    // Check for GraphQL errors
+    if (data.errors && data.errors.length > 0) {
+      console.error("GraphQL errors details:", JSON.stringify(data.errors, null, 2));
+      const error = data.errors[0];
+      throw new Error(`GraphQL error: ${error.message} (Code: ${error.extensions?.code || 'N/A'})`);
+    }
+    
+    // Check if we have data.recentPosts
+    if (!data.data || !data.data.recentPosts) {
+      console.error("Invalid recent posts response structure:", data);
+      throw new Error("Invalid recent posts response structure");
+    }
+    
+    console.log(`Successfully fetched ${data.data.recentPosts.length} recent posts`);
+    return data.data.recentPosts;
+  } catch (error) {
+    console.error("Error fetching recent posts:", error);
+    
+    // If it's an authentication error, try to re-authenticate
+    if (error instanceof Error && (error.message.includes("unauthorized") || error.message.includes("FORBIDDEN"))) {
+      try {
+        console.log("Authentication expired, re-authenticating...");
+        await authService.login();
+        
+        // Retry the request after re-authentication using API route
+        const response = await fetch("/api/posts", {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            queryType: 'recent',
+            limit: limit
+          })
+        }).catch(error => {
+          console.error("Network error during retry:", error);
+          throw new Error(`Network error on retry: ${error.message}`);
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data: any = await response.json();
+        
+        console.log("Full retry recent posts response:", JSON.stringify(data, null, 2));
+        
+        if (data.errors && data.errors.length > 0) {
+          const error = data.errors[0];
+          throw new Error(`GraphQL error: ${error.message} (Code: ${error.extensions?.code || 'N/A'})`);
+        }
+        
+        if (!data.data || !data.data.recentPosts) {
+          throw new Error("Invalid recent posts response structure");
+        }
+        
+        return data.data.recentPosts;
+      } catch (retryError) {
+        console.error("Failed to re-authenticate:", retryError);
+        throw new Error("Authentication failed. Please try again.");
+      }
+    }
+    
+    throw new Error("Failed to fetch recent posts");
   }
 }; 

@@ -10,17 +10,25 @@ const GET_POSTS_QUERY = `
       views
       createdAt
       updatedAt
-      author {
-        id
-      }
       comments {
         id
         text
         createdAt
-        author {
-          id
-        }
       }
+    }
+  }
+`;
+
+const GET_RECENT_POSTS_QUERY = `
+  query RecentPosts($limit: Int!) {
+    recentPosts(limit: $limit) {
+      id
+      title
+      content
+      tag
+      views
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -28,6 +36,10 @@ const GET_POSTS_QUERY = `
 export async function POST(request: NextRequest) {
   try {
     console.log("Server-side posts fetch attempt...");
+    
+    // Parse request body to get query type and parameters
+    const body = await request.json();
+    const { queryType = 'all', limit = 5 } = body;
     
     // Get session cookies from the request
     const sessionCookie = request.cookies.get('session')?.value;
@@ -52,12 +64,27 @@ export async function POST(request: NextRequest) {
       headers['Cookie'] = cookieHeader;
     }
     
+    // Determine which query to use based on queryType
+    let queryToUse = GET_POSTS_QUERY;
+    let variables = {};
+    
+    if (queryType === 'recent') {
+      queryToUse = GET_RECENT_POSTS_QUERY;
+      variables = { limit };
+      console.log(`Fetching recent posts with limit: ${limit}`);
+    } else {
+      console.log("Fetching all posts");
+    }
+    
+    const requestBody: any = { query: queryToUse };
+    if (Object.keys(variables).length > 0) {
+      requestBody.variables = variables;
+    }
+    
     const response = await fetch("https://22af-54-37-203-255.ngrok-free.app/services-api", {
       method: "POST",
       headers,
-      body: JSON.stringify({
-        query: GET_POSTS_QUERY
-      })
+      body: JSON.stringify(requestBody)
     });
 
     if (!response.ok) {

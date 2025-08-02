@@ -17,7 +17,11 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
 
   return (
     <div
-      style={styles.serviceCard}
+      style={{
+        ...styles.serviceCard,
+        transform: isHovered ? "translateY(-5px)" : "translateY(0)",
+        boxShadow: isHovered ? "0px 4px 20px rgba(0, 0, 0, 0.1)" : "none",
+      }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -41,8 +45,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       <a href={detailsLink} style={styles.viewDetails}>
         View Details →
       </a>
-      <button style={styles.enterpriseButton}>Enterprise</button>{" "}
-      {/* Enterprise button added */}
+      <button style={styles.enterpriseButton}>Enterprise</button>
     </div>
   );
 };
@@ -178,6 +181,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     boxSizing: "border-box",
     position: "relative", // Important for the bookmark icon
     overflow: "hidden",
+    transition: "all 0.3s ease", // Smooth transition for hover effects
   },
   title: {
     fontSize: "16px",

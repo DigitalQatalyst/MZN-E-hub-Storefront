@@ -3,7 +3,7 @@
 import Box from "@component/Box";
 import { Button as DefaultButton } from "@component/buttons";
 import { Carousel } from "@component/carousel";
-import { ProductCard19 } from "@component/product-cards";
+import { FinancialServiceCard} from "@component/product-cards";
 import CategorySectionCreator from "@component/CategorySectionCreator";
 import styled from "styled-components";
 // API FUNCTIONS
@@ -130,7 +130,7 @@ export default async function Section15() {
           <Carousel slidesToShow={4} responsive={responsive}>
             {products.map((item) => (
               <Box py="3rem" key={item.id}>
-                <ProductCard19
+                <FinancialServiceCard
                   id={item.id}
                   slug={item.slug}
                   name={item.title}

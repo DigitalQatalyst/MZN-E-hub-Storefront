@@ -66,34 +66,6 @@ export const DropdownText = styled(ListItem)`
  
 `;
 
-// Style for the checkboxes
-// export const CheckboxLabel = styled.label`
-//   display: block;
-//   font-size: 14px;
-//   color: "var(--KF-BG-Dark-Blue, #003366)",;
-//   cursor: pointer;
-//   padding-left: 24px;
-//   position: relative;
-//   line-height: 1.5;
-//   margin-bottom: 8px;
-
-//   input[type="checkbox"] {
-//     position: absolute;
-//     left: 0;
-//     top: 50%;
-//     transform: translateY(-50%);
-//     margin: 0;
-//     accent-color: "var(--KF-BG-Dark-Blue, #003366)",; // Style the checkbox to match the blue color
-//   }
-
-  
-
-//   /* Checkmark style for checked boxes */
-//   input[type="checkbox"]:checked + span {
-//     color: "var(--KF-BG-Dark-Blue, #003366)",;
-//   }
-// `;
-
 export const CheckboxLabel = styled.label`
   display: flex;
   align-items: center;
@@ -150,4 +122,17 @@ export const ShowingText = styled.h4`
   font-weight: 400;
   line-height: normal;
   margin-bottom: 150px ; 
+`;
+
+export const SectionContainer = styled.div`
+  // margin-top: 25px;
+  // margin-bottom: 2rem;
+
+  @media (min-width: 600px) {
+    margin-bottom: 3rem;
+  }
+
+  @media (min-width: 960px) {
+    margin-bottom: 4rem;
+  }
 `;

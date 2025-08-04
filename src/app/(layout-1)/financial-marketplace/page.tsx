@@ -1,12 +1,10 @@
 "use client";
 
 import { Fragment, useState } from "react";
-// GLOBAL CUSTOM COMPONENTS
 import Box from "@component/Box";
 import NavbarMarketplace from "@component/navbar/NavbarMarketplace";
-// PAGE SECTION COMPONENTS
-import Section2 from "@sections/market-2/section-2";
-import Section6 from "@sections/market-2/section-6";
+import FinancialServiceCatalogue from "@sections/market-2/financial-service-catalogue";
+
 
 export default function MarketTwo() {
   const [activeButton, setActiveButton] = useState("");
@@ -18,46 +16,9 @@ export default function MarketTwo() {
       <NavbarMarketplace />
 
       <Box bg="#F6F6F6">
-        {/* HERO CAROUSEL AREA */}
-        {/* <Section1 /> */}
+        
+        <FinancialServiceCatalogue activeButton={activeButton} setActiveButton={setActiveButton} />
 
-        {/* SERVICE LIST AREA --- To be results section */}
-        {/* <Section2
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          activeButton={activeButton}
-          setActiveButton={setActiveButton}
-        /> */}
-
-        {/* TOP CATEGORIES AREA */}
-        {/* <Section3 /> */}
-
-        {/* DEAL OF THE DAY PRODUCTS AREA */}
-        {/* <Section4 /> */}
-
-        {/* NEW ARRIVALS AND BEST SELLER OFFER BANNER AREA */}
-        {/* <Section5 /> */}
-
-        {/* ELECTRONICS CATEGORY BASED PRODUCTS AREA */}
-        <Section6 activeButton={activeButton} setActiveButton={setActiveButton} />
-
-        {/* SALES OFFER BANNERS AREA */}
-        {/* <Section7 /> */}
-
-        {/* MEN'S CATEGORY BASED PRODUCTS AREA */}
-        {/* <Section6 data={[]} /> */} {/* Empty data passed */}
-
-        {/* DISCOUNT OFFER BANNER AREA */}
-        {/* <Section8 /> */}
-
-        {/* WOMEN'S CATEGORY BASED PRODUCTS AREA */}
-        {/* <Section6 data={[]} /> */} {/* Empty data passed */}
-
-        {/* FEATURES BRAND LIST AREA */}
-        {/* <Section9 brands={[]} /> */} {/* Empty data passed */}
-
-        {/* SELECTED PRODUCTS AREA */}
-        {/* <Section10 products={[]} /> */} {/* Empty data passed */}
       </Box>
     </Fragment>
   );

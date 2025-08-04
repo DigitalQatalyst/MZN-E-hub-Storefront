@@ -160,7 +160,7 @@ const LearnMoreWrapper = styled.div`
   // margin-top: 15px;
 `;
 
-type ProductCard19Props = {
+type FinancialServiceCardProps = {
   img: string;
   name: string;
   slug: string;
@@ -172,7 +172,7 @@ type ProductCard19Props = {
   className?: string;
 };
 
-export default function ProductCard19(props: ProductCard19Props) {
+export default function FinancialServiceCard(props: FinancialServiceCardProps) {
   const { img, name, subTitle, description, reviews, id, slug, images } = props;
 
   const { state, dispatch } = useAppContext();

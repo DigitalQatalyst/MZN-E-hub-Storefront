@@ -117,7 +117,7 @@ type CategoryCodes =
   | "export-&-trade-facilitation"
   | "legal-compliance-&-licensing";
 
-export default function Section6({
+export default function NonFinancialServiceCatalogue({
   activeButton,
   setActiveButton,
 }: {

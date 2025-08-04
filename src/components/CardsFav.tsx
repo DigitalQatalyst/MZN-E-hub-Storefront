@@ -29,7 +29,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         <img
           src="/assets/images/banners/logo.png"
           alt="Khalifa Fund"
-          style={{ height: 20, marginBottom: 6 }}
+          style={styles.cardLogo}
         />
         <h3 style={{ ...styles.title, color: "#002180" }}>{title}</h3>
         <p style={{ ...styles.subtitle, color: "#808390" }}>by Khalifa Fund</p>
@@ -37,7 +37,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       </div>
       {isHovered && (
         <img
-          src="/images/bookmark.png" // Correct relative path for assets in the public folder
+          src="/images/bookmark.png"
           alt="Bookmark"
           style={styles.bookmarkIcon}
         />
@@ -52,6 +52,60 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
 
 const ServiceCards: React.FC = () => {
   const services = [
+    {
+      title: "Request For Funding",
+      description:
+        "Through this service, you can apply for financial services for SMEs in a new package of financing.",
+      detailsLink: "#",
+    },
+    {
+      title: "SME Loan Reallocation",
+      description:
+        "Provides the option for SMEs to reallocate loan funds to different areas of their business.",
+      detailsLink: "#",
+    },
+    {
+      title: "Loan Amendment Service",
+      description:
+        "Allows SMEs to amend the terms or details of their existing loans with Khalifa Fund.",
+      detailsLink: "#",
+    },
+    {
+      title: "SME Loan Disbursement",
+      description:
+        "Disburses loans to SMEs once their funding application has been approved.",
+      detailsLink: "#",
+    },
+    {
+      title: "SME Operating Capital Financing",
+      description:
+        "Provides financing for working capital to support day-to-day business operations.",
+      detailsLink: "#",
+    },
+    {
+      title: "Vehicle & Logistics Asset Financing",
+      description:
+        "Offers financing options for purchasing vehicles and logistics equipment.",
+      detailsLink: "#",
+    },
+    {
+      title: "Equipment & Machinery Financing",
+      description:
+        "Provides financing options for purchasing business-related machinery.",
+      detailsLink: "#",
+    },
+    {
+      title: "Accounts Receivable Financing",
+      description:
+        "Provides financing for businesses by securing invoices to boost cash flow.",
+      detailsLink: "#",
+    },
+    {
+      title: "Advance Payment Guarantee Service",
+      description:
+        "Provides financial guarantees to suppliers, ensuring secured transactions for businesses.",
+      detailsLink: "#",
+    },
     {
       title: "Khalifa Fund Membership Subscription",
       description:
@@ -88,84 +142,35 @@ const ServiceCards: React.FC = () => {
         "A direct access service to sign-up for events related to business growth and networking.",
       detailsLink: "#",
     },
-    {
-      title: "Business Licensing Registration Service",
-      description:
-        "Assists clients with the registration process and helps obtain the necessary licenses to operate their businesses.",
-      detailsLink: "#",
-    },
-    {
-      title: "Mentorship & Advisory Service",
-      description:
-        "Facilitates mentorship connections between SMEs and experts, offering guidance on business development.",
-      detailsLink: "#",
-    },
-    {
-      title: "SME Training Sign-Up",
-      description:
-        "Enables SMEs to sign up for relevant training programs to enhance their business skills.",
-      detailsLink: "#",
-    },
-    {
-      title: "Entrepreneurship Growth Program",
-      description:
-        "Provides structured training programs to equip entrepreneurs with essential business skills.",
-      detailsLink: "#",
-    },
-    {
-      title: "SME Champion Registration",
-      description:
-        "This service allows SMEs to register and gain access to the SME Champion platform.",
-      detailsLink: "#",
-    },
-    {
-      title: "Business Event Sign-Up",
-      description:
-        "Allows users/SMEs to easily register for business events listed in the EJP platform.",
-      detailsLink: "#",
-    },
-    {
-      title: "Business Licensing Registration Service",
-      description:
-        "Assists SMEs with the registration process and helps obtain the necessary licenses to operate their businesses.",
-      detailsLink: "#",
-    },
-    {
-      title: "Mentorship & Advisory Service",
-      description:
-        "Facilitates direct connection between SMEs and mentors, consultants, or strategic stakeholders who assist in business growth.",
-      detailsLink: "#",
-    },
-    {
-      title: "SME Training Sign-Up",
-      description:
-        "Enables SMEs to register for specific training events, providing them with opportunities to attend group trainings.",
-      detailsLink: "#",
-    },
   ];
 
   return (
     <div style={styles.container}>
-      {services.map((service, index) => (
-        <ServiceCard
-          key={index}
-          title={service.title}
-          description={service.description}
-          detailsLink={service.detailsLink}
-        />
-      ))}
+      <div style={styles.cardsContainer}>
+        {services.map((service, index) => (
+          <ServiceCard
+            key={index}
+            title={service.title}
+            description={service.description}
+            detailsLink={service.detailsLink}
+          />
+        ))}
+      </div>
     </div>
   );
 };
 
 const styles: { [key: string]: React.CSSProperties } = {
   container: {
+    padding: "24px 8px",
+    background: "#FFF",
+    position: "relative",
+  },
+  cardsContainer: {
     display: "grid",
     gridTemplateColumns: "repeat(3, 325px)",
     gap: "24px",
-    padding: "24px 8px",
     justifyContent: "center",
-    background: "#FFF",
   },
   serviceCard: {
     width: "325px",
@@ -179,26 +184,32 @@ const styles: { [key: string]: React.CSSProperties } = {
     flexDirection: "column",
     justifyContent: "space-between",
     boxSizing: "border-box",
-    position: "relative", // Important for the bookmark icon
+    position: "relative",
     overflow: "hidden",
-    transition: "all 0.3s ease", // Smooth transition for hover effects
+    transition: "all 0.3s ease",
+  },
+  cardLogo: {
+    width: "63px",
+    height: "63px",
+    flexShrink: 0,
+    aspectRatio: "1/1",
   },
   title: {
     fontSize: "16px",
     fontWeight: 600,
-    margin: "4px 0",
     color: "#1a1a1a",
-    lineHeight: "1.2",
+    marginTop: "2px",
+    marginBottom: "0px",
   },
   subtitle: {
     fontSize: "12px",
-    color: "#808390", // Updated color for subtitle to #808390
-    marginBottom: "4px",
+    color: "#808390",
+    marginTop: "0px",
+    marginBottom: "28px",
   },
   description: {
     fontSize: "12px",
-    color: "#000000", // Updated color for description to black
-    marginBottom: "8px",
+    color: "#000000",
     lineHeight: "1.4",
     overflow: "hidden",
     textOverflow: "ellipsis",
@@ -227,17 +238,17 @@ const styles: { [key: string]: React.CSSProperties } = {
     position: "absolute",
     left: "16px",
     bottom: "16px",
-    backgroundColor: "white", // White background
-    color: "#808390", // Text color #808390
-    border: "1px solid #808390", // Border color #808390
+    backgroundColor: "white",
+    color: "#808390",
+    border: "1px solid #808390",
     borderRadius: "4px",
     padding: "6px 12px",
-    fontSize: "10px", // Font size set to 10px
-    fontFamily: "var(--Body-Small-Font, Roboto)", // Font family set to Roboto
-    fontWeight: 400, // Font weight set to 400
-    lineHeight: "16px", // Line height set to 16px (160%)
-    letterSpacing: "0.4px", // Letter spacing set to 0.4px
-    textAlign: "center", // Center aligned text
+    fontSize: "10px",
+    fontFamily: "var(--Body-Small-Font, Roboto)",
+    fontWeight: 400,
+    lineHeight: "16px",
+    letterSpacing: "0.4px",
+    textAlign: "center",
     cursor: "pointer",
   },
 };

@@ -28,7 +28,7 @@
     │   └── __db__/
     │
     ├── app/
-    │   ├── layout.tsx
+    │   ├── 
     │   ├── page.tsx
     │   ├── not-found.tsx
     │   ├── (auth)/

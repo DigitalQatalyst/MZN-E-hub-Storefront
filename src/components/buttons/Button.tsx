@@ -2,7 +2,7 @@
 
 import { forwardRef } from "react";
 import systemCss from "@styled-system/css";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import {
   color,
   space,
@@ -62,61 +62,71 @@ const StyledButton = styled.button.withConfig({
         "svg polyline, svg polygon": { color: "text.hint" }
       }
     }),
-  ({ theme, color }) =>
-    variant({
+  ({ theme, color }) => {
+    // Helper function to safely get theme colors
+    const getThemeColor = (colorKey: string, shade: string) => {
+      if (!theme || !theme.colors || !theme.colors[colorKey]) {
+        console.warn(`Theme color not found: ${colorKey}`);
+        return '#000000'; // fallback color
+      }
+      return theme.colors[colorKey][shade] || theme.colors[colorKey].main || '#000000';
+    };
+
+    return variant({
       prop: "variant",
       variants: {
         text: {
           border: "none",
-          color: `${color}.main`,
+          color: color ? `${color}.main` : "text.primary",
           "&:hover": {
             bg: color ? `${color}.light` : "gray.100"
           }
         },
         outlined: {
           padding: "10px 16px",
-          color: `${color}.main`,
+          color: color ? `${color}.main` : "text.primary",
           border: "1px solid",
           borderColor: color ? `${color}.main` : "text.disabled",
 
           "&:enabled svg path": {
-            fill: color ? `${theme.colors[color]?.main} !important` : "text.primary"
+            fill: color ? `${getThemeColor(color, 'main')} !important` : (theme?.colors?.text?.primary || '#000000')
           },
           "&:enabled svg polyline, svg polygon": {
-            color: color ? `${theme.colors[color]?.main} !important` : "text.primary"
+            color: color ? `${getThemeColor(color, 'main')} !important` : (theme?.colors?.text?.primary || '#000000')
           },
           "&:focus": {
-            boxShadow: `0px 1px 4px 0px ${theme.colors[color ? color : ""]?.light}`
+            boxShadow: `0px 1px 4px 0px ${color ? getThemeColor(color, 'light') : 'rgba(0,0,0,0.1)'}`
           },
           "&:hover:enabled": {
             bg: color && `${color}.main`,
             borderColor: color && `${color}.main`,
             color: color && `${color}.text`,
             "svg path": {
-              fill: color ? `${theme.colors[color]?.text} !important` : "text.primary"
+              fill: color ? `${getThemeColor(color, 'text')} !important` : (theme?.colors?.text?.primary || '#000000')
             },
             "svg polyline, svg polygon": {
-              color: color ? `${theme.colors[color]?.text} !important` : "text.primary"
+              color: color ? `${getThemeColor(color, 'text')} !important` : (theme?.colors?.text?.primary || '#000000')
             },
             ...(color === "dark" && { color: "white" })
           }
         },
         contained: {
           border: "none",
-          color: `${color}.text`,
-          bg: `${color}.button`,
+          color: color ? `${color}.text` : "white",
+          bg: color ? `${color}.button` : "primary.main",
           "&:focus": {
-            boxShadow: `0px 1px 4px 0px ${theme.colors[color ? color : ""]?.light}`
+            boxShadow: `0px 1px 4px 0px ${color ? getThemeColor(color, 'light') : 'rgba(0,0,0,0.1)'}`
           },
           "&:enabled svg path": {
-            fill: color ? `${theme.colors[color]?.text} !important` : "text.primary"
+            fill: color ? `${getThemeColor(color, 'text')} !important` : (theme?.colors?.text?.primary || '#ffffff')
           },
           "&:enabled svg polyline, svg polygon": {
-            color: color ? `${theme.colors[color]?.text} !important` : "text.primary"
+            color: color ? `${getThemeColor(color, 'text')} !important` : (theme?.colors?.text?.primary || '#ffffff')
           }
         }
       }
-    }),
+    });
+  },
   variant({
     prop: "size",
     variants: {
@@ -143,5 +153,7 @@ const Button = forwardRef<
     </StyledButton>
   );
 });
+
+Button.displayName = 'Button';
 
 export default Button;

@@ -34,7 +34,7 @@ const TabBar: React.FC = () => {
     <TabBarContainer>
       <Tab
         onClick={() => handleTabClick('Non-Financial', '/non-financial-marketplace')}  
-        active={activeTab === 'Non-Financial'}
+        active={activeTab === 'Non-Financial'} // FIXED: Pass boolean directly
       >
         <img
           src={activeTab === 'Non-Financial'
@@ -46,7 +46,7 @@ const TabBar: React.FC = () => {
       </Tab>
       <Tab
         onClick={() => handleTabClick('Financial', '/services')}
-        active={activeTab === 'Financial'}
+        active={activeTab === 'Financial'} // FIXED: Pass boolean directly
       >
         <img
           src={activeTab === 'Financial'
@@ -58,42 +58,42 @@ const TabBar: React.FC = () => {
       </Tab>
       <Tab
         onClick={() => handleTabClick('Courses', '#')}
-        active={activeTab === 'Courses'}
+        active={activeTab === 'Courses'} // FIXED: Pass boolean directly
       >
         <img src="/assets/images/tab_bar/local_library.svg" alt="icon" />
         Courses
       </Tab>
       <Tab
         onClick={() => handleTabClick('Communities', '/community-marketplace')}
-        active={activeTab === 'Communities'}
+        active={activeTab === 'Communities'} // FIXED: Pass boolean directly
       >
         <img src="/assets/images/tab_bar/forum.svg" alt="icon" />
         Communities
       </Tab>
       <Tab
         onClick={() => handleTabClick('Media', '#')}
-        active={activeTab === 'Media'}
+        active={activeTab === 'Media'} // FIXED: Pass boolean directly
       >
         <img src="/assets/images/tab_bar/brand_awareness.svg" alt="icon" />
         Media
       </Tab>
       <Tab
         onClick={() => handleTabClick('Investment', '#')}
-        active={activeTab === 'Investment'}
+        active={activeTab === 'Investment'} // FIXED: Pass boolean directly
       >
         <img src="/assets/images/tab_bar/crowdsource.svg" alt="icon" />
         Investment
       </Tab>
       <Tab
         onClick={() => handleTabClick('Calendar', '#')}
-        active={activeTab === 'Calendar'}
+        active={activeTab === 'Calendar'} // FIXED: Pass boolean directly
       >
         <img src="/assets/images/tab_bar/calendar_month.svg" alt="icon" />
         Calendar
       </Tab>
       <Tab
         onClick={() => handleTabClick('Opportunities', '#')}
-        active={activeTab === 'Opportunities'}
+        active={activeTab === 'Opportunities'} // FIXED: Pass boolean directly
       >
         <img src="/assets/images/tab_bar/rocket_launch.svg" alt="icon" />
         Opportunities

@@ -12,7 +12,10 @@ import Brand from "@models/Brand.model";
 import Product from "@models/product.model";
 import "./SMEStyles.css";
 
-type Props = { carList: Product[]; carBrands: Brand[] };
+type Props = {
+  communityList?: Product[];
+  communityCategories?: Brand[]
+};
 
 interface Comment {
   id: string;
@@ -31,7 +34,7 @@ interface Discussion {
   id: string;
   author: string;
   time: string;
-  // title: string;
+  title?: string;
   content: string;
   category: string;
   likes: number;
@@ -43,7 +46,7 @@ interface Discussion {
   reactions?: EmojiReaction[];
 }
 
-export default function Section6({ carList, carBrands }: Props) {
+export default function CommunityDetailsPage({ communityList = [], communityCategories = [] }: Props) {
   const [selected, setSelected] = useState("discussions");
   const [selectedGroup, setSelectedGroup] = useState("");
   const [expandedSection, setExpandedSection] = useState<string | null>('Quality Content');
@@ -507,9 +510,9 @@ export default function Section6({ carList, carBrands }: Props) {
     }
   ];
 
-  const handleCategoryClick = (brand: Brand) => () => {
-    if (selected === brand.slug) setSelected("");
-    else setSelected(brand.slug);
+  const handleCategoryClick = (category: Brand) => () => {
+    if (selected === category.slug) setSelected("");
+    else setSelected(category.slug);
   };
 
   const filteredMembers = members.filter(member =>

@@ -15,10 +15,13 @@ import Brand from "@models/Brand.model";
 import Product from "@models/product.model";
 
 // ==============================================================
-type Props = { carList: Product[]; carBrands: Brand[] };
+type Props = {
+  communityList?: Product[];
+  communityCategories?: Brand[]
+};
 // ==============================================================
 
-export default function Section6({ carList, carBrands }: Props) {
+export default function CommunityDirectory({ communityList = [], communityCategories = [] }: Props) {
   const [selected, setSelected] = useState("");
 
   const MZNCommunities = [{
@@ -93,9 +96,9 @@ export default function Section6({ carList, carBrands }: Props) {
     imageSrc: "/images/image 9.png",
     link: "/community/logistics-exporters-network",
   }]
-  const handleCategoryClick = (brand: Brand) => () => {
-    if (selected === brand.slug) setSelected("");
-    else setSelected(brand.slug);
+  const handleCategoryClick = (category: Brand) => () => {
+    if (selected === category.slug) setSelected("");
+    else setSelected(category.slug);
   };
 
   return (
@@ -120,105 +123,105 @@ export default function Section6({ carList, carBrands }: Props) {
               </StyledProductCategory>
             ))} */}
 
-<StyledProductCategory>
-  <Box display="flex" flexDirection="column" alignItems="flex-start" marginBottom={3}>
-    <span style={{
-      fontSize: '14px',
-      fontWeight: 600,
-      marginBottom: '8px',
-      color: '#000000'  // dark text for headings
-    }}>
-      Explore
-    </span>
-    <Box 
-      display="flex" 
-      alignItems="center" 
-      marginTop={1} 
-      padding="8px"
-      borderRadius="8px"
-      width="100%"
-      maxWidth="280px"
-    >
-      <Box width={24} height={24} marginRight={2} display="flex" justifyContent="center" alignItems="center">
-        <NextImage width={24} height={24} alt="explore-icon" src="/images/Avatar (2).png" />
-      </Box>
-      <span style={{ fontSize: '12px', color: '#212121', fontWeight: 600 }}>
-        Communities
-      </span>
-    </Box>
-  </Box>
-</StyledProductCategory>
+            <StyledProductCategory>
+              <Box display="flex" flexDirection="column" alignItems="flex-start" marginBottom={3}>
+                <span style={{
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  marginBottom: '8px',
+                  color: '#000000'  // dark text for headings
+                }}>
+                  Explore
+                </span>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  marginTop={1}
+                  padding="8px"
+                  borderRadius="8px"
+                  width="100%"
+                  maxWidth="280px"
+                >
+                  <Box width={24} height={24} marginRight={2} display="flex" justifyContent="center" alignItems="center">
+                    <NextImage width={24} height={24} alt="explore-icon" src="/images/Avatar (2).png" />
+                  </Box>
+                  <span style={{ fontSize: '12px', color: '#212121', fontWeight: 600 }}>
+                    Communities
+                  </span>
+                </Box>
+              </Box>
+            </StyledProductCategory>
 
-<StyledProductCategory>
-  <Box display="flex" flexDirection="column" alignItems="flex-start" marginBottom={4}>
-    <span style={{ fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#000' }}>
-      Favourites
-    </span>
-    <Box 
-      display="flex" 
-      alignItems="center" 
-      marginTop={1} 
-      padding="12px"
-      borderRadius="8px"
-      width="100%"
-      maxWidth="280px"
-    >
-      <Box width={24} height={24} marginRight={2} display="flex" justifyContent="center" alignItems="center">
-        <NextImage width={24} height={24} alt="favourites-icon" src="/images/Avatar (3).png" />
-      </Box>
-      <span style={{ fontSize: '12px', color: '#6C757D', fontWeight: 400 }}>
-        Keep your favorites at your fingertips. Favorites will appear here.
-      </span>
-    </Box>
-  </Box>
-</StyledProductCategory>
+            <StyledProductCategory>
+              <Box display="flex" flexDirection="column" alignItems="flex-start" marginBottom={4}>
+                <span style={{ fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#000' }}>
+                  Favourites
+                </span>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  marginTop={1}
+                  padding="12px"
+                  borderRadius="8px"
+                  width="100%"
+                  maxWidth="280px"
+                >
+                  <Box width={24} height={24} marginRight={2} display="flex" justifyContent="center" alignItems="center">
+                    <NextImage width={24} height={24} alt="favourites-icon" src="/images/Avatar (3).png" />
+                  </Box>
+                  <span style={{ fontSize: '12px', color: '#6C757D', fontWeight: 400 }}>
+                    Keep your favorites at your fingertips. Favorites will appear here.
+                  </span>
+                </Box>
+              </Box>
+            </StyledProductCategory>
 
-<StyledProductCategory>
-  <Box display="flex" flexDirection="column" alignItems="flex-start" marginBottom={4}>
-    <span style={{ fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#000' }}>
-      Communities
-    </span>
-    <Box 
-      display="flex" 
-      alignItems="center" 
-      marginTop={1} 
-      padding="12px"
-      borderRadius="8px"
-      width="100%"
-      maxWidth="280px"
-    >
-      <Box width={24} height={24} marginRight={2} display="flex" justifyContent="center" alignItems="center">
-        <NextImage width={24} height={24} alt="communities-icon" src="/images/Avatar (2).png" />
-      </Box>
-      <span style={{ fontSize: '12px', color: '#6C757D', fontWeight: 400 }}>
-        No communities yet
-      </span>
-    </Box>
-  </Box>
-</StyledProductCategory>
+            <StyledProductCategory>
+              <Box display="flex" flexDirection="column" alignItems="flex-start" marginBottom={4}>
+                <span style={{ fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#000' }}>
+                  Communities
+                </span>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  marginTop={1}
+                  padding="12px"
+                  borderRadius="8px"
+                  width="100%"
+                  maxWidth="280px"
+                >
+                  <Box width={24} height={24} marginRight={2} display="flex" justifyContent="center" alignItems="center">
+                    <NextImage width={24} height={24} alt="communities-icon" src="/images/Avatar (2).png" />
+                  </Box>
+                  <span style={{ fontSize: '12px', color: '#6C757D', fontWeight: 400 }}>
+                    No communities yet
+                  </span>
+                </Box>
+              </Box>
+            </StyledProductCategory>
 
-<StyledProductCategory
-  id="all"
-  mt="2rem"
-  shadow={selected.match("all") ? 4 : null}
-  bg="transparent"
-  p="0"
->
-  <span 
-    id="all" 
-    className="product-category-title" 
-    style={{ 
-      fontSize: '14px', 
-      fontWeight: 600, 
-      color: '#0061F2',  // Blue color for text
-      textDecoration: 'underline',
-      marginTop: '20px',
-      cursor: 'pointer'
-    }}
-  >
-    Discover communities
-  </span>
-</StyledProductCategory>
+            <StyledProductCategory
+              id="all"
+              mt="2rem"
+              shadow={selected.match("all") ? 4 : null}
+              bg="transparent"
+              p="0"
+            >
+              <span
+                id="all"
+                className="product-category-title"
+                style={{
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  color: '#0061F2',  // Blue color for text
+                  textDecoration: 'underline',
+                  marginTop: '20px',
+                  cursor: 'pointer'
+                }}
+              >
+                Discover communities
+              </span>
+            </StyledProductCategory>
 
 
 

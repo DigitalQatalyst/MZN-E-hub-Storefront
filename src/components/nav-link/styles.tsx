@@ -14,21 +14,25 @@ interface StyledNavLinkProps {
 const StyledNavLink = styled.span.withConfig({
   shouldForwardProp: (prop: string) => isValidProp(prop)
 })<StyledNavLinkProps & SpaceProps & ColorProps>(
-  ({ isCurrentRoute, theme }) =>
-    systemCss({
+  ({ isCurrentRoute, theme }) => {
+    // Safe theme access with fallbacks
+    const primaryColor = theme?.colors?.primary?.main || '#1976d2';
+    
+    return systemCss({
       position: "relative",
       transition: "all 150ms ease-in-out",
-      color: isCurrentRoute ? theme.colors.primary.main : "auto",
+      color: isCurrentRoute ? primaryColor : "auto",
       "&:hover": {
-        color: `${theme.colors.primary.main} !important`
+        color: `${primaryColor} !important`
       },
       "& svg path": {
-        fill: isCurrentRoute ? theme.colors.primary.main : "auto"
+        fill: isCurrentRoute ? primaryColor : "auto"
       },
       "& svg polyline, svg polygon": {
-        color: isCurrentRoute ? theme.colors.primary.main : "auto"
+        color: isCurrentRoute ? primaryColor : "auto"
       }
-    }),
+    });
+  },
   compose(space, color)
 );
 

@@ -313,7 +313,7 @@ export default function Section3() {
          
           <Box width="100%" overflow="hidden">
             <Carousel
-              slidesToShow={2.5}
+              slidesToShow={1.8}
               responsive={responsive}
               autoplay={false}
               dots={true}

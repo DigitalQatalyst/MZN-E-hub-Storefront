@@ -6,7 +6,7 @@ const clientId = "b94aa491-036c-4ddb-8bbf-12b510113078";
 const tenantName = "dgqatalyst";
 
 const flows = {
-  localAccSignIn: "B2C_1_KF_SingIn", 
+  localAccSignIn: "B2C_1_KF_SignIn", 
 };
 
 const activeFlow = flows.localAccSignIn;

@@ -386,7 +386,7 @@ export default function ProductDetails({ product }: Props) {
                 key={`placeholder-${idx}`}
                 id={`placeholder-${idx}`}
                 partner="by Khalifa Fund"
-                slug="#"
+                slug="/sme-loan-reallocation"
                 name="Microfinance Funding Scheme"
                 reviews={12}
                 description="Through this service you may get the necessary finances for day to day operations of the SME. Offers."

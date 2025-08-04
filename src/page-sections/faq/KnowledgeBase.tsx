@@ -6,6 +6,7 @@ import { articles, knowledgeitems } from "./utils";
 import { FaUser } from "react-icons/fa";
 import { IoHomeOutline } from "react-icons/io5";
 import { BsArrowRight, BsChevronRight } from "react-icons/bs";
+import Link from "next/link";
 
 const KnowledgeBase: React.FC = () => {
   return (
@@ -104,14 +105,16 @@ const KnowledgeBase: React.FC = () => {
                       mb: 2,
                     }}
                   >
-                    <Typography
-                      fontSize="14px"
-                      color="#6B6778"
-                      mb={2}
-                      key={article}
-                    >
-                      {article}
-                    </Typography>
+                    <Link href={`/faq/${article}`}>
+                      <Typography
+                        fontSize="14px"
+                        color="#6B6778"
+                        mb={2}
+                        key={article}
+                      >
+                        {article}
+                      </Typography>
+                    </Link>
                     <BsChevronRight size={15} color="black" />
                   </Box>
                 ))}

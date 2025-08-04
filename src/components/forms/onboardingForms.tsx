@@ -840,7 +840,7 @@ const OnboardingForms: React.FC = () => {
       {step === 7 && (
         <div style={{ textAlign: 'center', padding: '2rem' }}>
           <div style={{ fontSize: 48, color: '#0047FF', marginBottom: 24 }}>✔️</div>
-          <h2>Welcome to ED Journey!</h2>
+          <h2>Welcome to Enterprise Journey!</h2>
           <p>Your business registration has been completed. <strong>Check your email</strong> for verification</p>
           <button
             onClick={() => alert('Start Your Journey clicked')}

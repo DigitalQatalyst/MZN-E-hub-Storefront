@@ -4,7 +4,6 @@ import Box from "@component/Box";
 import { Button } from "@component/buttons";
 import FlexBox from "@component/FlexBox";
 import Grid from "@component/grid/Grid";
-import { ProductCard19, ProductCard20 } from "@component/product-cards";
 import { H3, H4, H6, Paragraph, SemiSpan, Span } from "@component/Typography";
 import Product from "@models/product.model";
 import { useState } from "react";
@@ -15,6 +14,7 @@ import { Carousel } from "@component/carousel";
 import { border, fontWeight } from "styled-system";
 import Image from "next/image";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
+import { ProductCard20 } from "@component/product-cards";
 
 const TabButton = styled(Button)<{ active?: boolean }>`
   padding: 0.75rem 1.5rem;

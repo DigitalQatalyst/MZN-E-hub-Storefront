@@ -3,7 +3,7 @@ import NavbarMarketplace from "@component/navbar/NavbarMarketplace";
 import TabBar from '@component/tab-bar/TabBar';
 
 
-export default async function Market1() {
+export default async function CommunityExplore() {
 
   return (
     <main>

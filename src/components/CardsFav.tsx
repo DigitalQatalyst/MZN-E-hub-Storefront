@@ -1,19 +1,28 @@
-"use client";
+"use client"; // This line ensures that this component runs only client-side.
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link"; // Import Link component from Next.js
 
 interface ServiceCardProps {
   title: string;
   description: string;
-  detailsLink: string;
+  slug: string; // Unique slug for dynamic routing
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({
   title,
   description,
-  detailsLink,
+  slug,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+  const router = useRouter();
+
+  // Optionally, if you want to ensure client-side navigation:
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <div
@@ -42,9 +51,10 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
           style={styles.bookmarkIcon}
         />
       )}
-      <a href={detailsLink} style={styles.viewDetails}>
+      {/* Use Link for client-side navigation */}
+      <Link href={`/service-details/${slug}`} style={styles.viewDetailsLink}>
         View Details →
-      </a>
+      </Link>
       <button style={styles.enterpriseButton}>Enterprise</button>
     </div>
   );
@@ -56,91 +66,91 @@ const ServiceCards: React.FC = () => {
       title: "Request For Funding",
       description:
         "Through this service, you can apply for financial services for SMEs in a new package of financing.",
-      detailsLink: "#",
+      slug: "request-for-funding", // Unique slug for the service
     },
     {
       title: "SME Loan Reallocation",
       description:
         "Provides the option for SMEs to reallocate loan funds to different areas of their business.",
-      detailsLink: "#",
+      slug: "sme-loan-reallocation",
     },
     {
       title: "Loan Amendment Service",
       description:
         "Allows SMEs to amend the terms or details of their existing loans with Khalifa Fund.",
-      detailsLink: "#",
+      slug: "loan-amendment-service",
     },
     {
       title: "SME Loan Disbursement",
       description:
         "Disburses loans to SMEs once their funding application has been approved.",
-      detailsLink: "#",
+      slug: "sme-loan-disbursement",
     },
     {
       title: "SME Operating Capital Financing",
       description:
         "Provides financing for working capital to support day-to-day business operations.",
-      detailsLink: "#",
+      slug: "sme-operating-capital-financing",
     },
     {
       title: "Vehicle & Logistics Asset Financing",
       description:
         "Offers financing options for purchasing vehicles and logistics equipment.",
-      detailsLink: "#",
+      slug: "vehicle-logistics-asset-financing",
     },
     {
       title: "Equipment & Machinery Financing",
       description:
         "Provides financing options for purchasing business-related machinery.",
-      detailsLink: "#",
+      slug: "equipment-machinery-financing",
     },
     {
       title: "Accounts Receivable Financing",
       description:
         "Provides financing for businesses by securing invoices to boost cash flow.",
-      detailsLink: "#",
+      slug: "accounts-receivable-financing",
     },
     {
       title: "Advance Payment Guarantee Service",
       description:
         "Provides financial guarantees to suppliers, ensuring secured transactions for businesses.",
-      detailsLink: "#",
+      slug: "advance-payment-guarantee-service",
     },
     {
       title: "Khalifa Fund Membership Subscription",
       description:
         "Offers a subscription to Khalifa Fund's membership for exclusive access for funding and business resources.",
-      detailsLink: "#",
+      slug: "khalifa-fund-membership-subscription",
     },
     {
       title: "Official Support Letter Issuance",
       description:
         "Provide entrepreneurs with official support letters for business sponsorship or visa purposes.",
-      detailsLink: "#",
+      slug: "official-support-letter-issuance",
     },
     {
       title: "Entrepreneur Consultation Booking",
       description:
         "Allows entrepreneurs to schedule a consultation with experts to gain assistance on business matters.",
-      detailsLink: "#",
+      slug: "entrepreneur-consultation-booking",
     },
     {
       title: "Entrepreneurship Growth Program",
       description:
         "Provides structured training programs to equip entrepreneurs with essential business skills.",
-      detailsLink: "#",
+      slug: "entrepreneurship-growth-program",
     },
     {
       title: "SME Champion Registration",
       description:
         "This service allows SMEs to register and gain access to support for SME Champion activities.",
-      detailsLink: "#",
+      slug: "sme-champion-registration",
     },
     {
       title: "Business Event Sign-Up",
       description:
         "A direct access service to sign-up for events related to business growth and networking.",
-      detailsLink: "#",
+      slug: "business-event-sign-up",
     },
   ];
 
@@ -152,7 +162,7 @@ const ServiceCards: React.FC = () => {
             key={index}
             title={service.title}
             description={service.description}
-            detailsLink={service.detailsLink}
+            slug={service.slug} // Pass the slug to each card
           />
         ))}
       </div>
@@ -217,11 +227,11 @@ const styles: { [key: string]: React.CSSProperties } = {
     WebkitLineClamp: 3,
     WebkitBoxOrient: "vertical",
   },
-  viewDetails: {
+  viewDetailsLink: {
     fontSize: "13px",
     color: "#0056d2",
     fontWeight: 600,
-    textDecoration: "none",
+    textDecoration: "none", // Turn button into a link
     position: "absolute",
     right: "16px",
     bottom: "16px",

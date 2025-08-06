@@ -15,7 +15,6 @@ const WelcomeSection = styled.section`
   flex-direction: column;
   font-family: 'Abhaya Libre', serif;
   gap: 2rem;
-  margin-bottom: 2rem;
 
   @media (max-width: 1024px) {
     padding: 40px 80px 40px 80px;
@@ -244,7 +243,7 @@ const Section16: React.FC = () => {
       {/* Welcome Section */}
       <WelcomeSection>
         <ContentColumn>
-          <H3 style={{ fontSize: "16px", fontWeight: "500", textTransform: "uppercase" }}>
+          <H3 style={{ fontSize: "16px", fontWeight: "400", textTransform: "uppercase" }}>
             Latest Insights & Success Stories
           </H3>
           <H3 fontSize="48px" fontWeight="600">

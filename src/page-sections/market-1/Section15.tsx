@@ -125,7 +125,7 @@ const StyledBody = styled.p`
   font-family: "Public Sans", sans-serif;
   font-size: 48px;
   font-style: normal;
-  font-weight: 550;
+  font-weight: 400;
   line-height: var(--Display-Medium-Line-Height, 52px);
   letter-spacing: var(--Display-Medium-Tracking, 0px);
   margin: 0;

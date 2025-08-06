@@ -19,33 +19,29 @@ export const StyledLink = styled(Link)`
 // New Styled Components for the Subscribe Form
 export const SubscribeContainer = styled.div`
   display: flex;
-  width: 377px;
-  height: 56px;
-  background: rgba(41, 41, 41, 0.05);
+  width: 80%;
+  height: 37px;
+  background-color: var(--KF-BG-Dark-Blue, #002180);
   border-radius: 5px;
 `;
 
 export const SubscribeInput = styled.input`
   flex: 1;
   padding: 0.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.20);
-  border: 1px solid rgba(255, 255, 255, 0.20);
-  border-radius: 5px 0 0 5px; /* Round only the left corners */
-  color: #FFFFFF;
+  border: none;
+  border-radius: 5px 0 0 5px;
+  color: #ffffff;
   font-family: "Public Sans", sans-serif;
-  background-color: rgba(41, 41, 41, 0.05);
-  background-color: rgba(41, 41, 41, 0.05);
+  background-color: rgb(66, 82, 200);
   &::placeholder {
-    color: #FFFFFF;;
-    color: #FFFFFF;;
+    color: #ffffff;
   }
 `;
 
 export const SubscribeButton = styled.button`
   border: none;
-  background-color: var(--KF-BG-White, #FFF);
-  color: #0030E3;
-  color: #0030E3;
+  background-color: var(--KF-BG-White, #fff);
+  color: var(--B-500, #1a1a1a);
   padding: 0.75rem 1.5rem;
   font-weight: 500;
   cursor: pointer;
@@ -56,7 +52,13 @@ export const SubscribeButton = styled.button`
 
 // New Styled Component for Footer Container
 export const FooterContainer = styled.div`
-  background: linear-gradient(94deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%);
+  background: linear-gradient(
+    94deg,
+    #374def 0%,
+    #1c3fe9 44.23%,
+    #1c3fe9 88.46%,
+    #374def 100%
+  );
   color: white;
 `;
 
@@ -73,13 +75,12 @@ export const CopyrightContainer = styled.div`
 
 // New Styled Component for Icon Container
 export const IconContainer = styled.div`
-  
   justify-content: center;
 `;
 
 export const SmallTag = styled.span`
   background-color: #fff;
-  color: #0d47a1;  // Blue color
+  color: #0d47a1; // Blue color
   font-size: 12px;
   padding: 0.2rem 0.5rem;
   margin-left: 0.5rem;

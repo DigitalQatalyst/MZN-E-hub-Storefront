@@ -26,77 +26,33 @@ const KfBot = () => {
     script.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
 
     script.onload = () => {
-      const stylesheet =
-        "data:text/css;base64," +
-        btoa(`
-        .vfrc-launcher {
-          background-color: #ffffff !important;
-          color: #ffffff !important;
-          width: 60px !important;
-          height: 60px !important;
-          border-radius: 50% !important;
-        }
-        .vfrc-launcher:hover {
-          background-color: #ffffff !important;
-        }
-      `);
-
-      const sharedConfig = {
-        verify: { projectID: "6849bea9894655c0d600d259" },
-        url: "https://general-runtime.voiceflow.com",
-        versionID: "production",
-        assistant: {
-          stylesheet,
-        },
-      };
-
-      const eventMap: Record<string, string> = {
-        "/finance": "Navigation_to_Finance_Marketplace",
-        "/non-finance": "Navigation_To_The_Non_Finance_Marketplace",
-      };
-
-      // const eventName = eventMap[path];
-
-      // Close the bot first to ensure a clean reset before loading a new page's interaction
-      const closeBot = () => {
-        window.voiceflow?.chat?.close?.();
-      };
-
-      // Dynamically fetch the event name based on pathname
-      const eventName = eventMap[pathname];
-
-      // Always close the bot before setting up the new interaction
-      closeBot();
-
-      // Extend config for finance/non-finance pages
-      const config =
-        eventName != null
-          ? {
-              ...sharedConfig,
-              voice: {
-                url: "https://runtime-api.voiceflow.com",
-              },
-              assistant: {
-                ...sharedConfig.assistant,
-                persistence: "sessionStorage",
-              },
-            }
-          : sharedConfig;
-
       window.voiceflow?.chat
-        ?.load(config)
-        .then(() => {
-          if (eventName) {
-            console.log(`Triggering event for: ${eventName}`);
-            window.voiceflow?.chat?.interact?.({
-              type: "event",
-              payload: {
-                event: {
-                  name: eventName,
-                },
-              },
-            });
-          }
+        ?.load({
+          verify: { projectID: "6849bea9894655c0d600d259" },
+          url: "https://general-runtime.voiceflow.com",
+          versionID: "production",
+          assistant: {
+            stylesheet:
+              "data:text/css;base64," +
+              btoa(`
+              .vfrc-launcher {
+                
+                 position: fixed !important;
+                top: 50% !important;
+                right: 15px !important;
+                transform: translateY(-50%) !important;
+                box-shadow: none !important;
+                border: 1px solid #01E5D1 !important;
+              }
+              .vfrc-launcher:hover {
+                background-color: #ffffff !important;
+              }
+                .vfrc-launcher::before {
+  content: url('/assets/images/KF/KFbotLauncher.png') !important;
+  
+}
+            `),
+          },
         })
         .catch(console.error);
     };

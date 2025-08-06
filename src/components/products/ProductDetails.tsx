@@ -18,6 +18,7 @@ import "./products.css";
 import { FaAngleRight } from "react-icons/fa";
 import { IoArrowForward } from "react-icons/io5";
 import Link from "next/link";
+import { ProductCard20 } from "@component/product-cards";
 
 const TabButton = styled(Button)<{ active?: boolean }>`
   padding: 0.75rem 1.5rem;

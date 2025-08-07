@@ -102,7 +102,7 @@ import {
 //   },
 // ];
 
-export default function Section6() {
+export default function CommunityLanding() {
   const [activeItem, setActiveItem] = useState("Home");
   const [activeFilter, setActiveFilter] = useState("All Posts");
   const [showReplies, setShowReplies] = useState({});

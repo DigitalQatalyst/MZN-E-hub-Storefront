@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "commit": "cz",
+    "prepare": "husky"
   },
   "dependencies": {
     "@apollo/client": "^3.13.1",
@@ -62,6 +64,8 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@types/lodash": "^4.17.12",
     "@types/node": "22.8.1",
     "@types/nprogress": "^0.2.3",
@@ -76,9 +80,17 @@
     "@types/styled-system__css": "^5.0.21",
     "@types/styled-system__theme-get": "^5.0.4",
     "autoprefixer": "^10.4.21",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^9.1.7",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.11",
     "typescript": "5.6.3"
   },
-  "license": "https://themeforest.net/licenses/standard"
+  "license": "https://themeforest.net/licenses/standard",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }

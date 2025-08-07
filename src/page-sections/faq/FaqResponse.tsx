@@ -32,7 +32,9 @@ const relatedarticles = [
   },
 ];
 
-const FaqResponse = () => {
+const FaqResponse = ({ articledata }: { articledata: any }) => {
+  const { title, description } = articledata;
+  console.log(title, description);
   return (
     <Box
       sx={{
@@ -65,7 +67,7 @@ const FaqResponse = () => {
                 textAlign="start"
                 mb={2}
               >
-                How do I find and apply for opportunities?
+                {title}
               </Typography>
               <Typography
                 fontSize="15px"
@@ -94,10 +96,7 @@ const FaqResponse = () => {
                 textAlign="start"
                 mb={2}
               >
-                The Opportunities Marketplace connects you with real business
-                openings—whether you're looking for grants, tenders,
-                partnerships, contracts, or special SME initiatives. Here’s how
-                to search, filter, and apply for the right ones.
+                {description}
               </Typography>
 
               {/* image */}
@@ -111,6 +110,7 @@ const FaqResponse = () => {
               >
                 <img width="100%" src="../images/faqsample.png" alt="" />
               </Box>
+              {/* 
               <Typography
                 fontSize="15px"
                 fontWeight="500"
@@ -156,7 +156,7 @@ const FaqResponse = () => {
                 the platform. For logged-in users, you also have the option to
                 save the opportunity to your dashboard for future action or
                 tracking.
-              </Typography>
+              </Typography> */}
             </Box>
           </Box>
           <Box

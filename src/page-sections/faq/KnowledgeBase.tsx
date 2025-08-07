@@ -105,14 +105,28 @@ const KnowledgeBase: React.FC = () => {
                       mb: 2,
                     }}
                   >
-                    <Link href={`/faq/${article}`}>
+                    {/* <Link
+                     href={{
+                      pathname: `/faq/${slugify(article.title)}`,
+                      query: { description: article.description },
+                    }}
+                     }> */}
+                    <Link
+                      href={{
+                        pathname: `/faq/${article.title}`,
+                        query: {
+                          description: article.description,
+                          title: article.title,
+                        },
+                      }}
+                    >
                       <Typography
                         fontSize="14px"
                         color="#6B6778"
                         mb={2}
-                        key={article}
+                        key={article.title}
                       >
-                        {article}
+                        {article.title}
                       </Typography>
                     </Link>
                     <BsChevronRight size={15} color="black" />

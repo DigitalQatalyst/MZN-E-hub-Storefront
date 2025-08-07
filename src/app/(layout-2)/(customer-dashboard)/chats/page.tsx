@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import Box from "@component/Box";
 import Typography from "@component/Typography";
 import {
@@ -13,54 +13,62 @@ import {
   MicIcon,
   Image,
 } from "lucide-react";
-import React, { Fragment, useState, useRef, useEffect } from "react";
+import React, { Fragment, useState, useRef, useEffect, ChangeEvent } from "react";
 import { BsThreeDotsVertical, BsCheck2All } from "react-icons/bs";
-import { chats } from "./constants";
-import { Input, IconButton, Avatar } from "@mui/material";
+import { Input, IconButton, Avatar, CircularProgress } from "@mui/material";
 import { format } from "date-fns";
 import { Button } from "@component/buttons";
+import { initChat, startChat, sendMessage as sendToAgent, onMessageReceived, uploadFile, canCall, startCall } from "./omnichannel";
 
 const ChatPage = () => {
   const [message, setMessage] = useState("");
-  const [chatMessages, setChatMessages] = useState(chats);
+  const [chatMessages, setChatMessages] = useState([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [callAvailable, setCallAvailable] = useState(false);
 
-  const handleSendMessage = (e: React.FormEvent) => {
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      setIsUploading(true);
+      await uploadFile(file);
+      // Optionally echo the filename into chat:
+      setChatMessages(prev => [
+        ...prev,
+        { id: Date.now(), name: "You", message: file.name, time: formatTime(new Date()), usertype: "sender" }
+      ]);
+    } catch (err) {
+      console.error("Attachment failed", err);
+    }finally {
+      setIsUploading(false);
+    }
+  };
+
+
+  const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) return;
 
     const newMessage = {
-      id: chatMessages.length + 1, // Use sequential ID to match existing pattern
-      name: "You", // Add the name field to match the expected type
-      message: message,
-      time: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
+      id: chatMessages.length + 1,
+      name: "You",
+      message,
+      time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       usertype: "sender" as const,
     };
 
-    setChatMessages((prevMessages) => {
-      const updatedMessages = [...prevMessages, newMessage];
-      // Scroll to bottom after state update
-      setTimeout(() => {
-        const container = document.querySelector(".messages-container");
-        if (container) {
-          container.scrollTop = container.scrollHeight;
-        }
-      }, 0);
-      return updatedMessages;
-    });
+    setChatMessages((prev) => [...prev, newMessage]);
     setMessage("");
-  };
 
-  useEffect(() => {
-    const container = document.querySelector(".messages-container");
-    if (container) {
-      container.scrollTop = container.scrollHeight;
+    try {
+      await sendToAgent(message);
+    } catch (error) {
+      console.error("Failed to send message:", error);
     }
-  }, [chatMessages]);
-
+  };
   const formatTime = (dateString: string | Date) => {
     try {
       if (!dateString) return "";
@@ -74,6 +82,51 @@ const ChatPage = () => {
       return "";
     }
   };
+  const handleCallClick = async () => {
+    try {
+      const { joinUrl } = await startCall("Audio");
+      window.open(joinUrl, "_blank");
+    } catch (err) {
+      console.error("Call failed", err);
+    }
+  };
+  const hasAttachedListener = useRef(false);
+  useEffect(() => {
+    const setupChat = async () => {
+      await initChat();
+      await startChat();
+      if (!hasAttachedListener.current){
+        onMessageReceived((incomingMessage) => {
+          const newMessage = {
+            id: Date.now(), // use timestamp for unique id
+            name: "Agent",
+            message: incomingMessage.content,
+            time: formatTime(incomingMessage.timestamp),
+            usertype: "receiver",
+          };
+          setChatMessages((prev) => [...prev, newMessage]);
+        });
+
+        hasAttachedListener.current = true;
+      }
+    };
+
+    setupChat();
+  }, []);
+  useEffect(() => {
+      const c = containerRef.current;
+      if (c) {
+        // instant jump:
+        c.scrollTo(0, c.scrollHeight);
+        // or for smooth scroll:
+        // c.scrollTo({ top: c.scrollHeight, behavior: "smooth" });
+      }
+    }, [chatMessages]);
+  useEffect(() => {
+    setCallAvailable(canCall());
+  }, []);
+
+
   return (
     <Fragment>
       <Box
@@ -211,7 +264,11 @@ const ChatPage = () => {
               gap: "8px",
             }}
           >
-            <PhoneCall size={20} color="grey" />
+            {callAvailable && (
+              <IconButton onClick={handleCallClick}>
+                <PhoneCall size={20} />
+              </IconButton>
+            )}
             <VideoIcon size={20} color="grey" />
             <Search size={20} color="grey" />
             <BsThreeDotsVertical size={20} color="grey" />
@@ -220,6 +277,7 @@ const ChatPage = () => {
 
         {/* Messages Container */}
         <Box
+          ref={containerRef}
           style={{
             flex: 1,
             padding: "20px",
@@ -391,9 +449,24 @@ const ChatPage = () => {
               boxShadow: "0px 3px 3px 2px rgba(16, 24, 40, 0.05)",
             }}
           >
-            {/* <IconButton style={{ color: "#667085" }}>
-            <Paperclip size={20} />
-          </IconButton> */}
+            {/* ← INSERT YOUR ATTACH BUTTON & HIDDEN INPUT HERE */}
+            <IconButton
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isUploading}
+              style={{ color: "#667085" }}
+            >
+              {isUploading ? (
+                <CircularProgress size={20} thickness={4} />
+              ) : (
+                <Paperclip size={20} />
+              )}
+            </IconButton>
+            <input
+              type="file"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              onChange={handleFileChange}
+            />
             <form
               onSubmit={handleSendMessage}
               style={{
@@ -441,9 +514,6 @@ const ChatPage = () => {
               >
                 <IconButton style={{ color: "#667085" }}>
                   <MicIcon size={20} />
-                </IconButton>
-                <IconButton style={{ color: "#667085" }}>
-                  <Image size={20} />
                 </IconButton>
               </Box>
               <Button

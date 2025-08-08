@@ -14,6 +14,7 @@ import { relatedProducts } from "__server__/__db__/related-products/data";
 import { Carousel } from "@component/carousel";
 import { border, fontWeight } from "styled-system";
 import Image from "next/image";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 
 const TabButton = styled(Button)<{ active?: boolean }>`
   padding: 0.75rem 1.5rem;
@@ -84,6 +85,9 @@ interface Props {
 
 export default function ProductDetails({ product }: Props) {
   const [activeTab, setActiveTab] = useState<TabType>("description");
+  const [showAllDocs, setShowAllDocs] = useState(false);
+  const [showAllSteps, setShowAllSteps] = useState(false); // Add this state
+
   console.log(product);
   const responsive = [
     { breakpoint: 959, settings: { slidesToShow: 2 } },
@@ -108,30 +112,69 @@ export default function ProductDetails({ product }: Props) {
     </ContentBox>
   );
 
-  const renderDocuments = () => (
-    <ContentBox display="flex" style={{ gap: "1rem" }}>
-      <DocumentItem mb="1rem" flex="1">
-        <Span fontWeight="bold">Overview</Span>
-        <p>{product.description}</p>
-      </DocumentItem>
-      <DocumentItem flex="1">
-        <Span fontWeight="bold">Required Documents</Span>
-        {product?.requiredDocuments && product?.requiredDocuments.length > 0 ? (
-          <ol style={{ paddingLeft: "4%" }}>
-            {product.requiredDocuments.map((doc, index) => (
-              <li key={index}>
-                <DocumentItem as="span" mb="0">
-                  {doc}
-                </DocumentItem>
-              </li>
-            ))}
-          </ol>
-        ) : (
-          <DocumentItem>No documents listed.</DocumentItem>
-        )}
-      </DocumentItem>
-    </ContentBox>
-  );
+  const renderDocuments = () => {
+    const docs = product?.requiredDocuments || [];
+    const showButton = docs.length > 4;
+    const visibleDocs = showAllDocs ? docs : docs.slice(0, 4);
+
+    return (
+      <ContentBox display="flex" style={{ gap: "1rem" }}>
+        <DocumentItem mb="1rem" flex="1">
+          <Span fontWeight="bold">Overview</Span>
+          <p>{product.description}</p>
+        </DocumentItem>
+        <DocumentItem flex="1">
+          <Span fontWeight="bold">Required Documents</Span>
+          {docs.length > 0 ? (
+            <>
+              <ol style={{ paddingLeft: "4%" }}>
+                {visibleDocs.map((doc, index) => (
+                  <li key={index}>
+                    <DocumentItem as="span" mb="0">
+                      {doc}
+                    </DocumentItem>
+                  </li>
+                ))}
+              </ol>
+              {showButton && (
+                <Span
+                  style={{
+                    marginTop: "0.5rem",
+                    padding: 0,
+                    fontSize: 14,
+                    fontWeight: 600,
+                  }}
+                  onClick={() => setShowAllDocs((prev) => !prev)}
+                >
+                  {showAllDocs ? (
+                    <FlexBox
+                      alignItems="center"
+                      color="#0030E3"
+                      cursor="pointer"
+                    >
+                      <Span mr="1rem">Show Less</Span>
+                      <FaAngleUp />
+                    </FlexBox>
+                  ) : (
+                    <FlexBox
+                      alignItems="center"
+                      color="#0030E3"
+                      cursor="pointer"
+                    >
+                      <Span mr="1rem">Show More</Span>
+                      <FaAngleDown />
+                    </FlexBox>
+                  )}
+                </Span>
+              )}
+            </>
+          ) : (
+            <DocumentItem>No documents listed.</DocumentItem>
+          )}
+        </DocumentItem>
+      </ContentBox>
+    );
+  };
 
   const renderCost = () => (
     <ContentBox>
@@ -142,25 +185,57 @@ export default function ProductDetails({ product }: Props) {
     </ContentBox>
   );
 
-  const renderSteps = () => (
-    <ContentBox>
-      <DocumentItem mb="1rem" style={{ fontWeight: "bold" }}>
-        Steps:
-      </DocumentItem>
-      {product?.steps && product?.steps.length > 0 ? (
-        <ol style={{ paddingLeft: "2%" }}>
-          {product?.steps.map((step, index) => (
-            <li key={index}>
-              {" "}
-              <DocumentItem as="span">{step}</DocumentItem>
-            </li>
-          ))}
-        </ol>
-      ) : (
-        <DocumentItem>No steps listed.</DocumentItem>
-      )}
-    </ContentBox>
-  );
+  const renderSteps = () => {
+    const steps = product?.steps || [];
+    const showButton = steps.length > 4;
+    const visibleSteps = showAllSteps ? steps : steps.slice(0, 4);
+
+    return (
+      <ContentBox>
+        <DocumentItem mb="1rem" style={{ fontWeight: "bold" }}>
+          Steps:
+        </DocumentItem>
+        {steps.length > 0 ? (
+          <>
+            <ol style={{ paddingLeft: "2%" }}>
+              {visibleSteps.map((step, index) => (
+                <li key={index}>
+                  <DocumentItem as="span">{step}</DocumentItem>
+                </li>
+              ))}
+            </ol>
+            {showButton && (
+              <Span
+                style={{
+                  marginTop: "0.5rem",
+                  padding: 0,
+                  fontSize: 14,
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  display: "inline-block",
+                }}
+                onClick={() => setShowAllSteps((prev) => !prev)}
+              >
+                {showAllSteps ? (
+                  <FlexBox alignItems="center" color="#0030E3" cursor="pointer">
+                    <Span mr="1rem">Show Less</Span>
+                    <FaAngleUp />
+                  </FlexBox>
+                ) : (
+                  <FlexBox alignItems="center" color="#0030E3" cursor="pointer">
+                    <Span mr="1rem">Show More</Span>
+                    <FaAngleDown />
+                  </FlexBox>
+                )}
+              </Span>
+            )}
+          </>
+        ) : (
+          <DocumentItem>No steps listed.</DocumentItem>
+        )}
+      </ContentBox>
+    );
+  };
 
   const renderTerms = () => (
     <ContentBox>

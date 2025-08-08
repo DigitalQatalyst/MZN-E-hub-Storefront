@@ -117,6 +117,8 @@ const KnowledgeBase: React.FC = () => {
                         query: {
                           description: article.description,
                           title: article.title,
+                          breadcumptitle: item?.title,
+                          test: "test",
                         },
                       }}
                     >

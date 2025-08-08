@@ -14,6 +14,12 @@ const SearchSection = () => {
           justifyContent: "center",
           height: "30vh",
           backgroundColor: "#F4F3FE",
+          // background image
+          backgroundImage: "url('../../images/faqbg.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          top: 0,
         }}
       >
         <Box

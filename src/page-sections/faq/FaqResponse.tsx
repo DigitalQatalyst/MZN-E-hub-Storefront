@@ -33,8 +33,7 @@ const relatedarticles = [
 ];
 
 const FaqResponse = ({ articledata }: { articledata: any }) => {
-  const { title, description } = articledata;
-  console.log(title, description);
+  console.log("articledata", articledata);
   return (
     <Box
       sx={{
@@ -67,7 +66,7 @@ const FaqResponse = ({ articledata }: { articledata: any }) => {
                 textAlign="start"
                 mb={2}
               >
-                {title}
+                {articledata.title}
               </Typography>
               <Typography
                 fontSize="15px"
@@ -96,7 +95,7 @@ const FaqResponse = ({ articledata }: { articledata: any }) => {
                 textAlign="start"
                 mb={2}
               >
-                {description}
+                {articledata.description}
               </Typography>
 
               {/* image */}

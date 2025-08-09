@@ -6,7 +6,7 @@ import { Footer1 } from "@component/footer";
 import TabNavigation from "@component/tab-navigation";
 import ProfilePage from "@component/profile-page";
 import SecurityPage from "@component/security-page";
-// import NotificationsPage from "@component/notifications-page";
+import NotificationsPage from "@component/notifications-page";
 
 export default function AccountPage() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -17,8 +17,8 @@ export default function AccountPage() {
         return <ProfilePage />;
       case "security":
         return <SecurityPage />;
-      // case "notifications":
-      //   return <NotificationsPage />;
+      case "notifications":
+        return <NotificationsPage />;
       default:
         return <ProfilePage />;
     }

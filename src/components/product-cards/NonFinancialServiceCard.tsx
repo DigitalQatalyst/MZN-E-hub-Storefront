@@ -21,6 +21,7 @@ const CardBox = styled(Box)(({ theme }) => ({
   transition: "all 0.3s",
   borderRadius: "8px",
   background: "#FFF",
+  marginBottom: "0.5rem",
   boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.15), 0px 1px 3px 1px rgba(0, 0, 0, 0.08)",
   "&:hover": {
     ".product-img": {

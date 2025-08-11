@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, CheckCircle, X } from 'lucide-react';
+import { ChevronLeft, Check, CheckCircle, X } from 'lucide-react';
 import { useRouter, useParams } from 'next/navigation';
 import styled from 'styled-components';
 import Container from '@component/Container';
@@ -66,8 +66,10 @@ const TabButton = styled.button<{ isActive: boolean }>`
 const ProgressContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin: 32px 0;
   position: relative;
+  width: 100%;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -80,39 +82,65 @@ const ProgressStep = styled.div<{ status: 'completed' | 'current' | 'pending' }>
   display: flex;
   align-items: center;
   position: relative;
+  z-index: 2;
 
   @media (max-width: 768px) {
     width: 100%;
   }
 `;
 
+const StepNumber = styled.div<{ status: 'completed' | 'current' | 'pending' }>`
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  margin-right: 12px;
+  color: ${({ status }) => {
+    switch (status) {
+      case 'completed': return '#7367F0';
+      case 'current': return '#7367F0';
+      case 'pending': return '#9ca3af';
+      default: return '#9ca3af';
+    }
+  }};
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
+`;
+
 const StepIcon = styled.div<{ status: 'completed' | 'current' | 'pending' }>`
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  font-size: 14px;
   margin-right: 12px;
   flex-shrink: 0;
-  position: relative;
-  z-index: 2;
+  border: 2px solid;
+  
+  border-color: ${({ status }) => {
+    switch (status) {
+      case 'completed': return '#7367F0';
+      case 'current': return '#7367F0';
+      case 'pending': return '#e5e7eb';
+      default: return '#e5e7eb';
+    }
+  }};
   
   background-color: ${({ status }) => {
     switch (status) {
-      case 'completed': return '#10b981';
-      case 'current': return '#0030E3';
-      case 'pending': return '#e5e7eb';
-      default: return '#e5e7eb';
+      case 'completed': return '#7367F0';
+      case 'current': return 'white';
+      case 'pending': return 'white';
+      default: return 'white';
     }
   }};
   
   color: ${({ status }) => {
     switch (status) {
       case 'completed': return 'white';
-      case 'current': return 'white';
+      case 'current': return '#7367F0';
       case 'pending': return '#9ca3af';
       default: return '#9ca3af';
     }
@@ -120,19 +148,13 @@ const StepIcon = styled.div<{ status: 'completed' | 'current' | 'pending' }>`
 `;
 
 const StepContent = styled.div`
-  position: relative;
-  z-index: 1;
-  margin-right: 48px;
-
-  @media (max-width: 768px) {
-    margin-right: 0;
-  }
+  display: flex;
+  flex-direction: column;
 `;
 
 const StepTitle = styled.div<{ status: 'completed' | 'current' | 'pending' }>`
   font-size: 14px;
   font-weight: 500;
-  text-decoration: none !important;
   white-space: nowrap;
   color: ${({ status }) => {
     switch (status) {
@@ -144,12 +166,11 @@ const StepTitle = styled.div<{ status: 'completed' | 'current' | 'pending' }>`
   }};
 `;
 
-const ConnectorLine = styled.div<{ isActive: boolean }>`
-  width: 80px;
+const ConnectorLine = styled.div<{ isCompleted: boolean }>`
+  flex: 1;
   height: 2px;
-  background-color: ${({ isActive }) => isActive ? '#0030E3' : '#e5e7eb'};
-  margin: 0 16px;
-  
+  background-color: ${({ isCompleted }) => isCompleted ? '#7367F0' : '#e5e7eb'};
+  margin: 0 24px;
   @media (max-width: 768px) {
     display: none;
   }
@@ -160,11 +181,6 @@ const DetailRow = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 12px 0;
-  border-bottom: 1px solid #f3f4f6;
-
-  &:last-child {
-    border-bottom: none;
-  }
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -185,8 +201,17 @@ const DetailValue = styled.span<{ color?: string }>`
   font-weight: 500;
 `;
 
+const StatusBadge = styled.span`
+  color: #FF9F43;
+  background-color: #FF9F4329;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+`;
+
 const SuccessMessage = styled(Card)`
-  background-color: #d1fae5;
+  background-color: #28C76F29;
   border: 1px solid #a7f3d0;
   border-radius: 8px;
   padding: 16px;
@@ -200,14 +225,14 @@ const CloseButton = styled.button`
   right: 12px;
   background: none;
   border: none;
-  color: #10b981;
+  color: #28C76F;
   cursor: pointer;
   padding: 4px;
   border-radius: 4px;
   transition: background-color 0.2s ease;
 
   &:hover {
-    background-color: rgba(16, 185, 129, 0.1);
+    background-color: rgba(40, 199, 111, 0.1);
   }
 `;
 
@@ -293,11 +318,12 @@ const ApplicationProgressPage: React.FC<ApplicationProgressProps> = () => {
             {progressSteps.map((step, index) => (
               <React.Fragment key={step.id}>
                 <ProgressStep status={step.status}>
+                  <StepNumber status={step.status}>
+                    {String(step.id).padStart(2, '0')}
+                  </StepNumber>
                   <StepIcon status={step.status}>
-                    {step.status === 'completed' ? (
-                      <CheckCircle size={16} />
-                    ) : (
-                      String(step.id).padStart(2, '0')
+                    {step.status === 'completed' && (
+                      <Check size={14} />
                     )}
                   </StepIcon>
                   <StepContent>
@@ -307,7 +333,7 @@ const ApplicationProgressPage: React.FC<ApplicationProgressProps> = () => {
                 
                 {/* Connector line between steps */}
                 {index < progressSteps.length - 1 && (
-                  <ConnectorLine isActive={step.status === 'completed'} />
+                  <ConnectorLine isCompleted={step.status === 'completed'} />
                 )}
               </React.Fragment>
             ))}
@@ -329,7 +355,7 @@ const ApplicationProgressPage: React.FC<ApplicationProgressProps> = () => {
             <Box>
               <DetailRow>
                 <DetailLabel>Status</DetailLabel>
-                <DetailValue color="#d97706">{applicationData.status}</DetailValue>
+                <StatusBadge>{applicationData.status}</StatusBadge>
               </DetailRow>
               
               <DetailRow>
@@ -347,12 +373,11 @@ const ApplicationProgressPage: React.FC<ApplicationProgressProps> = () => {
 
         {/* Success Message */}
         {showSuccessMessage && (
-          <Box>
+          <Card border="1px solid #e5e7eb" borderRadius="8px" p="32px" bg="white" mt="32px">
             <Typography
               fontSize={isMobile ? '18px' : '20px'}
               fontWeight="600"
               color="#6b7280"
-              mt="32px"
               mb="16px"
             >
               Application Submitted Successfully
@@ -365,14 +390,14 @@ const ApplicationProgressPage: React.FC<ApplicationProgressProps> = () => {
               
               <FlexBox alignItems="flex-start">
                 <Box mr="12px" mt="2px">
-                  <CheckCircle size={20} color="#10b981" />
+                  <CheckCircle size={20} color="#28C76F" />
                 </Box>
                 
                 <Box flex="1">
                   <Typography
                     fontSize="14px"
                     fontWeight="600"
-                    color="#10b981"
+                    color="#28C76F"
                     mb="4px"
                   >
                     Message
@@ -380,7 +405,7 @@ const ApplicationProgressPage: React.FC<ApplicationProgressProps> = () => {
                   
                   <Typography
                     fontSize="14px"
-                    color="#059669"
+                    color="#28C76F"
                     lineHeight="1.5"
                   >
                     Your application has been successfully submitted and is now under review. You can track the progress and review your application details below. We will notify you via email and SMS whenever there is an update or change in the status of your application.
@@ -388,7 +413,7 @@ const ApplicationProgressPage: React.FC<ApplicationProgressProps> = () => {
                 </Box>
               </FlexBox>
             </SuccessMessage>
-          </Box>
+          </Card>
         )}
       </Container>
     </Box>

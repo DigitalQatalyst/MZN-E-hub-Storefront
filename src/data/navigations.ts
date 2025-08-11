@@ -2,7 +2,7 @@ const navigations = [
   {
     icon: "all_inclusive",
     title: "Non-Financial",
-    href: "",
+    href: "/non-financial-marketplace",
     menuComponent: "MegaMenu1",
     menuData: {
       categories: [
@@ -66,7 +66,7 @@ const navigations = [
   {
     icon: "money_bag",
     title: "Financial",
-    href: "",
+    href: "/services",
     menuComponent: "MegaMenu1",
     menuData: {
       categories: [
@@ -144,7 +144,7 @@ const navigations = [
   {
     icon: "forum",
     title: "Communities",
-    href: "",
+    href: "/community-marketplace",
     menuComponent: "MegaMenu1",
     menuData: {
       categories: [
@@ -258,7 +258,7 @@ const navigations = [
   {
     icon: "brand_awareness",
     title: "Media",
-    href: "",
+    href: "https://kf-ej-media-marketplace-reruapfib-digitalqatalysts-projects.vercel.app/media/",
     menuComponent: "MegaMenu2",
     menuData: [
       {

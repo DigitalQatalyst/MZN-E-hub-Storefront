@@ -510,8 +510,7 @@ export default function Section15() {
           <MarketplaceSubheadingText>Featured Services</MarketplaceSubheadingText>
         </Subheading>
         <DescriptionButtonWrapper>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-            <Description>
+          <Description>
               A quick look at the most active services this quarter—driven by SME demand<br /> and partner momentum.
             </Description>
             <Link href={`/services`}>

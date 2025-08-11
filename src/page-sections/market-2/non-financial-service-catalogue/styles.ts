@@ -20,13 +20,19 @@ export const ListItem = styled("li")(({ theme }) => ({
   // // },
 }));
 
-export const List = styled("ul")({
-  padding: 0,
-  marginBottom: "1.5rem",
-  // backgroundColor: "#f7f7f7",
-  // borderRadius: "8px",
-  // boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-});
+// export const List = styled("ul")({
+//   padding: 0,
+//   marginBottom: "1.5rem",
+//   // backgroundColor: "#f7f7f7",
+//   // borderRadius: "8px",
+//   // boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+// });
+
+export const List = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+`;
 
 export const DropdownIcon = styled.img`
   display: flex;
@@ -57,40 +63,42 @@ export const DropdownText = styled(ListItem)`
   padding: 5px 0;
   cursor: pointer;
   margin-left: 20px;
+ 
 `;
 
-// Style for the checkboxes
 export const CheckboxLabel = styled.label`
-  display: flex; /* Use flexbox to align items */
-  align-items: center; /* Vertically center all items */
-  font-size: 14px;
-  color: "var(--KF-BG-Dark-Blue, #003366)";
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
   cursor: pointer;
-  line-height: 1.5;
-  margin-bottom: 8px;
-  position: relative; /* Ensure positioning context for children */
-  width: 100%; /* Ensure the label takes full width of the container */
 
   input[type="checkbox"] {
-    margin-right: 8px; /* Space between checkbox and label */
-    margin-left: 0; /* Remove left padding since we're using flex */
-    accent-color: "var(--KF-BG-Dark-Blue, #003366)"; /* Style the checkbox to match the blue color */
-    flex-shrink: 0; /* Prevent the checkbox from shrinking */
+    appearance: none;
+    width: 1.25rem; // Fixed rem unit
+    height: 1.25rem; // Fixed rem unit
+    margin-right: 0.5rem;
+    background-image: url("/assets/images/non_financial_marketplace/Checkbox.svg");
+    background-size: 100% 100%; // Force uniform scaling to fill the container
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    border-radius: 4px;
+    flex-shrink: 0; // Prevent shrinking
+
+    &:checked {
+      background-image: url("/assets/images/non_financial_marketplace/check.svg");
+      background-color: #002180;
+      background-size: 100% 100%; // Force uniform scaling for checked state
+      background-repeat: no-repeat;
+      background-position: center;
+      border-radius: 4px;
+    }
   }
 
   label {
-    flex: 1; /* Allow the label text to take up remaining space */
-    margin-right: 0.5rem; /* Space between label text and dropdown icon */
-  }
-
-  img { /* Style for the dropdown icon */
-    margin-left: auto; /* Push the icon to the far right */
-    vertical-align: middle; /* Ensure the icon aligns with the text baseline */
-  }
-
-  /* Checkmark style for checked boxes */
-  input[type="checkbox"]:checked + span {
-    color: "var(--KF-BG-Dark-Blue, #003366)";
+    font-size: 14px;
+    color: #333;
+    flex-grow: 1; // Allow label to grow and push checkbox to consistent size
   }
 `;
 
@@ -114,4 +122,17 @@ export const ShowingText = styled.h4`
   font-weight: 400;
   line-height: normal;
   margin-bottom: 150px ; 
+`;
+
+export const SectionContainer = styled.div`
+  // margin-top: 25px;
+  // margin-bottom: 2rem;
+
+  @media (min-width: 600px) {
+    margin-bottom: 3rem;
+  }
+
+  @media (min-width: 960px) {
+    margin-bottom: 4rem;
+  }
 `;

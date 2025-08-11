@@ -29,10 +29,10 @@ export default function Footer1() {
   // Render a footer column with links and optional badges
   const renderFooterColumn = (columnKey: string, columnData: any) => (
     <Grid item lg={2.4} md={4} sm={6} xs={12} key={columnKey}>
-      <Typography 
-        mb="1.5rem" 
-        lineHeight="1" 
-        fontSize="14px" 
+      <Typography
+        mb="1.5rem"
+        lineHeight="1"
+        fontSize="14px"
         fontWeight="600"
         color="white"
       >
@@ -40,32 +40,32 @@ export default function Footer1() {
       </Typography>
       <div>
         {columnData.links.map((linkItem: any, index: number) => (
-          <StyledLink 
-            href={linkItem.url} 
+          <StyledLink
+            href={linkItem.url}
             key={index}
-            style={{ 
-              color: 'rgba(255,255,255,0.8)',
-              display: 'block',
-              marginBottom: '0.75rem',
-              fontSize: '14px',
-              textDecoration: 'none',
-              transition: 'color 0.2s ease'
+            style={{
+              color: "rgba(255,255,255,0.8)",
+              display: "block",
+              marginBottom: "0.75rem",
+              fontSize: "14px",
+              textDecoration: "none",
+              transition: "color 0.2s ease",
             }}
           >
             {linkItem.name}
             {/* Add badge if present */}
             {linkItem.badge && (
-              <Box 
-                as="span" 
-                ml="0.5rem" 
-                px="0.5rem" 
-                py="0.25rem" 
+              <Box
+                as="span"
+                ml="0.5rem"
+                px="0.5rem"
+                py="0.25rem"
                 style={{
-                  backgroundColor: 'white',
-                  color: '#0030E3',
-                  borderRadius: '4px',
-                  fontSize: '12px',
-                  fontWeight: '600'
+                  backgroundColor: "white",
+                  color: "#0030E3",
+                  borderRadius: "4px",
+                  fontSize: "12px",
+                  fontWeight: "600",
                 }}
               >
                 {linkItem.badge}
@@ -128,34 +128,34 @@ export default function Footer1() {
                       onChange={(e) => setEmail(e.target.value)}
                       required
                       style={{
-                        width: '100%',
-                        backgroundColor: 'transparent',
-                        border: '1px solid rgba(255,255,255,0.2)',
-                        color: 'white',
-                        borderRadius: '12px',
-                        padding: '14px 120px 14px 16px', // Extra right padding for button
-                        fontSize: '16px',
-                        outline: 'none',
-                        transition: 'border-color 0.2s ease'
+                        width: "100%",
+                        backgroundColor: "transparent",
+                        border: "1px solid rgba(255,255,255,0.2)",
+                        color: "white",
+                        borderRadius: "12px",
+                        padding: "14px 120px 14px 16px", // Extra right padding for button
+                        fontSize: "16px",
+                        outline: "none",
+                        transition: "border-color 0.2s ease",
                       }}
                     />
-                    <SubscribeButton 
+                    <SubscribeButton
                       type="submit"
                       style={{
-                        position: 'absolute',
-                        right: '6px',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        backgroundColor: 'white',
-                        color: '#0030E3',
-                        borderRadius: '8px',
-                        fontWeight: '600',
-                        border: 'none',
-                        padding: '10px 20px',
-                        fontSize: '14px',
-                        cursor: 'pointer',
-                        transition: 'transform 0.2s ease',
-                        whiteSpace: 'nowrap'
+                        position: "absolute",
+                        right: "6px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        backgroundColor: "white",
+                        color: "#0030E3",
+                        borderRadius: "8px",
+                        fontWeight: "600",
+                        border: "none",
+                        padding: "10px 20px",
+                        fontSize: "14px",
+                        cursor: "pointer",
+                        transition: "transform 0.2s ease",
+                        whiteSpace: "nowrap",
                       }}
                     >
                       Subscribe
@@ -231,6 +231,7 @@ export default function Footer1() {
                   mr="1rem"
                   style={{ textDecoration: 'none' }}
                 >
+                  Terms of Service
                   Terms of Service
                 </Typography>
               </FlexBox>

@@ -1,5 +1,5 @@
 "use client";
-
+ 
 import Box from "../Box";
 import Card from "../Card";
 import Badge from "../badge";
@@ -11,7 +11,7 @@ import { Button } from "../buttons";
 import Container from "../Container";
 import Typography, { Span } from "../Typography";
 import Categories from "../categories/Categories";
-
+ 
 import StyledNavbar from "./marketStyles";
 
 interface Nav {
@@ -21,24 +21,19 @@ interface Nav {
   badge: string;
   extLink?: boolean;
 }
-
+ 
 type NavbarProps = { navListOpen?: boolean };
 // ==============================================================
-
+ 
 export default function Navbar({ navListOpen }: NavbarProps) {
   return (
     <StyledNavbar>
-      <Container
-        height="100%"
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-      >
+      <Container height="100%" display="flex" alignItems="center" justifyContent="space-between">
         {/* Logo Section */}
         <Box className="navbar-logo">
           <img src="/assets/images/tab_bar/Subtract.svg" alt="MZN Enterprise Hub" height="100%"style={{marginLeft: "-88px"}} />
         </Box>
-
+ 
         {/* Categories Section */}
         <Categories open={navListOpen}>
           <Button width="320px" height="40px" bg="body.default" variant="text" marginRight={550} borderRadius={6}>
@@ -53,33 +48,19 @@ export default function Navbar({ navListOpen }: NavbarProps) {
               lineHeight="26px"
               color="#0030E3"
             >
-              Explores
+              Explore
             </Typography>
-
+ 
             <Icon className="dropdown-icon" variant="small">
+              chevron-right
               chevron-right
             </Icon>
           </Button>
         </Categories>
 
-        {/* Hardcoded Navigation Links 
-        <FlexBox style={{ gap: 32 }}>
-          <NavLink className="nav-link" href="#">
-            <FlexBox alignItems="center">
-              <Span className="nav-link">Business in AbuDhabi</Span>
-            </FlexBox>
-          </NavLink>
-          <NavLink className="nav-link" href="/faq">
-            <FlexBox alignItems="center">
-              <Span className="nav-link">Help Centre</Span>
-            </FlexBox>
-          </NavLink>
-        </FlexBox>
-        */}
-
-        {/* Search Icon, Sign In, and Sign Up Buttons */}
-        <FlexBox alignItems="center" style={{ gap: "15px" }}>
-          {/* Search Icon (Replace with your actual SVG) */}
+        {/* Search Icon, Bookmark, and User Profile */}
+        <FlexBox alignItems="center" style={{ gap: "15px", marginRight: "-88px" }}>
+          {/* Search Icon */}
           <Box className="search-icon" style={{ cursor: "pointer" }}>
             <img src="/assets/images/logos/search.svg" alt="Search" height="20px" />
           </Box>

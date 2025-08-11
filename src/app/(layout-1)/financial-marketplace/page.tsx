@@ -1,16 +1,15 @@
 "use client";
 
-
 import { Fragment, useState } from "react";
-// GLOBAL CUSTOM COMPONENTS
 import Box from "@component/Box";
 import NavbarMarketplace from "@component/navbar/NavbarMarketplace";
-import NonFinancialServiceCatalogue from "@sections/market-2/non-financial-service-catalogue";
+import FinancialServiceCatalogue from "@sections/market-2/financial-service-catalogue";
+
 
 export default function MarketTwo() {
   const [activeButton, setActiveButton] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  
+
   return (
     <Fragment>
       {/* NAVBAR AREA */}
@@ -18,7 +17,8 @@ export default function MarketTwo() {
 
       <Box bg="#F6F6F6">
         
-          <NonFinancialServiceCatalogue activeButton={activeButton} setActiveButton={setActiveButton} />
+        <FinancialServiceCatalogue activeButton={activeButton} setActiveButton={setActiveButton} />
+
       </Box>
     </Fragment>
   );

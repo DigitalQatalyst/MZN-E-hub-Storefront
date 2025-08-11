@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import Icon from "./icon/Icon";
 import FlexBox from "./FlexBox";
-import { H2, H5, SemiSpan } from "./Typography";
+import { H2, H5 } from "./Typography";
 import { Button } from "./buttons";
 import { useState } from "react";
 import { colors } from "@utils/themeColors";
@@ -40,6 +39,9 @@ export default function CategorySectionHeader({
   const [selectedCategory, setSelectedCategory] = useState<string>(
     propSelectedCategory || "Industry"
   );
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    propSelectedCategory || "Industry"
+  );
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   const handleCategoryChange = (category: string) => {
@@ -52,6 +54,12 @@ export default function CategorySectionHeader({
   };
 
   return (
+    <FlexBox
+      justifyContent="space-between"
+      alignItems="center"
+      mb="2.5rem"
+      flexWrap="wrap"
+    >
     <FlexBox alignItems="center" mb="2.5rem" flexWrap="wrap">
       <FlexBox alignItems="flex-start" flexDirection="column">
         <H2
@@ -60,8 +68,15 @@ export default function CategorySectionHeader({
           marginBottom="20px"
           color={colors.primary.main}
         >
+        <H2
+          fontWeight="bold"
+          lineHeight="1"
+          marginBottom="20px"
+          color={colors.primary.main}
+        >
           {title}
         </H2>
+        <H5 />
       </FlexBox>
 
       {/* Continuous Search Bar with Category Dropdown and Search Field */}
@@ -108,6 +123,46 @@ export default function CategorySectionHeader({
           </Select>
         </FormControl>
 
+        {/* Search Bar */}
+        <TextField
+          label="Search Communities"
+          variant="outlined"
+          fullWidth
+          value={searchTerm}
+          onChange={handleSearchChange}
+          style={{ width: "50%" }}
+        />
+      </FlexBox>
+
+      {/* Category Selection Buttons */}
+      <FlexBox>
+        {categories.map((category) => (
+          <Link
+            href={category === "View All" ? "/services" : "#"}
+            key={category}
+          >
+            <Button
+              onClick={() => handleCategoryChange(category)}
+              style={{
+                marginRight: "8px",
+                border: `${
+                  selectedCategory === category
+                    ? colors.primary.main
+                    : "#D8E0E9"
+                }`, // Primary color for selected, #D8E0E9 for unselected
+                color:
+                  selectedCategory === category
+                    ? colors.primary.main
+                    : "#2B3445", // Primary color for selected, #2B3445 for unselected
+                backgroundColor: "transparent", // Ensure no background color
+                padding: "8px 16px", // Consistent padding
+                borderRadius: "4px", // Slight rounding for aesthetics
+              }}
+            >
+              {category}
+            </Button>
+          </Link>
+        ))}
         {/* Search Bar */}
         <TextField
           label="Search Communities"

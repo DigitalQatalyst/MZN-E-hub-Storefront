@@ -17,8 +17,7 @@ const CardBox = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   width: "100%",
-  minHeight: "200px",
-  height: "auto",
+  minHeight: "200px", // Removed fixed height
   padding: "16px",
   transition: "all 0.3s",
   borderRadius: "8px",
@@ -39,9 +38,17 @@ const CardBox = styled(Box)(({ theme }) => ({
     padding: "10px",
   },
   
+   marginBottom: "0.5rem",
+  boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.15), 0px 1px 3px 1px rgba(0, 0, 0, 0.08)",
   "&:hover": {
     ".product-img": {
       transform: "scale(1.1)",
+    },
+    ".eye-button": {
+      display: "block",
+    },
+    ".favorite-button": {
+      display: "block",
     },
   },
 }));
@@ -58,8 +65,8 @@ const CardMedia = styled(Box)(({ theme }) => ({
   
   ".product-img": {
     transition: "0.3s",
-    width: "80px", // Fixed width for the image
-    height: "80px", // Fixed height for the image
+    width: "100%", // Fixed width for the image
+    height: "auto", // Fixed height for the image
     objectFit: "contain",
   },
   
@@ -77,6 +84,7 @@ const CardMedia = styled(Box)(({ theme }) => ({
       width: "60px",
       height: "60px",
     },
+  
   },
 }));
 
@@ -90,6 +98,9 @@ const EyeButton = styled(IconButton)(() => ({
   "@media (max-width: 768px)": {
     right: "15px",
     top: "0px",
+  display: "none",
+  "&.eye-button": {
+    display: "none",
   },
 }));
 
@@ -103,6 +114,9 @@ const FavoriteButton = styled(IconButton)(() => ({
   "@media (max-width: 768px)": {
     right: "15px",
     top: "30px",
+  display: "none",
+  "&.favorite-button": {
+    display: "none",
   },
 }));
 
@@ -185,7 +199,7 @@ const StyledButton = styled(DefaultButton)`
   gap: 10px;
   align-self: stretch;
   border-radius: 100px;
-  width: 98px;
+  width: auto; // Changed to auto for responsiveness
   height: 25px;
   background-color: transparent;
   border: 1px solid #ccc;
@@ -234,8 +248,8 @@ const StyledButton = styled(DefaultButton)`
 `;
 
 const StyledImage = styled(NextImage)`
-  width: 80px;
-  height: 80px;
+  width: 73px;
+  height: auto; // Changed to auto for responsive scaling
   flex-shrink: 0;
   aspect-ratio: 1/1;
   
@@ -370,9 +384,10 @@ const ResponsiveIcon = styled(Icon)`
   @media (max-width: 500px) {
     font-size: 12px;
   }
+  // margin-top: 15px;
 `;
 
-type ProductCard19Props = {
+type FinancialServiceCardProps = {
   img: string;
   name: string;
   slug: string;
@@ -384,7 +399,7 @@ type ProductCard19Props = {
   className?: string;
 };
 
-export default function ProductCard19(props: ProductCard19Props) {
+export default function FinancialServiceCard(props: FinancialServiceCardProps) {
   const { img, name, subTitle, description, reviews, id, slug, images } = props;
 
   const { state, dispatch } = useAppContext();
@@ -404,31 +419,27 @@ export default function ProductCard19(props: ProductCard19Props) {
             <StyledImage src={img} width={80} height={80} alt="category" />
           </Link>
 
-          {/* <EyeButton onClick={() => setOpenDialog(true)}>
+          {/* <EyeButton className="eye-button" onClick={() => setOpenDialog(true)}>
             <Icon size="18px">eye</Icon>
           </EyeButton> */}
 
-          {/* <FavoriteButton onClick={handleFavorite}>
-          <Icon size="18px">Bookmark</Icon> */}
-            {/* {isFavorite ? <Icon size="18px">eye</Icon> : <Icon size="18px">Bookmark</Icon>} */}
-          {/* </FavoriteButton> */}
+          <FavoriteButton className="favorite-button" onClick={handleFavorite}>
+            <Icon size="18px">Bookmark</Icon>
+          </FavoriteButton>
         </CardMedia>
 
         <ContentBox>
           <StyledParagraph>{name}</StyledParagraph>
           <StyledH4 fontWeight={700}>{subTitle}</StyledH4>
 
-          {/* <FlexBox justifyContent="flex-start" alignItems="center" mb="1rem">
-            <Rating value={4} color="warn" size="small" />
-            <Small fontWeight={600} color="gray.500" ml=".3rem">
-              ({reviews})
-            </Small>
-          </FlexBox> */}
-          
           <StyledH5 fontWeight={700}>{description}</StyledH5>
-          
-          <BottomSection>
-            <StyledButton mt={3}>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            mt="1rem" // Replaced mt={3} with relative unit
+          >
+            <StyledButton>
               <span>Funding & Loans</span>
             </StyledButton>
 

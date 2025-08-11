@@ -3,7 +3,7 @@
 import Box from "@component/Box";
 import { Button as DefaultButton } from "@component/buttons";
 import { Carousel } from "@component/carousel";
-import { ProductCard19 } from "@component/product-cards";
+import { FinancialServiceCard } from "@component/product-cards";
 import CategorySectionCreator from "@component/CategorySectionCreator";
 import styled from "styled-components";
 import client from "@lib/graphQLClient";
@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 // STYLED COMPONENTS
 const ContentColumn = styled.div`
   color: #000;
-  padding: 40px 80px 10px 80px;
+  padding: 10px 80px;
   display: flex;
   flex-direction: column;
   font-family: 'Open Sans', sans-serif;
@@ -40,7 +40,7 @@ const Subheading = styled.div`
 const SubheadingText = styled.span`
   font-size: 16px;
   font-weight: 500;
-  color: #1a1a1a;
+  color: #1A1A1A;
   cursor: default;
   
   @media (max-width: 768px) {
@@ -49,8 +49,8 @@ const SubheadingText = styled.span`
 `;
 
 const MarketplaceSubheadingText = styled(SubheadingText)`
-  border-bottom: 2px solid #0030e3;
-  color: var(--KF-BG-Blue, #0030e3);
+  border-bottom: 2px solid #0030E3;
+  color: var(--KF-BG-Blue, #0030E3);
   text-align: center;
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
@@ -71,6 +71,7 @@ const MarketplaceSubheadingText = styled(SubheadingText)`
     padding-top: 1rem;
   }
 `;
+
 
 const Description = styled.p`
   color: var(--KF-BG-Black, #000);
@@ -120,6 +121,20 @@ const StyledHeader = styled.p`
   }
 `;
 
+const DescriptionButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 2rem;
+  
+  @media (max-width: 899px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+`;
+
 const StyledBody = styled.p`
   color: #000;
   font-family: "Public Sans", sans-serif;
@@ -156,7 +171,7 @@ const StyledBody = styled.p`
 
 const ExploreAllButton = styled(DefaultButton)`
   background-color: transparent;
-  color: #0030e3;
+  color: #0030E3;
   border: none;
   font-size: 16px;
   font-weight: 500;
@@ -164,37 +179,9 @@ const ExploreAllButton = styled(DefaultButton)`
   align-items: center;
   gap: 0.5rem;
   padding: 0;
-  white-space: nowrap;
-  flex-shrink: 0;
-  
-  @media (max-width: 768) {
-    font-size: 14px;
-    gap: 0.3rem;
-  }
-  
-  @media (max-width: 480px) {
-    font-size: 13px;
-    gap: 0.25rem;
-  }
-`;
 
-const DescriptionButtonWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  
-  @media (max-width: 899px) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  @media (max-width: 600px) {
-    margin-bottom: 1rem;
+  &:hover {
+    color: #A9C9FF;
   }
 `;
 
@@ -439,6 +426,11 @@ interface Product {
   name: string;
   slug: string;
   description: string;
+  title: string;
+  subTitle: string;
+  thumbnail: string;
+  images: string[];
+  reviews: number;
   facetValues: FacetValue[];
   customFields: {
     Industry?: string;
@@ -515,21 +507,21 @@ export default function Section15() {
           services.
         </StyledBody>
         <Subheading>
-          <MarketplaceSubheadingText>
-            Featured Services
-          </MarketplaceSubheadingText>
+          <MarketplaceSubheadingText>Featured Services</MarketplaceSubheadingText>
         </Subheading>
         <DescriptionButtonWrapper>
-          <Description>
-            A quick look at the most active services this quarter—driven by SME demand<br /> and partner momentum.
-          </Description>
-          <Link href={`/services`}>
-            <ExploreAllButton>
-              Explore more <span>→</span>
-            </ExploreAllButton>
-          </Link>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+            <Description>
+              A quick look at the most active services this quarter—driven by SME demand<br /> and partner momentum.
+            </Description>
+            <Link href={`/services`}>
+              <ExploreAllButton>
+                Explore more <span>→</span>
+              </ExploreAllButton>
+            </Link>
         </DescriptionButtonWrapper>
         <CarouselWrapper mb="-0.25rem">
+
           {loading ? (
             <Box py="3rem">
               <LoadingErrorWrapper>
@@ -549,29 +541,21 @@ export default function Section15() {
               </LoadingErrorWrapper>
             </Box>
           ) : (
-            <Carousel
-              slidesToShow={4}
-              slidesToScroll={1}
-              arrows
-              dots
-              infinite={products.length > 4}
-              autoplay={false}
-              responsive={responsive}
-            >
+            <Carousel slidesToShow={4} responsive={responsive}>
               {products.map((item) => (
-                <ProductCardWrapper key={item.id}>
-                  <ProductCard19
+                <Box py="3rem" key={item.id}>
+                  <FinancialServiceCard
                     id={item.id}
                     slug={item.slug}
-                    name={item.name}
-                    subTitle={item.customFields.Partner}
+                    name={item.title}
+                    subTitle={item.subTitle}
                     description={item.description}
-                    img={defaultImage}
-                    images={defaultImages}
-                    reviews={defaultReviews}
+                    img={item.thumbnail}
+                    images={item.images as string[]}
+                    reviews={item.reviews || 12}
                     className="product-card"
                   />
-                </ProductCardWrapper>
+                </Box>
               ))}
             </Carousel>
           )}
@@ -580,4 +564,3 @@ export default function Section15() {
     </CategorySectionCreator>
   );
 }
-

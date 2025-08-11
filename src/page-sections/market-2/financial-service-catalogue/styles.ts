@@ -20,13 +20,19 @@ export const ListItem = styled("li")(({ theme }) => ({
   // // },
 }));
 
-export const List = styled("ul")({
-  padding: 0,
-  marginBottom: "1.5rem",
-  // backgroundColor: "#f7f7f7",
-  // borderRadius: "8px",
-  // boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-});
+// export const List = styled("ul")({
+//   padding: 0,
+//   marginBottom: "1.5rem",
+//   // backgroundColor: "#f7f7f7",
+//   // borderRadius: "8px",
+//   // boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+// });
+
+export const List = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+`;
 
 export const DropdownIcon = styled.img`
   display: flex;
@@ -62,29 +68,38 @@ export const DropdownText = styled(ListItem)`
 
 // Style for the checkboxes
 export const CheckboxLabel = styled.label`
-  display: block;
-  font-size: 14px;
-  color: "var(--KF-BG-Dark-Blue, #003366)",;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
   cursor: pointer;
-  padding-left: 24px;
-  position: relative;
-  line-height: 1.5;
-  margin-bottom: 8px;
 
   input[type="checkbox"] {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    margin: 0;
-    accent-color: "var(--KF-BG-Dark-Blue, #003366)",; // Style the checkbox to match the blue color
+    appearance: none;
+    width: 1.25rem; // Changed to rem for scalability (20px equivalent)
+    height: 1.25rem; // Changed to rem for scalability (20px equivalent)
+    margin-right: 0.5rem;
+    background-image: url("/assets/images/non_financial_marketplace/Checkbox.svg");
+    background-size: 100% 100%; // Force uniform scaling to fill the container
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    border-radius: 4px;
+    flex-shrink: 0; // Prevent shrinking
+
+    &:checked {
+      background-image: url("/assets/images/non_financial_marketplace/check.svg");
+      background-color: #002180;
+      background-size: 100% 100%; // Force uniform scaling for checked state
+      background-repeat: no-repeat;
+      background-position: center;
+      border-radius: 4px;
+    }
   }
 
-  
-
-  /* Checkmark style for checked boxes */
-  input[type="checkbox"]:checked + span {
-    color: "var(--KF-BG-Dark-Blue, #003366)",;
+  label {
+    font-size: 14px;
+    color: #333;
+    flex-grow: 1; // Allow label to grow and push checkbox to consistent size
   }
 `;
 

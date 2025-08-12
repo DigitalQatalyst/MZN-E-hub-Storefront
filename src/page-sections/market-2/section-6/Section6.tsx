@@ -6,14 +6,14 @@ import Grid from "@component/grid/Grid";
 import NavLink from "@component/nav-link";
 import { H3 } from "@component/Typography";
 import Container from "@component/Container";
-import { ProductCard19 } from "@component/product-cards";
+// import { ProductCard19 } from "@component/product-cards";
 import { useState, useEffect } from "react";
 import client from "@lib/graphQLClient";
 import TabBar from '@component/tab-bar/TabBar';
-import Sidebar from "./side-bar/Sidebar";
+import Sidebar from "../financial-service-catalogue/side-bar/Sidebar";
 
 // STYLED COMPONENTS
-import { ShowingText } from "./styles";
+// import { ShowingText } from "./styles";
 
 import Section2 from "../section-2/Section2";
 
@@ -188,7 +188,8 @@ export default function Section6() {
   const defaultImages = [defaultImage];
   const defaultReviews = 0;
 
-
+const [searchQuery, setSearchQuery] = useState<string>("");
+const [activeButton, setActiveButton] = useState<string>("newAdditions");
   // Check if any filters are applied
   const areFiltersApplied = () => {
     return (
@@ -475,10 +476,15 @@ export default function Section6() {
   return (
     <Container pt="4rem" style={{ marginTop: "-45px" }}>
       <TabBar />
-      <Section2 
-        resultsCount={areFiltersApplied() ? totalFilteredItems : totalItems} 
-        style={{ marginBottom: "2rem" }}
-      />
+      <div style={{ marginBottom: "2rem" }}>
+  <Section2 
+          resultsCount={areFiltersApplied() ? totalFilteredItems : totalItems}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          setActiveButton={setActiveButton}
+          activeButton={activeButton}
+        />
+</div>
       <Grid container spacing={3}>
         <Grid item md={3} xs={12}>
           <Sidebar
@@ -578,7 +584,7 @@ export default function Section6() {
                           : "none",
                     }}
                   >
-                    <ProductCard19
+                    {/* <ProductCard19
                       id={product.id}
                       slug={product.slug}
                       name={product.name}
@@ -588,7 +594,7 @@ export default function Section6() {
                       images={defaultImages}
                       reviews={defaultReviews}
                       className="product-card"
-                    />
+                    /> */}
                   </div>
                 </Grid>
               ))}

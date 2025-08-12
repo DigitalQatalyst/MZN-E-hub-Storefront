@@ -14,7 +14,7 @@ import {
   FormControl,
   InputAdornment,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
+
 
 // ==============================================================
 
@@ -39,9 +39,7 @@ export default function CategorySectionHeader({
   const [selectedCategory, setSelectedCategory] = useState<string>(
     propSelectedCategory || "Industry"
   );
-  const [selectedCategory, setSelectedCategory] = useState<string>(
-    propSelectedCategory || "Industry"
-  );
+ 
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   const handleCategoryChange = (category: string) => {
@@ -62,12 +60,6 @@ export default function CategorySectionHeader({
     >
     <FlexBox alignItems="center" mb="2.5rem" flexWrap="wrap">
       <FlexBox alignItems="flex-start" flexDirection="column">
-        <H2
-          fontWeight="bold"
-          lineHeight="1"
-          marginBottom="20px"
-          color={colors.primary.main}
-        >
         <H2
           fontWeight="bold"
           lineHeight="1"
@@ -178,5 +170,7 @@ export default function CategorySectionHeader({
         />
       </FlexBox>
     </FlexBox>
+    </FlexBox>
+    
   );
 }

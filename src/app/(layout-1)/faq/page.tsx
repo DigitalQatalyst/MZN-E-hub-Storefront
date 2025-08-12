@@ -9,20 +9,20 @@ import StillNeedHelp from "@sections/faq/StillNeedHelp";
 import MobileNavigationBar from "@component/mobile-navigation";
 
 export default async function Market1() {
-  const carList = await api.getCarList();
-  const carBrands = await api.getCarBrands();
-  const mobileList = await api.getMobileList();
-  const opticsList = await api.getOpticsList();
-  const mobileShops = await api.getMobileShops();
-  const opticsShops = await api.getOpticsShops();
-  const mobileBrands = await api.getMobileBrands();
-  const opticsBrands = await api.getOpticsBrands();
+  // const carList = await api.getCarList();
+  // const carBrands = await api.getCarBrands();
+  // const mobileList = await api.getMobileList();
+  // const opticsList = await api.getOpticsList();
+  // const mobileShops = await api.getMobileShops();
+  // const opticsShops = await api.getOpticsShops();
+  // const mobileBrands = await api.getMobileBrands();
+  // const opticsBrands = await api.getOpticsBrands();
 
   return (
     <main>
       {/* NAVBAR AREA */}
-      <MobileNavigationBar />
-      <NavbarMarketplace />
+      {/* <MobileNavigationBar />
+      <NavbarMarketplace /> */}
 
       {/* search */}
       <SearchSection />

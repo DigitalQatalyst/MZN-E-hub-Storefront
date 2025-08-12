@@ -1,21 +1,21 @@
 import Grid from "@component/grid/Grid";
 import Typography from "@component/Typography";
-import { Box, Container, Button } from "@mui/material";
+import Box from "@component/Box"; // Replace MUI Box
+import Container from "@component/Container"; // Replace MUI Container
+import { Button } from "@component/buttons"; // Replace MUI Button
 import React from "react";
 import { articles } from "./utils";
 
 const RecommendedArticles = () => {
   return (
     <Box
-      sx={{
-        width: "100%",
-        minHeight: "40vh",
-        backgroundColor: "#FFFFFF",
-        py: "5rem",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
+      width="100%"
+      minHeight="40vh"
+      backgroundColor="#FFFFFF"
+      py="5rem"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
     >
       <Container maxWidth="lg">
         <Typography
@@ -32,21 +32,21 @@ const RecommendedArticles = () => {
           {articles?.map((item) => (
             <Grid item xs={12} sm={6} md={4} key={item.id}>
               <Box
-                sx={{
-                  display: "flex",
-                  backgroundColor: "#ffffff",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  textAlign: "center",
-                  padding: "2rem",
-                  justifyContent: "center",
-                  minHeight: "250px",
-                  borderRadius: "9px",
-                  border: "1px solid #E0E0E0",
-                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)",
+                display="flex"
+                backgroundColor="#ffffff"
+                flexDirection="column"
+                alignItems="center"
+                textAlign="center"
+                padding="2rem"
+                justifyContent="center"
+                minHeight="250px"
+                borderRadius="9px"
+                border="1px solid #E0E0E0"
+                style={{
+                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)"
                 }}
               >
-                <Box sx={{ mb: 2 }}>{item.icon}</Box>
+                <Box mb={2}>{item.icon}</Box>
 
                 {/* Add your icon here */}
                 <Typography
@@ -63,15 +63,12 @@ const RecommendedArticles = () => {
                 </Typography>
                 <Button
                   variant="contained"
-                  sx={{
+                  style={{
                     backgroundColor: "#EFEAFF",
                     color: "#0030E3",
                     fontSize: "13px",
                     textTransform: "none",
                     boxShadow: "none",
-                    ":hover": {
-                      backgroundColor: "#ded9ff",
-                    },
                   }}
                 >
                   Read More

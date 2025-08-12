@@ -1,6 +1,8 @@
 import Grid from "@component/grid/Grid";
 import Typography from "@component/Typography";
-import { Box, Container, Button } from "@mui/material";
+import Box from "@component/Box"; // Replace MUI Box
+import Container from "@component/Container"; // Replace MUI Container
+import { Button } from "@component/buttons"; // Replace MUI Button
 import React from "react";
 import { articles, knowledgeitems } from "./utils";
 import { FaUser } from "react-icons/fa";
@@ -10,15 +12,13 @@ import { BsArrowRight, BsChevronRight } from "react-icons/bs";
 const KnowledgeBase: React.FC = () => {
   return (
     <Box
-      sx={{
-        width: "100%",
-        minHeight: "60vh",
-        backgroundColor: "#F8F7FA",
-        py: "5rem",
-        display: "flex",
-        alignItems: "start",
-        justifyContent: "start",
-      }}
+      width="100%"
+      minHeight="60vh"
+      backgroundColor="#F8F7FA"
+      py="5rem"
+      display="flex"
+      alignItems="start"
+      justifyContent="start"
     >
       <Container maxWidth="lg">
         <Typography
@@ -35,45 +35,40 @@ const KnowledgeBase: React.FC = () => {
           {knowledgeitems?.map((item) => (
             <Grid item xs={12} sm={6} md={4} key={item.id}>
               <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "start",
-                  padding: "2rem",
-                  minHeight: "400px",
-                  height: "100%",
-                  borderRadius: "8px",
-                  position: "relative",
-                  border: "1px solid #E0E0E0",
-                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)",
+                display="flex"
+                flexDirection="column"
+                alignItems="start"
+                padding="2rem"
+                minHeight="400px"
+                height="100%"
+                borderRadius="8px"
+                position="relative"
+                border="1px solid #E0E0E0"
+                style={{
+                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)"
                 }}
               >
                 {/* card heading */}
                 <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "start",
-                    gap: "0.5rem",
-                    mb: 2,
-                  }}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="start"
+                  style={{ gap: "0.5rem" }}
+                  mb={2}
                 >
                   {/* icons */}
                   <Box
-                    sx={{
-                      backgroundColor: "#EFEAFF",
-                      color: "#5C4BFF",
-                      fontSize: "13px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderRadius: "12px",
+                    backgroundColor="#EFEAFF"
+                    color="#5C4BFF"
+                    fontSize="13px"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    borderRadius="12px"
+                    style={{
                       textTransform: "none",
                       boxShadow: "none",
                       padding: "0.5rem",
-                      ":hover": {
-                        backgroundColor: "#ded9ff",
-                      },
                     }}
                   >
                     {item.icon}
@@ -97,13 +92,11 @@ const KnowledgeBase: React.FC = () => {
                 {item.articles.map((article, index) => (
                   <Box
                     key={index}
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      width: "100%",
-                      mb: 2,
-                    }}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    width="100%"
+                    mb={2}
                   >
                     <Typography
                       fontSize="14px"
@@ -118,20 +111,16 @@ const KnowledgeBase: React.FC = () => {
                 ))}
 
                 <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 1,
-                  }}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  style={{ gap: "8px" }}
                 >
                   <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: 1,
-                    }}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    style={{ gap: "8px" }}
                   >
                     <Typography
                       fontSize="14px"

@@ -21,8 +21,8 @@ export default async function Market1() {
   return (
     <main>
       {/* NAVBAR AREA */}
-      {/* <MobileNavigationBar />
-      <NavbarMarketplace /> */}
+      <MobileNavigationBar />
+      <NavbarMarketplace />
 
       {/* search */}
       <SearchSection />
@@ -31,10 +31,10 @@ export default async function Market1() {
       <RecommendedArticles />
 
       {/* knowledge base */}
-      <KnowledgeBase />
+      {/* <KnowledgeBase /> */}
 
       {/* still need help */}
-      <StillNeedHelp />
+      {/* <StillNeedHelp /> */}
     </main>
   );
 }

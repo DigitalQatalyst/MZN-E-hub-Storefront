@@ -1,8 +1,8 @@
 import Grid from "@component/grid/Grid";
 import Typography from "@component/Typography";
-import Box from "@component/Box"; // Replace MUI Box
-import Container from "@component/Container"; // Replace MUI Container
-import { Button } from "@component/buttons"; // Replace MUI Button
+import Box from "@component/Box";
+import Container from "@component/Container";
+import { Button } from "@component/buttons";
 import React from "react";
 import { articles, knowledgeitems } from "./utils";
 import { FaUser } from "react-icons/fa";

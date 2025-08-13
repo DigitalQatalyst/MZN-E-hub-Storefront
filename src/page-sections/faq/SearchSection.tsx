@@ -1,6 +1,6 @@
 import TextField from "@component/text-field";
 import Typography from "@component/Typography";
-import Box from "@component/Box"; // Replace MUI Box
+import Box from "@component/Box";
 import React from "react";
 import { BsSearch } from "react-icons/bs";
 

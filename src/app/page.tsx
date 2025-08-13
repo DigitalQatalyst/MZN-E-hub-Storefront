@@ -23,6 +23,8 @@ export default async function Market1() {
     <main> 
       {/* HERO CAROUSEL AREA
       <Section1 />
+
+      
       FLASH DEAL PRODUCTS AREA */}
       <Section6 />
       <Section9 products={popularProducts} />

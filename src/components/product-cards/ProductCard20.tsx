@@ -242,7 +242,7 @@ export default function ProductCard20(props: ProductCard19Props) {
       <ProductQuickView
         open={openDialog}
         onClose={toggleDialog}
-        product={{ id, images, subTitle, description, slug, title: name, title1: name }}
+        product={{ id, images, subTitle, description, slug, title: name}}
       />
     </Fragment>
   );

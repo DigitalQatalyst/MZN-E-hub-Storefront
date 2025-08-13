@@ -455,7 +455,7 @@ export default function FinancialServiceCard(props: FinancialServiceCardProps) {
       <ProductQuickView
         open={openDialog}
         onClose={toggleDialog}
-        product={{ id, images, subTitle, description, slug, title: name, title1: name }}
+        product={{ id, images, subTitle, description, slug, title: name}}
       />
     </Fragment>
   );

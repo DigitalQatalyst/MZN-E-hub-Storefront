@@ -254,7 +254,6 @@ type ProductCardProps = {
   off: number;
   slug: string;
   title: string;
-  title1: string;
   subTitle: string;
   price: number;
   imgUrl: string;
@@ -266,7 +265,7 @@ type ProductCardProps = {
 // =============================================================
 
 export default function ProductCard16(props: ProductCardProps) {
-  const { off, id, title, title1, subTitle, price, imgUrl, rating, hoverEffect, slug, images } = props;
+  const { off, id, title, subTitle, price, imgUrl, rating, hoverEffect, slug, images } = props;
 
   const { state, dispatch } = useAppContext();
   const [openModal, setOpenModal] = useState(false);
@@ -310,7 +309,7 @@ export default function ProductCard16(props: ProductCardProps) {
       <ProductQuickView
         open={openModal}
         onClose={toggleDialog}
-        product={{ id: productId, images, slug, price, title, title1, subTitle, description: "" }}
+        product={{ id: productId, images, slug, price, title, subTitle, description: "" }}
       />
 
       <ContentWrapper>
@@ -325,11 +324,11 @@ export default function ProductCard16(props: ProductCardProps) {
             </StyledTitle>
           {/* </Link> */}
           <StyledTitle1
-              title={title1}
+              title={title}
               wordCount={wordCount}
               className="title"
             >
-              {title1}
+              {title}
             </StyledTitle1>
           <StyledSubtitle>
             {subTitle}

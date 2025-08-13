@@ -50,6 +50,8 @@ export default function SecurityPage() {
             borderRadius: "6px",
             fontSize: "14px",
             boxSizing: "border-box",
+            fontFamily: "'Public Sans', sans-serif",
+            color: "#9ca3af", // Light/Typography Color/Placeholder Text
           }}
         />
       </div>
@@ -85,6 +87,8 @@ export default function SecurityPage() {
               borderRadius: "6px",
               fontSize: "14px",
               boxSizing: "border-box",
+              fontFamily: "'Public Sans', sans-serif",
+              color: "#9ca3af", // Light/Typography Color/Placeholder Text
             }}
           />
         </div>
@@ -111,6 +115,8 @@ export default function SecurityPage() {
               borderRadius: "6px",
               fontSize: "14px",
               boxSizing: "border-box",
+              fontFamily: "'Public Sans', sans-serif",
+              color: "#9ca3af", // Light/Typography Color/Placeholder Text
             }}
           />
         </div>

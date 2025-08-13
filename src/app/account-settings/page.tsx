@@ -32,6 +32,7 @@ export default function AccountPage() {
           minHeight: "100vh",
           backgroundColor: "#f5f5f5",
           padding: "20px",
+          fontFamily: "'Public Sans', sans-serif", // Added font family
         }}
       >
         <div
@@ -42,12 +43,14 @@ export default function AccountPage() {
             borderRadius: "8px",
             boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
             overflow: "hidden",
+            fontFamily: "'Public Sans', sans-serif", // Added font family
           }}
         >
           <div
             style={{
               padding: "20px 20px 0 20px",
               borderBottom: "1px solid #e5e5e5",
+              fontFamily: "'Public Sans', sans-serif", // Added font family
             }}
           >
             <div
@@ -56,6 +59,7 @@ export default function AccountPage() {
                 justifyContent: "space-between",
                 alignItems: "center",
                 marginBottom: "20px",
+                fontFamily: "'Public Sans', sans-serif", // Added font family
               }}
             >
               <h1
@@ -64,6 +68,7 @@ export default function AccountPage() {
                   fontWeight: "600",
                   color: "#666",
                   margin: 0,
+                  fontFamily: "'Public Sans', sans-serif", // Added font family
                 }}
               >
                 Account /{" "}
@@ -80,6 +85,7 @@ export default function AccountPage() {
                   fontSize: "20px",
                   color: "#999",
                   cursor: "pointer",
+                  fontFamily: "'Public Sans', sans-serif", // Added font family
                 }}
               >
                 ×
@@ -87,7 +93,11 @@ export default function AccountPage() {
             </div>
             <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
           </div>
-          <div style={{ padding: "30px" }}>{renderContent()}</div>
+          <div
+            style={{ padding: "30px", fontFamily: "'Public Sans', sans-serif" }}
+          >
+            {renderContent()}
+          </div>
         </div>
       </div>
       <Footer1 />

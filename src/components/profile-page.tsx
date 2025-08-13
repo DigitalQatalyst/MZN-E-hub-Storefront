@@ -33,7 +33,7 @@ export default function ProfilePage() {
                 marginBottom: "8px",
                 fontSize: "14px",
                 fontWeight: "500",
-                color: "#374151",
+                color: "#111827", // Light/Typography Color/Heading Text
               }}
             >
               First Name
@@ -49,6 +49,8 @@ export default function ProfilePage() {
                 borderRadius: "6px",
                 fontSize: "14px",
                 boxSizing: "border-box",
+                fontFamily: "'Public Sans', sans-serif",
+                color: "#9ca3af", // Light/Typography Color/Placeholder Text
               }}
             />
           </div>
@@ -59,7 +61,7 @@ export default function ProfilePage() {
                 marginBottom: "8px",
                 fontSize: "14px",
                 fontWeight: "500",
-                color: "#374151",
+                color: "#111827", // Light/Typography Color/Heading Text
               }}
             >
               Last Name
@@ -75,6 +77,8 @@ export default function ProfilePage() {
                 borderRadius: "6px",
                 fontSize: "14px",
                 boxSizing: "border-box",
+                fontFamily: "'Public Sans', sans-serif",
+                color: "#9ca3af", // Light/Typography Color/Placeholder Text
               }}
             />
           </div>
@@ -95,7 +99,7 @@ export default function ProfilePage() {
                 marginBottom: "8px",
                 fontSize: "14px",
                 fontWeight: "500",
-                color: "#374151",
+                color: "#111827", // Light/Typography Color/Heading Text
               }}
             >
               Phone Number
@@ -111,6 +115,8 @@ export default function ProfilePage() {
                 borderRadius: "6px",
                 fontSize: "14px",
                 boxSizing: "border-box",
+                fontFamily: "'Public Sans', sans-serif",
+                color: "#9ca3af", // Light/Typography Color/Placeholder Text
               }}
             />
           </div>
@@ -121,7 +127,7 @@ export default function ProfilePage() {
                 marginBottom: "8px",
                 fontSize: "14px",
                 fontWeight: "500",
-                color: "#374151",
+                color: "#111827", // Light/Typography Color/Heading Text
               }}
             >
               Address
@@ -138,7 +144,8 @@ export default function ProfilePage() {
                 borderRadius: "6px",
                 fontSize: "14px",
                 boxSizing: "border-box",
-                color: formData.address ? "#000" : "#9ca3af",
+                fontFamily: "'Public Sans', sans-serif",
+                color: "#9ca3af", // Light/Typography Color/Placeholder Text
               }}
             />
           </div>
@@ -190,7 +197,7 @@ export default function ProfilePage() {
 
         <div
           style={{
-            backgroundColor: "#fef3c7",
+            backgroundColor: "rgba(254, 243, 199, 0.16)", // Light/Opacity Color/Warning/Warning - 16%
             padding: "20px",
             borderRadius: "6px",
             marginBottom: "20px",
@@ -198,7 +205,7 @@ export default function ProfilePage() {
         >
           <p
             style={{
-              color: "#d97706",
+              color: "#d97706", // Light/Solid Color/Warning/Warning - 500 (Base)
               fontSize: "16px",
               fontWeight: "600",
               margin: "0 0 8px 0",
@@ -208,7 +215,7 @@ export default function ProfilePage() {
           </p>
           <p
             style={{
-              color: "#d97706",
+              color: "#d97706", // Light/Solid Color/Warning/Warning - 500 (Base)
               fontSize: "14px",
               margin: 0,
             }}

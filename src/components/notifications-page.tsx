@@ -55,7 +55,7 @@ export default function NotificationsPage() {
         <a
           href="#"
           style={{
-            color: "#2563eb",
+            color: "var(--Light-Typography-Color-Heading-Text, #4B465C)", // Updated color
             textDecoration: "none",
             fontWeight: "500",
           }}

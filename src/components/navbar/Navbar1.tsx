@@ -3,8 +3,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Box from "../Box";
-import Card from "../Card";
-import Badge from "../badge";
 import Icon from "../icon/Icon";
 import FlexBox from "../FlexBox";
 import NavLink from "../nav-link";

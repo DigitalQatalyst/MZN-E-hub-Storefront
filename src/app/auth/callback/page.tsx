@@ -82,9 +82,9 @@ function Content() {
                 console.log("Authentication successful:", result);
                 const decoded: AuthSession = jwtDecode(result.id_token);
                 storeSession(decoded);
-                setTimeout(()=>{
-                    router.push("/dashboard")
-                }, 3000)
+                setTimeout(() => {
+                    window.location.href = "https://mzn-e-hub-storefront-5akxqw2kr-digitalqatalysts-projects.vercel.app/dashboard";
+                }, 1000);
             } else {
                 console.error("Authentication failed:", result);
             }

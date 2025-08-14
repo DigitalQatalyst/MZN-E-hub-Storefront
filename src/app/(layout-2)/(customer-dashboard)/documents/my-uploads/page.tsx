@@ -1,6 +1,5 @@
 'use client';
 import React, { useState, useEffect } from 'react'
-import { Dropzone } from "@component/ui/DropZone";
 import { Navbar } from "@component/ui/FirmWalletNavbar";
 import { DocumentSearch } from "@component/ui/DocumentSearch";
 import { DocumentFilter } from "@component/ui/DocumentFilter";
@@ -19,102 +18,40 @@ export interface UploadedFile {
 const STORAGE_KEY = 'firm-wallet-uploaded-files';
 const ACTIVITIES_STORAGE_KEY = 'firm-wallet-activities';
 
-const FirmWallet = () => {
+const MyUploadsPage = () => {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [activities, setActivities] = useState<ActivityItem[]>([]);
 
   // Load files and activities from localStorage on component mount
   useEffect(() => {
-    console.log('Component mounting - loading from localStorage...');
     try {
       const savedFiles = localStorage.getItem(STORAGE_KEY);
-      console.log('Raw localStorage data:', savedFiles);
-      
       if (savedFiles) {
         const parsedFiles = JSON.parse(savedFiles);
-        console.log('Loading files from localStorage:', parsedFiles.length, 'files');
-        console.log('Parsed files:', parsedFiles.map((f: any) => ({ id: f.id, name: f.name })));
-        
         // Convert uploadDate strings back to Date objects
         const filesWithDates = parsedFiles.map((file: any) => ({
           ...file,
           uploadDate: new Date(file.uploadDate)
         }));
-        
-        console.log('Setting uploadedFiles state with:', filesWithDates.length, 'files');
         setUploadedFiles(filesWithDates);
-      } else {
-        console.log('No saved files found in localStorage');
       }
 
       const savedActivities = localStorage.getItem(ACTIVITIES_STORAGE_KEY);
       if (savedActivities) {
         const parsedActivities = JSON.parse(savedActivities);
-        // Convert timestamp strings back to Date objects
-        const activitiesWithDates = parsedActivities.map((activity: any) => ({
-          ...activity,
-          timestamp: new Date(activity.timestamp)
-        }));
+        // Convert timestamp strings back to Date objects and filter for upload activities
+        const activitiesWithDates = parsedActivities
+          .map((activity: any) => ({
+            ...activity,
+            timestamp: new Date(activity.timestamp)
+          }))
+          .filter((activity: ActivityItem) => activity.type === 'uploaded');
         setActivities(activitiesWithDates);
       }
     } catch (error) {
       console.error('Error loading data from localStorage:', error);
-      // If there's an error, clear the corrupted data
-      localStorage.removeItem(STORAGE_KEY);
-      localStorage.removeItem(ACTIVITIES_STORAGE_KEY);
     }
   }, []);
-
-  // Save files to localStorage whenever uploadedFiles changes
-  useEffect(() => {
-    // Only save if we have files (avoid saving empty array on initial render)
-    if (uploadedFiles.length === 0) {
-      // Check if there's actually supposed to be no files or if this is initial state
-      const existing = localStorage.getItem(STORAGE_KEY);
-      if (existing && JSON.parse(existing).length > 0) {
-        console.log('Skipping save of empty array - localStorage has data');
-        return;
-      }
-    }
-    
-    try {
-      console.log('Saving files to localStorage:', uploadedFiles.length, 'files');
-      console.log('Files being saved:', uploadedFiles.map(f => ({ id: f.id, name: f.name })));
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(uploadedFiles));
-      
-      // Verify the save worked
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        console.log('Verified save - localStorage now contains:', parsed.length, 'files');
-      }
-    } catch (error) {
-      console.error('Error saving files to localStorage:', error);
-    }
-  }, [uploadedFiles]);
-
-  // Debug: Check localStorage on component unmount
-  useEffect(() => {
-    return () => {
-      console.log('Component unmounting - checking localStorage...');
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        console.log('On unmount - localStorage contains:', parsed.length, 'files');
-      } else {
-        console.log('On unmount - no localStorage data found');
-      }
-    };
-  }, []);
-
-  // Save activities to localStorage whenever activities changes
-  useEffect(() => {
-    try {
-      localStorage.setItem(ACTIVITIES_STORAGE_KEY, JSON.stringify(activities));
-    } catch (error) {
-      console.error('Error saving activities to localStorage:', error);
-    }
-  }, [activities]);
 
   // Helper function to add new activity
   const addActivity = (type: ActivityItem['type'], fileName: string, fileId?: string) => {
@@ -145,8 +82,19 @@ const FirmWallet = () => {
 
   return (
     <div className="p-6">
-      <Navbar active="Overview" />
-      <Dropzone uploadedFiles={uploadedFiles} setUploadedFiles={setUploadedFiles} addActivity={addActivity} />
+      <Navbar active="My Uploads" />
+      
+      {/* Page Header */}
+      <div className="mb-6">
+        <h1 className="font-sans text-[24px] font-medium mb-2 ml-2" style={{ fontFamily: 'Inter, sans-serif' }}>
+          My Uploads
+        </h1>
+        <p className="text-gray-600 ml-2">
+          View and manage all your uploaded files
+        </p>
+      </div>
+
+      {/* Search and Filter */}
       <div className="flex items-center justify-between mt-2 mb-4 gap-4 bg-[#F4F7FB] px-4 py-2 rounded-xl" style={{ width: '1116px' }}>
         <div className="flex-1 min-w-0">
           <DocumentSearch />
@@ -155,11 +103,12 @@ const FirmWallet = () => {
           <DocumentFilter />
         </div>
       </div>
-      {/* My Files Section */}
-      {uploadedFiles.length > 0 && (
+
+      {/* My Uploaded Files Section */}
+      {uploadedFiles.length > 0 ? (
         <div className="mt-6" style={{ width: '1116px' }}>
-          <h2 className="text-lg font-semibold mb-4 ml-1">My Files ({uploadedFiles.length})</h2>
-          <div className="grid grid-cols-4 gap-4" id="myFiles">
+          <h2 className="text-lg font-semibold mb-4 ml-1">My Uploaded Files ({uploadedFiles.length})</h2>
+          <div className="grid grid-cols-4 gap-4" id="myUploadedFiles">
             {uploadedFiles.map((file) => (
               <FileCard 
                 key={file.id}
@@ -183,40 +132,49 @@ const FirmWallet = () => {
                     const fileToDelete = uploadedFiles.find(f => f.id === fileId);
                     const fileName = fileToDelete?.name || 'Unknown file';
 
-                    if (fileToDelete) {
-                      // Move to bin instead of permanently deleting
-                      const DELETED_FILES_STORAGE_KEY = 'firm-wallet-deleted-files';
-                      const savedDeletedFiles = localStorage.getItem(DELETED_FILES_STORAGE_KEY);
-                      const deletedFiles = savedDeletedFiles ? JSON.parse(savedDeletedFiles) : [];
-                      
-                      // Add to deleted files with deletion timestamp
-                      const deletedFile = {
-                        ...fileToDelete,
-                        deletedDate: new Date()
-                      };
-                      deletedFiles.push(deletedFile);
-                      localStorage.setItem(DELETED_FILES_STORAGE_KEY, JSON.stringify(deletedFiles));
-                      
-                      // Remove from uploaded files
+                    // Delete from server (Pinata)
+                    const { deleteImage } = await import('@lib/actions');
+                    const result = await deleteImage(fileId);
+                    
+                    if (result.success) {
+                      // Remove from local state (localStorage will be updated automatically)
                       setUploadedFiles(prev => prev.filter(f => f.id !== fileId));
                       addActivity('deleted', fileName, fileId);
-                      
                       const { toast } = await import('sonner');
-                      toast.warning(`File ${fileName} moved to bin!`);
+                      toast.warning(`File ${fileName} deleted!`);
+                    } else {
+                      const { toast } = await import('sonner');
+                      toast.error('Error deleting file...');
                     }
                   } catch (error) {
                     console.error('Delete error:', error);
                     const { toast } = await import('sonner');
-                    toast.error('Error moving file to bin...');
+                    toast.error('Error deleting file...');
                   }
                 }}
               />
             ))}
           </div>
         </div>
+      ) : (
+        <div className="mt-6 text-center py-12" style={{ width: '1116px' }}>
+          <div className="text-gray-400 mb-4">
+            <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+          </div>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">No uploads yet</h3>
+          <p className="text-gray-500 mb-4">Start by uploading your first file from the Overview tab</p>
+          <button 
+            onClick={() => window.location.href = '/documents'}
+            className="bg-blue-100 text-blue-700 hover:bg-blue-200 px-6 py-2 rounded-md transition-colors"
+          >
+            Go to Upload
+          </button>
+        </div>
       )}
       
-      {/* Recent Activity Section */}
+      {/* Recent Upload Activity Section */}
       <RecentActivity activities={activities} />
       
       {/* Debug Storage Component */}
@@ -225,4 +183,4 @@ const FirmWallet = () => {
   )
 }
 
-export default FirmWallet
+export default MyUploadsPage

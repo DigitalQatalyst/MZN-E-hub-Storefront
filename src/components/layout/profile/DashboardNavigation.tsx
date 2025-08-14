@@ -34,7 +34,14 @@ const Sidebar = () => {
     router.push(route);
   };
 
-  const isActive = (route: string) => pathname === route;
+  const isActive = (route: string) => {
+    // Special handling for Documents route to keep it active on sub-routes
+    if (route === '/documents') {
+      return pathname.startsWith('/documents');
+    }
+    // For other routes, exact match
+    return pathname === route;
+  };
 
   const renderNavItem = (item: NavItem) => {
     const active = isActive(item.route);

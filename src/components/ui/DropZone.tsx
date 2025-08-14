@@ -3,10 +3,10 @@ import React, {useCallback, useState} from 'react';
 import {FileRejection, useDropzone} from 'react-dropzone';
 import { Button } from './FirmWalletButton';
 import { toast } from 'sonner';
-import { pinata } from '@lib/pinata';
+// import { pinata } from '@lib/pinata'; // Not used in this component
 import { Loader2, Trash2Icon, CloudUpload } from 'lucide-react';
 // import { cn } from '@lib/actions';
-import { deleteImage } from '@lib/actions';
+// import { deleteImage } from '@lib/actions'; // Not used in this component
 import { UploadedFile } from '../../app/(layout-2)/(customer-dashboard)/documents/page';
 import { ActivityItem } from './RecentActivity';
 
@@ -23,21 +23,27 @@ export function Dropzone({ uploadedFiles, setUploadedFiles, addActivity }: Dropz
   const uploadFile = useCallback(async (file: File) => {
   try {
      //set uploading to true
-    const keyRequest = await fetch('/api/key');
-    const keyData = await keyRequest.json();
     const formData = new FormData();
     formData.append('file', file);
 
     const uploadResponse = await fetch('/api/files', {
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${keyData.JWT}`,
-      },
       body: formData,
     });
+    
+    // Check if the response is successful
+    if (!uploadResponse.ok) {
+      throw new Error(`Upload failed with status: ${uploadResponse.status}`);
+    }
+    
     // Parse the response to get the uploaded file's ID
     const uploadData = await uploadResponse.json();
-    console.log(`This is the upload data: ${uploadData}`)
+    console.log('Upload data:', uploadData);
+
+    // Check if we got the expected response data
+    if (!uploadData.cid) {
+      throw new Error('Invalid response: missing CID');
+    }
 
     // Remove from uploading state
     setUploadingFiles((prevFiles) => 
@@ -53,15 +59,23 @@ export function Dropzone({ uploadedFiles, setUploadedFiles, addActivity }: Dropz
       cid: uploadData.cid
     };
 
-    setUploadedFiles((prevFiles) => [newUploadedFile, ...prevFiles]);
+    console.log('Adding file to state:', newUploadedFile);
+    setUploadedFiles((prevFiles) => {
+      const updatedFiles = [newUploadedFile, ...prevFiles];
+      console.log('Updated files state:', updatedFiles.length, 'files');
+      return updatedFiles;
+    });
     addActivity('uploaded', file.name, uploadData.cid);
     toast.success(`File ${file.name} uploaded successfully`);
 
   } catch (error) {
     // Remove from uploading state on error
     setUploadingFiles((prevFiles) => prevFiles.filter((f) => f.file !== file));
-    console.log(error);
-    toast.error("Something went wrong");
+    console.error('Upload error:', error);
+    
+    // Show specific error message
+    const errorMessage = error instanceof Error ? error.message : 'Something went wrong during upload';
+    toast.error(`Failed to upload ${file.name}: ${errorMessage}`);
   }
 }, [setUploadedFiles, addActivity]);
 

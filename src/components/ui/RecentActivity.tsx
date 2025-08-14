@@ -1,9 +1,9 @@
 import React from 'react';
-import { Trash2, Upload, Share, Download } from 'lucide-react';
+import { Trash2, Upload, Share, Download, RotateCcw, X } from 'lucide-react';
 
 export interface ActivityItem {
   id: string;
-  type: 'uploaded' | 'deleted' | 'shared' | 'downloaded';
+  type: 'uploaded' | 'deleted' | 'shared' | 'downloaded' | 'restored' | 'permanently_deleted';
   fileName: string;
   timestamp: Date;
 }
@@ -25,6 +25,10 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ activities }) =>
         return <Share {...iconProps} />;
       case 'downloaded':
         return <Download {...iconProps} />;
+      case 'restored':
+        return <RotateCcw {...iconProps} />;
+      case 'permanently_deleted':
+        return <X {...iconProps} />;
       default:
         return <Upload {...iconProps} />;
     }
@@ -40,6 +44,10 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ activities }) =>
         return 'Shared';
       case 'downloaded':
         return 'Downloaded';
+      case 'restored':
+        return 'Restored';
+      case 'permanently_deleted':
+        return 'Permanently Deleted';
       default:
         return 'Unknown';
     }
@@ -65,7 +73,7 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({ activities }) =>
   // Show only the most recent activity of each type
   const getRecentActivityByType = () => {
     const recentActivities: ActivityItem[] = [];
-    const types: ActivityItem['type'][] = ['deleted', 'shared', 'downloaded', 'uploaded'];
+    const types: ActivityItem['type'][] = ['permanently_deleted', 'restored', 'deleted', 'shared', 'downloaded', 'uploaded'];
     
     types.forEach(type => {
       const activitiesOfType = activities

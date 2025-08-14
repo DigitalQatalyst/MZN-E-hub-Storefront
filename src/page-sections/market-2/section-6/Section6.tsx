@@ -8,6 +8,7 @@ import { H3 } from "@component/Typography";
 import Container from "@component/Container";
 // import { ProductCard19 } from "@component/product-cards";
 import { useState, useEffect } from "react";
+import axios from "axios";
 import client from "@lib/graphQLClient";
 import TabBar from '@component/tab-bar/TabBar';
 import Sidebar from "../financial-service-catalogue/side-bar/Sidebar";

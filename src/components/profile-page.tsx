@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 
 export default function ProfilePage() {
@@ -13,6 +12,19 @@ export default function ProfilePage() {
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleSaveChanges = () => {
+    // Handle saving form data here
+    // This could involve an API call to save the data to a backend
+    console.log("Saving changes:", formData);
+    alert("Changes saved successfully!");
+  };
+
+  const handleRemoveAccount = () => {
+    // Logic for account removal, like making an API call to delete the account
+    console.log("Account removal confirmed.");
+    alert("Account removed successfully!");
   };
 
   return (
@@ -33,7 +45,7 @@ export default function ProfilePage() {
                 marginBottom: "8px",
                 fontSize: "14px",
                 fontWeight: "500",
-                color: "#111827", // Light/Typography Color/Heading Text
+                color: "#111827",
               }}
             >
               First Name
@@ -50,7 +62,7 @@ export default function ProfilePage() {
                 fontSize: "14px",
                 boxSizing: "border-box",
                 fontFamily: "'Public Sans', sans-serif",
-                color: "#9ca3af", // Light/Typography Color/Placeholder Text
+                color: "#9ca3af",
               }}
             />
           </div>
@@ -61,7 +73,7 @@ export default function ProfilePage() {
                 marginBottom: "8px",
                 fontSize: "14px",
                 fontWeight: "500",
-                color: "#111827", // Light/Typography Color/Heading Text
+                color: "#111827",
               }}
             >
               Last Name
@@ -78,7 +90,7 @@ export default function ProfilePage() {
                 fontSize: "14px",
                 boxSizing: "border-box",
                 fontFamily: "'Public Sans', sans-serif",
-                color: "#9ca3af", // Light/Typography Color/Placeholder Text
+                color: "#9ca3af",
               }}
             />
           </div>
@@ -99,7 +111,7 @@ export default function ProfilePage() {
                 marginBottom: "8px",
                 fontSize: "14px",
                 fontWeight: "500",
-                color: "#111827", // Light/Typography Color/Heading Text
+                color: "#111827",
               }}
             >
               Phone Number
@@ -116,7 +128,7 @@ export default function ProfilePage() {
                 fontSize: "14px",
                 boxSizing: "border-box",
                 fontFamily: "'Public Sans', sans-serif",
-                color: "#9ca3af", // Light/Typography Color/Placeholder Text
+                color: "#9ca3af",
               }}
             />
           </div>
@@ -127,7 +139,7 @@ export default function ProfilePage() {
                 marginBottom: "8px",
                 fontSize: "14px",
                 fontWeight: "500",
-                color: "#111827", // Light/Typography Color/Heading Text
+                color: "#111827",
               }}
             >
               Address
@@ -145,7 +157,7 @@ export default function ProfilePage() {
                 fontSize: "14px",
                 boxSizing: "border-box",
                 fontFamily: "'Public Sans', sans-serif",
-                color: "#9ca3af", // Light/Typography Color/Placeholder Text
+                color: "#9ca3af",
               }}
             />
           </div>
@@ -163,6 +175,7 @@ export default function ProfilePage() {
               fontWeight: "500",
               cursor: "pointer",
             }}
+            onClick={handleSaveChanges}
           >
             Save Changes
           </button>
@@ -197,7 +210,7 @@ export default function ProfilePage() {
 
         <div
           style={{
-            backgroundColor: "rgba(254, 243, 199, 0.16)", // Light/Opacity Color/Warning/Warning - 16%
+            backgroundColor: "rgba(254, 243, 199, 0.16)",
             padding: "20px",
             borderRadius: "6px",
             marginBottom: "20px",
@@ -205,7 +218,7 @@ export default function ProfilePage() {
         >
           <p
             style={{
-              color: "#d97706", // Light/Solid Color/Warning/Warning - 500 (Base)
+              color: "#d97706",
               fontSize: "16px",
               fontWeight: "600",
               margin: "0 0 8px 0",
@@ -215,7 +228,7 @@ export default function ProfilePage() {
           </p>
           <p
             style={{
-              color: "#d97706", // Light/Solid Color/Warning/Warning - 500 (Base)
+              color: "#d97706",
               fontSize: "14px",
               margin: 0,
             }}
@@ -268,6 +281,7 @@ export default function ProfilePage() {
             fontWeight: "500",
             cursor: confirmRemoval ? "pointer" : "not-allowed",
           }}
+          onClick={handleRemoveAccount}
         >
           Remove Account
         </button>

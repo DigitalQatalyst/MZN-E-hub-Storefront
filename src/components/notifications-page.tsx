@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 
 export default function NotificationsPage() {
@@ -10,18 +9,47 @@ export default function NotificationsPage() {
     newDevice: { email: true, browser: false },
   });
 
+  const [originalNotifications, setOriginalNotifications] = useState(
+    JSON.parse(JSON.stringify(notifications))
+  ); // Storing the original state to compare with
+
+  const [isChangesMade, setIsChangesMade] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+
   const handleNotificationChange = (
     type: string,
     channel: string,
     value: boolean
   ) => {
-    setNotifications((prev) => ({
-      ...prev,
-      [type]: {
-        ...prev[type as keyof typeof prev],
-        [channel]: value,
-      },
-    }));
+    setNotifications((prev) => {
+      const updatedNotifications = {
+        ...prev,
+        [type]: {
+          ...prev[type as keyof typeof prev],
+          [channel]: value,
+        },
+      };
+      // Check if there are changes
+      setIsChangesMade(
+        JSON.stringify(updatedNotifications) !==
+          JSON.stringify(originalNotifications)
+      );
+      return updatedNotifications;
+    });
+  };
+
+  const handleSaveChanges = () => {
+    // Save changes logic (e.g., API call to save the notifications preferences)
+    setOriginalNotifications(JSON.parse(JSON.stringify(notifications))); // Save current state as the original state
+    setSuccessMessage("Changes saved successfully!");
+    setIsChangesMade(false); // Reset the changes flag after saving
+  };
+
+  const handleDiscardChanges = () => {
+    // Reset to the original state
+    setNotifications(JSON.parse(JSON.stringify(originalNotifications)));
+    setIsChangesMade(false); // Reset the changes flag
+    setSuccessMessage("");
   };
 
   const notificationTypes = [
@@ -55,7 +83,7 @@ export default function NotificationsPage() {
         <a
           href="#"
           style={{
-            color: "var(--Light-Typography-Color-Heading-Text, #4B465C)", // Updated color
+            color: "#4B465C", // Updated color
             textDecoration: "none",
             fontWeight: "500",
           }}
@@ -147,6 +175,20 @@ export default function NotificationsPage() {
         ))}
       </div>
 
+      {successMessage && (
+        <div
+          style={{
+            color: "#16a34a", // Success message color
+            backgroundColor: "#d1fae5", // Light green background
+            padding: "10px",
+            borderRadius: "6px",
+            marginBottom: "20px",
+          }}
+        >
+          {successMessage}
+        </div>
+      )}
+
       <div style={{ display: "flex", gap: "12px" }}>
         <button
           style={{
@@ -157,8 +199,10 @@ export default function NotificationsPage() {
             borderRadius: "6px",
             fontSize: "14px",
             fontWeight: "500",
-            cursor: "pointer",
+            cursor: isChangesMade ? "pointer" : "not-allowed",
           }}
+          onClick={handleSaveChanges}
+          disabled={!isChangesMade}
         >
           Save Changes
         </button>
@@ -173,6 +217,7 @@ export default function NotificationsPage() {
             fontWeight: "500",
             cursor: "pointer",
           }}
+          onClick={handleDiscardChanges}
         >
           Discard
         </button>

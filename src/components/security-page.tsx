@@ -1,16 +1,56 @@
 "use client";
-
 import { useState } from "react";
 
 export default function SecurityPage() {
   const [passwords, setPasswords] = useState({
-    current: "••••••••••",
-    new: "••••••••••",
-    confirm: "••••••••••",
+    current: "",
+    new: "",
+    confirm: "",
   });
+
+  const [error, setError] = useState<string>("");
 
   const handlePasswordChange = (field: string, value: string) => {
     setPasswords((prev) => ({ ...prev, [field]: value }));
+    setError(""); // Reset error on input change
+  };
+
+  const validatePasswords = () => {
+    const { current, new: newPassword, confirm } = passwords;
+
+    if (!current || !newPassword || !confirm) {
+      return "All fields are required.";
+    }
+
+    if (newPassword !== confirm) {
+      return "New password and confirmation do not match.";
+    }
+
+    if (newPassword.length < 8) {
+      return "New password must be at least 8 characters long.";
+    }
+
+    if (!/[a-z]/.test(newPassword)) {
+      return "New password must contain at least one lowercase letter.";
+    }
+
+    if (!/[0-9!@#$%^&*(),.?":{}|<>]/.test(newPassword)) {
+      return "New password must contain at least one number, symbol, or whitespace character.";
+    }
+
+    return "";
+  };
+
+  const handleSaveChanges = () => {
+    const validationError = validatePasswords();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    // Handle saving the password changes (e.g., make an API call)
+    console.log("Saving password changes:", passwords);
+    alert("Password changes saved successfully!");
   };
 
   return (
@@ -25,6 +65,20 @@ export default function SecurityPage() {
       >
         Change Password
       </h2>
+
+      {error && (
+        <div
+          style={{
+            color: "#dc2626",
+            backgroundColor: "#fee2e2",
+            padding: "10px",
+            borderRadius: "6px",
+            marginBottom: "20px",
+          }}
+        >
+          {error}
+        </div>
+      )}
 
       <div style={{ marginBottom: "20px" }}>
         <label
@@ -51,7 +105,7 @@ export default function SecurityPage() {
             fontSize: "14px",
             boxSizing: "border-box",
             fontFamily: "'Public Sans', sans-serif",
-            color: "#9ca3af", // Light/Typography Color/Placeholder Text
+            color: "#9ca3af",
           }}
         />
       </div>
@@ -88,7 +142,7 @@ export default function SecurityPage() {
               fontSize: "14px",
               boxSizing: "border-box",
               fontFamily: "'Public Sans', sans-serif",
-              color: "#9ca3af", // Light/Typography Color/Placeholder Text
+              color: "#9ca3af",
             }}
           />
         </div>
@@ -116,7 +170,7 @@ export default function SecurityPage() {
               fontSize: "14px",
               boxSizing: "border-box",
               fontFamily: "'Public Sans', sans-serif",
-              color: "#9ca3af", // Light/Typography Color/Placeholder Text
+              color: "#9ca3af",
             }}
           />
         </div>
@@ -160,6 +214,7 @@ export default function SecurityPage() {
             fontWeight: "500",
             cursor: "pointer",
           }}
+          onClick={handleSaveChanges}
         >
           Save Changes
         </button>

@@ -8,6 +8,7 @@ import Card from '@component/Card';
 import Box from '@component/Box';
 import FlexBox from '@component/FlexBox';
 import Typography from '@component/Typography';
+import { getServiceRequestById, ServiceRequest } from './serviceRequestData';
 
 interface ApplicationProgressProps {
   // Props are now optional since we'll get data from URL params and API
@@ -236,6 +237,15 @@ const CloseButton = styled.button`
   }
 `;
 
+const ErrorMessage = styled(Card)`
+  background-color: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 32px;
+  text-align: center;
+`;
+
 const ApplicationProgressPage: React.FC<ApplicationProgressProps> = () => {
   const router = useRouter();
   const params = useParams();
@@ -244,6 +254,8 @@ const ApplicationProgressPage: React.FC<ApplicationProgressProps> = () => {
   const [activeTab, setActiveTab] = useState<'progress' | 'chat'>('progress');
   const [showSuccessMessage, setShowSuccessMessage] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [serviceRequest, setServiceRequest] = useState<ServiceRequest | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Handle responsive design
   useEffect(() => {
@@ -257,22 +269,107 @@ const ApplicationProgressPage: React.FC<ApplicationProgressProps> = () => {
     return () => window.removeEventListener('resize', checkIsMobile);
   }, []);
 
-  // Mock application data - in real app, this would come from props or API
-  const applicationData = {
-    title: 'Request for Funding Application',
-    status: 'Under Review',
-    lastUpdate: '20-04-2025',
-    slaIndicator: '3 days until target close'
+  // Fetch service request data based on ID
+  useEffect(() => {
+    if (applicationId) {
+      setIsLoading(true);
+      
+      // Simulate API call delay (remove in production)
+      const timer = setTimeout(() => {
+        const request = getServiceRequestById(applicationId);
+        setServiceRequest(request);
+        setIsLoading(false);
+      }, 100);
+
+      return () => clearTimeout(timer);
+    }
+  }, [applicationId]);
+
+  // If service request not found, show error
+  if (!isLoading && !serviceRequest) {
+    return (
+      <Box p={isMobile ? '16px' : '24px'} minHeight="100vh">
+        <Container maxWidth="1200px">
+          <BackButton onClick={() => router.push('/non-financial-records')}>
+            <ChevronLeft size={20} />
+            Back to Service Requests
+          </BackButton>
+          
+          <ErrorMessage>
+            <Typography fontSize="18px" fontWeight="600" color="#dc2626" mb="8px">
+              Service Request Not Found
+            </Typography>
+            <Typography fontSize="14px" color="#6b7280">
+              The requested service application could not be found. Please check the URL or return to the service requests page.
+            </Typography>
+          </ErrorMessage>
+        </Container>
+      </Box>
+    );
+  }
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <Box p={isMobile ? '16px' : '24px'} minHeight="100vh">
+        <Container maxWidth="1200px">
+          <BackButton onClick={() => router.push('/non-financial-records')}>
+            <ChevronLeft size={20} />
+            Back to Service Requests
+          </BackButton>
+          
+          <Card border="1px solid #e5e7eb" borderRadius="8px" p="32px" bg="white" mt="32px">
+            <Typography fontSize="16px" color="#6b7280">
+              Loading application details...
+            </Typography>
+          </Card>
+        </Container>
+      </Box>
+    );
+  }
+
+  // Progress steps based on current status
+  const getProgressSteps = (status: ServiceRequest['status']): ProgressStep[] => {
+    const baseSteps = [
+      { id: 1, title: 'Application Submitted', status: 'completed' as const },
+      { id: 2, title: 'Under Review', status: 'pending' as const },
+      { id: 3, title: `${serviceRequest?.serviceName} Approved`, status: 'pending' as const }
+    ];
+
+    switch (status) {
+      case 'Draft':
+        return [
+          { id: 1, title: 'Application Draft', status: 'current' },
+          { id: 2, title: 'Under Review', status: 'pending' },
+          { id: 3, title: `${serviceRequest?.serviceName} Approved`, status: 'pending' }
+        ];
+      case 'Under Review':
+        return [
+          { id: 1, title: 'Application Submitted', status: 'completed' },
+          { id: 2, title: 'Under Review', status: 'current' },
+          { id: 3, title: `${serviceRequest?.serviceName} Approved`, status: 'pending' }
+        ];
+      case 'Approved':
+        return [
+          { id: 1, title: 'Application Submitted', status: 'completed' },
+          { id: 2, title: 'Under Review', status: 'completed' },
+          { id: 3, title: `${serviceRequest?.serviceName} Approved`, status: 'completed' }
+        ];
+      case 'Rejected':
+        return [
+          { id: 1, title: 'Application Submitted', status: 'completed' },
+          { id: 2, title: 'Under Review', status: 'completed' },
+          { id: 3, title: `${serviceRequest?.serviceName} Rejected`, status: 'completed' }
+        ];
+      default:
+        return baseSteps;
+    }
   };
 
-  const progressSteps: ProgressStep[] = [
-    { id: 1, title: 'Application Submitted', status: 'completed' },
-    { id: 2, title: 'Under Review', status: 'current' },
-    { id: 3, title: 'Funding Application Approved', status: 'pending' }
-  ];
+  const progressSteps = getProgressSteps(serviceRequest!.status);
 
   const handleBack = () => {
-    // Navigate back to the non-financial-records page
+    // Navigate back to the service requests page
     router.push('/non-financial-records');
   };
 
@@ -282,7 +379,7 @@ const ApplicationProgressPage: React.FC<ApplicationProgressProps> = () => {
         {/* Back Button */}
         <BackButton onClick={handleBack}>
           <ChevronLeft size={20} />
-          Back to Financial Records
+          Back to Service Requests
         </BackButton>
 
         {/* Tab Navigation */}
@@ -303,14 +400,14 @@ const ApplicationProgressPage: React.FC<ApplicationProgressProps> = () => {
 
         {/* Main Content Card */}
         <Card border="1px solid #e5e7eb" borderRadius="8px" p="32px" bg="white" mt="32px">
-          {/* Application Title */}
+          {/* Dynamic Application Title */}
           <Typography
             fontSize={isMobile ? '18px' : '22px'}
             fontWeight="600"
             color="#6b7280"
             mb="32px"
           >
-            {applicationData.title}
+            {serviceRequest?.serviceName} Application
           </Typography>
 
           {/* Progress Indicator */}
@@ -354,25 +451,44 @@ const ApplicationProgressPage: React.FC<ApplicationProgressProps> = () => {
             
             <Box>
               <DetailRow>
-                <DetailLabel>Status</DetailLabel>
-                <StatusBadge>{applicationData.status}</StatusBadge>
+                <DetailLabel>Service</DetailLabel>
+                <DetailValue>{serviceRequest?.serviceName}</DetailValue>
               </DetailRow>
               
               <DetailRow>
-                <DetailLabel>Last update</DetailLabel>
-                <DetailValue>{applicationData.lastUpdate}</DetailValue>
+                <DetailLabel>Category</DetailLabel>
+                <DetailValue>{serviceRequest?.category}</DetailValue>
+              </DetailRow>
+              
+              <DetailRow>
+                <DetailLabel>Status</DetailLabel>
+                <StatusBadge>{serviceRequest?.status}</StatusBadge>
+              </DetailRow>
+              
+              <DetailRow>
+                <DetailLabel>Date Requested</DetailLabel>
+                <DetailValue>{serviceRequest?.dateRequested}</DetailValue>
               </DetailRow>
               
               <DetailRow>
                 <DetailLabel>SLA Indicator</DetailLabel>
-                <DetailValue>{applicationData.slaIndicator}</DetailValue>
+                <DetailValue>
+                  {serviceRequest?.status === 'Under Review' 
+                    ? '3 days until target close'
+                    : serviceRequest?.status === 'Draft'
+                    ? 'Complete application to start review'
+                    : serviceRequest?.status === 'Approved'
+                    ? 'Application completed successfully'
+                    : 'Application review completed'
+                  }
+                </DetailValue>
               </DetailRow>
             </Box>
           </Box>
         </Card>
 
-        {/* Success Message */}
-        {showSuccessMessage && (
+        {/* Success Message - only show for completed or submitted applications */}
+        {showSuccessMessage && serviceRequest?.status !== 'Draft' && (
           <Card border="1px solid #e5e7eb" borderRadius="8px" p="32px" bg="white" mt="32px">
             <Typography
               fontSize={isMobile ? '18px' : '20px'}
@@ -380,7 +496,7 @@ const ApplicationProgressPage: React.FC<ApplicationProgressProps> = () => {
               color="#6b7280"
               mb="16px"
             >
-              Application Submitted Successfully
+              Application {serviceRequest?.status === 'Approved' ? 'Approved' : 'Submitted'} Successfully
             </Typography>
             
             <SuccessMessage>
@@ -408,7 +524,7 @@ const ApplicationProgressPage: React.FC<ApplicationProgressProps> = () => {
                     color="#28C76F"
                     lineHeight="1.5"
                   >
-                    Your application has been successfully submitted and is now under review. You can track the progress and review your application details below. We will notify you via email and SMS whenever there is an update or change in the status of your application.
+                    Your {serviceRequest?.serviceName.toLowerCase()} application has been successfully {serviceRequest?.status === 'Approved' ? 'approved' : 'submitted'} and is {serviceRequest?.status === 'Under Review' ? 'now under review' : serviceRequest?.status === 'Approved' ? 'ready for processing' : 'completed'}. You can track the progress and review your application details below. We will notify you via email and SMS whenever there is an update or change in the status of your application.
                   </Typography>
                 </Box>
               </FlexBox>

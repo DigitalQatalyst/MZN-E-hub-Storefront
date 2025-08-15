@@ -8,73 +8,7 @@ import Card from '@component/Card';
 import Box from '@component/Box';
 import FlexBox from '@component/FlexBox';
 import Typography from '@component/Typography';
-
-interface ServiceRequest {
-  id: string;
-  serviceName: string;
-  category: string;
-  dateRequested: string;
-  status: 'Draft' | 'Under Review' | 'Approved' | 'Rejected';
-}
-
-const mockData: ServiceRequest[] = [
-  {
-    id: '1',
-    serviceName: 'Request For Funding',
-    category: 'Business Operating Finance',
-    dateRequested: '04/09/2025',
-    status: 'Draft'
-  },
-  {
-    id: '2',
-    serviceName: 'Equipment & Machinery Financing',
-    category: 'Business Asset Financing',
-    dateRequested: '04/09/2025',
-    status: 'Draft'
-  },
-  {
-    id: '3',
-    serviceName: 'Trade Finance',
-    category: 'Project & Specialized Financing',
-    dateRequested: '04/09/2025',
-    status: 'Draft'
-  },
-  {
-    id: '4',
-    serviceName: 'Business Expansion Loans',
-    category: 'Growth & Expansion Financing',
-    dateRequested: '04/09/2025',
-    status: 'Draft'
-  },
-  {
-    id: '5',
-    serviceName: 'Equity Crowdfunding',
-    category: 'Investment & Equity Financing',
-    dateRequested: '04/09/2025',
-    status: 'Draft'
-  },
-  {
-    id: '6',
-    serviceName: 'Working Capital Loan',
-    category: 'Business Operating Finance',
-    dateRequested: '03/09/2025',
-    status: 'Under Review'
-  },
-  {
-    id: '7',
-    serviceName: 'Line of Credit',
-    category: 'Business Operating Finance',
-    dateRequested: '02/09/2025',
-    status: 'Approved'
-  },
-  {
-    id: '8',
-    serviceName: 'Invoice Factoring',
-    category: 'Project & Specialized Financing',
-    dateRequested: '01/09/2025',
-    status: 'Rejected'
-  }
-];
+import { getAllServiceRequests, ServiceRequest } from './serviceRequestData';
 
 type FilterStatus = 'All' | 'Draft' | 'Under Review' | 'Approved' | 'Rejected';
 
@@ -226,24 +160,30 @@ const ActionButton = styled.button`
   }
 `;
 
-// Dropdown Menu Component
+// Updated Dropdown Components with dynamic positioning
 const DropdownContainer = styled(Box)`
   position: relative;
   display: inline-block;
 `;
 
-const DropdownMenu = styled(Card)`
-  position: absolute;
-  top: 100%;
-  right: 0;
+// Updated DropdownMenu with fixed positioning that tracks scroll + original size
+const DropdownMenu = styled(Card)<{ 
+  position: 'above' | 'below';
+  top: number;
+  left: number;
+}>`
+  position: fixed;
+  top: ${({ top, position }) => position === 'above' ? `${top - 124}px` : `${top}px`};
+  left: ${({ left }) => `${left}px`};
   z-index: 1000;
   min-width: 200px;
+  max-width: 200px;
   background: white;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   padding: 8px 0;
-  margin-top: 4px;
+  margin: 0; /* Remove any default margins */
 `;
 
 const DropdownItem = styled.button<{ variant?: 'primary' | 'default' }>`
@@ -289,6 +229,15 @@ const PaginationButton = styled.button<{ isActive?: boolean; disabled?: boolean 
   }
 `;
 
+// Table Container - simplified since dropdown now uses fixed positioning
+const TableContainer = styled(Box)`
+  bg: white;
+  border-radius: 8px;
+  overflow-x: auto;
+  mx: 24px;
+  mb: 24px;
+`;
+
 const ServiceRequestsPage: React.FC = () => {
   const router = useRouter();
   const [activeFilter, setActiveFilter] = useState<FilterStatus>('Draft');
@@ -296,8 +245,14 @@ const ServiceRequestsPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+  const [dropdownPosition, setDropdownPosition] = useState<'above' | 'below'>('below');
+  const [dropdownCoords, setDropdownCoords] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const actionButtonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
   const itemsPerPage = 6;
+
+  // Get service requests data from shared source
+  const serviceRequestsData = getAllServiceRequests();
 
   // Handle responsive design by detecting screen size changes
   useEffect(() => {
@@ -305,11 +260,19 @@ const ServiceRequestsPage: React.FC = () => {
       setIsMobile(window.innerWidth < 768);
     };
     
-    checkIsMobile();
-    window.addEventListener('resize', checkIsMobile);
+    const handleResize = () => {
+      checkIsMobile();
+      // Close dropdown on resize to prevent positioning issues
+      if (openDropdownId) {
+        setOpenDropdownId(null);
+      }
+    };
     
-    return () => window.removeEventListener('resize', checkIsMobile);
-  }, []);
+    checkIsMobile();
+    window.addEventListener('resize', handleResize);
+    
+    return () => window.removeEventListener('resize', handleResize);
+  }, [openDropdownId]);
 
   // Handle click outside to close dropdown
   useEffect(() => {
@@ -319,12 +282,34 @@ const ServiceRequestsPage: React.FC = () => {
       }
     };
 
+    const handleScroll = () => {
+      // Option 1: Update dropdown position when scrolling (current implementation)
+      if (openDropdownId) {
+        const buttonElement = actionButtonRefs.current[openDropdownId];
+        if (buttonElement) {
+          const { position, coords } = calculateDropdownPosition(buttonElement);
+          setDropdownPosition(position);
+          setDropdownCoords(coords);
+        }
+      }
+      
+      // Option 2: Close dropdown on scroll (uncomment below and comment above for simpler UX)
+      // if (openDropdownId) {
+      //   setOpenDropdownId(null);
+      // }
+    };
+
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    window.addEventListener('scroll', handleScroll, true); // Capture phase to catch all scroll events
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('scroll', handleScroll, true);
+    };
+  }, [openDropdownId]);
 
   // Filter data based on active filter and search term
-  const filteredData = mockData.filter(item => {
+  const filteredData = serviceRequestsData.filter(item => {
     const matchesFilter = activeFilter === 'All' || item.status === activeFilter;
     const matchesSearch = 
       item.serviceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -341,9 +326,59 @@ const ServiceRequestsPage: React.FC = () => {
   // Available filter options
   const filters: FilterStatus[] = ['All', 'Draft', 'Under Review', 'Approved', 'Rejected'];
 
-  // Handle dropdown toggle
+  // Calculate optimal dropdown position and coordinates based on button position and viewport
+  const calculateDropdownPosition = (buttonElement: HTMLButtonElement): { 
+    position: 'above' | 'below'; 
+    coords: { top: number; left: number } 
+  } => {
+    const buttonRect = buttonElement.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const dropdownHeight = 124; // Actual dropdown height (2 items + padding)
+    const dropdownWidth = 200; // Dropdown width
+    
+    // Check if there's enough space below the button
+    const spaceBelow = viewportHeight - buttonRect.bottom;
+    const spaceAbove = buttonRect.top;
+    
+    // Determine vertical position
+    const position = (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) ? 'above' : 'below';
+    
+    // Calculate coordinates
+    let top = position === 'below' ? buttonRect.bottom + 4 : buttonRect.top - 4;
+    let left = buttonRect.right - dropdownWidth; // Align right edge with button
+    
+    // Ensure dropdown doesn't go off-screen horizontally
+    if (left < 8) {
+      left = 8; // Minimum margin from left edge
+    }
+    
+    // Ensure dropdown doesn't go off-screen on the right
+    if (left + dropdownWidth > window.innerWidth - 8) {
+      left = window.innerWidth - dropdownWidth - 8;
+    }
+    
+    return {
+      position,
+      coords: { top, left }
+    };
+  };
+
+  // Handle dropdown toggle with dynamic positioning and coordinate calculation
   const toggleDropdown = (id: string) => {
-    setOpenDropdownId(openDropdownId === id ? null : id);
+    if (openDropdownId === id) {
+      setOpenDropdownId(null);
+      return;
+    }
+
+    // Calculate position and coordinates before opening
+    const buttonElement = actionButtonRefs.current[id];
+    if (buttonElement) {
+      const { position, coords } = calculateDropdownPosition(buttonElement);
+      setDropdownPosition(position);
+      setDropdownCoords(coords);
+    }
+    
+    setOpenDropdownId(id);
   };
 
   // Handle dropdown actions
@@ -374,7 +409,11 @@ const ServiceRequestsPage: React.FC = () => {
         </Typography>
 
         {/* Main Content Container */}
-        <Card border="1px solid #e5e7eb" borderRadius="6px" overflow="hidden">
+        <Card 
+          border="1px solid #e5e7eb" 
+          borderRadius="6px" 
+          overflow="hidden"
+        >
           {/* Filter Tabs */}
           <Box
             p={isMobile ? '16px 16px 24px' : '24px 24px 24px'}
@@ -423,14 +462,7 @@ const ServiceRequestsPage: React.FC = () => {
           </FlexBox>
 
           {/* Table Container */}
-          <Box
-            bg="white"
-            borderRadius="8px"
-            overflow="hidden"
-            overflowX="auto"
-            mx="24px"
-            mb="24px"
-          >
+          <TableContainer>
             <Table>
               {/* Table Header */}
               <thead>
@@ -458,15 +490,22 @@ const ServiceRequestsPage: React.FC = () => {
                     <TableCell>
                       <DropdownContainer ref={openDropdownId === item.id ? dropdownRef : null}>
                         <ActionButton
+                          ref={(el) => {
+                            actionButtonRefs.current[item.id] = el;
+                          }}
                           onClick={() => toggleDropdown(item.id)}
                           aria-label="More options"
                         >
                           <MoreVertical size={16} />
                         </ActionButton>
                         
-                        {/* Dropdown Menu */}
+                        {/* Updated Dropdown Menu with fixed positioning over pagination */}
                         {openDropdownId === item.id && (
-                          <DropdownMenu>
+                          <DropdownMenu 
+                            position={dropdownPosition}
+                            top={dropdownCoords.top}
+                            left={dropdownCoords.left}
+                          >
                             <DropdownItem onClick={() => handleWithdraw(item.id)}>
                               Withdraw application
                             </DropdownItem>
@@ -484,7 +523,7 @@ const ServiceRequestsPage: React.FC = () => {
                 ))}
               </tbody>
             </Table>
-          </Box>
+          </TableContainer>
 
           {/* Pagination Controls */}
           <FlexBox

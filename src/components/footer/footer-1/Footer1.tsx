@@ -7,7 +7,6 @@ import Box from "@component/Box";
 import Grid from "@component/grid/Grid";
 import FlexBox from "@component/FlexBox";
 import Typography, { Paragraph } from "@component/Typography";
-import Image from "next/image";
 
 // STYLED COMPONENTS
 import { StyledLink, SubscribeInput, SubscribeButton } from "./styles";
@@ -44,12 +43,12 @@ export default function Footer1() {
             href={linkItem.url}
             key={index}
             style={{
-              color: "rgba(255,255,255,0.8)",
-              display: "block",
-              marginBottom: "0.75rem",
-              fontSize: "14px",
-              textDecoration: "none",
-              transition: "color 0.2s ease",
+              color: 'rgba(255,255,255,0.8)',
+              display: 'block',
+              marginBottom: '0.75rem',
+              fontSize: '14px',
+              textDecoration: 'none',
+              transition: 'color 0.2s ease'
             }}
           >
             {linkItem.name}
@@ -61,11 +60,11 @@ export default function Footer1() {
                 px="0.5rem"
                 py="0.25rem"
                 style={{
-                  backgroundColor: "white",
-                  color: "#0030E3",
-                  borderRadius: "4px",
-                  fontSize: "12px",
-                  fontWeight: "600",
+                  backgroundColor: 'white',
+                  color: '#0030E3',
+                  borderRadius: '4px',
+                  fontSize: '12px',
+                  fontWeight: '600'
                 }}
               >
                 {linkItem.badge}
@@ -80,7 +79,7 @@ export default function Footer1() {
   return (
     <footer>
       {/* Main Footer Section with Blue Gradient */}
-      <Box 
+      <Box
         position="relative"
         overflow="hidden"
         style={{
@@ -101,15 +100,15 @@ export default function Footer1() {
             </Box>
 
             {/* Description and Newsletter Section */}
-            <FlexBox 
-              justifyContent="space-between" 
+            <FlexBox
+              justifyContent="space-between"
               alignItems="flex-start"
               flexDirection={{ xs: "column", lg: "row" }}
             >
               {/* Left Section - Description */}
               <Box maxWidth="500px" mr={{ lg: "2rem" }}>
-                <Paragraph 
-                  color="rgba(255,255,255,0.8)" 
+                <Paragraph
+                  color="rgba(255,255,255,0.8)"
                   fontSize="14px"
                   lineHeight="1.5"
                 >
@@ -128,34 +127,34 @@ export default function Footer1() {
                       onChange={(e) => setEmail(e.target.value)}
                       required
                       style={{
-                        width: "100%",
-                        backgroundColor: "transparent",
-                        border: "1px solid rgba(255,255,255,0.2)",
-                        color: "white",
-                        borderRadius: "12px",
-                        padding: "14px 120px 14px 16px", // Extra right padding for button
-                        fontSize: "16px",
-                        outline: "none",
-                        transition: "border-color 0.2s ease",
+                        width: '100%',
+                        backgroundColor: 'transparent',
+                        border: '1px solid rgba(255,255,255,0.2)',
+                        color: 'white',
+                        borderRadius: '12px',
+                        padding: '14px 120px 14px 16px', // Extra right padding for button
+                        fontSize: '16px',
+                        outline: 'none',
+                        transition: 'border-color 0.2s ease'
                       }}
                     />
                     <SubscribeButton
                       type="submit"
                       style={{
-                        position: "absolute",
-                        right: "6px",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        backgroundColor: "white",
-                        color: "#0030E3",
-                        borderRadius: "8px",
-                        fontWeight: "600",
-                        border: "none",
-                        padding: "10px 20px",
-                        fontSize: "14px",
-                        cursor: "pointer",
-                        transition: "transform 0.2s ease",
-                        whiteSpace: "nowrap",
+                        position: 'absolute',
+                        right: '6px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        backgroundColor: 'white',
+                        color: '#0030E3',
+                        borderRadius: '8px',
+                        fontWeight: '600',
+                        border: 'none',
+                        padding: '10px 20px',
+                        fontSize: '14px',
+                        cursor: 'pointer',
+                        transition: 'transform 0.2s ease',
+                        whiteSpace: 'nowrap'
                       }}
                     >
                       Subscribe
@@ -179,7 +178,7 @@ export default function Footer1() {
           {/* Links Section - 5 Columns */}
           <Box pb="3rem">
             <Grid container spacing={4}>
-              {Object.entries(footerData).map(([key, data]) => 
+              {Object.entries(footerData).map(([key, data]) =>
                 renderFooterColumn(key, data)
               )}
             </Grid>
@@ -199,39 +198,38 @@ export default function Footer1() {
           width: "100%",
           padding: "0 4rem"
         }}>
-          <FlexBox 
-            justifyContent="space-between" 
+          <FlexBox
+            justifyContent="space-between"
             alignItems="center"
             flexDirection={{ xs: "column", md: "row" }}
           >
             {/* Left Section - Legal Links & Copyright */}
-            <FlexBox 
-              alignItems="center" 
+            <FlexBox
+              alignItems="center"
               flexDirection={{ xs: "column", sm: "row" }}
               mb={{ xs: "1rem", md: "0" }}
             >
               <FlexBox alignItems="center">
-                <Typography 
+                <Typography
                   component={Link}
                   href="/"
-                  color="rgba(255,255,255,0.8)" 
-                  fontSize="14px" 
+                  color="rgba(255,255,255,0.8)"
+                  fontSize="14px"
                   fontWeight="400"
                   mr="1rem"
                   style={{ textDecoration: 'none' }}
                 >
                   Privacy Policy
                 </Typography>
-                <Typography 
+                <Typography
                   component={Link}
                   href="/"
-                  color="rgba(255,255,255,0.8)" 
-                  fontSize="14px" 
+                  color="rgba(255,255,255,0.8)"
+                  fontSize="14px"
                   fontWeight="400"
                   mr="1rem"
                   style={{ textDecoration: 'none' }}
                 >
-                  Terms of Service
                   Terms of Service
                 </Typography>
               </FlexBox>
@@ -245,10 +243,10 @@ export default function Footer1() {
               {socialMediaLinks.map((social, index) => {
                 // Map icon names to lucide-react components
                 const IconComponent = social.icon === 'linkedin' ? Linkedin :
-                                    social.icon === 'twitter' ? Twitter :
-                                    social.icon === 'youtube' ? Youtube :
-                                    social.icon === 'instagram' ? Instagram : Linkedin;
-                
+                  social.icon === 'twitter' ? Twitter :
+                    social.icon === 'youtube' ? Youtube :
+                      social.icon === 'instagram' ? Instagram : Linkedin;
+
                 return (
                   <a
                     key={social.name}
@@ -258,10 +256,10 @@ export default function Footer1() {
                     style={{ textDecoration: 'none' }}
                     aria-label={`Follow us on ${social.name}`}
                   >
-                    <Box 
+                    <Box
                       ml={index > 0 ? "0.5rem" : "0"}
-                      p="0.75rem" 
-                      borderRadius="6px" 
+                      p="0.75rem"
+                      borderRadius="6px"
                       display="flex"
                       alignItems="center"
                       justifyContent="center"

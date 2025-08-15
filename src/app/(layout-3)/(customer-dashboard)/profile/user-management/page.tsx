@@ -29,11 +29,6 @@ export default async function UserManagement() {
 
     return (
         <Fragment>
-            <DashboardPageHeader
-                title="Al Maha Trading LLC"
-                iconName="user_filled"
-                button={<EditProfileButton />}
-            />
             <UserGrid />
 
         </Fragment>

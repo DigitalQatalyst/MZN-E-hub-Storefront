@@ -30,77 +30,320 @@ import {
   Send,
 } from "lucide-react";
 
-// const hardcodedPosts = [
-//   {
-//     id: 1,
-//     author: "Collins Abdullahi",
-//     image: "/assets/images/faces/7.png",
-//     time: "12 Jun • 05:10",
-//     title: "Implementing Blockchain for Supply Chain Transparency",
-//     content:
-//       "After several months of testing, we have successfully integrated blockchain technology into our supply chain management. This has provided unprecedented transparency in tracking goods from source to consumer, significantly reducing fraud and improving customer trust.",
-//     tags: ["Blockchain & Web3"],
-//     likes: 21,
-//     comments: 4, 
-//     views: 390,
-//     replies: [
-//       {
-//         author: "Omar Al-Farouq",
-//         image: "/assets/images/faces/2.jpg",
-//         content:
-//           "Absolutely fantastic! It's amazing to see how technology keeps improving. Such similar issues in our different industries when it comes to writing code for blockchain and supply chain. Looking forward to reading more about your journey.",
-//         date: "10 Jun • 14:20",
-//       },
-//       {
-//         author: "Kattia Abdullah",
-//         image: "/assets/images/faces/3.jpg",
-//         content:
-//           "Collins, Great to hear your thoughts! Completely agree, and it's exciting to see how blockchain will continue to revolutionize various industries across the board.",
-//         date: "17 Jun • 07:10",
-//       },
-//       {
-//         author: "Aamir Muhammad",
-//         image: "/assets/images/faces/4.jpg",
-//         content: "How does it work with top event-loop management systems?",
-//         date: "11 Jun • 09:10",
-//       },
-//       {
-//         author: "Yusuf Saad",
-//         image: "/assets/images/faces/5.jpg",
-//         content:
-//           "Impressive work. I watch blockchain's potential for eliminating transparency in the supply chain as a game-changing. I'm excited to see where this will take the industry moving forward.",
-//         date: "19 Jun • 05:10",
-//       },
-//     ],
-//   },
-//   {
-//     id: 2,
-//     author: "Jaila Hassan",
-//     image: "/assets/images/faces/face-2.png",
-//     time: "11 Jun • 09:10",
-//     title: "Successfully Secured Khalifa Fund Support for My Startup!",
-//     content:
-//       "I'm excited to announce that my startup was just approved for funding by the Khalifa Fund 🎉 The process was incredibly thorough, and we're happy to expand. If anyone else has been through this, I'd love to hear about your experience and any tips for successfully navigating this next phase!",
-//     tags: ["Funding & Finance"],
-//     likes: 25,
-//     comments: 4,
-//     views: 520,
-//   },
-//   {
-//     id: 3,
-//     author: "Ali Khatri",
-//     image: "/assets/images/faces/face-7.jpg",
-//     time: "13 Jun • 06:10",
-//     title: "Implementing Data-Driven Strategies to Boost Business Growth",
-//     content:
-//       "As part of our ongoing efforts to scale our business, we've recently implemented a more data-driven approach across all departments. By leveraging analytics to track customer behavior, optimize marketing campaigns, and improve operational efficiency, we've seen a 35% increase in overall performance metrics.",
-//     tags: ["Growth & Scaling"],
-//     likes: 31,
-//     comments: 3,
-//     shares: 5,
-//     views: 780,
-//   },
-// ];
+const demoPostsData = [
+  {
+    id: 1,
+    author: "Collins Abdullahi",
+    image: "/assets/images/faces/7.png",
+    time: "12 Jun • 05:10",
+    title: "Implementing Blockchain for Supply Chain Transparency",
+    content:
+      "After several months of testing, we have successfully integrated blockchain technology into our supply chain management. This has provided unprecedented transparency in tracking goods from source to consumer, significantly reducing fraud and improving customer trust.",
+    tags: ["Blockchain & Web3"],
+    likes: 21,
+    comments: 4, 
+    views: 390,
+    replies: [
+      {
+        author: "Omar Al-Farouq",
+        image: "/assets/images/faces/2.jpg",
+        content:
+          "Absolutely fantastic! It's amazing to see how technology keeps improving. Such similar issues in our different industries when it comes to writing code for blockchain and supply chain. Looking forward to reading more about your journey.",
+        date: "10 Jun • 14:20",
+      },
+      {
+        author: "Kattia Abdullah",
+        image: "/assets/images/faces/3.jpg",
+        content:
+          "Collins, Great to hear your thoughts! Completely agree, and it's exciting to see how blockchain will continue to revolutionize various industries across the board.",
+        date: "17 Jun • 07:10",
+      },
+      {
+        author: "Aamir Muhammad",
+        image: "/assets/images/faces/4.jpg",
+        content: "How does it work with top event-loop management systems?",
+        date: "11 Jun • 09:10",
+      },
+      {
+        author: "Yusuf Saad",
+        image: "/assets/images/faces/5.jpg",
+        content:
+          "Impressive work. I watch blockchain's potential for eliminating transparency in the supply chain as a game-changing. I'm excited to see where this will take the industry moving forward.",
+        date: "19 Jun • 05:10",
+      },
+    ],
+  },
+  {
+    id: 2,
+    author: "Jaila Hassan",
+    image: "/assets/images/faces/face-2.png",
+    time: "11 Jun • 09:10",
+    title: "Successfully Secured Khalifa Fund Support for My Startup!",
+    content:
+      "I'm excited to announce that my startup was just approved for funding by the Khalifa Fund 🎉 The process was incredibly thorough, and we're happy to expand. If anyone else has been through this, I'd love to hear about your experience and any tips for successfully navigating this next phase!",
+    tags: ["Funding & Finance"],
+    likes: 25,
+    comments: 4,
+    views: 520,
+    replies: [
+      {
+        author: "Ahmed Al-Rashid",
+        image: "/assets/images/faces/2.jpg",
+        content: "Congratulations! The Khalifa Fund has been a game changer for many entrepreneurs. Make sure to leverage their mentorship programs as well.",
+        date: "11 Jun • 10:30",
+      },
+      {
+        author: "Fatima Al-Zahra",
+        image: "/assets/images/faces/3.jpg",
+        content: "This is inspiring! I'm currently preparing my application. Any specific tips for the pitch presentation?",
+        date: "11 Jun • 15:45",
+      },
+      {
+        author: "Mohammed Khalil",
+        image: "/assets/images/faces/4.jpg",
+        content: "Well deserved! Your startup concept was always strong. Looking forward to seeing your growth journey.",
+        date: "12 Jun • 08:20",
+      },
+      {
+        author: "Sara Abdullah",
+        image: "/assets/images/faces/5.jpg",
+        content: "Amazing news! The UAE startup ecosystem is thriving with success stories like yours.",
+        date: "12 Jun • 14:15",
+      },
+    ],
+  },
+  {
+    id: 3,
+    author: "Ali Khatri",
+    image: "/assets/images/faces/face-7.jpg",
+    time: "13 Jun • 06:10",
+    title: "Implementing Data-Driven Strategies to Boost Business Growth",
+    content:
+      "As part of our ongoing efforts to scale our business, we've recently implemented a more data-driven approach across all departments. By leveraging analytics to track customer behavior, optimize marketing campaigns, and improve operational efficiency, we've seen a 35% increase in overall performance metrics.",
+    tags: ["Growth & Scaling"],
+    likes: 31,
+    comments: 3,
+    views: 780,
+    replies: [
+      {
+        author: "Layla Mansour",
+        image: "/assets/images/faces/2.jpg",
+        content: "Great insights! Which analytics tools have you found most effective for tracking customer behavior?",
+        date: "13 Jun • 09:25",
+      },
+      {
+        author: "Khalid Hassan",
+        image: "/assets/images/faces/3.jpg",
+        content: "35% improvement is impressive! Would love to hear more about your implementation strategy.",
+        date: "13 Jun • 11:40",
+      },
+      {
+        author: "Nour Al-Din",
+        image: "/assets/images/faces/4.jpg",
+        content: "This aligns perfectly with our current initiatives. Data-driven decisions are indeed game changers.",
+        date: "14 Jun • 07:30",
+      },
+    ],
+  },
+  {
+    id: 4,
+    author: "Amira Rashid",
+    image: "/assets/images/faces/face-2.png",
+    time: "14 Jun • 11:30",
+    title: "Launching Our First AI-Powered E-commerce Platform",
+    content:
+      "After 18 months of development, we're finally launching our AI-powered e-commerce platform that personalizes shopping experiences in real-time. The beta testing showed 40% higher conversion rates compared to traditional platforms. Excited to see how the market responds!",
+    tags: ["AI & Machine Learning"],
+    likes: 42,
+    comments: 6,
+    views: 1200,
+    replies: [
+      {
+        author: "Hassan Al-Mahmoud",
+        image: "/assets/images/faces/2.jpg",
+        content: "Congratulations on the launch! AI personalization is the future of e-commerce. What ML models are you using?",
+        date: "14 Jun • 12:15",
+      },
+      {
+        author: "Zara Ibrahim",
+        image: "/assets/images/faces/3.jpg",
+        content: "40% improvement in conversion rates is phenomenal! Are you planning to open-source any components?",
+        date: "14 Jun • 16:20",
+      },
+      {
+        author: "Omar Farid",
+        image: "/assets/images/faces/4.jpg",
+        content: "This sounds groundbreaking! How are you handling data privacy with the personalization features?",
+        date: "15 Jun • 08:45",
+      },
+      {
+        author: "Mariam Al-Zahra",
+        image: "/assets/images/faces/5.jpg",
+        content: "Impressive work! Would love to beta test this for our retail clients. Is there a waiting list?",
+        date: "15 Jun • 10:30",
+      },
+      {
+        author: "Yousef Al-Rashid",
+        image: "/assets/images/faces/6.jpg",
+        content: "The timing is perfect with the current e-commerce boom. Looking forward to seeing your success metrics!",
+        date: "15 Jun • 14:00",
+      },
+      {
+        author: "Lina Kassem",
+        image: "/assets/images/faces/7.png",
+        content: "As a UX designer, I'm curious about how you balance AI recommendations with user control. Great achievement!",
+        date: "16 Jun • 09:10",
+      },
+    ],
+  },
+  {
+    id: 5,
+    author: "Tariq Al-Mansouri",
+    image: "/assets/images/faces/face-7.jpg",
+    time: "15 Jun • 14:45",
+    title: "Sustainable Business Practices: Our Journey to Carbon Neutrality",
+    content:
+      "We've officially achieved carbon neutrality for our manufacturing operations! This 3-year journey involved transitioning to renewable energy, optimizing our supply chain, and implementing circular economy principles. It's proof that profitability and sustainability can go hand in hand.",
+    tags: ["Sustainability"],
+    likes: 38,
+    comments: 5,
+    views: 950,
+    replies: [
+      {
+        author: "Farah Al-Kuwari",
+        image: "/assets/images/faces/2.jpg",
+        content: "This is incredible! Can you share some specific strategies that had the biggest impact on your carbon footprint?",
+        date: "15 Jun • 15:30",
+      },
+      {
+        author: "Saeed Abdullah",
+        image: "/assets/images/faces/3.jpg",
+        content: "Congratulations! How did you manage the initial costs of transitioning to renewable energy?",
+        date: "15 Jun • 17:20",
+      },
+      {
+        author: "Nadia Hassan",
+        image: "/assets/images/faces/4.jpg",
+        content: "Leading by example! More companies need to follow this path. What's your next sustainability goal?",
+        date: "16 Jun • 08:15",
+      },
+      {
+        author: "Rashid Al-Maktoum",
+        image: "/assets/images/faces/5.jpg",
+        content: "Fantastic achievement! How are you measuring and verifying your carbon neutrality status?",
+        date: "16 Jun • 11:45",
+      },
+      {
+        author: "Mona Al-Thani",
+        image: "/assets/images/faces/6.jpg",
+        content: "This aligns perfectly with the UAE's Net Zero by 2050 initiative. Great contribution to the national goals!",
+        date: "16 Jun • 16:30",
+      },
+    ],
+  },
+  {
+    id: 6,
+    author: "Leila Mahmoud",
+    image: "/assets/images/faces/face-2.png",
+    time: "16 Jun • 09:20",
+    title: "Breaking Into International Markets: Lessons from Our Expansion",
+    content:
+      "Our expansion into the European market has been a rollercoaster! After 6 months, we've learned invaluable lessons about cultural adaptation, regulatory compliance, and local partnerships. Revenue is up 60% but the journey wasn't without challenges.",
+    tags: ["International Business"],
+    likes: 29,
+    comments: 4,
+    views: 680,
+    replies: [
+      {
+        author: "Ibrahim Al-Rashid",
+        image: "/assets/images/faces/2.jpg",
+        content: "60% revenue increase is impressive! What were the biggest regulatory hurdles you faced in Europe?",
+        date: "16 Jun • 10:15",
+      },
+      {
+        author: "Yasmin Al-Zahra",
+        image: "/assets/images/faces/3.jpg",
+        content: "Cultural adaptation is often underestimated. How did you modify your products/services for the European market?",
+        date: "16 Jun • 13:40",
+      },
+      {
+        author: "Khaled Mansour",
+        image: "/assets/images/faces/4.jpg",
+        content: "Local partnerships are crucial for international expansion. How did you identify the right partners?",
+        date: "17 Jun • 07:20",
+      },
+      {
+        author: "Rania Kassem",
+        image: "/assets/images/faces/5.jpg",
+        content: "This gives me hope for our own international expansion plans. Any advice for market research strategies?",
+        date: "17 Jun • 12:30",
+      },
+    ],
+  },
+  {
+    id: 7,
+    author: "Ahmed Al-Futtaim",
+    image: "/assets/images/faces/face-7.jpg",
+    time: "17 Jun • 16:15",
+    title: "The Rise of Fintech in the MENA Region: Opportunities and Challenges",
+    content:
+      "Having worked in traditional banking for 15 years before founding my fintech startup, I've witnessed the incredible transformation of financial services in MENA. Digital payments have grown 300% in the last 2 years alone. However, regulatory frameworks still need to catch up.",
+    tags: ["Fintech"],
+    likes: 55,
+    comments: 8,
+    views: 1450,
+    replies: [
+      {
+        author: "Salma Al-Qasimi",
+        image: "/assets/images/faces/2.jpg",
+        content: "300% growth is staggering! Which countries in the region are leading this fintech revolution?",
+        date: "17 Jun • 17:00",
+      },
+      {
+        author: "Basel Mahmoud",
+        image: "/assets/images/faces/3.jpg",
+        content: "The regulatory gap is a real challenge. Are you seeing any positive movements from central banks in the region?",
+        date: "17 Jun • 18:30",
+      },
+      {
+        author: "Dina Al-Rashid",
+        image: "/assets/images/faces/4.jpg",
+        content: "As someone in traditional banking, this transition must have been eye-opening. What surprised you most about fintech?",
+        date: "18 Jun • 08:45",
+      },
+      {
+        author: "Majid Al-Thani",
+        image: "/assets/images/faces/5.jpg",
+        content: "Digital payments adoption has been incredible indeed. How are you addressing cybersecurity concerns?",
+        date: "18 Jun • 10:20",
+      },
+      {
+        author: "Aya Hassan",
+        image: "/assets/images/faces/6.jpg",
+        content: "What role do you see crypto and blockchain playing in the future of MENA fintech?",
+        date: "18 Jun • 14:15",
+      },
+      {
+        author: "Waleed Al-Mansouri",
+        image: "/assets/images/faces/7.png",
+        content: "The regulatory challenge is universal. How do you balance innovation with compliance requirements?",
+        date: "18 Jun • 16:45",
+      },
+      {
+        author: "Hala Al-Zahra",
+        image: "/assets/images/faces/2.jpg",
+        content: "Financial inclusion is improving dramatically. Are you seeing impact in underbanked communities?",
+        date: "19 Jun • 09:30",
+      },
+      {
+        author: "Saif Al-Kuwari",
+        image: "/assets/images/faces/3.jpg",
+        content: "Cross-border payments are still a pain point. Any innovations you're working on in this space?",
+        date: "19 Jun • 11:50",
+      },
+    ],
+  },
+];
 
 export default function CommunityLanding() {
   const [activeItem, setActiveItem] = useState("Home");
@@ -113,109 +356,71 @@ export default function CommunityLanding() {
   const [likedPosts, setLikedPosts] = useState<number[]>([]);
   const [postLikeCounts, setPostLikeCounts] = useState<{postId: number, likeCount: number}[]>([]);
 
-  // Function to fetch posts from API
+  // Function to load demo posts (API replacement)
   const fetchPosts = async () => {
     setIsLoading(true);
     setError(null);
-    setAuthStatus("Authenticating...");
+    setAuthStatus("Loading demo data...");
     
     try {
-      console.log("Starting authentication and post fetch process...");
-      const apiPosts = await getCommunityPosts();
+      // Simulate loading delay for better UX
+      await new Promise(resolve => setTimeout(resolve, 500));
       
-      // Update auth status after successful authentication
-      if (isAuthenticated()) {
-        const user = getCurrentUser();
-        setAuthStatus(`Authenticated as: ${user?.identifier || 'Unknown'}`);
-      }
+      console.log("Loading demo posts data...");
       
-      // Transform API posts to match the display format
-      const transformedPosts = apiPosts.map((post) => ({
-        id: parseInt(post.id),
-        author: `User ${post.id}`, // Use post ID as author since no author data from API
-        image: "/assets/images/faces/7.png", // Default image since API doesn't provide
-        time: new Date(post.createdAt).toLocaleDateString(),
-        title: post.title,
-        content: post.content,
-        tags: [post.tag],
-        likes: Math.floor(Math.random() * 50) + 1, // Random likes since not in API
-        comments: post.comments.length,
-        views: post.views,
-        replies: post.comments.map((comment, index) => ({
-          author: `User ${comment.id}`, // Use comment ID as author since no author data
-          image: "/assets/images/faces/2.jpg",
-          content: comment.text,
-          date: new Date(comment.createdAt).toLocaleDateString(),
-        })),
-      }));
-      
-      setDisplayPosts(transformedPosts);
+      // Use demo posts data directly
+      setDisplayPosts(demoPostsData);
       
       // Initialize like counts for each post and reset liked posts
-      const initialLikeCounts = transformedPosts.map(post => ({
+      const initialLikeCounts = demoPostsData.map(post => ({
         postId: post.id,
         likeCount: post.likes
       }));
       setPostLikeCounts(initialLikeCounts);
       setLikedPosts([]); // Reset liked posts when loading new data
       
-      console.log(`Successfully loaded ${transformedPosts.length} posts`);
+      setAuthStatus("Demo data loaded successfully");
+      console.log(`Successfully loaded ${demoPostsData.length} demo posts`);
     } catch (err) {
-      console.error("Error in fetchPosts:", err);
-      setError(err instanceof Error ? err.message : "Failed to load posts. Please try again.");
-      setAuthStatus("Authentication failed");
+      console.error("Error loading demo posts:", err);
+      setError("Failed to load demo posts. Please try again.");
+      setAuthStatus("Demo data loading failed");
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Function to fetch recent posts from API
+  // Function to load recent demo posts
   const fetchRecentPosts = async (limit: number = 5) => {
     setIsLoading(true);
     setError(null);
-    setAuthStatus("Authenticating...");
+    setAuthStatus("Loading recent demo data...");
     
     try {
-      console.log(`Starting authentication and recent posts fetch process with limit ${limit}...`);
-      const apiPosts = await getRecentPosts(limit);
+      // Simulate loading delay for better UX
+      await new Promise(resolve => setTimeout(resolve, 300));
       
-      // Update auth status after successful authentication
-      if (isAuthenticated()) {
-        const user = getCurrentUser();
-        setAuthStatus(`Authenticated as: ${user?.identifier || 'Unknown'}`);
-      }
+      console.log(`Loading recent demo posts with limit ${limit}...`);
       
-      // Transform API recent posts to match the display format
-      // Since recent posts don't have comments/author data, we'll use defaults
-      const transformedPosts = apiPosts.map((post) => ({
-        id: parseInt(post.id),
-        author: `User ${post.id}`, // Use post ID as author since no author field
-        image: "/assets/images/faces/7.png", // Default image
-        time: new Date(post.createdAt).toLocaleDateString(),
-        title: post.title,
-        content: post.content,
-        tags: [post.tag],
-        likes: Math.floor(Math.random() * 50) + 1, // Random likes since not in API
-        comments: 0, // Recent posts API doesn't include comments
-        views: post.views,
-        replies: [], // No replies for recent posts
-      }));
+      // Get recent posts from demo data (last N posts)
+      const recentDemoPosts = demoPostsData.slice(-limit).reverse(); // Get last N posts and reverse for recent-first order
       
-      setDisplayPosts(transformedPosts);
+      setDisplayPosts(recentDemoPosts);
       
       // Initialize like counts for each post and reset liked posts
-      const initialLikeCounts = transformedPosts.map(post => ({
+      const initialLikeCounts = recentDemoPosts.map(post => ({
         postId: post.id,
         likeCount: post.likes
       }));
       setPostLikeCounts(initialLikeCounts);
       setLikedPosts([]); // Reset liked posts when loading new data
       
-      console.log(`Successfully loaded ${transformedPosts.length} recent posts`);
+      setAuthStatus("Recent demo data loaded successfully");
+      console.log(`Successfully loaded ${recentDemoPosts.length} recent demo posts`);
     } catch (err) {
-      console.error("Error in fetchRecentPosts:", err);
-      setError(err instanceof Error ? err.message : "Failed to load recent posts. Please try again.");
-      setAuthStatus("Authentication failed");
+      console.error("Error loading recent demo posts:", err);
+      setError("Failed to load recent demo posts. Please try again.");
+      setAuthStatus("Recent demo data loading failed");
     } finally {
       setIsLoading(false);
     }

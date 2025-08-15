@@ -371,7 +371,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   };
 
   const handleProfileClick = () => {
-    window.location.href = "/dashboard";
+    window.location.href = "https://mzn-e-hub-storefront-pmvfb59r2-digitalqatalysts-projects.vercel.app/dashboard";
     setMenuOpen(false);
   };
 

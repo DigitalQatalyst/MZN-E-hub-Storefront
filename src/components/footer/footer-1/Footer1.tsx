@@ -16,7 +16,7 @@ import Button from "@component/buttons/Button";
 // STYLED COMPONENTS
 import { StyledLink, SubscribeInput, SubscribeButton, SubscribeContainer } from "./styles";
 // CUSTOM DATA
-import { aboutLinks, customerCareLinks, iconList,  partners,legalLinks } from "./data";
+import { aboutLinks, customerCareLinks, iconList, partners, legalLinks } from "./data";
 
 export default function Footer1() {
   const [email, setEmail] = useState("");
@@ -29,17 +29,20 @@ export default function Footer1() {
 
   return (
     <footer>
-      <Box bg="var(--KF-BG-Dark-Blue, #002180)">
+      <Box style={{
+        background: 'var(--Footer-Gradient, linear-gradient(94deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%))',
+        backdropFilter: 'blur(4px)'
+      }}>
         <Container p="1rem" color="white">
           <Box py="5rem" overflow="hidden">
             <Grid container spacing={3}>
-              <Grid item lg={4} md={6} sm={6} xs={12}>
+              <Grid item lg={5} md={6} sm={6} xs={12}>
                 <Link href="/">
-                  <Image alt="logo" mb="1rem" src="/assets/images/mzn_logos/Asset 10 (1).svg" />
+                  <Image alt="logo" mb="1rem" src="/assets/images/logos/mzn_logo.svg" />
                 </Link>
 
-                <Paragraph mb="1.25rem" color="gray.500" maxWidth="320px">
-                Stay updated with the latest business insights, opportunities, and services from MZN.
+                <Paragraph mb="1.25rem" fontSize="14px" color="gray.500" maxWidth="320px">
+                  Stay updated with the latest business insights, opportunities, and services from MZN.
                 </Paragraph>
 
                 {/* <AppStore /> */}
@@ -48,7 +51,7 @@ export default function Footer1() {
                   <SubscribeContainer>
                     <SubscribeInput
                       type="email"
-                      placeholder="Your email"
+                      placeholder="Enter your email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
@@ -57,25 +60,28 @@ export default function Footer1() {
                     </SubscribeButton>
                   </SubscribeContainer>
                 </form>
-
-                <Box bg="var(--KF-BG-Dark-Blue, #002180)" py="1rem" textAlign="center">
-                  <FlexBox alignItems="center" style={{ marginTop: "6rem" }}>
-                    {/* "2024" text  */}
-                    <Typography color="white" fontSize="11px" fontWeight="400" mr="1rem">
-                      © 2024 
-                    </Typography>
-                    {/* Logo */}
-                    <Image 
-                      src="/assets/images/mzn_logos/Layer 1.svg" 
+                <FlexBox alignItems="center" style={{ marginTop: "6rem" }}>
+                  {/* "2024" text  */}
+                  <Typography color="white" fontSize="15px" fontWeight="400" mr="1rem">
+                    Privacy Policy
+                  </Typography>
+                  <Typography color="white" fontSize="15px" fontWeight="400" mr="1rem">
+                    Terms of Service
+                  </Typography>
+                  <Typography color="white" fontSize="15px" fontWeight="400" mr="1rem">
+                    © 2025 Enterprise Journey
+                  </Typography>
+                  {/* Logo */}
+                  {/* <Image
+                      src="/assets/images/logos/mzn_logo.svg"
                       alt="MZN Logo"
                       width="30.156px"
                       height="12.999px"
-                    />
-                  </FlexBox>
-                </Box>
+                    /> */}
+                </FlexBox>
               </Grid>
 
-              <Grid item lg={2} md={6} sm={6} xs={12}>
+              <Grid item lg={2.5} md={6} sm={6} xs={12}>
                 <Typography mb="1.25rem" lineHeight="1" fontSize={20} fontWeight="600">
                   Quick Links
                 </Typography>
@@ -89,7 +95,7 @@ export default function Footer1() {
                 </div>
               </Grid>
 
-              <Grid item lg={2} md={6} sm={6} xs={12}>
+              <Grid item lg={2.5} md={6} sm={6} xs={12}>
                 <Typography mb="1.25rem" lineHeight="1" fontSize={20} fontWeight="600">
                   Get to Know Us
                 </Typography>
@@ -105,11 +111,11 @@ export default function Footer1() {
 
               <Grid item lg={2} md={6} sm={6} xs={12}>
                 <Typography mb="1.25rem" lineHeight="1" fontSize={20} fontWeight="600">
-                 Partners
+                  Partners
                 </Typography>
 
                 <div>
-                  { partners.map((item, ind) => (
+                  {partners.map((item, ind) => (
                     <StyledLink href="/" key={ind}>
                       {item}
                     </StyledLink>
@@ -117,11 +123,11 @@ export default function Footer1() {
                 </div>
               </Grid>
 
-              <Grid item lg={2} md={6} sm={6} xs={12}>
+              {/* <Grid item lg={2} md={6} sm={6} xs={12}>
               <Typography mb="1.25rem" lineHeight="1" fontSize={20} fontWeight="600">
                 Legal
                 </Typography>
-
+ 
                 <div>
                   {legalLinks.map((item, ind) => (
                     <StyledLink href="/" key={ind}>
@@ -129,7 +135,7 @@ export default function Footer1() {
                     </StyledLink>
                   ))}
                 </div>
-
+ 
                 <FlexBox className="flex" mx="-5px" style={{ marginTop: "8rem" }}>
                   {iconList.map((item) => (
                     <a
@@ -145,7 +151,7 @@ export default function Footer1() {
                     </a>
                   ))}
                 </FlexBox>
-              </Grid>
+              </Grid> */}
             </Grid>
           </Box>
         </Container>
@@ -153,3 +159,4 @@ export default function Footer1() {
     </footer>
   );
 }
+

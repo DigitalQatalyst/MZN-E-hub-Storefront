@@ -535,7 +535,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             <NavLink className="nav-link" href="/development" onClick={toggleMenu}>
               Discover AbuDhabi
             </NavLink>
-            <NavLink className="nav-link" href="/faq" onClick={toggleMenu}>
+            <NavLink className="nav-link" href="https://mzn-e-hub-storefront-cdzzi93jk-digitalqatalysts-projects.vercel.app/faq" onClick={toggleMenu}>
               Help Centre
             </NavLink>
           </FlexBox>

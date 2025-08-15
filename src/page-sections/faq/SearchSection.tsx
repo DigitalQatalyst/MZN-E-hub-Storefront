@@ -1,6 +1,6 @@
 import TextField from "@component/text-field";
 import Typography from "@component/Typography";
-import { Box, InputAdornment } from "@mui/material";
+import Box from "@component/Box";
 import React from "react";
 import { BsSearch } from "react-icons/bs";
 
@@ -16,22 +16,18 @@ const SearchSection = () => {
   return (
     <div>
       <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "30vh",
-          backgroundColor: "#F4F3FE",
-        }}
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        height="30vh"
+        backgroundColor="#F4F3FE"
       >
         <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-            width: "100%",
-          }}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          flexDirection="column"
+          width="100%"
         >
           <Typography
             fontSize="24px"
@@ -43,26 +39,28 @@ const SearchSection = () => {
           </Typography>
 
           <Box
-            sx={{
-              display: "grid",
-              placeContent: "center",
-              width: "100%",
-              py: "1rem",
-            }}
+            display="grid"
+            style={{ placeContent: "center" }}
+            width="100%"
+            py="1rem"
           >
-            <TextField
-              variant="outlined"
-              fullWidth
-              placeholder="Search"
-              style={{ width: "350px", borderRadius: "7px" }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <BsSearch size={20} color="black" />
-                  </InputAdornment>
-                ),
-              }}
-            />
+            <div style={{ position: "relative" }}>
+              <TextField
+                variant="outlined"
+                fullWidth
+                placeholder="Search"
+                style={{ width: "350px", borderRadius: "7px", paddingRight: "40px" }}
+              />
+              <div style={{
+                position: "absolute",
+                right: "12px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                pointerEvents: "none"
+              }}>
+                <BsSearch size={20} color="black" />
+              </div>
+            </div>
           </Box>
 
           <Typography fontSize="15px" color="#6B6778" variant="p">

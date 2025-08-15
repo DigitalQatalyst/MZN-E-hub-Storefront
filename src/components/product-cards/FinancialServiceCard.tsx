@@ -94,10 +94,6 @@ const EyeButton = styled(IconButton)(() => ({
   position: "absolute",
   transition: "right 0.3s .1s",
   background: "transparent",
-  
-  "@media (max-width: 768px)": {
-    right: "15px",
-    top: "0px",
   display: "none",
   "&.eye-button": {
     display: "none",
@@ -114,7 +110,8 @@ const FavoriteButton = styled(IconButton)(() => ({
   "@media (max-width: 768px)": {
     right: "15px",
     top: "30px",
-  display: "none",
+    display: "none",
+  },
   "&.favorite-button": {
     display: "none",
   },
@@ -332,28 +329,28 @@ const ContentBox = styled(Box)`
   text-align: left;
 `;
 
-const BottomSection = styled(Box)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: auto; // This pushes the bottom section to the bottom
-  gap: 8px;
+// const BottomSection = styled(Box)`
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   margin-top: auto; // This pushes the bottom section to the bottom
+//   gap: 8px;
   
-  @media (max-width: 1024px) {
-    gap: 6px;
-    flex-wrap: wrap;
-  }
+//   @media (max-width: 1024px) {
+//     gap: 6px;
+//     flex-wrap: wrap;
+//   }
   
-  @media (max-width: 768px) {
-    gap: 4px;
-  }
+//   @media (max-width: 768px) {
+//     gap: 4px;
+//   }
   
-  @media (max-width: 500px) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-`;
+//   @media (max-width: 500px) {
+//     flex-direction: column;
+//     align-items: flex-start;
+//     gap: 8px;
+//   }
+// `;
 
 const ViewDetailsText = styled(Paragraph)`
   color: #002180;
@@ -451,14 +448,14 @@ export default function FinancialServiceCard(props: FinancialServiceCardProps) {
                 <ResponsiveIcon color="#002180">arrow_forward</ResponsiveIcon>
               </LearnMoreWrapper>
             </Link>
-          </BottomSection>
+          </Box>
         </ContentBox>
       </CardBox>
 
       <ProductQuickView
         open={openDialog}
         onClose={toggleDialog}
-        product={{ id, images, subTitle, description, slug, title: name, title1: name }}
+        product={{ id, images, subTitle, description, slug, title: name}}
       />
     </Fragment>
   );

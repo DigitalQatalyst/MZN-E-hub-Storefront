@@ -2,10 +2,10 @@
 
 import { Fragment, useEffect, useState } from "react";
 import styled from "styled-components";
-import ProductIntro from "@component/products/ProductIntro";
-import ProductDetails from "@component/products/ProductDetails";
 import client from "@lib/graphQLClient";
 import Product from "@models/product.model";
+import ServiceDetailsSection1 from "@component/products/ServiceDetailsSection1";
+import ServiceDetailsSection2 from "@component/products/ServiceDetailsSection2";
 
 const MessageContainer = styled.div`
   display: flex;
@@ -61,7 +61,7 @@ interface ProductResponse {
   };
 }
 
-export default function ClientProductDetailsPage({ slug }: { slug: string }) {
+export default function ServiceDetails({ slug }: { slug: string }) {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -172,8 +172,8 @@ export default function ClientProductDetailsPage({ slug }: { slug: string }) {
 
   return (
     <Fragment>
-      <ProductIntro product={product} />
-      <ProductDetails product={product} />
+      <ServiceDetailsSection1 product={product} />
+      <ServiceDetailsSection2 product={product} />
     </Fragment>
   );
 }

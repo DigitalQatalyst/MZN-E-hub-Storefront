@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { useState, Fragment } from "react";
 import styled from "styled-components";
@@ -16,22 +17,16 @@ const CardBox = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   width: "100%",
-  minHeight: "200px", // Removed fixed height
+  minHeight: "200px",
+  height: "260px",
   padding: "16px",
   transition: "all 0.3s",
   borderRadius: "8px",
   background: "#FFF",
-  marginBottom: "0.5rem",
-  boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.15), 0px 1px 3px 1px rgba(0, 0, 0, 0.08)",
+  border: `1px solid ${theme.colors.gray[400]}`,
   "&:hover": {
     ".product-img": {
       transform: "scale(1.1)",
-    },
-    ".eye-button": {
-      display: "block",
-    },
-    ".favorite-button": {
-      display: "block",
     },
   },
 }));
@@ -41,11 +36,11 @@ const CardMedia = styled(Box)(({ theme }) => ({
   maxHeight: "300px",
   cursor: "pointer",
   position: "relative",
-  marginBottom: "15px",
+  marginBottom: "15px", // Added to increase gap between CardMedia and Box below
   ".product-img": {
     transition: "0.3s",
     width: "100%",
-    height: "auto", // Changed to auto for responsive scaling
+    height: "100%",
   },
 }));
 
@@ -55,10 +50,6 @@ const EyeButton = styled(IconButton)(() => ({
   position: "absolute",
   transition: "right 0.3s .1s",
   background: "transparent",
-  display: "none",
-  "&.eye-button": {
-    display: "none",
-  },
 }));
 
 const FavoriteButton = styled(IconButton)(() => ({
@@ -67,10 +58,6 @@ const FavoriteButton = styled(IconButton)(() => ({
   position: "absolute",
   background: "transparent",
   transition: "right 0.3s .2s",
-  display: "none",
-  "&.favorite-button": {
-    display: "none",
-  },
 }));
 
 const StyledH4 = styled(H4)`
@@ -108,14 +95,14 @@ const StyledH5 = styled(H4)`
 const StyledButton = styled(DefaultButton)`
   display: flex;
   text-align: left;
-  padding: 4px 8px;
+  padding: 7px 1px;
   justify-content: center;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
   align-self: stretch;
   border-radius: 100px;
-  width: auto; // Changed to auto for responsiveness
-  height: 20px;
+  width: 98px;
+  height: 25px;
   background-color: transparent;
   border: 1px solid #ccc;
   transition: background-color 0.3s, color 0.3s;
@@ -132,7 +119,7 @@ const StyledButton = styled(DefaultButton)`
 
 const StyledImage = styled(NextImage)`
   width: 73px;
-  height: auto; // Changed to auto for responsive scaling
+  height: 73px;
   flex-shrink: 0;
   aspect-ratio: 1/1;
 `;
@@ -150,22 +137,6 @@ const StyledParagraph = styled(Paragraph)`
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  position: relative;
-  &:hover::after {
-    content: attr(data-fulltext);
-    position: absolute;
-    background: #fff;
-    border: 1px solid #ccc;
-    padding: 4px 8px;
-    z-index: 10;
-    white-space: normal;
-    max-width: 250px;
-    left: 0;
-    top: calc(100% + 4px);
-    box-sizing: border-box;
-    width: fit-content;
-    min-width: 100%;
-  }
 `;
 
 const LearnMoreWrapper = styled.div`
@@ -173,10 +144,10 @@ const LearnMoreWrapper = styled.div`
   justify-content: center;
   align-items: center;
   gap: 5px;
-  // margin-top: 15px;
+  margin-top: 10px;
 `;
 
-type NonFinancialServiceCardProps = {
+type ProductCard19Props = {
   img: string;
   name: string;
   slug: string;
@@ -188,7 +159,7 @@ type NonFinancialServiceCardProps = {
   className?: string;
 };
 
-export default function NonFinancialServiceCard(props: NonFinancialServiceCardProps) {
+export default function ProductCard21(props: ProductCard19Props) {
   const { img, name, subTitle, description, reviews, id, slug, images } = props;
 
   const { state, dispatch } = useAppContext();
@@ -208,34 +179,42 @@ export default function NonFinancialServiceCard(props: NonFinancialServiceCardPr
             <StyledImage src={img} width={63} height={63} alt="category" />
           </Link>
 
-          {/* <EyeButton className="eye-button" onClick={() => setOpenDialog(true)}>
+          <EyeButton onClick={() => setOpenDialog(true)}>
             <Icon size="18px">eye</Icon>
-          </EyeButton> */}
+          </EyeButton>
 
-          <FavoriteButton className="favorite-button" onClick={handleFavorite}>
+          <FavoriteButton onClick={handleFavorite}>
             <Icon size="18px">Bookmark</Icon>
+            {/* {isFavorite ? <Icon size="18px">eye</Icon> : <Icon size="18px">Bookmark</Icon>} */}
           </FavoriteButton>
         </CardMedia>
 
         <Box textAlign="left">
-          <StyledParagraph data-fulltext={name}>{name}</StyledParagraph>
+          <StyledParagraph>{name}</StyledParagraph>
           <StyledH4 fontWeight={700}>{subTitle}</StyledH4>
 
+          {/* <FlexBox justifyContent="flex-start" alignItems="center" mb="1rem">
+            <Rating value={4} color="warn" size="small" />
+            <Small fontWeight={600} color="gray.500" ml=".3rem">
+              ({reviews})
+            </Small>
+          </FlexBox> */}
           <StyledH5 fontWeight={700}>{description}</StyledH5>
-          <Box display="flex" alignItems="center" justifyContent="space-between" flexWrap="wrap" mt="1rem">
-            <StyledButton>
-              <span>Start-Up</span>
-            </StyledButton>
-            <StyledButton>
-              <span>All Industries</span>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <StyledButton mt={3}>
+              <span>Funding & Loans</span>
             </StyledButton>
 
             <Link href={`/product/${slug}`} style={{ textDecoration: "none" }}>
               <LearnMoreWrapper style={{ cursor: "pointer" }}>
-                <Paragraph color="#002180" mr="0.3rem" fontSize="10px">
+                <Paragraph color="#002180" mr="0.5rem">
                   View Details
                 </Paragraph>
-                <Icon color="#002180" size="14px">arrow_forward</Icon>
+                <Icon color="#002180">arrow_forward</Icon>
               </LearnMoreWrapper>
             </Link>
           </Box>
@@ -245,7 +224,14 @@ export default function NonFinancialServiceCard(props: NonFinancialServiceCardPr
       <ProductQuickView
         open={openDialog}
         onClose={toggleDialog}
-        product={{ id, images, subTitle, description, slug, title: name}}
+        product={{
+          id,
+          images,
+          subTitle,
+          description,
+          slug,
+          title: name,
+        }}
       />
     </Fragment>
   );

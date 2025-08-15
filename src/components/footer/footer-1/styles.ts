@@ -20,8 +20,8 @@ export const StyledLink = styled(Link)`
 // New Styled Components for the Subscribe Form
 export const SubscribeContainer = styled.div`
   display: flex;
-  width: 80%;
-  height: 37px;
+  width: 377px;
+  height: 56px;
   background: rgba(41, 41, 41, 0.05);
   border-radius: 5px;
 `;

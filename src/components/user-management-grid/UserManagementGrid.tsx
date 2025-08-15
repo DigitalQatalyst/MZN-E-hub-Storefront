@@ -2,21 +2,33 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Pagination from "@component/pagination";
-import { Title, Button, Description, ToolbarWrapper, BaseSelect, BaseInput, TableHeader, Table, TableRow, TableCell, Container, Icon, Arrow, SortArrows } from './styledComponents';
+import { Title, Button, Description, ToolbarWrapper, BaseSelect, BaseInput, TableHeader, Table, TableRow, TableCell, Container, Icon, Arrow, SortArrows, HeaderRow, Pill, Heading } from './styledComponents';
 import EditUserModal from './EditUserModal';
+import AddUserModal from './AddUserModal';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { userData } from './constants';
+import Avatar from "@component/avatar";
+type User = { id: number; name: string; email: string; role: string; avatar: string };
 const UserGrid = () => {
-  const [users, setUsers] = useState(userData);
-  const [newUserName, setNewUserName] = useState("");
-  const [newUserRole, setNewUserRole] = useState("Admin");
+  const [users, setUsers] = useState<User[]>(userData as User[]);
   const [pageSize, setPageSize] = useState(10);
   const [showModal, setShowModal] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [sortField, setSortField] = useState<"name" | "role" | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [currentPage, setCurrentPage] = useState(0);
-  const sortedUsers = [...users].sort((a, b) => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [roleFilter, setRoleFilter] = useState("All");
+
+  const filteredUsers = users.filter((u) => {
+    const query = searchQuery.toLowerCase().trim();
+    const matchesQuery = !query || u.name.toLowerCase().includes(query) || u.email.toLowerCase().includes(query);
+    const matchesRole = roleFilter === "All" || u.role === roleFilter;
+    return matchesQuery && matchesRole;
+  });
+
+  const sortedUsers = [...filteredUsers].sort((a, b) => {
     if (!sortField) return 0;
     const valA = a[sortField].toLowerCase();
     const valB = b[sortField].toLowerCase();
@@ -39,20 +51,22 @@ const UserGrid = () => {
     setCurrentPage(0); // reset to first page
   };
   const addUser = () => {
-    if (!newUserName.trim()) return;
-
-    const newUser = {
-      id: users.length + 1,
-      name: newUserName.trim(),
-      role: newUserRole,
+    const sequence = users.length + 1;
+    const name = `New User ${sequence}`;
+    const email = `user${sequence}@example.com`;
+    const newUser: User = {
+      id: sequence,
+      name,
+      role: "Member",
+      email,
+      avatar: "",
     };
     setUsers((prev) => [...prev, newUser]);
-    setNewUserName("");
   };
 
-  const editUser = (updatedUser) => {
+  const editUser = (updatedUser: { id: number; name: string; role: string; email?: string; avatar?: string }) => {
     setUsers((prev) =>
-      prev.map((user) => (user.id === updatedUser.id ? updatedUser : user))
+      prev.map((user) => (user.id === updatedUser.id ? { ...user, ...updatedUser } : user))
     );
   };
 
@@ -71,11 +85,11 @@ const UserGrid = () => {
 
   return (
     <Container>
-      <Title>Roles List</Title>
-      <Description>
-        A role provides access to predefined menus and features so that depending on
-        the assigned role an administrator can have access to what user needs.
-      </Description>
+      <HeaderRow>
+        <Pill>Role List</Pill>
+        <Heading>Business Management</Heading>
+      </HeaderRow>
+    <div style={{ border: "1px solid #ddd", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" }}>
       <ToolbarWrapper>
         <BaseSelect
           value={pageSize}
@@ -86,22 +100,22 @@ const UserGrid = () => {
           ))}
         </BaseSelect>
 
-        <div style={{ display: "flex", gap: "10px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <BaseInput
             type="text"
-            placeholder="New user name"
-            value={newUserName}
-            onChange={(e) => setNewUserName(e.target.value)}
+            placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(0); }}
           />
           <BaseSelect
-            value={newUserRole}
-            onChange={(e) => setNewUserRole(e.target.value)}
+            value={roleFilter}
+            onChange={(e) => { setRoleFilter(e.target.value); setCurrentPage(0); }}
           >
-            {["Admin", "User", "Editor", "Viewer"].map((role) => (
+            {["All", "Super Admin", "Admin", "Content Admin", "Curator", "Member", "Editor", "Viewer"].map((role) => (
               <option key={role} value={role}>{role}</option>
             ))}
           </BaseSelect>
-          <Button onClick={addUser}>Add User</Button>
+          <Button onClick={() => setShowAddModal(true)}>Add New User</Button>
         </div>
       </ToolbarWrapper>
 
@@ -123,16 +137,9 @@ const UserGrid = () => {
             </TableHeader>
 
             <TableHeader onClick={() => handleSort('role')}>
-              <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", gap: "0.5rem" }}>
+              <div style={{ textAlign: "start" }}>
                 Role
-                <SortArrows>
-                  <Arrow className={sortField === "role" && sortOrder === "asc" ? "active" : ""}>
-                    <FaChevronUp />
-                  </Arrow>
-                  <Arrow className={sortField === "role" && sortOrder === "desc" ? "active" : ""}>
-                    <FaChevronDown />
-                  </Arrow>
-                </SortArrows>
+               
               </div>
             </TableHeader>
 
@@ -143,8 +150,18 @@ const UserGrid = () => {
         <tbody>
           {displayedUsers
             .map((user) => (
-              <TableRow key={user.id}>
-                <TableCell>{user.name}</TableCell>
+              <TableRow key={user.id} style={{ borderBottom: "1px solid #E0E0E0" }}>
+                <TableCell>
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                    <Avatar src={user.avatar} size={40}>
+                      {user?.name?.[0]}
+                    </Avatar>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <span style={{ fontWeight: 500 }}>{user.name}</span>
+                      <span style={{ color: "gray", fontSize: "0.875rem" }}>{user.email || ""}</span>
+                    </div>
+                  </div>
+                </TableCell>
                 <TableCell>{user.role}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>
                   <Icon onClick={() => { setCurrentUser(user); setShowModal(true); }}>
@@ -197,13 +214,31 @@ const UserGrid = () => {
         />
       )}
 
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      {showAddModal && (
+        <AddUserModal
+          onSave={(form) => {
+            const sequence = users.length + 1;
+            const newUser = {
+              id: sequence,
+              name: form.name.trim(),
+              email: form.email.trim(),
+              role: form.role,
+              avatar: form.avatar || "",
+            } as User;
+            setUsers((prev) => [...prev, newUser]);
+            setShowAddModal(false);
+          }}
+          onClose={() => setShowAddModal(false)}
+        />
+      )}
+
+      <div style={{ display: "flex", justifyContent: "space-between", padding: "20px" }}>
         <Description>
           Showing {displayedUsers.length} of {users.length} entries
         </Description>
         <Pagination marginTop="2.5rem" pageCount={pageCount} onChange={setCurrentPage} />
       </div>
-
+    </div>
     </Container>
   );
 };

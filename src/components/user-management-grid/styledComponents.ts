@@ -24,16 +24,40 @@ export const Description = styled.p`
   margin-bottom: 20px;
 `;
 
+export const HeaderRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+`;
+
+export const Pill = styled.span`
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: #e6edff;
+  color: #2563eb;
+  font-weight: 500;
+  font-size: 0.95rem;
+`;
+
+export const Heading = styled.h2`
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #111113;
+`;
+
 export const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  border: 1px solid #ddd;
 `;
 
 export const TableHeader = styled.th`
   text-align: center;
   padding: 10px;
-  background-color: #f4f4f4;
+  border-bottom: 1px solid #ddd;
   font-size: 1rem;
   font-weight: 500;
 `;
@@ -85,6 +109,7 @@ export const ToolbarWrapper = styled.div`
   flex-wrap: wrap;
   align-items: center;
   background: white;
+  padding: 20px;
 `;
 
 export const BaseInput = styled.input`

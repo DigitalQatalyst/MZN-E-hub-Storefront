@@ -3,8 +3,6 @@
 import ReactPaginate from "react-paginate";
 import { SpaceProps } from "styled-system";
 
-import Icon from "@component/icon/Icon";
-import { Button } from "@component/buttons";
 import { StyledPagination } from "./styled";
 
 // ==============================================================
@@ -28,36 +26,14 @@ export default function Pagination({
   };
 
   const PREVIOUS_BUTTON = (
-    <Button
-      height="auto"
-      padding="6px"
-      color="primary"
-      overflow="hidden"
-      className="control-button">
-      <Icon defaultcolor="currentColor" variant="small">
-        chevron-left
-      </Icon>
-    </Button>
+    <>Previous</>
   );
 
   const NEXT_BUTTON = (
-    <Button
-      height="auto"
-      padding="6px"
-      color="primary"
-      overflow="hidden"
-      className="control-button">
-      <Icon defaultcolor="currentColor" variant="small">
-        chevron-right
-      </Icon>
-    </Button>
+    <>Next</>
   );
 
-  const BREAK_LABEL = (
-    <Icon defaultcolor="currentColor" variant="small">
-      triple-dot
-    </Icon>
-  );
+  const BREAK_LABEL = "…";
 
   return (
     <StyledPagination {...props}>

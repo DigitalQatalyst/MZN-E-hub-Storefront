@@ -14,17 +14,29 @@ export const StyledPagination = styled.div`
 
     li {
       cursor: pointer;
+      margin: 0 6px;
+      &.previous, &.next {
+        a {
+          padding: 8px 12px;
+          border-radius: 10px;
+          background: #F2F2F4;
+          color: #6B6B76;
+          border: 1px solid transparent;
+        }
+      }
 
       a {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 32px;
-        width: 32px;
-        margin: 0px 5px;
-        border-radius: 5px;
+        height: 36px;
+        min-width: 36px;
+        padding: 0 12px;
+        border-radius: 10px;
         outline: none;
-        border: 1px solid transparent;
+        border: 1px solid #E6E6EB;
+        background: #F7F7FA;
+        color: #6B6B76;
         @media only screen and (max-width: 450px) {
           margin: 4px;
         }
@@ -32,34 +44,27 @@ export const StyledPagination = styled.div`
 
       &:not(.active):hover {
         a {
-          color: ${getTheme("colors.primary.main")};
-          border: 1px solid ${getTheme("colors.primary.main")};
+          filter: brightness(0.98);
         }
       }
     }
 
     .active {
-      cursor: none;
+      cursor: default;
       a {
-        border: 1px solid ${getTheme("colors.primary.main")};
-        color: ${getTheme("colors.primary.main")};
+        background: ${getTheme("colors.primary.main")};
+        border-color: ${getTheme("colors.primary.main")};
+        color: white;
+        box-shadow: 0 1px 0 rgba(0,0,0,0.06) inset;
       }
     }
 
     .disabled {
-      .control-button {
-        cursor: none;
-        border: 1px solid ${getTheme("colors.primary.light")};
-        color: ${getTheme("colors.primary.light")};
+      a {
+        opacity: 0.6;
+        pointer-events: none;
       }
     }
-  }
-
-  .control-button {
-    height: 32px;
-    width: 32px;
-    min-width: 32px;
-    border: 1px solid ${getTheme("colors.primary.main")};
   }
 
   ${space}

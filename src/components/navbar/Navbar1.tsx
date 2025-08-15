@@ -481,7 +481,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
 
           <UnauthenticatedTemplate>
             <FlexBox alignItems="center" style={{ gap: "10px" }}>
-              <Box className="profile-icon">
+              <Box className="profile-icon" href="/dashboard">
                 {/* <img src="/assets/images/logos/profile.svg" alt="Profile" /> */}
                 <Icon size="30px" color="#002180">profile</Icon>
               </Box>

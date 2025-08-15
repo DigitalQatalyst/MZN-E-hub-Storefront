@@ -371,7 +371,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   };
 
   const handleProfileClick = () => {
-    window.location.href = "https://mzn-e-hub-storefront-5akxqw2kr-digitalqatalysts-projects.vercel.app/dashboard";
+    window.location.href = "https://mzn-e-hub-storefront-pmvfb59r2-digitalqatalysts-projects.vercel.app/dashboard";
     setMenuOpen(false);
   };
 
@@ -481,7 +481,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
 
           <UnauthenticatedTemplate>
             <FlexBox alignItems="center" style={{ gap: "10px" }}>
-              <Box className="profile-icon">
+              <Box className="profile-icon" onClick={handleProfileClick}>
                 {/* <img src="/assets/images/logos/profile.svg" alt="Profile" /> */}
                 <Icon size="30px" color="#002180">profile</Icon>
               </Box>
@@ -535,7 +535,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             <NavLink className="nav-link" href="/development" onClick={toggleMenu}>
               Discover AbuDhabi
             </NavLink>
-            <NavLink className="nav-link" href="/faq" onClick={toggleMenu}>
+            <NavLink className="nav-link" href="https://mzn-e-hub-storefront-cdzzi93jk-digitalqatalysts-projects.vercel.app/faq" onClick={toggleMenu}>
               Help Centre
             </NavLink>
           </FlexBox>

@@ -108,7 +108,7 @@ const GET_CUSTOMER_BY_EMAIL = `
   }
 `;
 
-// RESPONSIVE STYLED COMPONENTS
+// OPTIMIZED RESPONSIVE STYLED COMPONENTS
 const ContentWrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -120,15 +120,15 @@ const ContentWrapper = styled.div`
   font-style: normal;
   
   @media (max-width: 1199px) {
-    padding: 40px 32px;
-    gap: 3rem;
+    padding: 32px 24px;
+    gap: 2.5rem;
+    min-height: auto;
   }
   
   @media (max-width: 899px) {
     flex-direction: column;
     padding: 24px 16px;
     gap: 2rem;
-    min-height: auto;
   }
   
   @media (max-width: 480px) {
@@ -147,11 +147,13 @@ const ContentColumn = styled.div`
   max-width: 50%;
   
   @media (max-width: 1199px) {
-    max-width: 45%;
+    max-width: 42%;
+    flex: 0 0 42%;
   }
   
   @media (max-width: 899px) {
     max-width: 100%;
+    flex: 1;
     margin-bottom: 0;
     text-align: center;
     align-items: center;
@@ -174,6 +176,11 @@ const StyledHeader = styled.p`
   text-transform: uppercase;
   margin: 0 0 8px 0;
   
+  @media (max-width: 1199px) {
+    font-size: 15px;
+    line-height: 26px;
+  }
+  
   @media (max-width: 480px) {
     font-size: 14px;
     line-height: 24px;
@@ -191,13 +198,13 @@ const StyledBody = styled.h1`
   margin: 0 0 16px 0;
   
   @media (max-width: 1199px) {
-    font-size: 40px;
-    line-height: 44px;
+    font-size: 36px;
+    line-height: 40px;
   }
   
   @media (max-width: 899px) {
-    font-size: 36px;
-    line-height: 40px;
+    font-size: 32px;
+    line-height: 36px;
   }
   
   @media (max-width: 480px) {
@@ -215,6 +222,12 @@ const Description = styled.p`
   font-weight: 400;
   line-height: 24px;
   margin-bottom: 24px;
+  
+  @media (max-width: 1199px) {
+    font-size: 15px;
+    line-height: 22px;
+    margin-bottom: 20px;
+  }
   
   @media (max-width: 899px) {
     text-align: center;
@@ -240,6 +253,11 @@ const FeatureContainer = styled.div`
   gap: 12px;
   margin-top: 40px;
   
+  @media (max-width: 1199px) {
+    margin-top: 24px;
+    gap: 10px;
+  }
+  
   @media (max-width: 899px) {
     align-items: center;
     margin-top: 20px;
@@ -258,6 +276,10 @@ const FeatureItem = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+  
+  @media (max-width: 1199px) {
+    font-size: 15px;
+  }
   
   @media (max-width: 899px) {
     text-align: center;
@@ -285,13 +307,16 @@ const FormColumn = styled.form`
   align-self: flex-start;
   
   @media (max-width: 1199px) {
-    max-width: 100%;
+    max-width: 520px;
     width: 100%;
     min-height: auto;
     padding: 20px;
+    gap: 18px;
+    flex: 0 0 auto;
   }
   
   @media (max-width: 899px) {
+    max-width: 100%;
     padding: 20px;
     gap: 16px;
   }
@@ -309,6 +334,10 @@ const FormRow = styled.div`
   margin-bottom: 0;
   width: 100%;
   
+  @media (max-width: 1199px) {
+    gap: 14px;
+  }
+  
   @media (max-width: 480px) {
     flex-direction: column;
     gap: 12px;
@@ -322,6 +351,10 @@ const FormFieldWrapper = styled.div`
   gap: 6px;
   min-width: 0;
   
+  @media (max-width: 1199px) {
+    gap: 5px;
+  }
+  
   @media (max-width: 480px) {
     gap: 4px;
   }
@@ -332,6 +365,10 @@ const FormLabel = styled.label`
   font-size: 14px;
   color: #000;
   font-weight: 500;
+  
+  @media (max-width: 1199px) {
+    font-size: 13px;
+  }
   
   @media (max-width: 480px) {
     font-size: 13px;
@@ -355,6 +392,11 @@ const FormField = styled.input`
     box-shadow: 0 0 0 2px rgba(0, 48, 227, 0.1);
   }
   
+  @media (max-width: 1199px) {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
   @media (max-width: 480px) {
     padding: 10px;
     font-size: 16px;
@@ -366,6 +408,10 @@ const FormSelectWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6px;
+  
+  @media (max-width: 1199px) {
+    gap: 5px;
+  }
   
   @media (max-width: 480px) {
     gap: 4px;
@@ -395,6 +441,12 @@ const FormSelect = styled.select`
     box-shadow: 0 0 0 2px rgba(0, 48, 227, 0.1);
   }
   
+  @media (max-width: 1199px) {
+    padding: 10px;
+    padding-right: 35px;
+    font-size: 14px;
+  }
+  
   @media (max-width: 480px) {
     padding: 10px;
     padding-right: 35px;
@@ -407,6 +459,10 @@ const FormTextareaWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6px;
+  
+  @media (max-width: 1199px) {
+    gap: 5px;
+  }
   
   @media (max-width: 480px) {
     gap: 4px;
@@ -433,6 +489,13 @@ const FormTextarea = styled.textarea`
     box-shadow: 0 0 0 2px rgba(0, 48, 227, 0.1);
   }
   
+  @media (max-width: 1199px) {
+    padding: 10px;
+    font-size: 14px;
+    height: 100px;
+    min-height: 80px;
+  }
+  
   @media (max-width: 480px) {
     padding: 10px;
     font-size: 16px;
@@ -450,6 +513,11 @@ const PrivacyText = styled.p`
   line-height: 18px;
   margin: 0;
   
+  @media (max-width: 1199px) {
+    font-size: 12px;
+    line-height: 16px;
+  }
+  
   @media (max-width: 480px) {
     font-size: 12px;
     line-height: 16px;
@@ -465,6 +533,11 @@ const PrivacyLink = styled.a`
   line-height: 18px;
   text-decoration-line: underline;
   cursor: pointer;
+  
+  @media (max-width: 1199px) {
+    font-size: 12px;
+    line-height: 16px;
+  }
   
   @media (max-width: 480px) {
     font-size: 12px;
@@ -497,8 +570,10 @@ const SubmitButton = styled.button<{ disabled?: boolean }>`
   }
   
   @media (max-width: 1199px) {
-    width: 50%;
-    min-width: 160px;
+    padding: 12px 20px;
+    font-size: 15px;
+    min-width: 120px;
+    width: auto;
   }
   
   @media (max-width: 480px) {

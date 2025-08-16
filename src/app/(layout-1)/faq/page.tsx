@@ -1,5 +1,5 @@
 // API FUNCTIONS
-import api from "@utils/__api__/market-1";
+"use client";
 
 import NavbarMarketplace from "@component/navbar/NavbarMarketplace";
 import SearchSection from "@sections/faq/SearchSection";
@@ -8,7 +8,7 @@ import KnowledgeBase from "@sections/faq/KnowledgeBase";
 import StillNeedHelp from "@sections/faq/StillNeedHelp";
 import MobileNavigationBar from "@component/mobile-navigation";
 
-export default async function Market1() {
+export default  function Market1() {
   // const carList = await api.getCarList();
   // const carBrands = await api.getCarBrands();
   // const mobileList = await api.getMobileList();
@@ -31,10 +31,10 @@ export default async function Market1() {
       <RecommendedArticles />
 
       {/* knowledge base */}
-      {/* <KnowledgeBase /> */}
+      <KnowledgeBase />
 
       {/* still need help */}
-      {/* <StillNeedHelp /> */}
+      <StillNeedHelp />
     </main>
   );
 }

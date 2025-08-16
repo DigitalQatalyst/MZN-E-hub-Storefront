@@ -1,5 +1,5 @@
 "use client"
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 // GLOBAL CUSTOM COMPONENTS
 import Box from "@component/Box";
 import NavbarMarketplace from "@component/navbar/NavbarMarketplace";

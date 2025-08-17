@@ -41,10 +41,6 @@ export const partners = [
   "Government Entities",
   "Corporates",
   "International"
-  "Become a Partner",
-  "Government Entities",
-  "Corporates",
-  "International"
 ];
 
 export const legalLinks = [

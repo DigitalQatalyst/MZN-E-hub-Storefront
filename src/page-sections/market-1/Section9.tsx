@@ -53,16 +53,18 @@ export default function Section9({ products }: Props) {
     return (
         <CategorySectionCreator>
             <ContentColumn>
-                <p style={{
-                    color: "#000",
-                    fontFamily: "Helvetica Neue",
-                    fontSize: "16px",
-                    fontStyle: "normal",
-                    fontWeight: 400,
-                    lineHeight: "var(--Title-Large-Line-Height, 28px)",
-                    letterSpacing: "var(--Title-Large-Tracking, 0px)",
-                    textTransform: "uppercase",
-                }}>
+                <p
+                    style={{
+                        color: "#000",
+                        // fontFamily: "public sans",
+                        fontSize: "16px",
+                        fontStyle: "normal",
+                        fontWeight: 400,
+                        lineHeight: "var(--Title-Large-Line-Height, 28px)",
+                        letterSpacing: "var(--Title-Large-Tracking, 0px)",
+                        textTransform: "uppercase",
+                    }}
+                >
                     WELCOME TO THE ENTERPRISE JOURNEY PLATFORM
                 </p>
                 <StyledHeader>
@@ -80,6 +82,7 @@ export default function Section9({ products }: Props) {
                                 //unit={item.unit}
                                 subTitle={item.subTitle}
                                 title={item.title}
+                                title1={item.title1}
                                 price={item.price}
                                 off={item.discount}
                                 rating={item.rating}

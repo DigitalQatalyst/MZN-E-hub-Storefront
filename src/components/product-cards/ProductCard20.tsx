@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { useState, Fragment } from "react";
 import styled from "styled-components";
@@ -237,7 +238,7 @@ export default function ProductCard20(props: ProductCard19Props) {
       <ProductQuickView
         open={openDialog}
         onClose={toggleDialog}
-        product={{ id, images, subTitle, description, slug, title: name }}
+        product={{ id, images, subTitle, description, slug, title: name, title1: name }}
       />
     </Fragment>
   );

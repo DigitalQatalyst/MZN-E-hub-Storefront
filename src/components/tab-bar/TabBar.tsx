@@ -33,8 +33,8 @@ const TabBar: React.FC = () => {
   return (
     <TabBarContainer>
       <Tab
-        onClick={() => handleTabClick('Non-Financial', '/non-financial-marketplace')}  
-        active={activeTab === 'Non-Financial'}
+        onClick={() => handleTabClick('Non-Financial', '/non-financial-marketplace')}
+        active={activeTab === 'Non-Financial' ? true : undefined}
       >
         <img
           src={activeTab === 'Non-Financial'
@@ -65,9 +65,14 @@ const TabBar: React.FC = () => {
       </Tab>
       <Tab
         onClick={() => handleTabClick('Communities', '/community-marketplace')}
-        active={activeTab === 'Communities'}
+        active={activeTab === 'Communities' ? true : undefined}
       >
-        <img src="/assets/images/tab_bar/forum.svg" alt="icon" />
+        <img
+          src={activeTab === 'Communities'
+            ? '/assets/images/tab_bar/groups.png'
+            : '/assets/images/tab_bar/forum.svg'}
+          alt="icon"
+        />
         Communities
       </Tab>
       <Tab

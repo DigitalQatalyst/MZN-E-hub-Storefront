@@ -41,20 +41,27 @@ export const partners = [
   "Government Entities",
   "Corporates",
   "International"
+  "Become a Partner",
+  "Government Entities",
+  "Corporates",
+  "International"
 ];
 
 export const legalLinks = [
   "Privacy Policy",
   "Cookie Policy",
-  "Terms of Service"
+  "Terms of Service",
 ];
 
 export const iconList = [
   // { iconName: "facebook", url: "https://www.facebook.com/UILibOfficial" },
   { iconName: "google", url: "/" },
   { iconName: "twitter", url: "/" },
-  { iconName: "youtube", url: "https://www.youtube.com/channel/UCsIyD-TSO1wQFz-n2Y4i3Rg" },
-  { iconName: "instagram", url: "/" }
+  {
+    iconName: "youtube",
+    url: "https://www.youtube.com/channel/UCsIyD-TSO1wQFz-n2Y4i3Rg",
+  },
+  { iconName: "instagram", url: "/" },
 ];
 
 // New footer data structure for the updated 5-column layout

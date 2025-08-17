@@ -19,7 +19,6 @@ export default function Footer1() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle the subscribe action
     console.log("Subscribed with email:", email);
     // Reset form after submission
     setEmail("");
@@ -122,6 +121,7 @@ export default function Footer1() {
                   <Box position="relative">
                     <SubscribeInput
                       type="email"
+                      placeholder="Enter your email"
                       placeholder="Enter your email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}

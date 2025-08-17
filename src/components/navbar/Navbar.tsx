@@ -14,6 +14,7 @@ import Container from "../Container";
 import Typography, { Span } from "../Typography";
 import Categories from "../categories/Categories";
 
+
 import StyledNavbar from "./marketStyles";
 
 interface Nav {
@@ -24,9 +25,11 @@ interface Nav {
   extLink?: boolean;
 }
 
+
 type NavbarProps = { navListOpen?: boolean };
 
 // ==============================================================
+
 
 export default function Navbar({ navListOpen }: NavbarProps) {
   // State for mobile menu toggle

@@ -8,14 +8,13 @@ import { StyledGrid } from "../profile/styles";
 // In Layout.tsx
 export default function CustomerDashboardLayout({ children }: PropsWithChildren) {
   return (
-    <Grid container >
-      <StyledGrid item lg={2.25} xs={12}>
+    <div className="flex min-h-screen">
+      <div className="w-64 flex-shrink-0">
         <Sidebar />
-      </StyledGrid>
-
-      <Grid item lg={9.75} xs={12}>
+      </div>
+      <div className="flex-1">
         {children}
-      </Grid>
-    </Grid>
+      </div>
+    </div>
   );
 }

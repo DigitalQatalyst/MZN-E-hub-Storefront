@@ -17,7 +17,7 @@ const Sidebar = () => {
 
   const essentialItems: NavItem[] = [
     { id: 'profile', label: 'Profile', icon: '/images/vertical-shades-closed.svg', route: '/firm-profile' },
-    { id: 'documents', label: 'Documents', icon: '/images/home-storage.svg', route: '/#' },
+    { id: 'documents', label: 'Documents', icon: '/images/home-storage.svg', route: '/documents' },
   ];
 
   const transactionItems: NavItem[] = [
@@ -34,13 +34,21 @@ const Sidebar = () => {
     router.push(route);
   };
 
-  const isActive = (route: string) => pathname === route;
+  const isActive = (route: string) => {
+    // Special handling for Documents route to keep it active on sub-routes
+    if (route === '/documents') {
+      return pathname.startsWith('/documents');
+    }
+    // For other routes, exact match
+    return pathname === route;
+  };
 
   const renderNavItem = (item: NavItem) => {
     const active = isActive(item.route);
     
     return (
       <div
+        
         key={item.id}
         style={{
           display: 'flex',

@@ -98,5 +98,8 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "optionalDependencies": {
+    "lightningcss-linux-x64-gnu": "^1.30.1"
   }
 }

@@ -17,7 +17,7 @@ const HelpCenter = () => {
     <main>
       {/* NAVBAR AREA */}
       <NavbarMarketplace />
-      <FaqResponse articledata={articledata} />
+      {/* <FaqResponse articledata={articledata} /> */}
     </main>
   );
 };

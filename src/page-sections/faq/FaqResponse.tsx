@@ -2,38 +2,49 @@ import TextField from "@component/text-field";
 import Typography from "@component/Typography";
 import { Box, Container, InputAdornment } from "@mui/material";
 import BreadCrump from "app/(layout-1)/faq/components/BreadCrump";
+import Link from "next/link";
 import React from "react";
 import { BsChevronRight, BsSearch } from "react-icons/bs";
 
-const relatedarticles = [
-  {
-    id: 1,
-    title: "What is the Opportunities Marketplace?",
-  },
-  {
-    id: 2,
-    title: "How do I find and apply for opportunities?",
-  },
-  {
-    id: 3,
-    title: "What do the opportunity tags mean?",
-  },
-  {
-    id: 4,
-    title: "How to check your eligibility for...?",
-  },
-  {
-    id: 5,
-    title: "How to save an opportunity to your dashboard",
-  },
-  {
-    id: 6,
-    title: "What happens after I apply?",
-  },
-];
+// const relatedarticles = [
+//   {
+//     id: 1,
+//     title: "What is the Opportunities Marketplace?",
+//   },
+//   {
+//     id: 2,
+//     title: "How do I find and apply for opportunities?",
+//   },
+//   {
+//     id: 3,
+//     title: "What do the opportunity tags mean?",
+//   },
+//   {
+//     id: 4,
+//     title: "How to check your eligibility for...?",
+//   },
+//   {
+//     id: 5,
+//     title: "How to save an opportunity to your dashboard",
+//   },
+//   {
+//     id: 6,
+//     title: "What happens after I apply?",
+//   },
+// ];
 
-const FaqResponse = ({ articledata }: { articledata: any }) => {
+const FaqResponse = ({
+  articledata,
+  relatedarticles,
+  mainarticle,
+}: {
+  articledata: any;
+  relatedarticles: any[];
+  mainarticle: any;
+}) => {
   console.log("articledata", articledata);
+  console.log("relatedarticles", relatedarticles);
+  console.log("mainarticle", mainarticle);
   return (
     <Box
       sx={{
@@ -57,7 +68,10 @@ const FaqResponse = ({ articledata }: { articledata: any }) => {
               maxWidth: "70%",
             }}
           >
-            <BreadCrump />
+            <BreadCrump
+              mainarticle={mainarticle}
+              currentitem={articledata.title}
+            />
             <Box>
               <Typography
                 fontSize="24px"
@@ -181,17 +195,18 @@ const FaqResponse = ({ articledata }: { articledata: any }) => {
             <Box
               sx={{
                 display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
+                alignItems: "start",
+                justifyContent: "center",
                 width: "100%",
                 backgroundColor: "#2F2B3D0F",
                 mb: 1,
                 mt: 2,
                 borderRadius: "9px",
                 padding: "0.3rem",
+                flexDirection: "column",
               }}
             >
-              <Typography fontSize="14px" color="#6B6778" mb={2}>
+              <Typography fontSize="14px" color="#6B6778">
                 Articles in this section
               </Typography>
             </Box>
@@ -207,14 +222,19 @@ const FaqResponse = ({ articledata }: { articledata: any }) => {
                   padding: "0.3rem",
                 }}
               >
-                <Typography
-                  fontSize="14px"
-                  color="#6B6778"
-                  mb={2}
-                  key={article.id}
+                <Link
+                  href={{
+                    pathname: `${mainarticle?.id}/`,
+                    query: {
+                      articleid: article.id,
+                      itemid: mainarticle.id,
+                    },
+                  }}
                 >
-                  {article.title}
-                </Typography>
+                  <Typography fontSize="14px" color="#6B6778">
+                    {article.title}
+                  </Typography>
+                </Link>
                 <BsChevronRight size={15} color="black" />
               </Box>
             ))}

@@ -3,10 +3,29 @@ import Typography from "@component/Typography";
 import { Box, Container, Button } from "@mui/material";
 import React from "react";
 import { articles, knowledgeitems } from "./utils";
-import { FaUser } from "react-icons/fa";
-import { IoHomeOutline } from "react-icons/io5";
-import { BsArrowRight, BsChevronRight } from "react-icons/bs";
+import { FaHome, FaShoppingCart, FaUser } from "react-icons/fa";
+import { IoHelp, IoHomeOutline, IoLockOpenOutline } from "react-icons/io5";
+import {
+  BsArrowRight,
+  BsChevronRight,
+  BsCurrencyDollar,
+  BsTags,
+} from "react-icons/bs";
 import Link from "next/link";
+import { knowledgedata } from "./data";
+
+const iconMap = {
+  FaUser: <FaUser />,
+  FaHome: <FaHome />,
+  FaShoppingCart: <FaShoppingCart />,
+  IoHomeOutline: <IoHomeOutline />,
+  IoHelp: <IoHelp />,
+  BsArrowRight: <BsArrowRight />,
+  BsChevronRight: <BsChevronRight />,
+  BsCurrencyDollar: <BsCurrencyDollar />,
+  BsTags: <BsTags />,
+  IoLockOpenOutline: <IoLockOpenOutline />,
+};
 
 const KnowledgeBase: React.FC = () => {
   return (
@@ -33,7 +52,7 @@ const KnowledgeBase: React.FC = () => {
         </Typography>
 
         <Grid container spacing={4} justifyContent="center">
-          {knowledgeitems?.map((item) => (
+          {knowledgedata?.map((item) => (
             <Grid item xs={12} sm={6} md={4} key={item.id}>
               <Box
                 sx={{
@@ -77,7 +96,7 @@ const KnowledgeBase: React.FC = () => {
                       },
                     }}
                   >
-                    {item.icon}
+                    {iconMap[item.icon] || <IoHelp />}
                   </Box>
                   {/* heading */}
                   <Typography
@@ -113,12 +132,10 @@ const KnowledgeBase: React.FC = () => {
                      }> */}
                     <Link
                       href={{
-                        pathname: `/faq/${article.title}`,
+                        pathname: `/faq/${item?.id}/`,
                         query: {
-                          description: article.description,
-                          title: article.title,
-                          breadcumptitle: item?.title,
-                          test: "test",
+                          articleid: article.id,
+                          itemid: item.id,
                         },
                       }}
                     >
@@ -151,14 +168,24 @@ const KnowledgeBase: React.FC = () => {
                       gap: 1,
                     }}
                   >
-                    <Typography
-                      fontSize="14px"
-                      fontWeight="600"
-                      color="#0030E3"
-                      mb={2}
+                    {/* <Link href="/support/allarticles/1"> */}
+                    <Link
+                      href={{
+                        pathname: `/support/allarticles/${item.id}`,
+                        query: {
+                          itemid: item.id,
+                        },
+                      }}
                     >
-                      See all {item?.articles?.length + 4} Articles
-                    </Typography>
+                      <Typography
+                        fontSize="14px"
+                        fontWeight="600"
+                        color="#0030E3"
+                        mb={2}
+                      >
+                        See all {item?.articles?.length} Articles
+                      </Typography>
+                    </Link>
                     <Box>
                       <BsArrowRight size={20} color="#0030E3" />
                     </Box>

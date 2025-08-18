@@ -1,9 +1,16 @@
 import Typography from "@component/Typography";
 import { Box } from "@mui/material";
+import Link from "next/link";
 import React from "react";
 import { BsArrowRight } from "react-icons/bs";
 
-const BreadCrump = () => {
+const BreadCrump = ({
+  mainarticle,
+  currentitem,
+}: {
+  mainarticle: any;
+  currentitem: any;
+}) => {
   return (
     <div>
       <Box
@@ -22,15 +29,17 @@ const BreadCrump = () => {
             gap: 1,
           }}
         >
-          <Typography
-            variant="h6"
-            fontWeight={500}
-            color="#7367F0"
-            fontSize="15px"
-            mb={1}
-          >
-            Support
-          </Typography>
+          <Link href="/support">
+            <Typography
+              variant="h6"
+              fontWeight={500}
+              color="#7367F0"
+              fontSize="15px"
+              mb={1}
+            >
+              Support
+            </Typography>
+          </Link>
         </Box>
         <Box
           sx={{
@@ -58,15 +67,24 @@ const BreadCrump = () => {
             gap: 1,
           }}
         >
-          <Typography
-            variant="h6"
-            fontWeight={500}
-            color="#7367F0"
-            fontSize="15px"
-            mb={1}
+          <Link
+            href={{
+              pathname: `/support/allarticles/${mainarticle?.id}`,
+              query: {
+                itemid: mainarticle?.id,
+              },
+            }}
           >
-            Opportunities Marketplace
-          </Typography>
+            <Typography
+              variant="h6"
+              fontWeight={500}
+              color="#7367F0"
+              fontSize="15px"
+              mb={1}
+            >
+              {mainarticle?.title}
+            </Typography>
+          </Link>
         </Box>
         <Box
           sx={{
@@ -95,7 +113,7 @@ const BreadCrump = () => {
             fontSize="15px"
             mb={1}
           >
-            Finding & Applying for Opportunities
+            {currentitem}
           </Typography>
         </Box>
         <Box

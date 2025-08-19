@@ -1,16 +1,14 @@
+// app/layout.tsx (SERVER component)
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
-// THEME PROVIDER
+
 import StyledComponentsRegistry from "@lib/registry";
-// APP PROVIDER
-import { AppProvider } from "@context/app-context";
-import StyledContext from "@context/StyledContext";
-// THIRD PARTY CSS FILE
+
+// third-party CSS
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import NProgressBar from "@component/NProgress";
-import KfBot from "@component/bot/KfBot";
-import { ModalProvider } from "@context/ModalContext";
+
+import ClientProviders from "../contexts/ClientProvider";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
@@ -22,24 +20,12 @@ export const metadata: Metadata = {
   keywords: ["e-commerce", "e-commerce template", "next.js", "react", "bonik"],
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={openSans.className}>
         <StyledComponentsRegistry>
-          <AppProvider>
-            <ModalProvider>
-              <StyledContext>
-                {children}
-              <NProgressBar />
-              </StyledContext>
-              <KfBot />
-            </ModalProvider>
-          </AppProvider>
+          <ClientProviders>{children}</ClientProviders>
         </StyledComponentsRegistry>
       </body>
     </html>

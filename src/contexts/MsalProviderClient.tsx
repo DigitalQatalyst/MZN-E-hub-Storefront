@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import { msalBaseConfig } from "../authConfig";
+import { msalConfig } from "../authConfig";
 
 // We import *types* lazily in comments to avoid SSR importing the module.
 // We'll dynamically import @azure/msal-browser inside useEffect.
@@ -18,7 +18,7 @@ export default function MsalProviderClient({ children }: { children: React.React
       const { PublicClientApplication, LogLevel } = await import("@azure/msal-browser");
 
       const instance = new PublicClientApplication({
-        ...msalBaseConfig,
+        ...msalConfig,
         system: {
           loggerOptions: {
             loggerCallback: (level: number, message: string, containsPii: boolean) => {

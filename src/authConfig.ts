@@ -20,7 +20,7 @@ export const b2cPolicies = {
   authorityDomain: `${tenantName}.b2clogin.com`,
 };
 
-export const msalBaseConfig = {
+export const msalConfig = {
   auth: {
     clientId,
     authority: b2cPolicies.authorities.signUpSignIn.authority,

@@ -1,0 +1,96 @@
+.topNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-bottom: 3rem;
+  gap: 20px;
+  position: relative;
+}
+
+.navLinks {
+  display: flex;
+  gap: 10px;
+  flex-wrap: nowrap;
+  flex: 1;
+  max-width: calc(100% - 270px);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+
+.navLinks::-webkit-scrollbar {
+  display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .topNav {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .topNav {
+    gap: 12px;
+    margin-bottom: 2rem;
+  }
+
+  .navLinks {
+    max-width: calc(100% - 200px);
+    gap: 8px;
+  }
+}
+
+@media (max-width: 900px) {
+  .topNav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+
+  .navLinks {
+    max-width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .topNav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+    margin-bottom: 2rem;
+  }
+
+  .navLinks {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    width: 100%;
+    max-width: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    padding: 2px 0;
+  }
+
+  .navLinks::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .topNav {
+    margin-bottom: 1.5rem;
+  }
+
+  .navLinks {
+    gap: 6px;
+    padding: 1px 0;
+  }
+}

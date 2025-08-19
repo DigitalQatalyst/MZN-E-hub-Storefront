@@ -1,0 +1,119 @@
+.mainNavButton {
+  background-color: #eff6ff;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #6e6e6e;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  min-width: fit-content;
+  user-select: none;
+  position: relative;
+  min-height: 44px;
+  text-decoration: none;
+  font-family: Inter, sans-serif;
+}
+
+.mainNavButton:focus-visible {
+  outline: 2px solid #0078d4;
+  outline-offset: 2px;
+}
+
+.mainNavButton:hover,
+.mainNavButton:focus {
+  background-color: #eff6ff;
+  border-color: #0078d4;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 120, 212, 0.15);
+  outline: none;
+}
+
+.mainNavButton:focus {
+  box-shadow: 0 2px 8px rgba(0, 120, 212, 0.15),
+    0 0 0 2px rgba(0, 120, 212, 0.2);
+}
+
+.mainNavButton.active {
+  background-color: #0078d4;
+  color: #fff;
+  border-color: #0078d4;
+  box-shadow: 0 2px 12px rgba(0, 120, 212, 0.4);
+  font-weight: 500;
+}
+
+.icon {
+  filter: brightness(0) saturate(0) brightness(0.5);
+  transition: filter 0.2s ease;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+.mainNavButton.active .icon {
+  filter: brightness(0) invert(1);
+}
+
+/* Professional hover states for desktop */
+@media (min-width: 769px) {
+  .mainNavButton:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(0, 120, 212, 0.2);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .mainNavButton {
+    padding: 8px 14px;
+    font-size: 13px;
+    gap: 6px;
+  }
+
+  .icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mainNavButton {
+    padding: 12px 16px;
+    font-size: 14px;
+    min-width: auto;
+    border-radius: 12px;
+    flex-shrink: 0;
+    min-height: 44px;
+  }
+
+  .icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mainNavButton {
+    padding: 6px 12px;
+    font-size: 13px;
+    gap: 6px;
+  }
+
+  .icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 360px) {
+  .mainNavButton {
+    padding: 10px 12px;
+    font-size: 12px;
+    gap: 4px;
+  }
+}

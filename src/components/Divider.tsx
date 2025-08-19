@@ -1,8 +1,8 @@
 "use client";
 
-import styled from "styled-components";
-import { color, layout, space, ColorProps, LayoutProps, SpaceProps } from "styled-system";
 import { isValidProp } from "@utils/utils";
+import styled from "styled-components";
+import { color, ColorProps, layout, LayoutProps, space, SpaceProps } from "styled-system";
 
 // ==============================================================
 type DividerProps = SpaceProps & LayoutProps & ColorProps;

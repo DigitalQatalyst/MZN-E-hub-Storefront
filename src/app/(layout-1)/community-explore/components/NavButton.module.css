@@ -1,0 +1,106 @@
+.navButton {
+  background-color: transparent;
+  color: #6c757d;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  transition: all 0.2s ease-in-out;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: fit-content;
+  min-height: 44px;
+  text-decoration: none;
+  font-family: Inter, sans-serif;
+}
+
+.navButton:focus-visible {
+  outline: 2px solid #0078d4;
+  outline-offset: 2px;
+}
+
+.navButton:hover,
+.navButton:focus {
+  background-color: #f8f9fa;
+  border-color: #0078d4;
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.navButton:focus {
+  box-shadow: 0 0 0 2px rgba(0, 120, 212, 0.2);
+}
+
+.navButton.active {
+  background-color: #0078d4;
+  color: white;
+  border-color: #0078d4;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 120, 212, 0.3);
+}
+
+.navIcon {
+  width: 16px;
+  height: 16px;
+  filter: none;
+  transition: filter 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .navButton {
+    padding: 8px 12px;
+    font-size: 13px;
+    min-width: 90px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navButton {
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+    padding: 14px 8px;
+    font-size: 13px;
+    text-align: center;
+    border-radius: 8px;
+    min-width: 100px;
+    min-height: 44px;
+  }
+
+  .navIcon {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navButton {
+    flex: 1;
+    padding: 10px 6px;
+    font-size: 12px;
+    min-width: 0;
+    justify-content: center;
+    border-radius: 6px;
+    min-width: 80px;
+  }
+
+  .navIcon {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .navButton {
+    padding: 12px 6px;
+    font-size: 11px;
+    min-width: 80px;
+  }
+}

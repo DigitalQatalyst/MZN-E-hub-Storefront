@@ -1,4 +1,5 @@
-"use client"
+"use client";
+
 import Box from "@component/Box";
 import Typography from "@component/Typography";
 import {
@@ -8,26 +9,64 @@ import {
   VideoIcon,
   Send,
   Paperclip,
-  Smile,
-  Mic,
-  MicIcon,
-  Image,
+  Mic as MicIcon,
 } from "lucide-react";
-import React, { Fragment, useState, useRef, useEffect, ChangeEvent } from "react";
+import React, {
+  Fragment,
+  useState,
+  useRef,
+  useEffect,
+  ChangeEvent,
+} from "react";
 import { BsThreeDotsVertical, BsCheck2All } from "react-icons/bs";
 import { Input, IconButton, Avatar, CircularProgress } from "@mui/material";
 import { format } from "date-fns";
 import { Button } from "@component/buttons";
-import { initChat, startChat, sendMessage as sendToAgent, onMessageReceived, uploadFile, canCall, startCall } from "./omnichannel";
+
+// ⬇️ NOTE: startChat is no longer imported; initChat now does everything.
+import {
+  initChat,
+  sendMessage as sendToAgent,
+  onMessageReceived,
+  uploadFile,
+  canCall,
+  startCall,
+} from "./omnichannel";
+
+type ConnectionState = "idle" | "connecting" | "connected" | "error";
+
+type ChatItem = {
+  id: number;
+  name: string;
+  message: string;
+  time: string;
+  usertype: "sender" | "receiver";
+};
 
 const ChatPage = () => {
   const [message, setMessage] = useState("");
-  const [chatMessages, setChatMessages] = useState([]);
+  const [chatMessages, setChatMessages] = useState<ChatItem[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [callAvailable, setCallAvailable] = useState(false);
+  const [connectionState, setConnectionState] = useState<ConnectionState>("idle");
+  const [connectionError, setConnectionError] = useState<string | null>(null);
+
+  const formatTime = (dateOrString: string | Date) => {
+    try {
+      if (!dateOrString) return "";
+      const date =
+        typeof dateOrString === "string"
+          ? new Date(dateOrString)
+          : dateOrString;
+      if (isNaN(date.getTime())) return "";
+      return format(date, "h:mm a").toLowerCase();
+    } catch {
+      return "";
+    }
+  };
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -35,53 +74,48 @@ const ChatPage = () => {
     try {
       setIsUploading(true);
       await uploadFile(file);
-      // Optionally echo the filename into chat:
-      setChatMessages(prev => [
+      setChatMessages((prev) => [
         ...prev,
-        { id: Date.now(), name: "You", message: file.name, time: formatTime(new Date()), usertype: "sender" }
+        {
+          id: Date.now(),
+          name: "You",
+          message: file.name,
+          time: formatTime(new Date()),
+          usertype: "sender",
+        },
       ]);
     } catch (err) {
       console.error("Attachment failed", err);
-    }finally {
+    } finally {
       setIsUploading(false);
     }
   };
-
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) return;
 
-    const newMessage = {
-      id: chatMessages.length + 1,
+    const newMessage: ChatItem = {
+      id: Date.now(),
       name: "You",
       message,
-      time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-      usertype: "sender" as const,
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      usertype: "sender",
     };
 
     setChatMessages((prev) => [...prev, newMessage]);
     setMessage("");
 
     try {
-      await sendToAgent(message);
+      await sendToAgent(newMessage.message);
     } catch (error) {
       console.error("Failed to send message:", error);
     }
   };
-  const formatTime = (dateString: string | Date) => {
-    try {
-      if (!dateString) return "";
-      const date =
-        typeof dateString === "string" ? new Date(dateString) : dateString;
-      if (isNaN(date.getTime())) return "";
-      console.log("date", date);
-      return format(date, "h:mm a").toLowerCase();
-    } catch (e) {
-      console.error("Error formatting date:", e);
-      return "";
-    }
-  };
+
   const handleCallClick = async () => {
     try {
       const { joinUrl } = await startCall("Audio");
@@ -90,42 +124,58 @@ const ChatPage = () => {
       console.error("Call failed", err);
     }
   };
+
   const hasAttachedListener = useRef(false);
+
+
   useEffect(() => {
     const setupChat = async () => {
-      await initChat();
-      await startChat();
-      if (!hasAttachedListener.current){
-        onMessageReceived((incomingMessage) => {
-          const newMessage = {
-            id: Date.now(), // use timestamp for unique id
+      setConnectionError(null);
+      setConnectionState("connecting");
+
+      const res = await initChat(); // no pre-chat
+      if (res.ok === false) {
+        const label = res.step ? `[${res.step}${res.code ? " " + res.code : ""}] ` : "";
+        setConnectionError(`${label}${res.message}`);
+        setConnectionState("error");
+        console.error("Chat connection failed:", res);
+        return;
+      }
+
+      setConnectionState("connected");
+
+      if (!hasAttachedListener.current) {
+        onMessageReceived((incoming) => {
+          const newMessage: ChatItem = {
+            id: Date.now(),
             name: "Agent",
-            message: incomingMessage.content,
-            time: formatTime(incomingMessage.timestamp),
+            message: incoming.content,
+            time: formatTime(incoming.timestamp),
             usertype: "receiver",
           };
           setChatMessages((prev) => [...prev, newMessage]);
         });
-
         hasAttachedListener.current = true;
       }
+
+      setCallAvailable(canCall());
     };
 
-    setupChat();
-  }, []);
-  useEffect(() => {
-      const c = containerRef.current;
-      if (c) {
-        // instant jump:
-        c.scrollTo(0, c.scrollHeight);
-        // or for smooth scroll:
-        // c.scrollTo({ top: c.scrollHeight, behavior: "smooth" });
-      }
-    }, [chatMessages]);
-  useEffect(() => {
-    setCallAvailable(canCall());
+    setupChat().catch((e) => {
+      const msg = typeof e?.message === "string" ? e.message : JSON.stringify(e ?? "Unknown error");
+      setConnectionError(msg);
+      setConnectionState("error");
+      console.error("Chat connection failed (outer):", e);
+    });
   }, []);
 
+
+  useEffect(() => {
+    const c = containerRef.current;
+    if (c) {
+      c.scrollTo(0, c.scrollHeight);
+    }
+  }, [chatMessages]);
 
   return (
     <Fragment>
@@ -150,7 +200,6 @@ const ChatPage = () => {
           }}
         >
           <ChevronLeft color="#002180" size={30} />
-
           <Typography fontSize="14px" color="#002180" fontWeight="500">
             Back to Financial Records
           </Typography>
@@ -219,19 +268,10 @@ const ChatPage = () => {
               gap: "8px",
             }}
           >
-            <Box
-              style={{
-                position: "relative",
-              }}
-            >
-              {/* user image */}
+            <Box style={{ position: "relative" }}>
               <img
                 src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D"
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "50%",
-                }}
+                style={{ width: "40px", height: "40px", borderRadius: "50%" }}
                 alt=""
               />
               <Box
@@ -244,7 +284,7 @@ const ChatPage = () => {
                   borderRadius: "50%",
                   backgroundColor: "#28C76F",
                 }}
-              ></Box>
+              />
             </Box>
             <Box>
               <Typography fontSize="16px" color="#000000" fontWeight="400">
@@ -255,15 +295,39 @@ const ChatPage = () => {
               </Typography>
             </Box>
           </Box>
-          <Box
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "8px",
-            }}
-          >
+
+          {/* Connection Indicator */}
+          <Box style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            {connectionState === "connecting" && (
+              <>
+                <CircularProgress size={12} thickness={4} />
+                <Typography fontSize="12px" color="gray">
+                  Connecting…
+                </Typography>
+              </>
+            )}
+            {connectionState === "connected" && (
+              <>
+                <Box
+                  style={{
+                    width: "8px",
+                    height: "8px",
+                    borderRadius: "50%",
+                    backgroundColor: "#28C76F",
+                  }}
+                />
+                <Typography fontSize="12px" color="green">
+                  Connected
+                </Typography>
+              </>
+            )}
+            {connectionState === "error" && (
+              <Typography fontSize="12px" color="red">
+                Connection failed
+              </Typography>
+            )}
+
+            {/* Actions */}
             {callAvailable && (
               <IconButton onClick={handleCallClick}>
                 <PhoneCall size={20} />
@@ -275,7 +339,7 @@ const ChatPage = () => {
           </Box>
         </Box>
 
-        {/* Messages Container */}
+        {/* Messages */}
         <Box
           ref={containerRef}
           style={{
@@ -292,12 +356,8 @@ const ChatPage = () => {
         >
           <div
             ref={messagesEndRef}
-            style={{
-              position: "absolute",
-              bottom: 0,
-              width: "100%",
-            }}
-          ></div>
+            style={{ position: "absolute", bottom: 0, width: "100%" }}
+          />
           {chatMessages.map((chat) => {
             const isSender = chat.usertype === "sender";
             return (
@@ -342,16 +402,14 @@ const ChatPage = () => {
                         }}
                       />
                     )}
+
                     <Box
                       style={{
                         backgroundColor: "transparent",
                         color: isSender ? "#1D2939" : "#FFFFFF",
-
                         maxWidth: "100%",
                         wordWrap: "break-word",
-
                         position: "relative",
-
                         fontFamily: "Inter",
                         fontSize: "14px",
                         lineHeight: "20px",
@@ -381,14 +439,13 @@ const ChatPage = () => {
                           {chat.message}
                         </Typography>
                       </Box>
+
                       {chat.time && (
                         <Box
                           style={{
                             display: "flex",
                             alignItems: "center",
-                            justifyContent: isSender
-                              ? "flex-start"
-                              : "flex-end",
+                            justifyContent: isSender ? "flex-start" : "flex-end",
                             gap: "4px",
                             marginTop: "4px",
                           }}
@@ -449,7 +506,6 @@ const ChatPage = () => {
               boxShadow: "0px 3px 3px 2px rgba(16, 24, 40, 0.05)",
             }}
           >
-            {/* ← INSERT YOUR ATTACH BUTTON & HIDDEN INPUT HERE */}
             <IconButton
               onClick={() => fileInputRef.current?.click()}
               disabled={isUploading}
@@ -467,6 +523,7 @@ const ChatPage = () => {
               style={{ display: "none" }}
               onChange={handleFileChange}
             />
+
             <form
               onSubmit={handleSendMessage}
               style={{
@@ -488,30 +545,8 @@ const ChatPage = () => {
                   padding: "10px 20px",
                   fontSize: "14px",
                 }}
-                endAdornment={
-                  <Box
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "4px",
-                    }}
-                  >
-                    {/* <IconButton style={{ color: "#667085" }}>
-                    <MicIcon size={20} />
-                  </IconButton>
-                  <IconButton style={{ color: "#667085" }}>
-                    <Image size={20} />
-                  </IconButton> */}
-                  </Box>
-                }
               />
-              <Box
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "4px",
-                }}
-              >
+              <Box style={{ display: "flex", alignItems: "center", gap: "4px" }}>
                 <IconButton style={{ color: "#667085" }}>
                   <MicIcon size={20} />
                 </IconButton>
@@ -527,7 +562,7 @@ const ChatPage = () => {
                   border: "none",
                 }}
               >
-                {message.trim() ? "Send" : "Send"}
+                Send
               </Button>
             </form>
           </Box>

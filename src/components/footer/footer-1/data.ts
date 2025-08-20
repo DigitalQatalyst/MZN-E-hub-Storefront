@@ -12,6 +12,20 @@ interface FooterColumn {
 }
 
 // Existing data (kept for backward compatibility)
+// Link interface for type safety
+interface LinkItem {
+  name: string;
+  url: string;
+  badge?: string; // Optional badge text like "New" or "Coming soon"
+}
+
+// Footer column interface
+interface FooterColumn {
+  title: string;
+  links: LinkItem[];
+}
+
+// Existing data (kept for backward compatibility)
 export const aboutLinks = [
   "Business in AbuDhabi",
   "Help Center",

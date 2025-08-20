@@ -3,12 +3,17 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Linkedin, Twitter, Youtube, Instagram } from "lucide-react";
+import { Linkedin, Twitter, Youtube, Instagram } from "lucide-react";
 import Box from "@component/Box";
 import Grid from "@component/grid/Grid";
 import FlexBox from "@component/FlexBox";
 import Typography, { Paragraph } from "@component/Typography";
 
 // STYLED COMPONENTS
+import { StyledLink, SubscribeInput, SubscribeButton } from "./styles";
+
+// IMPORT FOOTER DATA
+import { footerData, socialMediaLinks } from "./data";
 import { StyledLink, SubscribeInput, SubscribeButton } from "./styles";
 
 // IMPORT FOOTER DATA
@@ -89,6 +94,8 @@ export default function Footer1() {
         <div style={{
           color: "white",
           margin: "0 auto",
+          width: "100%",
+          padding: "0 4rem"
           width: "100%",
           padding: "0 4rem"
         }}>
@@ -192,10 +199,12 @@ export default function Footer1() {
           background: "linear-gradient(94.22deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%)"
         }}
         pb="2rem"
+        pb="2rem"
       >
         <div style={{
           margin: "0 auto",
           width: "100%",
+          padding: "0 4rem"
           padding: "0 4rem"
         }}>
           <FlexBox

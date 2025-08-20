@@ -5,9 +5,29 @@ import Container from "@component/Container";
 import { Button } from "@component/buttons";
 import React from "react";
 import { articles, knowledgeitems } from "./utils";
-import { FaUser } from "react-icons/fa";
-import { IoHomeOutline } from "react-icons/io5";
-import { BsArrowRight, BsChevronRight } from "react-icons/bs";
+import { FaHome, FaShoppingCart, FaUser } from "react-icons/fa";
+import { IoHelp, IoHomeOutline, IoLockOpenOutline } from "react-icons/io5";
+import {
+  BsArrowRight,
+  BsChevronRight,
+  BsCurrencyDollar,
+  BsTags,
+} from "react-icons/bs";
+import Link from "next/link";
+import { knowledgedata } from "./data";
+
+const iconMap = {
+  FaUser: <FaUser />,
+  FaHome: <FaHome />,
+  FaShoppingCart: <FaShoppingCart />,
+  IoHomeOutline: <IoHomeOutline />,
+  IoHelp: <IoHelp />,
+  BsArrowRight: <BsArrowRight />,
+  BsChevronRight: <BsChevronRight />,
+  BsCurrencyDollar: <BsCurrencyDollar />,
+  BsTags: <BsTags />,
+  IoLockOpenOutline: <IoLockOpenOutline />,
+};
 
 const KnowledgeBase: React.FC = () => {
   return (
@@ -32,7 +52,7 @@ const KnowledgeBase: React.FC = () => {
         </Typography>
 
         <Grid container spacing={4} justifyContent="center">
-          {knowledgeitems?.map((item) => (
+          {knowledgedata?.map((item) => (
             <Grid item xs={12} sm={6} md={4} key={item.id}>
               <Box
                 display="flex"
@@ -71,7 +91,7 @@ const KnowledgeBase: React.FC = () => {
                       padding: "0.5rem",
                     }}
                   >
-                    {item.icon}
+                    {iconMap[item.icon] || <IoHelp />}
                   </Box>
                   {/* heading */}
                   <Typography
@@ -98,14 +118,30 @@ const KnowledgeBase: React.FC = () => {
                     width="100%"
                     mb={2}
                   >
-                    <Typography
-                      fontSize="14px"
-                      color="#6B6778"
-                      mb={2}
-                      key={article}
+                    {/* <Link
+                     href={{
+                      pathname: `/faq/${slugify(article.title)}`,
+                      query: { description: article.description },
+                    }}
+                     }> */}
+                    <Link
+                      href={{
+                        pathname: `/faq/${item?.id}/`,
+                        query: {
+                          articleid: article.id,
+                          itemid: item.id,
+                        },
+                      }}
                     >
-                      {article}
-                    </Typography>
+                      <Typography
+                        fontSize="14px"
+                        color="#6B6778"
+                        mb={2}
+                        key={article.title}
+                      >
+                        {article.title}
+                      </Typography>
+                    </Link>
                     <BsChevronRight size={15} color="black" />
                   </Box>
                 ))}
@@ -122,14 +158,24 @@ const KnowledgeBase: React.FC = () => {
                     justifyContent="center"
                     style={{ gap: "8px" }}
                   >
-                    <Typography
-                      fontSize="14px"
-                      fontWeight="600"
-                      color="#0030E3"
-                      mb={2}
+                    {/* <Link href="/support/allarticles/1"> */}
+                    <Link
+                      href={{
+                        pathname: `/support/allarticles/${item.id}`,
+                        query: {
+                          itemid: item.id,
+                        },
+                      }}
                     >
-                      See all {item?.articles?.length + 4} Articles
-                    </Typography>
+                      <Typography
+                        fontSize="14px"
+                        fontWeight="600"
+                        color="#0030E3"
+                        mb={2}
+                      >
+                        See all {item?.articles?.length} Articles
+                      </Typography>
+                    </Link>
                     <Box>
                       <BsArrowRight size={20} color="#0030E3" />
                     </Box>

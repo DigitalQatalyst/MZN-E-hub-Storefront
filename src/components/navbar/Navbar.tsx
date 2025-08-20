@@ -116,31 +116,29 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           </Button>
         </Categories>
 
-            {/* Desktop User Actions */}
-            <FlexBox 
-              alignItems="center" 
-              style={{ 
-                gap: "15px", 
-                marginRight: "-88px" 
-              }}
-            >
-              {/* Search Icon */}
-              <Box className="search-icon" style={{ cursor: "pointer" }}>
-                <img src="/assets/images/logos/search.svg" alt="Search" height="20px" />
-              </Box>
+        {/* Desktop User Actions */}
+        <FlexBox 
+          alignItems="center" 
+          style={{ 
+            gap: "15px", 
+            marginRight: "-88px" 
+          }}
+        >
+          {/* Search Icon */}
+          <Box className="search-icon" style={{ cursor: "pointer" }}>
+            <img src="/assets/images/logos/search.svg" alt="Search" height="20px" />
+          </Box>
 
-              {/* Bookmark Icon */}
-              <Box className="search-icon" style={{ cursor: "pointer" }}>
-                <img src="/images/bookmark.svg" alt="Bookmark" height="24px" />
-              </Box>
+          {/* Bookmark Icon */}
+          <Box className="search-icon" style={{ cursor: "pointer" }}>
+            <img src="/images/bookmark.svg" alt="Bookmark" height="24px" />
+          </Box>
 
-              {/* User Profile Photo */}
-              <Box className="profile-photo" style={{ cursor: "pointer" }}>
-                <div className="profile-initials">MW</div>
-              </Box>
-            </FlexBox>
-          </>
-        )}
+          {/* User Profile Photo */}
+          <Box className="profile-photo" style={{ cursor: "pointer" }}>
+            <div className="profile-initials">MW</div>
+          </Box>
+        </FlexBox>
 
         {/* Mobile Navigation */}
         {isMobile && (

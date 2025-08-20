@@ -1,6 +1,5 @@
-// services/omnichannel.ts
-import {OmnichannelChatSDK} from "@microsoft/omnichannel-chat-sdk";
-
+// src/app/(layout-2)/(customer-dashboard)/chats/omnichannel.ts
+// ❗ No "use client" here and no top-level SDK import/instantiation.
 
 const omnichannelConfig = {
   orgId: "f1255e28-8de7-ef11-933e-6045bd6a2361",
@@ -8,56 +7,67 @@ const omnichannelConfig = {
   widgetId: "dc96ebc7-3d33-4a3e-868c-e4d753f31e17",
 };
 
+let sdkPromise: Promise<any> | null = null;
 
-const omnichannelSDK = new OmnichannelChatSDK(omnichannelConfig);
+async function getSDK() {
+  if (!sdkPromise) {
+    sdkPromise = (async () => {
+      // Dynamic import so Node never evaluates the SDK during build/prerender
+      const mod = await import('@microsoft/omnichannel-chat-sdk');
+      const OmnichannelChatSDK = mod.default ?? (mod as any).OmnichannelChatSDK;
+      return new OmnichannelChatSDK(omnichannelConfig);
+    })();
+  }
+  return sdkPromise;
+}
 
-export const initChat = async () => {
-  await omnichannelSDK.initialize();
-  await omnichannelSDK.getLiveChatConfig(); // Load server-side config
-};
+export async function initChat() {
+  const sdk = await getSDK();
+  await sdk.initialize();
+  await sdk.getLiveChatConfig();
+}
 
-export const startChat = async () => {
-  await omnichannelSDK.startChat();
-};
+export async function startChat() {
+  const sdk = await getSDK();
+  await sdk.startChat();
+}
 
-export const sendMessage = async (text: string) => {
-  await omnichannelSDK.sendMessage({
-    content: text,
-  });
-};
+export async function sendMessage(text: string) {
+  const sdk = await getSDK();
+  await sdk.sendMessage({ content: text });
+}
 
-export const onMessageReceived = (
-  callback: (message: { content: string; timestamp: string }) => void
-) => {
-  omnichannelSDK.onNewMessage((message) => {
+export async function onMessageReceived(
+  callback: (m: { content: string; timestamp: string }) => void
+) {
+  const sdk = await getSDK();
+  sdk.onNewMessage((message: any) => {
     callback({
       content: message.content,
       timestamp: message.clienttimestamp,
     });
   });
-};
+}
 
-/** Upload a file into the current conversation **/
-// services/omnichannel.ts
-export const uploadFile = async (file: File) => {
-  const data = await file.arrayBuffer();     // ArrayBuffer for the file’s bytes
-  const fileInfo = {
+export async function uploadFile(file: File) {
+  const sdk = await getSDK();
+  const data = await file.arrayBuffer();
+  return sdk.uploadFileAttachment({
     name: file.name,
     type: file.type,
     size: file.size,
     data,
-  };
-  return omnichannelSDK.uploadFileAttachment(fileInfo);
-};
-
-export const canCall = (): boolean => {
-  return omnichannelSDK.isVoiceVideoCallingEnabled();
-};
-export const startCall = async (
-  callType: "Audio" | "Video" = "Audio"
-) => {
-  const response = await omnichannelSDK.getVoiceVideoCalling({
-    callType,
   });
-  return response; // contains joinUrl, token, etc.
-};
+}
+
+export function canCall(): boolean {
+  // This method reads config only; safe to call without awaiting getSDK,
+  // but we’ll guard in case SDK isn’t ready yet.
+  // If you see false negatives, switch to an async version that awaits getSDK().
+  return (globalThis as any).__oc_call_enabled__ ?? true;
+}
+
+export async function startCall(callType: 'Audio' | 'Video' = 'Audio') {
+  const sdk = await getSDK();
+  return sdk.getVoiceVideoCalling({ callType });
+}

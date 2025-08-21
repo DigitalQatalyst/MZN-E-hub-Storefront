@@ -1,4 +1,5 @@
 // API FUNCTIONS
+"use client";
 import api from "@utils/__api__/market-1";
 
 import NavbarMarketplace from "@component/navbar/NavbarMarketplace";

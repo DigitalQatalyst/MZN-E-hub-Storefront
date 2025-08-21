@@ -1,3 +1,4 @@
+"use client";
 import Typography from "@component/Typography";
 import { Box } from "@mui/material";
 import React from "react";

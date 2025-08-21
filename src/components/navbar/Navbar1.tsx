@@ -13,6 +13,7 @@ import Container from "../Container";
 import Typography from "../Typography";
 import Categories from "../categories/Categories";
 import styled from "styled-components";
+import { useRouter } from "next/navigation";
 import { useMsal, AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
 
 const StyledNavbar = styled.div`
@@ -336,49 +337,57 @@ type NavbarProps = { navListOpen?: boolean };
 export default function Navbar({ navListOpen }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const { instance, accounts } = useMsal();
+  const { instance } = useMsal();
+  const router = useRouter(); // 👈 add
 
   useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 10;
-      setScrolled(isScrolled);
-    };
-
+    const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
+  const toggleMenu = () => setMenuOpen((v) => !v);
 
+  // 👉 Use your configured redirectUri from msalConfig (do NOT override per call)
+  //    Include sensible scopes (openid, offline_access, and your API scope)
   const handleLogin = () => {
     instance.loginRedirect({
-      scopes: ["openid"],
-      redirectUri: window.location.origin,
-      extraQueryParameters: { prompt: "login" }
-    }).catch((e) => {
-      console.log(e);
-    });
+      scopes: [
+        "openid",
+        "offline_access",
+        // add your API scope(s) here:
+        "https://dgqatalyst.onmicrosoft.com/b94aa491-036c-4ddb-8bbf-12b510113078/Files.Read",
+      ],
+      // no redirectUri here; rely on msalConfig.auth.redirectUri
+      extraQueryParameters: { prompt: "login" },
+    }).catch(console.error);
     setMenuOpen(false);
   };
 
   const handleLogout = () => {
-    instance.logoutRedirect().catch((e) => {
-      console.log(e);
-    });
+    instance.logoutRedirect({
+      // optional; else uses msalConfig.auth.postLogoutRedirectUri
+      // postLogoutRedirectUri: "/"
+    }).catch(console.error);
     setMenuOpen(false);
   };
 
+  // 👉 Route locally; avoid hardcoding preview domains
   const handleProfileClick = () => {
-    window.location.href = "https://mzn-e-hub-storefront-pmvfb59r2-digitalqatalysts-projects.vercel.app/dashboard";
+    router.push("/dashboard");
     setMenuOpen(false);
   };
 
-  const SIGNUP_URL = "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_Signup&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fmzn-e-hub-storefront-git-landingpage-digitalqatalysts-projects.vercel.app%2F&scope=openid&response_type=code&prompt=login&code_challenge_method=S256&code_challenge=0vZQNWZJq-_sIiTADK-M4hyf44ACCodxa3_4L0MYxVo";
+  // 👉 Use a dedicated SignUp authority (policy) via MSAL, not a manual URL
+  //     Replace B2C_1_KF_Signup with your actual sign-up policy name if different
+  const signUpAuthority =
+    "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/B2C_1_KF_Signup";
 
   const handleSignUp = () => {
-    window.location.href = SIGNUP_URL;
+    instance.loginRedirect({
+      authority: signUpAuthority,
+      scopes: ["openid", "offline_access"],
+    }).catch(console.error);
     setMenuOpen(false);
   };
 

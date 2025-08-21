@@ -87,7 +87,7 @@ const TabBar: React.FC = () => {
           Communities
         </Tab>
         <Tab
-          onClick={() => handleTabClick('Media', '#')}
+          onClick={() => handleTabClick('Media', 'https://kf-ej-media-marketplace-git-me-51b5b8-digitalqatalysts-projects.vercel.app/media/')}
           active={activeTab === 'Media'}
         >
           <img src="/assets/images/tab_bar/brand_awareness.svg" alt="icon" />

@@ -364,7 +364,7 @@ export default function ServiceDetailsSection2({ product }: Props) {
           <FlexBox color="#0030E3" mb="1.5rem" justifyContent="space-between">
             <H3 color="#0030E3">Related Services</H3>
             <Link
-              href="/services"
+              href="/financial-marketplace"
               style={{
                 display: "flex",
                 alignItems: "center",

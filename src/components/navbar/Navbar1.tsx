@@ -1,20 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import styled from "styled-components";
+import { useRouter } from "next/navigation";
+import { useMsal, AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
+
 import Box from "../Box";
-import Card from "../Card";
-import Badge from "../badge";
 import Icon from "../icon/Icon";
 import FlexBox from "../FlexBox";
 import NavLink from "../nav-link";
-import MenuItem from "../MenuItem";
 import { Button } from "../buttons";
 import Container from "../Container";
 import Typography from "../Typography";
 import Categories from "../categories/Categories";
-import styled from "styled-components";
-import { useRouter } from "next/navigation";
-import { useMsal, AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
 
 const StyledNavbar = styled.div`
   background: transparent !important;
@@ -44,22 +42,9 @@ const StyledNavbar = styled.div`
     text-transform: uppercase;
     padding-right: 10px;
 
-    img {
-      width: 150px;
-      height: auto;
-    }
-
-    .enterprise-text {
-      display: block;
-      font-size: 20px;
-    }
-
-    .journey-text {
-      display: block;
-      font-size: 16px;
-      font-weight: 600;
-      margin-top: -2px;
-    }
+    img { width: 150px; height: auto; }
+    .enterprise-text { display: block; font-size: 20px; }
+    .journey-text { display: block; font-size: 16px; font-weight: 600; margin-top: -2px; }
   }
 
   .explore-button {
@@ -91,254 +76,81 @@ const StyledNavbar = styled.div`
       &::after {
         content: '';
         position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 2px;
+        bottom: 0; left: 0;
+        width: 0; height: 2px;
         background: white;
       }
     }
   }
 
-  .right-section {
-    gap: 24px;
-    align-items: center;
-    display: flex;
-  }
-
-  .search-icon {
-    width: 24px;
-    height: 20px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-
-    svg, img {
-      filter: brightness(0) invert(1);
-    }
-  }
-
-  .profile-icon {
-    width: 68px;
-    height: 32px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-
-    svg, img {
-      filter: brightness(0) invert(1);
-    }
-  }
-
-  .hamburger-icon {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    display: none;
-
-    svg, img {
-      filter: brightness(0) invert(1);
-    }
-  }
+  .right-section { gap: 24px; align-items: center; display: flex; }
+  .search-icon, .profile-icon, .hamburger-icon { cursor: pointer; transition: transform 0.3s ease; }
+  .search-icon { width: 24px; height: 20px; }
+  .profile-icon { width: 68px; height: 32px; }
+  .hamburger-icon { width: 24px; height: 24px; display: none; }
 
   .mobile-menu {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 80%;
-    max-width: 300px;
-    height: 100vh;
-    background: linear-gradient(224.55deg, #7693F3 0.02%, #7693F3 11.72%, #7693F1 21.24%, #7594EF 28.92%, #7594EC 35.08%, #7495E9 40.08%, #7496E5 44.24%, #7397E0 47.89%, #7298DC 51.38%, #7299D7 55.03%, #719AD2 59.19%, #709BCD 64.18%, #6F9CC8 70.35%, #6E9DC3 78.03%, #6E9EBE 87.54%, #6D9FBA 99.24%);
-    padding: 20px;
-    z-index: 1001;
-    transform: translateX(100%);
-    transition: transform 0.3s ease-in-out;
-
-    &.open {
-      transform: translateX(0);
-    }
-
-    .mobile-nav-links {
-      flex-direction: column;
-      gap: 20px;
-      margin-top: 40px;
-      justify-content: flex-start;
-
-      .nav-link {
-        color: white !important;
-        font-size: 18px;
-        font-weight: 600;
-        padding: 10px 0;
-      }
-    }
-
-    .mobile-right-section {
-      flex-direction: column;
-      margin-top: 20px;
-      justify-content: flex-start;
-
-
-      .profile-icon {
-        width: 44px;
-        height: 30px;
-      }
-
-      .search-icon {
-        width: 44px;
-        height: 30px;
-      }
-    }
-
-    .mobile-explore-button {
-      width: 100%;
-      justify-content: flex-start;
-      margin-top: 20px;
-    }
+    position: fixed; top: 0; right: 0;
+    width: 80%; max-width: 300px; height: 100vh;
+    background: linear-gradient(224.55deg, #7693F3 0.02%, #6D9FBA 99.24%);
+    padding: 20px; z-index: 1001;
+    transform: translateX(100%); transition: transform 0.3s ease-in-out;
+    &.open { transform: translateX(0); }
+    .mobile-nav-links { flex-direction: column; gap: 20px; margin-top: 40px; justify-content: flex-start; }
+    .mobile-right-section { flex-direction: column; margin-top: 20px; justify-content: flex-start; }
+    .mobile-explore-button { width: 100%; justify-content: flex-start; margin-top: 20px; }
   }
 
   .become-partner-btn, .logout-btn {
     background: transparent !important;
     border: 2px solid rgba(255, 255, 255, 0.8) !important;
-    color: white !important;
-    font-weight: 600;
-    font-size: 14px;
-    padding: 10px 20px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    min-width: 140px;
+    color: white !important; font-weight: 600; font-size: 14px;
+    padding: 10px 20px; border-radius: 8px; transition: all 0.3s ease; min-width: 140px;
   }
 
   .sign-up-btn {
-    background: white !important;
-    color: #0000FF !important;
-    border: 2px solid white !important;
-    font-weight: 600;
-    font-size: 14px;
-    padding: 10px 20px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    min-width: 100px;
+    background: white !important; color: #0000FF !important;
+    border: 2px solid white !important; font-weight: 600; font-size: 14px;
+    padding: 10px 20px; border-radius: 8px; transition: all 0.3s ease; min-width: 100px;
   }
 
-  // Tablet screens
   @media (max-width: 1024px) {
-    .navbar-container {
-      padding: 16px 40px;
-    }
-
-    .enterprise-logo {
-      font-size: 20px;
-
-      img {
-        width: 130px;
-      }
-
-      .enterprise-text {
-        font-size: 18px;
-      }
-
-      .journey-text {
-        font-size: 14px;
-      }
-    }
-
-    .nav-links {
-      gap: 20px;
-      margin-right: 20px;
-
-      .nav-link {
-        font-size: 14px;
-      }
-    }
-
-    .explore-button {
-      min-width: 120px;
-      height: 40px;
-
-      .explore-text {
-        font-size: 14px;
-      }
-    }
-
-    .become-partner-btn, .logout-btn {
-      min-width: 120px;
-      font-size: 13px;
-      padding: 8px 16px;
-    }
-
-    .sign-up-btn {
-      min-width: 80px;
-      font-size: 13px;
-      padding: 8px 16px;
-    }
-
-    .right-section {
-      gap: 16px;
-    }
+    .navbar-container { padding: 16px 40px; }
+    .enterprise-logo img { width: 130px; }
+    .nav-links { gap: 20px; margin-right: 20px; }
+    .explore-button { min-width: 120px; height: 40px; }
+    .become-partner-btn, .logout-btn { min-width: 120px; font-size: 13px; padding: 8px 16px; }
+    .sign-up-btn { min-width: 80px; font-size: 13px; padding: 8px 16px; }
+    .right-section { gap: 16px; }
   }
 
-  // Mobile screens
   @media (max-width: 768px) {
-    .navbar-container {
-      padding: 16px 20px;
-      justify-content: flex-start;
-    }
-
-    .enterprise-logo {
-      display: none;
-    }
-
-    .explore-button {
-      display: none;
-    }
-
-    .nav-links {
-      display: none;
-    }
-
-    .right-section {
-      display: none;
-    }
-
-    .hamburger-icon {
-      display: block;
-      position: absolute;
-      top: 16px;
-      left: 20px;
-    }
-
-    .mobile-menu {
-      display: block;
-    }
+    .navbar-container { padding: 16px 20px; justify-content: flex-start; }
+    .enterprise-logo, .explore-button, .nav-links, .right-section { display: none; }
+    .hamburger-icon { display: block; position: absolute; top: 16px; left: 20px; }
+    .mobile-menu { display: block; }
   }
 
-  // Small mobile screens
   @media (max-width: 480px) {
-    .navbar-container {
-      padding: 12px 16px;
-    }
-
-    .mobile-menu {
-      width: 100%;
-      max-width: none;
-    }
+    .navbar-container { padding: 12px 16px; }
+    .mobile-menu { width: 100%; max-width: none; }
   }
 `;
 
-interface Nav {
-  url: string;
-  child: Nav[];
-  title: string;
-  badge?: string;
-  extLink?: boolean;
-}
-
 type NavbarProps = { navListOpen?: boolean };
+
+// 🔐 scopes used for login
+const SCOPES = [
+  "openid",
+  "offline_access",
+  "https://dgqatalyst.onmicrosoft.com/b94aa491-036c-4ddb-8bbf-12b510113078/Files.Read",
+];
 
 export default function Navbar({ navListOpen }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { instance } = useMsal();
-  const router = useRouter(); // 👈 add
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -346,46 +158,33 @@ export default function Navbar({ navListOpen }: NavbarProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const toggleMenu = () => setMenuOpen((v) => !v);
+  const toggleMenu = () => setMenuOpen(v => !v);
 
-  // 👉 Use your configured redirectUri from msalConfig (do NOT override per call)
-  //    Include sensible scopes (openid, offline_access, and your API scope)
-  const handleLogin = () => {
+  // 👉 click user icon → start Azure B2C login (uses redirectUri from msalConfig)
+  const handleUserIconClick = () => {
     instance.loginRedirect({
-      scopes: [
-        "openid",
-        "offline_access",
-        // add your API scope(s) here:
-        "https://dgqatalyst.onmicrosoft.com/b94aa491-036c-4ddb-8bbf-12b510113078/Files.Read",
-      ],
-      // no redirectUri here; rely on msalConfig.auth.redirectUri
+      scopes: SCOPES,
       extraQueryParameters: { prompt: "login" },
     }).catch(console.error);
     setMenuOpen(false);
   };
 
+  // 👉 "Become a Partner" → go to /development (no login)
+  const handleBecomePartner = () => {
+    router.push("/development");
+    setMenuOpen(false);
+  };
+
   const handleLogout = () => {
-    instance.logoutRedirect({
-      // optional; else uses msalConfig.auth.postLogoutRedirectUri
-      // postLogoutRedirectUri: "/"
-    }).catch(console.error);
+    instance.logoutRedirect().catch(console.error);
     setMenuOpen(false);
   };
 
-  // 👉 Route locally; avoid hardcoding preview domains
-  const handleProfileClick = () => {
-    router.push("/dashboard");
-    setMenuOpen(false);
-  };
-
-  // 👉 Use a dedicated SignUp authority (policy) via MSAL, not a manual URL
-  //     Replace B2C_1_KF_Signup with your actual sign-up policy name if different
-  const signUpAuthority =
-    "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/B2C_1_KF_Signup";
-
+  // Optional: keep Sign Up button as-is or wire to a signup policy if you use it
   const handleSignUp = () => {
     instance.loginRedirect({
-      authority: signUpAuthority,
+      authority:
+        "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/B2C_1_KF_Signup",
       scopes: ["openid", "offline_access"],
     }).catch(console.error);
     setMenuOpen(false);
@@ -407,31 +206,15 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         </Box>
 
         <Categories open={navListOpen}>
-          <Button
-            className="explore-button"
-            width="140px"
-            height="44px"
-            bg="body.default"
-            variant="text"
-          >
+          <Button className="explore-button" width="140px" height="44px" bg="body.default" variant="text">
             <FlexBox justifyContent="space-between" alignItems="center" width="100%">
               <FlexBox alignItems="center">
                 <Icon className="explore-icon">categories</Icon>
-                <Typography
-                  className="explore-text"
-                  ml="5px"
-                  fontFamily='"Open Sans", sans-serif'
-                  fontSize="16px"
-                  fontWeight="600"
-                  lineHeight="26px"
-                  color="#002180"
-                >
+                <Typography className="explore-text" ml="5px" fontFamily='"Open Sans", sans-serif' fontSize="16px" fontWeight="600" lineHeight="26px" color="#002180">
                   Explore
                 </Typography>
               </FlexBox>
-              <Icon className="dropdown-icon" variant="small">
-                chevron-down
-              </Icon>
+              <Icon className="dropdown-icon" variant="small">chevron-down</Icon>
             </FlexBox>
           </Button>
         </Categories>
@@ -439,12 +222,8 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         <Box flex="1" />
 
         <FlexBox className="nav-links">
-          <NavLink className="nav-link" href="/development">
-            Discover AbuDhabi
-          </NavLink>
-          <NavLink className="nav-link" href="/faq">
-            Help Centre
-          </NavLink>
+          <NavLink className="nav-link" href="/development">Discover AbuDhabi</NavLink>
+          <NavLink className="nav-link" href="/faq">Help Centre</NavLink>
         </FlexBox>
 
         <FlexBox className="right-section">
@@ -457,6 +236,8 @@ export default function Navbar({ navListOpen }: NavbarProps) {
               <Button className="logout-btn" variant="outlined" onClick={handleLogout}>
                 Logout
               </Button>
+
+              {/* User icon → login again (as requested) */}
               <Box
                 className="profile-icon"
                 style={{
@@ -471,7 +252,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                   border: "2px solid #002180",
                   transition: "all 0.3s ease"
                 }}
-                onClick={handleProfileClick}
+                onClick={handleUserIconClick}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = "#e0e0e0";
                   e.currentTarget.style.transform = "scale(1.05)";
@@ -481,22 +262,24 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                   e.currentTarget.style.transform = "scale(1)";
                 }}
               >
-                <Icon size="20px" color="#002180">
-                  user
-                </Icon>
+                <Icon size="20px" color="#002180">user</Icon>
               </Box>
             </FlexBox>
           </AuthenticatedTemplate>
 
           <UnauthenticatedTemplate>
             <FlexBox alignItems="center" style={{ gap: "10px" }}>
-              <Box className="profile-icon" onClick={handleProfileClick}>
-                {/* <img src="/assets/images/logos/profile.svg" alt="Profile" /> */}
+              {/* User icon → login */}
+              <Box className="profile-icon" onClick={handleUserIconClick}>
                 <Icon size="30px" color="#002180">profile</Icon>
               </Box>
-              <Button className="become-partner-btn" variant="outlined" onClick={handleLogin}>
+
+              {/* Become a Partner → /development */}
+              <Button className="become-partner-btn" variant="outlined" onClick={handleBecomePartner}>
                 Become a Partner
               </Button>
+
+              {/* Optional signup */}
               <Button className="sign-up-btn" variant="contained" onClick={handleSignUp}>
                 Sign Up
               </Button>
@@ -508,81 +291,45 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           <Icon>menu</Icon>
         </Box>
 
+        {/* Mobile menu */}
         <Box className={`mobile-menu ${menuOpen ? "open" : ""}`}>
           <Categories open={navListOpen}>
-            <Button
-              className="mobile-explore-button"
-              width="100%"
-              height="44px"
-              bg="body.default"
-              variant="text"
-              onClick={toggleMenu}
-            >
+            <Button className="mobile-explore-button" width="100%" height="44px" bg="body.default" variant="text" onClick={toggleMenu}>
               <FlexBox justifyContent="flex-start" alignItems="center" width="100%">
                 <FlexBox alignItems="center">
                   <Icon className="explore-icon">categories</Icon>
-                  <Typography
-                    className="explore-text"
-                    ml="5px"
-                    fontFamily='"Open Sans", sans-serif'
-                    fontSize="16px"
-                    fontWeight="600"
-                    lineHeight="26px"
-                    color="#002180"
-                  >
+                  <Typography className="explore-text" ml="5px" fontFamily='"Open Sans", sans-serif' fontSize="16px" fontWeight="600" lineHeight="26px" color="#002180">
                     Explore
                   </Typography>
                 </FlexBox>
-                <Icon className="dropdown-icon" variant="small">
-                  chevron-down
-                </Icon>
+                <Icon className="dropdown-icon" variant="small">chevron-down</Icon>
               </FlexBox>
             </Button>
           </Categories>
 
           <FlexBox className="mobile-nav-links">
-            <NavLink className="nav-link" href="/development" onClick={toggleMenu}>
-              Discover AbuDhabi
-            </NavLink>
-            <NavLink className="nav-link" href="https://mzn-e-hub-storefront-cdzzi93jk-digitalqatalysts-projects.vercel.app/faq" onClick={toggleMenu}>
-              Help Centre
-            </NavLink>
+            <NavLink className="nav-link" href="/development" onClick={toggleMenu}>Discover AbuDhabi</NavLink>
+            <NavLink className="nav-link" href="/faq" onClick={toggleMenu}>Help Centre</NavLink>
           </FlexBox>
 
           <FlexBox className="mobile-right-section">
             <Box className="search-icon" onClick={toggleMenu}>
-              <Icon size="18px" color="#002180" >search</Icon>
+              <Icon size="18px" color="#002180">search</Icon>
             </Box>
 
             <AuthenticatedTemplate>
               <FlexBox className="mobile-auth-section" flexDirection="column" style={{ gap: "16px" }}>
                 <Button
                   className="mobile-auth-button mobile-profile"
-                  style={{
-                    background: "#f8f9fa",
-                    color: "#002180",
-                    border: "2px solid #e0e0e0",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "8px",
-                    padding: "10px",
-                    borderRadius: "6px"
-                  }}
-                  onClick={handleProfileClick}
+                  style={{ background: "#f8f9fa", color: "#002180", border: "2px solid #e0e0e0", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", padding: "10px", borderRadius: "6px" }}
+                  onClick={handleUserIconClick}
                 >
                   <Icon size="24px" color="#002180">user</Icon>
-                  View Profile
+                  Sign In
                 </Button>
                 <Button
                   className="mobile-auth-button logout-btn"
-                  style={{
-                    background: "#dc3545",
-                    color: "white",
-                    border: "2px solid #dc3545",
-                    padding: "10px",
-                    borderRadius: "6px"
-                  }}
+                  style={{ background: "#dc3545", color: "white", border: "2px solid #dc3545", padding: "10px", borderRadius: "6px" }}
                   onClick={handleLogout}
                 >
                   Logout
@@ -592,32 +339,19 @@ export default function Navbar({ navListOpen }: NavbarProps) {
 
             <UnauthenticatedTemplate>
               <FlexBox className="mobile-auth-section" flexDirection="column" style={{ gap: "16px" }}>
-                <Box className="profile-icon" onClick={toggleMenu}>
-                  {/* <img src="/assets/images/logos/profile.svg" alt="Profile" /> */}
+                <Box className="profile-icon" onClick={handleUserIconClick}>
                   <Icon size="44px" color="#002180">profile</Icon>
                 </Box>
                 <Button
                   className="mobile-auth-button become-partner-btn"
-                  style={{
-                    background: "transparent",
-                    color: "white",
-                    border: "2px solid rgba(255, 255, 255, 0.8)",
-                    padding: "10px",
-                    borderRadius: "6px"
-                  }}
-                  onClick={handleLogin}
+                  style={{ background: "transparent", color: "white", border: "2px solid rgba(255, 255, 255, 0.8)", padding: "10px", borderRadius: "6px" }}
+                  onClick={handleBecomePartner}
                 >
                   Become a Partner
                 </Button>
                 <Button
                   className="mobile-auth-button sign-up-btn"
-                  style={{
-                    background: "white",
-                    color: "#0000FF",
-                    border: "2px solid white",
-                    padding: "10px",
-                    borderRadius: "6px"
-                  }}
+                  style={{ background: "white", color: "#0000FF", border: "2px solid white", padding: "10px", borderRadius: "6px" }}
                   onClick={handleSignUp}
                 >
                   Sign Up

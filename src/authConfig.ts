@@ -1,7 +1,7 @@
 
 import { LogLevel } from "@azure/msal-browser";
 
-const clientId = "131bb45a-4e82-46fa-a524-d57a5a690303";
+const clientId = "b94aa491-036c-4ddb-8bbf-12b510113078";
 
 const tenantName = "dgqatalyst";
 
@@ -24,13 +24,15 @@ export const b2cPolicies = {
 };
 
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
+
 export const msalConfig = {
   auth: {
     clientId: clientId, // This is the ONLY mandatory field that you need to supply.
     authority: b2cPolicies.authorities.signUpSignIn.authority, // Choose SUSI as your default authority.
     knownAuthorities: [b2cPolicies.authorityDomain], // Mark your B2C tenant's domain as trusted.
-    redirectUri: "/dashboard" // You must register this URI on Azure Portal/App Registration. Defaults to window.location.origin
-    //postLogoutRedirectUri: "/", // Indicates the page to navigate after logout.
+    redirectUri: `${siteUrl}/callback`, // You must register this URI on Azure Portal/App Registration. Defaults to window.location.origin
+    postLogoutRedirectUri: `${siteUrl}/`, // Indicates the page to navigate after logout.
   },
   cache: {
     cacheLocation: "sessionStorage", // Configures cache location. "sessionStorage" is more secure, but "localStorage" gives you SSO between tabs.

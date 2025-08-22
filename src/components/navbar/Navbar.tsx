@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import { Menu, X, Search, Bookmark, ChevronRight, LogOut, User } from "lucide-react";
 import { useMsal, AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
 
+import { loginRequest, logoutRequest } from "../../authConfig"; // ⬅️ use central config (adjust path if needed)
+
 import Box from "../Box";
 import Card from "../Card";
 import Badge from "../badge";
@@ -17,17 +19,17 @@ import Typography, { Span } from "../Typography";
 import Categories from "../categories/Categories";
 import StyledNavbar from "./marketStyles";
 
-// Scopes used for login
-const SCOPES = [
-  "openid",
-  "offline_access",
-  "https://dgqatalyst.onmicrosoft.com/b94aa491-036c-4ddb-8bbf-12b510113078/Files.Read",
-];
-
 type NavbarProps = { navListOpen?: boolean };
 
 export default function Navbar({ navListOpen }: NavbarProps) {
   const { instance, accounts } = useMsal();
+
+  // 🧐 one-time debug to verify redirect in runtime (remove after confirming)
+  useEffect(() => {
+    const cfg = instance.getConfiguration();
+    // Should print e.g. http://localhost:3000/callback OR https://mzn-e-hub-storefront.vercel.app/callback
+    console.log("MSAL redirectUri =", cfg.auth.redirectUri);
+  }, [instance]);
 
   // screen + mobile menu
   const [isMobile, setIsMobile] = useState(false);
@@ -63,19 +65,16 @@ export default function Navbar({ navListOpen }: NavbarProps) {
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(v => !v);
 
-  // Starts Azure B2C login (uses redirectUri from msalConfig)
+  // ✅ Start Azure B2C login using central request (no redirectUri here)
   const startLogin = () =>
-    instance.loginRedirect({
-      scopes: SCOPES,
-      extraQueryParameters: { prompt: "login" },
-    }).catch(console.error);
+    instance.loginRedirect(loginRequest).catch(console.error);
 
   const goDashboard = () => {
     window.location.href = "/dashboard";
   };
 
   const logout = () =>
-    instance.logoutRedirect().catch(console.error);
+    instance.logoutRedirect(logoutRequest).catch(console.error);
 
   // Desktop: click MW
   const handleProfileClick = () => {
@@ -255,7 +254,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
               }}
             >
               <Box
-                onClick={toggleMobileMenu}
+                onClick={() => setIsMobileMenuOpen(v => !v)}
                 style={{
                   cursor: "pointer",
                   padding: "8px",

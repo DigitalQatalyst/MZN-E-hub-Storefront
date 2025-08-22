@@ -5,6 +5,9 @@ import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import { useMsal, AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
 
+// ⬇️ import your scopes and the dedicated signup authority
+import { b2cPolicies, authScopes, signupAuthority } from "../../authConfig"; // adjust path if needed
+
 import Box from "../Box";
 import Icon from "../icon/Icon";
 import FlexBox from "../FlexBox";
@@ -139,13 +142,6 @@ const StyledNavbar = styled.div`
 
 type NavbarProps = { navListOpen?: boolean };
 
-// 🔐 scopes used for login
-const SCOPES = [
-  "openid",
-  "offline_access",
-  "https://dgqatalyst.onmicrosoft.com/b94aa491-036c-4ddb-8bbf-12b510113078/Files.Read",
-];
-
 export default function Navbar({ navListOpen }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -160,33 +156,34 @@ export default function Navbar({ navListOpen }: NavbarProps) {
 
   const toggleMenu = () => setMenuOpen(v => !v);
 
-  // 👉 click user icon → start Azure B2C login (uses redirectUri from msalConfig)
+  // User icon → LOGIN (uses your default sign-in/SUSI policy)
   const handleUserIconClick = () => {
     instance.loginRedirect({
-      scopes: SCOPES,
+      authority: b2cPolicies.authorities.signUpSignIn.authority,
+      scopes: authScopes.scopes,
       extraQueryParameters: { prompt: "login" },
     }).catch(console.error);
     setMenuOpen(false);
   };
 
-  // 👉 "Become a Partner" → go to /development (no login)
+  // Become a Partner → /development
   const handleBecomePartner = () => {
     router.push("/development");
     setMenuOpen(false);
   };
 
-  const handleLogout = () => {
-    instance.logoutRedirect().catch(console.error);
+  // SIGN UP → dedicated signup policy (B2C_1_KF_Signup)
+  const handleSignUp = () => {
+    instance.loginRedirect({
+      authority: signupAuthority,      // 👈 dedicated signup policy
+      scopes: ["openid", "offline_access"],
+      extraQueryParameters: { prompt: "login" },
+    }).catch(console.error);
     setMenuOpen(false);
   };
 
-  // Optional: keep Sign Up button as-is or wire to a signup policy if you use it
-  const handleSignUp = () => {
-    instance.loginRedirect({
-      authority:
-        "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/B2C_1_KF_Signup",
-      scopes: ["openid", "offline_access"],
-    }).catch(console.error);
+  const handleLogout = () => {
+    instance.logoutRedirect().catch(console.error);
     setMenuOpen(false);
   };
 
@@ -237,7 +234,6 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                 Logout
               </Button>
 
-              {/* User icon → login again (as requested) */}
               <Box
                 className="profile-icon"
                 style={{
@@ -269,17 +265,15 @@ export default function Navbar({ navListOpen }: NavbarProps) {
 
           <UnauthenticatedTemplate>
             <FlexBox alignItems="center" style={{ gap: "10px" }}>
-              {/* User icon → login */}
               <Box className="profile-icon" onClick={handleUserIconClick}>
                 <Icon size="30px" color="#002180">profile</Icon>
               </Box>
 
-              {/* Become a Partner → /development */}
               <Button className="become-partner-btn" variant="outlined" onClick={handleBecomePartner}>
                 Become a Partner
               </Button>
 
-              {/* Optional signup */}
+              {/* Sign Up via dedicated policy */}
               <Button className="sign-up-btn" variant="contained" onClick={handleSignUp}>
                 Sign Up
               </Button>

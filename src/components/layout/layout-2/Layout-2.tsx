@@ -32,7 +32,7 @@ export default function ShopLayout({ children, showNavbar = true }: Props) {
         </div>
       )} */}
 
-      <Box marginTop={3}>
+      <Box margin-top={3}>
         {children}
       </Box>
 

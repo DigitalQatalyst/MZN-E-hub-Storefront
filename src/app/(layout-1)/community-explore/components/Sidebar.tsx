@@ -1,9 +1,38 @@
 "use client";
 
 import Box from "@component/Box";
-import { sidebarItems } from "./constants";
 import styles from "./Sidebar.module.css";
 import SidebarItem from "./SidebarItem";
+import { SidebarItem as SidebarItemType } from "./types";
+
+// Data for sidebar items
+const sidebarItems: SidebarItemType[] = [
+  {
+    id: "home",
+    label: "Home",
+    icon: "home",
+  },
+  {
+    id: "explore",
+    label: "Explore",
+    icon: "explore",
+  },
+  {
+    id: "my-communities",
+    label: "My Communities",
+    icon: "communities",
+  },
+  {
+    id: "notifications",
+    label: "Notifications",
+    icon: "notifications",
+  },
+  {
+    id: "messages",
+    label: "Messages",
+    icon: "messages",
+  },
+];
 
 interface SidebarProps {
   selectedSection: string;

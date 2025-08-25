@@ -1,7 +1,7 @@
 import NavbarMarketplace from "@component/navbar/NavbarMarketplace";
 // import TabBar from "@component/tab-bar/TabBar";
 import TabBar from "@component/tab-bar/TabBar";
-import { Explore } from "./components";
+import Explore from "./components/Explore";
 
 export default async function CommunityExplore() {
   return (

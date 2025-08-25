@@ -1,11 +1,17 @@
 "use client";
 
-import { useRef } from 'react';
-import { navLinks } from './constants';
-import NavButton from './NavButton';
-import SearchBar from './SearchBar';
-import styles from './TopNavigation.module.css';
+import Box from "@component/Box";
+import { useRef } from "react";
+import NavButton from "./NavButton";
+import SearchBar from "./SearchBar";
+import { NavLink } from "./types";
 
+// Data for navigation links
+const navLinks: NavLink[] = [
+  { id: "trending", label: "Trending", icon: "/images/trending-up.svg" },
+  { id: "recently-added", label: "Recently Added", icon: "/images/clock.svg" },
+  { id: "popular", label: "Popular", icon: "/images/star2.svg" },
+];
 
 interface TopNavigationProps {
   selectedNavLink: string;
@@ -18,13 +24,31 @@ const TopNavigation: React.FC<TopNavigationProps> = ({
   selectedNavLink,
   onNavLinkChange,
   searchQuery,
-  onSearchChange
+  onSearchChange,
 }) => {
   const navLinksRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className={styles.topNav}>
-      <div className={styles.navLinks} ref={navLinksRef}>
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="space-between"
+      p="20px 0"
+      borderBottom="1px solid #e2e8f0"
+      mb="20px"
+      style={{ gap: "20px" }}
+    >
+      <Box
+        display="flex"
+        alignItems="center"
+        style={{
+          gap: "10px",
+          overflowX: "auto",
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+        }}
+        ref={navLinksRef}
+      >
         {navLinks.map((link) => (
           <NavButton
             key={link.id}
@@ -33,13 +57,13 @@ const TopNavigation: React.FC<TopNavigationProps> = ({
             onClick={() => onNavLinkChange(link.id)}
           />
         ))}
-      </div>
+      </Box>
       <SearchBar
         value={searchQuery}
         onChange={onSearchChange}
         placeholder="Search communities..."
       />
-    </div>
+    </Box>
   );
 };
 

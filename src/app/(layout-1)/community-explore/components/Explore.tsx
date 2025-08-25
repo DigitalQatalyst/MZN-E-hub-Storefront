@@ -1,8 +1,8 @@
 "use client";
 
+import Box from "@component/Box";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ComingSoon from "./ComingSoon";
-import styles from "./Explore.module.css";
 import ExploreContent from "./ExploreContent";
 import Sidebar from "./Sidebar";
 
@@ -50,10 +50,10 @@ const Explore = () => {
 
       if (e.key === "ArrowLeft") {
         mainNavRef.current.scrollTo({
-          left: currentScroll - scrollAmount,
+          left: Math.max(0, currentScroll - scrollAmount),
           behavior: "smooth",
         });
-      } else if (e.key === "ArrowRight") {
+      } else {
         mainNavRef.current.scrollTo({
           left: currentScroll + scrollAmount,
           behavior: "smooth",
@@ -63,40 +63,36 @@ const Explore = () => {
   }, []);
 
   const handleWheel = useCallback((e: WheelEvent) => {
-    if (mainNavRef.current) {
+    if (mainNavRef.current && Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
       e.preventDefault();
-      mainNavRef.current.scrollLeft += e.deltaY;
+      mainNavRef.current.scrollLeft += e.deltaX;
     }
   }, []);
 
-  // Handle responsive behavior and scroll indicators
   useEffect(() => {
-    // Initial setup
     handleResize();
     window.addEventListener("resize", handleResize);
+    window.addEventListener("keydown", handleKeyDown);
 
     const mainNavElement = mainNavRef.current;
     const navLinksElement = navLinksRef.current;
 
     if (mainNavElement) {
       mainNavElement.addEventListener("scroll", handleScroll);
-      mainNavElement.addEventListener("keydown", handleKeyDown);
-      mainNavElement.addEventListener("wheel", handleWheel);
-      mainNavElement.setAttribute("tabindex", "0");
+      mainNavElement.addEventListener("wheel", handleWheel, {
+        passive: false,
+      });
     }
 
     if (navLinksElement) {
       navLinksElement.addEventListener("scroll", handleScroll);
     }
 
-    // Initial check
-    handleScroll();
-
     return () => {
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("keydown", handleKeyDown);
       if (mainNavElement) {
         mainNavElement.removeEventListener("scroll", handleScroll);
-        mainNavElement.removeEventListener("keydown", handleKeyDown);
         mainNavElement.removeEventListener("wheel", handleWheel);
       }
       if (navLinksElement) {
@@ -113,14 +109,35 @@ const Explore = () => {
   }, []);
 
   return (
-    <div className={styles.container}>
+    <Box
+      display="flex"
+      minHeight="100vh"
+      bg="#f8f9fa"
+      width="100%"
+      maxWidth="1400px"
+      marginLeft={"auto"}
+      marginRight={"auto"}
+      style={{
+        boxSizing: "border-box",
+      }}
+    >
       <Sidebar
         selectedSection={sidebarSelected}
         onSectionChange={setSidebarSelected}
         isMobile={isMobile}
       />
 
-      <div className={styles.mainContentWrapper}>
+      <Box
+        flex="1"
+        p="10px"
+        overflow="auto"
+        bg="white"
+        style={{
+          minWidth: 0,
+          width: "100%",
+          boxSizing: "border-box",
+        }}
+      >
         {sidebarSelected === "explore" && (
           <ExploreContent
             selectedNavLink={selectedNavLink}
@@ -142,8 +159,8 @@ const Explore = () => {
           <ComingSoon title="Notifications" />
         )}
         {sidebarSelected === "messages" && <ComingSoon title="Messages" />}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

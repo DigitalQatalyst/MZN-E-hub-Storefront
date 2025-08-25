@@ -65,7 +65,7 @@ const FaqResponse = ({
         >
           <Box
             sx={{
-              maxWidth: "70%",
+              maxWidth: { xs: "100%", md: "70%" },
             }}
           >
             <BreadCrump
@@ -174,9 +174,10 @@ const FaqResponse = ({
           </Box>
           <Box
             sx={{
-              width: "30%",
+              width: { md: "30%" },
               backgroundColor: "#fff",
               borderRadius: "9px",
+              display: { xs: "none", md: "block" },
             }}
           >
             <TextField

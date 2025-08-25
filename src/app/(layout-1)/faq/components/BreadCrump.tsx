@@ -15,7 +15,7 @@ const BreadCrump = ({
     <div>
       <Box
         sx={{
-          display: "flex",
+          display: { xs: "none", md: "flex" },
           alignItems: "start",
           justifyContent: "start",
           gap: 1,

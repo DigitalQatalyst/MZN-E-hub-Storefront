@@ -193,7 +193,11 @@ const MyBinPage = () => {
       {/* Search and Filter */}
       <div className="flex items-center justify-between mt-2 mb-4 gap-4 bg-[#F4F7FB] px-4 py-2 rounded-xl" style={{ width: '1116px' }}>
         <div className="flex-1 min-w-0">
-          <DocumentSearch />
+          <DocumentSearch 
+            files={[]} 
+            onSearchResults={() => {}}
+            placeholder="Search deleted files..."
+          />
         </div>
         <div className="flex-shrink-0 ml-4">
           <DocumentFilter />

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Navbar } from "@component/ui/FirmWalletNavbar";
 import { DocumentSearch } from "@component/ui/DocumentSearch";
 import { DocumentFilter } from "@component/ui/DocumentFilter";
@@ -20,6 +20,7 @@ const ACTIVITIES_STORAGE_KEY = 'firm-wallet-activities';
 
 const MyUploadsPage = () => {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
+  const [filteredFiles, setFilteredFiles] = useState<UploadedFile[]>([]);
   const [activities, setActivities] = useState<ActivityItem[]>([]);
 
   // Load files and activities from localStorage on component mount
@@ -34,6 +35,7 @@ const MyUploadsPage = () => {
           uploadDate: new Date(file.uploadDate)
         }));
         setUploadedFiles(filesWithDates);
+        setFilteredFiles(filesWithDates);
       }
 
       const savedActivities = localStorage.getItem(ACTIVITIES_STORAGE_KEY);
@@ -51,6 +53,11 @@ const MyUploadsPage = () => {
     } catch (error) {
       console.error('Error loading data from localStorage:', error);
     }
+  }, []);
+
+  // Handle search results from DocumentSearch component
+  const handleSearchResults = useCallback((results: UploadedFile[]) => {
+    setFilteredFiles(results);
   }, []);
 
   // Helper function to add new activity
@@ -97,7 +104,11 @@ const MyUploadsPage = () => {
       {/* Search and Filter */}
       <div className="flex items-center justify-between mt-2 mb-4 gap-4 bg-[#F4F7FB] px-4 py-2 rounded-xl" style={{ width: '1116px' }}>
         <div className="flex-1 min-w-0">
-          <DocumentSearch />
+          <DocumentSearch 
+            files={uploadedFiles} 
+            onSearchResults={handleSearchResults}
+            placeholder="Search uploaded files..."
+          />
         </div>
         <div className="flex-shrink-0 ml-4">
           <DocumentFilter />
@@ -107,9 +118,17 @@ const MyUploadsPage = () => {
       {/* My Uploaded Files Section */}
       {uploadedFiles.length > 0 ? (
         <div className="mt-6" style={{ width: '1116px' }}>
-          <h2 className="text-lg font-semibold mb-4 ml-1">My Uploaded Files ({uploadedFiles.length})</h2>
-          <div className="grid grid-cols-4 gap-4" id="myUploadedFiles">
-            {uploadedFiles.map((file) => (
+          <h2 className="text-lg font-semibold mb-4 ml-1">
+            My Uploaded Files ({uploadedFiles.length})
+            {filteredFiles.length !== uploadedFiles.length && (
+              <span className="text-sm font-normal text-gray-500 ml-2">
+                - Showing {filteredFiles.length} result{filteredFiles.length === 1 ? '' : 's'}
+              </span>
+            )}
+          </h2>
+          {filteredFiles.length > 0 ? (
+            <div className="grid grid-cols-4 gap-4" id="myUploadedFiles">
+              {filteredFiles.map((file) => (
               <FileCard 
                 key={file.id}
                 fileName={file.name}
@@ -138,7 +157,11 @@ const MyUploadsPage = () => {
                     
                     if (result.success) {
                       // Remove from local state (localStorage will be updated automatically)
-                      setUploadedFiles(prev => prev.filter(f => f.id !== fileId));
+                      setUploadedFiles(prev => {
+                        const updated = prev.filter(f => f.id !== fileId);
+                        setFilteredFiles(current => current.filter(f => f.id !== fileId));
+                        return updated;
+                      });
                       addActivity('deleted', fileName, fileId);
                       const { toast } = await import('sonner');
                       toast.warning(`File ${fileName} deleted!`);
@@ -153,8 +176,19 @@ const MyUploadsPage = () => {
                   }
                 }}
               />
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 text-gray-500">
+              <div className="text-gray-400 mb-4">
+                <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">No files found</h3>
+              <p className="text-gray-500">Try adjusting your search terms</p>
+            </div>
+          )}
         </div>
       ) : (
         <div className="mt-6 text-center py-12" style={{ width: '1116px' }}>

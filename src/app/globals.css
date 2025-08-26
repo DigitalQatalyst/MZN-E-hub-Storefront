@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Ensure Tailwind utilities have higher specificity */
+@layer utilities {
+  .tw-override {
+    /* This layer ensures Tailwind utilities override other styles */
+  }
+}
+
 /* Custom Toast Styles */
 .success-toast {
   background-color: #10b981 !important; /* Green background */

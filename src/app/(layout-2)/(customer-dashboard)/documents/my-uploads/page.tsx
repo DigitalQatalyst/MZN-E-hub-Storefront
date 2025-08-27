@@ -2,10 +2,11 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Navbar } from "@component/ui/FirmWalletNavbar";
 import { DocumentSearch } from "@component/ui/DocumentSearch";
-import { DocumentFilter } from "@component/ui/DocumentFilter";
+import { DocumentFilter, FileType } from "@component/ui/DocumentFilter";
 import { FileCard } from "@component/ui/FileCard";
 import { RecentActivity, ActivityItem } from "@component/ui/RecentActivity";
 // import { DebugStorage } from "@component/ui/DebugStorage";
+import { filterFilesByType, getFileTypeCounts } from "@utils/fileUtils";
 
 
 export interface UploadedFile {
@@ -23,6 +24,7 @@ const MyUploadsPage = () => {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [filteredFiles, setFilteredFiles] = useState<UploadedFile[]>([]);
   const [activities, setActivities] = useState<ActivityItem[]>([]);
+  const [selectedFileType, setSelectedFileType] = useState<FileType>('all');
 
   // Load files and activities from localStorage on component mount
   useEffect(() => {
@@ -56,10 +58,29 @@ const MyUploadsPage = () => {
     }
   }, []);
 
+  // Apply filters (search + type filter)
+  const applyFilters = useCallback((searchResults: UploadedFile[]) => {
+    const typeFilteredFiles = filterFilesByType(searchResults, selectedFileType);
+    setFilteredFiles(typeFilteredFiles);
+  }, [selectedFileType]);
+
   // Handle search results from DocumentSearch component
   const handleSearchResults = useCallback((results: UploadedFile[]) => {
-    setFilteredFiles(results);
-  }, []);
+    applyFilters(results);
+  }, [applyFilters]);
+
+  // Handle file type filter changes
+  const handleFileTypeChange = useCallback((fileType: FileType) => {
+    setSelectedFileType(fileType);
+    applyFilters(uploadedFiles);
+  }, [applyFilters, uploadedFiles]);
+
+  // Effect to apply filters when uploadedFiles or selectedFileType changes
+  useEffect(() => {
+    if (uploadedFiles.length > 0) {
+      applyFilters(uploadedFiles);
+    }
+  }, [uploadedFiles, applyFilters]);
 
   // Helper function to add new activity
   const addActivity = (type: ActivityItem['type'], fileName: string, fileId?: string) => {
@@ -112,7 +133,11 @@ const MyUploadsPage = () => {
           />
         </div>
         <div className="flex-shrink-0 ml-4">
-          <DocumentFilter />
+          <DocumentFilter 
+            selectedType={selectedFileType}
+            onTypeChange={handleFileTypeChange}
+            fileTypeCounts={getFileTypeCounts(uploadedFiles)}
+          />
         </div>
       </div>
 

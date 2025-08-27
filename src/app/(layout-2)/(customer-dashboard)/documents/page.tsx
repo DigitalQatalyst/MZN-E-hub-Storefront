@@ -8,6 +8,8 @@ import { FileCard } from "@component/ui/FileCard";
 import { RecentActivity, ActivityItem } from "@component/ui/RecentActivity";
 // import { DebugStorage } from "@component/ui/DebugStorage";
 import { PinataApiService } from "@lib/pinataApi";
+import { FileType } from "@component/ui/DocumentFilter";
+import { filterFilesByType, getFileTypeCounts } from "@utils/fileUtils";
 
 
 export interface UploadedFile {
@@ -27,6 +29,7 @@ const FirmWallet = () => {
   const [activities, setActivities] = useState<ActivityItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [apiError, setApiError] = useState<string | null>(null);
+  const [selectedFileType, setSelectedFileType] = useState<FileType>('all');
 
   // Fetch files from Pinata API on page load
   useEffect(() => {
@@ -50,7 +53,7 @@ const FirmWallet = () => {
           
           // Update state
           setUploadedFiles(transformedFiles);
-          setFilteredFiles(transformedFiles);
+          // Don't set filteredFiles directly - let the effect handle filtering
           
           console.log(`Successfully fetched and stored ${transformedFiles.length} files from Pinata`);
         } else {
@@ -68,7 +71,7 @@ const FirmWallet = () => {
               uploadDate: new Date(file.uploadDate)
             }));
             setUploadedFiles(filesWithDates);
-            setFilteredFiles(filesWithDates);
+            // Don't set filteredFiles directly - let the effect handle filtering
             console.log(`Loaded ${filesWithDates.length} files from localStorage as fallback`);
           }
         }
@@ -85,7 +88,7 @@ const FirmWallet = () => {
               uploadDate: new Date(file.uploadDate)
             }));
             setUploadedFiles(filesWithDates);
-            setFilteredFiles(filesWithDates);
+            // Don't set filteredFiles directly - let the effect handle filtering
           }
         } catch (localError) {
           console.error('Error loading from localStorage:', localError);
@@ -169,10 +172,30 @@ const FirmWallet = () => {
     }
   }, [activities]);
 
+  // Apply filters (search + type filter)
+  const applyFilters = useCallback((searchResults: UploadedFile[]) => {
+    const typeFilteredFiles = filterFilesByType(searchResults, selectedFileType);
+    setFilteredFiles(typeFilteredFiles);
+  }, [selectedFileType]);
+
   // Handle search results from DocumentSearch component
   const handleSearchResults = useCallback((results: UploadedFile[]) => {
-    setFilteredFiles(results);
-  }, []);
+    applyFilters(results);
+  }, [applyFilters]);
+
+  // Handle file type filter changes
+  const handleFileTypeChange = useCallback((fileType: FileType) => {
+    setSelectedFileType(fileType);
+    // Re-apply filters with current uploaded files (search component will handle this)
+    applyFilters(uploadedFiles);
+  }, [applyFilters, uploadedFiles]);
+
+  // Effect to apply filters when uploadedFiles or selectedFileType changes
+  useEffect(() => {
+    if (uploadedFiles.length > 0) {
+      applyFilters(uploadedFiles);
+    }
+  }, [uploadedFiles, applyFilters]);
 
   // Helper function to add new activity
   const addActivity = (type: ActivityItem['type'], fileName: string, fileId?: string) => {
@@ -229,7 +252,11 @@ const FirmWallet = () => {
           />
         </div>
         <div className="flex-shrink-0 ml-4">
-          <DocumentFilter />
+          <DocumentFilter 
+            selectedType={selectedFileType}
+            onTypeChange={handleFileTypeChange}
+            fileTypeCounts={getFileTypeCounts(uploadedFiles)}
+          />
         </div>
       </div>
       
@@ -271,10 +298,13 @@ const FirmWallet = () => {
       {!isLoading && uploadedFiles.length > 0 && (
         <div className="mt-6" style={{ width: '1116px' }}>
           <h2 className="text-lg font-semibold mb-4 ml-1">
-            My Files ({uploadedFiles.length})
-            {filteredFiles.length !== uploadedFiles.length && (
+            My Files ({selectedFileType === 'all' ? uploadedFiles.length : filteredFiles.length})
+            {(filteredFiles.length !== uploadedFiles.length || selectedFileType !== 'all') && (
               <span className="text-sm font-normal text-gray-500 ml-2">
-                - Showing {filteredFiles.length} result{filteredFiles.length === 1 ? '' : 's'}
+                {selectedFileType !== 'all' 
+                  ? `- ${selectedFileType.toUpperCase()} files`
+                  : `- Showing ${filteredFiles.length} result${filteredFiles.length === 1 ? '' : 's'}`
+                }
               </span>
             )}
           </h2>

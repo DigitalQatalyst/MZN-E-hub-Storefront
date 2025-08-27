@@ -2,9 +2,10 @@
 import React, { useState, useEffect } from 'react'
 import { Navbar } from "@component/ui/FirmWalletNavbar";
 import { DocumentSearch } from "@component/ui/DocumentSearch";
-import { DocumentFilter } from "@component/ui/DocumentFilter";
+import { DocumentFilter, FileType } from "@component/ui/DocumentFilter";
 import { FileCard } from "@component/ui/FileCard";
 import { RecentActivity, ActivityItem } from "@component/ui/RecentActivity";
+import { filterFilesByType, getFileTypeCounts } from "@utils/fileUtils";
 
 export interface DeletedFile {
   id: string;
@@ -20,7 +21,9 @@ const ACTIVITIES_STORAGE_KEY = 'firm-wallet-activities';
 
 const MyBinPage = () => {
   const [deletedFiles, setDeletedFiles] = useState<DeletedFile[]>([]);
+  const [filteredFiles, setFilteredFiles] = useState<DeletedFile[]>([]);
   const [activities, setActivities] = useState<ActivityItem[]>([]);
+  const [selectedFileType, setSelectedFileType] = useState<FileType>('all');
 
   // Load deleted files and activities from localStorage
   useEffect(() => {
@@ -35,6 +38,7 @@ const MyBinPage = () => {
           deletedDate: new Date(file.deletedDate)
         }));
         setDeletedFiles(filesWithDates);
+        setFilteredFiles(filesWithDates);
       }
 
       const savedActivities = localStorage.getItem(ACTIVITIES_STORAGE_KEY);
@@ -53,6 +57,17 @@ const MyBinPage = () => {
       console.error('Error loading data from localStorage:', error);
     }
   }, []);
+
+  // Filter files when deletedFiles or selectedFileType changes
+  useEffect(() => {
+    const filtered = filterFilesByType(deletedFiles, selectedFileType);
+    setFilteredFiles(filtered);
+  }, [deletedFiles, selectedFileType]);
+
+  // Handle file type filter changes
+  const handleFileTypeChange = (fileType: FileType) => {
+    setSelectedFileType(fileType);
+  };
 
   // Save deleted files to localStorage whenever deletedFiles changes
   useEffect(() => {
@@ -200,16 +215,28 @@ const MyBinPage = () => {
           />
         </div>
         <div className="flex-shrink-0 ml-4">
-          <DocumentFilter />
+          <DocumentFilter 
+            selectedType={selectedFileType}
+            onTypeChange={handleFileTypeChange}
+            fileTypeCounts={getFileTypeCounts(deletedFiles)}
+          />
         </div>
       </div>
 
       {/* Deleted Files Section */}
       {deletedFiles.length > 0 ? (
         <div className="mt-6" style={{ width: '1116px' }}>
-          <h2 className="text-lg font-semibold mb-4 ml-1">Deleted Files ({deletedFiles.length})</h2>
-          <div className="grid grid-cols-4 gap-4" id="myDeletedFiles">
-            {deletedFiles.map((file) => (
+          <h2 className="text-lg font-semibold mb-4 ml-1">
+            Deleted Files ({selectedFileType === 'all' ? deletedFiles.length : filteredFiles.length})
+            {selectedFileType !== 'all' && (
+              <span className="text-sm font-normal text-gray-500 ml-2">
+                - {selectedFileType.toUpperCase()} files
+              </span>
+            )}
+          </h2>
+          {filteredFiles.length > 0 ? (
+            <div className="grid grid-cols-4 gap-4" id="myDeletedFiles">
+              {filteredFiles.map((file) => (
               <div key={file.id} className="relative">
                 <FileCard 
                   fileName={file.name}
@@ -234,7 +261,18 @@ const MyBinPage = () => {
                 </div>
               </div>
             ))}
-          </div>
+            </div>
+          ) : (
+            <div className="text-center py-12 text-gray-500">
+              <div className="text-gray-400 mb-4">
+                <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">No {selectedFileType.toUpperCase()} files found</h3>
+              <p className="text-gray-500">Try selecting a different file type</p>
+            </div>
+          )}
         </div>
       ) : (
         <div className="mt-6 text-center py-12" style={{ width: '1116px' }}>

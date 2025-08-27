@@ -32,7 +32,7 @@ export const b2cPolicies = {
 export const signupAuthority = `https://${tenantName}.b2clogin.com/${tenantName}.onmicrosoft.com/${flows.signUp}`;
 
 // ====== Redirects ======
-const siteUrl = "https://mzn-e-hub-storefront.vercel.app/callback" ;
+const siteUrl = "https://mzn-e-hub-storefront.vercel.app" ;
 const redirectPath = "/callback";
 export const redirectUri = `${siteUrl}${redirectPath}`;
 

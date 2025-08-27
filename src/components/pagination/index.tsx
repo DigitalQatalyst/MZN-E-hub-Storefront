@@ -6,12 +6,14 @@ import { SpaceProps } from "styled-system";
 import { StyledPagination } from "./styled";
 
 // ==============================================================
+
 export interface PaginationProps extends SpaceProps {
   pageCount: number;
   pageRangeDisplayed?: number;
   marginPagesDisplayed?: number;
   onChange?: (data: number) => void;
 }
+
 // ==============================================================
 
 export default function Pagination({
@@ -25,13 +27,9 @@ export default function Pagination({
     if (onChange) onChange(page.selected);
   };
 
-  const PREVIOUS_BUTTON = (
-    <>Previous</>
-  );
+  const PREVIOUS_BUTTON = <>Previous</>;
 
-  const NEXT_BUTTON = (
-    <>Next</>
-  );
+  const NEXT_BUTTON = <>Next</>;
 
   const BREAK_LABEL = "…";
 
@@ -48,8 +46,8 @@ export default function Pagination({
         onPageChange={handlePageChange}
         pageRangeDisplayed={pageRangeDisplayed}
         marginPagesDisplayed={marginPagesDisplayed}
-      // subContainerClassName="pages pagination"
       />
     </StyledPagination>
   );
 }
+

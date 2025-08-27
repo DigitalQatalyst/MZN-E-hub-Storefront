@@ -26,7 +26,7 @@ const Sidebar = () => {
   ];
 
   const settingsItems: NavItem[] = [
-    { id: 'settings', label: 'Settings', icon: '/images/settings.svg', route: '/#' },
+    { id: 'settings', label: 'Settings', icon: '/images/settings.svg', route: '/user-management' },
     { id: 'support', label: 'Support', icon: '/images/contact-support.svg', route: '/#' },
   ];
 

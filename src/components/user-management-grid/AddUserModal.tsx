@@ -55,7 +55,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ onSave, onClose }) => {
         onChange={handleChange}
         style={{ width: "100%", marginBottom: "1rem" }}
       >
-        {["Super Admin", "Admin", "Content Admin", "Curator", "Member", "Editor", "Viewer"].map((role) => (
+        {["Super Admin", "Admin", "Member"].map((role) => (
           <option key={role} value={role}>{role}</option>
         ))}
       </BaseSelect>

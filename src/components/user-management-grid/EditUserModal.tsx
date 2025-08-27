@@ -4,7 +4,7 @@ import React from "react";
 import Modal from "./Modal"; // assuming you already have a generic Modal
 import { BaseInput, BaseSelect, Button } from "./styledComponents";
 
-type EditableUser = { id: number; name: string; role: string; email: string; avatar?: string };
+type EditableUser = { id: number; name: string; role: string; email: string; avatar?: string; };
 
 interface EditUserModalProps {
     user: EditableUser;
@@ -35,7 +35,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ user, onSave, onClose }) 
                 onChange={handleChange}
                 style={{ width: "100%", marginBottom: "1rem" }}
             >
-                {["Super Admin", "Admin", "Content Admin", "Curator", "Member", "Editor", "Viewer"].map((role) => (
+                {["Super Admin", "Admin", "Member"].map((role) => (
                     <option key={role} value={role}>{role}</option>
                 ))}
             </BaseSelect>

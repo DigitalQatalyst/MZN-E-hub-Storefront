@@ -8,6 +8,7 @@ import { useMsal, AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/
 // ✅ only import the prebuilt requests from authConfig
 import { loginRequest, signupRequest, logoutRequest } from "../../authConfig";
 
+
 import Box from "../Box";
 import Icon from "../icon/Icon";
 import FlexBox from "../FlexBox";

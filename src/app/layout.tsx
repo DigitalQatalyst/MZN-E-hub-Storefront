@@ -1,15 +1,14 @@
-// src/app/layout.tsx
+// app/layout.tsx (SERVER component)
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
+
 import StyledComponentsRegistry from "@lib/registry";
-import { AppProvider } from "@context/app-context";
-import StyledContext from "@context/StyledContext";
+
+// third-party CSS
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import NProgressBar from "@component/NProgress";
-import KfBot from "@component/bot/KfBot";
-import { ModalProvider } from "@context/ModalContext";
-import MsalProviders from "./msalProviders"; // 👈 add
+
+import ClientProviders from "../contexts/ClientProvider";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
@@ -26,17 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={openSans.className}>
         <StyledComponentsRegistry>
-          <MsalProviders> {/* 👈 MSAL context is now available to all client comps */}
-            <AppProvider>
-              <ModalProvider>
-                <StyledContext>
-                  {children}
-                  <NProgressBar />
-                </StyledContext>
-                <KfBot />
-              </ModalProvider>
-            </AppProvider>
-          </MsalProviders>
+          <ClientProviders>{children}</ClientProviders>
         </StyledComponentsRegistry>
       </body>
     </html>

@@ -1,20 +1,9 @@
-// authConfig.ts
-import { LogLevel, Configuration, RedirectRequest, EndSessionRequest } from "@azure/msal-browser";
-
-// ====== Tenant/App ======
-export const clientId = "b94aa491-036c-4ddb-8bbf-12b510113078";
+// b2cConfig.ts (no "use client" here, safe to import anywhere)
 export const tenantName = "dgqatalyst";
-// src/authConfig.ts
-export const signUpPolicy = "B2C_1_KF_Signup";
+export const clientId = "b94aa491-036c-4ddb-8bbf-12b510113078";
 
-export const signupAuthority =
-  `https://${tenantName}.b2clogin.com/${tenantName}.onmicrosoft.com/${signUpPolicy}`;
-
-
-// ====== B2C Policies ======
 const flows = {
-  signIn: "B2C_1_KF_SignIn",
-  // If you later add more, e.g. signUp: "B2C_1_KF_SignUp"
+  localAccSignIn: "B2C_1_KF_SignUpSignIn",
 };
 const activeFlow = flows.signIn;
 
@@ -31,47 +20,21 @@ export const b2cPolicies = {
   authorityDomain: `${tenantName}.b2clogin.com`,
 };
 
-// ====== Site URL / Redirects ======
-/**
- * In Vercel set:
- *   NEXT_PUBLIC_SITE_URL=https://mzn-e-hub-storefront.vercel.app
- * Locally it will default to http://localhost:3000
- */
-// const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-const siteUrl = "http://localhost:3000";
-const redirectPath = "/callback"; // matches your userflow endpoint redirect
-export const redirectUri = `${siteUrl}${redirectPath}`;
-
-// ====== MSAL Config ======
-export const msalConfig: Configuration = {
+export const msalConfig = {
   auth: {
     clientId,
     authority: b2cPolicies.authorities.signUpSignIn.authority,
     knownAuthorities: [b2cPolicies.authorityDomain],
-    redirectUri,                         // -> https://mzn-e-hub-storefront.vercel.app/callback (in prod)
-    postLogoutRedirectUri: `${siteUrl}/`,
-    navigateToLoginRequestUrl: false,    // come back to our app route after auth
+    // redirectUri: "/",
+    // postLogoutRedirectUri: "/",
   },
   cache: {
     cacheLocation: "sessionStorage",
     storeAuthStateInCookie: false,
   },
-  system: {
-    loggerOptions: {
-      loggerCallback: (level, message, containsPii) => {
-        if (containsPii) return;
-        switch (level) {
-          case LogLevel.Error:   console.error(message); break;
-          case LogLevel.Info:    console.info(message);  break;
-          case LogLevel.Verbose: console.debug(message); break;
-          case LogLevel.Warning: console.warn(message);  break;
-        }
-      },
-    },
-  },
+  // ⚠️ Do NOT put loggerOptions here to avoid importing LogLevel on the server
 };
 
-// ====== Scopes ======
 export const authScopes = {
   scopes: [
     "openid",

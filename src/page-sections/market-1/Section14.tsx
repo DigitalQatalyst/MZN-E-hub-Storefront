@@ -386,7 +386,7 @@ const Section14: React.FC = () => {
   const icons: Icon[] = [
     { src: "/assets/images/Groceries Shop/Icon8.png", label: "Non-Financial Marketplace", comingSoon: false, link: "/non-financial-marketplace" },
     { src: "/assets/images/Groceries Shop/Icon7.png", label: "Financial Marketplace", comingSoon: false, link: "/financial-marketplace" },
-    { src: "/assets/images/Groceries Shop/Icon6.png", label: "Media Marketplace", comingSoon: false, link: "/media" },
+    { src: "/assets/images/Groceries Shop/Icon6.png", label: "Media Marketplace", comingSoon: false, link: "https://kf-ej-media-marketplace-kefsnx0h1-digitalqatalysts-projects.vercel.app/media" },
     { src: "/assets/images/Groceries Shop/Icon5.png", label: "Communities Marketplace", comingSoon: false, link: "/community-marketplace" },
     { src: "/assets/images/Groceries Shop/Icon4.png", label: "Calendar Marketplace", comingSoon: true },
     { src: "/assets/images/Groceries Shop/Icon3.png", label: "Courses Marketplace", comingSoon: true },

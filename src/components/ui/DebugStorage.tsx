@@ -36,7 +36,7 @@ export const DebugStorage: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 bg-white border border-gray-300 rounded-lg p-4 shadow-lg max-w-md z-50">
+    <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg text-xs">
       <div className="flex items-center justify-between mb-2">
         <h3 className="font-semibold text-sm">Debug Storage</h3>
         <div className="flex gap-2">

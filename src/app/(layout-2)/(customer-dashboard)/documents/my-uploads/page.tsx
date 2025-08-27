@@ -5,7 +5,8 @@ import { DocumentSearch } from "@component/ui/DocumentSearch";
 import { DocumentFilter } from "@component/ui/DocumentFilter";
 import { FileCard } from "@component/ui/FileCard";
 import { RecentActivity, ActivityItem } from "@component/ui/RecentActivity";
-import { DebugStorage } from "@component/ui/DebugStorage";
+// import { DebugStorage } from "@component/ui/DebugStorage";
+
 
 export interface UploadedFile {
   id: string;
@@ -211,8 +212,8 @@ const MyUploadsPage = () => {
       {/* Recent Upload Activity Section */}
       <RecentActivity activities={activities} />
       
-      {/* Debug Storage Component */}
-      <DebugStorage />
+      {/* Debug Storage Component - Commented out */}
+      {/* <DebugStorage /> */}
     </div>
   )
 }

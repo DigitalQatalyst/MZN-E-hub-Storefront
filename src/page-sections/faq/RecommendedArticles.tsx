@@ -30,7 +30,7 @@ const RecommendedArticles = () => {
 
         <Grid container spacing={4} justifyContent="center">
           {articles?.map((item) => (
-            <Grid item xs={12} sm={6} md={4} key={item.id}>
+            <Grid item xs={12} sm={12} md={4} key={item.id}>
               <Box
                 sx={{
                   display: "flex",

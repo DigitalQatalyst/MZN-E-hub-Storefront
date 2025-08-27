@@ -20,8 +20,14 @@ const SearchSection = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          height: "30vh",
+          height: "40vh",
           backgroundColor: "#F4F3FE",
+          // background image
+          backgroundImage: "url('../../images/faqbg.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          top: 0,
         }}
       >
         <Box

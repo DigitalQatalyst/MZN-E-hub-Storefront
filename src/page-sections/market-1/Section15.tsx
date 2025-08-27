@@ -510,7 +510,7 @@ export default function Section15() {
           <MarketplaceSubheadingText>Featured Services</MarketplaceSubheadingText>
         </Subheading>
         <DescriptionButtonWrapper>
-          <Description>
+            <Description>
               A quick look at the most active services this quarter—driven by SME demand<br /> and partner momentum.
             </Description>
             <Link href={`/financial-marketplace`}>

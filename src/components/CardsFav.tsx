@@ -1,8 +1,8 @@
-"use client"; // This line ensures that this component runs only client-side.
+"use client"; // Ensures the component runs only client-side
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link"; // Import Link component from Next.js
+import Link from "next/link";
 
 interface ServiceCardProps {
   title: string;
@@ -19,7 +19,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
 
-  // Optionally, if you want to ensure client-side navigation:
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -51,7 +50,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
           style={styles.bookmarkIcon}
         />
       )}
-      {/* Use Link for client-side navigation */}
       <Link href={`/service-details/${slug}`} style={styles.viewDetailsLink}>
         View Details →
       </Link>
@@ -64,92 +62,77 @@ const ServiceCards: React.FC = () => {
   const services = [
     {
       title: "Request For Funding",
-      description:
-        "Through this service, you can apply for financial services for SMEs in a new package of financing.",
-      slug: "request-for-funding", // Unique slug for the service
+      description: "Apply for financial services for SMEs.",
+      slug: "request-for-funding",
     },
     {
       title: "SME Loan Reallocation",
-      description:
-        "Provides the option for SMEs to reallocate loan funds to different areas of their business.",
+      description: "Reallocate loan funds to different business areas.",
       slug: "sme-loan-reallocation",
     },
     {
       title: "Loan Amendment Service",
-      description:
-        "Allows SMEs to amend the terms or details of their existing loans with Khalifa Fund.",
+      description: "Amend existing loans with Khalifa Fund.",
       slug: "loan-amendment-service",
     },
     {
       title: "SME Loan Disbursement",
-      description:
-        "Disburses loans to SMEs once their funding application has been approved.",
+      description: "Disburse loans to approved SMEs.",
       slug: "sme-loan-disbursement",
     },
     {
       title: "SME Operating Capital Financing",
-      description:
-        "Provides financing for working capital to support day-to-day business operations.",
+      description: "Financing for day-to-day operations.",
       slug: "sme-operating-capital-financing",
     },
     {
       title: "Vehicle & Logistics Asset Financing",
-      description:
-        "Offers financing options for purchasing vehicles and logistics equipment.",
+      description: "Financing for vehicles and logistics equipment.",
       slug: "vehicle-logistics-asset-financing",
     },
     {
       title: "Equipment & Machinery Financing",
-      description:
-        "Provides financing options for purchasing business-related machinery.",
+      description: "Financing for purchasing business-related machinery.",
       slug: "equipment-machinery-financing",
     },
     {
       title: "Accounts Receivable Financing",
-      description:
-        "Provides financing for businesses by securing invoices to boost cash flow.",
+      description: "Financing by securing invoices to boost cash flow.",
       slug: "accounts-receivable-financing",
     },
     {
       title: "Advance Payment Guarantee Service",
-      description:
-        "Provides financial guarantees to suppliers, ensuring secured transactions for businesses.",
+      description: "Provides financial guarantees to suppliers.",
       slug: "advance-payment-guarantee-service",
     },
     {
       title: "Khalifa Fund Membership Subscription",
-      description:
-        "Offers a subscription to Khalifa Fund's membership for exclusive access for funding and business resources.",
+      description: "Exclusive access to funding and business resources.",
       slug: "khalifa-fund-membership-subscription",
     },
     {
       title: "Official Support Letter Issuance",
-      description:
-        "Provide entrepreneurs with official support letters for business sponsorship or visa purposes.",
+      description: "Provide entrepreneurs with support letters.",
       slug: "official-support-letter-issuance",
     },
     {
       title: "Entrepreneur Consultation Booking",
-      description:
-        "Allows entrepreneurs to schedule a consultation with experts to gain assistance on business matters.",
+      description: "Schedule a consultation with business experts.",
       slug: "entrepreneur-consultation-booking",
     },
     {
       title: "Entrepreneurship Growth Program",
-      description:
-        "Provides structured training programs to equip entrepreneurs with essential business skills.",
+      description: "Training programs for entrepreneurs.",
       slug: "entrepreneurship-growth-program",
     },
     {
       title: "SME Champion Registration",
-      description:
-        "This service allows SMEs to register and gain access to support for SME Champion activities.",
+      description: "Register for SME Champion activities.",
       slug: "sme-champion-registration",
     },
     {
       title: "Business Event Sign-Up",
-      description:
-        "A direct access service to sign-up for events related to business growth and networking.",
+      description: "Sign-up for business growth and networking events.",
       slug: "business-event-sign-up",
     },
   ];
@@ -158,12 +141,7 @@ const ServiceCards: React.FC = () => {
     <div style={styles.container}>
       <div style={styles.cardsContainer}>
         {services.map((service, index) => (
-          <ServiceCard
-            key={index}
-            title={service.title}
-            description={service.description}
-            slug={service.slug} // Pass the slug to each card
-          />
+          <ServiceCard key={index} {...service} />
         ))}
       </div>
     </div>
@@ -171,11 +149,7 @@ const ServiceCards: React.FC = () => {
 };
 
 const styles: { [key: string]: React.CSSProperties } = {
-  container: {
-    padding: "24px 8px",
-    background: "#FFF",
-    position: "relative",
-  },
+  container: { padding: "24px 8px", background: "#FFF", position: "relative" },
   cardsContainer: {
     display: "grid",
     gridTemplateColumns: "repeat(3, 325px)",
@@ -193,7 +167,6 @@ const styles: { [key: string]: React.CSSProperties } = {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    boxSizing: "border-box",
     position: "relative",
     overflow: "hidden",
     transition: "all 0.3s ease",
@@ -207,7 +180,6 @@ const styles: { [key: string]: React.CSSProperties } = {
   title: {
     fontSize: "16px",
     fontWeight: 600,
-    color: "#1a1a1a",
     marginTop: "2px",
     marginBottom: "0px",
   },
@@ -231,7 +203,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     fontSize: "13px",
     color: "#0056d2",
     fontWeight: 600,
-    textDecoration: "none", // Turn button into a link
+    textDecoration: "none",
     position: "absolute",
     right: "16px",
     bottom: "16px",
@@ -254,11 +226,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     borderRadius: "4px",
     padding: "6px 12px",
     fontSize: "10px",
-    fontFamily: "var(--Body-Small-Font, Roboto)",
     fontWeight: 400,
-    lineHeight: "16px",
-    letterSpacing: "0.4px",
-    textAlign: "center",
     cursor: "pointer",
   },
 };

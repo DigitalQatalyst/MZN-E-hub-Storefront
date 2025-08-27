@@ -93,28 +93,33 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
 
         <Box flex="1" />
 
-        <FlexBox className="nav-links">
+        <FlexBox className="nav-links" style={{ gap: "20px" }}>
           <NavLink className="nav-link" href="/development">
             Discover AbuDhabi
           </NavLink>
           <NavLink className="nav-link" href="/faq">
             Help Centre
           </NavLink>
-        </FlexBox>
-
-        {/* <FlexBox className="right-section"> */}
-          {/* <Box className="search-icon">
-            <Icon size="18px" color="#002180">
-              search
-            </Icon>
-          </Box> */}
-
+          <UnauthenticatedTemplate>
+            <FlexBox alignItems="center" style={{ gap: "20px" }}>
+              <Box className="profile-icon" onClick={handleUserIconClick}>
+                <Icon size="30px" color="#002180">
+                  profile
+                </Icon>
+              </Box>
+              <Button className="become-partner-btn" variant="outlined" onClick={handleBecomePartner}>
+                Become a Partner
+              </Button>
+              <Button className="sign-up-btn" variant="contained" onClick={handleSignUp}>
+                Sign Up
+              </Button>
+            </FlexBox>
+          </UnauthenticatedTemplate>
           <AuthenticatedTemplate>
-            <FlexBox alignItems="center" style={{ gap: "50px" }}>
+            <FlexBox alignItems="center" style={{ gap: "20px" }}>
               <Button className="logout-btn" variant="outlined" onClick={handleLogout}>
                 Logout
               </Button>
-
               <Box
                 className="profile-icon"
                 style={{
@@ -145,25 +150,7 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
               </Box>
             </FlexBox>
           </AuthenticatedTemplate>
-
-          <UnauthenticatedTemplate>
-            <FlexBox alignItems="center" style={{ gap: "10px" }}>
-              <Box className="profile-icon" onClick={handleUserIconClick}>
-                <Icon size="30px" color="#002180">
-                  profile
-                </Icon>
-              </Box>
-
-              <Button className="become-partner-btn" variant="outlined" onClick={handleBecomePartner}>
-                Become a Partner
-              </Button>
-
-              <Button className="sign-up-btn" variant="contained" onClick={handleSignUp}>
-                Sign Up
-              </Button>
-            </FlexBox>
-          </UnauthenticatedTemplate>
-        {/* </FlexBox> */}
+        </FlexBox>
 
         <Box className="hamburger-icon" onClick={toggleMenu}>
           <Icon>menu</Icon>
@@ -199,24 +186,50 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
             </Button>
           </Categories>
 
-          <FlexBox className="mobile-nav-links">
+          <FlexBox className="mobile-nav-links" style={{ gap: "20px" }}>
             <NavLink className="nav-link" href="/development" onClick={toggleMenu}>
               Discover AbuDhabi
             </NavLink>
             <NavLink className="nav-link" href="/faq" onClick={toggleMenu}>
               Help Centre
             </NavLink>
-          </FlexBox>
-
-          <FlexBox className="mobile-right-section">
-            <Box className="search-icon" onClick={toggleMenu}>
-              <Icon size="18px" color="#002180">
-                search
-              </Icon>
-            </Box>
-
+            <UnauthenticatedTemplate>
+              <FlexBox className="mobile-auth-section" flexDirection="column" style={{ gap: "20px" }}>
+                <Box className="profile-icon" onClick={handleUserIconClick}>
+                  <Icon size="44px" color="#002180">
+                    profile
+                  </Icon>
+                </Box>
+                <Button
+                  className="mobile-auth-button become-partner-btn"
+                  style={{
+                    background: "transparent",
+                    color: "white",
+                    border: "2px solid rgba(255, 255, 255, 0.8)",
+                    padding: "10px",
+                    borderRadius: "6px",
+                  }}
+                  onClick={handleBecomePartner}
+                >
+                  Become a Partner
+                </Button>
+                <Button
+                  className="mobile-auth-button sign-up-btn"
+                  style={{
+                    background: "white",
+                    color: "#0000FF",
+                    border: "2px solid white",
+                    padding: "10px",
+                    borderRadius: "6px",
+                  }}
+                  onClick={handleSignUp}
+                >
+                  Sign Up
+                </Button>
+              </FlexBox>
+            </UnauthenticatedTemplate>
             <AuthenticatedTemplate>
-              <FlexBox className="mobile-auth-section" flexDirection="column" style={{ gap: "16px" }}>
+              <FlexBox className="mobile-auth-section" flexDirection="column" style={{ gap: "20px" }}>
                 <Button
                   className="mobile-auth-button mobile-profile"
                   style={{
@@ -252,42 +265,6 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
                 </Button>
               </FlexBox>
             </AuthenticatedTemplate>
-
-            <UnauthenticatedTemplate>
-              <FlexBox className="mobile-auth-section" flexDirection="column" style={{ gap: "16px" }}>
-                <Box className="profile-icon" onClick={handleUserIconClick}>
-                  <Icon size="44px" color="#002180">
-                    profile
-                  </Icon>
-                </Box>
-                <Button
-                  className="mobile-auth-button become-partner-btn"
-                  style={{
-                    background: "transparent",
-                    color: "white",
-                    border: "2px solid rgba(255, 255, 255, 0.8)",
-                    padding: "10px",
-                    borderRadius: "6px",
-                  }}
-                  onClick={handleBecomePartner}
-                >
-                  Become a Partner
-                </Button>
-                <Button
-                  className="mobile-auth-button sign-up-btn"
-                  style={{
-                    background: "white",
-                    color: "#0000FF",
-                    border: "2px solid white",
-                    padding: "10px",
-                    borderRadius: "6px",
-                  }}
-                  onClick={handleSignUp}
-                >
-                  Sign Up
-                </Button>
-              </FlexBox>
-            </UnauthenticatedTemplate>
           </FlexBox>
         </Box>
       </Container>

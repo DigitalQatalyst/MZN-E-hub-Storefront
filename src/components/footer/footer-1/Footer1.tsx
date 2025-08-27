@@ -7,12 +7,15 @@ import Box from "@component/Box";
 import Grid from "@component/grid/Grid";
 import FlexBox from "@component/FlexBox";
 import Typography, { Paragraph } from "@component/Typography";
+import Image from "next/image";
 
 // STYLED COMPONENTS
 import { StyledLink, SubscribeInput, SubscribeButton } from "./styles";
 
-// IMPORT FOOTER DATA
-import { footerData, socialMediaLinks } from "./data";
+// CUSTOM DATA
+
+import { quickLinks, getToKnowUs, partners, footerData, socialMediaLinks } from "./data";
+
 
 export default function Footer1() {
   const [email, setEmail] = useState("");

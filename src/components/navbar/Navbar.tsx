@@ -77,6 +77,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         justifyContent="space-between"
         style={{ position: 'relative' }}
       >
+<<<<<<< HEAD
         {/* Logo Section - Always visible */}
         <Box 
           className="navbar-logo"
@@ -93,6 +94,11 @@ export default function Navbar({ navListOpen }: NavbarProps) {
               height: isMobile ? "32px" : "auto" 
             }} 
           />
+=======
+        {/* Logo Section */}
+        <Box className="navbar-logo">
+          <img src="/assets/images/tab_bar/Subtract.svg" alt="MZN Enterprise Hub" height="100%"style={{marginLeft: "-88px"}} />
+>>>>>>> origin/settings_user_mgt_grid
         </Box>
 
         {/* Desktop Navigation - Hidden on mobile */}
@@ -146,10 +152,18 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                 <img src="/images/bookmark.svg" alt="Bookmark" height="24px" />
               </Box>
 
+<<<<<<< HEAD
               {/* User Profile Photo */}
               <Box className="profile-photo" style={{ cursor: "pointer" }}>
                 <div className="profile-initials">MW</div>
               </Box>
+=======
+        {/* Hardcoded Navigation Links 
+        <FlexBox style={{ gap: 32 }}>
+          <NavLink className="nav-link" href="#">
+            <FlexBox alignItems="center">
+              <Span className="nav-link">Business in AbuDhabi</Span>
+>>>>>>> origin/settings_user_mgt_grid
             </FlexBox>
           </>
         )}
@@ -193,6 +207,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                 )}
               </Box>
             </FlexBox>
+<<<<<<< HEAD
 
             {/* Mobile Menu Overlay */}
             {isMobileMenuOpen && (
@@ -388,6 +403,31 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             )}
           </>
         )}
+=======
+          </NavLink>
+        </FlexBox>
+        */}
+
+        {/* Search Icon, Sign In, and Sign Up Buttons */}
+        <FlexBox alignItems="center" style={{ gap: "15px" }}>
+          {/* Search Icon (Replace with your actual SVG) */}
+          <Box className="search-icon" style={{ cursor: "pointer" }}>
+            <img src="/assets/images/logos/search.svg" alt="Search" height="20px" />
+          </Box>
+ 
+          {/* Bookmark Icon */}
+          <Box className="search-icon" style={{ cursor: "pointer" }}>
+            <img src="/images/bookmark.svg" alt="Bookmark" height="24px" />
+          </Box>
+ 
+          {/* User Profile Photo */}
+          <Box className="profile-photo" style={{ cursor: "pointer" }}>
+            <div className="profile-initials">
+              MW
+            </div>
+          </Box>
+        </FlexBox>
+>>>>>>> origin/settings_user_mgt_grid
       </Container>
 
       {/* CSS for animations */}

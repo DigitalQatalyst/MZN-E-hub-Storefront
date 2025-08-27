@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { ChevronDown } from 'lucide-react';
@@ -38,7 +38,7 @@ const Sidebar = () => {
 
   const renderNavItem = (item: NavItem) => {
     const active = isActive(item.route);
-    
+
     return (
       <div
         key={item.id}
@@ -60,9 +60,9 @@ const Sidebar = () => {
         onMouseLeave={() => setHoveredItem(null)}
         onClick={() => handleNavigation(item.route)}
       >
-        <img 
-          src={item.icon} 
-          alt={item.label} 
+        <img
+          src={item.icon}
+          alt={item.label}
           height="20px"
           style={{
             filter: active ? 'brightness(0) invert(1)' : 'none'
@@ -75,7 +75,6 @@ const Sidebar = () => {
 
   return (
     <div style={{
-      width: '256px',
       backgroundColor: 'white',
       height: '100vh',
       borderRight: '1px solid #e5e7eb',
@@ -127,18 +126,18 @@ const Sidebar = () => {
             cursor: 'pointer',
             fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
           }}
-          onMouseEnter={() => setHoveredItem('overview')}
-          onMouseLeave={() => setHoveredItem(null)}
-          onClick={() => handleNavigation('/dashboard')}>
-            <img 
-              src="/images/dashboard-customize-light.svg" 
-              alt="Dashboard" 
-              height="20px" 
+            onMouseEnter={() => setHoveredItem('overview')}
+            onMouseLeave={() => setHoveredItem(null)}
+            onClick={() => handleNavigation('/dashboard')}>
+            <img
+              src="/images/dashboard-customize-light.svg"
+              alt="Dashboard"
+              height="20px"
               style={{
                 filter: isActive('/dashboard') ? 'brightness(0) invert(1)' : 'brightness(0) opacity(0.6)'
               }}
             />
-            <span style={{ 
+            <span style={{
               fontWeight: '500',
               fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
             }}>Overview</span>

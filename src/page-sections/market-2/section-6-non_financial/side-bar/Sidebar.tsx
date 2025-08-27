@@ -93,7 +93,7 @@ export default function Sidebar({
         elevation={0}
         style={{
           border: 0,
-          height: "95%",
+          height: "94%",
           borderRadius: "3px",
           padding: "1rem 2rem",
           backgroundColor: "#FFFFFF",
@@ -202,7 +202,7 @@ export default function Sidebar({
               checked={businessStageFilters.conception}
               onChange={() => handleBusinessStageChange("conception")}
             />
-            <label htmlFor="conception">Conception</label>
+            <label htmlFor="conception">Inception</label>
           </CheckboxLabel>
           <CheckboxLabel>
             <input
@@ -317,7 +317,7 @@ export default function Sidebar({
               checked={pricingModelFilters.subscriptionBased}
               onChange={() => handlePricingModelChange("subscriptionBased")}
             />
-            <label htmlFor="subscription-based">Subscription-Based</label>
+            <label htmlFor="subscription-based">Subscription-based</label>
           </CheckboxLabel>
           <CheckboxLabel>
             <input
@@ -327,7 +327,7 @@ export default function Sidebar({
               checked={pricingModelFilters.payPerService}
               onChange={() => handlePricingModelChange("payPerService")}
             />
-            <label htmlFor="pay-per-service">Pay Per Service</label>
+            <label htmlFor="pay-per-service">Pay per service</label>
           </CheckboxLabel>
           <CheckboxLabel>
             <input
@@ -337,7 +337,7 @@ export default function Sidebar({
               checked={pricingModelFilters.oneTimeFee}
               onChange={() => handlePricingModelChange("oneTimeFee")}
             />
-            <label htmlFor="one-time-fee">One-Time Fee</label>
+            <label htmlFor="one-time-fee">One time fee</label>
           </CheckboxLabel>
           <CheckboxLabel>
             <input
@@ -347,7 +347,7 @@ export default function Sidebar({
               checked={pricingModelFilters.governmentSubsidised}
               onChange={() => handlePricingModelChange("governmentSubsidised")}
             />
-            <label htmlFor="government-subsidised">Government Subsidised</label>
+            <label htmlFor="government-subsidised">Government sponsered </label>
           </CheckboxLabel>
         </List>
         <div style={{ paddingBottom: "2rem" }} />

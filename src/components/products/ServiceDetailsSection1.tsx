@@ -1,54 +1,50 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useState, useCallback, useRef } from "react";
+import { useState, useRef } from "react";
+import { useMsal } from "@azure/msal-react";
+import { authScopes } from "../../authConfig"; // <-- adjust path if needed
+
 import RegistrationForm from "@component/forms/RegistrationForm";
 import Box from "@component/Box";
-import Image from "@component/Image";
 import Rating from "@component/rating";
 import Grid from "@component/grid/Grid";
 import Icon from "@component/icon/Icon";
 import FlexBox from "@component/FlexBox";
 import { Button } from "@component/buttons";
-import { H2, H4, H5, H6, SemiSpan, Span } from "@component/Typography";
-import { useAppContext } from "@context/app-context";
-import Product from "@models/product.model";
+import { H2, Span } from "@component/Typography";
 import { FaRegBookmark } from "react-icons/fa";
-import { IoShareSocial } from "react-icons/io5";
-import {
-  IoIosArrowBack,
-  IoMdArrowBack,
-  IoMdArrowForward,
-} from "react-icons/io";
+import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import Link from "next/link";
-import { border } from "styled-system";
 import { FaRegClock } from "react-icons/fa";
 import { BsClipboardMinus } from "react-icons/bs";
 import { IoPlaySharp } from "react-icons/io5";
 import { BiSolidInfoCircle } from "react-icons/bi";
 import "./products.css";
 import { Carousel } from "@component/carousel";
-import { MdLaunch, MdOutlineLaunch, MdShare } from "react-icons/md";
 import { GiShare } from "react-icons/gi";
+
+import Product from "@models/product.model";
 
 // ========================================
 interface Props {
-  product: Product; // Accepting full product object
+  product: Product;
 }
 // ========================================
 
 export default function ServiceDetailsSection1({ product }: Props) {
   const param = useParams();
-  const { state, dispatch } = useAppContext();
   const [selectedImage, setSelectedImage] = useState(0);
   const [imageLoading, setImageLoading] = useState(true);
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const handleImageLoad = () => {
-    setImageLoading(false);
-  };
+  // ⭐ MSAL instance
+  const { instance } = useMsal();
+
+  const handleImageLoad = () => setImageLoading(false);
+
   const assets = [
     { video: true, url: "/assets/Videos/KF_Service Request.mp4" },
     { video: true, url: "/assets/Videos/KF_Service Request.mp4" },
@@ -57,6 +53,7 @@ export default function ServiceDetailsSection1({ product }: Props) {
   ];
 
   const routerId = param.slug as string;
+
   const handleImageClick = (ind: number) => () => {
     setImageLoading(true);
     setSelectedImage(ind);
@@ -64,28 +61,30 @@ export default function ServiceDetailsSection1({ product }: Props) {
 
   const handlePlayClick = () => {
     setShowVideo(true);
-    setTimeout(() => {
-      videoRef.current?.play();
-    }, 0);
+    setTimeout(() => videoRef.current?.play(), 0);
   };
-  const businessStages = ["Start-up", "Scale-up", "Idea"];
-  const segments = [
-    "Sole Proprietorship",
-    "Partnership",
-    "Medium Enterprises",
-    "Limited Liability Company (LLC)",
-    "Small Enterprises",
-    "UAE National ",
-    "Emiratis",
-  ];
+
+  // ⭐ Trigger Azure B2C sign-in (uses redirectUri from msalConfig)
+  const handleStartApplication = () => {
+    instance
+      .loginRedirect({
+        scopes: authScopes.scopes, // ["openid","offline_access", ...]
+        extraQueryParameters: { prompt: "login" },
+        // DO NOT set redirectUri here; use global one from msalConfig
+      })
+      .catch(console.error);
+  };
+
   const categories = [
     { name: "Loan Modification & Refinancing" },
     { name: "Loan Management & Adjustments" },
   ];
+
   const responsive = [
     { breakpoint: 959, settings: { slidesToShow: 1 } },
     { breakpoint: 650, settings: { slidesToShow: 1 } },
   ];
+
   return (
     <Box overflow="hidden" borderRadius="12px" padding={"12px"}>
       <FlexBox justifyContent="space-between">
@@ -115,10 +114,11 @@ export default function ServiceDetailsSection1({ product }: Props) {
           </Span>
           <Box mb="45px" width="70%">
             {product?.description ||
-              "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."}
+              "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..."}
           </Box>
         </FlexBox>
       </FlexBox>
+
       <Grid container spacing={10} className="product-intro-details-wrapper">
         <Grid
           item
@@ -126,7 +126,6 @@ export default function ServiceDetailsSection1({ product }: Props) {
           alignItems="center"
           style={{ width: "40%" }}
           className="product-intro-details-left"
-          // style={{ border: "1px solid red" }}
         >
           <FlexBox
             alignItems="center"
@@ -141,7 +140,7 @@ export default function ServiceDetailsSection1({ product }: Props) {
               height="55px"
               variant="contained"
               color={"primary"}
-              onClick={() => setShowRegistrationForm(true)}
+              onClick={handleStartApplication} /* ⭐ Kick off Azure B2C */
               className="product-intro-details-btn-1"
             >
               <p
@@ -153,6 +152,7 @@ export default function ServiceDetailsSection1({ product }: Props) {
               </p>
               <Icon marginLeft={"10px"}>launch</Icon>
             </Button>
+
             <Button
               color="#002180"
               height="50px"
@@ -162,30 +162,28 @@ export default function ServiceDetailsSection1({ product }: Props) {
               <FaRegBookmark color="#0030E3" size="20px" />
               <span style={{ color: "#0030E3" }}>Save</span>
             </Button>
-            <FlexBox
-              justifyContent="s
-            Pace-between"
-              width="10%"
-            >
+
+            <FlexBox justifyContent="space-between" width="10%">
               <Span className="product-intro-details-btn-3">
                 <GiShare color="#0030E3" size="20px" />
               </Span>
             </FlexBox>
           </FlexBox>
+
           <FlexBox className="product-intro-tags">
             <FlexBox flexDirection="column" style={{ gap: "30px" }}>
               <FlexBox flexDirection="column" style={{ gap: "10px" }}>
                 <FlexBox alignItems="center" style={{ gap: "5px" }}>
-                  <Span> Business Stage</Span>{" "}
-                  <BiSolidInfoCircle color="#747474" />
+                  <Span> Business Stage</Span>
                 </FlexBox>
                 <FlexBox flexWrap="wrap" style={{ gap: "10px" }}>
                   <Span className="tags">{product?.businessStage}</Span>
                 </FlexBox>
               </FlexBox>
+
               <FlexBox flexDirection="column" style={{ gap: "10px" }}>
                 <FlexBox alignItems="center" style={{ gap: "5px" }}>
-                  <Span> Segment</Span> <BiSolidInfoCircle color="#747474" />
+                  <Span> Segment</Span>
                 </FlexBox>
                 <FlexBox flexWrap="wrap" style={{ gap: "10px" }}>
                   <Span className="tags">{product.Nationality}</Span>
@@ -195,15 +193,8 @@ export default function ServiceDetailsSection1({ product }: Props) {
 
               <FlexBox flexDirection="column" style={{ gap: "10px" }}>
                 <FlexBox alignItems="center" style={{ gap: "5px" }}>
-                  <Span> Categories</Span> <BiSolidInfoCircle color="#747474" />
+                  <Span> Categories</Span>
                 </FlexBox>
-                {/* <FlexBox flexWrap="wrap" style={{ gap: "20px" }}>
-                  {product.facetValues.map((category, index) => (
-                    <Span className="tags" key={index}>
-                      {category.name || "Loan Modification & Refinancing"}
-                    </Span>
-                  ))}
-                </FlexBox> */}
                 <FlexBox
                   flexDirection="column"
                   className="categories"
@@ -219,12 +210,14 @@ export default function ServiceDetailsSection1({ product }: Props) {
             </FlexBox>
           </FlexBox>
 
+          {/* You can keep the RegistrationForm if you still open it elsewhere */}
           <RegistrationForm
             open={showRegistrationForm}
             onClose={() => setShowRegistrationForm(false)}
             productSlug={product?.slug}
           />
         </Grid>
+
         <Grid
           style={{ width: "55%" }}
           item
@@ -233,111 +226,6 @@ export default function ServiceDetailsSection1({ product }: Props) {
           justifyContent={"top"}
           className="product-intro-details-right"
         >
-          {/* <Carousel
-            dots
-            arrows
-            slidesToShow={1}
-            responsive={responsive}
-            dotColor="gray"
-            dotStyles={{ bottom: "-40px" }}
-          >
-            {assets.map((asset, index) => (
-              <Box key={index} width="100%">
-                {asset.video ? (
-                  <Box
-                    width="100%"
-                    height="300px"
-                    style={{
-                      position: "relative",
-                      // borderRadius: "8px",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <video
-                      ref={videoRef}
-                      src={asset.url}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        // borderRadius: "8px",
-                        display: "block",
-                        filter: !showVideo ? "brightness(0.7)" : "none",
-                      }}
-                      playsInline
-                      controls={showVideo}
-                    />
-                    {!showVideo && (
-                      <Box
-                        style={{
-                          position: "absolute",
-                          inset: 0,
-                          background: "rgba(0,0,0,0.15)",
-                          zIndex: 2,
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "flex-end",
-                          alignItems: "flex-start",
-                          padding: "24px",
-                        }}
-                      >
-                        <img
-                          src="/images/Logo2 (3).png"
-                          alt="Logo"
-                          style={{
-                            width: 70,
-                            marginBottom: "auto",
-                            marginTop: 5,
-                          }}
-                        />
-           
-                        <div style={{ color: "#fff", marginBottom: 10 }}>
-                          <div
-                            style={{
-                              fontWeight: 700,
-                              fontSize: 22,
-                              marginBottom: 3,
-                            }}
-                          >
-                            {product?.title}
-                          </div>
-                          <div style={{ fontWeight: 400, fontSize: 14 }}>
-                            Explore Tailored Funding Solutions for Your SME’s
-                            Growth and Innovation
-                          </div>
-                        </div>
-                    
-                        <button
-                          onClick={handlePlayClick}
-                          style={{
-                            position: "absolute",
-                            left: "50%",
-                            top: "50%",
-                            transform: "translate(-50%, -50%)",
-                            background: "#fff",
-                            border: "none",
-                            borderRadius: "50%",
-                            width: 56,
-                            height: 56,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-                            cursor: "pointer",
-                          }}
-                          aria-label="Play Video"
-                        >
-                          <IoPlaySharp size={30} color="#0030E3" />
-                        </button>
-                      </Box>
-                    )}
-                  </Box>
-                ) : (
-                  <img src={asset.url} alt="Product Image" />
-                )}
-              </Box>
-            ))}
-          </Carousel> */}
           <Carousel
             dots
             arrows
@@ -353,7 +241,6 @@ export default function ServiceDetailsSection1({ product }: Props) {
                   height="300px"
                   style={{
                     position: "relative",
-                    // borderRadius: "8px",
                     overflow: "hidden",
                     boxShadow: "0 4px 4px 0 rgba(0, 0, 0, 0.25)",
                     borderRadius: "6px",
@@ -375,18 +262,10 @@ export default function ServiceDetailsSection1({ product }: Props) {
                     <img
                       src="/images/khalifa-fund-logo.svg"
                       alt="Logo"
-                      style={{
-                        width: 32,
-                        height: 21,
-                        marginBottom: "auto",
-                      }}
+                      style={{ width: 32, height: 21, marginBottom: "auto" }}
                     />
 
-                    {/* Title and Subtitle */}
-                    <FlexBox
-                      alignItems="flex-end"
-                      justifyContent="space-between"
-                    >
+                    <FlexBox alignItems="flex-end" justifyContent="space-between">
                       <div style={{ width: "70%" }}>
                         <div
                           style={{
@@ -398,21 +277,15 @@ export default function ServiceDetailsSection1({ product }: Props) {
                             WebkitLineClamp: 2,
                             WebkitBoxOrient: "vertical",
                             overflow: "hidden",
-                            minHeight: "1.2em", // Ensures space for 2 lines
-                            lineHeight: "1.2", // Adjust if needed for better spacing
+                            minHeight: "1.2em",
+                            lineHeight: "1.2",
                           }}
                         >
                           {product?.title}
                         </div>
-                        <div
-                          style={{
-                            color: "black",
-                            fontWeight: 400,
-                            fontSize: 16,
-                          }}
-                        >
-                          Explore Tailored Funding Solutions for Your SME’s
-                          Growth and Innovation
+                        <div style={{ color: "black", fontWeight: 400, fontSize: 16 }}>
+                          Explore Tailored Funding Solutions for Your SME’s Growth and
+                          Innovation
                         </div>
                       </div>
                       <IoMdArrowForward size={20} width={"50%"} />

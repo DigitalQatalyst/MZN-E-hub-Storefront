@@ -63,6 +63,7 @@ export default function Signup() {
   });
 
   const handleFormSubmit = async () => {
+    sessionStorage.setItem("postSignup", "1");
     // Launch the dedicated SIGNUP policy (B2C_1_KF_Signup)
     await instance.loginRedirect({
       authority: signupAuthority,

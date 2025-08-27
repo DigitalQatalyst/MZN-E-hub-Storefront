@@ -246,7 +246,7 @@ export default function ProductCard10(props: ProductCard10Props) {
       <ProductQuickView
         open={open}
         onClose={toggleDialog}
-        product={{ images, title, title1: "", id: id as number | string, slug, subTitle: "", description: "" }}
+        product={{ images, title, id: id as number | string, slug, subTitle: "", description: "" }}
       />
     </Wrapper>
   );

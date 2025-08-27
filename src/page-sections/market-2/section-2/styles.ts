@@ -133,47 +133,52 @@ export const LayoutWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 0.1rem;
-  flex-wrap: wrap;
-`;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
 
+  @media (max-width: ${deviceSize.sm}px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+`;
 
 export const LeftSection = styled.div`
   flex: 1;
   min-width: 250px;
+
+  @media (max-width: ${deviceSize.sm}px) {
+    width: 100%;
+  }
 `;
 
-// export const CenterSection = styled.div`
-//   display: flex;
-//   flex: 2;
-//   max-width: 500px;
-//   gap: 0.5rem;
-//   align-items: center;
-//   min-width: 300px;
-// `;
 export const CenterSection = styled.div`
   display: flex;
   flex: 2;
   max-width: 400px;
-  // gap: 0.1rem;
   align-items: center;
   min-width: 300px;
+
+  @media (max-width: ${deviceSize.sm}px) {
+    width: 100%;
+    max-width: 100%;
+    flex-direction: column;
+    gap: 1rem;
+  }
 `;
 
-// export const RightSection = styled.div`
-//   display: flex;
-//   gap: 0.75rem;
-//   flex: 1;
-//   justify-content: flex-end;
-//   min-width: 250px;
-// `;
 export const RightSection = styled.div`
   display: flex;
   gap: 0.75rem;
   flex: 1;
   justify-content: flex-end;
   min-width: 250px;
-`;
 
+  @media (max-width: ${deviceSize.sm}px) {
+    width: 100%;
+    justify-content: flex-start;
+    margin-top: 1rem;
+  }
+`;
 
 export const CategoryDropdown = styled.select`
   padding: 10px 12px;
@@ -188,54 +193,4 @@ export const CategoryDropdown = styled.select`
   outline: none;
   background: white;
   cursor: pointer;
-`;
-
-
-// export const SearchInputWrapper = styled.div`
-//   position: relative;
-//   flex: 1;
-// `;
-export const SearchInputWrapper = styled.div`
-  position: relative;
-  flex: 1;
-`;
-
-// export const SearchInput = styled.input`
-//   width: 100%;
-//   padding: 10px 40px 10px 12px;
-//   font-size: 14px;
-//   font-family: 'Open Sans', sans-serif;
-//   border: 1px solid #ccc;
-//   border-radius: 0 6px 6px 0;
-//   outline: none;
-
-//   &:focus {
-//     border-color: var(--KF-BG-Blue, #0030E3);
-//     box-shadow: 0 0 5px rgba(0, 48, 227, 0.5);
-//   }
-// `;
-export const SearchInput = styled.input`
-  width: 100%;
-  padding: 10px 12px;
-  font-size: 14px;
-  font-family: 'Open Sans', sans-serif;
-  border: 1px solid #ccc;
-  border-radius: 0 6px 6px 0;
-  outline: none;
-
-  // &:focus {
-  //   border-color: var(--KF-BG-Blue, #0030E3);
-  //   box-shadow: 0 0 5px rgba(0, 48, 227, 0.5);
-  // }
-`;
-
-export const SearchIcon = styled.img`
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 16px;     /* adjust as needed */
-  height: 16px;
-  cursor: pointer;
-  pointer-events: none; /* so input gets focus on click */
 `;

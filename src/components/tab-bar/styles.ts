@@ -4,8 +4,8 @@ export const TabBarContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 50px;
-  padding-top: 40px;
+  // padding-bottom: 50px;
+  // padding-top: 40px;
   POSITION: relative;
   margin-bottom: 20px; 
 

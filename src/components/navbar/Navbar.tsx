@@ -17,7 +17,7 @@ import { Button } from "../buttons";
 import Container from "../Container";
 import Typography, { Span } from "../Typography";
 import Categories from "../categories/Categories";
-import StyledNavbar from "./marketStyles";
+import StyledNavbar from "./marketStyles copy";
 
 type NavbarProps = { navListOpen?: boolean };
 

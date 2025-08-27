@@ -38,7 +38,7 @@ export const b2cPolicies = {
  * Locally it will default to http://localhost:3000
  */
 // const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-const siteUrl = "http://localhost:3000";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 const redirectPath = "/callback"; // matches your userflow endpoint redirect
 export const redirectUri = `${siteUrl}${redirectPath}`;
 
@@ -80,13 +80,16 @@ export const authScopes = {
   ],
 };
 
-// ====== Ready-to-use requests ======
 export const loginRequest: RedirectRequest = {
   authority: b2cPolicies.authorities.signUpSignIn.authority,
   scopes: authScopes.scopes,
-  // Forces showing the sign-in screen, which is useful when testing:
   extraQueryParameters: { prompt: "login" },
-  // DO NOT set redirectUri here; use the global one in msalConfig.auth.redirectUri
+};
+
+export const signupRequest: RedirectRequest = {
+  authority: signupAuthority,                // dedicated signup policy
+  scopes: ["openid", "offline_access"],
+  extraQueryParameters: { prompt: "login" },
 };
 
 export const logoutRequest: EndSessionRequest = {

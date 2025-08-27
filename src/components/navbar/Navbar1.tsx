@@ -5,8 +5,8 @@ import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import { useMsal, AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
 
-// ⬇️ import your scopes and the dedicated signup authority
-import { b2cPolicies, authScopes, signupAuthority } from "../../authConfig"; // adjust path if needed
+// ✅ only import the prebuilt requests from authConfig
+import { loginRequest, signupRequest, logoutRequest } from "../../authConfig";
 
 import Box from "../Box";
 import Icon from "../icon/Icon";
@@ -46,8 +46,6 @@ const StyledNavbar = styled.div`
     padding-right: 10px;
 
     img { width: 150px; height: auto; }
-    .enterprise-text { display: block; font-size: 20px; }
-    .journey-text { display: block; font-size: 16px; font-weight: 600; margin-top: -2px; }
   }
 
   .explore-button {
@@ -75,14 +73,6 @@ const StyledNavbar = styled.div`
       transition: all 0.3s ease;
       padding: 8px 0;
       position: relative;
-
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: 0; left: 0;
-        width: 0; height: 2px;
-        background: white;
-      }
     }
   }
 
@@ -99,8 +89,8 @@ const StyledNavbar = styled.div`
     padding: 20px; z-index: 1001;
     transform: translateX(100%); transition: transform 0.3s ease-in-out;
     &.open { transform: translateX(0); }
-    .mobile-nav-links { flex-direction: column; gap: 20px; margin-top: 40px; justify-content: flex-start; }
-    .mobile-right-section { flex-direction: column; margin-top: 20px; justify-content: flex-start; }
+    .mobile-nav-links { flex-direction: column; gap: 20px; margin-top: 40px; }
+    .mobile-right-section { flex-direction: column; margin-top: 20px; }
     .mobile-explore-button { width: 100%; justify-content: flex-start; margin-top: 20px; }
   }
 
@@ -154,36 +144,34 @@ export default function Navbar({ navListOpen }: NavbarProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Debug once to confirm correct callback per env
+  useEffect(() => {
+    console.log("MSAL redirectUri =", instance.getConfiguration().auth.redirectUri);
+  }, [instance]);
+
   const toggleMenu = () => setMenuOpen(v => !v);
 
-  // User icon → LOGIN (uses your default sign-in/SUSI policy)
+  // 👤 User icon → Sign In (SUSI)
   const handleUserIconClick = () => {
-    instance.loginRedirect({
-      authority: b2cPolicies.authorities.signUpSignIn.authority,
-      scopes: authScopes.scopes,
-      extraQueryParameters: { prompt: "login" },
-    }).catch(console.error);
+    instance.loginRedirect(loginRequest).catch(console.error);
     setMenuOpen(false);
   };
 
-  // Become a Partner → /development
+  // 🧭 Become a Partner (no login)
   const handleBecomePartner = () => {
     router.push("/development");
     setMenuOpen(false);
   };
 
-  // SIGN UP → dedicated signup policy (B2C_1_KF_Signup)
+  // ✍️ Sign Up → dedicated signup policy
   const handleSignUp = () => {
-    instance.loginRedirect({
-      authority: signupAuthority,      // 👈 dedicated signup policy
-      scopes: ["openid", "offline_access"],
-      extraQueryParameters: { prompt: "login" },
-    }).catch(console.error);
+    instance.loginRedirect(signupRequest).catch(console.error);
     setMenuOpen(false);
   };
 
+  // 🚪 Logout
   const handleLogout = () => {
-    instance.logoutRedirect().catch(console.error);
+    instance.logoutRedirect(logoutRequest).catch(console.error);
     setMenuOpen(false);
   };
 
@@ -273,7 +261,6 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                 Become a Partner
               </Button>
 
-              {/* Sign Up via dedicated policy */}
               <Button className="sign-up-btn" variant="contained" onClick={handleSignUp}>
                 Sign Up
               </Button>

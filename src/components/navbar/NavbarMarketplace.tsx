@@ -16,7 +16,7 @@ import Categories from "../categories/Categories";
 
 type NavbarProps = { navListOpen?: boolean };
 
-export default function Navbar({ navListOpen }: NavbarProps) {
+export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { instance } = useMsal();

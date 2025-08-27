@@ -13,7 +13,7 @@ export default function MarketTwo() {
   return (
     <Fragment>
       {/* NAVBAR AREA */}
-      <Navbar />
+      <NavbarMarketplace />
 
       <Box bg="#F6F6F6">
         

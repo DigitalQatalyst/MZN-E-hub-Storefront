@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation"; // Add Next.js router
 import { Menu, X, Search, Bookmark, ChevronRight } from "lucide-react";
 import Box from "../Box";
 import Card from "../Card";
@@ -14,7 +15,6 @@ import Container from "../Container";
 import Typography, { Span } from "../Typography";
 import Categories from "../categories/Categories";
 
-
 import StyledNavbar from "./marketStyles";
 
 interface Nav {
@@ -25,13 +25,14 @@ interface Nav {
   extLink?: boolean;
 }
 
-
 type NavbarProps = { navListOpen?: boolean };
 
 // ==============================================================
 
-
 export default function Navbar({ navListOpen }: NavbarProps) {
+  // Next.js router for navigation
+  const router = useRouter();
+  
   // State for mobile menu toggle
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   // State for screen size detection
@@ -66,6 +67,15 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   // Close mobile menu when clicking on menu items
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
+  };
+
+  // Handle bookmark/favorites navigation
+  const handleFavoritesNavigation = () => {
+    router.push('/favorites');
+    // Close mobile menu if it's open
+    if (isMobileMenuOpen) {
+      closeMobileMenu();
+    }
   };
 
   return (
@@ -141,9 +151,14 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                 <img src="/assets/images/logos/search.svg" alt="Search" height="20px" />
               </Box>
 
-              {/* Bookmark Icon */}
-              <Box className="search-icon" style={{ cursor: "pointer" }}>
-                <img src="/images/bookmark.svg" alt="Bookmark" height="24px" />
+              {/* Bookmark Icon - Updated with navigation */}
+              <Box 
+                className="search-icon" 
+                style={{ cursor: "pointer" }}
+                onClick={handleFavoritesNavigation}
+                title="Go to Favorites" // Added tooltip for better UX
+              >
+                <Bookmark size={20} color="#ffffff" />
               </Box>
 
               {/* User Profile Photo */}
@@ -304,7 +319,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                       </Typography>
                     </Box>
 
-                    {/* Bookmarks */}
+                    {/* Bookmarks - Updated with navigation */}
                     <Box
                       style={{
                         padding: "16px",
@@ -315,7 +330,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                         textAlign: "center",
                         transition: "background-color 0.3s ease"
                       }}
-                      onClick={closeMobileMenu}
+                      onClick={handleFavoritesNavigation} // Updated to use navigation handler
                       onMouseEnter={(e) => {
                         e.currentTarget.style.backgroundColor = "#e9ecef";
                       }}
@@ -329,7 +344,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                         fontWeight="500"
                         color="#0030E3"
                       >
-                        Bookmarks
+                        Favorites
                       </Typography>
                     </Box>
                   </div>

@@ -2,9 +2,10 @@
 import React, { useState, useEffect } from 'react'
 import { Navbar } from "@component/ui/FirmWalletNavbar";
 import { DocumentSearch } from "@component/ui/DocumentSearch";
-import { DocumentFilter } from "@component/ui/DocumentFilter";
+import { DocumentFilter, FileType } from "@component/ui/DocumentFilter";
 import { FileCard } from "@component/ui/FileCard";
 import { RecentActivity, ActivityItem } from "@component/ui/RecentActivity";
+import { filterFilesByType, getFileTypeCounts } from "@utils/fileUtils";
 
 export interface UploadedFile {
   id: string;
@@ -19,7 +20,9 @@ const ACTIVITIES_STORAGE_KEY = 'firm-wallet-activities';
 
 const MyDownloadsPage = () => {
   const [downloadedFiles, setDownloadedFiles] = useState<UploadedFile[]>([]);
+  const [filteredFiles, setFilteredFiles] = useState<UploadedFile[]>([]);
   const [activities, setActivities] = useState<ActivityItem[]>([]);
+  const [selectedFileType, setSelectedFileType] = useState<FileType>('all');
 
   // Load activities from localStorage and filter downloaded files
   useEffect(() => {
@@ -51,11 +54,23 @@ const MyDownloadsPage = () => {
           }));
         
         setDownloadedFiles(filesWithDates);
+        setFilteredFiles(filesWithDates);
       }
     } catch (error) {
       console.error('Error loading data from localStorage:', error);
     }
   }, []);
+
+  // Filter files when downloadedFiles or selectedFileType changes
+  useEffect(() => {
+    const filtered = filterFilesByType(downloadedFiles, selectedFileType);
+    setFilteredFiles(filtered);
+  }, [downloadedFiles, selectedFileType]);
+
+  // Handle file type filter changes
+  const handleFileTypeChange = (fileType: FileType) => {
+    setSelectedFileType(fileType);
+  };
 
   // Helper function to add new activity
   const addActivity = (type: ActivityItem['type'], fileName: string, fileId?: string) => {
@@ -108,16 +123,28 @@ const MyDownloadsPage = () => {
           />
         </div>
         <div className="flex-shrink-0 ml-4">
-          <DocumentFilter />
+          <DocumentFilter 
+            selectedType={selectedFileType}
+            onTypeChange={handleFileTypeChange}
+            fileTypeCounts={getFileTypeCounts(downloadedFiles)}
+          />
         </div>
       </div>
 
       {/* My Downloaded Files Section */}
       {downloadedFiles.length > 0 ? (
         <div className="mt-6" style={{ width: '1116px' }}>
-          <h2 className="text-lg font-semibold mb-4 ml-1">My Downloaded Files ({downloadedFiles.length})</h2>
-          <div className="grid grid-cols-4 gap-4" id="myDownloadedFiles">
-            {downloadedFiles.map((file) => (
+          <h2 className="text-lg font-semibold mb-4 ml-1">
+            My Downloaded Files ({selectedFileType === 'all' ? downloadedFiles.length : filteredFiles.length})
+            {selectedFileType !== 'all' && (
+              <span className="text-sm font-normal text-gray-500 ml-2">
+                - {selectedFileType.toUpperCase()} files
+              </span>
+            )}
+          </h2>
+          {filteredFiles.length > 0 ? (
+            <div className="grid grid-cols-4 gap-4" id="myDownloadedFiles">
+              {filteredFiles.map((file) => (
               <FileCard 
                 key={file.id}
                 fileName={file.name}
@@ -162,7 +189,18 @@ const MyDownloadsPage = () => {
                 }}
               />
             ))}
-          </div>
+            </div>
+          ) : (
+            <div className="text-center py-12 text-gray-500">
+              <div className="text-gray-400 mb-4">
+                <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">No {selectedFileType.toUpperCase()} downloads found</h3>
+              <p className="text-gray-500">Try selecting a different file type</p>
+            </div>
+          )}
         </div>
       ) : (
         <div className="mt-6 text-center py-12" style={{ width: '1116px' }}>

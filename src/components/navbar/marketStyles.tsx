@@ -70,9 +70,9 @@ export const StyledNavbar = styled.div`
     align-items: center;
 
     .nav-link {
-      color: #002180 !important;
+      color: #FFFFFF !important;
       font-weight: 500;
-      font-size: 16px;
+      font-size: 14px;
       text-decoration: none;
       transition: all 0.3s ease;
       padding: 8px 0;

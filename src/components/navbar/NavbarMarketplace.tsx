@@ -102,15 +102,15 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
           </NavLink>
         </FlexBox>
 
-        <FlexBox className="right-section">
-          <Box className="search-icon">
+        {/* <FlexBox className="right-section"> */}
+          {/* <Box className="search-icon">
             <Icon size="18px" color="#002180">
               search
             </Icon>
-          </Box>
+          </Box> */}
 
           <AuthenticatedTemplate>
-            <FlexBox alignItems="center" style={{ gap: "10px" }}>
+            <FlexBox alignItems="center" style={{ gap: "50px" }}>
               <Button className="logout-btn" variant="outlined" onClick={handleLogout}>
                 Logout
               </Button>
@@ -163,7 +163,7 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
               </Button>
             </FlexBox>
           </UnauthenticatedTemplate>
-        </FlexBox>
+        {/* </FlexBox> */}
 
         <Box className="hamburger-icon" onClick={toggleMenu}>
           <Icon>menu</Icon>

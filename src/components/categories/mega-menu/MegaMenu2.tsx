@@ -16,11 +16,7 @@ export default function MegaMenu2({ data }: MegaMenu2Props) {
       >
         {data?.map((item) => (
           <CategoryMenuItem
-<<<<<<< HEAD
-            key={item.href}
-=======
             key={item?.href}
->>>>>>> origin/profile_pages
             href={item.href}
             icon={item.icon}
             title={item.title}

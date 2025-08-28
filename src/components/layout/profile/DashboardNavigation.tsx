@@ -230,12 +230,7 @@ const Sidebar = () => {
     const active = isActive(item.route);
 
     return (
-<<<<<<< HEAD
-      <div
-        
-=======
       <NavItem
->>>>>>> origin/profile_pages
         key={item.id}
         $active={active}
         $hovered={hoveredItem === item.id}
@@ -316,7 +311,7 @@ const Sidebar = () => {
 
       {/* Navigation */}
       <div style={{ flex: 1, paddingTop: '16px', paddingBottom: '16px' }}>
-        {/* Overview - Dashboard */};
+        {/* Overview - Dashboard */}
         <Box px="16px" mb="24px">
           <NavItem
             $active={isActive('/dashboard')}
@@ -333,7 +328,7 @@ const Sidebar = () => {
               style={{
                 filter: isActive('/dashboard') ? 'brightness(0) invert(1)' : 'brightness(0) opacity(0.6)'
               }}
-            />;
+            />
             <span>Overview</span>
           </NavItem>
         </Box>

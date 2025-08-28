@@ -232,7 +232,7 @@ const Section16: React.FC = () => {
   const router = useRouter();
 
   const handleExploreAllClick = () => {
-    router.push("/development");
+    router.push("kf-ej-media-marketplace-c0cllh08g-digitalqatalysts-projects.vercel.app");
   };
 
   return (

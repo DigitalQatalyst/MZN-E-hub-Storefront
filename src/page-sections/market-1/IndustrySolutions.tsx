@@ -79,7 +79,6 @@ const Description = styled.p`
   @media (max-width: 899px) {
     font-size: 14px;
     margin-right: 0;
-    margin-bottom: 1rem;
   }
   
   @media (max-width: 600px) {
@@ -118,19 +117,23 @@ const DescriptionButtonWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: 2rem;
   
   @media (max-width: 899px) {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  @media (max-width: 600px) {
+    margin-bottom: 0.5rem;
   }
 `;
 
 const StyledBody = styled.p`
   color: #000;
   font-size: 48px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: var(--Display-Medium-Line-Height, 52px);
   letter-spacing: var(--Display-Medium-Tracking, 0px);
   margin: 0;

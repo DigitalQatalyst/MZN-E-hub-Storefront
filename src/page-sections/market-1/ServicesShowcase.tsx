@@ -40,10 +40,10 @@ const MainContainer = styled.div`
   flex-direction: column;
   gap: 2rem;
   
-  /* Tablet and up - side by side layout */
+  /* Tablet and up - side by side layout with adjusted ratios */
   @media (min-width: 768px) {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 2fr 1fr;
     gap: 3rem;
     align-items: start;
   }
@@ -51,6 +51,11 @@ const MainContainer = styled.div`
   /* Desktop */
   @media (min-width: 1024px) {
     gap: 4rem;
+  }
+  
+  /* Large desktop - even more space for content */
+  @media (min-width: 1200px) {
+    grid-template-columns: 1.6fr 0.9fr;
   }
 `;
 
@@ -77,18 +82,17 @@ const StatsColumn = styled.div`
     gap: 1.5rem;
   }
   
-  /* Tablet and up: adjust for side-by-side main layout */
+  /* Tablet and up: maintain 2x2 grid and position at left */
   @media (min-width: 768px) {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(4, 1fr);
-    gap: 1rem;
-  }
-  
-  /* Large tablet: back to 2x2 */
-  @media (min-width: 900px) {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    gap: 1.5rem;
+    gap: 1rem;
+    justify-self: start;
+  }
+  
+  /* Desktop: keep 2x2 layout */
+  @media (min-width: 1200px) {
+    gap: 1.2rem;
   }
 `;
 

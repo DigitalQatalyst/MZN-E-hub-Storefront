@@ -7,25 +7,28 @@ import { H3, H4, H5 } from "@component/Typography";
 import Product from "@models/product.model";
 import styled from "styled-components";
 
-// Responsive ContentColumn with mobile-first approach
+// Responsive ContentColumn with reduced spacing
 const ContentColumn = styled.div`
   color: #000;
   padding: 1rem;
-  margin-top: 2rem;
+  margin-top: 1rem; /* Reduced from 2rem */
+  margin-bottom: 0.5rem; /* Added small bottom margin */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 
   /* Tablet styles */
   @media (min-width: 768px) {
-    padding: 2rem 3rem;
-    margin-top: 2.5rem;
+    padding: 1.5rem 3rem; /* Reduced from 2rem 3rem */
+    margin-top: 1.5rem; /* Reduced from 2.5rem */
+    margin-bottom: 0.5rem;
   }
 
   /* Desktop styles */
   @media (min-width: 1024px) {
-    padding: 2rem 5rem;
-    margin-top: 3rem;
+    padding: 1.5rem 5rem; /* Reduced from 2rem 5rem */
+    margin-top: 2rem; /* Reduced from 3rem */
+    margin-bottom: 1rem;
   }
 `;
 
@@ -37,6 +40,7 @@ const StyledHeader = styled.h1`
   line-height: 1.2;
   letter-spacing: 0px;
   margin-top: 1rem;
+  margin-bottom: 0; /* Ensure no bottom margin */
 
   /* Mobile first - smaller text */
   font-size: clamp(24px, 5vw, 32px);
@@ -76,18 +80,18 @@ const SubTitle = styled.p`
   }
 `;
 
-// Responsive CardsContainer
+// Responsive CardsContainer with reduced top padding
 const CardsContainer = styled(Box)`
-  padding: 1rem;
+  padding: 0.5rem 1rem 1rem 1rem; /* Reduced top padding from 1rem to 0.5rem */
 
   /* Tablet */
   @media (min-width: 768px) {
-    padding: 1.5rem 3rem;
+    padding: 0.5rem 3rem 1.5rem 3rem; /* Reduced top padding */
   }
 
   /* Desktop */
   @media (min-width: 1024px) {
-    padding: 2rem 5rem;
+    padding: 1rem 5rem 2rem 5rem; /* Reduced top padding from 2rem to 1rem */
   }
 `;
 

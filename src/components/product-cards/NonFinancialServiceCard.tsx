@@ -22,7 +22,8 @@ const CardBox = styled(Box)(({ theme }) => ({
   borderRadius: "8px",
   background: "#FFF",
   marginBottom: "0.5rem",
-  boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.15), 0px 1px 3px 1px rgba(0, 0, 0, 0.08)",
+  boxShadow:
+    "0px 1px 2px 0px rgba(0, 0, 0, 0.15), 0px 1px 3px 1px rgba(0, 0, 0, 0.08)",
   "&:hover": {
     ".product-img": {
       transform: "scale(1.1)",
@@ -188,7 +189,9 @@ type NonFinancialServiceCardProps = {
   className?: string;
 };
 
-export default function NonFinancialServiceCard(props: NonFinancialServiceCardProps) {
+export default function NonFinancialServiceCard(
+  props: NonFinancialServiceCardProps
+) {
   const { img, name, subTitle, description, reviews, id, slug, images } = props;
 
   const { state, dispatch } = useAppContext();
@@ -222,7 +225,13 @@ export default function NonFinancialServiceCard(props: NonFinancialServiceCardPr
           <StyledH4 fontWeight={700}>{subTitle}</StyledH4>
 
           <StyledH5 fontWeight={700}>{description}</StyledH5>
-          <Box display="flex" alignItems="center" justifyContent="space-between" flexWrap="wrap" mt="1rem">
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            flexWrap="wrap"
+            mt="1rem"
+          >
             <StyledButton>
               <span>Start-Up</span>
             </StyledButton>
@@ -235,7 +244,9 @@ export default function NonFinancialServiceCard(props: NonFinancialServiceCardPr
                 <Paragraph color="#002180" mr="0.3rem" fontSize="10px">
                   View Details
                 </Paragraph>
-                <Icon color="#002180" size="14px">arrow_forward</Icon>
+                <Icon color="#002180" size="14px">
+                  arrow_forward
+                </Icon>
               </LearnMoreWrapper>
             </Link>
           </Box>
@@ -245,7 +256,15 @@ export default function NonFinancialServiceCard(props: NonFinancialServiceCardPr
       <ProductQuickView
         open={openDialog}
         onClose={toggleDialog}
-        product={{ id, images, subTitle, title1: name, description, slug, title: name}}
+        product={{
+          id,
+          images,
+          subTitle,
+          title1: name,
+          description,
+          slug,
+          title: name,
+        }}
       />
     </Fragment>
   );

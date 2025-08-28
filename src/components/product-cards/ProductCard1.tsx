@@ -109,7 +109,6 @@ const Wrapper = styled(Card)`
   }
 `;
 
-
 interface ProductCard1Props extends CardProps {
   off?: number;
   slug?: string;
@@ -119,8 +118,8 @@ interface ProductCard1Props extends CardProps {
   rating?: number;
   images?: string[];
   id?: string | number;
-  category?: string;  // Added category to match the design
-  memberCount?: string;  // Added member count
+  category?: string; // Added category to match the design
+  memberCount?: string; // Added member count
   name?: string;
   members?: string;
   imageSrc?: string;
@@ -161,8 +160,8 @@ export default function ProductCard1({
         price,
         imgUrl,
         name: title,
-        qty: amount
-      }
+        qty: amount,
+      },
     });
   };
 
@@ -170,7 +169,6 @@ export default function ProductCard1({
     <>
       <Wrapper borderRadius={8} {...props}>
         <div className="image-holder">
-
           {/* <FlexBox className="extra-icons">
             <IconButton size="small" padding="0.5rem" onClick={toggleDialog}>
               <Icon color="secondary" variant="small">
@@ -186,7 +184,12 @@ export default function ProductCard1({
           </FlexBox> */}
 
           <Link href={`/market-2`}>
-            <NextImage alt={name || title || "Community image"} width={277} src={imageSrc} height={270} />
+            <NextImage
+              alt={name || title || "Community image"}
+              width={277}
+              src={imageSrc}
+              height={270}
+            />
           </Link>
         </div>
 
@@ -202,22 +205,27 @@ export default function ProductCard1({
                   fontWeight="600"
                   className="title"
                   fontweight="500"
-                  color="#002180">
+                  color="#002180"
+                >
                   {name}
                 </H3>
               </Link>
-               
+
               <FlexBox alignItems="center" mb="10px">
-                  <SemiSpan color="#8A94A6" fontSize="10px" mr="0.5rem">
-                    {memberCount || "3.2K"}
-                  </SemiSpan>
+                <SemiSpan color="#8A94A6" fontSize="10px" mr="0.5rem">
+                  {memberCount || "3.2K"}
+                </SemiSpan>
               </FlexBox>
-              
+
               {/* <Button className="Sustainability" variant="outlined" color="primary" fullwidth marginTop={"20px"}>
                 Sustainability
               </Button> */}
 
-              <FlexBox justifyContent="space-between" alignItems="center" mt="12px">
+              <FlexBox
+                justifyContent="space-between"
+                alignItems="center"
+                mt="12px"
+              >
                 <Box>
                   {category && (
                     <button
@@ -257,7 +265,7 @@ export default function ProductCard1({
                   <FaArrowRight color="#003CC7" size={10} />
                 </FlexBox>
               </FlexBox>
-</Box>
+            </Box>
             {/* <FlexBox
               width="30px"
               alignItems="center"
@@ -301,7 +309,15 @@ export default function ProductCard1({
       <ProductQuickView
         open={open}
         onClose={toggleDialog}
-        product={{ images, title, id: id as number | string, slug, subTitle: "", title1: name, description: ""}}
+        product={{
+          images,
+          title,
+          id: id as number | string,
+          slug,
+          subTitle: "",
+          title1: name,
+          description: "",
+        }}
       />
     </>
   );

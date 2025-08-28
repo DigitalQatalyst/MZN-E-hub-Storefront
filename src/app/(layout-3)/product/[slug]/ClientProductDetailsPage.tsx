@@ -109,43 +109,13 @@ export default function ClientProductDetailsPage({ slug }: { slug: string }) {
           setProduct({
             id: response.product.id,
             slug: response.product.slug,
-            title: response.product.name || "",
-            name: response.product.name || "",
-            subTitle: customFields.Partner || "",
-            description: response.product.description || "",
-            images: ["/assets/images/products/Home & Garden/vida.png"],
-            rating: customFields.Rating || 0,
-            reviews: 50,
-            status: customFields.Status || "",
-            code: customFields.Code || "",
-            // businessStages: customFields.tags || [],
-            businessStage: customFields.BusinessStage || "",
-            Nationality: customFields.Nationality || "",
-            LegalStructure: customFields.LegalStructure || "",
-            processingTime: customFields.ProcessingTime || "",
-            registrationValidity: customFields.RegistrationValidity || "",
-            relatedServices: (customFields.relatedServices || []).map(
-              (service) => ({
-                id: service.id,
-                partner: "", // Not queried
-                name: service.name || "",
-                slug: "", // Not queried
-                description: "", // Not queried
-                images: [],
-                subTitle: "",
-                rating: 0, // Not queried
-                tags: [], // Not queried
-              })
-            ),
-            cost: customFields.Cost || "",
-            steps: customFields.Steps,
-            termsOfService: customFields.TermsOfService,
-            requiredDocuments: customFields.RequiredDocuments,
-            facetValues: (response.product.facetValues || []).map((facet) => ({
-              id: facet.id,
-              name: facet.name,
-              code: facet.code,
-            })),
+            name: response.product.name,
+            description: response.product.description,
+            customFields,
+            title: response.product.name,
+            title1: response.product.name,
+            subTitle: response.product.name,
+            images: response.product.facetValues.map((facet) => facet.name),
           });
         }
       } catch (error) {

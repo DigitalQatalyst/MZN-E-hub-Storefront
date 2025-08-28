@@ -4,11 +4,11 @@ export const COMMON_DOT_STYLES = {
   left: 0,
   right: 0,
   bottom: 25,
-  position: "absolute"
+  position: "absolute",
 };
 
 export const RootStyle = styled.div.withConfig({
-  shouldForwardProp: (prop: string) => prop !== "space"
+  shouldForwardProp: (prop: string) => prop !== "space",
 })<{ space: number }>(({ space }) => ({
   ".slick-list": { marginInline: -space },
   ".slick-slide": { paddingInline: space },
@@ -16,8 +16,8 @@ export const RootStyle = styled.div.withConfig({
     opacity: 1,
     borderRadius: 8,
     "&.next": { right: 6 },
-    "&.prev": { left: 6 }
-  }
+    "&.prev": { left: 6 },
+  },
 }));
 
 export const DotList = styled("ul")(({ theme }) => ({
@@ -30,8 +30,8 @@ export const DotList = styled("ul")(({ theme }) => ({
   justifyContent: "center",
   color: theme.colors.primary.main,
   "& li": {
-    width: 13,
-    height: 7,
+    width: 12,
+    height: 12,
     scaleX: 1,
     display: "flex",
     cursor: "pointer",
@@ -39,19 +39,19 @@ export const DotList = styled("ul")(({ theme }) => ({
     justifyContent: "center",
     transition: "all 0.4s",
     "&.slick-active span": { backgroundColor: theme.colors.primary.main },
-    "&.slick-active": { width: 18 }
-  }
+    "&.slick-active": { transform: "scale(1.5)" },
+  },
 }));
 
 export const Dot = styled.span.withConfig({
-  shouldForwardProp: (prop) => prop !== "dotColor"
+  shouldForwardProp: (prop) => prop !== "dotColor",
 })<{ dotColor?: string }>(({ dotColor, theme }) => ({
   width: "100%",
   height: "100%",
   borderRadius: 12,
   cursor: "pointer",
   position: "relative",
-  backgroundColor: dotColor || theme.colors.gray[300]
+  backgroundColor: dotColor || theme.colors.gray[300],
 }));
 
 export const ArrowButton = styled("div")(({ theme }) => ({
@@ -59,9 +59,9 @@ export const ArrowButton = styled("div")(({ theme }) => ({
   width: 35,
   height: 35,
   padding: 0,
-  opacity: 0,
-  top: "50%",
-  color: "white",
+  opacity: 1,
+  top: "110%",
+  color: "rgba(15, 52, 96, 1)",
   display: "flex",
   cursor: "pointer",
   position: "absolute",
@@ -69,8 +69,8 @@ export const ArrowButton = styled("div")(({ theme }) => ({
   justifyContent: "center",
   transform: "translate(0, -50%)",
   transition: "all 0.2s ease-in-out",
-  backgroundColor: theme.colors.secondary.main,
-  boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.1)",
+  backgroundColor: "transparent",
+  // boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.1)",
   "&.prev": { left: 0 },
   "&.next": { right: 0 },
   "&.slick-disabled": { visibility: "hidden" },
@@ -78,6 +78,6 @@ export const ArrowButton = styled("div")(({ theme }) => ({
     height: "100%",
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 }));

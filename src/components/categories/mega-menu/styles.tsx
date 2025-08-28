@@ -9,16 +9,16 @@ export const StyledMegaMenu1 = styled.div`
   top: 0;
   z-index: 99;
 
-  .title-link,
-  .child-link {
-    color: inherit;
-    font-weight: 600;
+  .title-link {
+    color: ${getTheme("colors.text.primary")};
+    font-weight: 400;
     display: block;
     padding: 0.5rem 0px;
+    text-align: left;
   }
-
   .child-link {
     font-weight: 400;
+    text-align: left;
   }
 
   .mega-menu-content {

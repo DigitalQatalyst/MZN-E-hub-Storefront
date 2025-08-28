@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { useState, Fragment } from "react";
 import styled from "styled-components";
@@ -19,6 +20,8 @@ const CardBox = styled(Box)(({ theme }) => ({
   minHeight: "300px",
   height: "auto",
   padding: "16px",
+  marginBottom: "20px",
+  marginTop: "20px",
   transition: "all 0.3s",
   borderRadius: "8px",
   background: "#FFF",
@@ -144,19 +147,32 @@ const LearnMoreWrapper = styled.div`
 `;
 
 type ProductCard19Props = {
-  img: string;
-  name: string;
-  slug: string;
-  description: string;
-  subTitle: string;
-  reviews: number;
-  images: string[];
-  id: string | number;
+  img?: string;
+  name?: string;
+  slug?: string;
+  description?: string;
+  subTitle?: string;
+  partner?: string;
+  reviews?: number;
+  images?: string[];
+  id?: string | number;
   className?: string;
+  rating?: number;
 };
 
 export default function ProductCard20(props: ProductCard19Props) {
-  const { img, name, subTitle, description, reviews, id, slug, images } = props;
+  const {
+    img,
+    partner,
+    rating,
+    name,
+    subTitle,
+    description,
+    reviews,
+    id,
+    slug,
+    images,
+  } = props;
 
   const { state, dispatch } = useAppContext();
   const [openDialog, setOpenDialog] = useState(false);
@@ -193,12 +209,12 @@ export default function ProductCard20(props: ProductCard19Props) {
           <StyledParagraph>{name}</StyledParagraph>
           <StyledH4 fontWeight={700}>{subTitle}</StyledH4>
 
-          <FlexBox justifyContent="flex-start" alignItems="center" mb="1rem">
+          {/* <FlexBox justifyContent="flex-start" alignItems="center" mb="1rem">
             <Rating value={4} color="warn" size="small" />
             <Small fontWeight={600} color="gray.500" ml=".3rem">
               ({reviews})
             </Small>
-          </FlexBox>
+          </FlexBox> */}
           <StyledH5 fontWeight={700}>{description}</StyledH5>
           <Box
             display="flex"
@@ -206,15 +222,17 @@ export default function ProductCard20(props: ProductCard19Props) {
             justifyContent="space-between"
           >
             <StyledButton mt={3}>
-              <span>Funding & Loans</span>
+              <span style={{ fontSize: "10px" }}>Funding & Loans</span>
             </StyledButton>
 
             <Link href={`/product/${slug}`} style={{ textDecoration: "none" }}>
               <LearnMoreWrapper style={{ cursor: "pointer" }}>
-                <Paragraph color="#002180" mr="0.5rem">
+                <Paragraph color="#002180" mr="0.5rem" fontSize={"10px"}>
                   View Details
                 </Paragraph>
-                <Icon color="#002180">arrow_forward</Icon>
+                <Icon color="#002180" size="16px">
+                  arrow_forward
+                </Icon>
               </LearnMoreWrapper>
             </Link>
           </Box>
@@ -224,7 +242,7 @@ export default function ProductCard20(props: ProductCard19Props) {
       <ProductQuickView
         open={openDialog}
         onClose={toggleDialog}
-        product={{ id, images, subTitle, description, slug, title: name }}
+        product={{ id, images, subTitle, description, slug, title: name}}
       />
     </Fragment>
   );

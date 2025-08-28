@@ -1,23 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
-  /* Local font-face declarations */
-  @font-face {
-    font-family: 'Abhaya Libre';
-    src: url('/assets/fonts/AbhayaLibre-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Fira Sans';
-    src: url('/assets/fonts/FiraSans-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-  /* Add more @font-face rules here for Inter, Roboto, Open Sans if/when available */
-
   html,
   body {
     margin: 0;
@@ -26,9 +9,7 @@ const GlobalStyles = createGlobalStyle`
     line-height: 1.5;
     /* transition: all 0.50s linear; */
     color: ${({ theme }) => theme.colors.body.text};
-    background: ${({ theme }) => theme.colors.body.default};
-    /* Use local fonts first, then fallbacks */
-    font-family: 'Abhaya Libre', 'Fira Sans', 'Open Sans', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Droid Sans', 'Open Sans', sans-serif;
+    background: ${({ theme }) => theme.colors.body.default};   
   }
 
   html {

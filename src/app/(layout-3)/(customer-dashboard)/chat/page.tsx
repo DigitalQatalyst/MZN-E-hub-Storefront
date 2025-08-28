@@ -1,4 +1,3 @@
-"use client";
 import Box from "@component/Box";
 import Grid from "@component/grid/Grid";
 import Typography from "@component/Typography";

@@ -34,7 +34,7 @@ const SubheadingText = styled.span<{ active?: boolean }>`
 
 const Description = styled.p`
   color: var(--KF-BG-Black, #000);
-  font-family: "Public Sans", sans-serif;
+  font-family: "Helvetica Neue";
   font-size: var(--Body-Large-Size, 16px);
   font-style: normal;
   font-weight: 400;
@@ -112,7 +112,7 @@ const ExploreButton = styled(DefaultButton)`
 
 const StyledHeader = styled.p`
   color: #000;
-  font-family: "Public Sans", sans-serif;
+  font-family: "Helvetica Neue";
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -123,7 +123,7 @@ const StyledHeader = styled.p`
 
 const StyledBody = styled.p`
   color: #000;
-  font-family: "Public Sans", sans-serif;
+  font-family: "FS Kim Trial";
   font-size: 48px;
   font-style: normal;
   font-weight: 400;

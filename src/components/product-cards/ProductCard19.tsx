@@ -17,8 +17,8 @@ const CardBox = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   width: "100%",
-  minHeight: "300px",
-  height: "248px",
+  minHeight: "200px",
+  height: "260px",
   padding: "16px",
   transition: "all 0.3s",
   borderRadius: "8px",
@@ -35,9 +35,8 @@ const CardMedia = styled(Box)(({ theme }) => ({
   width: "100%",
   maxHeight: "300px",
   cursor: "pointer",
-  overflow: "hidden",
   position: "relative",
-  marginBottom: "16px", // Added to increase gap between CardMedia and Box below
+  marginBottom: "15px", // Added to increase gap between CardMedia and Box below
   ".product-img": {
     transition: "0.3s",
     width: "100%",
@@ -86,7 +85,7 @@ const StyledH5 = styled(H4)`
   line-height: 16px;
   letter-spacing: 0.5px;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -119,8 +118,8 @@ const StyledButton = styled(DefaultButton)`
 `;
 
 const StyledImage = styled(NextImage)`
-  width: 63px;
-  height: 63px;
+  width: 73px;
+  height: 73px;
   flex-shrink: 0;
   aspect-ratio: 1/1;
 `;
@@ -133,6 +132,11 @@ const StyledParagraph = styled(Paragraph)`
   font-weight: 500;
   line-height: var(--Title-Medium-Line-Height, 24px);
   letter-spacing: var(--Title-Medium-Tracking, 0.15px);
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const LearnMoreWrapper = styled.div`
@@ -180,11 +184,8 @@ export default function ProductCard19(props: ProductCard19Props) {
           </EyeButton>
 
           <FavoriteButton onClick={handleFavorite}>
-            {isFavorite ? (
-              <Icon size="18px">heart-filled</Icon>
-            ) : (
-              <Icon size="18px">heart</Icon>
-            )}
+          <Icon size="18px">Bookmark</Icon>
+            {/* {isFavorite ? <Icon size="18px">eye</Icon> : <Icon size="18px">Bookmark</Icon>} */}
           </FavoriteButton>
         </CardMedia>
 
@@ -192,12 +193,12 @@ export default function ProductCard19(props: ProductCard19Props) {
           <StyledParagraph>{name}</StyledParagraph>
           <StyledH4 fontWeight={700}>{subTitle}</StyledH4>
 
-          <FlexBox justifyContent="flex-start" alignItems="center" mb="1rem">
+          {/* <FlexBox justifyContent="flex-start" alignItems="center" mb="1rem">
             <Rating value={4} color="warn" size="small" />
             <Small fontWeight={600} color="gray.500" ml=".3rem">
               ({reviews})
             </Small>
-          </FlexBox>
+          </FlexBox> */}
           <StyledH5 fontWeight={700}>{description}</StyledH5>
           <Box
             display="flex"
@@ -223,7 +224,7 @@ export default function ProductCard19(props: ProductCard19Props) {
       <ProductQuickView
         open={openDialog}
         onClose={toggleDialog}
-        product={{ id, images, subTitle, description, slug, title: name }}
+        product={{ id, images, subTitle, description, slug, title: name, title1: name }}
       />
     </Fragment>
   );

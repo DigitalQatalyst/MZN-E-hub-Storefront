@@ -5,6 +5,14 @@ import React from "react";
 import { BsSearch } from "react-icons/bs";
 
 const SearchSection = () => {
+  const VF_PROJECT_ID = "6849bea9894655c0d600d259"; // your project ID
+  const VF_VERSION = "production"; // or 'development'
+
+  const assistantConfig = {
+    title: "My Assistant",
+    description: "Here to help!",
+    // optional: image URL or brand color, etc.
+  };
   return (
     <div>
       <Box
@@ -14,12 +22,6 @@ const SearchSection = () => {
           justifyContent: "center",
           height: "30vh",
           backgroundColor: "#F4F3FE",
-          // background image
-          backgroundImage: "url('../../images/faqbg.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          top: 0,
         }}
       >
         <Box

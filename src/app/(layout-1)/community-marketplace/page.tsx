@@ -15,7 +15,6 @@ import Section12 from "@sections/market-1/Section12";
 import Section13 from "@sections/market-1/Section13";
 import NavbarMarketplace from "@component/navbar/NavbarMarketplace";
 import TabBar from '@component/tab-bar/TabBar';
-import Container from "@component/Container";
 
 
 export default async function Market1() {
@@ -34,7 +33,7 @@ export default async function Market1() {
       <NavbarMarketplace />
       
       {/* TABBAR AREA */}
-      <Container><TabBar /></Container>
+      <TabBar />
       {/* HERO CAROUSEL AREA */}
       {/* <Section1 /> */}
 

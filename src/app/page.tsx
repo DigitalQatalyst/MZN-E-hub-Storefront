@@ -1,4 +1,3 @@
-"use client";
 // API FUNCTIONS
 import api from "@utils/__api__/market-1";
 // PAGE SECTION COMPONENTS
@@ -11,8 +10,8 @@ import Section14 from "@sections/market-1/Section14";
 import Section15 from "@sections/market-1/Section15";
 import Section16 from "@sections/market-1/Section16";
 import Section17 from "@sections/market-1/Section17";
+import Section2 from "@sections/market-1/Section2";
 import Section19 from "@sections/market-1/Section19";
-import MsalWrapper from "@component/MsalWrapper";
 
 
 export default async function Market1() {
@@ -20,8 +19,7 @@ export default async function Market1() {
   
 
   return (
-    <MsalWrapper>
-    <main> 
+    <main>
       {/* HERO CAROUSEL AREA
       <Section1 />
       FLASH DEAL PRODUCTS AREA */}
@@ -30,7 +28,7 @@ export default async function Market1() {
       <Section14 />
       <Section15 />
       <Section16 />
-      <Section17 /> 
+      <Section17 />
       {/* <Section2 />  */}
       {/* TOP CATEGORIES AREA */}
       <Section3 />
@@ -38,6 +36,5 @@ export default async function Market1() {
       <Footer1 />
 
     </main>
-    </MsalWrapper>
   );
 }

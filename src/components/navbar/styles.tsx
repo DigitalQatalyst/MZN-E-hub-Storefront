@@ -9,7 +9,7 @@ const StyledNavbar = styled.div`
 
   .nav-link {
     color: #FFF;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Helvetica Neue", sans-serif;
     font-size: 14px;
     font-style: normal;
     font-weight: 500;

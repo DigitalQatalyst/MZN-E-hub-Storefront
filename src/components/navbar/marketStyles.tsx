@@ -15,8 +15,8 @@ const StyledNavbar = styled.div`
 
   /* Navigation link styles */
   .nav-link {
-    color: #FFF;
-    font-family: "Open Sans", sans-serif;
+    color: #333;
+    font-family: "Helvetica Neue", sans-serif;
     font-size: 14px;
     font-style: normal;
     font-weight: 500;

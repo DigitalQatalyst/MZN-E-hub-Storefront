@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useReducer, useContext, createContext, PropsWithChildren } from "react";
+import { useMemo, useReducer, useContext, createContext, PropsWithChildren } from "react";
 
 // TYPES
 import { ActionType, InitialState, ContextProps } from "./types";
@@ -11,7 +11,7 @@ const INITIAL_STATE = { cart: INITIAL_CART, isHeaderFixed: false };
 
 export const AppContext = createContext<ContextProps>({
   state: INITIAL_STATE,
-  dispatch: () => { }
+  dispatch: () => {}
 });
 
 const reducer = (state: InitialState, action: ActionType) => {
@@ -20,15 +20,16 @@ const reducer = (state: InitialState, action: ActionType) => {
       return { ...state, isHeaderFixed: action.payload };
 
     case "CHANGE_CART_AMOUNT":
-      const cartList = state.cart;
-      const cartItem = action.payload;
-      const exist = cartList.find((item) => item.id === cartItem.id);
+      let cartList = state.cart;
+      let cartItem = action.payload;
+      let exist = cartList.find((item) => item.id === cartItem.id);
 
       if (cartItem.qty < 1) {
         const filteredCart = cartList.filter((item) => item.id !== cartItem.id);
         return { ...state, cart: filteredCart };
       }
 
+      // IF PRODUCT ALREADY EXITS IN CART
       if (exist) {
         const newCart = cartList.map((item) =>
           item.id === cartItem.id ? { ...item, qty: cartItem.qty } : item
@@ -39,8 +40,9 @@ const reducer = (state: InitialState, action: ActionType) => {
 
       return { ...state, cart: [...cartList, cartItem] };
 
-    default:
+    default: {
       return state;
+    }
   }
 };
 
@@ -48,11 +50,7 @@ export function AppProvider({ children }: PropsWithChildren) {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch]);
 
-  return (
-    <AppContext.Provider value={contextValue}>
-      {children}
-    </AppContext.Provider>
-  );
+  return <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>;
 }
 
-export const useAppContext = () => useContext(AppContext);
+export const useAppContext = () => useContext<ContextProps>(AppContext);

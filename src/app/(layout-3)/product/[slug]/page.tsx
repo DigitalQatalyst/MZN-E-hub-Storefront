@@ -1,12 +1,12 @@
 // src/app/(layout-3)/product/[slug]/page.tsx
-import ServiceDetails from "./ServiceDetails";
+import ClientProductDetailsPage from "./ClientProductDetailsPage";
 
-export default async function ServiceDetailsPage({
+export default async function ProductDetailsPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
 
-  return <ServiceDetails slug={slug} />;
+  return <ClientProductDetailsPage slug={slug} />;
 }

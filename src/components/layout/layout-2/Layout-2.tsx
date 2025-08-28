@@ -37,7 +37,7 @@ export default function ShopLayout({ children, showNavbar = true }: Props) {
       </Box>
 
       {/* SMALLER DEVICE NAVIGATION AREA */}
-      <MobileNavigationBar />
+      {/* <MobileNavigationBar /> */}
 
       {/* FOOTER AREA */}
       <Footer1 />

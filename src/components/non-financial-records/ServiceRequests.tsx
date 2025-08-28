@@ -1,5 +1,75 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
+<<<<<<< HEAD
+import { MoreVertical, Edit, Eye, Trash2 } from 'lucide-react';
+
+interface ServiceRequest {
+  id: string;
+  serviceName: string;
+  category: string;
+  dateRequested: string;
+  status: 'Draft' | 'Under Review' | 'Approved' | 'Rejected';
+}
+
+const mockData: ServiceRequest[] = [
+  {
+    id: '1',
+    serviceName: 'Request For Funding',
+    category: 'Business Operating Finance',
+    dateRequested: '04/09/2025',
+    status: 'Draft'
+  },
+  {
+    id: '2',
+    serviceName: 'Equipment & Machinery Financing',
+    category: 'Business Asset Financing',
+    dateRequested: '04/09/2025',
+    status: 'Draft'
+  },
+  {
+    id: '3',
+    serviceName: 'Trade Finance',
+    category: 'Project & Specialized Financing',
+    dateRequested: '04/09/2025',
+    status: 'Draft'
+  },
+  {
+    id: '4',
+    serviceName: 'Business Expansion Loans',
+    category: 'Growth & Expansion Financing',
+    dateRequested: '04/09/2025',
+    status: 'Draft'
+  },
+  {
+    id: '5',
+    serviceName: 'Equity Crowdfunding',
+    category: 'Investment & Equity Financing',
+    dateRequested: '04/09/2025',
+    status: 'Draft'
+  },
+  {
+    id: '6',
+    serviceName: 'Working Capital Loan',
+    category: 'Business Operating Finance',
+    dateRequested: '03/09/2025',
+    status: 'Under Review'
+  },
+  {
+    id: '7',
+    serviceName: 'Line of Credit',
+    category: 'Business Operating Finance',
+    dateRequested: '02/09/2025',
+    status: 'Approved'
+  },
+  {
+    id: '8',
+    serviceName: 'Invoice Factoring',
+    category: 'Project & Specialized Financing',
+    dateRequested: '01/09/2025',
+    status: 'Rejected'
+  }
+];
+=======
 import { MoreVertical } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
@@ -9,6 +79,7 @@ import Box from '@component/Box';
 import FlexBox from '@component/FlexBox';
 import Typography from '@component/Typography';
 import { getAllServiceRequests, ServiceRequest } from './serviceRequestData';
+>>>>>>> origin/profile_pages
 
 type FilterStatus = 'All' | 'Draft' | 'Under Review' | 'Approved' | 'Rejected';
 
@@ -245,10 +316,14 @@ const ServiceRequestsPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+<<<<<<< HEAD
+  const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+=======
   const [dropdownPosition, setDropdownPosition] = useState<'above' | 'below'>('below');
   const [dropdownCoords, setDropdownCoords] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
   const dropdownRef = useRef<HTMLDivElement>(null);
   const actionButtonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
+>>>>>>> origin/profile_pages
   const itemsPerPage = 6;
 
   // Get service requests data from shared source
@@ -307,6 +382,41 @@ const ServiceRequestsPage: React.FC = () => {
       window.removeEventListener('scroll', handleScroll, true);
     };
   }, [openDropdownId]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (openDropdownId && dropdownRefs.current[openDropdownId]) {
+        const dropdownElement = dropdownRefs.current[openDropdownId];
+        if (dropdownElement && !dropdownElement.contains(event.target as Node)) {
+          setOpenDropdownId(null);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [openDropdownId]);
+
+  const toggleDropdown = (itemId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setOpenDropdownId(openDropdownId === itemId ? null : itemId);
+  };
+
+  const handleEdit = (itemId: string) => {
+    console.log('Edit item:', itemId);
+    setOpenDropdownId(null);
+  };
+
+  const handleView = (itemId: string) => {
+    console.log('View item:', itemId);
+    setOpenDropdownId(null);
+  };
+
+  const handleDelete = (itemId: string) => {
+    console.log('Delete item:', itemId);
+    setOpenDropdownId(null);
+  };
 
   // Filter data based on active filter and search term
   const filteredData = serviceRequestsData.filter(item => {
@@ -432,6 +542,155 @@ const ServiceRequestsPage: React.FC = () => {
                     setCurrentPage(1);
                   }}
                 >
+<<<<<<< HEAD
+                  {/* Service Name Column */}
+                  <td style={{ 
+                    padding: isMobile ? '12px 8px' : '16px', 
+                    fontSize: isMobile ? '12px' : '14px', 
+                    color: '#111827',
+                    fontWeight: '500'
+                  }}>
+                    {item.serviceName}
+                  </td>
+                  
+                  {/* Category Column */}
+                  <td style={{ 
+                    padding: isMobile ? '12px 8px' : '16px', 
+                    fontSize: isMobile ? '12px' : '14px', 
+                    color: '#6b7280' 
+                  }}>
+                    {item.category}
+                  </td>
+                  
+                  {/* Date Requested Column */}
+                  <td style={{ 
+                    padding: isMobile ? '12px 8px' : '16px', 
+                    fontSize: isMobile ? '12px' : '14px', 
+                    color: '#6b7280' 
+                  }}>
+                    {item.dateRequested}
+                  </td>
+                  
+                  {/* Status Badge Column */}
+                  <td style={{ padding: isMobile ? '12px 8px' : '16px' }}>
+                    <span style={getStatusStyle(item.status)}>
+                      {item.status}
+                    </span>
+                  </td>
+                  
+                  {/* Action Menu Column */}
+                  <td style={{ padding: isMobile ? '12px 8px' : '16px', position: 'relative' }}>
+                    <div 
+                      ref={(ref) => { dropdownRefs.current[item.id] = ref; }}
+                      style={{ position: 'relative', display: 'inline-block' }}
+                    >
+                      <button
+                        onClick={(e) => toggleDropdown(item.id, e)}
+                        style={{
+                          padding: '4px',
+                          backgroundColor: 'transparent',
+                          border: 'none',
+                          cursor: 'pointer',
+                          color: '#6b7280',
+                          borderRadius: '4px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          transition: 'background-color 0.2s ease'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                        aria-label="More options"
+                      >
+                        <MoreVertical size={16} />
+                      </button>
+                      
+                      {/* Dropdown menu */}
+                      {openDropdownId === item.id && (
+                        <div style={{
+                          position: 'absolute',
+                          right: 0,
+                          top: '100%',
+                          marginTop: '4px',
+                          width: '140px',
+                          backgroundColor: 'white',
+                          border: '1px solid #e5e7eb',
+                          borderRadius: '6px',
+                          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                          zIndex: 10,
+                          overflow: 'hidden'
+                        }}>
+                          <button 
+                            onClick={() => handleView(item.id)}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              width: '100%',
+                              textAlign: 'left',
+                              padding: '8px 12px',
+                              fontSize: '14px',
+                              color: '#374151',
+                              backgroundColor: 'transparent',
+                              border: 'none',
+                              cursor: 'pointer',
+                              transition: 'background-color 0.2s ease'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'}
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                          >
+                            <Eye size={14} />
+                            View
+                          </button>
+                          <button 
+                            onClick={() => handleEdit(item.id)}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              width: '100%',
+                              textAlign: 'left',
+                              padding: '8px 12px',
+                              fontSize: '14px',
+                              color: '#374151',
+                              backgroundColor: 'transparent',
+                              border: 'none',
+                              cursor: 'pointer',
+                              transition: 'background-color 0.2s ease'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'}
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                          >
+                            <Edit size={14} />
+                            Edit
+                          </button>
+                          <button 
+                            onClick={() => handleDelete(item.id)}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              width: '100%',
+                              textAlign: 'left',
+                              padding: '8px 12px',
+                              fontSize: '14px',
+                              color: '#dc2626',
+                              backgroundColor: 'transparent',
+                              border: 'none',
+                              cursor: 'pointer',
+                              transition: 'background-color 0.2s ease'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#fef2f2'}
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                          >
+                            <Trash2 size={14} />
+                            Delete
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </td>
+=======
                   {filter}
                 </FilterButton>
               </Box>
@@ -472,6 +731,7 @@ const ServiceRequestsPage: React.FC = () => {
                   <TableHeader>DATE REQUESTED</TableHeader>
                   <TableHeader>STATUS</TableHeader>
                   <TableHeader>ACTION</TableHeader>
+>>>>>>> origin/profile_pages
                 </tr>
               </thead>
               

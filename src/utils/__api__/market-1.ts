@@ -96,6 +96,11 @@ const getTopCategories = async (): Promise<Category[]> => {
   return response.data;
 };
 
+const getBotCategories = async (): Promise<Category[]> => {
+  const response = await axios.get("/api/market-1/bot-categories");
+  return response.data;
+};
+
 const getBigDiscountList = async (): Promise<Product[]> => {
   const response = await axios.get("/api/market-1/big-discounts");
   return response.data;
@@ -116,6 +121,7 @@ export default {
   getMobileBrands,
   getOpticsBrands,
   getTopCategories,
+  getBotCategories,
   getTopRatedBrand,
   getPopularProducts,
   getNewArrivalList,

@@ -1,4 +1,5 @@
 import { subtle } from "crypto";
+import { title } from "process";
 
 // categories navigations
 export const categoryNavigation = [
@@ -623,8 +624,9 @@ export const products = [
         instagram: null,
       },
     },
-    title: "500+ Tailored Services",
-    subTitle: "Explore a curated catalogue of services designed for SMEs-covering funding, training, media exposure, investment opportunities, and more",
+    title: "500+ Tailored",
+    title1: "Services",
+    subTitle: "Explore a curated catalogue of services designed for SMEs-covering funding, training, media exposure, investment opportunities, and more.",
     brand: null,
     price: 146,
     size: null,
@@ -675,7 +677,8 @@ export const products = [
         instagram: null,
       },
     },
-    title: "Trusted partners across sectors ",
+    title: "AI Support for Every",
+    title1: "Stage of Your Business",
     subTitle: "Harness Al-driven support for your business, offering personalized insights, recommendations, and automation to accelerate growth at any stage. ",
     brand: null,
     price: 110,
@@ -730,7 +733,8 @@ export const products = [
         instagram: null,
       },
     },
-    title: "Simplified access, all in one place",
+    title: "Simplified access,",
+    title1: "all in one place",
     subTitle: "Apply for support, book consultations, register for programs, and track progress -through a single, user-friendly platform.",
     brand: null,
     price: 105,

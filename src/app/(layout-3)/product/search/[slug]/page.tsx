@@ -1,3 +1,5 @@
+"use client";
+
 import Box from "@component/Box";
 import SearchResult from "./SearchResult";
 

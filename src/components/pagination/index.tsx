@@ -3,17 +3,17 @@
 import ReactPaginate from "react-paginate";
 import { SpaceProps } from "styled-system";
 
-import Icon from "@component/icon/Icon";
-import { Button } from "@component/buttons";
 import { StyledPagination } from "./styled";
 
 // ==============================================================
+
 export interface PaginationProps extends SpaceProps {
   pageCount: number;
   pageRangeDisplayed?: number;
   marginPagesDisplayed?: number;
   onChange?: (data: number) => void;
 }
+
 // ==============================================================
 
 export default function Pagination({
@@ -27,39 +27,11 @@ export default function Pagination({
     if (onChange) onChange(page.selected);
   };
 
-  const PREVIOUS_BUTTON = (
-    <Button
-      height="auto"
-      padding="6px"
-      color="primary"
-      overflow="hidden"
-      borderRadius="50%"
-      className="control-button">
-      <Icon defaultcolor="currentColor" variant="small">
-        chevron-left
-      </Icon>
-    </Button>
-  );
+  const PREVIOUS_BUTTON = <>Previous</>;
 
-  const NEXT_BUTTON = (
-    <Button
-      height="auto"
-      padding="6px"
-      color="primary"
-      overflow="hidden"
-      borderRadius="50%"
-      className="control-button">
-      <Icon defaultcolor="currentColor" variant="small">
-        chevron-right
-      </Icon>
-    </Button>
-  );
+  const NEXT_BUTTON = <>Next</>;
 
-  const BREAK_LABEL = (
-    <Icon defaultcolor="currentColor" variant="small">
-      triple-dot
-    </Icon>
-  );
+  const BREAK_LABEL = "…";
 
   return (
     <StyledPagination {...props}>
@@ -74,8 +46,8 @@ export default function Pagination({
         onPageChange={handlePageChange}
         pageRangeDisplayed={pageRangeDisplayed}
         marginPagesDisplayed={marginPagesDisplayed}
-        // subContainerClassName="pages pagination"
       />
     </StyledPagination>
   );
 }
+

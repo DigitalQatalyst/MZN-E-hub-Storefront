@@ -116,8 +116,6 @@ const ContentWrapper = styled.div`
   gap: 2rem;
   padding: 60px 80px;
   min-height: 100vh;
-  font-family: 'Open Sans', sans-serif;
-  font-style: normal;
   
   @media (max-width: 1199px) {
     padding: 32px 24px;
@@ -141,7 +139,6 @@ const ContentColumn = styled.div`
   color: #000;
   display: flex;
   flex-direction: column;
-  font-family: 'Abhaya Libre', serif;
   align-items: flex-start;
   flex: 1;
   max-width: 50%;
@@ -167,9 +164,7 @@ const ContentColumn = styled.div`
 
 const StyledHeader = styled.p`
   color: var(--KF-BG-Black, #000);
-  font-family: "Open Sans", sans-serif;
   font-size: 16px;
-  font-style: normal;
   font-weight: 400;
   line-height: 28px;
   letter-spacing: 0px;
@@ -189,7 +184,6 @@ const StyledHeader = styled.p`
 
 const StyledBody = styled.h1`
   color: #000;
-  font-family: "Open Sans", serif;
   font-size: 48px;
   font-style: normal;
   font-weight: 400;
@@ -216,9 +210,7 @@ const StyledBody = styled.h1`
 
 const Description = styled.p`
   color: var(--KF-BG-Black, #000);
-  font-family: Open Sans;
   font-size: 16px;
-  font-style: normal;
   font-weight: 400;
   line-height: 24px;
   margin-bottom: 24px;
@@ -271,7 +263,6 @@ const FeatureContainer = styled.div`
 
 const FeatureItem = styled.div`
   color: #0030E3;
-  font-family: Open Sans;
   font-size: 16px;
   display: flex;
   align-items: center;
@@ -361,7 +352,6 @@ const FormFieldWrapper = styled.div`
 `;
 
 const FormLabel = styled.label`
-  font-family: "Open Sans", sans-serif;
   font-size: 14px;
   color: #000;
   font-weight: 500;
@@ -380,7 +370,6 @@ const FormField = styled.input`
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-family: "Open Sans", sans-serif;
   font-size: 14px;
   color: #000;
   box-sizing: border-box;
@@ -423,7 +412,6 @@ const FormSelect = styled.select`
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-family: "Open Sans", sans-serif;
   font-size: 14px;
   color: #000;
   background-color: #fff;
@@ -476,7 +464,6 @@ const FormTextarea = styled.textarea`
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-family: "Open Sans", sans-serif;
   font-size: 14px;
   color: #000;
   resize: vertical;
@@ -506,9 +493,7 @@ const FormTextarea = styled.textarea`
 
 const PrivacyText = styled.p`
   color: #666;
-  font-family: "Public Sans", sans-serif;
   font-size: 13px;
-  font-style: normal;
   font-weight: 400;
   line-height: 18px;
   margin: 0;
@@ -526,9 +511,7 @@ const PrivacyText = styled.p`
 
 const PrivacyLink = styled.a`
   color: #5088FF;
-  font-family: "Public Sans", sans-serif;
   font-size: 13px;
-  font-style: normal;
   font-weight: 400;
   line-height: 18px;
   text-decoration-line: underline;
@@ -551,7 +534,6 @@ const SubmitButton = styled.button<{ disabled?: boolean }>`
   padding: 14px 24px;
   border: none;
   border-radius: 4px;
-  font-family: "Open Sans", sans-serif;
   font-size: 16px;
   font-weight: 500;
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
@@ -611,7 +593,6 @@ const AlertPopup = styled.div`
 `;
 
 const AlertHeader = styled.div`
-  font-family: "Open Sans", sans-serif;
   font-size: 18px;
   font-weight: bold;
   color: #555;
@@ -625,7 +606,6 @@ const AlertHeader = styled.div`
 
 const AlertText = styled.div`
   color: #555;
-  font-family: "Open Sans", sans-serif;
   font-size: 14px;
   line-height: 1.5;
   

@@ -14,8 +14,6 @@ const ContentColumn = styled.div`
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
-  font-family: 'Open Sans', sans-serif;
-  font-style: normal;
   align-items: flex-start;
 
   /* Tablet styles */
@@ -35,8 +33,6 @@ const ContentColumn = styled.div`
 const StyledHeader = styled.h1`
   color: #000;
   
-  font-family: 'Open Sans', sans-serif;
-  font-style: normal;
   font-weight: 550;
   line-height: 1.2;
   letter-spacing: 0px;
@@ -62,8 +58,6 @@ const StyledHeader = styled.h1`
 const SubTitle = styled.p`
   color: #000;
   font-size: 16px;
-  font-family: 'Open Sans', sans-serif;
-  font-style: normal;
   font-weight: 500;
   line-height: 1.5;
   letter-spacing: 0px;
@@ -171,7 +165,7 @@ export default function Section9({ products }: Props) {
                 slug={item.slug}
                 subTitle={item.subTitle}
                 title={item.title}
-                title1={item.title1}
+                title1={item.title1 || item.title}
                 price={item.price}
                 off={item.discount}
                 rating={item.rating}

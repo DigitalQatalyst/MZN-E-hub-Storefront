@@ -14,7 +14,7 @@ import { useAppContext } from "@context/app-context";
 // STYLED COMPONENTS
 const StyledBazaarCard = styled(Card)(({ theme }) => ({
   margin: "auto",
-  height: "310px",
+  height: "290px",
   flexShrink: 0,
   display: "flex",
   overflow: "hidden",
@@ -125,9 +125,8 @@ const ContentWrapper = styled(Box)({
 });
 
 const StyledTitle = styled(H3)(({ wordCount }) => ({
-  padding: "0 40px 0 20px",
+  padding: "0 40px 2px 20px",
   color: "var(--KF-BG-Blue, #0030E3)",
-  fontFamily: '"Open Sans"',
   fontSize: "20px",
   fontStyle: "normal",
   fontWeight: 400,
@@ -164,7 +163,6 @@ const StyledTitle = styled(H3)(({ wordCount }) => ({
 const StyledTitle1 = styled(H3)(({ wordCount }) => ({
   padding: "0 40px 0 20px",
   color: "var(--KF-BG-Blue, #0030E3)",
-  fontFamily: '"Open Sans"',
   fontSize: "20px",
   fontStyle: "normal",
   fontWeight: 400,
@@ -204,9 +202,8 @@ const StyledTitle1 = styled(H3)(({ wordCount }) => ({
 }));
 
 const StyledSubtitle = styled("p")({
-  padding: "0 0 40px 20px",
+  padding: "5px 0 40px 20px",
   color: "var(--KF-BG-Black, #000)",
-  fontFamily: '"Open Sans"',
   fontSize: "14px",
   fontStyle: "normal",
   fontWeight: 400,
@@ -216,8 +213,6 @@ const StyledSubtitle = styled("p")({
   flex: "1 1 auto",
   overflow: "hidden",
   display: "-webkit-box",
-  WebkitLineClamp: 3,
-  WebkitBoxOrient: "vertical",
   textOverflow: "clip",
   '@media (max-width: 1199px)': {
     fontSize: '13px',
@@ -266,7 +261,7 @@ type ProductCardProps = {
 // =============================================================
 
 export default function ProductCard16(props: ProductCardProps) {
-  const { off, id, title, title1, subTitle, price, imgUrl, rating, hoverEffect, slug, images } = props;
+  const { off, id, title, subTitle, price, imgUrl, rating, hoverEffect, slug, images } = props;
 
   const { state, dispatch } = useAppContext();
   const [openModal, setOpenModal] = useState(false);
@@ -310,7 +305,7 @@ export default function ProductCard16(props: ProductCardProps) {
       <ProductQuickView
         open={openModal}
         onClose={toggleDialog}
-        product={{ id: productId, images, slug, price, title, title1, subTitle, description: "" }}
+        product={{ id: productId, images, slug, price, title, title1: title, subTitle, description: "" }}
       />
 
       <ContentWrapper>
@@ -324,13 +319,6 @@ export default function ProductCard16(props: ProductCardProps) {
               {title}
             </StyledTitle>
           {/* </Link> */}
-          <StyledTitle1
-              title={title1}
-              wordCount={wordCount}
-              className="title"
-            >
-              {title1}
-            </StyledTitle1>
           <StyledSubtitle>
             {subTitle}
           </StyledSubtitle>

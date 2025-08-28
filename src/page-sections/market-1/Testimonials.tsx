@@ -13,7 +13,6 @@ const WelcomeSection = styled.section`
   padding: 50px 120px 50px 120px;
   display: flex;
   flex-direction: column;
-  font-family: 'Abhaya Libre', serif;
   gap: 2rem;
 
   @media (max-width: 1024px) {
@@ -69,7 +68,6 @@ const HeaderTextContainer = styled.div`
 
 const SubText = styled.p`
   font-size: 16px;
-  font-family: "Public Sans";
   font-weight: 400;
   color: #000;
   margin: 0;
@@ -160,7 +158,6 @@ const EventTitle = styled.h4`
 
 const EventMeta = styled.div`
   font-size: 14px;
-  font-family: "Public Sans";
   color: #666;
   display: flex;
   flex-direction: column;
@@ -215,7 +212,7 @@ const Section16: React.FC = () => {
     {
       id: 2,
       image: "/assets/images/Groceries Shop/two.png",
-      title: "Khalifa Fund sponsors 4 ventures participating in Dubai Internation ...",
+      title: "Khalifa Fund sponsors ventures participating in Dubai ...",
       date: "14-04-2025",
     },
     {
@@ -227,7 +224,7 @@ const Section16: React.FC = () => {
     {
       id: 4,
       image: "/assets/images/Groceries Shop/four.png",
-      title: "Khalifa Fund sponsors 4 ventures participating in Dubai Internation ...",
+      title: "Khalifa Fund sponsors ventures participating in Dubai ...",
       date: "09-05-2025",
     },
   ];

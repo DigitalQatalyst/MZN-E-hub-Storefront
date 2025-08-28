@@ -9,8 +9,6 @@ import { H3 } from "@component/Typography";
 const WelcomeSection = styled.section`
   background-color: #0030E3;
   color: white;
-  font-family: 'Open Sans', sans-serif;
-  font-style: normal;
   margin-bottom: 2rem;
   
   /* Mobile first */
@@ -299,8 +297,6 @@ const ComingSoonLabel = styled.div`
 
 const StyledSubHeader = styled.p`
   color: #FFF;
-  font-family: "Open Sans", sans-serif;
-  font-style: normal;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0px;
@@ -330,8 +326,6 @@ const StyledSubHeader = styled.p`
 
 const StyledPlatformHeader = styled.h1`
   color: #FFF;
-  font-family: 'Open Sans', sans-serif;
-  font-style: normal;
   font-weight: 400;
   letter-spacing: 0px;
   margin-top: 10px;

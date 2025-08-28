@@ -53,7 +53,7 @@ export const market1ApiEndpoints = (Mock: MockAdapter) => {
           image: '/assets/images/banners/assessment-and-planning.png',
           price: 220,
           description:
-            'Our team carefully reviews your request, considering your business sector, stage of development, and desired outcomes. We\'ll work with you to assess your requirements, develop a tailored plan, and connect you with potential funding sources, mentors, and guidance on legal and regulatory matters.',
+            'Our team carefully reviews your request, considering your business sector, stage of development, and desired outcomes. We\'ll work with you to assess your requirements, develop a tailored plan, and connect you with potential funding sources and regulatory matters.',
           parent: [],
           for: { demo: 'market-1', type: 'top-categories' }
         }
@@ -79,7 +79,7 @@ export const market1ApiEndpoints = (Mock: MockAdapter) => {
           image: '/assets/images/banners/connect-with-us.png',
           price: 200,
           description:
-            'Browse available partnerships, including service providers, investors, and mentors, Identify the partnership type that aligns with your goals and expertise, whether it\'s funding, mentorship, legal services, or other SME support',
+            'Browse available partnerships, including service providers, investors, and mentors, Identify the partnership type that aligns with your goals and expertise, whether it\'s funding, mentorship, legal services, or other SME support.',
           parent: [],
           for: { demo: 'market-1', type: 'bot-categories' }
         },
@@ -103,7 +103,7 @@ export const market1ApiEndpoints = (Mock: MockAdapter) => {
           image: '/assets/images/banners/assessment-and-planning.png',
           price: 220,
           description:
-            'Our team evaluates your application for alignment with the platform\'s goals. We assess your organization\'s expertise and reputation to ansure ecosystem on the platform. ',
+            'Our dedicated team thoroughly evaluates your application to ensure alignment with the platforms strategic goals. We carefully assess your organizations expertise and commitment to fostering a collaborative, high-quality ecosystem on the platform.',
           parent: [],
           for: { demo: 'market-1', type: 'bot-categories' }
         },

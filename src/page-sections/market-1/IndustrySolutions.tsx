@@ -3,21 +3,19 @@
 import Box from "@component/Box";
 import { Button as DefaultButton } from "@component/buttons";
 import { Carousel } from "@component/carousel";
-import { ProductCard19 } from "@component/product-cards";
 import CategorySectionCreator from "@component/CategorySectionCreator";
 import styled from "styled-components";
 import client from "@lib/graphQLClient";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import ProductCard19 from "@component/product-cards/ProductCard19";
 
 // STYLED COMPONENTS
 const ContentColumn = styled.div`
   color: #000;
-  padding: 40px 80px 10px 80px;
+  padding: 10px 80px;
   display: flex;
   flex-direction: column;
-  font-family: 'Open Sans', sans-serif;
-  font-style: normal;
   align-items: flex-start;
   width: 100%;
 
@@ -52,9 +50,7 @@ const MarketplaceSubheadingText = styled(SubheadingText)`
   border-bottom: 2px solid #0030E3;
   color: var(--KF-BG-Blue, #0030E3);
   text-align: center;
-  font-family: 'Open Sans', sans-serif;
   font-size: 16px;
-  font-style: normal;
   font-weight: 500;
   line-height: 22px;
   padding-top: 2rem;
@@ -72,11 +68,10 @@ const MarketplaceSubheadingText = styled(SubheadingText)`
   }
 `;
 
+
 const Description = styled.p`
   color: var(--KF-BG-Black, #000);
-  font-family: "Public Sans", sans-serif;
   font-size: var(--Body-Large-Size, 16px);
-  font-style: normal;
   font-weight: 400;
   margin-right: 1rem;
   flex: 1;
@@ -97,9 +92,7 @@ const Description = styled.p`
 
 const StyledHeader = styled.p`
   color: #000;
-  font-family: "Public Sans", sans-serif;
   font-size: 16px;
-  font-style: normal;
   font-weight: 400;
   line-height: var(--Title-Large-Line-Height, 28px);
   letter-spacing: var(--Title-Large-Tracking, 0px);
@@ -120,11 +113,23 @@ const StyledHeader = styled.p`
   }
 `;
 
+const DescriptionButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 2rem;
+  
+  @media (max-width: 899px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+`;
+
 const StyledBody = styled.p`
   color: #000;
-  font-family: "Public Sans", sans-serif;
   font-size: 48px;
-  font-style: normal;
   font-weight: 400;
   line-height: var(--Display-Medium-Line-Height, 52px);
   letter-spacing: var(--Display-Medium-Tracking, 0px);
@@ -164,37 +169,9 @@ const ExploreAllButton = styled(DefaultButton)`
   align-items: center;
   gap: 0.5rem;
   padding: 0;
-  white-space: nowrap;
-  flex-shrink: 0;
-  
-  @media (max-width: 768) {
-    font-size: 14px;
-    gap: 0.3rem;
-  }
-  
-  @media (max-width: 480px) {
-    font-size: 13px;
-    gap: 0.25rem;
-  }
-`;
 
-const DescriptionButtonWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  
-  @media (max-width: 899px) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  @media (max-width: 600px) {
-    margin-bottom: 1rem;
+  &:hover {
+    color: #A9C9FF;
   }
 `;
 
@@ -439,6 +416,11 @@ interface Product {
   name: string;
   slug: string;
   description: string;
+  title: string;
+  subTitle: string;
+  thumbnail: string;
+  images: string[];
+  reviews: number;
   facetValues: FacetValue[];
   customFields: {
     Industry?: string;
@@ -519,15 +501,16 @@ export default function Section15() {
         </Subheading>
         <DescriptionButtonWrapper>
           <Description>
-            A quick look at the most active services this quarter—driven by SME demand<br /> and partner momentum.
-          </Description>
-          <Link href={`https://mzn-e-hub-storefront-git-unifieddemo-digitalqatalysts-projects.vercel.app/services`}>
-            <ExploreAllButton>
-              Explore more <span>→</span>
-            </ExploreAllButton>
-          </Link>
+              A quick look at the most active services this quarter—driven by SME demand<br /> and partner momentum.
+            </Description>
+            <Link href={`/financial-marketplace`}>
+              <ExploreAllButton>
+                Explore more <span>→</span>
+              </ExploreAllButton>
+            </Link>
         </DescriptionButtonWrapper>
         <CarouselWrapper mb="-0.25rem">
+
           {loading ? (
             <Box py="3rem">
               <LoadingErrorWrapper>
@@ -547,17 +530,9 @@ export default function Section15() {
               </LoadingErrorWrapper>
             </Box>
           ) : (
-            <Carousel
-              slidesToShow={4}
-              slidesToScroll={1}
-              arrows
-              dots
-              infinite={products.length > 4}
-              autoplay={false}
-              responsive={responsive}
-            >
+            <Carousel slidesToShow={4} responsive={responsive}>
               {products.map((item) => (
-                <ProductCardWrapper key={item.id}>
+                <Box py="3rem" key={item.id}>
                   <ProductCard19
                     id={item.id}
                     slug={item.slug}
@@ -569,7 +544,7 @@ export default function Section15() {
                     reviews={defaultReviews}
                     className="product-card"
                   />
-                </ProductCardWrapper>
+                </Box>
               ))}
             </Carousel>
           )}
@@ -578,4 +553,3 @@ export default function Section15() {
     </CategorySectionCreator>
   );
 }
-

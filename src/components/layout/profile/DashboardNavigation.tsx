@@ -31,18 +31,8 @@ const Sidebar = () => {
   ];
 
   const transactionItems: NavItem[] = [
-    {
-      id: "requests",
-      label: "Requests",
-      icon: "/images/overview.svg",
-      route: "/non-financial-records",
-    },
-    {
-      id: "insights",
-      label: "Insights",
-      icon: "/images/analytics.svg",
-      route: "/#",
-    },
+    { id: 'requests', label: 'Requests', icon: '/images/overview.svg', route: '/non-financial-records' },
+    { id: 'insights', label: 'Insights', icon: '/images/analytics.svg', route: '/insights' },
   ];
 
   const settingsItems: NavItem[] = [

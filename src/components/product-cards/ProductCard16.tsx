@@ -49,7 +49,6 @@ const ImageBox = styled(Box)({
 });
 
 const ContentWrapper = styled(Box)({
-  padding: "0 40px 40px 20px",
   "& .title": {
     overflow: "hidden",
     whiteSpace: "normal",
@@ -66,6 +65,24 @@ const ContentWrapper = styled(Box)({
 });
 
 const StyledTitle = styled(H3)(({ wordCount }) => ({
+  padding: "0 40px 0 20px",
+  color: "var(--KF-BG-Blue, #0030E3)",
+  fontFamily: '"FS Kim Trial"',
+  fontSize: "20px",
+  fontStyle: "normal",
+  fontWeight: 400,
+  lineHeight: "26px",
+  ...(wordCount > 19 && {
+    display: "-webkit-box",
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: "vertical",
+    overflow: "hidden",
+    textOverflow: "clip",
+  })
+}));
+
+const StyledTitle1 = styled(H3)(({ wordCount }) => ({
+  padding: "0 40px 0 20px",
   color: "var(--KF-BG-Blue, #0030E3)",
   fontFamily: '"FS Kim Trial"',
   fontSize: "20px",
@@ -82,6 +99,7 @@ const StyledTitle = styled(H3)(({ wordCount }) => ({
 }));
 
 const StyledSubtitle = styled("p")({
+    padding: "0 0 40px 20px",
   color: "var(--KF-BG-Black, #000)",
   fontFamily: '"Helvetica Neue"',
   fontSize: "14px",
@@ -95,6 +113,7 @@ type ProductCardProps = {
   off: number;
   slug: string;
   title: string;
+  title1: string;
   subTitle: string;
   price: number;
   imgUrl: string;
@@ -106,7 +125,7 @@ type ProductCardProps = {
 // =============================================================
 
 export default function ProductCard16(props: ProductCardProps) {
-  const { off, id, title, subTitle, price, imgUrl, rating, hoverEffect, slug, images } = props;
+  const { off, id, title, title1, subTitle, price, imgUrl, rating, hoverEffect, slug, images } = props;
 
   const { state, dispatch } = useAppContext();
   const [openModal, setOpenModal] = useState(false);
@@ -145,7 +164,7 @@ export default function ProductCard16(props: ProductCardProps) {
       <ProductQuickView
         open={openModal}
         onClose={toggleDialog}
-        product={{ id: productId, images, slug, price, title, subTitle, description: "" }}
+        product={{ id: productId, images, slug, price, title, title1, subTitle, description: "" }}
       />
 
       <ContentWrapper>
@@ -159,6 +178,13 @@ export default function ProductCard16(props: ProductCardProps) {
               {title}
             </StyledTitle>
           {/* </Link> */}
+          <StyledTitle1
+              title={title1}
+              wordCount={wordCount}
+              className="title"
+            >
+              {title1}
+            </StyledTitle1>
           <StyledSubtitle>
             {subTitle}
           </StyledSubtitle>

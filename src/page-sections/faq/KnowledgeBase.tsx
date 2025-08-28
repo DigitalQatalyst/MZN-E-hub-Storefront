@@ -114,8 +114,9 @@ const KnowledgeBase: React.FC = () => {
 
                 {/* card content */}
 
-                {item.articles.map((article) => (
+                {item.articles.map((article, index) => (
                   <Box
+                    key={index}
                     sx={{
                       display: "flex",
                       alignItems: "center",

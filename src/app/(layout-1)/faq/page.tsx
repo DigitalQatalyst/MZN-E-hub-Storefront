@@ -6,6 +6,7 @@ import SearchSection from "@sections/faq/SearchSection";
 import RecommendedArticles from "@sections/faq/RecommendedArticles";
 import KnowledgeBase from "@sections/faq/KnowledgeBase";
 import StillNeedHelp from "@sections/faq/StillNeedHelp";
+import MobileNavigationBar from "@component/mobile-navigation";
 
 export default async function Market1() {
   const carList = await api.getCarList();
@@ -20,6 +21,7 @@ export default async function Market1() {
   return (
     <main>
       {/* NAVBAR AREA */}
+      <MobileNavigationBar />
       <NavbarMarketplace />
 
       {/* search */}

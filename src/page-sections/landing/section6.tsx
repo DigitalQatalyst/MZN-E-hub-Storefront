@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { H1, H3, H4 } from "@component/Typography";
 import { Header, HeaderTwo } from "@component/header";
 import Navbar from "@component/navbar/Navbar";
+import Navbar1 from "@component/navbar/Navbar1";
 
 // STYLED COMPONENTS
 const HeroSection = styled.section`
@@ -103,14 +104,14 @@ export default function HomePage() {
           />
         </HeroImage>
         <NavbarWrapper>
-          <Navbar />
+          <Navbar1 />
         </NavbarWrapper>
-        <HeroContent>
+        {/* <HeroContent>
           <SearchBarContainer>
             <SearchInput placeholder="How can we help?" />
             <SearchButton>Ask Enterprise Journey AI</SearchButton>
           </SearchBarContainer>
-        </HeroContent>
+        </HeroContent> */}
       </HeroSection>
     </div>
   );

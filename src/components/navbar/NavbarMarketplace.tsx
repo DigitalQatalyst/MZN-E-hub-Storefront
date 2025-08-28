@@ -107,6 +107,9 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
           <NavLink className="nav-link" href="/faq">
             Help Centre
           </NavLink>
+          <Box className="search-icon">
+              <Icon size="18px" color="#002180">search-white</Icon>
+          </Box>
           <UnauthenticatedTemplate>
             <FlexBox alignItems="center" style={{ gap: "20px" }}>
               <Box className="profile-icon" onClick={handleUserIconClick}>

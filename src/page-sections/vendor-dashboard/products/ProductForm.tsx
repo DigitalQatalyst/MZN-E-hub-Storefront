@@ -9,7 +9,7 @@ import Image from "@component/Image";
 import Select from "@component/Select";
 import Grid from "@component/grid/Grid";
 import FlexBox from "@component/FlexBox";
-import DropZone from "@component/DropZone";
+// import Dropzone from "@component/ui/DropZone";
 import TextArea from "@component/textarea";
 import { Button } from "@component/buttons";
 import TextField from "@component/text-field";
@@ -99,7 +99,7 @@ export default function ProductUpdateForm({ product, categoryOptions }: Props) {
               </Grid>
 
               <Grid item xs={12}>
-                <DropZone onChange={(files) => console.log(files)} />
+                {/* <Dropzone onChange={(files) => console.log(files)} /> */}
 
                 <FlexBox flexDirection="row" mt={2} flexWrap="wrap">
                   {product?.images?.map((item, i) => (

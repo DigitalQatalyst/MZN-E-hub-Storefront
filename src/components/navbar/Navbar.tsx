@@ -406,6 +406,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             )}
           </>
         )}
+>>>>>>> origin/profile_pages
       </Container>
 
       {/* CSS for animations */}
@@ -429,3 +430,4 @@ export default function Navbar({ navListOpen }: NavbarProps) {
     </StyledNavbar>
   );
 }
+ 

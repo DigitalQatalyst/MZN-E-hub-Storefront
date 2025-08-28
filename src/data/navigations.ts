@@ -66,7 +66,7 @@ const navigations = [
   {
     icon: "money_bag",
     title: "Financial",
-    href: "/services",
+    href: "/financial-marketplace",
     menuComponent: "MegaMenu1",
     menuData: {
       categories: [

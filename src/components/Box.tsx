@@ -1,5 +1,4 @@
-"use client";
-
+import styled from "styled-components";
 import {
   grid,
   color,
@@ -19,34 +18,33 @@ import {
   PositionProps,
   TypographyProps
 } from "styled-system";
-import styled from "styled-components";
 import { isValidProp } from "@utils/utils";
 
 // ==============================================================
+
 interface BoxProps
   extends LayoutProps,
-    GridProps,
-    ColorProps,
-    SpaceProps,
-    BorderProps,
-    FlexboxProps,
-    PositionProps,
-    TypographyProps {
+  GridProps,
+  ColorProps,
+  SpaceProps,
+  BorderProps,
+  FlexboxProps,
+  PositionProps,
+  TypographyProps {
   cursor?: string;
   transition?: string;
-  shadow?: number | null;
+  shadow?: number | null | string;
+  theme?: any;
+  children?: React.ReactNode;
 }
+
 // ==============================================================
 
-const Box = styled.div.withConfig({
-  shouldForwardProp: (prop: string) => isValidProp(prop)
-})<BoxProps>(
-  ({ shadow = 0, cursor = "unset", transition, theme }) => ({
-    cursor,
-    transition,
-    boxShadow: theme.shadows[shadow]
-  }),
-  compose(layout, space, color, grid, position, flexbox, border, typography)
-);
+const Box = styled.div<BoxProps>`
+  cursor: ${(props) => props.cursor || "unset"};
+  transition: ${(props) => props.transition};
+  box-shadow: ${(props) => (props.shadow ? props.theme.shadows[props.shadow] : "unset")};
+  ${compose(layout, space, color, grid, position, flexbox, border, typography)};
+`;
 
 export default Box;

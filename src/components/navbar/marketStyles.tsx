@@ -53,7 +53,7 @@ export const StyledNavbar = styled.div`
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
     margin-right: 20px;
-    gap: 5px; /* Added to maintain spacing between icon and text */
+    gap: 5px;
   }
 
   .explore-text {
@@ -182,5 +182,76 @@ export const StyledNavbar = styled.div`
   @media (max-width: 480px) {
     .navbar-container { padding: 12px 16px; }
     .mobile-menu { width: 100%; max-width: none; }
+  }
+
+  .responsive-header {
+    display: none;
+    max-width: none;
+    margin: 0;
+    padding: 0 20px;
+    width: 100%;
+    background: linear-gradient(90deg, #01E5D1 0%, #02E4D1 8.12%, #04E2D2 14.47%, #07DFD3 19.42%, #0CDAD5 23.32%, #12D5D7 26.54%, #18CEDA 29.42%, #20C7DD 32.34%, #29BEE0 35.66%, #33B5E4 39.72%, #3DABE8 44.89%, #48A0EC 51.54%, #5395F1 60.01%, #6089F5 70.67%, #6C7DFA 83.88%, #7970FF 100%) !important;
+    height: 60px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff; /* Fallback background to debug visibility */
+    overflow: visible; /* Ensure content isn't clipped */
+
+    .enterprise-logo img {
+      max-width: 100px; /* Adjusted size for responsive header */
+      height: auto;
+    }
+
+    @media (max-width: 768px) {
+      display: flex;
+    }
+  }
+
+  .responsive-mobile-menu {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: #FFF; /* Updated background */
+    box-shadow: 0 -2px 4px 0 rgba(0, 0, 0, 0.20); /* Updated box-shadow */
+    padding: 0 20px;
+    z-index: 1001;
+    align-items: center;
+    justify-content: space-around;
+
+    .mobile-nav-links {
+      flex-direction: row;
+      gap: 10px;
+      width: 100%;
+      justify-content: space-around;
+
+      .nav-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: black !important;
+        text-decoration: none;
+
+        img {
+          width: 24px;
+          height: 24px;
+        }
+
+        span {
+          font-size: 12px;
+          font-weight: 500;
+        }
+      }
+    }
+
+    @media (max-width: 768px) {
+      display: flex;
+    }
   }
 `;

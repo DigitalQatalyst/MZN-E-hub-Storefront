@@ -13,12 +13,14 @@ import { Button } from "../buttons";
 import Container from "../Container";
 import Typography from "../Typography";
 import Categories from "../categories/Categories";
+import Image from "next/image"; // Import Next.js Image component
 
 type NavbarProps = { navListOpen?: boolean };
 
 export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeItem, setActiveItem] = useState(""); // State to track active navigation item
   const { instance } = useMsal();
   const router = useRouter();
 
@@ -54,6 +56,11 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
     setMenuOpen(false);
   };
 
+  const handleNavClick = (path) => {
+    setActiveItem(path);
+    router.push(path);
+  };
+
   return (
     <StyledNavbar className={scrolled ? "scrolled" : ""}>
       <Container
@@ -72,7 +79,7 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
         <Categories open={navListOpen}>
           <Button className="explore-button" width="240px" height="44px" bg="body.default" variant="text">
             <FlexBox justifyContent="space-between" alignItems="center" width="100%">
-              <FlexBox alignItems="center" >
+              <FlexBox alignItems="center">
                 <Icon className="explore-icon">categories</Icon>
                 <Typography
                   className="explore-text"
@@ -265,6 +272,61 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
                 </Button>
               </FlexBox>
             </AuthenticatedTemplate>
+          </FlexBox>
+        </Box>
+
+        <Container
+          className="responsive-header"
+          height="60px"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Box className="enterprise-logo">
+            <NavLink href="/">
+              <img src="/assets/images/logos/mzn_logo.svg" alt="Enterprise Journey Logo" />
+            </NavLink>
+          </Box>
+        </Container>
+
+        <Box className="responsive-mobile-menu">
+          <FlexBox className="mobile-nav-links" style={{ gap: 10, width: "100%", justifyContent: "space-around" }}>
+            <NavLink href="/" onClick={() => handleNavClick("/")}>
+              <Image
+                src={activeItem === "/" ? "/assets/images/non_financial_marketplace/home-active.svg" : "/assets/images/non_financial_marketplace/home.svg"}
+                alt="Home"
+                width={24}
+                height={24}
+              />
+              <Typography color="black">Home</Typography>
+            </NavLink>
+            <NavLink href="/explore" onClick={() => handleNavClick("/explore")}>
+              <Image
+                src={activeItem === "/explore" ? "/assets/images/non_financial_marketplace/explore-active.svg" : "/assets/images/non_financial_marketplace/explore.svg"}
+                alt="Explore"
+                width={24}
+                height={24}
+              />
+              <Typography color="black">Explore</Typography>
+            </NavLink>
+            <NavLink href="/search" onClick={() => handleNavClick("/search")}>
+              <Image
+                src="/assets/images/non_financial_marketplace/search (2).svg"
+                alt="Search"
+                width={24}
+                height={24}
+              />
+              <Typography color="black">Search</Typography>
+            </NavLink>
+            <NavLink href="/profile" onClick={() => handleNavClick("/profile")}>
+              <Image
+                src={activeItem === "/profile" ? "/assets/images/non_financial_marketplace/profile-active.svg" : "/assets/images/non_financial_marketplace/profile.svg"}
+                alt="Profile"
+                width={24}
+                height={24}
+              />
+              <Typography color="black">Profile</Typography>
+            </NavLink>
           </FlexBox>
         </Box>
       </Container>

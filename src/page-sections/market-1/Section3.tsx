@@ -16,12 +16,20 @@ export default function Section3() {
   const [categoryList, setCategoryList] = useState([]);
   const [activeTab, setActiveTab] = useState("entrepreneur");
 
-  // Fetch categories on mount
+  // Fetch categories based on active tab
   useEffect(() => {
-    api.getTopCategories()
-      .then((data) => setCategoryList(data))
-      .catch((error) => console.error("Failed to fetch categories:", error));
-  }, []);
+    const fetchCategories = async () => {
+      try {
+        const data = activeTab === "entrepreneur" 
+          ? await api.getTopCategories()
+          : await api.getBotCategories();
+        setCategoryList(data);
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      }
+    };
+    fetchCategories();
+  }, [activeTab]);
 
   const responsive = [
     { breakpoint: 959, settings: { slidesToShow: 2 } },
@@ -29,18 +37,18 @@ export default function Section3() {
   ];
 
   // Content for each tab
-  const tabContent = {
-    entrepreneur: {
-      title: "Getting Started as an Entrepreneur",
-      description: "Discover opportunities to grow your business by browsing marketplaces and finding tailored services.",
-    },
-    partner: {
-      title: "Getting Started as a Partner",
-      description: "Join our platform as a partner and offer your services to businesses seeking growth solutions.",
-    },
-  };
+  // const tabContent = {
+  //   entrepreneur: {
+  //     title: "Getting Started as an Entrepreneur",
+  //     description: "Discover opportunities to grow your business by browsing marketplaces and finding tailored services.",
+  //   },
+  //   partner: {
+  //     title: "Getting Started as a Partner",
+  //     description: "Join our platform as a partner and offer your services to businesses seeking growth solutions.",
+  //   },
+  // };
 
-  // Same carousel content for both tabs, with tab-specific name prefix
+  // Carousel content with tab-specific name prefix
   const carouselContent = categoryList.map((item) => ({
     ...item,
     name: `${activeTab === "entrepreneur" ? "Entrepreneur" : "Partner"}: ${item.name}`,
@@ -73,7 +81,7 @@ export default function Section3() {
               <H1
                 marginBottom={"1.5rem"}
                 marginTop={"1.5rem"}
-                color={"#0030e3"}
+                color={"#000"}
                 fontFamily="FS Kim Trial"
               >
                 Getting started is easy
@@ -90,7 +98,10 @@ export default function Section3() {
                 <Button
                   className="SignUp"
                   variant="contained"
-                  color="primary"
+                  color="#FFF"
+                  style={{
+                    background: 'var(--Footer-Gradient, linear-gradient(94deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%))'
+                  }}
                   fullwidth
                 >
                   Sign Up
@@ -102,7 +113,6 @@ export default function Section3() {
             <Box
               style={{
                 display: "flex",
-                borderBottom: "1px solid #ffffff",
                 width: "fit-content",
               }}
             >
@@ -111,8 +121,8 @@ export default function Section3() {
                 style={{
                   cursor: "pointer",
                   borderBottom:
-                    activeTab === "entrepreneur" ? "2px solid #0030e3" : "none",
-                  color: activeTab === "entrepreneur" ? "#0030e3" : "#000000",
+                    activeTab === "entrepreneur" ? "2px solid #ffffff" : "none",
+                  color: activeTab === "entrepreneur" ? "#fff" : "#fff",
                   fontWeight: activeTab === "entrepreneur" ? "bold" : "normal",
                 }}
                 onClick={() => setActiveTab("entrepreneur")}
@@ -124,8 +134,8 @@ export default function Section3() {
                 style={{
                   cursor: "pointer",
                   borderBottom:
-                    activeTab === "partner" ? "2px solid #0030e3" : "none",
-                  color: activeTab === "partner" ? "#0030e3" : "#000000",
+                    activeTab === "partner" ? "2px solid #ffffff" : "none",
+                  color: activeTab === "partner" ? "#fff" : "#fff",
                   fontWeight: activeTab === "partner" ? "bold" : "normal",
                 }}
                 onClick={() => setActiveTab("partner")}
@@ -134,7 +144,7 @@ export default function Section3() {
               </Box>
             </Box>
           </FlexBox>
-          <FlexBox justifyContent="flex-start" mb="2rem">
+          {/* <FlexBox justifyContent="flex-start" mb="2rem">
             <Box>
               <H5 color={"#000000"} fontFamily="Helvetica Neue">
                 {tabContent[activeTab].title}
@@ -143,7 +153,7 @@ export default function Section3() {
                 {tabContent[activeTab].description}
               </H5>
             </Box>
-          </FlexBox>
+          </FlexBox> */}
           <Carousel slidesToShow={2} responsive={responsive}>
             {carouselContent.map((item, ind) => (
               <Link href={`/product/search/${item.slug}`} key={ind}>

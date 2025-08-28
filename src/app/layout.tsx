@@ -10,7 +10,12 @@ import StyledContext from "@context/StyledContext";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import NProgressBar from "@component/NProgress";
+<<<<<<< HEAD
 import { Toaster } from "@component/ui/Sonner";
+=======
+import KfBot from "@component/bot/KfBot";
+import { ModalProvider } from "@context/ModalContext";
+>>>>>>> origin/profile_pages
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
@@ -34,11 +39,18 @@ export default function RootLayout({
       className={openSans.className}>
         <StyledComponentsRegistry>
           <AppProvider>
-            <StyledContext>
-              {children}
+            <ModalProvider>
+              <StyledContext>
+                {children}
               <NProgressBar />
+<<<<<<< HEAD
               <Toaster />
             </StyledContext>
+=======
+              </StyledContext>
+              <KfBot />
+            </ModalProvider>
+>>>>>>> origin/profile_pages
           </AppProvider>
         </StyledComponentsRegistry>
       </body>

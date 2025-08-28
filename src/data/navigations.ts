@@ -8,55 +8,55 @@ const navigations = [
       categories: [
         {
           title: "Events & Networking",
-          href: "/non-financial-marketplace?category=events-networking",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/events-networking.png"
         },
         {
           title: "Partnerships & Opportunities",
-          href: "/non-financial-marketplace?category=partnerships-opportunities",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/partnerships-opportunities.png"
         },
         {
           title: "Academy & Training",
-          href: "/non-financial-marketplace?category=academy-training",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/academy-training.png"
         },
         {
           title: "Operational Advisory",
-          href: "/non-financial-marketplace?category=operational-advisory",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/operational-advisory.png"
         },
         {
           title: "Proximity Incubators",
-          href: "/non-financial-marketplace?category=proximity-incubators",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/proximity-incubators.png"
         },
         {
           title: "Incentives Listing",
-          href: "/non-financial-marketplace?category=incentives-listing",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/incentives-listing.png"
         },
         {
           title: "Digital Solutions",
-          href: "/non-financial-marketplace?category=digital-solutions",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/digital-solutions.png"
         },
         {
           title: "Export & Trade Facilitation",
-          href: "/non-financial-marketplace?category=export-trade-facilitation",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/export-trade-facilitation.png"
         },
         {
           title: "Legal, Compliance & Licensing",
-          href: "/non-financial-marketplace?category=legal-compliance-licensing",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/legal-compliance-licensing.png"
         }
@@ -66,43 +66,43 @@ const navigations = [
   {
     icon: "money_bag",
     title: "Financial",
-    href: "/financial-marketplace",
+    href: "/services",
     menuComponent: "MegaMenu1",
     menuData: {
       categories: [
         {
           title: "Business Operations Financing",
-          href: "/financial-marketplace?category=business-operations-financing",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/business-operations-financing.png"
         },
         {
           title: "Project & Specialized Financing",
-          href: "/financial-marketplace?category=project-specialized-financing",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/project-specialized-financing.png"
         },
         {
           title: "Growth & Expansion Financing",
-          href: "/financial-marketplace?category=growth-expansion-financing",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/growth-expansion-financing.png"
         },
         {
           title: "Loan Management & Adjustments",
-          href: "/financial-marketplace?category=loan-management-adjustments",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/loan-management-adjustments.png"
         },
         {
           title: "Business Asset Financing",
-          href: "/financial-marketplace?category=business-asset-financing",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/business-asset-financing.png"
         },
         {
           title: "Investment & Equity Financing",
-          href: "/financial-marketplace?category=investment-equity-financing",
+          href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/investment-equity-financing.png"
         }
@@ -450,3 +450,5 @@ const navigations = [
 ];
 
 export default navigations;
+
+

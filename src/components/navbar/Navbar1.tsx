@@ -31,6 +31,7 @@ const StyledNavbar = styled.div`
   }
  
   .enterprise-logo {
+    font-family: "Open Sans", sans-serif;
     font-size: 24px;
     font-weight: 700;
     color: white;
@@ -393,6 +394,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                 <Typography
                   className="explore-text"
                   ml="5px"
+                  fontFamily='"Open Sans", sans-serif'
                   fontSize="16px"
                   fontWeight="600"
                   lineHeight="26px"
@@ -425,21 +427,15 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           </Box>
  
           <FlexBox alignItems="center" style={{ gap: "10px" }}>
-          <Box 
-              className="profile-icon" 
-              onClick={() => {
-                window.location.href = loginUrl;
-              }}
-              style={{ cursor: 'pointer' }}
-            >
+            <Box className="profile-icon">
               <Icon size="30px" color="#002180">profile</Icon>
             </Box>
             <Button
               className="become-partner-btn"
               variant="outlined"
-              // onClick={() => {
-              //   window.location.href = loginUrl;
-              // }}
+              onClick={() => {
+                window.location.href = loginUrl;
+              }}
             >
               Become a Partner
             </Button>
@@ -475,6 +471,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                   <Typography
                     className="explore-text"
                     ml="5px"
+                    fontFamily='"Open Sans", sans-serif'
                     fontSize="16px"
                     fontWeight="600"
                     lineHeight="26px"

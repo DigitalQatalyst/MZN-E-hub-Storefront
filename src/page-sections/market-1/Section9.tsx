@@ -165,6 +165,7 @@ export default function Section9({ products }: Props) {
                 slug={item.slug}
                 subTitle={item.subTitle}
                 title={item.title}
+                title1={item.title1 || item.title}
                 price={item.price}
                 off={item.discount}
                 rating={item.rating}

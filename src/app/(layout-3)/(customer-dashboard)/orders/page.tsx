@@ -1,4 +1,3 @@
-"use client"
 import { Fragment } from "react";
 // API FUNCTIONS
 import api from "@utils/__api__/orders";

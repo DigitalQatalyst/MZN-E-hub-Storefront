@@ -71,32 +71,42 @@ export default function ClientProductDetailsPage({ slug }: { slug: string }) {
         console.log("Slug:", slug); // Log slug for debugging
         const response = await client.request<ProductResponse>(
           `
-            query GetProduct($slug: String!) {
-              product(slug: $slug) {
+   query GetProduct($slug: String!) {
+            product(slug: $slug) {
+                id
+            name
+            slug
+            description
+            facetValues {
+              facet {
+                id
+                name
+                code
+              }
+              id
+              name
+              code
+            }
+            customFields {
+              Nationality
+              LegalStructure
+              Industry
+              BusinessStage
+              ProcessingTime
+              RegistrationValidity
+              Cost
+              Steps
+              TermsOfService
+              RequiredDocuments
+              RelatedServices {
                 id
                 name
                 slug
-                description
-                customFields { 
-                  CustomerType
-                  BusinessStage
-                  Nationality                
-                  LegalStructure
-                  CustomerType
-                  Industry
-                  ProcessingTime
-                  RegistrationValidity
-                  Cost
-                  Steps
-                  TermsOfService
-                  RequiredDocuments
-                  RelatedServices {
-                    id
-                    name
-                  }
-                }
               }
             }
+          
+      }
+    }
         `,
           { slug }
         );
@@ -110,6 +120,7 @@ export default function ClientProductDetailsPage({ slug }: { slug: string }) {
             id: response.product.id,
             slug: response.product.slug,
             title: response.product.name || "",
+            title1: response.product.name || "",
             name: response.product.name || "",
             subTitle: customFields.Partner || "",
             description: response.product.description || "",

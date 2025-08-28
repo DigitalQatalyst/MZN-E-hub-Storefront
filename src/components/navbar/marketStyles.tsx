@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const StyledNavbar = styled.div`
   position: relative;
-  height: 76px;
+  height: 60px;
   background: var(--MZN-Gradient-Style, linear-gradient(90deg, 
     #01E5D1 0%, #02E4D1 8.12%, #04E2D2 14.47%, #07DFD3 19.42%, 
     #0CDAD5 23.32%, #12D5D7 26.54%, #18CEDA 29.42%, #20C7DD 32.34%, 
@@ -13,23 +13,21 @@ const StyledNavbar = styled.div`
   backdrop-filter: blur(6px);
   box-shadow: ${getTheme("shadows.regular")};
 
-  /* Navigation link styles */
   .nav-link {
     color: #FFF;
     font-family: "Open Sans", sans-serif;
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
-    line-height: 22px;
+    line-height: 22px; /* 157.143% */
     cursor: pointer;
     transition: color 0.3s ease;
-    
-    &:hover {
-      color: #0030E3;
-    }
+
+    // // &:hover {
+    // //   color: ${getTheme("colors.primary.main")};
+    // // }
   }
 
-  /* Sign in button styles */
   .sign-in-btn {
     display: flex;
     padding: 10px 24px;
@@ -39,71 +37,44 @@ const StyledNavbar = styled.div`
     flex: 1 0 0;
     align-self: stretch;
     border-radius: 8px;
-    border: 1px solid #0030E3;
-    color: #0030E3;
-    background: transparent;
+    border: 1px solid #fff; /* Adjust border color if needed */
+    color: #fff; /* Text color */
+    background: transparent; /* Transparent background */
     transition: all 0.3s ease;
-    
-    &:hover {
-      background: rgba(0, 48, 227, 0.1);
-    }
+
+    // // &:hover {
+    // //   background: rgba(255, 255, 255, 0.2); /* Light hover effect */
+    // // }
   }
 
-  /* Sign up button styles */
   .sign-up-button {
-    display: flex;
-    padding: 10px 24px;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    white-space: nowrap;
-    min-width: 100px;
-    background: #0030E3;
-    color: white;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s ease, color 0.3s ease;
-    
-    &:hover {
-      background: #0028CC;
-    }
-  }
+  display: flex;
+  padding: 10px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 
-  /* User Profile Photo Styles */
-  .profile-photo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  /* Prevent text from wrapping */
+  white-space: nowrap;
 
-  .profile-initials {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #ffffff;
-    border: 2px solid #e9ecef;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #000000;
-    font-weight: 600;
-    font-size: 14px;
-    font-family: "Helvetica Neue", sans-serif;
-    transition: all 0.3s ease;
+  /* Adjust width so the text fits properly */
+  min-width: 100px;
 
-    &:hover {
-      border-color: #0030E3;
-      background-color: #f8f9fa;
-      transform: scale(1.05);
-    }
-  }
+  background: white;
+  color: blue;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+
+}
+
+
 
   .nav-link:last-child {
     margin-right: 0px;
   }
 
-  /* Dropdown menu styles */
   .root-child {
     display: none;
     position: absolute;
@@ -111,7 +82,6 @@ const StyledNavbar = styled.div`
     top: 100%;
     z-index: 5;
   }
-  
   .root:hover {
     .root-child {
       display: block;
@@ -125,98 +95,28 @@ const StyledNavbar = styled.div`
     left: 100%;
     z-index: 5;
   }
-  
   .parent:hover > .child {
     display: block;
   }
 
+  .dropdown-icon {
+    color: ${getTheme("colors.text.muted")};
+  }
+  @media only screen and (max-width: 900px) {
+    display: none;
+  }
+
   /* Dropdown Icon Style */
   .dropdown-icon {
-    color: #0030E3;
-    width: 12px;
-    height: 24px;
-    margin-left: 6px;
-    transition: transform 0.3s ease;
+    width: 12px;  /* Adjust width based on your icon size */
+    height: auto;
+    margin-left: 6px;  /* Adds space between the text and the icon */
+    transition: transform 0.3s ease;  /* Optional: Adds smooth transition effect */
   }
 
   /* Hover Effect for Dropdown Icon */
   .nav-link:hover .dropdown-icon {
-    transform: rotate(180deg);
-  }
-
-  /* Mobile responsive styles */
-  @media only screen and (max-width: 900px) {
-    /* Reduce navbar height slightly on mobile for better screen real estate */
-    height: 64px;
-    
-    /* Ensure navbar is always visible on mobile */
-    display: block;
-    
-    /* Mobile logo adjustments */
-    .navbar-logo {
-      img {
-        max-height: 32px;
-        width: auto;
-      }
-    }
-    
-    /* Mobile profile photo adjustments */
-    .profile-photo .profile-initials {
-      width: 36px;
-      height: 36px;
-      font-size: 12px;
-      border-width: 1px;
-    }
-  }
-
-  /* Tablet responsive styles */
-  @media only screen and (max-width: 1200px) and (min-width: 901px) {
-    /* Adjust spacing for tablet views */
-    .navbar-logo {
-      margin-left: -40px;
-    }
-    
-    /* Reduce right margin for tablet */
-    .search-icon, .profile-photo {
-      margin-right: -40px;
-    }
-  }
-
-  /* Small mobile devices */
-  @media only screen and (max-width: 480px) {
-    height: 56px;
-    
-    .navbar-logo {
-      margin-left: 8px !important;
-      
-      img {
-        max-height: 28px;
-      }
-    }
-    
-    .profile-photo .profile-initials {
-      width: 32px;
-      height: 32px;
-      font-size: 11px;
-    }
-  }
-
-  /* Touch device optimizations */
-  @media (hover: none) and (pointer: coarse) {
-    /* Increase touch targets for mobile devices */
-    .profile-photo,
-    .search-icon {
-      min-width: 44px;
-      min-height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    /* Remove hover effects that don't work on touch devices */
-    .profile-initials:hover {
-      transform: none;
-    }
+    transform: rotate(180deg);  /* Optional: Adds rotation effect on hover */
   }
 `;
 

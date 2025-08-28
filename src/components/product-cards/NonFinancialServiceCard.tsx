@@ -16,36 +16,32 @@ const CardBox = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   width: "100%",
-  minHeight: "200px", // Removed fixed height
+  minHeight: "200px",
+  height: "300px",
   padding: "16px",
   transition: "all 0.3s",
   borderRadius: "8px",
   background: "#FFF",
-  marginBottom: "0.5rem",
-  boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.15), 0px 1px 3px 1px rgba(0, 0, 0, 0.08)",
+  border: `1px solid ${theme.colors.gray[100]}`,
   "&:hover": {
     ".product-img": {
       transform: "scale(1.1)",
     },
-    ".eye-button": {
-      display: "block",
-    },
-    ".favorite-button": {
-      display: "block",
-    },
   },
+  overflow: "hidden",
 }));
 
 const CardMedia = styled(Box)(({ theme }) => ({
   width: "100%",
   maxHeight: "300px",
   cursor: "pointer",
+  // overflow: "hidden",
   position: "relative",
   marginBottom: "15px",
   ".product-img": {
     transition: "0.3s",
     width: "100%",
-    height: "auto", // Changed to auto for responsive scaling
+    height: "100%",
   },
 }));
 
@@ -55,10 +51,6 @@ const EyeButton = styled(IconButton)(() => ({
   position: "absolute",
   transition: "right 0.3s .1s",
   background: "transparent",
-  display: "none",
-  "&.eye-button": {
-    display: "none",
-  },
 }));
 
 const FavoriteButton = styled(IconButton)(() => ({
@@ -67,10 +59,6 @@ const FavoriteButton = styled(IconButton)(() => ({
   position: "absolute",
   background: "transparent",
   transition: "right 0.3s .2s",
-  display: "none",
-  "&.favorite-button": {
-    display: "none",
-  },
 }));
 
 const StyledH4 = styled(H4)`
@@ -108,14 +96,14 @@ const StyledH5 = styled(H4)`
 const StyledButton = styled(DefaultButton)`
   display: flex;
   text-align: left;
-  padding: 4px 8px;
+  padding: 4px 8px; /* Reduced padding */
   justify-content: center;
   align-items: center;
   gap: 5px;
   align-self: stretch;
   border-radius: 100px;
-  width: auto; // Changed to auto for responsiveness
-  height: 20px;
+  width: 80px; /* Reduced width */
+  height: 20px; /* Reduced height */
   background-color: transparent;
   border: 1px solid #ccc;
   transition: background-color 0.3s, color 0.3s;
@@ -124,7 +112,7 @@ const StyledButton = styled(DefaultButton)`
     color: #000;
     text-align: center;
     font-family: "Open Sans";
-    font-size: 10px;
+    font-size: 10px; /* Reduced font size */
     font-style: normal;
     font-weight: 300;
   }
@@ -132,7 +120,7 @@ const StyledButton = styled(DefaultButton)`
 
 const StyledImage = styled(NextImage)`
   width: 73px;
-  height: auto; // Changed to auto for responsive scaling
+  height: 73px;
   flex-shrink: 0;
   aspect-ratio: 1/1;
 `;
@@ -172,8 +160,8 @@ const LearnMoreWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 5px;
-  // margin-top: 15px;
+  gap: 3px; /* Reduced gap */
+  margin-top: 10px;
 `;
 
 type NonFinancialServiceCardProps = {
@@ -208,12 +196,13 @@ export default function NonFinancialServiceCard(props: NonFinancialServiceCardPr
             <StyledImage src={img} width={63} height={63} alt="category" />
           </Link>
 
-          {/* <EyeButton className="eye-button" onClick={() => setOpenDialog(true)}>
+          <EyeButton onClick={() => setOpenDialog(true)}>
             <Icon size="18px">eye</Icon>
-          </EyeButton> */}
+          </EyeButton>
 
-          <FavoriteButton className="favorite-button" onClick={handleFavorite}>
-            <Icon size="18px">Bookmark</Icon>
+          <FavoriteButton onClick={handleFavorite}>
+          <Icon size="18px">Bookmark</Icon>
+            {/* {isFavorite ? <Icon size="18px">eye</Icon> : <Icon size="18px">Bookmark</Icon>} */}
           </FavoriteButton>
         </CardMedia>
 
@@ -221,21 +210,27 @@ export default function NonFinancialServiceCard(props: NonFinancialServiceCardPr
           <StyledParagraph data-fulltext={name}>{name}</StyledParagraph>
           <StyledH4 fontWeight={700}>{subTitle}</StyledH4>
 
+          {/* <FlexBox justifyContent="flex-start" alignItems="center" mb="1rem">
+            <Rating value={4} color="warn" size="small" />
+            <Small fontWeight={600} color="gray.500" ml=".3rem">
+              ({reviews})
+            </Small>
+          </FlexBox> */}
           <StyledH5 fontWeight={700}>{description}</StyledH5>
-          <Box display="flex" alignItems="center" justifyContent="space-between" flexWrap="wrap" mt="1rem">
-            <StyledButton>
+          <Box display="flex" alignItems="center" justifyContent="space-between" flexWrap="wrap" > {/* Replaced gap with margin for spacing */}
+            <StyledButton mt={3}>
               <span>Start-Up</span>
             </StyledButton>
-            <StyledButton>
+            <StyledButton mt={3}>
               <span>All Industries</span>
             </StyledButton>
 
             <Link href={`/product/${slug}`} style={{ textDecoration: "none" }}>
               <LearnMoreWrapper style={{ cursor: "pointer" }}>
-                <Paragraph color="#002180" mr="0.3rem" fontSize="10px">
+                <Paragraph color="#002180" mr="0.3rem" fontSize="10px"> {/* Reduced font size */}
                   View Details
                 </Paragraph>
-                <Icon color="#002180" size="14px">arrow_forward</Icon>
+                <Icon color="#002180" size="14px">arrow_forward</Icon> {/* Reduced icon size */}
               </LearnMoreWrapper>
             </Link>
           </Box>
@@ -245,7 +240,7 @@ export default function NonFinancialServiceCard(props: NonFinancialServiceCardPr
       <ProductQuickView
         open={openDialog}
         onClose={toggleDialog}
-        product={{ id, images, subTitle, description, slug, title: name}}
+        product={{ id, images, subTitle, description, slug, title: name, title1: name }}
       />
     </Fragment>
   );

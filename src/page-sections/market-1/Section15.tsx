@@ -101,9 +101,8 @@ const CarouselWrapper = styled(Box)`
 
 // GraphQL Query
 const GET_PRODUCTS = `
-  query {
-    products(options: { take: 100 }) {
-      totalItems
+  query GetProducts($skip: Int!, $take: Int!) {
+    products(options: { skip: $skip, take: $take }) {
       items {
         id
         name
@@ -120,21 +119,10 @@ const GET_PRODUCTS = `
           code
         }
         customFields {
-          Industry
-          BusinessStage
-          ProcessingTime
-          RegistrationValidity
-          Cost
-          Steps
-          TermsOfService
-          RequiredDocuments
-          RelatedServices {
-            id
-            name
-            slug
-          }
+          Partner
         }
       }
+      totalItems
     }
   }
 `;
@@ -150,12 +138,6 @@ interface FacetValue {
   code: string;
 }
 
-interface RelatedService {
-  id: string;
-  name: string;
-  slug: string;
-}
-
 interface Product {
   id: string;
   name: string;
@@ -163,16 +145,7 @@ interface Product {
   description: string;
   facetValues: FacetValue[];
   customFields: {
-    Industry?: string;
-    BusinessStage?: string;
-    ProcessingTime?: string;
-    RegistrationValidity?: string;
-    Cost?: string;
-    Steps?: string;
-    TermsOfService?: string;
-    RequiredDocuments?: string;
-    RelatedServices?: RelatedService[];
-    Partner?: string; // Keep for backward compatibility
+    Partner: string;
   };
 }
 
@@ -181,6 +154,11 @@ interface GetProductsData {
     items: Product[];
     totalItems: number;
   };
+}
+
+interface GetProductsVariables {
+  skip: number;
+  take: number;
 }
 
 export default function Section15() {
@@ -197,13 +175,29 @@ export default function Section15() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const data = await client.request<GetProductsData>(GET_PRODUCTS);
+        const productsPerPage = 50; // Fetch a reasonable number of products
+        let allProducts: Product[] = [];
+        let currentSkip = 0;
+        let total = 0;
+
+        // Fetch all products in batches
+        do {
+          const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
+            skip: currentSkip,
+            take: productsPerPage,
+          });
+          allProducts.push(...data.products.items);
+          total = data.products.totalItems;
+          currentSkip += productsPerPage;
+        } while (currentSkip < total);
+
         // Filter for Financial Services (facetValue.id: "66") and exclude non-financial (facetValue.id: "67")
-        const financialServicesOnly = data.products.items.filter(
+        const financialServicesOnly = allProducts.filter(
           (product) =>
             product.facetValues.some((fv) => fv.id === "66") &&
             !product.facetValues.some((fv) => fv.id === "67")
         );
+
         setProducts(financialServicesOnly);
       } catch (err) {
         console.error("Error fetching products:", err);

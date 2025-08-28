@@ -87,7 +87,7 @@ export default function Sidebar({
         elevation={0}
         style={{
           border: 0,
-          height: "94%",
+          height: "95%",
           borderRadius: "3px",
           padding: "1rem 2rem",
           backgroundColor: "#FFFFFF",
@@ -166,7 +166,7 @@ export default function Sidebar({
               checked={businessStageFilters.conception}
               onChange={() => handleBusinessStageChange("conception")}
             />
-            <label htmlFor="conception">Inception</label>
+            <label htmlFor="conception">Conception</label>
           </CheckboxLabel>
           <CheckboxLabel>
             <input
@@ -281,7 +281,7 @@ export default function Sidebar({
               checked={pricingModelFilters.subscriptionBased}
               onChange={() => handlePricingModelChange("subscriptionBased")}
             />
-            <label htmlFor="subscription-based">Subscription-based</label>
+            <label htmlFor="subscription-based">Subscription-Based</label>
           </CheckboxLabel>
           <CheckboxLabel>
             <input
@@ -301,7 +301,7 @@ export default function Sidebar({
               checked={pricingModelFilters.oneTimeFee}
               onChange={() => handlePricingModelChange("oneTimeFee")}
             />
-            <label htmlFor="one-time-fee">One time fee</label>
+            <label htmlFor="one-time-fee">One-Time Fee</label>
           </CheckboxLabel>
           <CheckboxLabel>
             <input
@@ -311,7 +311,7 @@ export default function Sidebar({
               checked={pricingModelFilters.governmentSubsidised}
               onChange={() => handlePricingModelChange("governmentSubsidised")}
             />
-            <label htmlFor="government-subsidised">Government sponsered</label>
+            <label htmlFor="government-subsidised">Government Subsidised</label>
           </CheckboxLabel>
         </List>
         {/* Adding padding-bottom to create space at the bottom when no service is available */}

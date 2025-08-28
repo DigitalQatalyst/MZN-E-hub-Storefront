@@ -17,7 +17,6 @@ import SignInModal from "../SignInModal";
 import StyledNavbar from "./styles";
 import { useModal } from "@context/ModalContext";
 import SignUpModal from "../JoinModal";
-import { useMsal, AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
 
 // Updated navbarNavigations data
 const navbarNavigations = [
@@ -47,23 +46,6 @@ type NavbarProps = { navListOpen?: boolean };
 
 export default function Navbar({ navListOpen }: NavbarProps) {
   const { open, modalType } = useModal();
-  const { instance, accounts } = useMsal();
-
-  function handleLogin() {
-    instance.loginRedirect().catch((e) => {
-      console.log(e);
-    });
-  }
-
-  function handleLogout() {
-    instance.logoutRedirect().catch((e) => {
-      console.log(e);
-    });
-  }
-
-  if (accounts.length > 0) {
-    console.log("accounts", accounts);
-  }
 
   const renderNestedNav = (list: any[], isRoot = false) => {
     return list?.map((nav: Nav) => {
@@ -215,13 +197,8 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           </Box>
 
           {/* Sign In & Sign Up Buttons */}
-          <AuthenticatedTemplate>
-            <Button className="sign-in-btn" variant="outlined" mr="10px" ml="10px" onClick={handleLogout}>Logout</Button>
-          </AuthenticatedTemplate>
-          <UnauthenticatedTemplate>
-            <Button className="sign-in-btn" variant="outlined" mr="10px" ml="10px" onClick={handleLogin}>Sign In</Button>
-            <Button className="sign-up-button" variant="contained" onClick={() => open("signup")}>Sign Up</Button>
-          </UnauthenticatedTemplate>
+          <Button className="sign-in-btn" variant="outlined" mr="10px" ml="10px" onClick={() => open("signin")}>Sign In</Button>
+          <Button className="sign-up-button" variant="contained" onClick={() => open("signup")}>Sign Up</Button>
           {modalType === "signup" && <SignUpModal />}
           {modalType === "signin" && <SignInModal />}
         </FlexBox>

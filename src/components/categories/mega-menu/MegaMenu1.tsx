@@ -16,20 +16,28 @@ export default function MegaMenu1({
 }: MegaMenu1Props) {
   return categories ? (
     <StyledMegaMenu1 className="mega-menu">
-      <Card ml="1rem" minWidth="300px" boxShadow="regular" overflow="hidden" borderRadius={8}>
-        <FlexBox px="1.25rem" py="0.875rem" flexDirection="column">
+      <Card ml="1rem" minWidth={minWidth} boxShadow="regular" overflow="hidden" borderRadius={8}>
+        <FlexBox px="1.25rem" py="0.875rem">
           <Box flex="1 1 0">
-            {categories?.map((item, ind) => (
-              <div key={ind} style={{ marginBottom: '8px' }}>
-                {item.href ? (
-                  <NavLink className="title-link" href={item.href}>
-                    {item.title}
-                  </NavLink>
-                ) : (
-                  <SemiSpan className="title-link">{item.title}</SemiSpan>
-                )}
-              </div>
-            ))}
+            <Grid container spacing={4}>
+              {categories?.map((item, ind) => (
+                <Grid item md={3} key={ind}>
+                  {item.href ? (
+                    <NavLink className="title-link" href={item.href}>
+                      {item.title}
+                    </NavLink>
+                  ) : (
+                    <SemiSpan className="title-link">{item.title}</SemiSpan>
+                  )}
+
+                  {item.subCategories?.map((sub, ind) => (
+                    <NavLink key={ind} className="child-link" href={sub.href}>
+                      {sub.title}
+                    </NavLink>
+                  ))}
+                </Grid>
+              ))}
+            </Grid>
           </Box>
 
           {rightImage && (

@@ -21,80 +21,78 @@ type Props = { carList: Product[]; carBrands: Brand[] };
 export default function Section6({ carList, carBrands }: Props) {
   const [selected, setSelected] = useState("");
 
-  const MZNCommunities = [
-    {
-      id: "green-sme-network", // <-- added id
-      name: "Green SME Network",
-      members: "3.2K Members",
-      category: "Sustainability",
-      imageSrc: "/images/image 9.png",
-      link: "/community/green-sme-network",
-    },
-    {
-      id: "fintech-growth-circle", // <-- added id
-      name: "FinTech Growth Circle",
-      members: "3.2K Members",
-      category: "Finance",
-      imageSrc: "/images/image 2.png",
-      link: "/community/fintech-growth-circle",
-    },
-    {
-      id: "women-led-enterprises", // <-- added id
-      name: "Women-Led Enterprises",
-      members: "3.2K Members",
-      category: "Leadership",
-      imageSrc: "/images/image 3.png",
-      link: "/community/women-led-enterprises",
-    },
-    {
-      id: "digital-transformation-for-smes", // <-- added id
-      name: "Digital Transformation for SMEs",
-      members: "3.2K Members",
-      category: "E-commerce",
-      imageSrc: "/images/image 4.png",
-      link: "/community/digital-transformation-for-smes",
-    },
-    {
-      id: "youth-innovation-network", // <-- added id
-      name: "Youth Innovation Network",
-      members: "3.2K Members",
-      category: "Innovation",
-      imageSrc: "/images/image 5.png",
-      link: "/community/youth-innovation-network",
-    },
-    {
-      id: "export-ready-smes-hub", // <-- added id
-      name: "Export-Ready SMEs Hub",
-      members: "3.2K Members",
-      category: "Supply Chain",
-      imageSrc: "/images/image 6.png",
-      link: "/community/export-ready-smes-hub",
-    },
-    {
-      id: "sme-policy-regulation-hub", // <-- added id
-      name: "SME Policy & Regulation Hub",
-      members: "3.2K Members",
-      category: "Policy",
-      imageSrc: "/images/image 7.png",
-      link: "/community/sme-policy-regulation-hub",
-    },
-    {
-      id: "sell-beyond-uae", // <-- added id
-      name: "Sell Beyond UAE",
-      members: "3.2K Members",
-      category: "Global Markets",
-      imageSrc: "/images/image 8.png",
-      link: "/community/sell-beyond-uae",
-    },
-    {
-      id: "logistics-exporters-network", // <-- added id
-      name: "Logistics & Exporters Network",
-      members: "3.2K Members",
-      category: "Supply Chain",
-      imageSrc: "/images/image 9.png",
-      link: "/community/logistics-exporters-network",
-    },
-  ];
+  const MZNCommunities = [{
+    id: "green-sme-network", // <-- added id
+    name: "Green SME Network",
+    members: "3.2K Members",
+    category: "Sustainability",
+    imageSrc: "/images/image 9.png",
+    link: "/community/green-sme-network",
+  },
+  {
+    id: "fintech-growth-circle", // <-- added id
+    name: "FinTech Growth Circle",
+    members: "3.2K Members",
+    category: "Finance",
+    imageSrc: "/images/image 2.png",
+    link: "/community/fintech-growth-circle",
+  },
+  {
+    id: "women-led-enterprises", // <-- added id
+    name: "Women-Led Enterprises",
+    members: "3.2K Members",
+    category: "Leadership",
+    imageSrc: "/images/image 3.png",
+    link: "/community/women-led-enterprises",
+  },
+  {
+    id: "digital-transformation-for-smes", // <-- added id
+    name: "Digital Transformation for SMEs",
+    members: "3.2K Members",
+    category: "E-commerce",
+    imageSrc: "/images/image 4.png",
+    link: "/community/digital-transformation-for-smes",
+  },
+  {
+    id: "youth-innovation-network", // <-- added id
+    name: "Youth Innovation Network",
+    members: "3.2K Members",
+    category: "Innovation",
+    imageSrc: "/images/image 5.png",
+    link: "/community/youth-innovation-network",
+  },
+  {
+    id: "export-ready-smes-hub", // <-- added id
+    name: "Export-Ready SMEs Hub",
+    members: "3.2K Members",
+    category: "Supply Chain",
+    imageSrc: "/images/image 6.png",
+    link: "/community/export-ready-smes-hub",
+  },
+  {
+    id: "sme-policy-regulation-hub", // <-- added id
+    name: "SME Policy & Regulation Hub",
+    members: "3.2K Members",
+    category: "Policy",
+    imageSrc: "/images/image 7.png",
+    link: "/community/sme-policy-regulation-hub",
+  },
+  {
+    id: "sell-beyond-uae", // <-- added id
+    name: "Sell Beyond UAE",
+    members: "3.2K Members",
+    category: "Global Markets",
+    imageSrc: "/images/image 8.png",
+    link: "/community/sell-beyond-uae",
+  },
+  {
+    id: "logistics-exporters-network", // <-- added id
+    name: "Logistics & Exporters Network",
+    members: "3.2K Members",
+    category: "Supply Chain",
+    imageSrc: "/images/image 9.png",
+    link: "/community/logistics-exporters-network",
+  }]
   const handleCategoryClick = (brand: Brand) => () => {
     if (selected === brand.slug) setSelected("");
     else setSelected(brand.slug);
@@ -103,8 +101,7 @@ export default function Section6({ carList, carBrands }: Props) {
   return (
     <Container mb="4.5rem">
       <FlexBox>
-        {/*sidebar*/}
-        <Hidden down={768} mr="1.75rem" ml="-4rem">
+        <Hidden down={768} mr="1.75rem">
           <Box shadow={6} borderRadius={18} padding="1.25rem" bg="white">
             {/* {carBrands.map((brand) => (
               <StyledProductCategory
@@ -122,216 +119,148 @@ export default function Section6({ carList, carBrands }: Props) {
                 <span className="product-category-title">{brand.name}</span>
               </StyledProductCategory>
             ))} */}
-            <StyledProductCategory>
-              <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="flex-start"
-                marginBottom={3}
-              >
-                <span
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: 600,
-                    marginBottom: "8px",
-                    color: "#000000", // dark text for headings
-                  }}
-                >
-                  Explore
-                </span>
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  marginTop={1}
-                  padding="12px"
-                  borderRadius="8px"
-                  width="100%"
-                  maxWidth="280px"
-                >
-                  <Box
-                    width={24}
-                    height={24}
-                    marginRight={2}
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <NextImage
-                      width={24}
-                      height={24}
-                      alt="explore-icon"
-                      src="/images/Avatar (2).png"
-                    />
-                  </Box>
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      color: "#212121",
-                      fontWeight: 600,
-                    }}
-                  >
-                    Communities
-                  </span>
-                </Box>
-              </Box>
-            </StyledProductCategory>
+<StyledProductCategory>
+ 
+  <Box display="flex" flexDirection="column" alignItems="flex-start" marginBottom={3}>
+    <span style={{
+      fontSize: '14px',
+      fontWeight: 600,
+      marginBottom: '8px',
+      color: '#000000'  // dark text for headings
+    }}>
+      Explore
+    </span>
+    <Box 
+      display="flex" 
+      alignItems="center" 
+      marginTop={1} 
+      padding="12px"
+      borderRadius="8px"
+      width="100%"
+      maxWidth="280px"
+    >
+      <Box width={24} height={24} marginRight={2} display="flex" justifyContent="center" alignItems="center">
+        <NextImage width={24} height={24} alt="explore-icon" src="/images/Avatar (2).png" />
+      </Box>
+      <span style={{ fontSize: '12px', color: '#212121', fontWeight: 600 }}>
+        Communities
+      </span>
+    </Box>
+  </Box>
+</StyledProductCategory>
 
-            <StyledProductCategory>
-              <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="flex-start"
-                marginBottom={4}
-              >
-                <span
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: 600,
-                    marginBottom: "8px",
-                    color: "#000",
-                  }}
-                >
-                  Favourites
-                </span>
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  marginTop={1}
-                  padding="12px"
-                  borderRadius="8px"
-                  width="100%"
-                  maxWidth="280px"
-                >
-                  <Box
-                    width={24}
-                    height={24}
-                    marginRight={2}
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <NextImage
-                      width={24}
-                      height={24}
-                      alt="favourites-icon"
-                      src="/images/Avatar (3).png"
-                    />
-                  </Box>
-                  <span
-                    style={{
-                      fontSize: "10px",
-                      color: "#6C757D",
-                      fontWeight: 400,
-                      backgroundColor: "#E7F1FF", // light blue background
-                      borderRadius: "8px", // rounded corners
-                      borderWidth: "0.5px", // border width
-                      borderColor: "#0030E3",
-                      gap: "16px", // space between items (may not affect a single element)
-                      paddingTop: "8px", // top padding
-                      paddingRight: "16px", // right padding
-                      paddingBottom: "8px", // bottom padding
-                      paddingLeft: "16px", // left padding
-                      display: "inline-block", // make it an inline block element
-                      width: "264px", // fixed width
-                      height: "56px", // fixed height
-                    }}
-                  >
-                    Keep your favorites at your fingertips. Favorites will
-                    appear here.
-                  </span>
-                </Box>
-              </Box>
-            </StyledProductCategory>
+<StyledProductCategory>
+  <Box display="flex" flexDirection="column" alignItems="flex-start" marginBottom={4}>
+    <span style={{ fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#000' }}>
+      Favourites
+    </span>
+    <Box 
+      display="flex" 
+      alignItems="center" 
+      marginTop={1} 
+      padding="12px"
+      borderRadius="8px"
+      width="100%"
+      maxWidth="280px"
+    >
+      <Box width={24} height={24} marginRight={2} display="flex" justifyContent="center" alignItems="center">
+        <NextImage width={24} height={24} alt="favourites-icon" src="/images/Avatar (3).png" />
+      </Box>
+      <span 
+  style={{
+    fontSize: '10px', 
+    color: '#6C757D', 
+    fontWeight: 400, 
+    backgroundColor: '#E7F1FF',  // light blue background
+    borderRadius: '8px',  // rounded corners
+    borderWidth: '0.5px',  // border width
+    borderColor: '#0030E3',
+    gap: '16px',  // space between items (may not affect a single element)
+    paddingTop: '8px',  // top padding
+    paddingRight: '16px',  // right padding
+    paddingBottom: '8px',  // bottom padding
+    paddingLeft: '16px',  // left padding
+    display: 'inline-block',  // make it an inline block element
+    width: '264px',  // fixed width
+    height: '56px',  // fixed height
+  }}
+>
+  Keep your favorites at your fingertips. Favorites will appear here.
+</span>
+    </Box>
+  </Box>
+</StyledProductCategory>
 
-            <StyledProductCategory>
-              <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="flex-start"
-                marginBottom={4}
-              >
-                <span
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: 600,
-                    marginBottom: "8px",
-                    color: "#000",
-                  }}
-                >
-                  Communities
-                </span>
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  marginTop={1}
-                  padding="12px"
-                  borderRadius="8px"
-                  width="100%"
-                  maxWidth="280px"
-                >
-                  <Box
-                    width={24}
-                    height={24}
-                    marginRight={2}
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <NextImage
-                      width={24}
-                      height={24}
-                      alt="communities-icon"
-                      src="/images/Avatar (2).png"
-                    />
-                  </Box>
-                  <span
-                    style={{
-                      fontSize: "10px",
-                      color: "#6C757D",
-                      fontWeight: 400,
-                      backgroundColor: "#E7F1FF", // light blue background
-                      borderRadius: "8px", // rounded corners
-                      borderWidth: "0.5px", // border width
-                      borderColor: "#0030E3",
-                      gap: "16px", // space between items (may not affect a single element)
-                      paddingTop: "8px", // top padding
-                      paddingRight: "16px", // right padding
-                      paddingBottom: "8px", // bottom padding
-                      paddingLeft: "16px", // left padding
-                      display: "inline-block", // make it an inline block element
-                      width: "264px", // fixed width
-                      height: "56px", // fixed height
-                    }}
-                  >
-                    No communities yet
-                  </span>
-                </Box>
-              </Box>
-            </StyledProductCategory>
+<StyledProductCategory>
+  <Box display="flex" flexDirection="column" alignItems="flex-start" marginBottom={4}>
+    <span style={{ fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#000' }}>
+      Communities
+    </span>
+    <Box 
+      display="flex" 
+      alignItems="center" 
+      marginTop={1} 
+      padding="12px"
+      borderRadius="8px"
+      width="100%"
+      maxWidth="280px"
+    >
+      <Box width={24} height={24} marginRight={2} display="flex" justifyContent="center" alignItems="center">
+        <NextImage width={24} height={24} alt="communities-icon" src="/images/Avatar (2).png" />
+      </Box>
+      <span 
+  style={{
+    fontSize: '10px', 
+    color: '#6C757D', 
+    fontWeight: 400, 
+    backgroundColor: '#E7F1FF',  // light blue background
+    borderRadius: '8px',  // rounded corners
+    borderWidth: '0.5px',  // border width
+    borderColor: '#0030E3',
+    gap: '16px',  // space between items (may not affect a single element)
+    paddingTop: '8px',  // top padding
+    paddingRight: '16px',  // right padding
+    paddingBottom: '8px',  // bottom padding
+    paddingLeft: '16px',  // left padding
+    display: 'inline-block',  // make it an inline block element
+    width: '264px',  // fixed width
+    height: '56px',  // fixed height
+  }}
+>
+  No communities yet
+</span>
 
-            <StyledProductCategory
-              id="all"
-              mt="2rem"
-              shadow={selected.match("all") ? 4 : null}
-              bg="transparent"
-              p="0"
-            >
-              <span
-                id="all"
-                className="product-category-title"
-                style={{
-                  fontFamily: "Inter", // Use Inter font-family
-                  fontSize: "10px", // Font size set to 10px
-                  lineHeight: "20px", // Line height set to 20px
-                  letterSpacing: "0px", // Letter spacing set to 0px
-                  color: "#0061F2", // Blue color for text
-                  marginTop: "20px", // Margin top set to 20px
-                  cursor: "pointer", // Change cursor to pointer on hover
-                }}
-              >
-                Discover communities
-              </span>
-            </StyledProductCategory>
+    </Box>
+  </Box>
+</StyledProductCategory>
+
+<StyledProductCategory
+  id="all"
+  mt="2rem"
+  shadow={selected.match("all") ? 4 : null}
+  bg="transparent"
+  p="0"
+>
+  <span 
+  id="all" 
+  className="product-category-title" 
+  style={{ 
+    fontFamily: 'Inter',  // Use Inter font-family
+    fontSize: '10px',  // Font size set to 10px
+    lineHeight: '20px',  // Line height set to 20px
+    letterSpacing: '0px',  // Letter spacing set to 0px
+    color: '#0061F2',  // Blue color for text
+    marginTop: '20px',  // Margin top set to 20px
+    cursor: 'pointer'  // Change cursor to pointer on hover
+  }}
+>
+    Discover communities
+  </span>
+</StyledProductCategory>
+
+
+
+
           </Box>
         </Hidden>
 

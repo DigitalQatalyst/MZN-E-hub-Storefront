@@ -14,13 +14,9 @@ type CategoryDropdownProps = {
 export default function CategoryDropdown({ open, position = "absolute" }: CategoryDropdownProps) {
   const megaMenu = { MegaMenu1, MegaMenu2 };
 
-  // Only these titles should have dropdowns
-  const dropdownTitles = ["Financial", "Non-Financial"];
-
   return (
     <StyledCategoryDropdown open={open} position={position}>
       {navigations.map((item) => {
-        const hasDropdown = dropdownTitles.includes(item.title) && !!item.menuData;
         let MegaMenu = megaMenu[item.menuComponent];
 
         return (
@@ -29,9 +25,8 @@ export default function CategoryDropdown({ open, position = "absolute" }: Catego
             href={item.href}
             icon={item.icon}
             title={item.title}
-            caret={hasDropdown}
-          >
-            {hasDropdown && MegaMenu ? <MegaMenu data={item.menuData || {}} /> : null}
+            caret={!!item.menuData}>
+            <MegaMenu data={item.menuData || {}} />
           </CategoryMenuItem>
         );
       })}

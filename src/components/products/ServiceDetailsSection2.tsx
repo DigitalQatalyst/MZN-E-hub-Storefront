@@ -4,7 +4,7 @@ import Box from "@component/Box";
 import { Button } from "@component/buttons";
 import FlexBox from "@component/FlexBox";
 import Grid from "@component/grid/Grid";
-import { ProductCard19, ProductCard20 } from "@component/product-cards";
+import { ProductCard20 } from "@component/product-cards";
 import { H3, H4, H6, Paragraph, SemiSpan, Span } from "@component/Typography";
 import Product from "@models/product.model";
 import { useState } from "react";
@@ -364,7 +364,7 @@ export default function ServiceDetailsSection2({ product }: Props) {
           <FlexBox color="#0030E3" mb="1.5rem" justifyContent="space-between">
             <H3 color="#0030E3">Related Services</H3>
             <Link
-              href="/services"
+              href="/financial-marketplace"
               style={{
                 display: "flex",
                 alignItems: "center",

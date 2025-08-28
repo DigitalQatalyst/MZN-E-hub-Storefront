@@ -43,12 +43,12 @@ export default function Footer1() {
             href={linkItem.url}
             key={index}
             style={{
-              color: "rgba(255,255,255,0.8)",
-              display: "block",
-              marginBottom: "0.75rem",
-              fontSize: "14px",
-              textDecoration: "none",
-              transition: "color 0.2s ease",
+              color: 'rgba(255,255,255,0.8)',
+              display: 'block',
+              marginBottom: '0.75rem',
+              fontSize: '14px',
+              textDecoration: 'none',
+              transition: 'color 0.2s ease'
             }}
           >
             {linkItem.name}
@@ -60,11 +60,11 @@ export default function Footer1() {
                 px="0.5rem"
                 py="0.25rem"
                 style={{
-                  backgroundColor: "white",
-                  color: "#0030E3",
-                  borderRadius: "4px",
-                  fontSize: "12px",
-                  fontWeight: "600",
+                  backgroundColor: 'white',
+                  color: '#0030E3',
+                  borderRadius: '4px',
+                  fontSize: '12px',
+                  fontWeight: '600'
                 }}
               >
                 {linkItem.badge}
@@ -83,28 +83,20 @@ export default function Footer1() {
         position="relative"
         overflow="hidden"
         style={{
-          background:
-            "linear-gradient(94.22deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%)",
+          background: "linear-gradient(94.22deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%)"
         }}
       >
-        <div
-          style={{
-            color: "white",
-            margin: "0 auto",
-            width: "100%",
-            padding: "0 4rem",
-          }}
-        >
+        <div style={{
+          color: "white",
+          margin: "0 auto",
+          width: "100%",
+          padding: "0 4rem"
+        }}>
           {/* Header Section - Logo, Description & Newsletter */}
           <Box pt="4rem" pb="3rem">
             {/* Logo Section */}
             <Box mb="2rem">
-              <img
-                src="/assets/images/tab_bar/Subtract.svg"
-                alt="MZN Enterprise Hub"
-                height="100%"
-                width="240rem"
-              />
+              <img src="/assets/images/tab_bar/Subtract.svg" alt="MZN Enterprise Hub" height="100%" width="240rem" />
             </Box>
 
             {/* Description and Newsletter Section */}
@@ -120,16 +112,12 @@ export default function Footer1() {
                   fontSize="14px"
                   lineHeight="1.5"
                 >
-                  Stay updated with the latest business insights, opportunities,
-                  and services from Enterprise Journey.
+                  Stay updated with the latest business insights, opportunities, and services from Enterprise Journey.
                 </Paragraph>
               </Box>
 
               {/* Right Section - Newsletter Subscription */}
-              <Box
-                width={{ xs: "100%", lg: "560px" }}
-                mt={{ xs: "2rem", lg: "0" }}
-              >
+              <Box width={{ xs: "100%", lg: "560px" }} mt={{ xs: "2rem", lg: "0" }}>
                 <form onSubmit={handleSubmit}>
                   <Box position="relative">
                     <SubscribeInput
@@ -139,34 +127,34 @@ export default function Footer1() {
                       onChange={(e) => setEmail(e.target.value)}
                       required
                       style={{
-                        width: "100%",
-                        backgroundColor: "transparent",
-                        border: "1px solid rgba(255,255,255,0.2)",
-                        color: "white",
-                        borderRadius: "12px",
-                        padding: "14px 120px 14px 16px", // Extra right padding for button
-                        fontSize: "16px",
-                        outline: "none",
-                        transition: "border-color 0.2s ease",
+                        width: '100%',
+                        backgroundColor: 'transparent',
+                        border: '1px solid rgba(255,255,255,0.2)',
+                        color: 'white',
+                        borderRadius: '12px',
+                        padding: '14px 120px 14px 16px', // Extra right padding for button
+                        fontSize: '16px',
+                        outline: 'none',
+                        transition: 'border-color 0.2s ease'
                       }}
                     />
                     <SubscribeButton
                       type="submit"
                       style={{
-                        position: "absolute",
-                        right: "6px",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        backgroundColor: "white",
-                        color: "#0030E3",
-                        borderRadius: "8px",
-                        fontWeight: "600",
-                        border: "none",
-                        padding: "10px 20px",
-                        fontSize: "14px",
-                        cursor: "pointer",
-                        transition: "transform 0.2s ease",
-                        whiteSpace: "nowrap",
+                        position: 'absolute',
+                        right: '6px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        backgroundColor: 'white',
+                        color: '#0030E3',
+                        borderRadius: '8px',
+                        fontWeight: '600',
+                        border: 'none',
+                        padding: '10px 20px',
+                        fontSize: '14px',
+                        cursor: 'pointer',
+                        transition: 'transform 0.2s ease',
+                        whiteSpace: 'nowrap'
                       }}
                     >
                       Subscribe
@@ -180,10 +168,10 @@ export default function Footer1() {
           {/* Horizontal Separator Line */}
           <Box
             style={{
-              height: "4px",
-              backgroundColor: "#5088FF",
-              marginBottom: "3rem",
-              borderRadius: "4px",
+              height: '4px',
+              backgroundColor: '#5088FF',
+              marginBottom: '3rem',
+              borderRadius: '4px',
             }}
           />
 
@@ -201,18 +189,15 @@ export default function Footer1() {
       {/* Bottom Copyright Section */}
       <Box
         style={{
-          background:
-            "linear-gradient(94.22deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%)",
+          background: "linear-gradient(94.22deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%)"
         }}
         pb="2rem"
       >
-        <div
-          style={{
-            margin: "0 auto",
-            width: "100%",
-            padding: "0 4rem",
-          }}
-        >
+        <div style={{
+          margin: "0 auto",
+          width: "100%",
+          padding: "0 4rem"
+        }}>
           <FlexBox
             justifyContent="space-between"
             alignItems="center"
@@ -232,7 +217,7 @@ export default function Footer1() {
                   fontSize="14px"
                   fontWeight="400"
                   mr="1rem"
-                  style={{ textDecoration: "none" }}
+                  style={{ textDecoration: 'none' }}
                 >
                   Privacy Policy
                 </Typography>
@@ -243,16 +228,12 @@ export default function Footer1() {
                   fontSize="14px"
                   fontWeight="400"
                   mr="1rem"
-                  style={{ textDecoration: "none" }}
+                  style={{ textDecoration: 'none' }}
                 >
                   Terms of Service
                 </Typography>
               </FlexBox>
-              <Typography
-                color="rgba(255,255,255,0.8)"
-                fontSize="14px"
-                mt={{ xs: "0.5rem", sm: "0" }}
-              >
+              <Typography color="rgba(255,255,255,0.8)" fontSize="14px" mt={{ xs: "0.5rem", sm: "0" }}>
                 © 2025 Enterprise Journey
               </Typography>
             </FlexBox>
@@ -261,16 +242,10 @@ export default function Footer1() {
             <FlexBox>
               {socialMediaLinks.map((social, index) => {
                 // Map icon names to lucide-react components
-                const IconComponent =
-                  social.icon === "linkedin"
-                    ? Linkedin
-                    : social.icon === "twitter"
-                    ? Twitter
-                    : social.icon === "youtube"
-                    ? Youtube
-                    : social.icon === "instagram"
-                    ? Instagram
-                    : Linkedin;
+                const IconComponent = social.icon === 'linkedin' ? Linkedin :
+                  social.icon === 'twitter' ? Twitter :
+                    social.icon === 'youtube' ? Youtube :
+                      social.icon === 'instagram' ? Instagram : Linkedin;
 
                 return (
                   <a
@@ -278,7 +253,7 @@ export default function Footer1() {
                     href={social.url}
                     target="_blank"
                     rel="noreferrer noopener"
-                    style={{ textDecoration: "none" }}
+                    style={{ textDecoration: 'none' }}
                     aria-label={`Follow us on ${social.name}`}
                   >
                     <Box
@@ -289,9 +264,9 @@ export default function Footer1() {
                       alignItems="center"
                       justifyContent="center"
                       style={{
-                        transition: "background-color 0.2s ease",
-                        color: "rgba(255,255,255,0.8)",
-                        cursor: "pointer",
+                        transition: 'background-color 0.2s ease',
+                        color: 'rgba(255,255,255,0.8)',
+                        cursor: 'pointer'
                       }}
                     >
                       <IconComponent size={20} />

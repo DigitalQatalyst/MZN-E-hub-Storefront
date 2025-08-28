@@ -4,7 +4,6 @@ import Box from "@component/Box";
 import { Button } from "@component/buttons";
 import FlexBox from "@component/FlexBox";
 import Grid from "@component/grid/Grid";
-import { ProductCard19, ProductCard20 } from "@component/product-cards";
 import { H3, H4, H6, Paragraph, SemiSpan, Span } from "@component/Typography";
 import Product from "@models/product.model";
 import { useState } from "react";
@@ -19,6 +18,7 @@ import "./products.css";
 import { FaAngleRight } from "react-icons/fa";
 import { IoArrowForward } from "react-icons/io5";
 import Link from "next/link";
+import { ProductCard20 } from "@component/product-cards";
 
 const TabButton = styled(Button)<{ active?: boolean }>`
   padding: 0.75rem 1.5rem;
@@ -34,6 +34,14 @@ const TabButton = styled(Button)<{ active?: boolean }>`
   &:hover {
     background-color: #fff;
     color: #0030e3;
+    box-shadow: none;
+  }
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  &:active {
+    box-shadow: none;
     box-shadow: none;
   }
   &:focus {
@@ -188,7 +196,9 @@ export default function ProductDetails({ product }: Props) {
   const renderCost = () => (
     <ContentBox>
       {/* <DocumentItem mb="1rem">Service Cost Details</DocumentItem> */}
+      {/* <DocumentItem mb="1rem">Service Cost Details</DocumentItem> */}
       <DocumentItem>
+        {product?.cost || "No cost information available."}
         {product?.cost || "No cost information available."}
       </DocumentItem>
     </ContentBox>
@@ -248,6 +258,7 @@ export default function ProductDetails({ product }: Props) {
 
   const renderTerms = () => (
     <ContentBox>
+      
       {/* <DocumentItem mb="1rem">Terms of Service</DocumentItem> */}
       {product?.termsOfService && product?.termsOfService.length > 0 ? (
         product?.termsOfService.map((term, index) => (
@@ -261,6 +272,8 @@ export default function ProductDetails({ product }: Props) {
 
   const renderTabContent = () => {
     switch (activeTab) {
+      case "description":
+        return renderDescription();
       case "description":
         return renderDescription();
       case "documents":
@@ -314,7 +327,9 @@ export default function ProductDetails({ product }: Props) {
             onClick={() => setActiveTab("documents")}
           >
             Required Documents
+            Required Documents
           </TabButton>
+
 
           <TabButton
             className="product-details-tab"
@@ -364,7 +379,7 @@ export default function ProductDetails({ product }: Props) {
           <FlexBox color="#0030E3" mb="1.5rem" justifyContent="space-between">
             <H3 color="#0030E3">Related Services</H3>
             <Link
-              href="/services"
+              href="/financial-marketplace"
               style={{
                 display: "flex",
                 alignItems: "center",

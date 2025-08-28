@@ -21,6 +21,7 @@ interface Product {
   id: string | number;
   slug: string;
   title: string;
+  // title1: string;
   subTitle: string;
   description: string;
   facetValues?: facets[];

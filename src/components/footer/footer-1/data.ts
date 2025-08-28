@@ -12,6 +12,20 @@ interface FooterColumn {
 }
 
 // Existing data (kept for backward compatibility)
+// Link interface for type safety
+interface LinkItem {
+  name: string;
+  url: string;
+  badge?: string; // Optional badge text like "New" or "Coming soon"
+}
+
+// Footer column interface
+interface FooterColumn {
+  title: string;
+  links: LinkItem[];
+}
+
+// Existing data (kept for backward compatibility)
 export const aboutLinks = [
   "Business in AbuDhabi",
   "Help Center",
@@ -68,7 +82,7 @@ export const footerData: Record<string, FooterColumn> = {
     ]
   },
   growWithUs: {
-    title: "Grow with Us", 
+    title: "Grow with Us",
     links: [
       { name: "Discover AbuDhabi", url: "#" },
       { name: "Funding & Incentives", url: "#" },
@@ -107,24 +121,24 @@ export const footerData: Record<string, FooterColumn> = {
 
 // Social media links with proper URLs
 export const socialMediaLinks = [
-  { 
-    name: "LinkedIn", 
-    url: "#", 
-    icon: "linkedin" 
+  {
+    name: "LinkedIn",
+    url: "#",
+    icon: "linkedin"
   },
-  { 
-    name: "Twitter", 
-    url: "#", 
-    icon: "twitter" 
+  {
+    name: "Twitter",
+    url: "#",
+    icon: "twitter"
   },
-  { 
-    name: "YouTube", 
-    url: "#", 
-    icon: "youtube" 
+  {
+    name: "YouTube",
+    url: "#",
+    icon: "youtube"
   },
-  { 
-    name: "Instagram", 
-    url: "#", 
-    icon: "instagram" 
+  {
+    name: "Instagram",
+    url: "#",
+    icon: "instagram"
   }
 ];

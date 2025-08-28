@@ -1,4 +1,5 @@
 // API FUNCTIONS
+"use client";
 import api from "@utils/__api__/market-1";
 // PAGE SECTION COMPONENTS
 import Section1 from "@sections/market-1/Section1";

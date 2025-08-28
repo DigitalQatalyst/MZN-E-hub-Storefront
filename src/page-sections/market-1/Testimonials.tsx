@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { H3 } from "@component/Typography";
 import { Button as DefaultButton } from "@component/buttons";
@@ -194,50 +195,122 @@ const ExploreAllButton = styled(DefaultButton)`
 `;
 
 // TYPES
-interface Event {
-  id: number;
-  image: string;
+interface Post {
+  postId: string;
   title: string;
+  content: string;
+  slug: string;
   date: string;
+  featuredImage: {
+    node: {
+      sourceUrl: string;
+    };
+  } | null;
 }
 
-const Section16: React.FC = () => {
-  const events: Event[] = [
-    {
-      id: 1,
-      image: "/assets/images/Groceries Shop/one.png",
-      title: "Khalifa Fund for Enterprise Development sponsors ...",
-      date: "17-03-2025",
-    },
-    {
-      id: 2,
-      image: "/assets/images/Groceries Shop/two.png",
-      title: "Khalifa Fund sponsors ventures participating in Dubai ...",
-      date: "14-04-2025",
-    },
-    {
-      id: 3,
-      image: "/assets/images/Groceries Shop/three.png",
-      title: "Khalifa Fund for Enterprise Development sponsors ...",
-      date: "24-04-2025",
-    },
-    {
-      id: 4,
-      image: "/assets/images/Groceries Shop/four.png",
-      title: "Khalifa Fund sponsors ventures participating in Dubai ...",
-      date: "09-05-2025",
-    },
-  ];
+const GRAPHQL_ENDPOINT = "https://ujs.qxk.mybluehost.me/website_b79ab28e/graphql";
 
+const Section16: React.FC = () => {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  const handleExploreAllClick = () => {
-    router.push("https://kf-ej-media-marketplace-c0cllh08g-digitalqatalysts-projects.vercel.app/");
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch(GRAPHQL_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            query: `
+              query getPostsCopy {
+                posts(first: 4) {
+                  edges {
+                    node {
+                      postId
+                      content(format: RAW)
+                      slug
+                      title
+                      date
+                      featuredImage {
+                        node {
+                          sourceUrl
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const { data } = await response.json();
+        setPosts(data.posts.edges.map((edge: any) => edge.node));
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching posts:', err);
+        setError('Failed to load posts. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
   };
+
+  const handleExploreAllClick = () => {
+    window.open("https://kf-ej-media-marketplace-c0cllh08g-digitalqatalysts-projects.vercel.app/", "_blank");
+  };
+
+  if (loading) {
+    return (
+      <WelcomeSection>
+        <ContentColumn>
+          <H3 style={{ fontSize: "16px", fontWeight: "400", textTransform: "uppercase" }}>
+            Latest Insights & Success Stories
+          </H3>
+          <H3 fontSize="48px" fontWeight="600">
+            Loading...
+          </H3>
+        </ContentColumn>
+      </WelcomeSection>
+    );
+  }
+
+  if (error) {
+    return (
+      <WelcomeSection>
+        <ContentColumn>
+          <H3 style={{ fontSize: "16px", fontWeight: "400", textTransform: "uppercase" }}>
+            Error
+          </H3>
+          <H3 fontSize="24px" fontWeight="600" color="error">
+            {error}
+          </H3>
+        </ContentColumn>
+      </WelcomeSection>
+    );
+  }
 
   return (
     <div>
-      {/* Welcome Section */}
       <WelcomeSection>
         <ContentColumn>
           <H3 style={{ fontSize: "16px", fontWeight: "400", textTransform: "uppercase" }}>
@@ -260,20 +333,20 @@ const Section16: React.FC = () => {
             </ExploreAllButton>
           </FeaturedEventsHeader>
           <EventsContainer>
-            {events.map((event) => (
-              <EventCard key={event.id}>
+            {posts.map((post) => (
+              <EventCard key={post.postId}>
                 <EventImage>
                   <Image
-                    src={event.image}
-                    alt={event.title}
+                    src={post.featuredImage?.node?.sourceUrl || "/assets/images/placeholder.jpg"}
+                    alt={post.title}
                     layout="fill"
                     objectFit="cover"
                   />
                 </EventImage>
                 <EventDetails>
-                  <EventTitle>{event.title}</EventTitle>
+                  <EventTitle>{post.title}</EventTitle>
                   <EventMeta>
-                    <span>{event.date}</span>
+                    <span>{formatDate(post.date)}</span>
                   </EventMeta>
                 </EventDetails>
               </EventCard>

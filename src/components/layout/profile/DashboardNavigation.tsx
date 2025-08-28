@@ -164,8 +164,18 @@ const Sidebar = () => {
   ];
 
   const essentialItems: NavItem[] = [
-    { id: 'profile', label: 'Profile', icon: '/images/vertical-shades-closed.svg', route: '/firm-profile' },
-    { id: 'documents', label: 'Documents', icon: '/images/home-storage.svg', route: '/#' },
+    {
+      id: "profile",
+      label: "Profile",
+      icon: "/images/vertical-shades-closed.svg",
+      route: "/firm-profile",
+    },
+    {
+      id: "documents",
+      label: "Documents",
+      icon: "/images/home-storage.svg",
+      route: "/#",
+    },
   ];
 
   const transactionItems: NavItem[] = [
@@ -221,7 +231,7 @@ const Sidebar = () => {
 
   const renderNavItem = (item: NavItem) => {
     const active = isActive(item.route);
-    
+
     return (
       <NavItem
         key={item.id}
@@ -231,12 +241,12 @@ const Sidebar = () => {
         onMouseLeave={() => setHoveredItem(null)}
         onClick={() => handleNavigation(item.route)}
       >
-        <img 
-          src={item.icon} 
-          alt={item.label} 
+        <img
+          src={item.icon}
+          alt={item.label}
           height="20px"
           style={{
-            filter: active ? 'brightness(0) invert(1)' : 'none'
+            filter: active ? "brightness(0) invert(1)" : "none",
           }}
         />
         <span>{item.label}</span>
@@ -303,7 +313,7 @@ const Sidebar = () => {
       </CompanySelectorContainer>
 
       {/* Navigation */}
-      <div style={{ flex: 1, paddingTop: '16px', paddingBottom: '16px' }}>
+      <div style={{ flex: 1, paddingTop: "16px", paddingBottom: "16px" }}>
         {/* Overview - Dashboard */}
         <Box px="16px" mb="24px">
           <NavItem
@@ -319,7 +329,9 @@ const Sidebar = () => {
               alt="Dashboard" 
               height="20px" 
               style={{
-                filter: isActive('/dashboard') ? 'brightness(0) invert(1)' : 'brightness(0) opacity(0.6)'
+                filter: isActive("/dashboard")
+                  ? "brightness(0) invert(1)"
+                  : "brightness(0) opacity(0.6)",
               }}
             />
             <span>Overview</span>

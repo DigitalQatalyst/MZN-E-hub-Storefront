@@ -231,7 +231,6 @@ export default function ProductCard21(props: ProductCard19Props) {
           description,
           slug,
           title: name,
-          title1: name,
         }}
       />
     </Fragment>

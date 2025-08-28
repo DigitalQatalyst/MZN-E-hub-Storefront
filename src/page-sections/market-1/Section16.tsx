@@ -6,23 +6,30 @@ import { H3 } from "@component/Typography";
 import { Button as DefaultButton } from "@component/buttons";
 import Image from "next/image";
 import Icon from "@component/icon/Icon";
+import { useRouter } from "next/navigation";
 
 // STYLED COMPONENTS
 const WelcomeSection = styled.section`
   background-color: #0030E3;
   color: white;
-  padding: 50px 120px 50px 120px;
+  padding: 90px 120px 50px 120px;
   display: flex;
   flex-direction: column;
-  font-family: 'Abhaya Libre', serif;
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
   gap: 2rem;
   margin-bottom: 2rem;
+  @media (max-width: 1199px) {
+    padding: 32px 32px 32px 32px;
+  }
+  @media (max-width: 899px) {
+    padding: 16px 8px 16px 8px;
+  }
 `;
 
 const ContentColumn = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 `;
 
 const FeaturedEvents = styled.div`
@@ -46,6 +53,14 @@ const EventsContainer = styled.div`
   gap: 2rem;
   width: 100%;
   flex-wrap: nowrap;
+  @media (max-width: 899px) {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  @media (max-width: 599px) {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 `;
 
 const EventCard = styled.div`
@@ -57,6 +72,13 @@ const EventCard = styled.div`
   gap: 1rem;
   flex: 1 1 0;
   min-width: 0;
+  @media (max-width: 899px) {
+    flex: 1 1 100%;
+    border-radius: 8px;
+  }
+  @media (max-width: 599px) {
+    border-radius: 6px;
+  }
 `;
 
 const EventImage = styled.div`
@@ -79,11 +101,14 @@ const EventTitle = styled.h4`
   font-weight: 400;
   color: #FFF;
   margin: 0;
+  @media (max-width: 899px) {
+    font-size: 16px;
+  }
 `;
 
 const EventMeta = styled.div`
   font-size: 14px;
-  font-family: "FS Kim Trial";
+  font-family: "Public Sans", sans-serif;
   color: #FFF;
   display: flex;
   flex-direction: column;
@@ -177,7 +202,7 @@ const PopupSubtitle = styled.p`
 const CloseButton = styled.button`
   background: none;
   border: none;
-  font-size: 24px; /* Increased size */
+  font-size: 24px;
   cursor: pointer;
   color: #666;
 `;
@@ -190,7 +215,7 @@ const FormFieldWrapper = styled.div`
 `;
 
 const FormLabel = styled.label`
-  font-family: "Helvetica Neue";
+  font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   color: #000;
   font-weight: 400;
@@ -201,7 +226,7 @@ const FormField = styled.input`
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-family: "Helvetica Neue";
+  font-family: "Public Sans", sans-serif;
   font-size: 14px;
   color: #000;
   box-sizing: border-box;
@@ -213,7 +238,7 @@ const SubmitButton = styled.button`
   padding: 12px;
   border: none;
   border-radius: 4px;
-  font-family: "Helvetica Neue";
+  font-family: "Public Sans", sans-serif;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
@@ -262,13 +287,13 @@ const Checkmark = styled.span`
 `;
 
 const SuccessMessage = styled.div`
-  font-family: "Helvetica Neue";
+  font-family: "Public Sans", sans-serif;
   font-size: 16px;
   color: #000;
 `;
 
 const SuccessSubMessage = styled.div`
-  font-family: "Helvetica Neue";
+  font-family: "Public Sans", sans-serif;
   font-size: 14px;
   color: #666;
   margin-top: 8px;
@@ -315,6 +340,7 @@ const Section16: React.FC = () => {
     phoneNumber: "",
   });
   const [showSuccess, setShowSuccess] = useState(false);
+  const router = useRouter();
 
   const handleRegisterClick = (event: Event) => {
     setSelectedEvent(event);
@@ -340,6 +366,10 @@ const Section16: React.FC = () => {
     setShowSuccess(true);
     setFormData({ fullName: "", email: "", phoneNumber: "" });
     setTimeout(() => setShowSuccess(false), 3000);
+  };
+
+  const handleExploreAllClick = () => {
+    router.push("/development");
   };
 
   return (
@@ -415,15 +445,15 @@ const Section16: React.FC = () => {
       )}
       <WelcomeSection>
         <ContentColumn>
-          <p style={{ fontSize: "16px", fontWeight: "400", fontFamily: "Helvetica Neue" }}>JOIN OUR UPCOMING EVENTS</p>
-          <H3 fontSize="48px" fontWeight="400" fontFamily="FS Kim Trial" mb="1rem">
+          <p style={{ fontSize: "16px", fontWeight: "400", fontFamily: "Open Sans, sans-serif" }}>JOIN OUR UPCOMING EVENTS</p>
+          <H3 fontSize="48px" fontWeight="400" fontFamily="Open Sans" mb="1rem">
             Workshops, bootcamps, and info sessions <br /> designed to help you grow.
           </H3>
         </ContentColumn>
         <FeaturedEvents>
           <FeaturedEventsHeader>
-            <p style={{ fontSize: "16px", fontWeight: "400", fontFamily: "Helvetica Neue" }}>Featured Events</p>
-            <ExploreAllButton>
+            <p style={{ fontSize: "16px", fontWeight: "400", fontFamily: 'Open Sans' }}>Featured Events</p>
+            <ExploreAllButton onClick={handleExploreAllClick}>
               Explore all Events <span>→</span>
             </ExploreAllButton>
           </FeaturedEventsHeader>

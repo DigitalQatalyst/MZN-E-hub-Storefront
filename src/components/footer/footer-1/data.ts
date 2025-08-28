@@ -12,6 +12,20 @@ interface FooterColumn {
 }
 
 // Existing data (kept for backward compatibility)
+// Link interface for type safety
+interface LinkItem {
+  name: string;
+  url: string;
+  badge?: string; // Optional badge text like "New" or "Coming soon"
+}
+
+// Footer column interface
+interface FooterColumn {
+  title: string;
+  links: LinkItem[];
+}
+
+// Existing data (kept for backward compatibility)
 export const aboutLinks = [
   "Business in AbuDhabi",
   "Help Center",
@@ -46,18 +60,15 @@ export const partners = [
 export const legalLinks = [
   "Privacy Policy",
   "Cookie Policy",
-  "Terms of Service",
+  "Terms of Service"
 ];
 
 export const iconList = [
   // { iconName: "facebook", url: "https://www.facebook.com/UILibOfficial" },
   { iconName: "google", url: "/" },
   { iconName: "twitter", url: "/" },
-  {
-    iconName: "youtube",
-    url: "https://www.youtube.com/channel/UCsIyD-TSO1wQFz-n2Y4i3Rg",
-  },
-  { iconName: "instagram", url: "/" },
+  { iconName: "youtube", url: "https://www.youtube.com/channel/UCsIyD-TSO1wQFz-n2Y4i3Rg" },
+  { iconName: "instagram", url: "/" }
 ];
 
 // New footer data structure for the updated 5-column layout
@@ -71,7 +82,7 @@ export const footerData: Record<string, FooterColumn> = {
     ]
   },
   growWithUs: {
-    title: "Grow with Us", 
+    title: "Grow with Us",
     links: [
       { name: "Discover AbuDhabi", url: "#" },
       { name: "Funding & Incentives", url: "#" },
@@ -110,24 +121,24 @@ export const footerData: Record<string, FooterColumn> = {
 
 // Social media links with proper URLs
 export const socialMediaLinks = [
-  { 
-    name: "LinkedIn", 
-    url: "#", 
-    icon: "linkedin" 
+  {
+    name: "LinkedIn",
+    url: "#",
+    icon: "linkedin"
   },
-  { 
-    name: "Twitter", 
-    url: "#", 
-    icon: "twitter" 
+  {
+    name: "Twitter",
+    url: "#",
+    icon: "twitter"
   },
-  { 
-    name: "YouTube", 
-    url: "#", 
-    icon: "youtube" 
+  {
+    name: "YouTube",
+    url: "#",
+    icon: "youtube"
   },
-  { 
-    name: "Instagram", 
-    url: "#", 
-    icon: "instagram" 
+  {
+    name: "Instagram",
+    url: "#",
+    icon: "instagram"
   }
 ];

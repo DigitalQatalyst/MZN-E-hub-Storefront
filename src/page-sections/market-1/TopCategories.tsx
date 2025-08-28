@@ -319,17 +319,25 @@ export default function Section3() {
               dots={true}
               arrows={true}
             >
-              {carouselContent.map((item, ind) => (
-                <Box key={ind} px="10px">
-                  <Link href={`/product/search/${item.slug}`}>
+            {carouselContent.map((item, ind) => (
+              <Box key={ind} px="10px">
+                <Link href="#" legacyBehavior>
+                  <a
+                    tabIndex={-1}
+                    aria-disabled="true"
+                    onClick={(e) => e.preventDefault()}
+                    style={{ pointerEvents: "none", cursor: "default" }}
+                  >
                     <ProductCard6
                       title={item.name}
                       imgUrl={item.image}
                       subtitle={item.description}
                     />
-                  </Link>
-                </Box>
-              ))}
+                  </a>
+                </Link>
+              </Box>
+            ))}
+
             </Carousel>
           </Box>
         </ResponsiveContainer>

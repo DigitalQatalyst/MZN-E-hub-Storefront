@@ -38,7 +38,7 @@ const Carousel = forwardRef<SlickCarousel, Props>((props, ref) => {
     slidesToShow,
     ...CarouselArrows({ style: arrowStyles }),
     ...CarouselDots({ dotColor, style: dotStyles }),
-    ...others,
+    ...others
   };
 
   return (

@@ -1,21 +1,17 @@
 "use client";
 
-
 import Card from "@component/Card";
 import Grid from "@component/grid/Grid";
 import NavLink from "@component/nav-link";
 import { H3 } from "@component/Typography";
 import Container from "@component/Container";
-import { ProductCard19 } from "@component/product-cards";
 import { useState, useEffect } from "react";
 import client from "@lib/graphQLClient";
-import TabBar from '@component/tab-bar/TabBar';
+import TabBar from "@component/tab-bar/TabBar";
 import Sidebar from "./side-bar/Sidebar";
-
-// STYLED COMPONENTS
 import { ShowingText } from "./styles";
-
 import Section2 from "../section-2/Section2";
+import NonFinancialServiceCard from "@component/product-cards/NonFinancialServiceCard";
 
 // GraphQL Query
 const GET_PRODUCTS = `
@@ -50,19 +46,6 @@ const GET_PRODUCTS = `
             name
             slug
           }
-          Industry
-          BusinessStage
-          ProcessingTime
-          RegistrationValidity
-          Cost
-          Steps
-          TermsOfService
-          RequiredDocuments
-          RelatedServices {
-            id
-            name
-            slug
-          }
         }
       }
       totalItems
@@ -75,7 +58,6 @@ interface FacetValue {
   code: string;
   name: string;
 }
-
 
 interface Product {
   id: string;
@@ -100,7 +82,6 @@ interface Product {
   };
 }
 
-
 interface GetProductsData {
   products: {
     items: Product[];
@@ -108,27 +89,31 @@ interface GetProductsData {
   };
 }
 
-
 interface GetProductsVariables {
   take: number;
 }
 
-type CategoryFilterKeys = 
-  | "businessOperationsFinancing"
-  | "projectSpecializedFinancing"
-  | "growthExpansionFinancing"
-  | "loanManagementAdjustments"
-  | "businessAssetFinancing"
-  | "investmentEquityFinancing";
+type CategoryFilterKeys =
+  | "eventsAndNetworking"
+  | "partnershipsAndOpportunities"
+  | "academyAndTraining"
+  | "operationalAdvisory"
+  | "proximityIncubators"
+  | "incentivesListing"
+  | "digitalSolutions"
+  | "exportAndTradeFacilitation"
+  | "legalComplianceAndLicensing";
 
-type CategoryCodes = 
-  | "business-operations-financing"
-  | "project-specialized-financing"
-  | "growth-expansion-financing"
-  | "loan-management-adjustments"
-  | "business-asset-financing"
-  | "investment-equity-financing"
-  | "";
+type CategoryCodes =
+  | "events-&-networking"
+  | "partnerships-&-opportunities"
+  | "academy-&-training"
+  | "operational-advisory"
+  | "proximity-incubators"
+  | "incentives-listing"
+  | "digital-solutions"
+  | "export-&-trade-facilitation"
+  | "legal-compliance-&-licensing";
 
 export default function Section6() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -141,18 +126,20 @@ export default function Section6() {
   const [loading, setLoading] = useState(true);
   const productsPerPage = 15;
 
-  // State for Categories filters with updated type
+  // State for Categories filters
   const [categoriesFilters, setCategoriesFilters] = useState<{
     [key in CategoryFilterKeys]: boolean;
   }>({
-    businessOperationsFinancing: false,
-    projectSpecializedFinancing: false,
-    growthExpansionFinancing: false,
-    loanManagementAdjustments: false,
-    businessAssetFinancing: false,
-    investmentEquityFinancing: false,
+    eventsAndNetworking: false,
+    partnershipsAndOpportunities: false,
+    academyAndTraining: false,
+    operationalAdvisory: false,
+    proximityIncubators: false,
+    incentivesListing: false,
+    digitalSolutions: false,
+    exportAndTradeFacilitation: false,
+    legalComplianceAndLicensing: false,
   });
-
 
   // State for Business Stage filters
   const [businessStageFilters, setBusinessStageFilters] = useState({
@@ -163,7 +150,6 @@ export default function Section6() {
     other: false,
   });
 
-
   // State for Provided By filters
   const [providedByFilters, setProvidedByFilters] = useState({
     adgm: false,
@@ -172,7 +158,6 @@ export default function Section6() {
     adSmeHub: false,
     other: false,
   });
-
 
   // State for Pricing Model filters
   const [pricingModelFilters, setPricingModelFilters] = useState({
@@ -183,11 +168,9 @@ export default function Section6() {
     governmentSubsidised: false,
   });
 
-
   const defaultImage = "/assets/images/mzn_logos/mzn_logo.png";
   const defaultImages = [defaultImage];
   const defaultReviews = 0;
-
 
   // Check if any filters are applied
   const areFiltersApplied = () => {
@@ -198,7 +181,6 @@ export default function Section6() {
       Object.values(pricingModelFilters).some((value) => value)
     );
   };
-
 
   // Fetch products data on component mount or page change
   useEffect(() => {
@@ -211,25 +193,28 @@ export default function Section6() {
         });
         console.log("Fetched products:", data.products.items.length, "Total Items:", data.products.totalItems);
 
-        // Filter for Financial Services (facetValue.id: "66") and exclude non-financial (facetValue.id: "67")
-        const financialServicesOnly = data.products.items.filter((product) =>
-          product.facetValues.some((fv) => fv.id === "66") &&
-          !product.facetValues.some((fv) => fv.id === "67")
+        // Filter for Non-Financial Services (facetValue.id: "67") and exclude financial (facetValue.id: "66")
+        const nonFinancialServicesOnly = data.products.items.filter((product) =>
+          product.facetValues.some((fv) => fv.id === "67") &&
+          !product.facetValues.some((fv) => fv.id === "66")
         );
-        console.log("Filtered to Financial Services only:", financialServicesOnly.length);
+        console.log("Filtered to Non-Financial Services only:", nonFinancialServicesOnly.length);
 
         // Apply other filters
         const selectedCategories = Object.keys(categoriesFilters)
           .filter((key) => categoriesFilters[key as CategoryFilterKeys])
           .map((key) => {
             switch (key) {
-              case "businessOperationsFinancing": return "business-operations-financing";
-              case "projectSpecializedFinancing": return "project-specialized-financing";
-              case "growthExpansionFinancing": return "growth-expansion-financing";
-              case "loanManagementAdjustments": return "loan-management-adjustments";
-              case "businessAssetFinancing": return "business-asset-financing";
-              case "investmentEquityFinancing": return "investment-equity-financing";
-              default: return "";
+              case "eventsAndNetworking": return "events-&-networking";
+              case "partnershipsAndOpportunities": return "partnerships-&-opportunities";
+              case "academyAndTraining": return "academy-&-training";
+              case "operationalAdvisory": return "operational-advisory";
+              case "proximityIncubators": return "proximity-incubators";
+              case "incentivesListing": return "incentives-listing";
+              case "digitalSolutions": return "digital-solutions";
+              case "exportAndTradeFacilitation": return "export-&-trade-facilitation";
+              case "legalComplianceAndLicensing": return "legal-compliance-&-licensing";
+              default: return "" as CategoryCodes;
             }
           }) as CategoryCodes[];
 
@@ -267,8 +252,8 @@ export default function Section6() {
           selectedStages.length === 0 &&
           selectedProviders.length === 0 &&
           selectedPricingModels.length === 0
-          ? financialServicesOnly
-          : financialServicesOnly.filter((product) => {
+          ? nonFinancialServicesOnly
+          : nonFinancialServicesOnly.filter((product) => {
               const matchesCategory =
                 selectedCategories.length === 0 ||
                 product.facetValues.some((facetValue) =>
@@ -296,12 +281,12 @@ export default function Section6() {
                 matchesCategory,
                 matchesStage,
                 matchesProvider,
-                matchesPricingModel
+                matchesPricingModel,
               });
               return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
             });
 
-        setTotalItems(financialServicesOnly.length);
+        setTotalItems(nonFinancialServicesOnly.length);
         setAllFilteredProducts(filtered);
         setTotalFilteredItems(filtered.length);
 
@@ -317,7 +302,6 @@ export default function Section6() {
       }
     };
 
-
     fetchData();
   }, [currentPage, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters]);
 
@@ -327,13 +311,16 @@ export default function Section6() {
       .filter((key) => categoriesFilters[key as CategoryFilterKeys])
       .map((key) => {
         switch (key) {
-          case "businessOperationsFinancing": return "business-operations-financing";
-          case "projectSpecializedFinancing": return "project-specialized-financing";
-          case "growthExpansionFinancing": return "growth-expansion-financing";
-          case "loanManagementAdjustments": return "loan-management-adjustments";
-          case "businessAssetFinancing": return "business-asset-financing";
-          case "investmentEquityFinancing": return "investment-equity-financing";
-          default: return "";
+          case "eventsAndNetworking": return "events-&-networking";
+          case "partnershipsAndOpportunities": return "partnerships-&-opportunities";
+          case "academyAndTraining": return "academy-&-training";
+          case "operationalAdvisory": return "operational-advisory";
+          case "proximityIncubators": return "proximity-incubators";
+          case "incentivesListing": return "incentives-listing";
+          case "digitalSolutions": return "digital-solutions";
+          case "exportAndTradeFacilitation": return "export-&-trade-facilitation";
+          case "legalComplianceAndLicensing": return "legal-compliance-&-licensing";
+          default: return "" as CategoryCodes;
         }
       }) as CategoryCodes[];
     const selectedStages = Object.keys(businessStageFilters)
@@ -363,7 +350,6 @@ export default function Section6() {
           default: return key;
         }
       });
-
 
     if (
       selectedCategories.length === 0 &&
@@ -401,7 +387,7 @@ export default function Section6() {
           matchesCategory,
           matchesStage,
           matchesProvider,
-          matchesPricingModel
+          matchesPricingModel,
         });
         return matchesCategory && matchesStage && matchesProvider && matchesPricingModel;
       });
@@ -418,18 +404,14 @@ export default function Section6() {
     setCurrentPage(1);
   };
 
-
   // Handle checkbox changes for Business Stage filters
-  const handleBusinessStageChange = (
-    stage: keyof typeof businessStageFilters
-  ) => {
+  const handleBusinessStageChange = (stage: keyof typeof businessStageFilters) => {
     setBusinessStageFilters((prev) => ({
       ...prev,
       [stage]: !prev[stage],
     }));
     setCurrentPage(1);
   };
-
 
   // Handle checkbox changes for Provided By filters
   const handleProvidedByChange = (provider: keyof typeof providedByFilters) => {
@@ -440,11 +422,8 @@ export default function Section6() {
     setCurrentPage(1);
   };
 
-
   // Handle checkbox changes for Pricing Model filters
-  const handlePricingModelChange = (
-    model: keyof typeof pricingModelFilters
-  ) => {
+  const handlePricingModelChange = (model: keyof typeof pricingModelFilters) => {
     setPricingModelFilters((prev) => ({
       ...prev,
       [model]: !prev[model],
@@ -452,16 +431,13 @@ export default function Section6() {
     setCurrentPage(1);
   };
 
-
   // Calculate the total number of pages based on filtered or total items
   const totalPages = areFiltersApplied()
     ? Math.ceil(totalFilteredItems / productsPerPage)
     : Math.ceil(totalItems / productsPerPage);
 
-
   // Slice the filtered products to show on the current page
   const currentProducts = filteredProducts;
-
 
   const handlePagination = (direction: "next" | "prev") => {
     if (direction === "next" && currentPage < totalPages) {
@@ -471,14 +447,10 @@ export default function Section6() {
     }
   };
 
-
   return (
     <Container pt="4rem" style={{ marginTop: "-45px" }}>
       <TabBar />
-      <Section2 
-        resultsCount={areFiltersApplied() ? totalFilteredItems : totalItems} 
-        style={{ marginBottom: "2rem" }}
-      />
+      <Section2 resultsCount={areFiltersApplied() ? totalFilteredItems : totalItems} style={{ marginBottom: "2rem" }} />
       <Grid container spacing={3}>
         <Grid item md={3} xs={12}>
           <Sidebar
@@ -501,7 +473,6 @@ export default function Section6() {
             areFiltersApplied={areFiltersApplied}
           />
         </Grid>
-
 
         <Grid item md={9} xs={12}>
           {loading ? (
@@ -568,17 +539,11 @@ export default function Section6() {
                     onMouseLeave={() => setHoveredCardId(null)}
                     style={{
                       transition: "all 0.3s ease",
-                      transform:
-                        hoveredCardId === product.id
-                          ? "scale(1.02)"
-                          : "scale(1)",
-                      boxShadow:
-                        hoveredCardId === product.id
-                          ? "0 4px 8px rgba(0, 0, 0, 0.1)"
-                          : "none",
+                      transform: hoveredCardId === product.id ? "scale(1.02)" : "scale(1)",
+                      boxShadow: hoveredCardId === product.id ? "0 4px 8px rgba(0, 0, 0, 0.1)" : "none",
                     }}
                   >
-                    <ProductCard19
+                    <NonFinancialServiceCard
                       id={product.id}
                       slug={product.slug}
                       name={product.name}
@@ -594,7 +559,6 @@ export default function Section6() {
               ))}
             </Grid>
           )}
-
 
           {(areFiltersApplied() ? totalFilteredItems : totalItems) > 0 && (
             <div
@@ -618,12 +582,8 @@ export default function Section6() {
                   cursor: currentPage === 1 ? "not-allowed" : "pointer",
                 }}
               >
-                <img
-                  src="assets/images/avatars/chevron-right.svg"
-                  alt="Previous"
-                />
+                <img src="assets/images/avatars/chevron-right.svg" alt="Previous" />
               </button>
-
 
               {[...Array(totalPages)].map((_, index) => (
                 <button
@@ -634,8 +594,7 @@ export default function Section6() {
                     borderRadius: "50%",
                     padding: "0.5rem 1rem",
                     margin: "0 0.5rem",
-                    backgroundColor:
-                      currentPage === index + 1 ? "#002180" : "transparent",
+                    backgroundColor: currentPage === index + 1 ? "#002180" : "transparent",
                     color: currentPage === index + 1 ? "#fff" : "#002180",
                     cursor: "pointer",
                     display: "inline-block",
@@ -644,7 +603,6 @@ export default function Section6() {
                   {index + 1}
                 </button>
               ))}
-
 
               <button
                 onClick={() => handlePagination("next")}
@@ -655,8 +613,7 @@ export default function Section6() {
                   padding: "0.5rem",
                   margin: "0 0.5rem",
                   backgroundColor: "transparent",
-                  cursor:
-                    currentPage === totalPages ? "not-allowed" : "pointer",
+                  cursor: currentPage === totalPages ? "not-allowed" : "pointer",
                 }}
               >
                 <img src="assets/images/avatars/chevron-left.svg" alt="Next" />

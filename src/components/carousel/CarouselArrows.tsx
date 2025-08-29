@@ -16,17 +16,9 @@ function NextArrow({ onClick, style, className }: ArrowProps) {
     .join(" ");
 
   return (
-    <ArrowButton
-      onClick={onClick}
-      className={`next ${updatedClassName}`}
-      style={style}
-    >
-      <Icon
-        variant="small"
-        defaultcolor="currentColor"
-        className="forward-icon"
-      >
-        arrow_next_ios
+    <ArrowButton onClick={onClick} className={`next ${updatedClassName}`} style={style}>
+      <Icon variant="small" defaultcolor="currentColor" className="forward-icon">
+        arrow-right
       </Icon>
     </ArrowButton>
   );
@@ -39,13 +31,9 @@ function PrevArrow({ onClick, style, className }: ArrowProps) {
     .join(" ");
 
   return (
-    <ArrowButton
-      onClick={onClick}
-      className={`prev ${updatedClassName}`}
-      style={style}
-    >
+    <ArrowButton onClick={onClick} className={`prev ${updatedClassName}`} style={style}>
       <Icon variant="small" defaultcolor="currentColor" className="back-icon">
-        arrow_back_ios
+        arrow-left
       </Icon>
     </ArrowButton>
   );
@@ -54,6 +42,6 @@ function PrevArrow({ onClick, style, className }: ArrowProps) {
 export default function CarouselArrows({ style }: { style?: CSSProperties }) {
   return {
     nextArrow: <NextArrow style={style} />,
-    prevArrow: <PrevArrow style={style} />,
+    prevArrow: <PrevArrow style={style} />
   };
 }

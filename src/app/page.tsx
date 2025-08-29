@@ -1,4 +1,3 @@
-"use client";
 // API FUNCTIONS
 import api from "@utils/__api__/market-1";
 // PAGE SECTION COMPONENTS

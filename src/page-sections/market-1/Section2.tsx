@@ -2,11 +2,11 @@
 
 import Box from "@component/Box";
 import { Carousel } from "@component/carousel";
+import { ProductCard19 } from "@component/product-cards";
 import CategorySectionCreator from "@component/CategorySectionCreator";
 // API FUNCTIONS
 import api from "@utils/__api__/market-1";
 import { FullWrapper, Wrapper } from "@component/footer/footer-2/styles";
-import { FinancialServiceCard } from "@component/product-cards";
 
 export default async function Section2() {
   const products = await api.getFlashDeals();
@@ -24,7 +24,7 @@ export default async function Section2() {
         <Carousel slidesToShow={4} responsive={responsive}>
           {products.map((item) => (
             <Box py="3rem" key={item.id}>
-              <FinancialServiceCard
+              <ProductCard19
                 id={item.id}
                 slug={item.slug}
                 name={item.title}

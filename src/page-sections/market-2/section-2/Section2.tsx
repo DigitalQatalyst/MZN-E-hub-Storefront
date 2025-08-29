@@ -11,28 +11,24 @@ import {
   CenterSection,
   RightSection,
   CategoryDropdown,
+  SearchInputWrapper,
+  SearchInput,
+  SearchIcon,
   ButtonWrapper,
 } from "./styles";
-import Search from "@component/search/Search";
 
-export default function Section2({
-  resultsCount = 0,
-  searchQuery,
-  setSearchQuery,
-  setActiveButton, // Add setActiveButton to props
-  activeButton, // Add activeButton to props
-  ...props
-}: {
-  resultsCount?: number;
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
-  setActiveButton: (button: string) => void; // Add type for setActiveButton
-  activeButton: string; // Add type for activeButton
-} & React.HTMLAttributes<HTMLDivElement>) {
+// Extend props to include HTML attributes like 'style'
+export default function Section2({ resultsCount = 0, ...props }: { resultsCount?: number } & React.HTMLAttributes<HTMLDivElement>) {
+  const [activeButton, setActiveButton] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [category, setCategory] = useState("all");
 
   const handleButtonClick = (button: string) => {
     setActiveButton(button);
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -69,9 +65,22 @@ export default function Section2({
             onChange={handleCategoryChange}
           >
             <option value="all">All Categories</option>
+            <option value="finance">Finance</option>
+            <option value="support">Business Support</option>
+            <option value="legal">Legal</option>
             {/* Add more categories as needed */}
           </CategoryDropdown>
-          <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+
+          <SearchInputWrapper>
+            <SearchInput
+              type="search"
+              placeholder="Search services"
+              aria-label="Search services"
+              value={searchQuery}
+              onChange={handleSearchChange}
+            />
+            <SearchIcon src="/assets/images/avatars/search-icon.svg" alt="Search icon" />
+          </SearchInputWrapper>
         </CenterSection>
 
         <RightSection>

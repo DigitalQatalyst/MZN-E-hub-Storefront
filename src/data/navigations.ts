@@ -2,7 +2,7 @@ const navigations = [
   {
     icon: "all_inclusive",
     title: "Non-Financial",
-    href: "/fashion",
+    href: "/non-financial-marketplace",
     menuComponent: "MegaMenu1",
     menuData: {
       categories: [
@@ -120,7 +120,7 @@ const navigations = [
   {
     icon: "money_bag",
     title: "Financial",
-    href: "/product/search/electronics",
+    href: "/product/search/financial-marketplace",
     menuComponent: "MegaMenu1",
     menuData: {
       categories: [
@@ -209,7 +209,7 @@ const navigations = [
   {
     icon: "forum",
     title: "Communities",
-    href: "/product/search/home&garden",
+    href: "/community-marketplace",
     menuComponent: "MegaMenu1",
     menuData: {
       categories: [
@@ -323,7 +323,7 @@ const navigations = [
   {
     icon: "brand_awareness",
     title: "Media",
-    href: "/product/search/gifts",
+    href: "/media",
     menuComponent: "MegaMenu2",
     menuData: [
       {

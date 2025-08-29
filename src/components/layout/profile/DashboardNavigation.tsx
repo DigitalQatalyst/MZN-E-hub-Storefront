@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useRef, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { ChevronDown } from 'lucide-react';
@@ -30,7 +30,7 @@ const CompanySelector = styled.div`
   position: relative;
 `;
 
-const CompanyInfo = styled.div<{ $isHovered?: boolean }>`
+const CompanyInfo = styled.div<{ $isHovered?: boolean; }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -70,7 +70,7 @@ const AccountModal = styled(Card)`
   overflow: hidden;
 `;
 
-const AccountItem = styled.div<{ $isSelected?: boolean; $isHovered?: boolean }>`
+const AccountItem = styled.div<{ $isSelected?: boolean; $isHovered?: boolean; }>`
   padding: 12px 16px;
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -105,7 +105,7 @@ const AddBusinessButton = styled.button`
   }
 `;
 
-const NavItem = styled.div<{ $active?: boolean; $hovered?: boolean }>`
+const NavItem = styled.div<{ $active?: boolean; $hovered?: boolean; }>`
   display: flex;
   align-items: center;
   gap: 12px;
@@ -152,7 +152,7 @@ const Sidebar = () => {
     name: 'FutureTech LLC'
   });
   const [isCompanySelectorHovered, setIsCompanySelectorHovered] = useState(false);
-  
+
   const modalRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const pathname = usePathname();
@@ -174,7 +174,7 @@ const Sidebar = () => {
   ];
 
   const settingsItems: NavItem[] = [
-    { id: 'settings', label: 'Settings', icon: '/images/settings.svg', route: '/#' },
+    { id: 'settings', label: 'Settings', icon: '/images/settings.svg', route: '/user-management' },
     { id: 'support', label: 'Support', icon: '/images/contact-support.svg', route: '/#' },
   ];
 
@@ -228,14 +228,9 @@ const Sidebar = () => {
 
   const renderNavItem = (item: NavItem) => {
     const active = isActive(item.route);
-    
+
     return (
-<<<<<<< HEAD
-      <div
-        
-=======
       <NavItem
->>>>>>> origin/profile_pages
         key={item.id}
         $active={active}
         $hovered={hoveredItem === item.id}
@@ -243,9 +238,9 @@ const Sidebar = () => {
         onMouseLeave={() => setHoveredItem(null)}
         onClick={() => handleNavigation(item.route)}
       >
-        <img 
-          src={item.icon} 
-          alt={item.label} 
+        <img
+          src={item.icon}
+          alt={item.label}
           height="20px"
           style={{
             filter: active ? 'brightness(0) invert(1)' : 'none'
@@ -262,7 +257,7 @@ const Sidebar = () => {
       {isModalOpen && (
         <ModalOverlay onClick={() => setIsModalOpen(false)} />
       )}
-      
+
       {/* Company Selector */}
       <CompanySelectorContainer ref={modalRef}>
         <CompanySelector>
@@ -272,14 +267,14 @@ const Sidebar = () => {
             onMouseLeave={() => setIsCompanySelectorHovered(false)}
           >
             <CompanyName>{selectedCompany.name}</CompanyName>
-            <ChevronDown 
-              style={{ 
-                width: '16px', 
-                height: '16px', 
+            <ChevronDown
+              style={{
+                width: '16px',
+                height: '16px',
                 color: '#0030E3',
                 transition: 'transform 0.2s ease',
                 transform: isModalOpen ? 'rotate(180deg)' : 'rotate(0deg)'
-              }} 
+              }}
               onClick={handleChevronClick}
             />
           </CompanyInfo>
@@ -302,7 +297,7 @@ const Sidebar = () => {
                     </Typography>
                   </AccountItem>
                 ))}
-                
+
                 <Box mt="8px">
                   <AddBusinessButton onClick={handleAddBusiness}>
                     Add a Business
@@ -326,10 +321,10 @@ const Sidebar = () => {
             onClick={() => handleNavigation('/dashboard')}
             style={{ borderRadius: '4px' }}
           >
-            <img 
-              src="/images/dashboard-customize-light.svg" 
-              alt="Dashboard" 
-              height="20px" 
+            <img
+              src="/images/dashboard-customize-light.svg"
+              alt="Dashboard"
+              height="20px"
               style={{
                 filter: isActive('/dashboard') ? 'brightness(0) invert(1)' : 'brightness(0) opacity(0.6)'
               }}
@@ -339,7 +334,7 @@ const Sidebar = () => {
         </Box>
 
         {/* Essentials Section */}
-        <Box px="16px" mb="16px">
+        < Box px="16px" mb="16px" >
           <SectionTitle>Essentials</SectionTitle>
           <FlexBox flexDirection="column">
             {essentialItems.map((item, index) => (
@@ -348,10 +343,10 @@ const Sidebar = () => {
               </Box>
             ))}
           </FlexBox>
-        </Box>
+        </Box >
 
         {/* Transactions Section */}
-        <Box px="16px" mb="16px">
+        < Box px="16px" mb="16px" >
           <SectionTitle>Transactions</SectionTitle>
           <FlexBox flexDirection="column">
             {transactionItems.map((item, index) => (
@@ -360,10 +355,10 @@ const Sidebar = () => {
               </Box>
             ))}
           </FlexBox>
-        </Box>
+        </Box >
 
         {/* Settings & Support Section */}
-        <Box px="16px">
+        < Box px="16px" >
           <SectionTitle>Settings & Support</SectionTitle>
           <FlexBox flexDirection="column">
             {settingsItems.map((item, index) => (
@@ -372,9 +367,9 @@ const Sidebar = () => {
               </Box>
             ))}
           </FlexBox>
-        </Box>
-      </div>
-    </SidebarContainer>
+        </Box >
+      </div >
+    </SidebarContainer >
   );
 };
 

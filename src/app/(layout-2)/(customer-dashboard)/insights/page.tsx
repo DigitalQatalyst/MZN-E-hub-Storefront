@@ -314,9 +314,7 @@ const financialCategories = [
   { key: 'working-capital' as FinancialCategory, label: 'Working Capital' },
   { key: 'trade-supply' as FinancialCategory, label: 'Trade & Supply' },
   { key: 'seed-funding' as FinancialCategory, label: 'Seed Funding' },
-  { key: 'equity-growth' as FinancialCategory, label: 'Equity Growth' },
-  { key: 'equity-grow' as FinancialCategory, label: 'Equity Grow' },
-  { key: 'equity' as FinancialCategory, label: 'Equity' },
+  { key: 'equity-growth' as FinancialCategory, label: 'Equity Growth' }
 
 ];
 

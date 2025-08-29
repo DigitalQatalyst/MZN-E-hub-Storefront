@@ -1,21 +1,20 @@
-"use client"
+"use client";
 import React, { useState } from 'react';
-import { 
-  LayoutDashboard, 
-  Building2, 
-  Wallet, 
-  FileText, 
-  DollarSign, 
-  Settings, 
+import {
+  LayoutDashboard,
+  Building2,
+  Wallet,
+  FileText,
+  DollarSign,
+  Settings,
   HelpCircle,
-  ChevronDown 
+  ChevronDown
 } from 'lucide-react';
 
 const Sidebar = () => {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   return (
     <div style={{
-      width: '256px',
       backgroundColor: 'white',
       height: '100vh',
       borderRight: '1px solid #e5e7eb',
@@ -38,8 +37,8 @@ const Sidebar = () => {
             alignItems: 'center',
             gap: '8px'
           }}>
-            <img 
-              src="/assets/images/sidebar/futuretech-logo.png" 
+            <img
+              src="/assets/images/sidebar/futuretech-logo.png"
               alt="FutureTech LLC Logo"
               style={{
                 width: '24px',
@@ -105,8 +104,8 @@ const Sidebar = () => {
               cursor: 'pointer',
               backgroundColor: hoveredItem === 'firm-info' ? '#f9fafb' : 'transparent'
             }}
-            onMouseEnter={() => setHoveredItem('firm-info')}
-            onMouseLeave={() => setHoveredItem(null)}>
+              onMouseEnter={() => setHoveredItem('firm-info')}
+              onMouseLeave={() => setHoveredItem(null)}>
               <Building2 style={{ width: '20px', height: '20px', color: '#6b7280' }} />
               <span>Firm Information</span>
             </div>
@@ -123,8 +122,8 @@ const Sidebar = () => {
               cursor: 'pointer',
               backgroundColor: hoveredItem === 'firm-wallet' ? '#f9fafb' : 'transparent'
             }}
-            onMouseEnter={() => setHoveredItem('firm-wallet')}
-            onMouseLeave={() => setHoveredItem(null)}>
+              onMouseEnter={() => setHoveredItem('firm-wallet')}
+              onMouseLeave={() => setHoveredItem(null)}>
               <Wallet style={{ width: '20px', height: '20px', color: '#6b7280' }} />
               <span>Firm Wallet</span>
             </div>
@@ -157,8 +156,8 @@ const Sidebar = () => {
               cursor: 'pointer',
               backgroundColor: hoveredItem === 'non-financial' ? '#f9fafb' : 'transparent'
             }}
-            onMouseEnter={() => setHoveredItem('non-financial')}
-            onMouseLeave={() => setHoveredItem(null)}>
+              onMouseEnter={() => setHoveredItem('non-financial')}
+              onMouseLeave={() => setHoveredItem(null)}>
               <FileText style={{ width: '20px', height: '20px', color: '#6b7280' }} />
               <span>Non-Financial</span>
             </div>
@@ -175,8 +174,8 @@ const Sidebar = () => {
               cursor: 'pointer',
               backgroundColor: hoveredItem === 'financial' ? '#f9fafb' : 'transparent'
             }}
-            onMouseEnter={() => setHoveredItem('financial')}
-            onMouseLeave={() => setHoveredItem(null)}>
+              onMouseEnter={() => setHoveredItem('financial')}
+              onMouseLeave={() => setHoveredItem(null)}>
               <DollarSign style={{ width: '20px', height: '20px', color: '#6b7280' }} />
               <span>Financial</span>
             </div>
@@ -209,8 +208,8 @@ const Sidebar = () => {
               cursor: 'pointer',
               backgroundColor: hoveredItem === 'org-settings' ? '#f9fafb' : 'transparent'
             }}
-            onMouseEnter={() => setHoveredItem('org-settings')}
-            onMouseLeave={() => setHoveredItem(null)}>
+              onMouseEnter={() => setHoveredItem('org-settings')}
+              onMouseLeave={() => setHoveredItem(null)}>
               <Settings style={{ width: '20px', height: '20px', color: '#6b7280' }} />
               <span>Organisation Settings</span>
             </div>
@@ -227,8 +226,8 @@ const Sidebar = () => {
               cursor: 'pointer',
               backgroundColor: hoveredItem === 'help-support' ? '#f9fafb' : 'transparent'
             }}
-            onMouseEnter={() => setHoveredItem('help-support')}
-            onMouseLeave={() => setHoveredItem(null)}>
+              onMouseEnter={() => setHoveredItem('help-support')}
+              onMouseLeave={() => setHoveredItem(null)}>
               <HelpCircle style={{ width: '20px', height: '20px', color: '#6b7280' }} />
               <span>Help & Support</span>
             </div>

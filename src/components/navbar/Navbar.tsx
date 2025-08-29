@@ -71,7 +71,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
 
   // Handle bookmark/favorites navigation
   const handleFavoritesNavigation = () => {
-    router.push('/favorites');
+    router.push('/favourites');
     // Close mobile menu if it's open
     if (isMobileMenuOpen) {
       closeMobileMenu();
@@ -429,4 +429,3 @@ export default function Navbar({ navListOpen }: NavbarProps) {
     </StyledNavbar>
   );
 }
- 

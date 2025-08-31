@@ -9,15 +9,16 @@ import {
 // ====== Tenant/App ======
 export const clientId = "b94aa491-036c-4ddb-8bbf-12b510113078";
 export const tenantName = "dgqatalyst";
+// src/authConfig.ts
+export const signUpPolicy = "B2C_1_KF_Signup";
+
+export const signupAuthority = `https://${tenantName}.b2clogin.com/${tenantName}.onmicrosoft.com/${signUpPolicy}`;
 
 // ====== B2C Policies ======
-// Maintain separate keys so TypeScript doesn't break
 const flows = {
   signIn: "B2C_1_KF_SignIn",
   // If you later add more, e.g. signUp: "B2C_1_KF_SignUp"
 };
-
-// Choose which policy you want to use for normal "sign in"
 const activeFlow = flows.signIn;
 
 export const b2cPolicies = {
@@ -26,6 +27,7 @@ export const b2cPolicies = {
   },
   authorities: {
     signUpSignIn: {
+      // e.g. https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/B2C_1_KF_SignIn
       authority: `https://${tenantName}.b2clogin.com/${tenantName}.onmicrosoft.com/${activeFlow}`,
     },
   },
@@ -49,11 +51,14 @@ export const msalConfig: Configuration = {
     clientId,
     authority: b2cPolicies.authorities.signUpSignIn.authority,
     knownAuthorities: [b2cPolicies.authorityDomain],
-    redirectUri,
+    redirectUri, // -> https://mzn-e-hub-storefront.vercel.app/callback (in prod)
     postLogoutRedirectUri: `${siteUrl}/`,
-    navigateToLoginRequestUrl: false,
+    navigateToLoginRequestUrl: false, // come back to our app route after auth
   },
-  cache: { cacheLocation: "sessionStorage", storeAuthStateInCookie: false },
+  cache: {
+    cacheLocation: "sessionStorage",
+    storeAuthStateInCookie: false,
+  },
   system: {
     loggerOptions: {
       loggerCallback: (level, message, containsPii) => {
@@ -77,6 +82,7 @@ export const msalConfig: Configuration = {
   },
 };
 
+// ====== Scopes ======
 export const authScopes = {
   scopes: [
     "openid",
@@ -92,9 +98,11 @@ export const loginRequest: RedirectRequest = {
 };
 
 export const signupRequest: RedirectRequest = {
-  authority: b2cPolicies.authorities.signUpSignIn.authority,
+  authority: signupAuthority, // dedicated signup policy
   scopes: ["openid", "offline_access"],
   extraQueryParameters: { prompt: "login" },
 };
 
-export const logoutRequest: EndSessionRequest = {};
+export const logoutRequest: EndSessionRequest = {
+  // Uses msalConfig.auth.postLogoutRedirectUri by default; override here only if you need to
+};

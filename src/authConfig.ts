@@ -92,7 +92,7 @@ export const loginRequest: RedirectRequest = {
 };
 
 export const signupRequest: RedirectRequest = {
-  authority: signupAuthority, // dedicated signup policy
+  authority: b2cPolicies.authorities.signUpSignIn.authority,
   scopes: ["openid", "offline_access"],
   extraQueryParameters: { prompt: "login" },
 };

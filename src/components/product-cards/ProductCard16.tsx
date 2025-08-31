@@ -102,7 +102,8 @@ const ContentWrapper = styled(Box)({
   flexDirection: "column",
   justifyContent: "space-between",
   paddingBottom: 8,
-  minHeight: 0, // Important for flex overflow
+  minHeight: 0,
+  width: "100%", // Ensure full width
   '@media (max-width: 899px)': {
     paddingBottom: 6,
   },
@@ -111,11 +112,8 @@ const ContentWrapper = styled(Box)({
   },
   "& .title": {
     overflow: "hidden",
-    whiteSpace: "normal",
-    textOverflow: "clip",
-    display: "-webkit-box",
-    WebkitLineClamp: 2,
-    WebkitBoxOrient: "vertical",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
   },
   "& .categories": {
     overflow: "hidden",
@@ -124,58 +122,51 @@ const ContentWrapper = styled(Box)({
   }
 });
 
-const StyledTitle = styled(H3)(({ wordCount }) => ({
-  padding: "0 40px 0 20px",
+const StyledTitle = styled(H3)({
+  padding: "0 40px 2px 20px",
   color: "var(--KF-BG-Blue, #0030E3)",
-  fontFamily: '"Open Sans"',
   fontSize: "20px",
   fontStyle: "normal",
   fontWeight: 400,
   lineHeight: "26px",
   margin: 0,
-  display: "-webkit-box",
-  WebkitLineClamp: 2,
-  WebkitBoxOrient: "vertical",
   overflow: "hidden",
-  textOverflow: "clip",
+  whiteSpace: "nowrap",
+  textOverflow: "ellipsis",
   '@media (max-width: 1199px)': {
     fontSize: '18px',
     lineHeight: '24px',
-    padding: '0 30px 0 16px',
+    padding: '0 30px 2px 16px',
   },
   '@media (max-width: 899px)': {
     fontSize: '16px',
     lineHeight: '22px',
-    padding: '0 24px 0 12px',
+    padding: '0 24px 2px 12px',
   },
   '@media (max-width: 599px)': {
     fontSize: '14px',
     lineHeight: '18px',
-    padding: '0 16px 0 8px',
-    WebkitLineClamp: 2,
+    padding: '0 16px 2px 8px',
   },
   '@media (max-width: 479px)': {
     fontSize: '13px',
     lineHeight: '16px',
-    padding: '0 12px 0 6px',
+    padding: '0 12px 2px 6px',
   },
-}));
+});
 
-const StyledTitle1 = styled(H3)(({ wordCount }) => ({
+const StyledTitle1 = styled(H3)({
   padding: "0 40px 0 20px",
   color: "var(--KF-BG-Blue, #0030E3)",
-  fontFamily: '"Open Sans"',
   fontSize: "20px",
   fontStyle: "normal",
   fontWeight: 400,
   lineHeight: "26px",
   margin: 0,
   marginTop: "4px",
-  display: "-webkit-box",
-  WebkitLineClamp: 2,
-  WebkitBoxOrient: "vertical",
   overflow: "hidden",
-  textOverflow: "clip",
+  whiteSpace: "nowrap",
+  textOverflow: "ellipsis",
   '@media (max-width: 1199px)': {
     fontSize: '18px',
     lineHeight: '24px',
@@ -193,7 +184,6 @@ const StyledTitle1 = styled(H3)(({ wordCount }) => ({
     lineHeight: '18px',
     padding: '0 16px 0 8px',
     marginTop: '2px',
-    WebkitLineClamp: 1,
   },
   '@media (max-width: 479px)': {
     fontSize: '13px',
@@ -201,51 +191,39 @@ const StyledTitle1 = styled(H3)(({ wordCount }) => ({
     padding: '0 12px 0 6px',
     marginTop: '1px',
   },
-}));
+});
 
 const StyledSubtitle = styled("p")({
-  padding: "0 0 40px 20px",
+  padding: "10px 20px 20px 20px",
   color: "var(--KF-BG-Black, #000)",
-  fontFamily: '"Open Sans"',
   fontSize: "14px",
   fontStyle: "normal",
   fontWeight: 400,
   lineHeight: "22px",
   margin: 0,
-  marginTop: "8px",
   flex: "1 1 auto",
-  overflow: "hidden",
-  display: "-webkit-box",
-  WebkitLineClamp: 3,
-  WebkitBoxOrient: "vertical",
-  textOverflow: "clip",
+  width: "100%", // Ensure full width
+  overflow: "visible", // Allow all text to be visible
+  whiteSpace: "normal", // Allow text wrapping
   '@media (max-width: 1199px)': {
     fontSize: '13px',
     lineHeight: '20px',
-    padding: '0 0 30px 16px',
-    marginTop: '6px',
-    WebkitLineClamp: 3,
+    padding: '0 16px 16px 16px',
   },
   '@media (max-width: 899px)': {
     fontSize: '12px',
     lineHeight: '18px',
-    padding: '0 0 20px 12px',
-    marginTop: '4px',
-    WebkitLineClamp: 2,
+    padding: '0 12px 12px 12px',
   },
   '@media (max-width: 599px)': {
     fontSize: '11px',
     lineHeight: '16px',
-    padding: '0 0 12px 8px',
-    marginTop: '3px',
-    WebkitLineClamp: 2,
+    padding: '0 8px 8px 8px',
   },
   '@media (max-width: 479px)': {
     fontSize: '10px',
     lineHeight: '14px',
-    padding: '0 0 8px 6px',
-    marginTop: '2px',
-    WebkitLineClamp: 1,
+    padding: '0 6px 6px 6px',
   },
 });
 
@@ -254,6 +232,7 @@ type ProductCardProps = {
   off: number;
   slug: string;
   title: string;
+  title1: string;
   subTitle: string;
   price: number;
   imgUrl: string;
@@ -265,7 +244,7 @@ type ProductCardProps = {
 // =============================================================
 
 export default function ProductCard16(props: ProductCardProps) {
-  const { off, id, title, subTitle, price, imgUrl, rating, hoverEffect, slug, images } = props;
+  const { off, id, title, title1, subTitle, price, imgUrl, rating, hoverEffect, slug, images } = props;
 
   const { state, dispatch } = useAppContext();
   const [openModal, setOpenModal] = useState(false);
@@ -281,9 +260,6 @@ export default function ProductCard16(props: ProductCardProps) {
     });
   };
 
-  // Count words in the title
-  const wordCount = title.trim().split(/\s+/).length;
-
   // Convert id to string to match ProductQuickViewProps
   const productId = String(id);
 
@@ -291,45 +267,35 @@ export default function ProductCard16(props: ProductCardProps) {
     <StyledBazaarCard hoverEffect={hoverEffect}>
       <ImageWrapper>
         <ImageBox>
-            <LazyImage
-              alt={title}
-              src={imgUrl}
-              width={60}
-              height={60}
-              style={{ 
-                objectFit: "cover",
-                width: "100%",
-                height: "100%",
-                borderRadius: "50%"
-              }}
-            />
+          <LazyImage
+            alt={title}
+            src={imgUrl}
+            width={60}
+            height={60}
+            style={{ 
+              objectFit: "cover",
+              width: "100%",
+              height: "100%",
+              borderRadius: "50%"
+            }}
+          />
         </ImageBox>
       </ImageWrapper>
 
       <ProductQuickView
         open={openModal}
         onClose={toggleDialog}
-        product={{ id: productId, images, slug, price, title, subTitle, description: "" }}
+        product={{ id: productId, images, slug, price, title,title1: title, subTitle, description: "" }}
       />
 
       <ContentWrapper>
         <Box flex="1 1 0" minWidth="0px" mr={1} style={{ display: "flex", flexDirection: "column", minHeight: 0 }}>
-          {/* <Link href={`/product/${slug}`}> */}
-            <StyledTitle
-              title={title}
-              wordCount={wordCount}
-              className="title"
-            >
-              {title}
-            </StyledTitle>
-          {/* </Link> */}
-          <StyledTitle1
-              title={title}
-              wordCount={wordCount}
-              className="title"
-            >
-              {title}
-            </StyledTitle1>
+          <StyledTitle className="title">
+            {title}
+          </StyledTitle>
+          <StyledTitle1 className="title">
+            {title1}
+          </StyledTitle1>
           <StyledSubtitle>
             {subTitle}
           </StyledSubtitle>

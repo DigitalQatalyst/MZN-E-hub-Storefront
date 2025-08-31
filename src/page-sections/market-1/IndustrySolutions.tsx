@@ -3,12 +3,12 @@
 import Box from "@component/Box";
 import { Button as DefaultButton } from "@component/buttons";
 import { Carousel } from "@component/carousel";
-import { FinancialServiceCard } from "@component/product-cards";
 import CategorySectionCreator from "@component/CategorySectionCreator";
 import styled from "styled-components";
 import client from "@lib/graphQLClient";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import ProductCard19 from "@component/product-cards/ProductCard19";
 
 // STYLED COMPONENTS
 const ContentColumn = styled.div`
@@ -16,8 +16,6 @@ const ContentColumn = styled.div`
   padding: 10px 80px;
   display: flex;
   flex-direction: column;
-  font-family: 'Open Sans', sans-serif;
-  font-style: normal;
   align-items: flex-start;
   width: 100%;
 
@@ -52,9 +50,7 @@ const MarketplaceSubheadingText = styled(SubheadingText)`
   border-bottom: 2px solid #0030E3;
   color: var(--KF-BG-Blue, #0030E3);
   text-align: center;
-  font-family: 'Open Sans', sans-serif;
   font-size: 16px;
-  font-style: normal;
   font-weight: 500;
   line-height: 22px;
   padding-top: 2rem;
@@ -75,9 +71,7 @@ const MarketplaceSubheadingText = styled(SubheadingText)`
 
 const Description = styled.p`
   color: var(--KF-BG-Black, #000);
-  font-family: "Public Sans", sans-serif;
   font-size: var(--Body-Large-Size, 16px);
-  font-style: normal;
   font-weight: 400;
   margin-right: 1rem;
   flex: 1;
@@ -85,7 +79,6 @@ const Description = styled.p`
   @media (max-width: 899px) {
     font-size: 14px;
     margin-right: 0;
-    margin-bottom: 1rem;
   }
   
   @media (max-width: 600px) {
@@ -98,9 +91,7 @@ const Description = styled.p`
 
 const StyledHeader = styled.p`
   color: #000;
-  font-family: "Public Sans", sans-serif;
   font-size: 16px;
-  font-style: normal;
   font-weight: 400;
   line-height: var(--Title-Large-Line-Height, 28px);
   letter-spacing: var(--Title-Large-Tracking, 0px);
@@ -126,21 +117,23 @@ const DescriptionButtonWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: 2rem;
   
   @media (max-width: 899px) {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  @media (max-width: 600px) {
+    margin-bottom: 0.5rem;
   }
 `;
 
 const StyledBody = styled.p`
   color: #000;
-  font-family: "Public Sans", sans-serif;
   font-size: 48px;
-  font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   line-height: var(--Display-Medium-Line-Height, 52px);
   letter-spacing: var(--Display-Medium-Tracking, 0px);
   margin: 0;
@@ -543,15 +536,15 @@ export default function Section15() {
             <Carousel slidesToShow={4} responsive={responsive}>
               {products.map((item) => (
                 <Box py="3rem" key={item.id}>
-                  <FinancialServiceCard
+                  <ProductCard19
                     id={item.id}
                     slug={item.slug}
-                    name={item.title}
-                    subTitle={item.subTitle}
+                    name={item.name}
+                    subTitle={item.customFields.Partner}
                     description={item.description}
-                    img={item.thumbnail}
-                    images={item.images as string[]}
-                    reviews={item.reviews || 12}
+                    img={defaultImage}
+                    images={defaultImages}
+                    reviews={defaultReviews}
                     className="product-card"
                   />
                 </Box>

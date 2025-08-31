@@ -23,7 +23,7 @@ const CardBox = styled(Box)(({ theme }) => ({
   borderRadius: "8px",
   background: "#FFF",
   border: `1px solid ${theme.colors.gray[400]}`,
-  
+
   // Responsive height adjustments
   "@media (max-width: 1024px)": {
     minHeight: "280px",
@@ -37,9 +37,10 @@ const CardBox = styled(Box)(({ theme }) => ({
     minHeight: "240px",
     padding: "10px",
   },
-  
-   marginBottom: "0.5rem",
-  boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.15), 0px 1px 3px 1px rgba(0, 0, 0, 0.08)",
+
+  marginBottom: "0.5rem",
+  boxShadow:
+    "0px 1px 2px 0px rgba(0, 0, 0, 0.15), 0px 1px 3px 1px rgba(0, 0, 0, 0.08)",
   "&:hover": {
     ".product-img": {
       transform: "scale(1.1)",
@@ -62,14 +63,14 @@ const CardMedia = styled(Box)(({ theme }) => ({
   display: "flex",
   justifyContent: "flex-start", // Align image to the left
   alignItems: "center",
-  
+
   ".product-img": {
     transition: "0.3s",
     width: "100%", // Fixed width for the image
     height: "auto", // Fixed height for the image
     objectFit: "contain",
   },
-  
+
   // Responsive adjustments
   "@media (max-width: 1024px)": {
     marginBottom: "12px",
@@ -84,7 +85,6 @@ const CardMedia = styled(Box)(({ theme }) => ({
       width: "60px",
       height: "60px",
     },
-  
   },
 }));
 
@@ -106,7 +106,7 @@ const FavoriteButton = styled(IconButton)(() => ({
   position: "absolute",
   background: "transparent",
   transition: "right 0.3s .2s",
-  
+
   "@media (max-width: 768px)": {
     right: "15px",
     top: "30px",
@@ -131,19 +131,19 @@ const StyledH4 = styled(H4)`
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 8px 0;
-  
+
   @media (max-width: 1024px) {
     font-size: 11px;
     line-height: 17px;
     -webkit-line-clamp: 2;
   }
-  
+
   @media (max-width: 768px) {
     font-size: 10px;
     line-height: 16px;
     margin: 6px 0;
   }
-  
+
   @media (max-width: 500px) {
     font-size: 9px;
     line-height: 15px;
@@ -166,20 +166,20 @@ const StyledH5 = styled(H4)`
   text-overflow: ellipsis;
   margin: 8px 0;
   flex: 1; // This helps with vertical spacing
-  
+
   @media (max-width: 1024px) {
     font-size: 11px;
     line-height: 17px;
     -webkit-line-clamp: 3;
   }
-  
+
   @media (max-width: 768px) {
     font-size: 10px;
     line-height: 16px;
     margin: 6px 0;
     -webkit-line-clamp: 2;
   }
-  
+
   @media (max-width: 500px) {
     font-size: 9px;
     line-height: 15px;
@@ -211,33 +211,33 @@ const StyledButton = styled(DefaultButton)`
     font-style: normal;
     font-weight: 300;
   }
-  
+
   @media (max-width: 1024px) {
     width: 90px;
     height: 28px;
     padding: 8px 2px;
-    
+
     span {
       font-size: 9px;
     }
   }
-  
+
   @media (max-width: 768px) {
     width: 85px;
     height: 26px;
     padding: 6px 1px;
     gap: 8px;
-    
+
     span {
       font-size: 8px;
     }
   }
-  
+
   @media (max-width: 500px) {
     width: 80px;
     height: 24px;
     gap: 6px;
-    
+
     span {
       font-size: 8px;
     }
@@ -249,17 +249,17 @@ const StyledImage = styled(NextImage)`
   height: auto; // Changed to auto for responsive scaling
   flex-shrink: 0;
   aspect-ratio: 1/1;
-  
+
   @media (max-width: 1024px) {
     width: 70px;
     height: 70px;
   }
-  
+
   @media (max-width: 768px) {
     width: 60px;
     height: 60px;
   }
-  
+
   @media (max-width: 500px) {
     width: 80px;
     height: 80px;
@@ -280,18 +280,18 @@ const StyledParagraph = styled(Paragraph)`
   overflow: hidden;
   text-overflow: ellipsis;
   margin-bottom: 4px;
-  
+
   @media (max-width: 1024px) {
     font-size: 15px;
     line-height: 22px;
     -webkit-line-clamp: 2;
   }
-  
+
   @media (max-width: 768px) {
     font-size: 14px;
     line-height: 20px;
   }
-  
+
   @media (max-width: 500px) {
     font-size: 13px;
     line-height: 19px;
@@ -305,17 +305,17 @@ const LearnMoreWrapper = styled.div`
   gap: 5px;
   margin-top: 10px;
   flex-shrink: 0; // Prevent shrinking
-  
+
   @media (max-width: 1024px) {
     gap: 4px;
     margin-top: 8px;
   }
-  
+
   @media (max-width: 768px) {
     gap: 3px;
     margin-top: 6px;
   }
-  
+
   @media (max-width: 500px) {
     gap: 2px;
     margin-top: 4px;
@@ -335,16 +335,16 @@ const ContentBox = styled(Box)`
 //   justify-content: space-between;
 //   margin-top: auto; // This pushes the bottom section to the bottom
 //   gap: 8px;
-  
+
 //   @media (max-width: 1024px) {
 //     gap: 6px;
 //     flex-wrap: wrap;
 //   }
-  
+
 //   @media (max-width: 768px) {
 //     gap: 4px;
 //   }
-  
+
 //   @media (max-width: 500px) {
 //     flex-direction: column;
 //     align-items: flex-start;
@@ -356,17 +356,17 @@ const ViewDetailsText = styled(Paragraph)`
   color: #002180;
   margin-right: 0.5rem;
   font-size: 12px;
-  
+
   @media (max-width: 1024px) {
     font-size: 11px;
     margin-right: 0.3rem;
   }
-  
+
   @media (max-width: 768px) {
     font-size: 10px;
     margin-right: 0.2rem;
   }
-  
+
   @media (max-width: 500px) {
     font-size: 9px;
     margin-right: 0.1rem;
@@ -377,7 +377,7 @@ const ResponsiveIcon = styled(Icon)`
   @media (max-width: 768px) {
     font-size: 14px;
   }
-  
+
   @media (max-width: 500px) {
     font-size: 12px;
   }
@@ -442,9 +442,7 @@ export default function FinancialServiceCard(props: FinancialServiceCardProps) {
 
             <Link href={`/product/${slug}`} style={{ textDecoration: "none" }}>
               <LearnMoreWrapper style={{ cursor: "pointer" }}>
-                <ViewDetailsText>
-                  View Details
-                </ViewDetailsText>
+                <ViewDetailsText>View Details</ViewDetailsText>
                 <ResponsiveIcon color="#002180">arrow_forward</ResponsiveIcon>
               </LearnMoreWrapper>
             </Link>
@@ -455,7 +453,15 @@ export default function FinancialServiceCard(props: FinancialServiceCardProps) {
       <ProductQuickView
         open={openDialog}
         onClose={toggleDialog}
-        product={{ id, images, subTitle, description, slug, title: name}}
+        product={{
+          id,
+          images,
+          subTitle,
+          title1: name,
+          description,
+          slug,
+          title: name,
+        }}
       />
     </Fragment>
   );

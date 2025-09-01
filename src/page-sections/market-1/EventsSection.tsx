@@ -15,8 +15,6 @@ const WelcomeSection = styled.section`
   padding: 90px 120px 50px 120px;
   display: flex;
   flex-direction: column;
-  font-family: 'Open Sans', sans-serif;
-  font-style: normal;
   gap: 2rem;
   margin-bottom: 2rem;
   @media (max-width: 1199px) {
@@ -108,7 +106,6 @@ const EventTitle = styled.h4`
 
 const EventMeta = styled.div`
   font-size: 14px;
-  font-family: "Public Sans", sans-serif;
   color: #FFF;
   display: flex;
   flex-direction: column;
@@ -215,7 +212,6 @@ const FormFieldWrapper = styled.div`
 `;
 
 const FormLabel = styled.label`
-  font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   color: #000;
   font-weight: 400;
@@ -226,7 +222,6 @@ const FormField = styled.input`
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-family: "Public Sans", sans-serif;
   font-size: 14px;
   color: #000;
   box-sizing: border-box;
@@ -238,7 +233,6 @@ const SubmitButton = styled.button`
   padding: 12px;
   border: none;
   border-radius: 4px;
-  font-family: "Public Sans", sans-serif;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
@@ -287,13 +281,11 @@ const Checkmark = styled.span`
 `;
 
 const SuccessMessage = styled.div`
-  font-family: "Public Sans", sans-serif;
   font-size: 16px;
   color: #000;
 `;
 
 const SuccessSubMessage = styled.div`
-  font-family: "Public Sans", sans-serif;
   font-size: 14px;
   color: #666;
   margin-top: 8px;
@@ -313,7 +305,7 @@ const Section16: React.FC = () => {
     {
       id: 1,
       image: "/assets/images/Groceries Shop/Image.png",
-      title: "Entrepreneurship with Creativity: Turn ...",
+      title: "Entrepreneurship with Creativity",
       date: "24 Apr 2025, 04:30 PM - 06:30 PM",
       location: "Abu Dhabi SME Hub, Khalifa Fund HQ, Abu Dhabi",
     },
@@ -322,7 +314,7 @@ const Section16: React.FC = () => {
       image: "/assets/images/Groceries Shop/Image1.png",
       title: "Creating Value in Entrepreneurship",
       date: "28-29 Jun 2025, 04:30 PM - 06:30 PM",
-      location: "Hub71, Al Khatem Tower, Abu Dhabi Global Market",
+      location: "Hub71, Khatem Tower, Abu Dhabi Global Market",
     },
     {
       id: 3,
@@ -445,14 +437,14 @@ const Section16: React.FC = () => {
       )}
       <WelcomeSection>
         <ContentColumn>
-          <p style={{ fontSize: "16px", fontWeight: "400", fontFamily: "Open Sans, sans-serif" }}>JOIN OUR UPCOMING EVENTS</p>
-          <H3 fontSize="48px" fontWeight="400" fontFamily="Open Sans" mb="1rem">
+          <p style={{ fontSize: "16px", fontWeight: "400",}}>JOIN OUR UPCOMING EVENTS</p>
+          <H3 fontSize="48px" fontWeight="400" mb="1rem">
             Workshops, bootcamps, and info sessions <br /> designed to help you grow.
           </H3>
         </ContentColumn>
         <FeaturedEvents>
           <FeaturedEventsHeader>
-            <p style={{ fontSize: "16px", fontWeight: "400", fontFamily: 'Open Sans' }}>Featured Events</p>
+            <p style={{ fontSize: "16px", fontWeight: "400"}}>Featured Events</p>
             <ExploreAllButton onClick={handleExploreAllClick}>
               Explore all Events <span>→</span>
             </ExploreAllButton>

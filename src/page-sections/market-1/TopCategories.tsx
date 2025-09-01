@@ -317,6 +317,7 @@ export default function Section3() {
               autoplay={false}
               dots={true}
               arrows={true}
+              centerMode={true}
             >
               {carouselContent.map((item, ind) => (
                 <Box key={ind} px="10px">

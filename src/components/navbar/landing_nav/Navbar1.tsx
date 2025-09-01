@@ -91,7 +91,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             className="become-partner-btn"
             variant="outlined"
             onClick={() => {
-              window.location.href = loginUrl;
+              router.push("/development");
             }}
           >
             Become a Partner
@@ -132,7 +132,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             <Button
               className="mobile-auth-button become-partner-btn"
               onClick={() => {
-                window.location.href = loginUrl;
+                router.push("/development");
                 toggleMenu();
               }}
               style={{

@@ -66,7 +66,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             <FlexBox justifyContent="space-between" alignItems="center" width="100%">
               <FlexBox alignItems="center">
                 <Icon className="explore-icon">categories</Icon>
-                <Typography className="explore-text" ml="5px" fontFamily="Inter" fontSize="14px" fontWeight="600" lineHeight="26px" color="#002180">
+                <Typography className="explore-text" ml="5px" fontSize="14px" fontWeight="600" lineHeight="26px" color="#002180">
                   Explore
                   {/* fontFamily='"Open Sans", sans-serif'  */}
                 </Typography>
@@ -139,7 +139,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                 background: "transparent",
                 color: "#FFF",
                 border: "2px solid rgba(255, 255, 255, 0.8)",
-                fontFamily: "Inter",
+                // fontFamily: "Inter",
                 fontSize: "14px",
                 fontStyle: "normal",
                 fontWeight: 500,

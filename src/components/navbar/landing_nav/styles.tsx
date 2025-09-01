@@ -65,7 +65,7 @@ export const StyledNavbar = styled.div`
 
     .nav-link {
       color: #FFF !important;
-      font-family: Inter;
+    //   font-family: Inter;
       font-size: 14px;
       font-style: normal;
       font-weight: 500;
@@ -191,7 +191,7 @@ export const StyledNavbar = styled.div`
     background: transparent !important;
     border: 2px solid rgba(255, 255, 255, 0.8) !important;
     color: #FFF !important;
-    font-family: Inter;
+    // font-family: Inter;
     font-size: 14px;
     font-style: normal;
     font-weight: 500;

@@ -26,7 +26,7 @@ export default function Signin({ onClick }: SigninProps) {
           color: "#FFF",
           fontWeight: 500,
           fontSize: "14px",
-          fontFamily: "Inter",
+        //   fontFamily: "Inter",
           fontStyle: "normal",
         //   lineHeight: "22px",
         //   padding: "10px 20px",
@@ -44,7 +44,7 @@ export default function Signin({ onClick }: SigninProps) {
           profile
         </Icon>
         <Typography
-          fontFamily="Inter"
+        //   fontFamily="Inter"
           fontSize="14px"
         //   fontStyle="normal"
         //   fontWeight="500"

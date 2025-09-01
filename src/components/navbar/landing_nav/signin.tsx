@@ -22,28 +22,34 @@ export default function Signin({ onClick }: SigninProps) {
       <FlexBox
         alignItems="center"
         style={{
-          gap: "8px",
           cursor: "pointer",
-          color: "white",
-          fontWeight: 600,
+          color: "#FFF",
+          fontWeight: 500,
           fontSize: "14px",
-          padding: "10px 20px",
-          transition: "all 0.3s ease",
-          minWidth: "140px",
-        //   "&:hover": {
-        //     transform: "translateY(-2px)",
-        //   },
+          fontFamily: "Inter",
+          fontStyle: "normal",
+        //   lineHeight: "22px",
+        //   padding: "10px 20px",
+        //   transition: "all 0.3s ease",
+        //   minWidth: "140px",
         }}
         onClick={handleClick}
       >
-        <Icon className="profile-icon" size="30px" color="#002180">
+        <Icon
+          className="profile-icon"
+          size="30px"
+          color="#002180"
+          marginRight= "5px"  /* Replaced gap with margin-right */
+        >
           profile
         </Icon>
         <Typography
-          fontFamily='"Open Sans", sans-serif'
+          fontFamily="Inter"
           fontSize="14px"
-          fontWeight="600"
-          color="white"
+        //   fontStyle="normal"
+        //   fontWeight="500"
+        //   lineHeight="22px"
+          color="#FFF"
         >
           Sign In
         </Typography>

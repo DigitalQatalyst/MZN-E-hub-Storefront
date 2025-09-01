@@ -52,8 +52,8 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         className="navbar-container"
         height="100%"
         display="flex"
-        alignItems="center"
-        justifyContent="space-between"
+        align-items="center"
+        justify-content="space-between"
       >
         <Box className="enterprise-logo" mr="20px">
           <NavLink href="/">
@@ -62,12 +62,13 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         </Box>
 
         <Categories open={navListOpen}>
-          <Button className="explore-button" width="140px" height="44px" bg="body.default" variant="text">
+          <Button className="explore-button" width="278px" height="34.409px" bg="body.default" variant="text">
             <FlexBox justifyContent="space-between" alignItems="center" width="100%">
               <FlexBox alignItems="center">
                 <Icon className="explore-icon">categories</Icon>
-                <Typography className="explore-text" ml="5px" fontFamily='"Open Sans", sans-serif' fontSize="16px" fontWeight="600" lineHeight="26px" color="#002180">
+                <Typography className="explore-text" ml="5px" fontFamily="Inter" fontSize="14px" fontWeight="600" lineHeight="26px" color="#002180">
                   Explore
+                  {/* fontFamily='"Open Sans", sans-serif'  */}
                 </Typography>
               </FlexBox>
               <Icon className="dropdown-icon" variant="small">chevron-down</Icon>
@@ -77,26 +78,25 @@ export default function Navbar({ navListOpen }: NavbarProps) {
 
         <Box flex="1" />
 
-        <FlexBox className="nav-links">
-          <NavLink className="nav-link" href="/development">Discover AbuDhabi</NavLink>
-          <NavLink className="nav-link" href="/faq">Help Centre</NavLink>
-        </FlexBox>
-
         <FlexBox className="right-section">
-          <Search />
-          <FlexBox alignItems="center" style={{ gap: "10px" }}>
-            <Signin />
-            <Button
-              className="become-partner-btn"
-              variant="outlined"
-              onClick={() => {
-                window.location.href = loginUrl;
-              }}
-            >
-              Become a Partner
-            </Button>
-            <Signup />
+          <FlexBox className="nav-links">
+            <NavLink className="nav-link" href="/development">Discover AbuDhabi</NavLink>
+            <NavLink className="nav-link" href="/faq">Help Centre</NavLink>
           </FlexBox>
+
+          <Search />
+
+          <Signin />
+          <Button
+            className="become-partner-btn"
+            variant="outlined"
+            onClick={() => {
+              window.location.href = loginUrl;
+            }}
+          >
+            Become a Partner
+          </Button>
+          <Signup />
         </FlexBox>
 
         <Box className="hamburger-icon" onClick={toggleMenu}>
@@ -123,31 +123,34 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             <NavLink className="nav-link" href="/faq" onClick={toggleMenu}>Help Centre</NavLink>
           </FlexBox>
 
-          <FlexBox className="mobile-right-section">
+          <FlexBox className="mobile-right-section" flexDirection="column" style={{ gap: "10px" }}>
             <Search onClick={toggleMenu} />
-            <FlexBox className="mobile-auth-section" flexDirection="column" style={{ gap: "16px" }}>
-              <Box className="profile-icon" onClick={toggleMenu}>
-                <Icon size="44px" color="#002180">profile</Icon>
-              </Box>
-              <Signin onClick={toggleMenu} />
-              <Button
-                className="mobile-auth-button become-partner-btn"
-                onClick={() => {
-                  window.location.href = loginUrl;
-                  toggleMenu();
-                }}
-                style={{
-                  background: "transparent",
-                  color: "white",
-                  border: "2px solid rgba(255, 255, 255, 0.8)",
-                  padding: "10px",
-                  borderRadius: "6px"
-                }}
-              >
-                Become a Partner
-              </Button>
-              <Signup />
-            </FlexBox>
+            <Box className="profile-icon" onClick={toggleMenu}>
+              <Icon size="44px" color="#002180">profile</Icon>
+            </Box>
+            <Signin onClick={toggleMenu} />
+            <Button
+              className="mobile-auth-button become-partner-btn"
+              onClick={() => {
+                window.location.href = loginUrl;
+                toggleMenu();
+              }}
+              style={{
+                background: "transparent",
+                color: "#FFF",
+                border: "2px solid rgba(255, 255, 255, 0.8)",
+                fontFamily: "Inter",
+                fontSize: "14px",
+                fontStyle: "normal",
+                fontWeight: 500,
+                lineHeight: "22px",
+                padding: "10px",
+                borderRadius: "6px"
+              }}
+            >
+              Become a Partner
+            </Button>
+            <Signup />
           </FlexBox>
         </Box>
       </Container>

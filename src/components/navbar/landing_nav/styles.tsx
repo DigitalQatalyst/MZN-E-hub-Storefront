@@ -15,6 +15,7 @@ export const StyledNavbar = styled.div`
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: space-between; /* Restore space-between for left-right alignment */
   }
 
   .enterprise-logo {
@@ -29,8 +30,8 @@ export const StyledNavbar = styled.div`
     padding-right: 10px;
 
     img {
-      width: 150px;
-      height: auto;
+      width: 110.382px;
+      height: 32.003px;
     }
 
     .enterprise-text {
@@ -51,22 +52,24 @@ export const StyledNavbar = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 8px;
     padding: 0 16px;
-    min-width: 300px;
-    height: 40px;
+    min-width: 278px;
+    height: 34.409px;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
   }
 
   .nav-links {
-    gap: 40px;
-    margin-right: 40px;
+    gap: 20px;
     display: flex;
     align-items: center;
 
     .nav-link {
-      color: white !important;
+      color: #FFF !important;
+      font-family: Inter;
+      font-size: 14px;
+      font-style: normal;
       font-weight: 500;
-      font-size: 16px;
+      line-height: 22px;
       text-decoration: none;
       transition: all 0.3s ease;
       padding: 8px 0;
@@ -85,14 +88,14 @@ export const StyledNavbar = styled.div`
   }
 
   .right-section {
-    gap: 24px;
+    gap: 20px; /* Updated from 10px to 20px */
     align-items: center;
     display: flex;
   }
 
   .search-icon {
-    width: 24px;
-    height: 20px;
+    // width: 24px;
+    // height: 20px;
     cursor: pointer;
     transition: transform 0.3s ease;
 
@@ -102,8 +105,8 @@ export const StyledNavbar = styled.div`
   }
 
   .profile-icon {
-    width: 68px;
-    height: 32px;
+    // width: 68px;
+    // height: 32px;
     cursor: pointer;
     transition: transform 0.3s ease;
 
@@ -127,14 +130,14 @@ export const StyledNavbar = styled.div`
   .mobile-menu {
     position: fixed;
     top: 0;
-    right: 0;
+    left: 0;
     width: 80%;
     max-width: 300px;
     height: 100vh;
     background: linear-gradient(224.55deg, #7693F3 0.02%, #7693F3 11.72%, #7693F1 21.24%, #7594EF 28.92%, #7594EC 35.08%, #7495E9 40.08%, #7496E5 44.24%, #7397E0 47.89%, #7298DC 51.38%, #7299D7 55.03%, #719AD2 59.19%, #709BCD 64.18%, #6F9CC8 70.35%, #6E9DC3 78.03%, #6E9EBE 87.54%, #6D9FBA 99.24%);
     padding: 20px;
     z-index: 1001;
-    transform: translateX(100%);
+    transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
 
     &.open {
@@ -143,14 +146,18 @@ export const StyledNavbar = styled.div`
 
     .mobile-nav-links {
       flex-direction: column;
-      gap: 20px;
+      gap: 20px; /* Updated from 10px to 20px */
       margin-top: 40px;
       justify-content: flex-start;
+      align-items: flex-start;
 
       .nav-link {
-        color: white !important;
-        font-size: 18px;
-        font-weight: 600;
+        color: #FFF !important;
+        font-family: Inter;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 22px;
         padding: 10px 0;
       }
     }
@@ -159,6 +166,8 @@ export const StyledNavbar = styled.div`
       flex-direction: column;
       margin-top: 20px;
       justify-content: flex-start;
+      align-items: flex-start;
+      gap: 20px; /* Updated from 10px to 20px */
 
       .profile-icon {
         width: 44px;
@@ -181,10 +190,13 @@ export const StyledNavbar = styled.div`
   .become-partner-btn {
     background: transparent !important;
     border: 2px solid rgba(255, 255, 255, 0.8) !important;
-    color: white !important;
-    font-weight: 600;
+    color: #FFF !important;
+    font-family: Inter;
     font-size: 14px;
-    padding: 10px 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+    padding: 10px 24px;
     border-radius: 8px;
     transition: all 0.3s ease;
     min-width: 140px;
@@ -214,6 +226,19 @@ export const StyledNavbar = styled.div`
     }
   }
 
+  .mobile-auth-button.become-partner-btn {
+    background: transparent !important;
+    color: #FFF !important;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 6px;
+  }
+
   // Tablet screens
   @media (max-width: 1024px) {
     .navbar-container {
@@ -224,7 +249,8 @@ export const StyledNavbar = styled.div`
       font-size: 20px;
 
       img {
-        width: 130px;
+        width: 110.382px;
+        height: 32.003px;
       }
 
       .enterprise-text {
@@ -237,8 +263,7 @@ export const StyledNavbar = styled.div`
     }
 
     .nav-links {
-      gap: 20px;
-      margin-right: 20px;
+      gap: 10px;
 
       .nav-link {
         font-size: 14px;
@@ -256,18 +281,18 @@ export const StyledNavbar = styled.div`
 
     .become-partner-btn {
       min-width: 120px;
-      font-size: 13px;
+      font-size: 14px;
       padding: 8px 16px;
     }
 
     .sign-up-btn {
       min-width: 80px;
-      font-size: 13px;
+      font-size: 14px;
       padding: 8px 16px;
     }
 
     .right-section {
-      gap: 16px;
+      gap: 10px;
     }
   }
 

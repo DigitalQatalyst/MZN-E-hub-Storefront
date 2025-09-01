@@ -1,12 +1,12 @@
 "use client";
-import React, { useState, useRef, useEffect } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
-import { ChevronDown } from 'lucide-react';
-import styled from 'styled-components';
-import Card from '@component/Card';
-import Box from '@component/Box';
-import FlexBox from '@component/FlexBox';
-import Typography from '@component/Typography';
+import React, { useState, useRef, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { ChevronDown } from "lucide-react";
+import styled from "styled-components";
+import Card from "@component/Card";
+import Box from "@component/Box";
+import FlexBox from "@component/FlexBox";
+import Typography from "@component/Typography";
 
 // Styled components following Bonik patterns
 const SidebarContainer = styled.div`
@@ -30,7 +30,7 @@ const CompanySelector = styled.div`
   position: relative;
 `;
 
-const CompanyInfo = styled.div<{ $isHovered?: boolean; }>`
+const CompanyInfo = styled.div<{ $isHovered?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -38,12 +38,13 @@ const CompanyInfo = styled.div<{ $isHovered?: boolean; }>`
   padding: 8px;
   border-radius: 6px;
   transition: background-color 0.2s ease;
-  background-color: ${props => props.$isHovered ? '#f9fafb' : 'transparent'};
+  background-color: ${(props) =>
+    props.$isHovered ? "#f9fafb" : "transparent"};
 `;
 
 const CompanyName = styled.span`
   font-weight: 500;
-  color: #0030E3;
+  color: #0030e3;
   font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
 `;
 
@@ -65,22 +66,23 @@ const AccountModal = styled(Card)`
   background: white;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
   z-index: 1001;
   overflow: hidden;
 `;
 
-const AccountItem = styled.div<{ $isSelected?: boolean; $isHovered?: boolean; }>`
+const AccountItem = styled.div<{ $isSelected?: boolean; $isHovered?: boolean }>`
   padding: 12px 16px;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  background-color: ${props => {
-    if (props.$isSelected) return '#f0f4ff';
-    if (props.$isHovered) return '#f9fafb';
-    return 'transparent';
+  background-color: ${(props) => {
+    if (props.$isSelected) return "#f0f4ff";
+    if (props.$isHovered) return "#f9fafb";
+    return "transparent";
   }};
   border-bottom: 1px solid #f3f4f6;
-  
+
   &:last-child {
     border-bottom: none;
   }
@@ -89,7 +91,7 @@ const AccountItem = styled.div<{ $isSelected?: boolean; $isHovered?: boolean; }>
 const AddBusinessButton = styled.button`
   width: 100%;
   padding: 12px 16px;
-  background-color: #0030E3;
+  background-color: #0030e3;
   color: white;
   border: none;
   border-radius: 8px;
@@ -99,23 +101,23 @@ const AddBusinessButton = styled.button`
   transition: background-color 0.2s ease;
   margin: 8px;
   width: calc(100% - 16px);
-  
+
   &:hover {
     background-color: #0026c7;
   }
 `;
 
-const NavItem = styled.div<{ $active?: boolean; $hovered?: boolean; }>`
+const NavItem = styled.div<{ $active?: boolean; $hovered?: boolean }>`
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 8px 12px;
-  background-color: ${props => {
-    if (props.$active) return '#0030E3';
-    if (props.$hovered) return '#f9fafb';
-    return 'transparent';
+  background-color: ${(props) => {
+    if (props.$active) return "#0030E3";
+    if (props.$hovered) return "#f9fafb";
+    return "transparent";
   }};
-  color: ${props => props.$active ? 'white' : '#374151'};
+  color: ${(props) => (props.$active ? "white" : "#374151")};
   border-radius: 8px;
   cursor: pointer;
   font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -148,10 +150,11 @@ const Sidebar = () => {
   const [hoveredCompany, setHoveredCompany] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState<Company>({
-    id: 'futuretech',
-    name: 'FutureTech LLC'
+    id: "futuretech",
+    name: "FutureTech LLC",
   });
-  const [isCompanySelectorHovered, setIsCompanySelectorHovered] = useState(false);
+  const [isCompanySelectorHovered, setIsCompanySelectorHovered] =
+    useState(false);
 
   const modalRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -159,39 +162,72 @@ const Sidebar = () => {
 
   // Available companies
   const companies: Company[] = [
-    { id: 'futuretech', name: 'FutureTech LLC' },
-    { id: 'algora', name: 'Algora Solutions' }
+    { id: "futuretech", name: "FutureTech LLC" },
+    { id: "algora", name: "Algora Solutions" },
   ];
 
   const essentialItems: NavItem[] = [
-    { id: 'profile', label: 'Profile', icon: '/images/vertical-shades-closed.svg', route: '/firm-profile' },
-    { id: 'documents', label: 'Documents', icon: '/images/home-storage.svg', route: '/' },
+    {
+      id: "profile",
+      label: "Profile",
+      icon: "/images/vertical-shades-closed.svg",
+      route: "/firm-profile",
+    },
+    {
+      id: "documents",
+      label: "Documents",
+      icon: "/images/home-storage.svg",
+      route: "/",
+    },
   ];
 
   const transactionItems: NavItem[] = [
-    { id: 'requests', label: 'Requests', icon: '/images/overview.svg', route: '/non-financial-records' },
-    { id: 'insights', label: 'Insights', icon: '/images/analytics.svg', route: '/insights' },
+    {
+      id: "requests",
+      label: "Requests",
+      icon: "/images/overview.svg",
+      route: "/non-financial-records",
+    },
+    {
+      id: "insights",
+      label: "Insights",
+      icon: "/images/analytics.svg",
+      route: "/insights",
+    },
   ];
 
   const settingsItems: NavItem[] = [
-    { id: 'settings', label: 'Settings', icon: '/images/settings.svg', route: '/user-management' },
-    { id: 'support', label: 'Support', icon: '/images/contact-support.svg', route: '/#' },
+    {
+      id: "settings",
+      label: "Settings",
+      icon: "/images/settings.svg",
+      route: "/user-management",
+    },
+    {
+      id: "support",
+      label: "Support",
+      icon: "/images/contact-support.svg",
+      route: "/faq",
+    },
   ];
 
   // Close modal when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
         setIsModalOpen(false);
       }
     };
 
     if (isModalOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isModalOpen]);
 
@@ -201,8 +237,8 @@ const Sidebar = () => {
 
   const isActive = (route: string) => {
     // Special handling for Documents route to keep it active on sub-routes
-    if (route === '/documents') {
-      return pathname.startsWith('/documents');
+    if (route === "/documents") {
+      return pathname.startsWith("/documents");
     }
     // For other routes, exact match
     return pathname === route;
@@ -217,13 +253,13 @@ const Sidebar = () => {
     setSelectedCompany(company);
     setIsModalOpen(false);
     // Here you would typically handle the company switching logic
-    console.log('Switched to company:', company.name);
+    console.log("Switched to company:", company.name);
   };
 
   const handleAddBusiness = () => {
     setIsModalOpen(false);
     // Handle add business logic
-    console.log('Add business clicked');
+    console.log("Add business clicked");
   };
 
   const renderNavItem = (item: NavItem) => {
@@ -243,7 +279,7 @@ const Sidebar = () => {
           alt={item.label}
           height="20px"
           style={{
-            filter: active ? 'brightness(0) invert(1)' : 'none'
+            filter: active ? "brightness(0) invert(1)" : "none",
           }}
         />
         <span>{item.label}</span>
@@ -254,9 +290,7 @@ const Sidebar = () => {
   return (
     <SidebarContainer>
       {/* Modal Overlay - only render when modal is open */}
-      {isModalOpen && (
-        <ModalOverlay onClick={() => setIsModalOpen(false)} />
-      )}
+      {isModalOpen && <ModalOverlay onClick={() => setIsModalOpen(false)} />}
 
       {/* Company Selector */}
       <CompanySelectorContainer ref={modalRef}>
@@ -269,11 +303,11 @@ const Sidebar = () => {
             <CompanyName>{selectedCompany.name}</CompanyName>
             <ChevronDown
               style={{
-                width: '16px',
-                height: '16px',
-                color: '#0030E3',
-                transition: 'transform 0.2s ease',
-                transform: isModalOpen ? 'rotate(180deg)' : 'rotate(0deg)'
+                width: "16px",
+                height: "16px",
+                color: "#0030E3",
+                transition: "transform 0.2s ease",
+                transform: isModalOpen ? "rotate(180deg)" : "rotate(0deg)",
               }}
               onClick={handleChevronClick}
             />
@@ -310,23 +344,25 @@ const Sidebar = () => {
       </CompanySelectorContainer>
 
       {/* Navigation */}
-      <div style={{ flex: 1, paddingTop: '16px', paddingBottom: '16px' }}>
+      <div style={{ flex: 1, paddingTop: "16px", paddingBottom: "16px" }}>
         {/* Overview - Dashboard */}
         <Box px="16px" mb="24px">
           <NavItem
-            $active={isActive('/dashboard')}
-            $hovered={hoveredItem === 'overview'}
-            onMouseEnter={() => setHoveredItem('overview')}
+            $active={isActive("/dashboard")}
+            $hovered={hoveredItem === "overview"}
+            onMouseEnter={() => setHoveredItem("overview")}
             onMouseLeave={() => setHoveredItem(null)}
-            onClick={() => handleNavigation('/dashboard')}
-            style={{ borderRadius: '4px' }}
+            onClick={() => handleNavigation("/dashboard")}
+            style={{ borderRadius: "4px" }}
           >
             <img
               src="/images/dashboard-customize-light.svg"
               alt="Dashboard"
               height="20px"
               style={{
-                filter: isActive('/dashboard') ? 'brightness(0) invert(1)' : 'brightness(0) opacity(0.6)'
+                filter: isActive("/dashboard")
+                  ? "brightness(0) invert(1)"
+                  : "brightness(0) opacity(0.6)",
               }}
             />
             <span>Overview</span>
@@ -334,42 +370,51 @@ const Sidebar = () => {
         </Box>
 
         {/* Essentials Section */}
-        < Box px="16px" mb="16px" >
+        <Box px="16px" mb="16px">
           <SectionTitle>Essentials</SectionTitle>
           <FlexBox flexDirection="column">
             {essentialItems.map((item, index) => (
-              <Box key={item.id} mb={index < essentialItems.length - 1 ? "4px" : "0px"}>
+              <Box
+                key={item.id}
+                mb={index < essentialItems.length - 1 ? "4px" : "0px"}
+              >
                 {renderNavItem(item)}
               </Box>
             ))}
           </FlexBox>
-        </Box >
+        </Box>
 
         {/* Transactions Section */}
-        < Box px="16px" mb="16px" >
+        <Box px="16px" mb="16px">
           <SectionTitle>Transactions</SectionTitle>
           <FlexBox flexDirection="column">
             {transactionItems.map((item, index) => (
-              <Box key={item.id} mb={index < transactionItems.length - 1 ? "4px" : "0px"}>
+              <Box
+                key={item.id}
+                mb={index < transactionItems.length - 1 ? "4px" : "0px"}
+              >
                 {renderNavItem(item)}
               </Box>
             ))}
           </FlexBox>
-        </Box >
+        </Box>
 
         {/* Settings & Support Section */}
-        < Box px="16px" >
+        <Box px="16px">
           <SectionTitle>Settings & Support</SectionTitle>
           <FlexBox flexDirection="column">
             {settingsItems.map((item, index) => (
-              <Box key={item.id} mb={index < settingsItems.length - 1 ? "4px" : "0px"}>
+              <Box
+                key={item.id}
+                mb={index < settingsItems.length - 1 ? "4px" : "0px"}
+              >
                 {renderNavItem(item)}
               </Box>
             ))}
           </FlexBox>
-        </Box >
-      </div >
-    </SidebarContainer >
+        </Box>
+      </div>
+    </SidebarContainer>
   );
 };
 

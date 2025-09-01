@@ -207,7 +207,7 @@ const Sidebar = () => {
       id: "support",
       label: "Support",
       icon: "/images/contact-support.svg",
-      route: "/faq",
+      route: "/support",
     },
   ];
 

@@ -147,6 +147,14 @@ const EventTitle = styled.h4`
   font-weight: 400;
   color: #000;
   margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 2.8em; /* Ensure consistent height for two lines */
+  line-height: 1.4;
+  max-height: 2.8em; /* Fallback for non-webkit browsers */
 
   @media (max-width: 768px) {
     font-size: 16px;

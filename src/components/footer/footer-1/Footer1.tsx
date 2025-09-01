@@ -28,10 +28,10 @@ export default function Footer1() {
   // Render a footer column with links and optional badges
   const renderFooterColumn = (columnKey: string, columnData: any) => (
     <Grid item lg={2.4} md={4} sm={6} xs={12} key={columnKey}>
-      <Typography 
-        mb="1.5rem" 
-        lineHeight="1" 
-        fontSize="14px" 
+      <Typography
+        mb="1.5rem"
+        lineHeight="1"
+        fontSize="14px"
         fontWeight="600"
         color="white"
       >
@@ -39,10 +39,10 @@ export default function Footer1() {
       </Typography>
       <div>
         {columnData.links.map((linkItem: any, index: number) => (
-          <StyledLink 
-            href={linkItem.url} 
+          <StyledLink
+            href={linkItem.url}
             key={index}
-            style={{ 
+            style={{
               color: 'rgba(255,255,255,0.8)',
               display: 'block',
               marginBottom: '0.75rem',
@@ -54,11 +54,11 @@ export default function Footer1() {
             {linkItem.name}
             {/* Add badge if present */}
             {linkItem.badge && (
-              <Box 
-                as="span" 
-                ml="0.5rem" 
-                px="0.5rem" 
-                py="0.25rem" 
+              <Box
+                as="span"
+                ml="0.5rem"
+                px="0.5rem"
+                py="0.25rem"
                 style={{
                   backgroundColor: 'white',
                   color: '#0030E3',
@@ -79,7 +79,7 @@ export default function Footer1() {
   return (
     <footer>
       {/* Main Footer Section with Blue Gradient */}
-      <Box 
+      <Box
         position="relative"
         overflow="hidden"
         style={{
@@ -100,15 +100,15 @@ export default function Footer1() {
             </Box>
 
             {/* Description and Newsletter Section */}
-            <FlexBox 
-              justifyContent="space-between" 
+            <FlexBox
+              justifyContent="space-between"
               alignItems="flex-start"
               flexDirection={{ xs: "column", lg: "row" }}
             >
               {/* Left Section - Description */}
               <Box maxWidth="500px" mr={{ lg: "2rem" }}>
-                <Paragraph 
-                  color="rgba(255,255,255,0.8)" 
+                <Paragraph
+                  color="rgba(255,255,255,0.8)"
                   fontSize="14px"
                   lineHeight="1.5"
                 >
@@ -138,7 +138,7 @@ export default function Footer1() {
                         transition: 'border-color 0.2s ease'
                       }}
                     />
-                    <SubscribeButton 
+                    <SubscribeButton
                       type="submit"
                       style={{
                         position: 'absolute',
@@ -178,7 +178,7 @@ export default function Footer1() {
           {/* Links Section - 5 Columns */}
           <Box pb="3rem">
             <Grid container spacing={4}>
-              {Object.entries(footerData).map(([key, data]) => 
+              {Object.entries(footerData).map(([key, data]) =>
                 renderFooterColumn(key, data)
               )}
             </Grid>
@@ -198,34 +198,34 @@ export default function Footer1() {
           width: "100%",
           padding: "0 4rem"
         }}>
-          <FlexBox 
-            justifyContent="space-between" 
+          <FlexBox
+            justifyContent="space-between"
             alignItems="center"
             flexDirection={{ xs: "column", md: "row" }}
           >
             {/* Left Section - Legal Links & Copyright */}
-            <FlexBox 
-              alignItems="center" 
+            <FlexBox
+              alignItems="center"
               flexDirection={{ xs: "column", sm: "row" }}
               mb={{ xs: "1rem", md: "0" }}
             >
               <FlexBox alignItems="center">
-                <Typography 
+                <Typography
                   component={Link}
                   href="/"
-                  color="rgba(255,255,255,0.8)" 
-                  fontSize="14px" 
+                  color="rgba(255,255,255,0.8)"
+                  fontSize="14px"
                   fontWeight="400"
                   mr="1rem"
                   style={{ textDecoration: 'none' }}
                 >
                   Privacy Policy
                 </Typography>
-                <Typography 
+                <Typography
                   component={Link}
                   href="/"
-                  color="rgba(255,255,255,0.8)" 
-                  fontSize="14px" 
+                  color="rgba(255,255,255,0.8)"
+                  fontSize="14px"
                   fontWeight="400"
                   mr="1rem"
                   style={{ textDecoration: 'none' }}
@@ -243,10 +243,10 @@ export default function Footer1() {
               {socialMediaLinks.map((social, index) => {
                 // Map icon names to lucide-react components
                 const IconComponent = social.icon === 'linkedin' ? Linkedin :
-                                    social.icon === 'twitter' ? Twitter :
-                                    social.icon === 'youtube' ? Youtube :
-                                    social.icon === 'instagram' ? Instagram : Linkedin;
-                
+                  social.icon === 'twitter' ? Twitter :
+                    social.icon === 'youtube' ? Youtube :
+                      social.icon === 'instagram' ? Instagram : Linkedin;
+
                 return (
                   <a
                     key={social.name}
@@ -256,10 +256,10 @@ export default function Footer1() {
                     style={{ textDecoration: 'none' }}
                     aria-label={`Follow us on ${social.name}`}
                   >
-                    <Box 
+                    <Box
                       ml={index > 0 ? "0.5rem" : "0"}
-                      p="0.75rem" 
-                      borderRadius="6px" 
+                      p="0.75rem"
+                      borderRadius="6px"
                       display="flex"
                       alignItems="center"
                       justifyContent="center"

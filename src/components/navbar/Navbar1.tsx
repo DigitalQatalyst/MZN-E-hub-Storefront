@@ -6,7 +6,6 @@ import Box from "../Box";
 import Icon from "../icon/Icon";
 import FlexBox from "../FlexBox";
 import NavLink from "../nav-link";
-import MenuItem from "../MenuItem";
 import { Button } from "../buttons";
 import Container from "../Container";
 import Typography from "../Typography";
@@ -381,31 +380,15 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         </Box>
  
         <Categories open={navListOpen}>
-          <Button
-            className="explore-button"
-            width="140px"
-            height="44px"
-            bg="body.default"
-            variant="text"
-          >
+          <Button className="explore-button" width="140px" height="44px" bg="body.default" variant="text">
             <FlexBox justifyContent="space-between" alignItems="center" width="100%">
               <FlexBox alignItems="center">
                 <Icon className="explore-icon">categories</Icon>
-                <Typography
-                  className="explore-text"
-                  ml="5px"
-                  fontFamily='"Open Sans", sans-serif'
-                  fontSize="16px"
-                  fontWeight="600"
-                  lineHeight="26px"
-                  color="#002180"
-                >
+                <Typography className="explore-text" ml="5px" fontFamily='"Open Sans", sans-serif' fontSize="16px" fontWeight="600" lineHeight="26px" color="#002180">
                   Explore
                 </Typography>
               </FlexBox>
-              <Icon className="dropdown-icon" variant="small">
-                chevron-down
-              </Icon>
+              <Icon className="dropdown-icon" variant="small">chevron-down</Icon>
             </FlexBox>
           </Button>
         </Categories>
@@ -413,12 +396,8 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         <Box flex="1" />
  
         <FlexBox className="nav-links">
-          <NavLink className="nav-link" href="/development">
-            Discover AbuDhabi
-          </NavLink>
-          <NavLink className="nav-link" href="/faq">
-            Help Centre
-          </NavLink>
+          <NavLink className="nav-link" href="/development">Discover AbuDhabi</NavLink>
+          <NavLink className="nav-link" href="/faq">Help Centre</NavLink>
         </FlexBox>
  
         <FlexBox className="right-section">
@@ -457,47 +436,27 @@ export default function Navbar({ navListOpen }: NavbarProps) {
  
         <Box className={`mobile-menu ${menuOpen ? "open" : ""}`}>
           <Categories open={navListOpen}>
-            <Button
-              className="mobile-explore-button"
-              width="100%"
-              height="44px"
-              bg="body.default"
-              variant="text"
-              onClick={toggleMenu}
-            >
+            <Button className="mobile-explore-button" width="100%" height="44px" bg="body.default" variant="text" onClick={toggleMenu}>
               <FlexBox justifyContent="flex-start" alignItems="center" width="100%">
                 <FlexBox alignItems="center">
                   <Icon className="explore-icon">categories</Icon>
-                  <Typography
-                    className="explore-text"
-                    ml="5px"
-                    fontFamily='"Open Sans", sans-serif'
-                    fontSize="16px"
-                    fontWeight="600"
-                    lineHeight="26px"
-                    color="#002180"
-                  >
+                  <Typography className="explore-text" ml="5px" fontFamily='"Open Sans", sans-serif' fontSize="16px" fontWeight="600" lineHeight="26px" color="#002180">
                     Explore
                   </Typography>
                 </FlexBox>
-                <Icon className="dropdown-icon" variant="small">
-                  chevron-down
-                </Icon>
+                <Icon className="dropdown-icon" variant="small">chevron-down</Icon>
               </FlexBox>
             </Button>
           </Categories>
  
           <FlexBox className="mobile-nav-links">
-            <NavLink className="nav-link" href="/development" onClick={toggleMenu}>
-              Discover AbuDhabi
-            </NavLink>
-            <NavLink className="nav-link" href="/faq" onClick={toggleMenu}>
-              Help Centre
-            </NavLink>
+            <NavLink className="nav-link" href="/development" onClick={toggleMenu}>Discover AbuDhabi</NavLink>
+            <NavLink className="nav-link" href="/faq" onClick={toggleMenu}>Help Centre</NavLink>
           </FlexBox>
  
           <FlexBox className="mobile-right-section">
             <Box className="search-icon" onClick={toggleMenu}>
+              <Icon size="18px" color="#002180">search</Icon>
               <Icon size="18px" color="#002180">search</Icon>
             </Box>
  

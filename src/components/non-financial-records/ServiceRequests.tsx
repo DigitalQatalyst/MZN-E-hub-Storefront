@@ -1,82 +1,258 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { MoreVertical } from 'lucide-react';
-
-interface ServiceRequest {
-  id: string;
-  serviceName: string;
-  category: string;
-  dateRequested: string;
-  status: 'Draft' | 'Under Review' | 'Approved' | 'Rejected';
-}
-
-const mockData: ServiceRequest[] = [
-  {
-    id: '1',
-    serviceName: 'Request For Funding',
-    category: 'Business Operating Finance',
-    dateRequested: '04/09/2025',
-    status: 'Draft'
-  },
-  {
-    id: '2',
-    serviceName: 'Equipment & Machinery Financing',
-    category: 'Business Asset Financing',
-    dateRequested: '04/09/2025',
-    status: 'Draft'
-  },
-  {
-    id: '3',
-    serviceName: 'Trade Finance',
-    category: 'Project & Specialized Financing',
-    dateRequested: '04/09/2025',
-    status: 'Draft'
-  },
-  {
-    id: '4',
-    serviceName: 'Business Expansion Loans',
-    category: 'Growth & Expansion Financing',
-    dateRequested: '04/09/2025',
-    status: 'Draft'
-  },
-  {
-    id: '5',
-    serviceName: 'Equity Crowdfunding',
-    category: 'Investment & Equity Financing',
-    dateRequested: '04/09/2025',
-    status: 'Draft'
-  },
-  {
-    id: '6',
-    serviceName: 'Working Capital Loan',
-    category: 'Business Operating Finance',
-    dateRequested: '03/09/2025',
-    status: 'Under Review'
-  },
-  {
-    id: '7',
-    serviceName: 'Line of Credit',
-    category: 'Business Operating Finance',
-    dateRequested: '02/09/2025',
-    status: 'Approved'
-  },
-  {
-    id: '8',
-    serviceName: 'Invoice Factoring',
-    category: 'Project & Specialized Financing',
-    dateRequested: '01/09/2025',
-    status: 'Rejected'
-  }
-];
+import { useRouter } from 'next/navigation';
+import styled from 'styled-components';
+import Container from '@component/Container';
+import Card from '@component/Card';
+import Box from '@component/Box';
+import FlexBox from '@component/FlexBox';
+import Typography from '@component/Typography';
+import { getAllServiceRequests, ServiceRequest } from './serviceRequestData';
 
 type FilterStatus = 'All' | 'Draft' | 'Under Review' | 'Approved' | 'Rejected';
 
+// Styled Components using Bonik patterns
+const FilterButton = styled.button<{ isActive: boolean }>`
+  padding: 10px 16px;
+  border: 1px solid ${({ isActive }) => isActive ? '#0030E3' : '#D8E0E9'};
+  background-color: transparent;
+  color: ${({ isActive }) => isActive ? '#0030E3' : '#6b7280'};
+  font-weight: ${({ isActive }) => isActive ? '600' : '400'};
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+
+  @media (max-width: 768px) {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+`;
+
+const SearchInput = styled.input`
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  width: 300px;
+  outline: none;
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    border-color: #0030E3;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
+
+const PrimaryButton = styled.button`
+  padding: 12px 24px;
+  background-color: #0030E3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #0025b8;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
+
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+
+  @media (min-width: 768px) {
+    min-width: auto;
+  }
+`;
+
+const TableHeader = styled.th`
+  padding: 16px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: white;
+
+  @media (max-width: 768px) {
+    padding: 12px 8px;
+    font-size: 10px;
+  }
+`;
+
+const TableRow = styled.tr`
+  border-bottom: 1px solid #f3f4f6;
+`;
+
+const TableCell = styled.td<{ weight?: string }>`
+  padding: 16px;
+  font-size: 14px;
+  color: ${({ weight }) => weight === 'bold' ? '#111827' : '#6b7280'};
+  font-weight: ${({ weight }) => weight === 'bold' ? '500' : '400'};
+
+  @media (max-width: 768px) {
+    padding: 12px 8px;
+    font-size: 12px;
+  }
+`;
+
+const StatusBadge = styled.span<{ status: string }>`
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: ${({ status }) => {
+    switch (status) {
+      case 'Draft': return '#f3f4f6';
+      case 'Under Review': return '#fef3c7';
+      case 'Approved': return '#d1fae5';
+      case 'Rejected': return '#fee2e2';
+      default: return '#f3f4f6';
+    }
+  }};
+  color: ${({ status }) => {
+    switch (status) {
+      case 'Draft': return '#6b7280';
+      case 'Under Review': return '#d97706';
+      case 'Approved': return '#10b981';
+      case 'Rejected': return '#ef4444';
+      default: return '#6b7280';
+    }
+  }};
+
+  @media (max-width: 768px) {
+    padding: 2px 8px;
+    font-size: 12px;
+  }
+`;
+
+const ActionButton = styled.button`
+  padding: 4px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #f3f4f6;
+  }
+`;
+
+// Updated Dropdown Components with dynamic positioning
+const DropdownContainer = styled(Box)`
+  position: relative;
+  display: inline-block;
+`;
+
+// Updated DropdownMenu with fixed positioning that tracks scroll + original size
+const DropdownMenu = styled(Card)<{ 
+  position: 'above' | 'below';
+  top: number;
+  left: number;
+}>`
+  position: fixed;
+  top: ${({ top, position }) => position === 'above' ? `${top - 124}px` : `${top}px`};
+  left: ${({ left }) => `${left}px`};
+  z-index: 1000;
+  min-width: 200px;
+  max-width: 200px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  padding: 8px 0;
+  margin: 0; /* Remove any default margins */
+`;
+
+const DropdownItem = styled.button<{ variant?: 'primary' | 'default' }>`
+  width: ${({ variant }) => variant === 'primary' ? 'calc(100% - 16px)' : '100%'};
+  padding: 12px 16px;
+  text-align: left;
+  border: none;
+  background-color: ${({ variant }) => variant === 'primary' ? '#0030E3' : 'transparent'};
+  color: ${({ variant }) => variant === 'primary' ? 'white' : '#374151'};
+  font-size: 14px;
+  font-weight: ${({ variant }) => variant === 'primary' ? '500' : '400'};
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-radius: ${({ variant }) => variant === 'primary' ? '6px' : '0'};
+  margin: ${({ variant }) => variant === 'primary' ? '0 8px 8px 8px' : '0'};
+
+  &:hover {
+    background-color: ${({ variant }) => 
+      variant === 'primary' ? '#0025b8' : '#f3f4f6'
+    };
+  }
+
+  &:first-child {
+    margin-bottom: 8px;
+  }
+`;
+
+const PaginationButton = styled.button<{ isActive?: boolean; disabled?: boolean }>`
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  background-color: ${({ isActive }) => isActive ? '#0030E3' : 'white'};
+  color: ${({ isActive, disabled }) => 
+    disabled ? '#9ca3af' : isActive ? 'white' : '#374151'
+  };
+  border-radius: 6px;
+  cursor: ${({ disabled }) => disabled ? 'not-allowed' : 'pointer'};
+  font-size: 14px;
+  font-weight: ${({ isActive }) => isActive ? '600' : '400'};
+
+  @media (max-width: 768px) {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+`;
+
+// Table Container - simplified since dropdown now uses fixed positioning
+const TableContainer = styled(Box)`
+  bg: white;
+  border-radius: 8px;
+  overflow-x: auto;
+  mx: 24px;
+  mb: 24px;
+`;
+
 const ServiceRequestsPage: React.FC = () => {
+  const router = useRouter();
   const [activeFilter, setActiveFilter] = useState<FilterStatus>('Draft');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
+  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+  const [dropdownPosition, setDropdownPosition] = useState<'above' | 'below'>('below');
+  const [dropdownCoords, setDropdownCoords] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const actionButtonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
   const itemsPerPage = 6;
+
+  // Get service requests data from shared source
+  const serviceRequestsData = getAllServiceRequests();
 
   // Handle responsive design by detecting screen size changes
   useEffect(() => {
@@ -84,14 +260,56 @@ const ServiceRequestsPage: React.FC = () => {
       setIsMobile(window.innerWidth < 768);
     };
     
-    checkIsMobile();
-    window.addEventListener('resize', checkIsMobile);
+    const handleResize = () => {
+      checkIsMobile();
+      // Close dropdown on resize to prevent positioning issues
+      if (openDropdownId) {
+        setOpenDropdownId(null);
+      }
+    };
     
-    return () => window.removeEventListener('resize', checkIsMobile);
-  }, []);
+    checkIsMobile();
+    window.addEventListener('resize', handleResize);
+    
+    return () => window.removeEventListener('resize', handleResize);
+  }, [openDropdownId]);
+
+  // Handle click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setOpenDropdownId(null);
+      }
+    };
+
+    const handleScroll = () => {
+      // Option 1: Update dropdown position when scrolling (current implementation)
+      if (openDropdownId) {
+        const buttonElement = actionButtonRefs.current[openDropdownId];
+        if (buttonElement) {
+          const { position, coords } = calculateDropdownPosition(buttonElement);
+          setDropdownPosition(position);
+          setDropdownCoords(coords);
+        }
+      }
+      
+      // Option 2: Close dropdown on scroll (uncomment below and comment above for simpler UX)
+      // if (openDropdownId) {
+      //   setOpenDropdownId(null);
+      // }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    window.addEventListener('scroll', handleScroll, true); // Capture phase to catch all scroll events
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('scroll', handleScroll, true);
+    };
+  }, [openDropdownId]);
 
   // Filter data based on active filter and search term
-  const filteredData = mockData.filter(item => {
+  const filteredData = serviceRequestsData.filter(item => {
     const matchesFilter = activeFilter === 'All' || item.status === activeFilter;
     const matchesSearch = 
       item.serviceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -108,405 +326,278 @@ const ServiceRequestsPage: React.FC = () => {
   // Available filter options
   const filters: FilterStatus[] = ['All', 'Draft', 'Under Review', 'Approved', 'Rejected'];
 
-  // Dynamic status badge styling based on status type
-  const getStatusStyle = (status: string) => {
-    const baseStyle = {
-      padding: isMobile ? '2px 8px' : '4px 12px',
-      borderRadius: '4px',
-      fontSize: isMobile ? '12px' : '14px',
-      fontWeight: '500'
-    };
-
-    switch (status) {
-      case 'Draft':
-        return { ...baseStyle, backgroundColor: '#f3f4f6', color: '#6b7280' };
-      case 'Under Review':
-        return { ...baseStyle, backgroundColor: '#fef3c7', color: '#d97706' };
-      case 'Approved':
-        return { ...baseStyle, backgroundColor: '#d1fae5', color: '#10b981' };
-      case 'Rejected':
-        return { ...baseStyle, backgroundColor: '#fee2e2', color: '#ef4444' };
-      default:
-        return baseStyle;
+  // Calculate optimal dropdown position and coordinates based on button position and viewport
+  const calculateDropdownPosition = (buttonElement: HTMLButtonElement): { 
+    position: 'above' | 'below'; 
+    coords: { top: number; left: number } 
+  } => {
+    const buttonRect = buttonElement.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const dropdownHeight = 124; // Actual dropdown height (2 items + padding)
+    const dropdownWidth = 200; // Dropdown width
+    
+    // Check if there's enough space below the button
+    const spaceBelow = viewportHeight - buttonRect.bottom;
+    const spaceAbove = buttonRect.top;
+    
+    // Determine vertical position
+    const position = (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) ? 'above' : 'below';
+    
+    // Calculate coordinates
+    let top = position === 'below' ? buttonRect.bottom + 4 : buttonRect.top - 4;
+    let left = buttonRect.right - dropdownWidth; // Align right edge with button
+    
+    // Ensure dropdown doesn't go off-screen horizontally
+    if (left < 8) {
+      left = 8; // Minimum margin from left edge
     }
+    
+    // Ensure dropdown doesn't go off-screen on the right
+    if (left + dropdownWidth > window.innerWidth - 8) {
+      left = window.innerWidth - dropdownWidth - 8;
+    }
+    
+    return {
+      position,
+      coords: { top, left }
+    };
+  };
+
+  // Handle dropdown toggle with dynamic positioning and coordinate calculation
+  const toggleDropdown = (id: string) => {
+    if (openDropdownId === id) {
+      setOpenDropdownId(null);
+      return;
+    }
+
+    // Calculate position and coordinates before opening
+    const buttonElement = actionButtonRefs.current[id];
+    if (buttonElement) {
+      const { position, coords } = calculateDropdownPosition(buttonElement);
+      setDropdownPosition(position);
+      setDropdownCoords(coords);
+    }
+    
+    setOpenDropdownId(id);
+  };
+
+  // Handle dropdown actions
+  const handleWithdraw = (id: string) => {
+    console.log('Withdraw application:', id);
+    setOpenDropdownId(null);
+    // Add your withdraw logic here
+  };
+
+  const handleContinue = (id: string) => {
+    console.log('Continue application:', id);
+    setOpenDropdownId(null);
+    // Navigate to the progress page using Next.js router
+    router.push(`/non-financial-records/${id}/progress`);
   };
 
   return (
-    <div style={{ padding: isMobile ? '16px' : '24px', backgroundColor: 'white', minHeight: '100vh' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+    <Box p={isMobile ? '16px' : '24px'} bg="white" minHeight="100vh">
+      <Container maxWidth="1200px">
         {/* Page Header */}
-        <h1 style={{ 
-          fontSize: isMobile ? '12px' : '16px', 
-          fontWeight: '400', 
-          color: '#242424', 
-          marginBottom: '24px' 
-        }}>
+        <Typography
+          fontSize={isMobile ? '12px' : '16px'}
+          fontWeight="400"
+          color="#242424"
+          mb="24px"
+        >
           Service Requests
-        </h1>
+        </Typography>
 
-        {/* Main Content Container - Card with border, shadow, and radius */}
-        <div style={{
-          border: '1px solid #e5e7eb',
-          borderRadius: '6px',
-          backgroundColor: 'white',
-          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-          overflow: 'hidden' // Ensures content respects the border radius
-        }}>
-          {/* Filter Tabs - Button style with border on selection */}
-          <div style={{ 
-            display: 'flex', 
-            gap: '8px', 
-            marginBottom: '0',
-            overflowX: 'auto',
-            whiteSpace: 'nowrap',
-            padding: isMobile ? '16px 16px 24px' : '24px 24px 24px'
-          }}>
-          {filters.map((filter) => (
-            <button
-              key={filter}
-              onClick={() => {
-                setActiveFilter(filter);
-                setCurrentPage(1); // Reset to first page when filter changes
-              }}
-              style={{
-                padding: isMobile ? '8px 12px' : '10px 16px',
-                border: activeFilter === filter ? '1px solid #0030E3' : '1px solid #D8E0E9',
-                backgroundColor: 'transparent',
-                color: activeFilter === filter ? '#0030E3' : '#6b7280',
-                fontWeight: activeFilter === filter ? '600' : '400',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontSize: isMobile ? '12px' : '14px',
-                flexShrink: 0,
-                transition: 'all 0.2s ease' // Smooth transition for active state
-              }}
-            >
-              {filter}
-            </button>
-          ))}
-        </div>
-
-        {/* Search and Action Button Row */}
-        <div style={{ 
-          display: 'flex', 
-          flexDirection: isMobile ? 'column' : 'row',
-          justifyContent: 'space-between', 
-          alignItems: isMobile ? 'stretch' : 'center',
-          marginInline: '24px',
-          marginTop: '24px',
-          marginBottom: '24px',
-          gap: '16px'
-        }}>
-          {/* Search Input */}
-          <input
-            type="text"
-            placeholder="Search by name or category..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            style={{
-              padding: '12px 16px',
-              border: '1px solid #d1d5db',
-              borderRadius: '8px',
-              fontSize: '14px',
-              width: isMobile ? '100%' : '300px',
-              outline: 'none',
-              transition: 'border-color 0.2s ease'
+        {/* Main Content Container */}
+        <Card 
+          border="1px solid #e5e7eb" 
+          borderRadius="6px" 
+          overflow="hidden"
+        >
+          {/* Filter Tabs */}
+          <Box
+            p={isMobile ? '16px 16px 24px' : '24px 24px 24px'}
+            style={{ 
+              display: 'flex', 
+              overflowX: 'auto', 
+              whiteSpace: 'nowrap' 
             }}
-            onFocus={(e) => e.currentTarget.style.borderColor = '#0030E3'}
-            onBlur={(e) => e.currentTarget.style.borderColor = '#d1d5db'}
-          />
-          
-          {/* Primary Action Button */}
-          <button
-            style={{
-              padding: '12px 24px',
-              backgroundColor: '#0030E3',
-              color: 'white',
-              border: 'none',
-              borderRadius: '8px',
-              fontSize: '14px',
-              fontWeight: '500',
-              cursor: 'pointer',
-              width: isMobile ? '100%' : 'auto',
-              transition: 'background-color 0.2s ease'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0025b8'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0030E3'}
           >
-            Request new service
-          </button>
-        </div>
-
-        {/* Table Container - Clean design without dividers */}
-        <div style={{ 
-          backgroundColor: 'white',
-          borderRadius: '8px',
-          overflow: 'hidden',
-          overflowX: 'auto', // Horizontal scroll for mobile responsiveness
-          marginInline: '24px',
-          marginBottom: '24px'
-        }}>
-          <table style={{ 
-            width: '100%', 
-            borderCollapse: 'collapse', 
-            minWidth: isMobile ? '800px' : 'auto' // Ensure table doesn't compress on mobile
-          }}>
-            {/* Table Header - White background with top and bottom dividers */}
-            <thead>
-              <tr style={{ backgroundColor: 'white' }}>
-                <th style={{ 
-                  padding: isMobile ? '12px 8px' : '16px', 
-                  textAlign: 'left', 
-                  fontSize: isMobile ? '10px' : '12px', 
-                  fontWeight: '600', 
-                  color: '#6b7280',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                  borderTop: '1px solid #e5e7eb',
-                  borderBottom: '1px solid #e5e7eb'
-                }}>
-                  SERVICE NAME
-                </th>
-                <th style={{ 
-                  padding: isMobile ? '12px 8px' : '16px', 
-                  textAlign: 'left', 
-                  fontSize: isMobile ? '10px' : '12px', 
-                  fontWeight: '600', 
-                  color: '#6b7280',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                  borderTop: '1px solid #e5e7eb',
-                  borderBottom: '1px solid #e5e7eb'
-                }}>
-                  CATEGORY
-                </th>
-                <th style={{ 
-                  padding: isMobile ? '12px 8px' : '16px', 
-                  textAlign: 'left', 
-                  fontSize: isMobile ? '10px' : '12px', 
-                  fontWeight: '600', 
-                  color: '#6b7280',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                  borderTop: '1px solid #e5e7eb',
-                  borderBottom: '1px solid #e5e7eb'
-                }}>
-                  DATE REQUESTED
-                </th>
-                <th style={{ 
-                  padding: isMobile ? '12px 8px' : '16px', 
-                  textAlign: 'left', 
-                  fontSize: isMobile ? '10px' : '12px', 
-                  fontWeight: '600', 
-                  color: '#6b7280',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                  borderTop: '1px solid #e5e7eb',
-                  borderBottom: '1px solid #e5e7eb'
-                }}>
-                  STATUS
-                </th>
-                <th style={{ 
-                  padding: isMobile ? '12px 8px' : '16px', 
-                  textAlign: 'left', 
-                  fontSize: isMobile ? '10px' : '12px', 
-                  fontWeight: '600', 
-                  color: '#6b7280',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                  borderTop: '1px solid #e5e7eb',
-                  borderBottom: '1px solid #e5e7eb'
-                }}>
-                  ACTION
-                </th>
-              </tr>
-            </thead>
-            
-            {/* Table Body */}
-            <tbody>
-              {currentData.map((item, index) => (
-                <tr 
-                  key={item.id} 
-                  style={{ 
-                    // Clean row separator
-                    borderBottom: '1px solid #f3f4f6'
+            {filters.map((filter, index) => (
+              <Box key={`filter-${filter}`} mr={index < filters.length - 1 ? '8px' : '0'}>
+                <FilterButton
+                  isActive={activeFilter === filter}
+                  onClick={() => {
+                    setActiveFilter(filter);
+                    setCurrentPage(1);
                   }}
                 >
-                  {/* Service Name Column */}
-                  <td style={{ 
-                    padding: isMobile ? '12px 8px' : '16px', 
-                    fontSize: isMobile ? '12px' : '14px', 
-                    color: '#111827',
-                    fontWeight: '500'
-                  }}>
-                    {item.serviceName}
-                  </td>
-                  
-                  {/* Category Column */}
-                  <td style={{ 
-                    padding: isMobile ? '12px 8px' : '16px', 
-                    fontSize: isMobile ? '12px' : '14px', 
-                    color: '#6b7280' 
-                  }}>
-                    {item.category}
-                  </td>
-                  
-                  {/* Date Requested Column */}
-                  <td style={{ 
-                    padding: isMobile ? '12px 8px' : '16px', 
-                    fontSize: isMobile ? '12px' : '14px', 
-                    color: '#6b7280' 
-                  }}>
-                    {item.dateRequested}
-                  </td>
-                  
-                  {/* Status Badge Column */}
-                  <td style={{ padding: isMobile ? '12px 8px' : '16px' }}>
-                    <span style={getStatusStyle(item.status)}>
-                      {item.status}
-                    </span>
-                  </td>
-                  
-                  {/* Action Menu Column */}
-                  <td style={{ padding: isMobile ? '12px 8px' : '16px' }}>
-                    <button
-                      style={{
-                        padding: '4px',
-                        backgroundColor: 'transparent',
-                        border: 'none',
-                        cursor: 'pointer',
-                        color: '#6b7280',
-                        borderRadius: '4px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        transition: 'background-color 0.2s ease'
-                      }}
-                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
-                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-                      aria-label="More options"
-                    >
-                      <MoreVertical size={16} />
-                    </button>
-                  </td>
+                  {filter}
+                </FilterButton>
+              </Box>
+            ))}
+          </Box>
+
+          {/* Search and Action Button Row */}
+          <FlexBox
+            flexDirection={isMobile ? 'column' : 'row'}
+            justifyContent="space-between"
+            alignItems={isMobile ? 'stretch' : 'center'}
+            mx="24px"
+            mt="24px"
+            mb="24px"
+          >
+            <Box mb={isMobile ? '16px' : '0'}>
+              <SearchInput
+                type="text"
+                placeholder="Search by name or category..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </Box>
+            
+            <PrimaryButton>
+              Request new service
+            </PrimaryButton>
+          </FlexBox>
+
+          {/* Table Container */}
+          <TableContainer>
+            <Table>
+              {/* Table Header */}
+              <thead>
+                <tr>
+                  <TableHeader>SERVICE NAME</TableHeader>
+                  <TableHeader>CATEGORY</TableHeader>
+                  <TableHeader>DATE REQUESTED</TableHeader>
+                  <TableHeader>STATUS</TableHeader>
+                  <TableHeader>ACTION</TableHeader>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              
+              {/* Table Body */}
+              <tbody>
+                {currentData.map((item) => (
+                  <TableRow key={`service-${item.id}`}>
+                    <TableCell weight="bold">{item.serviceName}</TableCell>
+                    <TableCell>{item.category}</TableCell>
+                    <TableCell>{item.dateRequested}</TableCell>
+                    <TableCell>
+                      <StatusBadge status={item.status}>
+                        {item.status}
+                      </StatusBadge>
+                    </TableCell>
+                    <TableCell>
+                      <DropdownContainer ref={openDropdownId === item.id ? dropdownRef : null}>
+                        <ActionButton
+                          ref={(el) => {
+                            actionButtonRefs.current[item.id] = el;
+                          }}
+                          onClick={() => toggleDropdown(item.id)}
+                          aria-label="More options"
+                        >
+                          <MoreVertical size={16} />
+                        </ActionButton>
+                        
+                        {/* Updated Dropdown Menu with fixed positioning over pagination */}
+                        {openDropdownId === item.id && (
+                          <DropdownMenu 
+                            position={dropdownPosition}
+                            top={dropdownCoords.top}
+                            left={dropdownCoords.left}
+                          >
+                            <DropdownItem onClick={() => handleWithdraw(item.id)}>
+                              Withdraw application
+                            </DropdownItem>
+                            <DropdownItem 
+                              variant="primary"
+                              onClick={() => handleContinue(item.id)}
+                            >
+                              Continue application
+                            </DropdownItem>
+                          </DropdownMenu>
+                        )}
+                      </DropdownContainer>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </tbody>
+            </Table>
+          </TableContainer>
 
-        {/* Pagination Controls */}
-        <div style={{ 
-          display: 'flex', 
-          flexDirection: isMobile ? 'column' : 'row',
-          justifyContent: 'space-between', 
-          alignItems: isMobile ? 'center' : 'center', 
-          margin: '0 24px 24px', // Match consistent spacing
-          gap: isMobile ? '16px' : '0'
-        }}>
-          {/* Pagination Info */}
-          <span style={{ fontSize: isMobile ? '12px' : '14px', color: '#6b7280' }}>
-            Showing {startIndex + 1} to {Math.min(endIndex, filteredData.length)} of {filteredData.length} entries
-          </span>
-          
-          {/* Pagination Buttons */}
-          <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', justifyContent: 'center' }}>
-            {/* First Page Button */}
-            <button
-              onClick={() => setCurrentPage(1)}
-              disabled={currentPage === 1}
-              style={{
-                padding: isMobile ? '6px 8px' : '8px 12px',
-                border: '1px solid #d1d5db',
-                backgroundColor: 'white',
-                color: currentPage === 1 ? '#9ca3af' : '#374151',
-                borderRadius: '6px',
-                cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-                fontSize: isMobile ? '12px' : '14px'
-              }}
-            >
-              ≪
-            </button>
+          {/* Pagination Controls */}
+          <FlexBox
+            flexDirection={isMobile ? 'column' : 'row'}
+            justifyContent="space-between"
+            alignItems="center"
+            m="0 24px 24px"
+          >
+            <Box mb={isMobile ? '16px' : '0'}>
+              <Typography fontSize={isMobile ? '12px' : '14px'} color="#6b7280">
+                Showing {startIndex + 1} to {Math.min(endIndex, filteredData.length)} of {filteredData.length} entries
+              </Typography>
+            </Box>
             
-            {/* Previous Page Button */}
-            <button
-              onClick={() => setCurrentPage(currentPage - 1)}
-              disabled={currentPage === 1}
-              style={{
-                padding: isMobile ? '6px 8px' : '8px 12px',
-                border: '1px solid #d1d5db',
-                backgroundColor: 'white',
-                color: currentPage === 1 ? '#9ca3af' : '#374151',
-                borderRadius: '6px',
-                cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-                fontSize: isMobile ? '12px' : '14px'
-              }}
-            >
-              ‹
-            </button>
-            
-            {/* Page Number Buttons */}
-            {[...Array(totalPages)].map((_, i) => {
-              const pageNum = i + 1;
-              return (
-                <button
-                  key={pageNum}
-                  onClick={() => setCurrentPage(pageNum)}
-                  style={{
-                    padding: isMobile ? '6px 8px' : '8px 12px',
-                    border: '1px solid #d1d5db',
-                    backgroundColor: currentPage === pageNum ? '#0030E3' : 'white',
-                    color: currentPage === pageNum ? 'white' : '#374151',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    fontSize: isMobile ? '12px' : '14px',
-                    fontWeight: currentPage === pageNum ? '600' : '400'
-                  }}
+            <FlexBox flexWrap="wrap" justifyContent="center">
+              {/* First Page Button */}
+              <Box mr="4px" mb="4px">
+                <PaginationButton
+                  onClick={() => setCurrentPage(1)}
+                  disabled={currentPage === 1}
                 >
-                  {pageNum}
-                </button>
-              );
-            })}
-            
-            {/* Next Page Button */}
-            <button
-              onClick={() => setCurrentPage(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              style={{
-                padding: isMobile ? '6px 8px' : '8px 12px',
-                border: '1px solid #d1d5db',
-                backgroundColor: 'white',
-                color: currentPage === totalPages ? '#9ca3af' : '#374151',
-                borderRadius: '6px',
-                cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-                fontSize: isMobile ? '12px' : '14px'
-              }}
-            >
-              ›
-            </button>
-            
-            {/* Last Page Button */}
-            <button
-              onClick={() => setCurrentPage(totalPages)}
-              disabled={currentPage === totalPages}
-              style={{
-                padding: isMobile ? '6px 8px' : '8px 12px',
-                border: '1px solid #d1d5db',
-                backgroundColor: 'white',
-                color: currentPage === totalPages ? '#9ca3af' : '#374151',
-                borderRadius: '6px',
-                cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-                fontSize: isMobile ? '12px' : '14px'
-              }}
-            >
-              ≫
-            </button>
-          </div>
-        </div>
-        {/* End of Main Content Container */}
-      </div>
-    </div>
-    </div>
+                  ≪
+                </PaginationButton>
+              </Box>
+              
+              {/* Previous Page Button */}
+              <Box mr="4px" mb="4px">
+                <PaginationButton
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  ‹
+                </PaginationButton>
+              </Box>
+              
+              {/* Page Number Buttons */}
+              {[...Array(totalPages)].map((_, i) => {
+                const pageNum = i + 1;
+                return (
+                  <Box key={`page-${pageNum}`} mr="4px" mb="4px">
+                    <PaginationButton
+                      onClick={() => setCurrentPage(pageNum)}
+                      isActive={currentPage === pageNum}
+                    >
+                      {pageNum}
+                    </PaginationButton>
+                  </Box>
+                );
+              })}
+              
+              {/* Next Page Button */}
+              <Box mr="4px" mb="4px">
+                <PaginationButton
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  ›
+                </PaginationButton>
+              </Box>
+              
+              {/* Last Page Button */}
+              <Box mb="4px">
+                <PaginationButton
+                  onClick={() => setCurrentPage(totalPages)}
+                  disabled={currentPage === totalPages}
+                >
+                  ≫
+                </PaginationButton>
+              </Box>
+            </FlexBox>
+          </FlexBox>
+        </Card>
+      </Container>
+    </Box>
   );
 };
 

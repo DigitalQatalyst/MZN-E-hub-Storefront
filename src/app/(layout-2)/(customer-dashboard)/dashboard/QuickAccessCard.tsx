@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/navigation";
 
 import Box from "@component/Box";
 import Card from "@component/Card";
@@ -28,6 +29,14 @@ const QuickAccessCard: React.FC<QuickAccessCardProps> = ({
   onDraftClick,
   onReviewClick,
 }) => {
+  const router = useRouter();
+
+  // Handle chevron click - redirect to non-financial-records page
+  const handleChevronClick = (event: React.MouseEvent) => {
+    event.stopPropagation(); // Prevent parent item onClick from firing
+    router.push('/non-financial-records');
+  };
+
   const quickAccessItems: QuickAccessItem[] = [
     {
       icon: "/images/copy.svg",
@@ -113,6 +122,7 @@ const QuickAccessCard: React.FC<QuickAccessCardProps> = ({
               </Box>
             </FlexBox>
             <Box
+              onClick={handleChevronClick} // Add click handler for chevron navigation
               style={{
                 width: "32px",
                 height: "32px",
@@ -121,11 +131,12 @@ const QuickAccessCard: React.FC<QuickAccessCardProps> = ({
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                cursor: "pointer", // Explicit cursor pointer for better UX
               }}
-                >
-                <Typography color="#A8AAAE" display={"flex"} alignItems="center" justifyContent="center">
-                    <ChevronRight size={16} />
-                </Typography>
+            >
+              <Typography color="#A8AAAE" display={"flex"} alignItems="center" justifyContent="center">
+                <ChevronRight size={16} />
+              </Typography>
             </Box>
           </FlexBox>
         ))}

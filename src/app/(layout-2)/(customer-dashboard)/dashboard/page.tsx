@@ -34,7 +34,7 @@ export default function Dashboard() {
 
   return (
     <Fragment>
-      <Box style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
+      <Box style={{ maxWidth: '1400px', margin: '0 auto', width: '100%', marginTop: '20px' }}>
         <Grid container spacing={3}>
           {/* Top Row - Profile Completion Card */}
           <Grid item lg={6} md={6} sm={12} xs={12}>

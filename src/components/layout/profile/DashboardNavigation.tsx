@@ -11,7 +11,7 @@ import Typography from "@component/Typography";
 // Styled components following Bonik patterns
 const SidebarContainer = styled.div`
   width: 256px;
-  background-color: white;
+  background-color: #F5F5F5;
   height: 100vh;
   border-right: 1px solid #e5e7eb;
   display: flex;

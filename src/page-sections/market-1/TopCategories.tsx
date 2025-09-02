@@ -50,8 +50,8 @@ const ContentSection = styled(FlexBox)`
   flex-direction: column;
 
   @media (max-width: 768px) {
-    align-items: center;
-    text-align: center;
+    // align-items: center;
+    // text-align: center;
   }
 `;
 
@@ -69,7 +69,8 @@ const ResponsiveH1 = styled(H1)`
   }
 
   @media (max-width: 480px) {
-    font-size: 1.75rem;
+    font-size: 1.7rem;
+    font-weight: 400;
     margin-bottom: 0.75rem;
     margin-top: 0.75rem;
   }
@@ -93,6 +94,7 @@ const ResponsiveH5 = styled(H5)`
 const DescriptionText = styled(H5)`
   color: #000000;
   font-family: "Open Sans", sans-serif;
+  flex: 3;
 
   @media (max-width: 768px) {
     font-size: 0.95rem;
@@ -105,10 +107,27 @@ const DescriptionText = styled(H5)`
   @media (max-width: 480px) {
     font-size: 0.875rem;
     line-height: 1.3;
+    display: none;
   }
 `;
 
 const ButtonContainer = styled(FlexBox)`
+  align-items: flex-end;
+  justify-content: flex-end;
+
+  flex: 1;
+
+  @media (max-width: 768px) {
+    justify-content: flex-start;
+    margin-bottom: 0;
+    width: 100%;
+  }
+  @media (max-width: 480px) {
+    display: none;
+  }
+`;
+
+const ButtonContainer2 = styled(FlexBox)`
   align-items: flex-end;
   justify-content: flex-end;
   margin-bottom: 1rem;
@@ -119,12 +138,15 @@ const ButtonContainer = styled(FlexBox)`
     margin-bottom: 0;
     width: 100%;
   }
+  @media (max-width: 480px) {
+    margin-top: 4rem;
 `;
 
 const ResponsiveButton = styled(Button)`
   @media (max-width: 480px) {
     padding: 12px 24px;
-    font-size: 0.875rem;
+    font-size: 1.1rem;
+    font-weight: 500;
   }
 `;
 
@@ -134,11 +156,12 @@ const TabContainer = styled(Box)`
 
   @media (max-width: 768px) {
     width: 100%;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   @media (max-width: 480px) {
-    flex-direction: column;
+    //flex-direction: column;
+    justify-content: flex-start;
     width: 100%;
     gap: 8px;
   }
@@ -158,13 +181,25 @@ const TabItem = styled(Box)<{ isActive: boolean }>`
   }
 
   @media (max-width: 480px) {
-    padding: 0.75rem;
-    font-size: 0.875rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
     border-bottom: none;
-    border-left: ${({ isActive }) => (isActive ? "3px solid #ffffff" : "none")};
-    background-color: ${({ isActive }) =>
-      isActive ? "rgba(255, 255, 255, 0.1)" : "transparent"};
-    border-radius: 4px;
+    font-weight: bold;
+    color: #2a2b2d;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 2px;
+      background-color: ${({ isActive }) =>
+        isActive ? "#2a2b2d" : "transparent"};
+      transition: all 0.5s ease;
+    }
   }
 `;
 
@@ -181,10 +216,32 @@ const TabSection = styled(FlexBox)`
     margin-bottom: 1rem;
   }
 `;
+const ContentCTA = styled(FlexBox)`
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+`;
 
 export default function Section3() {
   const [categoryList, setCategoryList] = useState([]);
   const [activeTab, setActiveTab] = useState("entrepreneur");
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth <= 500;
+      setIsMobile(mobile);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Fetch categories based on active tab
   useEffect(() => {
@@ -252,9 +309,7 @@ export default function Section3() {
   // Carousel content with tab-specific name prefix
   const carouselContent = categoryList.map((item) => ({
     ...item,
-    name: `${activeTab === "entrepreneur" ? "Entrepreneur" : "Partner"}: ${
-      item.name
-    }`,
+    name: item.name,
   }));
 
   return (
@@ -268,76 +323,142 @@ export default function Section3() {
             <ContentSection>
               <ResponsiveH5>HOW IT WORKS</ResponsiveH5>
               <ResponsiveH1>Getting started is easy</ResponsiveH1>
-              <DescriptionText>
-                Browse available marketplaces, find services tailored to your
-                business needs, and unlock growth opportunities—all
-                <br />
-                through one platform.
-              </DescriptionText>
+              <ContentCTA>
+                <DescriptionText>
+                  Browse available marketplaces, find services tailored to your
+                  business needs, and unlock growth opportunities—all
+                  <br />
+                  through one platform.
+                </DescriptionText>
+                <ButtonContainer>
+                  <Link href="https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_Signup&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fmzn-e-hub-storefront-git-landingpage-digitalqatalysts-projects.vercel.app%2F&scope=openid&response_type=code&prompt=login&code_challenge_method=S256&code_challenge=0vZQNWZJq-_sIiTADK-M4hyf44ACCodxa3_4L0MYxVo%22">
+                    <ResponsiveButton
+                      className="SignUp"
+                      variant="contained"
+                      color="#FFF"
+                      style={{
+                        background:
+                          "var(--Footer-Gradient, linear-gradient(94deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%))",
+                      }}
+                      fullwidth
+                    >
+                      Sign Up as Entrepreneur
+                    </ResponsiveButton>
+                  </Link>
+                </ButtonContainer>
+              </ContentCTA>
             </ContentSection>
-            <ButtonContainer>
-              <Link href="https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_Signup&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fmzn-e-hub-storefront-git-landingpage-digitalqatalysts-projects.vercel.app%2F&scope=openid&response_type=code&prompt=login&code_challenge_method=S256&code_challenge=0vZQNWZJq-_sIiTADK-M4hyf44ACCodxa3_4L0MYxVo%22">
-                <ResponsiveButton
-                  className="SignUp"
-                  variant="contained"
-                  color="#FFF"
-                  style={{
-                    background:
-                      "var(--Footer-Gradient, linear-gradient(94deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%))",
-                  }}
-                  fullwidth
-                >
-                  Sign Up
-                </ResponsiveButton>
-              </Link>
-            </ButtonContainer>
           </HeaderSection>
 
-          <TabSection>
-            <TabContainer>
-              <TabItem
-                isActive={activeTab === "entrepreneur"}
-                onClick={() => setActiveTab("entrepreneur")}
-              >
-                Getting Started as an Entrepreneur
-              </TabItem>
-              <TabItem
-                isActive={activeTab === "partner"}
-                onClick={() => setActiveTab("partner")}
-              >
-                Getting Started as a Partner
-              </TabItem>
-            </TabContainer>
-          </TabSection>
+          {isMobile ? (
+            <TabSection>
+              <TabContainer>
+                <TabItem
+                  isActive={activeTab === "entrepreneur"}
+                  onClick={() => setActiveTab("entrepreneur")}
+                >
+                  Entrepreneur
+                </TabItem>
+                <TabItem
+                  isActive={activeTab === "partner"}
+                  onClick={() => setActiveTab("partner")}
+                >
+                  Partner
+                </TabItem>
+              </TabContainer>
+            </TabSection>
+          ) : (
+            <TabSection>
+              <TabContainer>
+                <TabItem
+                  isActive={activeTab === "entrepreneur"}
+                  onClick={() => setActiveTab("entrepreneur")}
+                >
+                  Getting Started as an Entrepreneur
+                </TabItem>
+                <TabItem
+                  isActive={activeTab === "partner"}
+                  onClick={() => setActiveTab("partner")}
+                >
+                  Getting Started as a Partner
+                </TabItem>
+              </TabContainer>
+            </TabSection>
+          )}
 
-          <Box width="100%" overflow="hidden">
-            <Carousel2
-              slidesToShow={2}
-              responsive={responsive}
-              autoplay={false}
-              dots={true}
-              arrows={true}
-            >
-              {carouselContent.map((item, ind) => (
-                <Box key={ind} px="10px">
-                  <Link href="#" legacyBehavior>
-                    <a
-                      tabIndex={-1}
-                      aria-disabled="true"
-                      onClick={(e) => e.preventDefault()}
-                      style={{ pointerEvents: "none", cursor: "default" }}
-                    >
-                      <ProductCard6
-                        title={item.name}
-                        imgUrl={item.image}
-                        subtitle={item.description}
-                      />
-                    </a>
-                  </Link>
-                </Box>
-              ))}
-            </Carousel2>
-          </Box>
+          {isMobile ? (
+            <>
+              <FlexBox
+                flexDirection="column"
+                width="100%"
+                overflow="hidden"
+                style={{ gap: "2rem" }}
+              >
+                {carouselContent.map((item, ind) => (
+                  <Box key={ind}>
+                    <Link href="#" legacyBehavior>
+                      <a
+                        tabIndex={-1}
+                        aria-disabled="true"
+                        onClick={(e) => e.preventDefault()}
+                        style={{ pointerEvents: "none", cursor: "default" }}
+                      >
+                        <ProductCard6
+                          title={item.name}
+                          imgUrl={item.image}
+                          subtitle={item.description}
+                        />
+                      </a>
+                    </Link>
+                  </Box>
+                ))}
+              </FlexBox>
+              <ButtonContainer2>
+                <Link href="https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_Signup&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fmzn-e-hub-storefront-git-landingpage-digitalqatalysts-projects.vercel.app%2F&scope=openid&response_type=code&prompt=login&code_challenge_method=S256&code_challenge=0vZQNWZJq-_sIiTADK-M4hyf44ACCodxa3_4L0MYxVo%22">
+                  <ResponsiveButton
+                    className="SignUp"
+                    variant="contained"
+                    color="#0030E3"
+                    style={{
+                      background: "#fff",
+                    }}
+                    fullwidth
+                  >
+                    Sign Up as Entrepreneur
+                  </ResponsiveButton>
+                </Link>
+              </ButtonContainer2>
+            </>
+          ) : (
+            <Box width="100%" overflow="hidden">
+              <Carousel2
+                slidesToShow={2}
+                responsive={responsive}
+                autoplay={false}
+                spaceBetween={40}
+                arrows={true}
+              >
+                {carouselContent.map((item, ind) => (
+                  <Box key={ind} px="10px">
+                    <Link href="#" legacyBehavior>
+                      <a
+                        tabIndex={-1}
+                        aria-disabled="true"
+                        onClick={(e) => e.preventDefault()}
+                        style={{ pointerEvents: "none", cursor: "default" }}
+                      >
+                        <ProductCard6
+                          title={item.name}
+                          imgUrl={item.image}
+                          subtitle={item.description}
+                        />
+                      </a>
+                    </Link>
+                  </Box>
+                ))}
+              </Carousel2>
+            </Box>
+          )}
         </ResponsiveContainer>
       </FullWrapper>
     </div>

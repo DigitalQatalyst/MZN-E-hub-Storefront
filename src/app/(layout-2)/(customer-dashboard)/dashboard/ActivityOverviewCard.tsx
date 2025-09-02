@@ -166,7 +166,7 @@ export const ActivityOverviewCard = () => {
     <Card 
       p="24px"
       // ml="-36px"
-      borderRadius={12}
+      borderRadius={6}
       style={{
         width: '556px',
         height: '362px',

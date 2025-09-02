@@ -40,7 +40,7 @@ export default function ShopLayout({ children, showNavbar = true }: Props) {
       {/* <MobileNavigationBar /> */}
 
       {/* FOOTER AREA */}
-      <Footer1 />
+      {/* <Footer1 /> */}
     </StyledRoot>
   );
 }

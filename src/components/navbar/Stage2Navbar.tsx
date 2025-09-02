@@ -59,6 +59,14 @@ export default function Navbar({ navListOpen }: NavbarProps) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const handleLogoClick = () => {
+  router.push('/');
+  // Close mobile menu if it's open
+  if (isMobileMenuOpen) {
+    closeMobileMenu();
+  }
+};
+
   // Toggle mobile menu
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -90,14 +98,24 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         {/* Logo Section - Always visible */}
         <Box
           className="navbar-logo"
+          onClick={handleLogoClick}
+          title="Go to Home" // Accessibility improvement
           style={{
             zIndex: 1001,
-            marginLeft: isMobile ? "16px" : "-88px"
+            marginLeft: isMobile ? "16px" : "-88px",
+            cursor: "pointer", // Indicate it's clickable
+            transition: "opacity 0.2s ease", // Smooth hover effect
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.opacity = "0.8";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.opacity = "1";
           }}
         >
           <img
             src="/assets/images/tab_bar/Subtract.svg"
-            alt="MZN Enterprise Hub"
+            alt="MZN Enterprise Hub - Go to Home"
             height="100%"
             style={{
               height: isMobile ? "32px" : "auto"

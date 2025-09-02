@@ -724,7 +724,7 @@ export default function Section19() {
     }
 
     try {
-      const submitResponse = await fetch("https://22af-54-37-203-255.ngrok-free.app/admin-api", {
+      const submitResponse = await fetch("https://9cfc0644da1b.ngrok-free.app/services-api", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -764,7 +764,7 @@ export default function Section19() {
 
       console.log("SubmitEnquiry mutation failed, falling back to original logic");
 
-      const loginResponse = await fetch("https://22af-54-37-203-255.ngrok-free.app/admin-api", {
+      const loginResponse = await fetch("https://9cfc0644da1b.ngrok-free.app/services-api", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -793,7 +793,7 @@ export default function Section19() {
 
       console.log("Authenticated successfully with token:", authToken);
 
-      const checkCustomerResponse = await fetch("https://22af-54-37-203-255.ngrok-free.app/admin-api", {
+      const checkCustomerResponse = await fetch("https://9cfc0644da1b.ngrok-free.app/services-api", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -853,7 +853,7 @@ export default function Section19() {
         console.log("Creating new customer:", payload);
       }
 
-      const response = await fetch("https://22af-54-37-203-255.ngrok-free.app/admin-api", {
+      const response = await fetch("https://9cfc0644da1b.ngrok-free.app/services-api", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

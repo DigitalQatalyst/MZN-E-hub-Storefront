@@ -198,7 +198,7 @@ export const ActivityOverviewCard = () => {
           <H5 mb="4px" fontWeight="600">My Activity Overview</H5>
           <Typography fontSize="14px" color="text.hint">Last 30 Days</Typography>
         </Box>
-        {/* Replaced horizontal dots with ActionButton containing vertical dots */}
+        {/* Action Buttons */}
         <ActionButton>
           <Typography fontSize="18px" color="inherit">⋮</Typography>
         </ActionButton>

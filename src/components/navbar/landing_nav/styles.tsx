@@ -56,6 +56,10 @@ export const StyledNavbar = styled.div`
     height: 34.409px;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
+
+    @media (max-width: 768px) {
+      display: none;
+    }
   }
 
   .nav-links {

@@ -1,11 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import Box from "../Box";
 import Icon from "../icon/Icon";
 import FlexBox from "../FlexBox";
 import Typography from "../Typography";
 import styled from "styled-components";
+import { FaChevronDown } from "react-icons/fa";
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -29,26 +31,34 @@ const ModalContent = styled.div`
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 `;
 
-const CategoryItem = styled.div`
+const CategoryItem = styled.div<{ active?: boolean; expanded?: boolean }>`
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 10px 0;
   cursor: pointer;
-  color: #333;
+  color: ${props => (props.active ? "#0030E3" : "#747474")};
+  transition: color 0.3s ease;
 
   &:hover {
-    color: #007bff;
+    color: #0030E3;
   }
 
   .sub-items {
     margin-left: 20px;
     color: #666;
     font-size: 14px;
+    display: ${props => (props.expanded ? "block" : "none")};
 
     &.coming-soon {
       color: #999;
     }
+  }
+
+  .dropdown-icon {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+    transform: ${props => (props.expanded ? "rotate(180deg)" : "rotate(0deg)")};
   }
 `;
 
@@ -57,45 +67,84 @@ interface ExploreModalProps {
 }
 
 export default function ExploreModal({ onClose }: ExploreModalProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+
+  const routeToTabMap: { [key: string]: string } = {
+    "/non-financial-marketplace": "Non-Financial",
+    "/financial-marketplace": "Financial",
+    "/development": "Courses",
+    "/community-marketplace": "Communities",
+    "/media": "Media",
+    "/investment": "Investment",
+    "/calendar": "Calendar",
+    "/opportunities": "Opportunities",
+  };
+
+  const [activeTab, setActiveTab] = useState<string>(() => {
+    return routeToTabMap[pathname] || "Financial";
+  });
+
+  useEffect(() => {
+    setActiveTab(routeToTabMap[pathname] || "Financial");
+  }, [pathname]);
+
   const categories = [
     {
-      title: "Financial",
-      icon: "dollar",
-      subItems: ["Loan Management & Adjustments", "Investment & Equity Financing", "Project & Specialized Financing"],
-    },
-    {
       title: "Non-Financial",
-      icon: "business",
+      path: "/non-financial-marketplace",
+      iconActive: "/assets/images/tab_bar/all_inclusive_active.svg",
+      iconInactive: "/assets/images/tab_bar/all_inclusive.svg",
       subItems: ["Business Asset Financing", "Business Operations Financing"],
     },
     {
+      title: "Financial",
+      path: "/financial-marketplace",
+      iconActive: "/assets/images/tab_bar/money_bag.svg",
+      iconInactive: "/assets/images/tab_bar/money_bag_inactive.svg",
+      subItems: ["Loan Management & Adjustments", "Investment & Equity Financing", "Project & Specialized Financing"],
+    },
+    {
       title: "Courses",
-      icon: "school",
+      path: "/development",
+      iconActive: "/assets/images/tab_bar/local_library.svg",
+      iconInactive: "/assets/images/tab_bar/local_library.svg",
       subItems: [],
     },
     {
       title: "Communities",
-      icon: "people",
+      path: "/community-marketplace",
+      iconActive: "/assets/images/tab_bar/groups.png",
+      iconInactive: "/assets/images/tab_bar/forum.svg",
       subItems: [],
     },
     {
       title: "Media",
-      icon: "play_circle",
+      path: "https://kf-ej-media-marketplace-c7ifty1ol-digitalqatalysts-projects.vercel.app/media/",
+      iconActive: "/assets/images/tab_bar/brand_awareness.svg",
+      iconInactive: "/assets/images/tab_bar/brand_awareness.svg",
       subItems: ["Coming soon"],
     },
     {
       title: "Investment",
-      icon: "trending_up",
+      path: "#",
+      iconActive: "/assets/images/tab_bar/crowdsource.svg",
+      iconInactive: "/assets/images/tab_bar/crowdsource.svg",
       subItems: ["Coming soon"],
     },
     {
       title: "Calendar",
-      icon: "calendar_today",
+      path: "#",
+      iconActive: "/assets/images/tab_bar/calendar_month.svg",
+      iconInactive: "/assets/images/tab_bar/calendar_month.svg",
       subItems: ["Coming soon"],
     },
     {
       title: "Opportunities",
-      icon: "rocket",
+      path: "#",
+      iconActive: "/assets/images/tab_bar/rocket_launch.svg",
+      iconInactive: "/assets/images/tab_bar/rocket_launch.svg",
       subItems: ["Coming soon"],
     },
   ];
@@ -108,15 +157,37 @@ export default function ExploreModal({ onClose }: ExploreModalProps) {
     return () => window.removeEventListener("keydown", handleEscape);
   }, [onClose]);
 
+  const handleCategoryClick = (tabName: string, path: string) => {
+    setActiveTab(tabName);
+    router.push(path);
+    if (expandedCategory === tabName) {
+      setExpandedCategory(null);
+    } else {
+      setExpandedCategory(tabName);
+    }
+  };
+
   return (
     <>
       <ModalOverlay onClick={onClose} />
       <ModalContent>
         {categories.map((category, index) => (
-          <CategoryItem key={index}>
-            <Icon>{category.icon}</Icon>
+          <CategoryItem
+            key={index}
+            active={activeTab === category.title}
+            expanded={expandedCategory === category.title}
+            onClick={() => handleCategoryClick(category.title, category.path)}
+          >
+            <img
+              src={activeTab === category.title ? category.iconActive : category.iconInactive}
+              alt={`${category.title} icon`}
+              style={{ width: 24, height: 24 }}
+            />
             <Typography>{category.title}</Typography>
-            {category.subItems.length > 0 && (
+            {(category.subItems.length > 0 || category.subItems.some(item => item.includes("Coming soon"))) && (
+              <FaChevronDown className="dropdown-icon" />
+            )}
+            {(expandedCategory === category.title) && (
               <div className="sub-items">
                 {category.subItems.map((subItem, subIndex) => (
                   <Typography key={subIndex} className={subItem.includes("Coming soon") ? "coming-soon" : ""}>

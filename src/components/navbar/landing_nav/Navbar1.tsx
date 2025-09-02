@@ -15,6 +15,8 @@ import { StyledNavbar } from "./styles";
 import Signup from "./signup";
 import Signin from "./signin";
 import Search from "./search";
+import ExploreModal from "@component/mobile-responsiveness/ExploreModal";
+
 
 interface Nav {
   url: string;
@@ -29,6 +31,7 @@ type NavbarProps = { navListOpen?: boolean };
 export default function Navbar({ navListOpen }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [activeItem, setActiveItem] = useState("/");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -44,6 +47,10 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   const handleNavClick = (path: string) => {
     setActiveItem(path);
     router.push(path);
+  };
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
   };
 
   return (
@@ -110,7 +117,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             />
             <Typography color="black">Home</Typography>
           </NavLink>
-          <NavLink href="/explore" onClick={() => handleNavClick("/explore")}>
+          <Box onClick={toggleModal} className="nav-link">
             <Image
               src={activeItem === "/explore" ? "/assets/images/non_financial_marketplace/explore-active.svg" : "/assets/images/non_financial_marketplace/explore.svg"}
               alt="Explore"
@@ -118,7 +125,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
               height={24}
             />
             <Typography color="black">Explore</Typography>
-          </NavLink>
+          </Box>
           <NavLink href="/search" onClick={() => handleNavClick("/search")}>
             <Image
               src="/assets/images/non_financial_marketplace/search (2).svg"
@@ -139,6 +146,8 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           </NavLink>
         </FlexBox>
       </Box>
+
+      {isModalOpen && <ExploreModal onClose={toggleModal} />}
     </StyledNavbar>
   );
 }

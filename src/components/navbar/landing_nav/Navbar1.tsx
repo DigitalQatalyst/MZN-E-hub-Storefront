@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import Box from "../../Box";
 import Icon from "../../icon/Icon";
 import FlexBox from "../../FlexBox";
@@ -27,7 +28,7 @@ type NavbarProps = { navListOpen?: boolean };
 
 export default function Navbar({ navListOpen }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeItem, setActiveItem] = useState("/");
   const router = useRouter();
 
   useEffect(() => {
@@ -40,11 +41,10 @@ export default function Navbar({ navListOpen }: NavbarProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
+  const handleNavClick = (path: string) => {
+    setActiveItem(path);
+    router.push(path);
   };
-
-  const loginUrl = "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_SignIn&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fcallback&scope=openid&response_type=code&prompt=login";
 
   return (
     <StyledNavbar className={scrolled ? "scrolled" : ""}>
@@ -68,7 +68,6 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                 <Icon className="explore-icon">categories</Icon>
                 <Typography className="explore-text" ml="5px" fontSize="14px" fontWeight="600" lineHeight="26px" color="#002180">
                   Explore
-                  {/* fontFamily='"Open Sans", sans-serif'  */}
                 </Typography>
               </FlexBox>
               <Icon className="dropdown-icon" variant="small">chevron-down</Icon>
@@ -98,62 +97,48 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           </Button>
           <Signup />
         </FlexBox>
-
-        <Box className="hamburger-icon" onClick={toggleMenu}>
-          <Icon>menu</Icon>
-        </Box>
-
-        <Box className={`mobile-menu ${menuOpen ? "open" : ""}`}>
-          <Categories open={navListOpen}>
-            <Button className="mobile-explore-button" width="100%" height="44px" bg="body.default" variant="text" onClick={toggleMenu}>
-              <FlexBox justifyContent="flex-start" alignItems="center" width="100%">
-                <FlexBox alignItems="center">
-                  <Icon className="explore-icon">categories</Icon>
-                  <Typography className="explore-text" ml="5px" fontFamily='"Open Sans", sans-serif' fontSize="16px" fontWeight="600" lineHeight="26px" color="#002180">
-                    Explore
-                  </Typography>
-                </FlexBox>
-                <Icon className="dropdown-icon" variant="small">chevron-down</Icon>
-              </FlexBox>
-            </Button>
-          </Categories>
-
-          <FlexBox className="mobile-nav-links">
-            <NavLink className="nav-link" href="/development" onClick={toggleMenu}>Discover AbuDhabi</NavLink>
-            <NavLink className="nav-link" href="/faq" onClick={toggleMenu}>Help Centre</NavLink>
-          </FlexBox>
-
-          <FlexBox className="mobile-right-section" flexDirection="column" style={{ gap: "10px" }}>
-            <Search onClick={toggleMenu} />
-            <Box className="profile-icon" onClick={toggleMenu}>
-              <Icon size="44px" color="#002180">profile</Icon>
-            </Box>
-            <Signin onClick={toggleMenu} />
-            <Button
-              className="mobile-auth-button become-partner-btn"
-              onClick={() => {
-                router.push("/development");
-                toggleMenu();
-              }}
-              style={{
-                background: "transparent",
-                color: "#FFF",
-                border: "2px solid rgba(255, 255, 255, 0.8)",
-                // fontFamily: "Inter",
-                fontSize: "14px",
-                fontStyle: "normal",
-                fontWeight: 500,
-                lineHeight: "22px",
-                padding: "10px",
-                borderRadius: "6px"
-              }}
-            >
-              Become a Partner
-            </Button>
-            <Signup />
-          </FlexBox>
-        </Box>
       </Container>
+
+      <Box className="responsive-mobile-menu">
+        <FlexBox className="mobile-nav-links" style={{ gap: 10, width: "100%", justifyContent: "space-around" }}>
+          <NavLink href="/" onClick={() => handleNavClick("/")}>
+            <Image
+              src={activeItem === "/" ? "/assets/images/non_financial_marketplace/home-active.svg" : "/assets/images/non_financial_marketplace/home.svg"}
+              alt="Home"
+              width={24}
+              height={24}
+            />
+            <Typography color="black">Home</Typography>
+          </NavLink>
+          <NavLink href="/explore" onClick={() => handleNavClick("/explore")}>
+            <Image
+              src={activeItem === "/explore" ? "/assets/images/non_financial_marketplace/explore-active.svg" : "/assets/images/non_financial_marketplace/explore.svg"}
+              alt="Explore"
+              width={24}
+              height={24}
+            />
+            <Typography color="black">Explore</Typography>
+          </NavLink>
+          <NavLink href="/search" onClick={() => handleNavClick("/search")}>
+            <Image
+              src="/assets/images/non_financial_marketplace/search (2).svg"
+              alt="Search"
+              width={24}
+              height={24}
+            />
+            <Typography color="black">Search</Typography>
+          </NavLink>
+          <NavLink href="/profile" onClick={() => handleNavClick("/profile")}>
+            <Image
+              src={activeItem === "/profile" ? "/assets/images/non_financial_marketplace/profile-active.svg" : "/assets/images/non_financial_marketplace/profile.svg"}
+              alt="Profile"
+              width={24}
+              height={24}
+            />
+            <Typography color="black">Profile</Typography>
+          </NavLink>
+        </FlexBox>
+      </Box>
     </StyledNavbar>
   );
 }

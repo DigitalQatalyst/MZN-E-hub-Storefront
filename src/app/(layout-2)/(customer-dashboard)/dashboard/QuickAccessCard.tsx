@@ -59,7 +59,7 @@ const QuickAccessCard: React.FC<QuickAccessCardProps> = ({
       p="24px"
       // ml="81px"
       mb="20px"
-      borderRadius={12}
+      borderRadius={6}
       style={{
         width: "556px",
         height: "240px",

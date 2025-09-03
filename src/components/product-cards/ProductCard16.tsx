@@ -38,14 +38,16 @@ const StyledBazaarCard = styled(Card)(({ theme }) => ({
     borderRadius: '8px',
   },
   '@media (max-width: 599px)': {
-    height: '200px',
-    minHeight: '200px',
-    borderRadius: '6px',
+    height: '296px', // Fixed height for mobile
+    width: '305px',   // Fixed width for mobile
+    minHeight: '296px',
+    borderRadius: '8px',
     margin: '0',
   },
   '@media (max-width: 479px)': {
-    height: '180px',
-    minHeight: '180px',
+    height: '296px',  // Maintain same size for small mobile
+    width: '305px',
+    minHeight: '296px',
   },
 }));
 
@@ -66,12 +68,14 @@ const ImageWrapper = styled(Box)({
     minHeight: '60px',
   },
   '@media (max-width: 599px)': {
-    padding: '8px',
-    minHeight: '50px',
+    padding: '20px',
+    minHeight: '80px',
+    justifyContent: 'flex-start', // Keep image at the left
   },
   '@media (max-width: 479px)': {
-    padding: '6px',
-    minHeight: '40px',
+    padding: '20px',
+    minHeight: '80px',
+    justifyContent: 'flex-start', // Keep image at the left
   },
 });
 
@@ -87,12 +91,12 @@ const ImageBox = styled(Box)({
     width: '50px',
   },
   '@media (max-width: 599px)': {
-    height: '40px',
-    width: '40px',
+    height: '60px', // Restore larger size for mobile
+    width: '60px',
   },
   '@media (max-width: 479px)': {
-    height: '32px',
-    width: '32px',
+    height: '60px',
+    width: '60px',
   },
 });
 
@@ -103,12 +107,13 @@ const ContentWrapper = styled(Box)({
   justifyContent: "space-between",
   paddingBottom: 8,
   minHeight: 0,
-  width: "100%", // Ensure full width
+  width: "100%",
   '@media (max-width: 899px)': {
     paddingBottom: 6,
   },
   '@media (max-width: 599px)': {
-    paddingBottom: 4,
+    paddingBottom: 20, // Increased bottom padding for mobile
+    flex: "1 1 auto",
   },
   "& .title": {
     overflow: "hidden",
@@ -144,14 +149,14 @@ const StyledTitle = styled(H3)({
     padding: '0 24px 2px 12px',
   },
   '@media (max-width: 599px)': {
-    fontSize: '14px',
-    lineHeight: '18px',
-    padding: '0 16px 2px 8px',
+    fontSize: '20px', // Maintain original size for mobile
+    lineHeight: '26px',
+    padding: '0 20px 0 20px', // Remove bottom padding
   },
   '@media (max-width: 479px)': {
-    fontSize: '13px',
-    lineHeight: '16px',
-    padding: '0 12px 2px 6px',
+    fontSize: '20px',
+    lineHeight: '26px',
+    padding: '0 20px 0 20px',
   },
 });
 
@@ -180,16 +185,16 @@ const StyledTitle1 = styled(H3)({
     marginTop: '2px',
   },
   '@media (max-width: 599px)': {
-    fontSize: '14px',
-    lineHeight: '18px',
-    padding: '0 16px 0 8px',
-    marginTop: '2px',
+    fontSize: '20px', // Maintain original size for mobile
+    lineHeight: '26px',
+    padding: '0 20px 0 20px',
+    marginTop: '8px', // Increased spacing between titles
   },
   '@media (max-width: 479px)': {
-    fontSize: '13px',
-    lineHeight: '16px',
-    padding: '0 12px 0 6px',
-    marginTop: '1px',
+    fontSize: '20px',
+    lineHeight: '26px',
+    padding: '0 20px 0 20px',
+    marginTop: '8px',
   },
 });
 
@@ -202,9 +207,9 @@ const StyledSubtitle = styled("p")({
   lineHeight: "22px",
   margin: 0,
   flex: "1 1 auto",
-  width: "100%", // Ensure full width
-  overflow: "visible", // Allow all text to be visible
-  whiteSpace: "normal", // Allow text wrapping
+  width: "100%",
+  overflow: "visible",
+  whiteSpace: "normal",
   '@media (max-width: 1199px)': {
     fontSize: '13px',
     lineHeight: '20px',
@@ -216,14 +221,26 @@ const StyledSubtitle = styled("p")({
     padding: '0 12px 12px 12px',
   },
   '@media (max-width: 599px)': {
-    fontSize: '11px',
-    lineHeight: '16px',
-    padding: '0 8px 8px 8px',
+    fontSize: '14px', // Set to 14px for mobile
+    lineHeight: '20px', // Adjusted line height for better spacing
+    padding: '12px 20px 0 20px', // Increased top padding for spacing
+    marginTop: '4px',
+    display: '-webkit-box',
+    '-webkit-line-clamp': '4', // Limit to 4 lines
+    '-webkit-box-orient': 'vertical',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   '@media (max-width: 479px)': {
-    fontSize: '10px',
-    lineHeight: '14px',
-    padding: '0 6px 6px 6px',
+    fontSize: '14px',
+    lineHeight: '20px',
+    padding: '12px 20px 0 20px',
+    marginTop: '4px',
+    display: '-webkit-box',
+    '-webkit-line-clamp': '4',
+    '-webkit-box-orient': 'vertical',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
 });
 

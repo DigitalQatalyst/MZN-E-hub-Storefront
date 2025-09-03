@@ -184,28 +184,36 @@ const IconSection = styled.div`
 
 const IconGrid = styled.div`
   display: grid;
-  gap: 1.5rem;
   justify-items: center;
   
-  /* Mobile: 2 columns */
-  grid-template-columns: repeat(2, 1fr);
+  /* Mobile: 3 columns, 3 rows with increased row gap */
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 1.5rem 1.5rem;
+  row-gap: 2.5rem;
   
-  /* Small tablet: 3 columns */
+  /* Small tablet: 3 columns, reset rows */
   @media (min-width: 480px) {
     grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
     gap: 2rem;
+    row-gap: 2rem;
   }
   
-  /* Tablet: 4 columns */
+  /* Tablet: 4 columns, reset rows */
   @media (min-width: 768px) {
     grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
     gap: 2rem;
+    row-gap: 2rem;
   }
   
   /* Large desktop: all 8 in one row if space allows */
   @media (min-width: 1400px) {
     grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: auto;
     gap: 1.5rem;
+    row-gap: 1.5rem;
   }
 `;
 
@@ -336,8 +344,9 @@ const StyledPlatformHeader = styled.h1`
   margin-bottom: 1rem;
   line-height: 1.2;
   
-  /* Mobile */
-  font-size: clamp(20px, 6vw, 28px);
+  /* Mobile: 36px with optimized line breaks for 3 rows */
+  font-size: 36px;
+  line-height: 42px;
   
   /* Small tablet */
   @media (min-width: 480px) {

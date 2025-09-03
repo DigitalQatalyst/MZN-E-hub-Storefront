@@ -68,7 +68,6 @@ const MarketplaceSubheadingText = styled(SubheadingText)`
   }
 `;
 
-
 const Description = styled.p`
   color: var(--KF-BG-Black, #000);
   font-size: var(--Body-Large-Size, 16px);
@@ -82,10 +81,14 @@ const Description = styled.p`
   }
   
   @media (max-width: 600px) {
-    font-size: 13px;
+    font-size: 16px;
     br {
       display: none;
     }
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 16px;
   }
 `;
 
@@ -152,13 +155,13 @@ const StyledBody = styled.p`
   }
   
   @media (max-width: 600px) {
-    font-size: 28px;
-    line-height: 32px;
+    font-size: 36px;
+    line-height: 40px;
   }
   
   @media (max-width: 480px) {
-    font-size: 24px;
-    line-height: 28px;
+    font-size: 36px;
+    line-height: 40px;
   }
 `;
 
@@ -298,6 +301,34 @@ const CarouselWrapper = styled(Box)`
         width: 8px;
         height: 8px;
       }
+    }
+  }
+`;
+
+// Mobile vertical layout wrapper
+const MobileVerticalContainer = styled.div`
+  @media (max-width: 480px) {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    
+    .slick-slider,
+    .slick-list,
+    .slick-track {
+      display: none !important;
+    }
+  }
+`;
+
+const MobileProductCard = styled.div`
+  @media (max-width: 480px) {
+    width: 100%;
+    padding: 0;
+    
+    .product-card {
+      width: 100%;
+      height: auto;
     }
   }
 `;
@@ -450,10 +481,23 @@ export default function Section15() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   const defaultImage = "/assets/images/mzn_logos/mzn_logo.png";
   const defaultImages = [defaultImage];
   const defaultReviews = 0;
+
+  // Check if screen is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 480);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Fetch products on component mount
   useEffect(() => {
@@ -491,6 +535,82 @@ export default function Section15() {
     { breakpoint: 400, settings: { slidesToShow: 1, slidesToScroll: 1 } },  // Small mobile
   ];
 
+  const renderProducts = () => {
+    if (loading) {
+      return (
+        <Box py="3rem">
+          <LoadingErrorWrapper>
+            Loading services...
+          </LoadingErrorWrapper>
+        </Box>
+      );
+    }
+
+    if (error) {
+      return (
+        <Box py="3rem">
+          <LoadingErrorWrapper>
+            {error}
+          </LoadingErrorWrapper>
+        </Box>
+      );
+    }
+
+    if (products.length === 0) {
+      return (
+        <Box py="3rem">
+          <LoadingErrorWrapper>
+            No services found 😢
+          </LoadingErrorWrapper>
+        </Box>
+      );
+    }
+
+    // Mobile vertical layout - display only first 4 products
+    if (isMobile) {
+      return (
+        <MobileVerticalContainer>
+          {products.slice(0, 4).map((item) => (
+            <MobileProductCard key={item.id}>
+              <ProductCard19
+                id={item.id}
+                slug={item.slug}
+                name={item.name}
+                subTitle={item.customFields.Partner}
+                description={item.description}
+                img={defaultImage}
+                images={defaultImages}
+                reviews={defaultReviews}
+                className="product-card"
+              />
+            </MobileProductCard>
+          ))}
+        </MobileVerticalContainer>
+      );
+    }
+
+    // Desktop/tablet carousel layout
+    return (
+      <Carousel slidesToShow={4} responsive={responsive}>
+        {products.map((item) => (
+          <Box py="3rem" key={item.id}>
+            <ProductCard19
+              id={item.id}
+              slug={item.slug}
+              name={item.name}
+              subTitle={item.customFields.Partner}
+              description={item.description}
+              img={defaultImage}
+              images={defaultImages}
+              reviews={defaultReviews}
+              className="product-card"
+            />
+          </Box>
+        ))}
+      </Carousel>
+    );
+  };
+
   return (
     <CategorySectionCreator>
       <ContentColumn>
@@ -513,44 +633,7 @@ export default function Section15() {
             </Link>
         </DescriptionButtonWrapper>
         <CarouselWrapper mb="-0.25rem">
-
-          {loading ? (
-            <Box py="3rem">
-              <LoadingErrorWrapper>
-                Loading services...
-              </LoadingErrorWrapper>
-            </Box>
-          ) : error ? (
-            <Box py="3rem">
-              <LoadingErrorWrapper>
-                {error}
-              </LoadingErrorWrapper>
-            </Box>
-          ) : products.length === 0 ? (
-            <Box py="3rem">
-              <LoadingErrorWrapper>
-                No services found 😢
-              </LoadingErrorWrapper>
-            </Box>
-          ) : (
-            <Carousel slidesToShow={4} responsive={responsive}>
-              {products.map((item) => (
-                <Box py="3rem" key={item.id}>
-                  <ProductCard19
-                    id={item.id}
-                    slug={item.slug}
-                    name={item.name}
-                    subTitle={item.customFields.Partner}
-                    description={item.description}
-                    img={defaultImage}
-                    images={defaultImages}
-                    reviews={defaultReviews}
-                    className="product-card"
-                  />
-                </Box>
-              ))}
-            </Carousel>
-          )}
+          {renderProducts()}
         </CarouselWrapper>
       </ContentColumn>
     </CategorySectionCreator>

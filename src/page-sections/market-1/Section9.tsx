@@ -32,23 +32,33 @@ const ContentColumn = styled.div`
   }
 `;
 
-// Responsive header with fluid typography
+// Responsive header with fluid typography and mobile-specific line breaks
 const StyledHeader = styled.h1`
   color: #000;
-  
   font-weight: 550;
   line-height: 1.2;
   letter-spacing: 0px;
   margin-top: 1rem;
   margin-bottom: 0; /* Ensure no bottom margin */
 
-  /* Mobile first - smaller text */
-  font-size: clamp(24px, 5vw, 32px);
+  /* Mobile first - optimized for 4 lines */
+  font-size: 32px;
+  line-height: 1.25;
+  
+  /* Hide desktop line break on mobile */
+  br {
+    display: none;
+  }
 
   /* Tablet */
   @media (min-width: 768px) {
     font-size: clamp(32px, 4vw, 40px);
     line-height: 1.15;
+    
+    /* Show line break on tablet and up */
+    br {
+      display: block;
+    }
   }
 
   /* Desktop */
@@ -58,19 +68,27 @@ const StyledHeader = styled.h1`
   }
 `;
 
-// Responsive subtitle
+// Responsive subtitle - optimized for mobile single line
 const SubTitle = styled.p`
   color: #000;
-  font-size: 16px;
   font-weight: 500;
   line-height: 1.5;
   letter-spacing: 0px;
   text-transform: uppercase;
   margin-bottom: 0.5rem;
+  
+  /* Mobile: 12px to fit in one line */
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   /* Tablet */
   @media (min-width: 768px) {
     font-size: 15px;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
   }
 
   /* Desktop */
@@ -154,9 +172,7 @@ export default function Section9({ products }: Props) {
           WELCOME TO THE ENTERPRISE JOURNEY PLATFORM
         </SubTitle>
         <StyledHeader>
-          We help businesses find the right partners to
-          <br />
-          get started, grow, and succeed
+          We help businesses find the right partners to get started, grow, and succeed
         </StyledHeader>
       </ContentColumn>
       

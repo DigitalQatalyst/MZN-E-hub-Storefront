@@ -102,8 +102,8 @@ export default function Footer1() {
         <div style={{
           color: "white",
           margin: "0 auto",
-          maxWidth: "1200px",
-          padding: "0 2rem"
+          width: "100%",
+          padding: "0 5rem"
         }}>
           {/* Header Section - Logo, Description & Newsletter */}
           <Box pt="4rem" pb="3rem">
@@ -282,7 +282,7 @@ export default function Footer1() {
       >
         <div style={{
           margin: "0 auto",
-          maxWidth: "1200px",
+          width: "100%",
           padding: "0 2rem"
         }}>
           <FlexBox

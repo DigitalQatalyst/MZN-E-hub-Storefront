@@ -59,7 +59,7 @@ const ResponsiveCard = styled(Card)`
   /* Small mobile devices */
   @media (max-width: 479px) {
     width: 100%;
-    max-width: 280px;
+    //max-width: 280px;
     padding: 14px;
     min-height: 140px;
     gap: 8px;
@@ -70,6 +70,7 @@ const ResponsiveCard = styled(Card)`
 const ResponsiveTitle = styled(H4)`
   font-weight: 700;
   height: 2rem;
+  color: #000;
 
   @media (max-width: 768px) {
     font-size: 1.1rem;
@@ -78,6 +79,8 @@ const ResponsiveTitle = styled(H4)`
 
   @media (max-width: 480px) {
     font-size: 1rem;
+    margin-bottom: 15px;
+    font-weight: 400;
     line-height: 1.2;
   }
 `;
@@ -89,6 +92,7 @@ const ResponsiveSubtitle = styled(H5)`
   white-space: normal;
   word-break: break-word;
   margin-top: 1rem;
+  color: #000;
 
   @media (max-width: 768px) {
     font-size: 0.9rem;

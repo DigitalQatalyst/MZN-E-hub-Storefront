@@ -15,7 +15,7 @@ export const StyledNavbar = styled.div`
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Restore space-between for left-right alignment */
+    justify-content: space-between;
   }
 
   .enterprise-logo {
@@ -56,6 +56,10 @@ export const StyledNavbar = styled.div`
     height: 34.409px;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
+
+    @media (max-width: 768px) {
+      display: none;
+    }
   }
 
   .nav-links {
@@ -65,7 +69,6 @@ export const StyledNavbar = styled.div`
 
     .nav-link {
       color: #FFF !important;
-    //   font-family: Inter;
       font-size: 14px;
       font-style: normal;
       font-weight: 500;
@@ -88,14 +91,12 @@ export const StyledNavbar = styled.div`
   }
 
   .right-section {
-    gap: 20px; /* Updated from 10px to 20px */
+    gap: 20px;
     align-items: center;
     display: flex;
   }
 
   .search-icon {
-    // width: 24px;
-    // height: 20px;
     cursor: pointer;
     transition: transform 0.3s ease;
 
@@ -105,8 +106,6 @@ export const StyledNavbar = styled.div`
   }
 
   .profile-icon {
-    // width: 68px;
-    // height: 32px;
     cursor: pointer;
     transition: transform 0.3s ease;
 
@@ -146,7 +145,7 @@ export const StyledNavbar = styled.div`
 
     .mobile-nav-links {
       flex-direction: column;
-      gap: 20px; /* Updated from 10px to 20px */
+      gap: 20px;
       margin-top: 40px;
       justify-content: flex-start;
       align-items: flex-start;
@@ -167,7 +166,7 @@ export const StyledNavbar = styled.div`
       margin-top: 20px;
       justify-content: flex-start;
       align-items: flex-start;
-      gap: 20px; /* Updated from 10px to 20px */
+      gap: 20px;
 
       .profile-icon {
         width: 44px;
@@ -191,7 +190,6 @@ export const StyledNavbar = styled.div`
     background: transparent !important;
     border: 2px solid rgba(255, 255, 255, 0.8) !important;
     color: #FFF !important;
-    // font-family: Inter;
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
@@ -237,6 +235,33 @@ export const StyledNavbar = styled.div`
     border: 2px solid rgba(255, 255, 255, 0.8);
     padding: 10px;
     border-radius: 6px;
+  }
+
+  .responsive-mobile-menu {
+    display: none;
+  }
+
+  .mobile-nav-links {
+    gap: 10px;
+    width: 100%;
+    justify-content: space-around;
+
+    .nav-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: #002180;
+      font-size: 12px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+    }
   }
 
   // Tablet screens
@@ -300,11 +325,11 @@ export const StyledNavbar = styled.div`
   @media (max-width: 768px) {
     .navbar-container {
       padding: 16px 20px;
-      justify-content: flex-start;
+      justify-content: center;
     }
 
     .enterprise-logo {
-      display: none;
+      display: block;
     }
 
     .explore-button {
@@ -320,14 +345,24 @@ export const StyledNavbar = styled.div`
     }
 
     .hamburger-icon {
-      display: block;
-      position: absolute;
-      top: 16px;
-      left: 20px;
+      display: none;
     }
 
     .mobile-menu {
-      display: block;
+      display: none;
+    }
+
+    .responsive-mobile-menu {
+      display: flex;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 10px 0;
+      z-index: 1001;
     }
   }
 
@@ -337,9 +372,19 @@ export const StyledNavbar = styled.div`
       padding: 12px 16px;
     }
 
-    .mobile-menu {
-      width: 100%;
-      max-width: none;
+    .responsive-mobile-menu {
+      padding: 8px 0;
+    }
+
+    .mobile-nav-links {
+      .nav-link {
+        font-size: 10px;
+
+        img {
+          width: 20px;
+          height: 20px;
+        }
+      }
     }
   }
 `;

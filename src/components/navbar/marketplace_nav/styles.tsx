@@ -202,13 +202,13 @@ export const StyledNavbar = styled.div`
     font-size: 14px;
     padding: 10px 20px;
     border-radius: 8px;
-    transition: all 0.3s ease;
+    // transition: all 0.3s ease;
     min-width: 100px;
     cursor: pointer;
 
     &:hover {
       background: #f0f0f0 !important;
-      transform: translateY(-2px);
+      // transform: translateY(-2px);
     }
   }
 

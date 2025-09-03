@@ -55,7 +55,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       <Link href={`/service-details/${slug}`} style={styles.viewDetailsLink}>
         View Details →
       </Link>
-      <button style={styles.enterpriseButton}>Enterprise</button>
+      <button style={styles.enterpriseButton}>Start-Up</button>
     </div>
   );
 };

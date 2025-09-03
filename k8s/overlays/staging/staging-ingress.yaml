@@ -1,0 +1,38 @@
+# ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kf-frontend-ingress
+  namespace: staging
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: qatalyst.tech
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kf-frontend-service
+            port:
+              number: 80
+  - host: www.qatalyst.tech
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kf-frontend-service
+            port:
+              number: 80
+  tls:
+  - hosts:
+      - qatalyst.tech
+      - www.qatalyst.tech
+    secretName: qatalyst-tech-tls

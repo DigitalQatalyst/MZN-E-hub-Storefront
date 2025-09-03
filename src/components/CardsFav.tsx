@@ -251,7 +251,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     backgroundColor: "white",
     color: "#808390",
     border: "1px solid #808390",
-    borderRadius: "4px",
+    borderRadius: "20px", // Rounded border
     padding: "6px 12px",
     fontSize: "10px",
     fontFamily: "var(--Body-Small-Font, Roboto)",

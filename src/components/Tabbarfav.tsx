@@ -70,7 +70,7 @@ const Tabbar = () => {
               15+ Results
             </span>
           </div>
-          <div style={{ color: "#5f6368", fontSize: "12px" }}>
+          <div style={{ color: "#000)", fontSize: "12px" }}>
             Explore your bookmarked business services
           </div>
         </div>

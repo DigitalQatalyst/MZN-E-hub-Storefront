@@ -3,7 +3,7 @@
 import FlexBox from "../../FlexBox";
 import Icon from "../../icon/Icon";
 import Typography from "../../Typography";
-import { StyledNavbar } from "./styles";
+// import { StyledNavbar } from "./styles";
 
 interface SigninProps {
   onClick?: () => void;
@@ -18,7 +18,8 @@ export default function Signin({ onClick }: SigninProps) {
   };
 
   return (
-    <StyledNavbar>
+    // <StyledNavbar>
+    <div>
       <FlexBox
         alignItems="center"
         style={{
@@ -35,14 +36,13 @@ export default function Signin({ onClick }: SigninProps) {
         }}
         onClick={handleClick}
       >
-        <Icon
-          className="profile-icon"
-          size="30px"
-          color="#002180"
-          marginRight= "5px"  /* Replaced gap with margin-right */
-        >
-          profile
-        </Icon>
+        <img
+          src="/assets/images/icons/profile.svg"
+          alt="Profile"
+          width="30"
+          height="30"
+          style={{ marginRight: "5px" }} /* Replaced gap with margin-right */
+        />
         <Typography
         //   fontFamily="Inter"
           fontSize="14px"
@@ -54,6 +54,7 @@ export default function Signin({ onClick }: SigninProps) {
           Sign In
         </Typography>
       </FlexBox>
-    </StyledNavbar>
+    {/* </StyledNavbar> */}
+    </div>
   );
 }

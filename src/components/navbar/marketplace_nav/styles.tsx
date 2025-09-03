@@ -99,19 +99,11 @@ export const StyledNavbar = styled.div`
   .search-icon {
     cursor: pointer;
     transition: transform 0.3s ease;
-
-    svg, img {
-      filter: brightness(0) invert(1);
-    }
   }
 
   .profile-icon {
     cursor: pointer;
     transition: transform 0.3s ease;
-
-    svg, img {
-      filter: brightness(0) invert(1);
-    }
   }
 
   .hamburger-icon {
@@ -120,10 +112,6 @@ export const StyledNavbar = styled.div`
     cursor: pointer;
     transition: transform 0.3s ease;
     display: none;
-
-    svg, img {
-      filter: brightness(0) invert(1);
-    }
   }
 
   .mobile-menu {

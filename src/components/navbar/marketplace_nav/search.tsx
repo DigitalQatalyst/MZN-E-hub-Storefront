@@ -1,6 +1,5 @@
 "use client";
 
-import Icon from "../../icon/Icon";
 import { StyledNavbar } from "./styles";
 
 interface SearchProps {
@@ -9,10 +8,14 @@ interface SearchProps {
 
 export default function Search({ onClick }: SearchProps) {
   return (
-    <StyledNavbar>
-      <Icon className="search-icon" size="18px" color="#002180" onClick={onClick}>
-        search
-      </Icon>
-    </StyledNavbar>
+    <div className="search-icon" onClick={onClick}>
+      <img
+        src="/assets/images/icons/search-white.svg"
+        alt="Search"
+        width="18"
+        height="18"
+        style={{ marginTop: "5px" }}
+      />
+    </div>
   );
 }

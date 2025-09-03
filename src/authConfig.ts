@@ -38,7 +38,7 @@ export const b2cPolicies = {
  * Locally it will default to http://localhost:3000
  */
 // const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 const redirectPath = "/callback"; // matches your userflow endpoint redirect
 export const redirectUri = `${siteUrl}${redirectPath}`;
 
@@ -76,7 +76,8 @@ export const authScopes = {
   scopes: [
     "openid",
     "offline_access",
-    "https://dgqatalyst.onmicrosoft.com/b94aa491-036c-4ddb-8bbf-12b510113078/Files.Read",
+    "profile",
+    "email"
   ],
 };
 
@@ -88,7 +89,7 @@ export const loginRequest: RedirectRequest = {
 
 export const signupRequest: RedirectRequest = {
   authority: signupAuthority,                // dedicated signup policy
-  scopes: ["openid", "offline_access"],
+  scopes: ["openid", "offline_access", ...authScopes.scopes],
   extraQueryParameters: { prompt: "login" },
 };
 

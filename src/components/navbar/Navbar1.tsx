@@ -11,6 +11,7 @@ import Container from "../Container";
 import Typography from "../Typography";
 import Categories from "../categories/Categories";
 import styled from "styled-components";
+import { useMsal } from "@azure/msal-react";
  
 const StyledNavbar = styled.div`
   background: transparent !important;
@@ -345,6 +346,22 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
+  const { instance } = useMsal();
+  
+  const handleLogin = async () => {
+    await instance.loginRedirect({
+      authority: "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/B2C_1_KF_SignIn",
+      scopes: ["openid", "profile", "email", "offline_access"], // adjust as needed
+      // remove prompt=login in prod to allow SSO
+    });
+  };
+
+  const handleSignup = async () => {
+    await instance.loginRedirect({
+      authority: "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/B2C_1_KF_Signup",
+      scopes: ["openid", "profile", "email", "offline_access"],
+    });
+  };
  
   useEffect(() => {
     const handleScroll = () => {
@@ -360,8 +377,8 @@ export default function Navbar({ navListOpen }: NavbarProps) {
     setMenuOpen(!menuOpen);
   };
 
-  const registerUrl = "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_Signup&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fcallback&scope=openid&response_type=code&prompt=login";
-  const loginUrl = "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_SignIn&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fcallback&scope=openid&response_type=code&prompt=login";
+  // const registerUrl = "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_Signup&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fcallback&scope=openid&response_type=code&prompt=login";
+  // const loginUrl = "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_SignIn&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fcallback&scope=openid&response_type=code&prompt=login";
   
  
   return (
@@ -406,24 +423,19 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           </Box>
  
           <FlexBox alignItems="center" style={{ gap: "10px" }}>
-            <Box className="profile-icon">
+            <Box className="profile-icon" onClick={handleLogin}>
               <Icon size="30px" color="#002180">profile</Icon>
             </Box>
             <Button
               className="become-partner-btn"
               variant="outlined"
-              onClick={() => {
-                window.location.href = loginUrl;
-              }}
             >
               Become a Partner
             </Button>
             <Button
               className="sign-up-btn"
               variant="contained"
-              onClick={() => {
-                window.location.href = registerUrl;
-              }}
+              onClick={handleSignup}
             >
               Sign Up
             </Button>
@@ -461,15 +473,11 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             </Box>
  
             <FlexBox className="mobile-auth-section" flexDirection="column" style={{ gap: "16px" }}>
-              <Box className="profile-icon" onClick={toggleMenu}>
+              <Box className="profile-icon" onClick={handleLogin}>
                 <Icon size="44px" color="#002180">profile</Icon>
               </Box>
               <Button
                 className="mobile-auth-button become-partner-btn"
-                onClick={() => {
-                  window.location.href = loginUrl;
-                  toggleMenu();
-                }}
                 style={{
                   background: "transparent",
                   color: "white",
@@ -482,10 +490,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
               </Button>
               <Button
                 className="mobile-auth-button sign-up-btn"
-                onClick={() => {
-                  window.location.href = registerUrl;
-                  toggleMenu();
-                }}
+                onClick={handleSignup}
                 style={{
                   background: "white",
                   color: "#0000FF",

@@ -243,99 +243,62 @@ export default function Section6({ carList, carBrands }: Props) {
               </Box>
             </StyledProductCategory>
 
-            <StyledProductCategory>
-              <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="flex-start"
-                marginBottom={4}
-              >
-                <span
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: 600,
-                    marginBottom: "8px",
-                    color: "#000",
-                  }}
-                >
-                  Communities
-                </span>
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  marginTop={1}
-                  padding="12px"
-                  borderRadius="8px"
-                  width="100%"
-                  maxWidth="280px"
-                >
-                  <Box
-                    width={24}
-                    height={24}
-                    marginRight={2}
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <NextImage
-                      width={24}
-                      height={24}
-                      alt="communities-icon"
-                      src="/images/Avatar (2).png"
-                    />
-                  </Box>
-                  <span
-                    style={{
-                      fontSize: "10px",
-                      color: "#6C757D",
-                      fontWeight: 400,
-                      backgroundColor: "#E7F1FF", // light blue background
-                      borderRadius: "8px", // rounded corners
-                      borderWidth: "0.5px", // border width
-                      borderColor: "#0030E3",
-                      gap: "16px", // space between items (may not affect a single element)
-                      paddingTop: "8px", // top padding
-                      paddingRight: "16px", // right padding
-                      paddingBottom: "8px", // bottom padding
-                      paddingLeft: "16px", // left padding
-                      display: "inline-block", // make it an inline block element
-                      width: "264px", // fixed width
-                      height: "56px", // fixed height
-                    }}
-                  >
-                    No communities yet
-                  </span>
-                </Box>
-              </Box>
-            </StyledProductCategory>
+<StyledProductCategory>
+  <Box display="flex" flexDirection="column" alignItems="flex-start" marginBottom={4}>
+    <span style={{ fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#000' }}>
+      Communities
+    </span>
+    <Box 
+      display="flex" 
+      alignItems="center" 
+      marginTop={1} 
+      padding="12px"
+      borderRadius="8px"
+      width="100%"
+      maxWidth="280px"
+    >
+      <Box width={24} height={24} marginRight={2} display="flex" justifyContent="center" alignItems="center">
+        <NextImage width={24} height={24} alt="communities-icon" src="/images/Avatar (2).png" />
+      </Box>
+      <span style={{ fontSize: '12px', color: '#6C757D', fontWeight: 400 }}>
+        No communities yet
+      </span>
+    </Box>
+  </Box>
+</StyledProductCategory>
 
-            <StyledProductCategory
-              id="all"
-              mt="2rem"
-              shadow={selected.match("all") ? 4 : null}
-              bg="transparent"
-              p="0"
-            >
-              <span
-                id="all"
-                className="product-category-title"
-                style={{
-                  fontFamily: "Inter", // Use Inter font-family
-                  fontSize: "10px", // Font size set to 10px
-                  lineHeight: "20px", // Line height set to 20px
-                  letterSpacing: "0px", // Letter spacing set to 0px
-                  color: "#0061F2", // Blue color for text
-                  marginTop: "20px", // Margin top set to 20px
-                  cursor: "pointer", // Change cursor to pointer on hover
-                }}
-              >
-                Discover communities
-              </span>
-            </StyledProductCategory>
+<StyledProductCategory
+  id="all"
+  mt="2rem"
+  shadow={selected.match("all") ? 4 : null}
+  bg="transparent"
+  p="0"
+>
+  <span 
+    id="all" 
+    className="product-category-title" 
+    style={{ 
+      fontSize: '14px', 
+      fontWeight: 600, 
+      color: '#0061F2',  // Blue color for text
+      textDecoration: 'underline',
+      marginTop: '20px',
+      cursor: 'pointer'
+    }}
+  >
+    Discover communities
+  </span>
+</StyledProductCategory>
+
+
+
+
+
           </Box>
         </Hidden>
 
         <Box flex="1 1 0" minWidth="0px">
+          <CategorySectionHeader title="" seeMoreLink="#" />
           <CategorySectionHeader title="" seeMoreLink="#" />
 
           <Grid container spacing={6}>

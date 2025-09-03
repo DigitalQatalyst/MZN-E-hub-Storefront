@@ -6,6 +6,7 @@ import { getTheme } from "@utils/utils";
 
 // STYLED COMPONENTS
 export const StyledLink = styled(Link)`
+  // position: relative;
   display: block;
   padding: 0.3rem 0rem;
   color: ${getTheme("colors.gray.500")};
@@ -19,12 +20,10 @@ export const StyledLink = styled(Link)`
 // New Styled Components for the Subscribe Form
 export const SubscribeContainer = styled.div`
   display: flex;
-  width: 377px;
-  height: 56px;
-  background: rgba(41, 41, 41, 0.05);
+  width: 80%;
+  height: 37px;
+  background-color: var(--KF-BG-Dark-Blue, #002180);
   border-radius: 5px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 8px 8px 8px 20px;
 `;
 
 export const SubscribeInput = styled.input`
@@ -32,19 +31,19 @@ export const SubscribeInput = styled.input`
   padding: 0.75rem;
   border: none;
   border-radius: 5px 0 0 5px;
-  color: #FFFFFF;
+  color: #ffffff;
   font-family: "Public Sans", sans-serif;
-  background-color:rgb(66, 82, 200);
+  background-color: rgb(66, 82, 200);
   &::placeholder {
-    color: #FFFFFF;
+    color: #ffffff;
   }
 `;
 
 export const SubscribeButton = styled.button`
   border: none;
   background-color: var(--KF-BG-White, #fff);
-  color: #0030e3;
-  padding: 10px 24px;
+  color: var(--B-500, #1a1a1a);
+  padding: 0.75rem 1.5rem;
   font-weight: 500;
   cursor: pointer;
   border-radius: 0 5px 5px 0;
@@ -54,7 +53,13 @@ export const SubscribeButton = styled.button`
 
 // New Styled Component for Footer Container
 export const FooterContainer = styled.div`
-  background: linear-gradient(94deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%);
+  background: linear-gradient(
+    94deg,
+    #374def 0%,
+    #1c3fe9 44.23%,
+    #1c3fe9 88.46%,
+    #374def 100%
+  );
   color: white;
 `;
 
@@ -71,13 +76,12 @@ export const CopyrightContainer = styled.div`
 
 // New Styled Component for Icon Container
 export const IconContainer = styled.div`
-  
   justify-content: center;
 `;
 
 export const SmallTag = styled.span`
   background-color: #fff;
-  color: #0d47a1;  // Blue color
+  color: #0d47a1; // Blue color
   font-size: 12px;
   padding: 0.2rem 0.5rem;
   margin-left: 0.5rem;

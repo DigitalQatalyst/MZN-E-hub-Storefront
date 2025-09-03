@@ -1,43 +1,133 @@
 "use client";
-
 import Box from "@component/Box";
 import { Carousel } from "@component/carousel";
 import { ProductCard16 } from "@component/product-cards";
 import CategorySectionCreator from "@component/CategorySectionCreator";
-import { H3, H4, H5 } from "@component/Typography"; // Import H3 and H5
+import { H3, H4, H5 } from "@component/Typography";
 import Product from "@models/product.model";
-
-// Assuming ContentColumn is a styled component or a component from your codebase
 import styled from "styled-components";
 
-// Define ContentColumn
+// Responsive ContentColumn with reduced spacing
 const ContentColumn = styled.div`
-  color: 000;
-  padding: 10px 10px 10px 80px;
-  margin-top: 3rem;
+  color: #000;
+  padding: 1rem;
+  margin-top: 1rem; /* Reduced from 2rem */
+  margin-bottom: 0.5rem; /* Added small bottom margin */
   display: flex;
   flex-direction: column;
-  font-style: abhaya-libre;
-  grid-template-columns: 1fr auto;
-  align-items: left;
-  margin-bottom: 1rem;
+  align-items: flex-start;
+
+  /* Tablet styles */
+  @media (min-width: 768px) {
+    padding: 1.5rem 3rem; /* Reduced from 2rem 3rem */
+    margin-top: 1.5rem; /* Reduced from 2.5rem */
+    margin-bottom: 0.5rem;
+  }
+
+  /* Desktop styles */
+  @media (min-width: 1024px) {
+    padding: 1.5rem 5rem; /* Reduced from 2rem 5rem */
+    margin-top: 2rem; /* Reduced from 3rem */
+    margin-bottom: 1rem;
+  }
 `;
 
-const StyledHeader = styled.p`
+// Responsive header with fluid typography
+const StyledHeader = styled.h1`
   color: #000;
-  font-family: "FS Kim Trial";
-  font-size: 48px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: var(--Display-Medium-Line-Height, 52px); /* 108.333% */
-  letter-spacing: var(--Display-Medium-Tracking, 0px);
-  margin-bottom: 1rem;
+  
+  font-weight: 550;
+  line-height: 1.2;
+  letter-spacing: 0px;
   margin-top: 1rem;
+  margin-bottom: 0; /* Ensure no bottom margin */
+
+  /* Mobile first - smaller text */
+  font-size: clamp(24px, 5vw, 32px);
+
+  /* Tablet */
+  @media (min-width: 768px) {
+    font-size: clamp(32px, 4vw, 40px);
+    line-height: 1.15;
+  }
+
+  /* Desktop */
+  @media (min-width: 1024px) {
+    font-size: clamp(40px, 3vw, 48px);
+    line-height: 52px;
+  }
 `;
 
-// Define CardsContainer to match ContentColumn padding
+// Responsive subtitle
+const SubTitle = styled.p`
+  color: #000;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0px;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+
+  /* Tablet */
+  @media (min-width: 768px) {
+    font-size: 15px;
+  }
+
+  /* Desktop */
+  @media (min-width: 1024px) {
+    font-size: 16px;
+    line-height: 28px;
+  }
+`;
+
+// Responsive CardsContainer with reduced top padding
 const CardsContainer = styled(Box)`
-  padding: 10px 80px 10px 80px;
+  padding: 0.5rem 1rem 1rem 1rem; /* Reduced top padding from 1rem to 0.5rem */
+
+  /* Tablet */
+  @media (min-width: 768px) {
+    padding: 0.5rem 3rem 1.5rem 3rem; /* Reduced top padding */
+  }
+
+  /* Desktop */
+  @media (min-width: 1024px) {
+    padding: 1rem 5rem 2rem 5rem; /* Reduced top padding from 2rem to 1rem */
+  }
+`;
+
+// Responsive ProductGrid
+const ProductGrid = styled.div`
+  display: grid;
+  gap: 1rem;
+  width: 100%;
+
+  /* Mobile: 1 column */
+  grid-template-columns: 1fr;
+
+  /* Small tablet: 2 columns */
+  @media (min-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  /* Large tablet: 3 columns */
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  /* Desktop: 4 columns */
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+`;
+
+// Product card wrapper for consistent spacing
+const ProductCardWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
 // =====================================================
@@ -45,54 +135,51 @@ type Props = { products: Product[] };
 // =====================================================
 
 export default function Section9({ products }: Props) {
-    const responsive = [
-        { breakpoint: 650, settings: { slidesToShow: 2 } },
-        { breakpoint: 500, settings: { slidesToShow: 1 } }
-    ];
+  // Show different number of products based on screen size
+  const getProductsToShow = () => {
+    if (typeof window !== 'undefined') {
+      const width = window.innerWidth;
+      if (width < 480) return 2; // Mobile: show 2 products
+      if (width < 768) return 4; // Small tablet: show 4 products
+      if (width < 1024) return 6; // Large tablet: show 6 products
+      return 4; // Desktop: show 4 products as originally intended
+    }
+    return 4; // Default fallback
+  };
 
-    return (
-        <CategorySectionCreator>
-            <ContentColumn>
-                <p
-                    style={{
-                        color: "#000",
-                        // fontFamily: "public sans",
-                        fontSize: "16px",
-                        fontStyle: "normal",
-                        fontWeight: 400,
-                        lineHeight: "var(--Title-Large-Line-Height, 28px)",
-                        letterSpacing: "var(--Title-Large-Tracking, 0px)",
-                        textTransform: "uppercase",
-                    }}
-                >
-                    WELCOME TO THE ENTERPRISE JOURNEY PLATFORM
-                </p>
-                <StyledHeader>
-                    We help businesses find the right partners to<br />
-                    get started, grow, and succeed
-                </StyledHeader>
-            </ContentColumn>
-            <CardsContainer my="-0.25rem">
-                <Box display="flex" justifyContent="space-around" width="100%">
-                    {products.slice(0, 4).map((item, ind) => (
-                        <Box py="0.25rem" key={ind} width="23.5%">
-                            <ProductCard16
-                                id={item.id}
-                                slug={item.slug}
-                                //unit={item.unit}
-                                subTitle={item.subTitle}
-                                title={item.title}
-                                title1={item.title1}
-                                price={item.price}
-                                off={item.discount}
-                                rating={item.rating}
-                                images={item.images}
-                                imgUrl={item.thumbnail}
-                            />
-                        </Box>
-                    ))}
-                </Box>
-            </CardsContainer>
-        </CategorySectionCreator>
-    );
+  return (
+    <CategorySectionCreator>
+      <ContentColumn>
+        <SubTitle>
+          WELCOME TO THE ENTERPRISE JOURNEY PLATFORM
+        </SubTitle>
+        <StyledHeader>
+          We help businesses find the right partners to
+          <br />
+          get started, grow, and succeed
+        </StyledHeader>
+      </ContentColumn>
+      
+      <CardsContainer>
+        <ProductGrid>
+          {products.slice(0, 4).map((item, ind) => (
+            <ProductCardWrapper key={ind}>
+              <ProductCard16
+                id={item.id}
+                slug={item.slug}
+                subTitle={item.subTitle}
+                title={item.title}
+                title1={item.title1 || item.title}
+                price={item.price}
+                off={item.discount}
+                rating={item.rating}
+                images={item.images}
+                imgUrl={item.thumbnail}
+              />
+            </ProductCardWrapper>
+          ))}
+        </ProductGrid>
+      </CardsContainer>
+    </CategorySectionCreator>
+  );
 }

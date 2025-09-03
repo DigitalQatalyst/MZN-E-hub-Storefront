@@ -9,7 +9,7 @@ import MobileNavigationBar from "@component/mobile-navigation";
 import Box from "@component/Box";
 // STYLED COMPONENT
 import StyledRoot from "../layout-1/styles";
-import Navbar from "@component/navbar/Navbar";
+import Navbar from "@component/navbar/Stage2Navbar";
 import { Footer1 } from "@component/footer";
 
 // =========================================================================
@@ -32,12 +32,12 @@ export default function ShopLayout({ children, showNavbar = true }: Props) {
         </div>
       )} */}
 
-      <Box marginTop={3}>
+      <Box margin-top={3}>
         {children}
       </Box>
 
       {/* SMALLER DEVICE NAVIGATION AREA */}
-      <MobileNavigationBar />
+      {/* <MobileNavigationBar /> */}
 
       {/* FOOTER AREA */}
       <Footer1 />

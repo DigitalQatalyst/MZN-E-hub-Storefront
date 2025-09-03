@@ -1,32 +1,52 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { useMsal } from "@azure/msal-react";
+
+import OnboardingForms from "@component/forms/onboardingForms";
 
 import useVisibility from "./useVisibility";
-
 import Icon from "@component/icon/Icon";
 import FlexBox from "@component/FlexBox";
 import CheckBox from "@component/CheckBox";
 import TextField from "@component/text-field";
 import { Button, IconButton } from "@component/buttons";
 import { H3, H5, H6, SemiSpan } from "@component/Typography";
-
 import Divide from "./components/Divide";
 import SocialLinks from "./components/SocialLinks";
-// STYLED COMPONENT
 import { StyledRoot } from "./styles";
 
+import { authScopes, signupAuthority } from "../../authConfig";
+
+type Phase = "pre" | "prompt" | "forms";
+
 export default function Signup() {
+  const router = useRouter();
+  const { instance, accounts } = useMsal();
   const { passwordVisibility, togglePasswordVisibility } = useVisibility();
 
+  // phase:
+  // - "pre": show local UX form and trigger B2C signup
+  // - "prompt": user is authenticated; ask if they want onboarding
+  // - "forms": render onboarding forms
+  const [phase, setPhase] = useState<Phase>("pre");
+
+  // If already authenticated (e.g., returned from /callback), go to prompt phase
+  useEffect(() => {
+    if (accounts.length > 0) setPhase("prompt");
+  }, [accounts.length]);
+
+  // ---------- PRE (local UX form → B2C signup) ----------
   const initialValues = {
     name: "",
     email: "",
     password: "",
     re_password: "",
-    agreement: false
+    agreement: false,
   };
 
   const formSchema = yup.object().shape({
@@ -39,24 +59,67 @@ export default function Signup() {
       .required("Please re-type password"),
     agreement: yup
       .bool()
-      .test(
-        "agreement",
-        "You have to agree with our Terms and Conditions!",
-        (value) => value === true
-      )
-      .required("You have to agree with our Terms and Conditions!")
+      .oneOf([true], "You have to agree with our Terms and Conditions!"),
   });
 
-  const handleFormSubmit = async (values: any) => {
-    console.log(values);
+  const handleFormSubmit = async () => {
+    sessionStorage.setItem("postSignup", "1");
+    // Launch the dedicated SIGNUP policy (B2C_1_KF_Signup)
+    await instance.loginRedirect({
+      authority: signupAuthority,
+      scopes: authScopes.scopes, // ["openid","offline_access", ...]
+      extraQueryParameters: { prompt: "login" },
+      // redirectUri is taken from msalConfig.auth.redirectUri (/callback)
+    });
   };
 
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
-    initialValues,
-    onSubmit: handleFormSubmit,
-    validationSchema: formSchema
-  });
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues,
+      onSubmit: handleFormSubmit,
+      validationSchema: formSchema,
+    });
 
+  // ---------- PROMPT (ask to complete profile?) ----------
+  const goForms = () => setPhase("forms");
+  const goDashboard = () => router.push("/dashboard");
+
+  // ---------- RENDER ----------
+  if (phase === "forms") {
+    return <OnboardingForms />;
+  }
+
+  if (phase === "prompt") {
+    return (
+      <StyledRoot mx="auto" my="2rem" boxShadow="large" borderRadius={8}>
+        <div className="content" style={{ padding: "2rem" }}>
+          <H3 textAlign="center" mb="0.75rem">
+            Complete your profile?
+          </H3>
+          <H5
+            fontWeight="600"
+            fontSize="12px"
+            color="gray.800"
+            textAlign="center"
+            mb="2rem"
+          >
+            You can fill in a few details now to personalize your experience.
+          </H5>
+
+          <FlexBox justifyContent="center" style={{ gap: 12 }}>
+            <Button variant="contained" color="primary" onClick={goForms}>
+              Yes, continue
+            </Button>
+            <Button variant="outlined" onClick={goDashboard}>
+              Not now
+            </Button>
+          </FlexBox>
+        </div>
+      </StyledRoot>
+    );
+  }
+
+  // phase === "pre"
   return (
     <StyledRoot mx="auto" my="2rem" boxShadow="large" borderRadius={8}>
       <form className="content" onSubmit={handleSubmit}>
@@ -64,10 +127,17 @@ export default function Signup() {
           Create Your Account
         </H3>
 
-        <H5 fontWeight="600" fontSize="12px" color="gray.800" textAlign="center" mb="2.25rem">
-          Please fill all forms to continued
+        <H5
+          fontWeight="600"
+          fontSize="12px"
+          color="gray.800"
+          textAlign="center"
+          mb="2.25rem"
+        >
+          Please fill all forms to continue
         </H5>
 
+        {/* UX-only fields before redirecting to B2C */}
         <TextField
           fullwidth
           name="name"
@@ -88,8 +158,8 @@ export default function Signup() {
           onBlur={handleBlur}
           value={values.email}
           onChange={handleChange}
-          placeholder="exmple@mail.com"
-          label="Email or Phone Number"
+          placeholder="example@mail.com"
+          label="Email"
           errorText={touched.email && errors.email}
         />
 
@@ -110,13 +180,15 @@ export default function Signup() {
               mr="0.25rem"
               type="button"
               color={passwordVisibility ? "gray.700" : "gray.600"}
-              onClick={togglePasswordVisibility}>
+              onClick={togglePasswordVisibility}
+            >
               <Icon variant="small" defaultcolor="currentColor">
                 {passwordVisibility ? "eye-alt" : "eye"}
               </Icon>
             </IconButton>
           }
         />
+
         <TextField
           mb="1rem"
           fullwidth
@@ -135,7 +207,8 @@ export default function Signup() {
               mr="0.25rem"
               type="button"
               onClick={togglePasswordVisibility}
-              color={passwordVisibility ? "gray.700" : "gray.600"}>
+              color={passwordVisibility ? "gray.700" : "gray.600"}
+            >
               <Icon variant="small" defaultcolor="currentColor">
                 {passwordVisibility ? "eye-alt" : "eye"}
               </Icon>
@@ -154,7 +227,7 @@ export default function Signup() {
               <SemiSpan>By signing up, you agree to</SemiSpan>
               <a href="/" target="_blank" rel="noreferrer noopener">
                 <H6 ml="0.5rem" borderBottom="1px solid" borderColor="gray.900">
-                  Terms & Condition
+                  Terms &amp; Conditions
                 </H6>
               </a>
             </FlexBox>
@@ -166,7 +239,6 @@ export default function Signup() {
         </Button>
 
         <Divide />
-
         <SocialLinks />
       </form>
 

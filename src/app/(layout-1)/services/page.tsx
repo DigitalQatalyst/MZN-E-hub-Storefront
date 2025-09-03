@@ -1,10 +1,11 @@
+"use client"
 import { Fragment } from "react";
 // GLOBAL CUSTOM COMPONENTS
 import Box from "@component/Box";
 import NavbarMarketplace from "@component/navbar/NavbarMarketplace";
 // PAGE SECTION COMPONENTS
 
-import Section6 from "@sections/market-2/section-6";
+import Section6 from "@sections/market-2/section-6/Section6";
 
 
 export default function MarketTwo() {

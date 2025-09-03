@@ -102,7 +102,7 @@ export default function ProfileCompletionCard({
       p="24px"
       // ml="-36px"
       mb="20px"
-      borderRadius={12}
+      borderRadius={6}
       style={{
         background: 'linear-gradient(84.35deg, #7970FF 30.7%, #6C7DFA 44.15%, #6089F5 55.18%, #5395F1 64.07%, #48A0EC 71.15%, #3DABE8 76.69%, #33B5E4 81.01%, #29BEE0 84.4%, #20C7DD 87.16%, #18CEDA 89.6%, #12D5D7 92.01%, #0CDAD5 94.69%, #07DFD3 97.95%, #04E2D2 102.08%, #02E4D1 107.38%, #01E5D1 114.16%)',
 

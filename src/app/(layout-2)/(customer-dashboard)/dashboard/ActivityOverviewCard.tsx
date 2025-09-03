@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
+import styled from 'styled-components'
 import { ApexOptions } from 'apexcharts'
 import Card from "@component/Card"
 import Box from "@component/Box"
@@ -10,6 +11,24 @@ import Typography, { H3, H5 } from "@component/Typography"
 
 // Dynamically import ApexCharts to avoid SSR issues
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
+
+// Styled ActionButton component
+const ActionButton = styled.button`
+  padding: 4px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #f3f4f6;
+  }
+`;
 
 export const ActivityOverviewCard = () => {
   // Mock data
@@ -166,7 +185,7 @@ export const ActivityOverviewCard = () => {
     <Card 
       p="24px"
       // ml="-36px"
-      borderRadius={12}
+      borderRadius={6}
       style={{
         width: '556px',
         height: '362px',
@@ -179,7 +198,10 @@ export const ActivityOverviewCard = () => {
           <H5 mb="4px" fontWeight="600">My Activity Overview</H5>
           <Typography fontSize="14px" color="text.hint">Last 30 Days</Typography>
         </Box>
-        <Typography fontSize="18px" color="text.hint">⋯</Typography>
+        {/* Action Buttons */}
+        <ActionButton>
+          <Typography fontSize="18px" color="inherit">⋮</Typography>
+        </ActionButton>
       </FlexBox>
 
       <FlexBox alignItems="flex-start" justifyContent="space-between" height="50px">

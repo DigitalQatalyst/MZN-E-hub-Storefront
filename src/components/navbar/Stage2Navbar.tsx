@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Menu, X, Search, Bookmark, ChevronRight } from "lucide-react";
+import { Menu, X, Search, Bookmark, ChevronRight, BookmarkIcon } from "lucide-react";
 import Box from "../Box";
 import Card from "../Card";
 import Badge from "../badge";
@@ -184,7 +184,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
 
               {/* Bookmark Icon */}
               <Box className="search-icon" style={{ cursor: "pointer" }}>
-                <img src="/images/bookmark.svg" alt="Bookmark" height="24px" />
+                <BookmarkIcon size={20} color="#FFFFFF" />
               </Box>
 
               {/* User Profile Photo */}

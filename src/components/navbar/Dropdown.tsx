@@ -1,8 +1,13 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import Typography from "@component/Typography";
 import Card from "@component/Card";
 import FlexBox from "@component/FlexBox";
 
 export default function Dropdown({ setNotifShown, setDropShown }) {
+  const router = useRouter();
+
   const handleHover = (e) => {
     e.currentTarget.style.backgroundColor = "rgba(75, 70, 92, 0.04)";
   };
@@ -25,7 +30,7 @@ export default function Dropdown({ setNotifShown, setDropShown }) {
     {
       itemIcon: "../images/case.svg",
       itemName: "Dashboard",
-      onClick: () => console.log("Dashboard clicked"),
+      onClick: () => router.push("/dashboard"),
     },
     {
       itemIcon: "../images/notifications_unread.svg",

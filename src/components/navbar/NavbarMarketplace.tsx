@@ -2,7 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useMsal, AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
+import {
+  useMsal,
+  AuthenticatedTemplate,
+  UnauthenticatedTemplate,
+} from "@azure/msal-react";
 import { loginRequest, signupRequest, logoutRequest } from "../../authConfig";
 import { StyledNavbar } from "./marketStyles";
 import Box from "../Box";
@@ -31,7 +35,10 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
   }, []);
 
   useEffect(() => {
-    console.log("MSAL redirectUri =", instance.getConfiguration().auth.redirectUri);
+    console.log(
+      "MSAL redirectUri =",
+      instance.getConfiguration().auth.redirectUri
+    );
   }, [instance]);
 
   const toggleMenu = () => setMenuOpen((v) => !v);
@@ -72,13 +79,26 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
       >
         <Box className="enterprise-logo">
           <NavLink href="/">
-            <img src="/assets/images/logos/mzn_logo.svg" alt="Enterprise Journey Logo" />
+            <img
+              src="/assets/images/logos/mzn_logo.svg"
+              alt="Enterprise Journey Logo"
+            />
           </NavLink>
         </Box>
 
         <Categories open={navListOpen}>
-          <Button className="explore-button" width="240px" height="44px" bg="body.default" variant="text">
-            <FlexBox justifyContent="space-between" alignItems="center" width="100%">
+          <Button
+            className="explore-button"
+            width="240px"
+            height="44px"
+            bg="body.default"
+            variant="text"
+          >
+            <FlexBox
+              justifyContent="space-between"
+              alignItems="center"
+              width="100%"
+            >
               <FlexBox alignItems="center">
                 <Icon className="explore-icon">categories</Icon>
                 <Typography
@@ -93,7 +113,9 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
                   Explore
                 </Typography>
               </FlexBox>
-              <Icon className="dropdown-icon" variant="small">chevron-down</Icon>
+              <Icon className="dropdown-icon" variant="small">
+                chevron-down
+              </Icon>
             </FlexBox>
           </Button>
         </Categories>
@@ -108,26 +130,52 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
             Help Centre
           </NavLink>
           <Box className="search-icon">
-              <Icon size="18px" color="#002180">search-white</Icon>
+            <Icon size="18px" color="#002180">
+              search-white
+            </Icon>
           </Box>
           <UnauthenticatedTemplate>
             <FlexBox alignItems="center" style={{ gap: "20px" }}>
-              <Box className="profile-icon" onClick={handleUserIconClick}>
+              <FlexBox
+                alignItems="center"
+                style={{
+                  cursor: "pointer",
+                  color: "#FFF",
+                  fontWeight: 500,
+                  fontSize: "14px",
+                  //   fontFamily: "Inter",
+                  fontStyle: "normal",
+                }}
+                onClick={handleUserIconClick}
+              >
                 <Icon size="30px" color="#002180">
                   profile
                 </Icon>
-              </Box>
-              <Button className="become-partner-btn" variant="outlined" onClick={handleBecomePartner}>
+                Sign In
+              </FlexBox>
+              <Button
+                className="become-partner-btn"
+                variant="outlined"
+                onClick={handleBecomePartner}
+              >
                 Become a Partner
               </Button>
-              <Button className="sign-up-btn" variant="contained" onClick={handleSignUp}>
+              <Button
+                className="sign-up-btn"
+                variant="contained"
+                onClick={handleSignUp}
+              >
                 Sign Up
               </Button>
             </FlexBox>
           </UnauthenticatedTemplate>
           <AuthenticatedTemplate>
             <FlexBox alignItems="center" style={{ gap: "20px" }}>
-              <Button className="logout-btn" variant="outlined" onClick={handleLogout}>
+              <Button
+                className="logout-btn"
+                variant="outlined"
+                onClick={handleLogout}
+              >
                 Logout
               </Button>
               <Box
@@ -176,7 +224,11 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
               variant="text"
               onClick={toggleMenu}
             >
-              <FlexBox justifyContent="space-between" alignItems="center" width="100%">
+              <FlexBox
+                justifyContent="space-between"
+                alignItems="center"
+                width="100%"
+              >
                 <Icon className="explore-icon">categories</Icon>
                 <Typography
                   className="explore-text"
@@ -197,14 +249,22 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
           </Categories>
 
           <FlexBox className="mobile-nav-links" style={{ gap: "20px" }}>
-            <NavLink className="nav-link" href="/development" onClick={toggleMenu}>
+            <NavLink
+              className="nav-link"
+              href="/development"
+              onClick={toggleMenu}
+            >
               Discover AbuDhabi
             </NavLink>
             <NavLink className="nav-link" href="/faq" onClick={toggleMenu}>
               Help Centre
             </NavLink>
             <UnauthenticatedTemplate>
-              <FlexBox className="mobile-auth-section" flexDirection="column" style={{ gap: "20px" }}>
+              <FlexBox
+                className="mobile-auth-section"
+                flexDirection="column"
+                style={{ gap: "20px" }}
+              >
                 <Box className="profile-icon" onClick={handleUserIconClick}>
                   <Icon size="44px" color="#002180">
                     profile
@@ -239,7 +299,11 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
               </FlexBox>
             </UnauthenticatedTemplate>
             <AuthenticatedTemplate>
-              <FlexBox className="mobile-auth-section" flexDirection="column" style={{ gap: "20px" }}>
+              <FlexBox
+                className="mobile-auth-section"
+                flexDirection="column"
+                style={{ gap: "20px" }}
+              >
                 <Button
                   className="mobile-auth-button mobile-profile"
                   style={{
@@ -287,16 +351,26 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
         >
           <Box className="enterprise-logo">
             <NavLink href="/">
-              <img src="/assets/images/logos/mzn_logo.svg" alt="Enterprise Journey Logo" />
+              <img
+                src="/assets/images/logos/mzn_logo.svg"
+                alt="Enterprise Journey Logo"
+              />
             </NavLink>
           </Box>
         </Container>
 
         <Box className="responsive-mobile-menu">
-          <FlexBox className="mobile-nav-links" style={{ gap: 10, width: "100%", justifyContent: "space-around" }}>
+          <FlexBox
+            className="mobile-nav-links"
+            style={{ gap: 10, width: "100%", justifyContent: "space-around" }}
+          >
             <NavLink href="/" onClick={() => handleNavClick("/")}>
               <Image
-                src={activeItem === "/" ? "/assets/images/non_financial_marketplace/home-active.svg" : "/assets/images/non_financial_marketplace/home.svg"}
+                src={
+                  activeItem === "/"
+                    ? "/assets/images/non_financial_marketplace/home-active.svg"
+                    : "/assets/images/non_financial_marketplace/home.svg"
+                }
                 alt="Home"
                 width={24}
                 height={24}
@@ -305,7 +379,11 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
             </NavLink>
             <NavLink href="/explore" onClick={() => handleNavClick("/explore")}>
               <Image
-                src={activeItem === "/explore" ? "/assets/images/non_financial_marketplace/explore-active.svg" : "/assets/images/non_financial_marketplace/explore.svg"}
+                src={
+                  activeItem === "/explore"
+                    ? "/assets/images/non_financial_marketplace/explore-active.svg"
+                    : "/assets/images/non_financial_marketplace/explore.svg"
+                }
                 alt="Explore"
                 width={24}
                 height={24}
@@ -323,7 +401,11 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
             </NavLink>
             <NavLink href="/profile" onClick={() => handleNavClick("/profile")}>
               <Image
-                src={activeItem === "/profile" ? "/assets/images/non_financial_marketplace/profile-active.svg" : "/assets/images/non_financial_marketplace/profile.svg"}
+                src={
+                  activeItem === "/profile"
+                    ? "/assets/images/non_financial_marketplace/profile-active.svg"
+                    : "/assets/images/non_financial_marketplace/profile.svg"
+                }
                 alt="Profile"
                 width={24}
                 height={24}

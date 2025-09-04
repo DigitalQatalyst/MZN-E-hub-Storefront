@@ -45,7 +45,9 @@ const HeroImage = styled.div`
   z-index: 1;
   pointer-events: none;
 
-  img, .next-image, .next-image img {
+  img,
+  .next-image,
+  .next-image img {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
@@ -74,7 +76,7 @@ const SearchInput = styled.input`
   width: 300px;
   height: 59px;
   background-color: rgba(255, 255, 255, 0.9);
-  color:  Gray/800 - Paragraph;
+  color: Gray/800 - Paragraph;
   outline: none;
   margin-right: -1px;
   max-width: 100%;
@@ -96,7 +98,6 @@ const SearchButton = styled.button`
     border-color: #f0f0f0; /* Slight hover effect on border */
   }
 `;
-
 
 const NavbarWrapper = styled.div`
   position: relative;
@@ -120,7 +121,6 @@ const HeroContent = styled.div`
     padding: 1rem 0.5rem;
   }
 `;
-
 
 export default function HomePage() {
   return (
@@ -151,5 +151,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-

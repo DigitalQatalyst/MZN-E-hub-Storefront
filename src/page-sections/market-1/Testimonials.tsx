@@ -37,6 +37,12 @@ const ContentColumn = styled.div`
   gap: 1rem;
 `;
 
+const MainHeading = styled(H3)`
+  @media (max-width: 480px) {
+    font-size: 36px !important;
+  }
+`;
+
 const FeaturedEvents = styled.div`
   display: flex;
   flex-direction: column;
@@ -96,7 +102,7 @@ const EventsContainer = styled.div`
   }
 
   @media (max-width: 480px) {
-    gap: 0.75rem;
+    gap: 35px;
   }
 `;
 
@@ -113,6 +119,12 @@ const EventCard = styled.div`
     flex: none;
     width: 100%;
   }
+
+  @media (max-width: 480px) {
+    width: 329px;
+    height: 200px;
+    gap: 0.5rem;
+  }
 `;
 
 const EventImage = styled.div`
@@ -127,7 +139,7 @@ const EventImage = styled.div`
   }
 
   @media (max-width: 480px) {
-    height: 140px;
+    height: 120px;
   }
 `;
 
@@ -138,7 +150,10 @@ const EventDetails = styled.div`
   gap: 0.5rem;
 
   @media (max-width: 480px) {
+    padding-top: 0.5rem;
     gap: 0.25rem;
+    flex: 1;
+    overflow: hidden;
   }
 `;
 
@@ -162,6 +177,9 @@ const EventTitle = styled.h4`
 
   @media (max-width: 480px) {
     font-size: 14px;
+    -webkit-line-clamp: 2;
+    min-height: auto;
+    max-height: none;
   }
 `;
 
@@ -294,9 +312,9 @@ const Section16: React.FC = () => {
           <H3 style={{ fontSize: "16px", fontWeight: "400", textTransform: "uppercase" }}>
             Latest Insights & Success Stories
           </H3>
-          <H3 fontSize="48px" fontWeight="600">
+          <MainHeading fontSize="48px" fontWeight="600">
             Loading...
-          </H3>
+          </MainHeading>
         </ContentColumn>
       </WelcomeSection>
     );
@@ -324,9 +342,9 @@ const Section16: React.FC = () => {
           <H3 style={{ fontSize: "16px", fontWeight: "400", textTransform: "uppercase" }}>
             Latest Insights & Success Stories
           </H3>
-          <H3 fontSize="48px" fontWeight="600">
+          <MainHeading fontSize="48px" fontWeight="600">
             Stay informed with curated news, <br /> market analysis, and real-world case studies
-          </H3>
+          </MainHeading>
         </ContentColumn>
         <FeaturedEvents>
           <FeaturedEventsHeader>

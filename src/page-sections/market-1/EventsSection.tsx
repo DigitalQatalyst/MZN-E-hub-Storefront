@@ -30,6 +30,12 @@ const ContentColumn = styled.div`
   flex-direction: column;
 `;
 
+const ResponsiveH3 = styled(H3)`
+  @media (max-width: 768px) {
+    font-size: 36px !important;
+  }
+`;
+
 const FeaturedEvents = styled.div`
   display: flex;
   flex-direction: column;
@@ -42,6 +48,14 @@ const FeaturedEventsHeader = styled.div`
   align-items: center;
   width: 100%;
   margin-bottom: 1rem;
+  
+  @media (max-width: 599px) {
+    justify-content: flex-start;
+    
+    .explore-all-desktop {
+      display: none;
+    }
+  }
 `;
 
 const EventsContainer = styled.div`
@@ -53,11 +67,11 @@ const EventsContainer = styled.div`
   flex-wrap: nowrap;
   @media (max-width: 899px) {
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 3rem;
   }
   @media (max-width: 599px) {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 3rem;
   }
 `;
 
@@ -150,6 +164,16 @@ const ExploreAllButton = styled(DefaultButton)`
 
   &:hover {
     color: #A9C9FF;
+  }
+`;
+
+const MobileExploreContainer = styled.div`
+  display: none;
+  margin-top: 2rem;
+  
+  @media (max-width: 599px) {
+    display: flex;
+    justify-content: flex-start;
   }
 `;
 
@@ -438,14 +462,14 @@ const Section16: React.FC = () => {
       <WelcomeSection>
         <ContentColumn>
           <p style={{ fontSize: "16px", fontWeight: "400",}}>JOIN OUR UPCOMING EVENTS</p>
-          <H3 fontSize="48px" fontWeight="400" mb="1rem">
+          <ResponsiveH3 fontSize="48px" fontWeight="400" mb="1rem">
             Workshops, bootcamps, and info sessions <br /> designed to help you grow.
-          </H3>
+          </ResponsiveH3>
         </ContentColumn>
         <FeaturedEvents>
           <FeaturedEventsHeader>
             <p style={{ fontSize: "16px", fontWeight: "400"}}>Featured Events</p>
-            <ExploreAllButton onClick={handleExploreAllClick}>
+            <ExploreAllButton className="explore-all-desktop" onClick={handleExploreAllClick}>
               Explore all Events <span>→</span>
             </ExploreAllButton>
           </FeaturedEventsHeader>
@@ -479,6 +503,11 @@ const Section16: React.FC = () => {
               </EventCard>
             ))}
           </EventsContainer>
+          <MobileExploreContainer>
+            <ExploreAllButton onClick={handleExploreAllClick}>
+              Explore all Events <span>→</span>
+            </ExploreAllButton>
+          </MobileExploreContainer>
         </FeaturedEvents>
       </WelcomeSection>
     </div>

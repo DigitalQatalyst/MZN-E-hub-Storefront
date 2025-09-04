@@ -127,11 +127,18 @@ export const BaseInput = styled.input`
 
 export const BaseSelect = styled.select`
   border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 8px 12px;
-  font-size: 14px;
+  border-radius: 6px;
+  padding: 8px 36px 8px 12px; /* space for the arrow */
+  font-size: 15px;
+  color: #5c5c6a; /* matches your example text color */
   cursor: pointer;
   margin-right: 10px;
+  appearance: none; /* hide native arrow */
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%235c5c6a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 8 12 14 18 8'/></svg>")
+    no-repeat right 12px center;
+  background-color: #fff;
+  background-size: 20px;
+
   &:focus {
     outline: none;
     border-color: #3b82f6;
@@ -139,12 +146,14 @@ export const BaseSelect = styled.select`
   }
 `;
 
+
+
 export const Button = styled.button`
-  background: #2563eb;
+  background: #0030E3;
   color: white;
   padding: 8px 16px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 14px;
   cursor: pointer;
   &:hover {

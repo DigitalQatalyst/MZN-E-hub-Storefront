@@ -1,20 +1,21 @@
+import React from "react";
 import Grid from "@component/grid/Grid";
 import Typography from "@component/Typography";
-import { Box, Container, Button } from "@mui/material";
-import React from "react";
+import Box from "@component/Box";
+import Container from "@component/Container";
+import { Button } from "@component/buttons";
+
 
 const StillNeedHelp: React.FC = () => {
   return (
     <Box
-      sx={{
-        width: "100%",
-        minHeight: "30vh",
-        backgroundColor: "#F8F7FA",
-        py: "3rem",
-        display: "flex",
-        alignItems: "start",
-        justifyContent: "start",
-      }}
+      width="100%"
+      minHeight="30vh"
+      backgroundColor="#F8F7FA"
+      py="3rem"
+      display="flex"
+      alignItems="start"
+      justifyContent="start"
     >
       <Container maxWidth="lg">
         <Typography
@@ -47,16 +48,14 @@ const StillNeedHelp: React.FC = () => {
           </Typography>
         </Box>
         <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 2,
-          }}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          style={{ gap: "16px" }}
         >
           <Button
             variant="outlined"
-            sx={{
+            style={{
               backgroundColor: "transparent",
               color: "#0030E3",
               borderColor: "#0030E3",
@@ -64,25 +63,19 @@ const StillNeedHelp: React.FC = () => {
               fontWeight: "400",
               textTransform: "none",
               boxShadow: "none",
-              ":hover": {
-                backgroundColor: "#ded9ff",
-              },
             }}
           >
             Visit our Community
           </Button>
           <Button
             variant="contained"
-            sx={{
+            style={{
               backgroundColor: "#0030E3",
               color: "#fff",
               fontSize: "15px",
               fontWeight: "400",
               textTransform: "none",
               boxShadow: "none",
-              ":hover": {
-                backgroundColor: "#ded9ff",
-              },
             }}
           >
             Contact Us

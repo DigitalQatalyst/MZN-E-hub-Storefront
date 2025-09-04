@@ -30,18 +30,22 @@ const StyledBazaarCard = styled(Card)(({ theme }) => ({
     "& .controller": { right: 10 }
   },
   '@media (max-width: 1199px)': {
-    height: '270px',
+    height: '280px',
     borderRadius: '10px',
   },
   '@media (max-width: 899px)': {
-    height: '220px',
+    height: '240px',
     borderRadius: '8px',
   },
   '@media (max-width: 599px)': {
-    height: 'auto',
-    minHeight: '160px',
+    height: '200px',
+    minHeight: '200px',
     borderRadius: '6px',
     margin: '0',
+  },
+  '@media (max-width: 479px)': {
+    height: '180px',
+    minHeight: '180px',
   },
 }));
 
@@ -52,12 +56,21 @@ const ImageWrapper = styled(Box)({
   alignItems: "center",
   position: "relative",
   minHeight: "100px",
+  flex: "0 0 auto",
+  '@media (max-width: 1199px)': {
+    padding: '16px',
+    minHeight: '80px',
+  },
   '@media (max-width: 899px)': {
     padding: '12px',
     minHeight: '60px',
   },
   '@media (max-width: 599px)': {
     padding: '8px',
+    minHeight: '50px',
+  },
+  '@media (max-width: 479px)': {
+    padding: '6px',
     minHeight: '40px',
   },
 });
@@ -69,23 +82,38 @@ const ImageBox = styled(Box)({
   borderRadius: "50%",
   height: "60px",
   width: "60px",
+  '@media (max-width: 899px)': {
+    height: '50px',
+    width: '50px',
+  },
+  '@media (max-width: 599px)': {
+    height: '40px',
+    width: '40px',
+  },
+  '@media (max-width: 479px)': {
+    height: '32px',
+    width: '32px',
+  },
 });
 
 const ContentWrapper = styled(Box)({
+  flex: "1 1 auto",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
   paddingBottom: 8,
+  minHeight: 0,
+  width: "100%", // Ensure full width
   '@media (max-width: 899px)': {
-    paddingBottom: 4,
+    paddingBottom: 6,
   },
   '@media (max-width: 599px)': {
-    paddingBottom: 2,
+    paddingBottom: 4,
   },
   "& .title": {
     overflow: "hidden",
-    whiteSpace: "normal",
-    textOverflow: "clip",
-    display: "-webkit-box",
-    WebkitLineClamp: 2,
-    WebkitBoxOrient: "vertical",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
   },
   "& .categories": {
     overflow: "hidden",
@@ -94,48 +122,109 @@ const ContentWrapper = styled(Box)({
   }
 });
 
-const StyledTitle = styled(H3)(({ wordCount }) => ({
-  padding: "0 40px 0 20px",
+const StyledTitle = styled(H3)({
+  padding: "0 40px 2px 20px",
   color: "var(--KF-BG-Blue, #0030E3)",
-  fontFamily: '"Open Sans"',
   fontSize: "20px",
   fontStyle: "normal",
   fontWeight: 400,
   lineHeight: "26px",
-  ...(wordCount > 19 && {
-    display: "-webkit-box",
-    WebkitLineClamp: 2,
-    WebkitBoxOrient: "vertical",
-    overflow: "hidden",
-    textOverflow: "clip",
-  })
-}));
+  margin: 0,
+  overflow: "hidden",
+  whiteSpace: "nowrap",
+  textOverflow: "ellipsis",
+  '@media (max-width: 1199px)': {
+    fontSize: '18px',
+    lineHeight: '24px',
+    padding: '0 30px 2px 16px',
+  },
+  '@media (max-width: 899px)': {
+    fontSize: '16px',
+    lineHeight: '22px',
+    padding: '0 24px 2px 12px',
+  },
+  '@media (max-width: 599px)': {
+    fontSize: '14px',
+    lineHeight: '18px',
+    padding: '0 16px 2px 8px',
+  },
+  '@media (max-width: 479px)': {
+    fontSize: '13px',
+    lineHeight: '16px',
+    padding: '0 12px 2px 6px',
+  },
+});
 
-const StyledTitle1 = styled(H3)(({ wordCount }) => ({
+const StyledTitle1 = styled(H3)({
   padding: "0 40px 0 20px",
   color: "var(--KF-BG-Blue, #0030E3)",
-  fontFamily: '"Open Sans"',
   fontSize: "20px",
   fontStyle: "normal",
   fontWeight: 400,
   lineHeight: "26px",
-  ...(wordCount > 19 && {
-    display: "-webkit-box",
-    WebkitLineClamp: 2,
-    WebkitBoxOrient: "vertical",
-    overflow: "hidden",
-    textOverflow: "clip",
-  })
-}));
+  margin: 0,
+  marginTop: "4px",
+  overflow: "hidden",
+  whiteSpace: "nowrap",
+  textOverflow: "ellipsis",
+  '@media (max-width: 1199px)': {
+    fontSize: '18px',
+    lineHeight: '24px',
+    padding: '0 30px 0 16px',
+    marginTop: '3px',
+  },
+  '@media (max-width: 899px)': {
+    fontSize: '16px',
+    lineHeight: '22px',
+    padding: '0 24px 0 12px',
+    marginTop: '2px',
+  },
+  '@media (max-width: 599px)': {
+    fontSize: '14px',
+    lineHeight: '18px',
+    padding: '0 16px 0 8px',
+    marginTop: '2px',
+  },
+  '@media (max-width: 479px)': {
+    fontSize: '13px',
+    lineHeight: '16px',
+    padding: '0 12px 0 6px',
+    marginTop: '1px',
+  },
+});
 
 const StyledSubtitle = styled("p")({
-  padding: "0 0 40px 20px",
+  padding: "10px 20px 20px 20px",
   color: "var(--KF-BG-Black, #000)",
-  fontFamily: '"Open Sans"',
   fontSize: "14px",
   fontStyle: "normal",
   fontWeight: 400,
   lineHeight: "22px",
+  margin: 0,
+  flex: "1 1 auto",
+  width: "100%", // Ensure full width
+  overflow: "visible", // Allow all text to be visible
+  whiteSpace: "normal", // Allow text wrapping
+  '@media (max-width: 1199px)': {
+    fontSize: '13px',
+    lineHeight: '20px',
+    padding: '0 16px 16px 16px',
+  },
+  '@media (max-width: 899px)': {
+    fontSize: '12px',
+    lineHeight: '18px',
+    padding: '0 12px 12px 12px',
+  },
+  '@media (max-width: 599px)': {
+    fontSize: '11px',
+    lineHeight: '16px',
+    padding: '0 8px 8px 8px',
+  },
+  '@media (max-width: 479px)': {
+    fontSize: '10px',
+    lineHeight: '14px',
+    padding: '0 6px 6px 6px',
+  },
 });
 
 // =============================================================
@@ -171,9 +260,6 @@ export default function ProductCard16(props: ProductCardProps) {
     });
   };
 
-  // Count words in the title
-  const wordCount = title.trim().split(/\s+/).length;
-
   // Convert id to string to match ProductQuickViewProps
   const productId = String(id);
 
@@ -181,40 +267,35 @@ export default function ProductCard16(props: ProductCardProps) {
     <StyledBazaarCard hoverEffect={hoverEffect}>
       <ImageWrapper>
         <ImageBox>
-            <LazyImage
-              alt={title}
-              src={imgUrl}
-              width={60}
-              height={60}
-              style={{ objectFit: "cover" }}
-            />
+          <LazyImage
+            alt={title}
+            src={imgUrl}
+            width={60}
+            height={60}
+            style={{ 
+              objectFit: "cover",
+              width: "100%",
+              height: "100%",
+              borderRadius: "50%"
+            }}
+          />
         </ImageBox>
       </ImageWrapper>
 
       <ProductQuickView
         open={openModal}
         onClose={toggleDialog}
-        product={{ id: productId, images, slug, price, title, title1, subTitle, description: "" }}
+        product={{ id: productId, images, slug, price, title,title1: title, subTitle, description: "" }}
       />
 
       <ContentWrapper>
-        <Box flex="1 1 0" minWidth="0px" mr={1}>
-          {/* <Link href={`/product/${slug}`}> */}
-            <StyledTitle
-              title={title}
-              wordCount={wordCount}
-              className="title"
-            >
-              {title}
-            </StyledTitle>
-          {/* </Link> */}
-          <StyledTitle1
-              title={title1}
-              wordCount={wordCount}
-              className="title"
-            >
-              {title1}
-            </StyledTitle1>
+        <Box flex="1 1 0" minWidth="0px" mr={1} style={{ display: "flex", flexDirection: "column", minHeight: 0 }}>
+          <StyledTitle className="title">
+            {title}
+          </StyledTitle>
+          <StyledTitle1 className="title">
+            {title1}
+          </StyledTitle1>
           <StyledSubtitle>
             {subTitle}
           </StyledSubtitle>

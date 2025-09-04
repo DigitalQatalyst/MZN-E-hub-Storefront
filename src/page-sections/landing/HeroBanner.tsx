@@ -1,9 +1,7 @@
 "use client";
 import NextImage from "next/image";
 import styled from "styled-components";
-import { H1, H3, H4 } from "@component/Typography";
-import { Header, HeaderTwo } from "@component/header";
-import Navbar from "@component/navbar/Navbar";
+import { useState, useEffect } from "react";
 import Navbar1 from "@component/navbar/landing_nav/Navbar1";
 
 // STYLED COMPONENTS
@@ -30,9 +28,9 @@ const HeroSection = styled.section`
     padding-top: 48px;
   }
   @media (max-width: 599px) {
-    height: 32vh;
-    min-height: 160px;
-    padding-top: 32px;
+    height: 720px;
+    min-height: 350px;
+    padding-top: 25px;
   }
 `;
 
@@ -58,46 +56,6 @@ const HeroImage = styled.div`
   }
 `;
 
-const SearchBarContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 35rem;
-  z-index: 3;
-`;
-
-const SearchInput = styled.input`
-  padding: 1rem;
-  font-size: 16px;
-  border-radius: 10px 0 0 10px;
-  border: 2px solid #fff;
-  width: 300px;
-  height: 59px;
-  background-color: rgba(255, 255, 255, 0.9);
-  color:  Gray/800 - Paragraph;
-  outline: none;
-  margin-right: -1px;
-  max-width: 100%;
-`;
-
-const SearchButton = styled.button`
-  padding: 1rem 2rem;
-  background-color: transparent; /* Set to transparent to inherit background */
-  color: white; /* Changed to white for text */
-  font-size: 16px;
-  font-weight: 600;
-  height: 59px;
-  border-radius: 0 10px 10px 0;
-  border: 2px solid #fff; /* Maintain border for visibility */
-  cursor: pointer;
-  transition: color 0.3s ease, border-color 0.3s ease;
-  &:hover {
-    color: #f0f0f0; /* Slight hover effect on text */
-    border-color: #f0f0f0; /* Slight hover effect on border */
-  }
-`;
-
-
 const NavbarWrapper = styled.div`
   position: relative;
   z-index: 4;
@@ -107,22 +65,26 @@ const NavbarWrapper = styled.div`
   padding: 0;
 `;
 
-const HeroContent = styled.div`
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  padding: 2rem 1rem;
-  @media (max-width: 899px) {
-    padding: 1rem 0.5rem;
-  }
-`;
-
-
 export default function HomePage() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    // Check initial screen size
+    checkScreenSize();
+
+    // Add event listener for window resize
+    window.addEventListener('resize', checkScreenSize);
+
+    // Cleanup event listener on component unmount
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
+  const heroImageSrc = isMobile ? "/images/mobileHero.png" : "/images/image 47.png";
+
   return (
     <div>
       {/* Hero Section */}
@@ -130,12 +92,13 @@ export default function HomePage() {
         <HeroImage>
           <NextImage
             alt="Hero Background"
-            src="/images/image 47.png"
+            src={heroImageSrc}
             fill
             style={{
               objectFit: "cover",
               objectPosition: "center",
             }}
+            priority
           />
         </HeroImage>
         <NavbarWrapper>
@@ -151,5 +114,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-

@@ -94,28 +94,36 @@ const ResponsiveH5 = styled(H5)`
 const DescriptionText = styled(H5)`
   color: #000000;
   font-family: "Open Sans", sans-serif;
-  flex: 3;
+  font-size: 16px;
+  flex: 1;
+  white-space: nowrap;
+  margin-right: 3rem;
+
+  @media (max-width: 1400px) {
+    white-space: normal;
+  }
 
   @media (max-width: 768px) {
-    font-size: 0.95rem;
+    font-size: 16px;
     line-height: 1.4;
+    margin-right: 0;
     br {
       display: none;
     }
   }
 
   @media (max-width: 480px) {
-    font-size: 0.875rem;
+    font-size: 16px;
     line-height: 1.3;
     display: none;
   }
 `;
 
 const ButtonContainer = styled(FlexBox)`
-  align-items: flex-end;
+  align-items: center;
   justify-content: flex-end;
-
-  flex: 1;
+  flex-shrink: 0;
+  min-width: fit-content;
 
   @media (max-width: 768px) {
     justify-content: flex-start;
@@ -143,6 +151,8 @@ const ButtonContainer2 = styled(FlexBox)`
 `;
 
 const ResponsiveButton = styled(Button)`
+  white-space: nowrap;
+  
   @media (max-width: 480px) {
     padding: 12px 24px;
     font-size: 1.1rem;
@@ -167,7 +177,7 @@ const TabContainer = styled(Box)`
   }
 `;
 
-const TabItem = styled(Box)<{ isActive: boolean }>`
+const TabItem = styled(Box) <{ isActive: boolean }>`
   padding: 1rem;
   cursor: pointer;
   border-bottom: ${({ isActive }) => (isActive ? "2px solid #ffffff" : "none")};
@@ -197,7 +207,7 @@ const TabItem = styled(Box)<{ isActive: boolean }>`
       width: 80%;
       height: 2px;
       background-color: ${({ isActive }) =>
-        isActive ? "#2a2b2d" : "transparent"};
+    isActive ? "#2a2b2d" : "transparent"};
       transition: all 0.5s ease;
     }
   }
@@ -216,15 +226,21 @@ const TabSection = styled(FlexBox)`
     margin-bottom: 1rem;
   }
 `;
+
 const ContentCTA = styled(FlexBox)`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  gap: 1rem;
+  gap: 3rem;
+
+  @media (max-width: 1400px) {
+    align-items: flex-start;
+  }
 
   @media (max-width: 768px) {
     align-items: flex-start;
     flex-direction: column;
+    gap: 1.5rem;
   }
 `;
 

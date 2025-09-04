@@ -102,10 +102,13 @@ export default function SecurityPage() {
             padding: "12px",
             border: "1px solid #d1d5db",
             borderRadius: "6px",
-            fontSize: "14px",
-            boxSizing: "border-box",
+            fontSize: "15px", // Matching font size with screenshot
             fontFamily: "'Public Sans', sans-serif",
-            color: "#9ca3af",
+            color: "#4B465C",
+            fontFeatureSettings: "'liga' off, 'clig' off", // To match styling
+            placeholder: "#4B465C", // Placeholder color
+            outline: "none",
+            marginBottom: "20px", // Space between fields
           }}
         />
       </div>
@@ -139,10 +142,13 @@ export default function SecurityPage() {
               padding: "12px",
               border: "1px solid #d1d5db",
               borderRadius: "6px",
-              fontSize: "14px",
-              boxSizing: "border-box",
+              fontSize: "15px", // Matching font size with screenshot
               fontFamily: "'Public Sans', sans-serif",
-              color: "#9ca3af",
+              color: "#4B465C",
+              fontFeatureSettings: "'liga' off, 'clig' off", // To match styling
+              placeholder: "#4B465C", // Placeholder color
+              outline: "none",
+              marginBottom: "20px", // Space between fields
             }}
           />
         </div>
@@ -167,10 +173,13 @@ export default function SecurityPage() {
               padding: "12px",
               border: "1px solid #d1d5db",
               borderRadius: "6px",
-              fontSize: "14px",
-              boxSizing: "border-box",
+              fontSize: "15px", // Matching font size with screenshot
               fontFamily: "'Public Sans', sans-serif",
-              color: "#9ca3af",
+              color: "#4B465C",
+              fontFeatureSettings: "'liga' off, 'clig' off", // To match styling
+              placeholder: "#4B465C", // Placeholder color
+              outline: "none",
+              marginBottom: "20px", // Space between fields
             }}
           />
         </div>
@@ -221,7 +230,7 @@ export default function SecurityPage() {
         <button
           style={{
             padding: "12px 24px",
-            backgroundColor: "transparent",
+            backgroundColor: "rgba(168, 170, 174, 0.16)", // Updated background color
             color: "#6b7280",
             border: "none",
             borderRadius: "6px",

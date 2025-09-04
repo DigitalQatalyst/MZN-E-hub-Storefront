@@ -8,13 +8,25 @@ export default function TabNavigation({
   onTabChange,
 }: TabNavigationProps) {
   const tabs = [
-    { id: "profile", label: "Profile", icon: "👤" },
-    { id: "security", label: "Security", icon: "🔒" },
-    { id: "notifications", label: "Notifications", icon: "🔔" },
+    {
+      id: "profile",
+      label: "Profile",
+      icon: <img src="assets/images/icons/users.svg" alt="Profile Icon" />,
+    },
+    {
+      id: "security",
+      label: "Security",
+      icon: <img src="assets/images/icons/lock.svg" alt="Security Icon" />,
+    },
+    {
+      id: "notifications",
+      label: "Notifications",
+      icon: <img src="assets/images/icons/bell.svg" alt="Notifications Icon" />,
+    },
   ];
 
   return (
-    <div style={{ display: "flex", gap: "0" }}>
+    <div style={{ display: "flex", gap: "16px" }}>
       {tabs.map((tab) => (
         <button
           key={tab.id}
@@ -29,8 +41,8 @@ export default function TabNavigation({
             fontSize: "14px",
             fontWeight: "500",
             display: "flex",
-            alignItems: "center",
-            gap: "8px",
+            alignItems: "center", // Aligns icon and label horizontally
+            gap: "8px", // Space between icon and label
             transition: "all 0.2s ease",
           }}
         >

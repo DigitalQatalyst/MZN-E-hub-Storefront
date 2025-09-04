@@ -360,9 +360,8 @@ export default function Section3() {
               <ContentCTA>
                 <DescriptionText>
                   Browse available marketplaces, find services tailored to your
-                  business needs, and unlock growth opportunities—all
-                  <br />
-                  through one platform.
+                  business needs, and unlock growth opportunities—all through
+                  one platform.
                 </DescriptionText>
                 <ButtonContainer>
                   <Link href={buttonConfig.link}>
@@ -375,6 +374,7 @@ export default function Section3() {
                           "var(--Footer-Gradient, linear-gradient(94deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%))",
                       }}
                       fullwidth
+                      borderRadius={8}
                     >
                       {buttonConfig.text}
                     </ResponsiveButton>
@@ -473,7 +473,7 @@ export default function Section3() {
                 arrows={true}
               >
                 {carouselContent.map((item, ind) => (
-                  <Box key={ind} px="10px">
+                  <Box key={ind}>
                     <Link href="#" legacyBehavior>
                       <a
                         tabIndex={-1}

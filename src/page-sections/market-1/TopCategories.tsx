@@ -148,6 +148,7 @@ const ButtonContainer2 = styled(FlexBox)`
   }
   @media (max-width: 480px) {
     margin-top: 4rem;
+  }
 `;
 
 const ResponsiveButton = styled(Button)`
@@ -275,6 +276,23 @@ export default function Section3() {
     fetchCategories();
   }, [activeTab]);
 
+  // Dynamic button configuration based on active tab
+  const getButtonConfig = () => {
+    if (activeTab === "entrepreneur") {
+      return {
+        text: "Sign Up as Entrepreneur",
+        link: "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_Signup&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fmzn-e-hub-storefront-git-landingpage-digitalqatalysts-projects.vercel.app%2F&scope=openid&response_type=code&prompt=login&code_challenge_method=S256&code_challenge=0vZQNWZJq-_sIiTADK-M4hyf44ACCodxa3_4L0MYxVo%22"
+      };
+    } else {
+      return {
+        text: "Sign Up as Partner",
+        link: "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_Partner_Signup&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fmzn-e-hub-storefront-git-landingpage-digitalqatalysts-projects.vercel.app%2F&scope=openid&response_type=code&prompt=login&code_challenge_method=S256&code_challenge=0vZQNWZJq-_sIiTADK-M4hyf44ACCodxa3_4L0MYxVo%22"
+      };
+    }
+  };
+
+  const buttonConfig = getButtonConfig();
+
   // Responsive carousel settings with proper spacing
   const responsive = [
     {
@@ -347,7 +365,7 @@ export default function Section3() {
                   through one platform.
                 </DescriptionText>
                 <ButtonContainer>
-                  <Link href="https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_Signup&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fmzn-e-hub-storefront-git-landingpage-digitalqatalysts-projects.vercel.app%2F&scope=openid&response_type=code&prompt=login&code_challenge_method=S256&code_challenge=0vZQNWZJq-_sIiTADK-M4hyf44ACCodxa3_4L0MYxVo%22">
+                  <Link href={buttonConfig.link}>
                     <ResponsiveButton
                       className="SignUp"
                       variant="contained"
@@ -358,7 +376,7 @@ export default function Section3() {
                       }}
                       fullwidth
                     >
-                      Sign Up as Entrepreneur
+                      {buttonConfig.text}
                     </ResponsiveButton>
                   </Link>
                 </ButtonContainer>
@@ -430,7 +448,7 @@ export default function Section3() {
                 ))}
               </FlexBox>
               <ButtonContainer2>
-                <Link href="https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_Signup&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fmzn-e-hub-storefront-git-landingpage-digitalqatalysts-projects.vercel.app%2F&scope=openid&response_type=code&prompt=login&code_challenge_method=S256&code_challenge=0vZQNWZJq-_sIiTADK-M4hyf44ACCodxa3_4L0MYxVo%22">
+                <Link href={buttonConfig.link}>
                   <ResponsiveButton
                     className="SignUp"
                     variant="contained"
@@ -440,7 +458,7 @@ export default function Section3() {
                     }}
                     fullwidth
                   >
-                    Sign Up as Entrepreneur
+                    {buttonConfig.text}
                   </ResponsiveButton>
                 </Link>
               </ButtonContainer2>

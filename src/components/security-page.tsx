@@ -106,7 +106,6 @@ export default function SecurityPage() {
             fontFamily: "'Public Sans', sans-serif",
             color: "#4B465C",
             fontFeatureSettings: "'liga' off, 'clig' off", // To match styling
-            placeholder: "#4B465C", // Placeholder color
             outline: "none",
             marginBottom: "20px", // Space between fields
           }}
@@ -146,7 +145,6 @@ export default function SecurityPage() {
               fontFamily: "'Public Sans', sans-serif",
               color: "#4B465C",
               fontFeatureSettings: "'liga' off, 'clig' off", // To match styling
-              placeholder: "#4B465C", // Placeholder color
               outline: "none",
               marginBottom: "20px", // Space between fields
             }}
@@ -177,7 +175,6 @@ export default function SecurityPage() {
               fontFamily: "'Public Sans', sans-serif",
               color: "#4B465C",
               fontFeatureSettings: "'liga' off, 'clig' off", // To match styling
-              placeholder: "#4B465C", // Placeholder color
               outline: "none",
               marginBottom: "20px", // Space between fields
             }}

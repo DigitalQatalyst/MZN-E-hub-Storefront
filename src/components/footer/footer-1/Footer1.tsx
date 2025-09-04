@@ -43,28 +43,28 @@ export default function Footer1() {
             href={linkItem.url}
             key={index}
             style={{
-              color: 'rgba(255,255,255,0.8)',
-              display: 'flex',
-              alignItems: 'center',
-              marginBottom: '0.75rem',
-              fontSize: '16px',
-              textDecoration: 'none',
-              transition: 'color 0.2s ease'
+              color: "rgba(255,255,255,0.8)",
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "0.75rem",
+              fontSize: "16px",
+              textDecoration: "none",
+              transition: "color 0.2s ease",
             }}
           >
             <span>{linkItem.name}</span>
-            
+
             {/* Add arrow icon for social media links */}
             {linkItem.showArrow && (
-              <ArrowUpRight 
-                size={16} 
-                style={{ 
-                  marginLeft: '0.5rem',
-                  color: 'rgba(255,255,255,0.8)'
-                }} 
+              <ArrowUpRight
+                size={16}
+                style={{
+                  marginLeft: "0.5rem",
+                  color: "rgba(255,255,255,0.8)",
+                }}
               />
             )}
-            
+
             {/* Add badge if present */}
             {linkItem.badge && (
               <Box
@@ -73,11 +73,11 @@ export default function Footer1() {
                 px="0.5rem"
                 py="0.25rem"
                 style={{
-                  backgroundColor: 'white',
-                  color: '#0030E3',
-                  borderRadius: '4px',
-                  fontSize: '12px',
-                  fontWeight: '600'
+                  backgroundColor: "white",
+                  color: "#0030E3",
+                  borderRadius: "4px",
+                  fontSize: "12px",
+                  fontWeight: "600",
                 }}
               >
                 {linkItem.badge}
@@ -96,20 +96,28 @@ export default function Footer1() {
         position="relative"
         overflow="hidden"
         style={{
-          background: "linear-gradient(94.22deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%)"
+          background:
+            "linear-gradient(94.22deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%)",
         }}
       >
-        <div style={{
-          color: "white",
-          margin: "0 auto",
-          width: "100%",
-          padding: "0 5rem"
-        }}>
+        <div
+          style={{
+            color: "white",
+            margin: "0 auto",
+            width: "100%",
+            padding: "0 5rem",
+          }}
+        >
           {/* Header Section - Logo, Description & Newsletter */}
           <Box pt="4rem" pb="3rem">
             {/* Logo Section */}
             <Box mb="2rem">
-              <img src="/assets/images/tab_bar/Subtract.svg" alt="MZN Enterprise Hub" height="100%" width="240rem" />
+              <img
+                src="/assets/images/tab_bar/Subtract.svg"
+                alt="MZN Enterprise Hub"
+                height="100%"
+                width="240rem"
+              />
             </Box>
 
             {/* Description and Newsletter Section */}
@@ -119,13 +127,20 @@ export default function Footer1() {
               flexDirection={{ xs: "column", lg: "row" }}
             >
               {/* Left Section - Description */}
-              <Box maxWidth="500px" mr={{ xs: "0", lg: "2rem" }} mb={{ xs: "2rem", lg: "0" }}>
+              <Box
+                style={{
+                  maxWidth: "500px",
+                  marginRight: "2rem",
+                  marginBottom: "0",
+                }}
+              >
                 <Paragraph
                   color="rgba(255,255,255,0.8)"
                   fontSize="16px"
                   lineHeight="1.6"
                 >
-                  Stay updated with the latest business insights, opportunities, and services from Enterprise Journey.
+                  Stay updated with the latest business insights, opportunities,
+                  and services from Enterprise Journey.
                 </Paragraph>
               </Box>
 
@@ -140,40 +155,42 @@ export default function Footer1() {
                       onChange={(e) => setEmail(e.target.value)}
                       required
                       style={{
-                        width: '100%',
-                        backgroundColor: 'transparent',
-                        border: '1px solid rgba(255,255,255,0.3)',
-                        color: 'white',
-                        borderRadius: '12px',
-                        padding: '14px 120px 14px 16px',
-                        fontSize: '16px',
-                        outline: 'none',
-                        transition: 'border-color 0.2s ease'
+                        width: "100%",
+                        backgroundColor: "transparent",
+                        border: "1px solid rgba(255,255,255,0.3)",
+                        color: "white",
+                        borderRadius: "12px",
+                        padding: "14px 120px 14px 16px",
+                        fontSize: "16px",
+                        outline: "none",
+                        transition: "border-color 0.2s ease",
                       }}
                     />
                     <SubscribeButton
                       type="submit"
                       style={{
-                        position: 'absolute',
-                        right: '6px',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        backgroundColor: 'white',
-                        color: '#0030E3',
-                        borderRadius: '8px',
-                        fontWeight: '600',
-                        border: 'none',
-                        padding: '10px 20px',
-                        fontSize: '14px',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s ease',
-                        whiteSpace: 'nowrap'
+                        position: "absolute",
+                        right: "6px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        backgroundColor: "white",
+                        color: "#0030E3",
+                        borderRadius: "8px",
+                        fontWeight: "600",
+                        border: "none",
+                        padding: "10px 20px",
+                        fontSize: "14px",
+                        cursor: "pointer",
+                        transition: "all 0.2s ease",
+                        whiteSpace: "nowrap",
                       }}
                       onMouseOver={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-50%) scale(1.02)';
+                        e.currentTarget.style.transform =
+                          "translateY(-50%) scale(1.02)";
                       }}
                       onMouseOut={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+                        e.currentTarget.style.transform =
+                          "translateY(-50%) scale(1)";
                       }}
                     >
                       Subscribe
@@ -187,10 +204,10 @@ export default function Footer1() {
           {/* Horizontal Separator Line */}
           <Box
             style={{
-              height: '4px',
-              backgroundColor: '#5088FF',
-              marginBottom: '3rem',
-              borderRadius: '4px',
+              height: "4px",
+              backgroundColor: "#5088FF",
+              marginBottom: "3rem",
+              borderRadius: "4px",
             }}
           />
 
@@ -223,28 +240,28 @@ export default function Footer1() {
                         href={linkItem.url}
                         key={linkIndex}
                         style={{
-                          color: 'rgba(255,255,255,0.8)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          marginBottom: '0.75rem',
-                          fontSize: '16px',
-                          textDecoration: 'none',
-                          transition: 'color 0.2s ease'
+                          color: "rgba(255,255,255,0.8)",
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "0.75rem",
+                          fontSize: "16px",
+                          textDecoration: "none",
+                          transition: "color 0.2s ease",
                         }}
                       >
                         <span>{linkItem.name}</span>
-                        
+
                         {/* Add arrow icon for social media links */}
                         {linkItem.showArrow && (
-                          <ArrowUpRight 
-                            size={16} 
-                            style={{ 
-                              marginLeft: '0.5rem',
-                              color: 'rgba(255,255,255,0.8)'
-                            }} 
+                          <ArrowUpRight
+                            size={16}
+                            style={{
+                              marginLeft: "0.5rem",
+                              color: "rgba(255,255,255,0.8)",
+                            }}
                           />
                         )}
-                        
+
                         {/* Add badge if present */}
                         {linkItem.badge && (
                           <Box
@@ -253,11 +270,11 @@ export default function Footer1() {
                             px="0.5rem"
                             py="0.25rem"
                             style={{
-                              backgroundColor: 'white',
-                              color: '#0030E3',
-                              borderRadius: '4px',
-                              fontSize: '12px',
-                              fontWeight: '600'
+                              backgroundColor: "white",
+                              color: "#0030E3",
+                              borderRadius: "4px",
+                              fontSize: "12px",
+                              fontWeight: "600",
                             }}
                           >
                             {linkItem.badge}
@@ -276,21 +293,21 @@ export default function Footer1() {
       {/* Bottom Copyright Section */}
       <Box
         style={{
-          background: "linear-gradient(94.22deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%)"
+          background:
+            "linear-gradient(94.22deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%)",
         }}
         pb="2rem"
       >
-        <div style={{
-          margin: "0 auto",
-          width: "100%",
-          padding: "0 2rem"
-        }}>
-          <FlexBox
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Typography 
-              color="rgba(255,255,255,0.7)" 
+        <div
+          style={{
+            margin: "0 auto",
+            width: "100%",
+            padding: "0 2rem",
+          }}
+        >
+          <FlexBox justifyContent="center" alignItems="center">
+            <Typography
+              color="rgba(255,255,255,0.7)"
               fontSize="14px"
               textAlign="center"
             >

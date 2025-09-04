@@ -94,7 +94,7 @@ const ResponsiveH5 = styled(H5)`
 const DescriptionText = styled(H5)`
   color: #000000;
   font-family: "Open Sans", sans-serif;
-  flex: 3;
+  flex: 2;
 
   @media (max-width: 768px) {
     font-size: 0.95rem;
@@ -326,9 +326,8 @@ export default function Section3() {
               <ContentCTA>
                 <DescriptionText>
                   Browse available marketplaces, find services tailored to your
-                  business needs, and unlock growth opportunities—all
-                  <br />
-                  through one platform.
+                  business needs, and unlock growth opportunities—all through
+                  one platform.
                 </DescriptionText>
                 <ButtonContainer>
                   <Link href="https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_Signup&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fmzn-e-hub-storefront-git-landingpage-digitalqatalysts-projects.vercel.app%2F&scope=openid&response_type=code&prompt=login&code_challenge_method=S256&code_challenge=0vZQNWZJq-_sIiTADK-M4hyf44ACCodxa3_4L0MYxVo%22">
@@ -341,6 +340,7 @@ export default function Section3() {
                           "var(--Footer-Gradient, linear-gradient(94deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%))",
                       }}
                       fullwidth
+                      borderRadius={8}
                     >
                       Sign Up as Entrepreneur
                     </ResponsiveButton>
@@ -439,7 +439,7 @@ export default function Section3() {
                 arrows={true}
               >
                 {carouselContent.map((item, ind) => (
-                  <Box key={ind} px="10px">
+                  <Box key={ind}>
                     <Link href="#" legacyBehavior>
                       <a
                         tabIndex={-1}

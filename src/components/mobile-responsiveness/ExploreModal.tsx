@@ -184,10 +184,10 @@ export default function ExploreModal({ onClose }: ExploreModalProps) {
               style={{ width: 24, height: 24 }}
             />
             <Typography>{category.title}</Typography>
-            {(category.subItems.length > 0 || category.subItems.some(item => item.includes("Coming soon"))) && (
+            {/* {(category.subItems.length > 0 || category.subItems.some(item => item.includes("Coming soon"))) && (
               <FaChevronDown className="dropdown-icon" />
-            )}
-            {(expandedCategory === category.title) && (
+            )} */}
+            {/* {(expandedCategory === category.title) && (
               <div className="sub-items">
                 {category.subItems.map((subItem, subIndex) => (
                   <Typography key={subIndex} className={subItem.includes("Coming soon") ? "coming-soon" : ""}>
@@ -195,7 +195,7 @@ export default function ExploreModal({ onClose }: ExploreModalProps) {
                   </Typography>
                 ))}
               </div>
-            )}
+            )} */}
           </CategoryItem>
         ))}
       </ModalContent>

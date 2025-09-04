@@ -377,16 +377,16 @@ export default function Navbar({ navListOpen }: NavbarProps) {
     setMenuOpen(!menuOpen);
   };
 
-  const handleLogin = () => {
-    instance.loginRedirect({
-      scopes: ["openid"],
-      redirectUri: window.location.origin,
-      extraQueryParameters: { prompt: "login" }
-    }).catch((e) => {
-      console.log(e);
-    });
-    setMenuOpen(false);
-  };
+  // const handleLogin = () => {
+  //   instance.loginRedirect({
+  //     scopes: ["openid"],
+  //     redirectUri: window.location.origin,
+  //     extraQueryParameters: { prompt: "login" }
+  //   }).catch((e) => {
+  //     console.log(e);
+  //   });
+  //   setMenuOpen(false);
+  // };
 
   const handleLogout = () => {
     instance.logoutRedirect().catch((e) => {

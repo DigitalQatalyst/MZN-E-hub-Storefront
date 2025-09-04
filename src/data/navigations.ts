@@ -7,7 +7,7 @@ const navigations = [
     menuData: {
       categories: [
         {
-          title: "Events & Networking",
+          title: "Events & Networking", 
           href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/events-networking.png"

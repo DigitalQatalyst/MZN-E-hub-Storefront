@@ -43,7 +43,9 @@ const HeroImage = styled.div`
   z-index: 1;
   pointer-events: none;
 
-  img, .next-image, .next-image img {
+  img,
+  .next-image,
+  .next-image img {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;

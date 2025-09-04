@@ -64,20 +64,42 @@ export default function Navbar({ navListOpen }: NavbarProps) {
       >
         <Box className="enterprise-logo" mr="20px">
           <NavLink href="/">
-            <img src="/assets/images/logos/mzn_logo.svg" alt="Enterprise Journey Logo" />
+            <img
+              src="/assets/images/logos/mzn_logo.svg"
+              alt="Enterprise Journey Logo"
+            />
           </NavLink>
         </Box>
 
         <Categories open={navListOpen}>
-          <Button className="explore-button" width="278px" height="34.409px" bg="body.default" variant="text">
-            <FlexBox justifyContent="space-between" alignItems="center" width="100%">
+          <Button
+            className="explore-button"
+            width="278px"
+            height="34.409px"
+            bg="body.default"
+            variant="text"
+          >
+            <FlexBox
+              justifyContent="space-between"
+              alignItems="center"
+              width="100%"
+            >
               <FlexBox alignItems="center">
                 <Icon className="explore-icon">categories</Icon>
-                <Typography className="explore-text" ml="5px" fontSize="14px" fontWeight="600" lineHeight="26px" color="#002180">
+                <Typography
+                  className="explore-text"
+                  ml="5px"
+                  fontSize="14px"
+                  fontWeight="600"
+                  lineHeight="26px"
+                  color="#002180"
+                >
                   Explore
                 </Typography>
               </FlexBox>
-              <Icon className="dropdown-icon" variant="small">chevron-down</Icon>
+              <Icon className="dropdown-icon" variant="small">
+                chevron-down
+              </Icon>
             </FlexBox>
           </Button>
         </Categories>
@@ -86,8 +108,12 @@ export default function Navbar({ navListOpen }: NavbarProps) {
 
         <FlexBox className="right-section">
           <FlexBox className="nav-links">
-            <NavLink className="nav-link" href="/development">Discover AbuDhabi</NavLink>
-            <NavLink className="nav-link" href="/faq">Help Centre</NavLink>
+            <NavLink className="nav-link" href="/development">
+              Discover AbuDhabi
+            </NavLink>
+            <NavLink className="nav-link" href="/faq">
+              Help Centre
+            </NavLink>
           </FlexBox>
 
           <Search />

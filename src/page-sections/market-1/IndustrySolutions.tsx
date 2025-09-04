@@ -9,6 +9,7 @@ import client from "@lib/graphQLClient";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import ProductCard19 from "@component/product-cards/ProductCard19";
+import { Carousel2 } from "@component/carousel2";
 
 // STYLED COMPONENTS
 const ContentColumn = styled.div`
@@ -651,23 +652,25 @@ export default function Section15() {
               <LoadingErrorWrapper>No services found 😢</LoadingErrorWrapper>
             </Box>
           ) : (
-            <Carousel slidesToShow={4} responsive={responsive}>
-              {products.map((item) => (
-                <Box py="3rem" key={item.id}>
-                  <ProductCard19
-                    id={item.id}
-                    slug={item.slug}
-                    name={item.name}
-                    subTitle={item.customFields.Industry}
-                    description={item.description}
-                    img={defaultImage}
-                    images={defaultImages}
-                    reviews={defaultReviews}
-                    className="product-card"
-                  />
-                </Box>
-              ))}
-            </Carousel>
+            <Box width="100%" px="0.2rem">
+              <Carousel2 slidesToShow={4} responsive={responsive}>
+                {products.map((item) => (
+                  <Box py="3rem" key={item.id}>
+                    <ProductCard19
+                      id={item.id}
+                      slug={item.slug}
+                      name={item.name}
+                      subTitle={item.customFields.Industry}
+                      description={item.description}
+                      img={defaultImage}
+                      images={defaultImages}
+                      reviews={defaultReviews}
+                      className="product-card"
+                    />
+                  </Box>
+                ))}
+              </Carousel2>
+            </Box>
           )}
         </CarouselWrapper>
       </ContentColumn>

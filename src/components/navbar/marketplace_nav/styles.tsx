@@ -238,16 +238,17 @@ export const StyledNavbar = styled.div`
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
       color: #002180;
-      font-size: 12px;
-      font-weight: 500;
+      // font-size: 12px;
+      // font-weight: 500;
       text-decoration: none;
       cursor: pointer;
 
       img {
         width: 24px;
         height: 24px;
+        object-fit: contain;
       }
     }
   }
@@ -364,15 +365,16 @@ export const StyledNavbar = styled.div`
       padding: 8px 0;
     }
 
-    .mobile-nav-links {
-      .nav-link {
-        font-size: 10px;
+    // .mobile-nav-links {
+    //   .nav-link {
+    //     // font-size: 10px;
 
-        img {
-          width: 20px;
-          height: 20px;
-        }
-      }
-    }
+    //     img {
+    //       width: 20px;
+    //       height: 20px;
+    //       object-fit: contain;
+    //     }
+    //   }
+    // }
   }
 `;

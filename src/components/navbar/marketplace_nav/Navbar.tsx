@@ -126,7 +126,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             />
             <Typography color="black">Explore</Typography>
           </Box>
-          <NavLink href="/search" onClick={() => handleNavClick("/search")}>
+          <NavLink href="/development" onClick={() => handleNavClick("/search")}>
             <Image
               src="/assets/images/non_financial_marketplace/search (2).svg"
               alt="Search"
@@ -135,7 +135,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             />
             <Typography color="black">Search</Typography>
           </NavLink>
-          <NavLink href="/profile" onClick={() => handleNavClick("/profile")}>
+          <NavLink href="/development" onClick={() => handleNavClick("/profile")}>
             <Image
               src={activeItem === "/profile" ? "/assets/images/non_financial_marketplace/profile-active.svg" : "/assets/images/non_financial_marketplace/profile.svg"}
               alt="Profile"

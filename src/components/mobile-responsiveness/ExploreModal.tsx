@@ -37,7 +37,8 @@ const CategoryItem = styled.div<{ active?: boolean; expanded?: boolean }>`
   gap: 10px;
   padding: 10px 0;
   cursor: pointer;
-  color: ${props => (props.active ? "#0030E3" : "#747474")};
+  color: ${props => (props.active ? "#0030E3" : "#333")};
+  font-weight: ${props => (props.active ? "500" : "400")};
   transition: color 0.3s ease;
 
   &:hover {
@@ -46,7 +47,7 @@ const CategoryItem = styled.div<{ active?: boolean; expanded?: boolean }>`
 
   .sub-items {
     margin-left: 20px;
-    color: #666;
+    color: #333;
     font-size: 14px;
     display: ${props => (props.expanded ? "block" : "none")};
 
@@ -71,23 +72,31 @@ export default function ExploreModal({ onClose }: ExploreModalProps) {
   const pathname = usePathname();
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
-  const routeToTabMap: { [key: string]: string } = {
-    "/non-financial-marketplace": "Non-Financial",
-    "/financial-marketplace": "Financial",
-    "/development": "Courses",
-    "/community-marketplace": "Communities",
-    "/media": "Media",
-    "/investment": "Investment",
-    "/calendar": "Calendar",
-    "/opportunities": "Opportunities",
+  const routeToTabMap: { [key: string]: string[] } = {
+    "/non-financial-marketplace": ["Non-Financial"],
+    "/financial-marketplace": ["Financial"],
+    "/development": ["Courses", "Investment", "Calendar", "Opportunities"],
+    "/community-marketplace": ["Communities"],
+    "https://kf-ej-media-marketplace-c7ifty1ol-digitalqatalysts-projects.vercel.app/media/": ["Media"],
   };
 
   const [activeTab, setActiveTab] = useState<string>(() => {
-    return routeToTabMap[pathname] || "Financial";
+    for (const [route, tabs] of Object.entries(routeToTabMap)) {
+      if (pathname === route && tabs.length > 0) {
+        return tabs[0];
+      }
+    }
+    return "Financial";
   });
 
   useEffect(() => {
-    setActiveTab(routeToTabMap[pathname] || "Financial");
+    for (const [route, tabs] of Object.entries(routeToTabMap)) {
+      if (pathname === route && tabs.length > 0) {
+        setActiveTab(tabs[0]);
+        return;
+      }
+    }
+    setActiveTab("Financial");
   }, [pathname]);
 
   const categories = [
@@ -128,21 +137,21 @@ export default function ExploreModal({ onClose }: ExploreModalProps) {
     },
     {
       title: "Investment",
-      path: "#",
+      path: "/development",
       iconActive: "/assets/images/tab_bar/crowdsource.svg",
       iconInactive: "/assets/images/tab_bar/crowdsource.svg",
       subItems: ["Coming soon"],
     },
     {
       title: "Calendar",
-      path: "#",
+      path: "/development",
       iconActive: "/assets/images/tab_bar/calendar_month.svg",
       iconInactive: "/assets/images/tab_bar/calendar_month.svg",
       subItems: ["Coming soon"],
     },
     {
       title: "Opportunities",
-      path: "#",
+      path: "/development",
       iconActive: "/assets/images/tab_bar/rocket_launch.svg",
       iconInactive: "/assets/images/tab_bar/rocket_launch.svg",
       subItems: ["Coming soon"],
@@ -159,7 +168,11 @@ export default function ExploreModal({ onClose }: ExploreModalProps) {
 
   const handleCategoryClick = (tabName: string, path: string) => {
     setActiveTab(tabName);
-    router.push(path);
+    if (path.startsWith("http")) {
+      window.location.href = path;
+    } else {
+      router.push(path);
+    }
     if (expandedCategory === tabName) {
       setExpandedCategory(null);
     } else {
@@ -184,10 +197,10 @@ export default function ExploreModal({ onClose }: ExploreModalProps) {
               style={{ width: 24, height: 24 }}
             />
             <Typography>{category.title}</Typography>
-            {/* {(category.subItems.length > 0 || category.subItems.some(item => item.includes("Coming soon"))) && (
+            {/* {category.subItems.length > 0 && (
               <FaChevronDown className="dropdown-icon" />
             )} */}
-            {/* {(expandedCategory === category.title) && (
+            {/* {expandedCategory === category.title && category.subItems.length > 0 && (
               <div className="sub-items">
                 {category.subItems.map((subItem, subIndex) => (
                   <Typography key={subIndex} className={subItem.includes("Coming soon") ? "coming-soon" : ""}>

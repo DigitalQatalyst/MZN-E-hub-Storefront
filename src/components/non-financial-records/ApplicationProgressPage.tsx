@@ -8,6 +8,8 @@ import Card from '@component/Card';
 import Box from '@component/Box';
 import FlexBox from '@component/FlexBox';
 import Typography from '@component/Typography';
+// Import the ChatComponent
+import ChatComponent from 'app/(layout-3)/(customer-dashboard)/chat/components/ChatComponent';
 
 interface ApplicationProgressProps {
   // Props are now optional since we'll get data from URL params and API
@@ -235,6 +237,17 @@ const CloseButton = styled.button`
   }
 `;
 
+// Container for chat component to ensure consistent styling
+const ChatContainer = styled(Card)`
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: white;
+  margin-top: 32px;
+  padding: 0; /* Remove default padding since ChatComponent may have its own */
+  overflow: hidden; /* Ensure chat component doesn't break out of container */
+  min-height: 500px; /* Provide minimum height for chat interface */
+`;
+
 const ApplicationProgressPage: React.FC<ApplicationProgressProps> = () => {
   const router = useRouter();
   const params = useParams();
@@ -275,6 +288,141 @@ const ApplicationProgressPage: React.FC<ApplicationProgressProps> = () => {
     router.push('/non-financial-records');
   };
 
+  // Function to render tab content based on active tab
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case 'progress':
+        return (
+          <>
+            {/* Main Content Card - Progress Tab */}
+            <Card border="1px solid #e5e7eb" borderRadius="8px" p="32px" bg="white" mt="32px">
+              {/* Application Title */}
+              <Typography
+                fontSize={isMobile ? '18px' : '22px'}
+                fontWeight="600"
+                color="#6b7280"
+                mb="32px"
+              >
+                {applicationData.title}
+              </Typography>
+
+              {/* Progress Indicator */}
+              <ProgressContainer>
+                {progressSteps.map((step, index) => (
+                  <React.Fragment key={step.id}>
+                    <ProgressStep status={step.status}>
+                      <StepNumber status={step.status}>
+                        {String(step.id).padStart(2, '0')}
+                      </StepNumber>
+                      <StepIcon status={step.status}>
+                        {step.status === 'completed' && (
+                          <Check size={14} />
+                        )}
+                      </StepIcon>
+                      <StepContent>
+                        <StepTitle status={step.status}>{step.title}</StepTitle>
+                      </StepContent>
+                    </ProgressStep>
+                    
+                    {/* Connector line between steps */}
+                    {index < progressSteps.length - 1 && (
+                      <ConnectorLine isCompleted={step.status === 'completed'} />
+                    )}
+                  </React.Fragment>
+                ))}
+              </ProgressContainer>
+
+              {/* Tracking Details */}
+              <Box mt="48px">
+                <Typography
+                  fontSize="14px"
+                  fontWeight="600"
+                  color="#6b7280"
+                  mb="16px"
+                  textTransform="uppercase"
+                  letterSpacing="0.05em"
+                >
+                  Tracking Details
+                </Typography>
+                
+                <Box>
+                  <DetailRow>
+                    <DetailLabel>Status</DetailLabel>
+                    <StatusBadge>{applicationData.status}</StatusBadge>
+                  </DetailRow>
+                  
+                  <DetailRow>
+                    <DetailLabel>Last update</DetailLabel>
+                    <DetailValue>{applicationData.lastUpdate}</DetailValue>
+                  </DetailRow>
+                  
+                  <DetailRow>
+                    <DetailLabel>SLA Indicator</DetailLabel>
+                    <DetailValue>{applicationData.slaIndicator}</DetailValue>
+                  </DetailRow>
+                </Box>
+              </Box>
+            </Card>
+
+            {/* Success Message */}
+            {showSuccessMessage && (
+              <Card border="1px solid #e5e7eb" borderRadius="8px" p="32px" bg="white" mt="32px">
+                <Typography
+                  fontSize={isMobile ? '18px' : '20px'}
+                  fontWeight="600"
+                  color="#6b7280"
+                  mb="16px"
+                >
+                  Application Submitted Successfully
+                </Typography>
+                
+                <SuccessMessage>
+                  <CloseButton onClick={() => setShowSuccessMessage(false)}>
+                    <X size={16} />
+                  </CloseButton>
+                  
+                  <FlexBox alignItems="flex-start" >
+                    <Box mr="12px" mt="2px" padding='4px' backgroundColor='#28C76F' justifyContent={'center'} borderRadius='6px' display='flex'>
+                      <CheckCircle size={16} color="#FFFFFF" />
+                    </Box>
+                    
+                    <Box flex="1">
+                      <Typography
+                        fontSize="14px"
+                        fontWeight="600"
+                        color="#28C76F"
+                        mb="4px"
+                      >
+                        Message
+                      </Typography>
+                      
+                      <Typography
+                        fontSize="14px"
+                        color="#28C76F"
+                        lineHeight="1.5"
+                      >
+                        Your application has been successfully submitted and is now under review. You can track the progress and review your application details below. We will notify you via email and SMS whenever there is an update or change in the status of your application.
+                      </Typography>
+                    </Box>
+                  </FlexBox>
+                </SuccessMessage>
+              </Card>
+            )}
+          </>
+        );
+      
+      case 'chat':
+        return (
+          <ChatContainer>
+            <ChatComponent />
+          </ChatContainer>
+        );
+      
+      default:
+        return null;
+    }
+  };
+
   return (
     <Box p={isMobile ? '16px' : '24px'} minHeight="100vh">
       <Container maxWidth="1200px">
@@ -300,120 +448,8 @@ const ApplicationProgressPage: React.FC<ApplicationProgressProps> = () => {
           </TabButton>
         </FlexBox>
 
-        {/* Main Content Card */}
-        <Card border="1px solid #e5e7eb" borderRadius="8px" p="32px" bg="white" mt="32px">
-          {/* Application Title */}
-          <Typography
-            fontSize={isMobile ? '18px' : '22px'}
-            fontWeight="600"
-            color="#6b7280"
-            mb="32px"
-          >
-            {applicationData.title}
-          </Typography>
-
-          {/* Progress Indicator */}
-          <ProgressContainer>
-            {progressSteps.map((step, index) => (
-              <React.Fragment key={step.id}>
-                <ProgressStep status={step.status}>
-                  <StepNumber status={step.status}>
-                    {String(step.id).padStart(2, '0')}
-                  </StepNumber>
-                  <StepIcon status={step.status}>
-                    {step.status === 'completed' && (
-                      <Check size={14} />
-                    )}
-                  </StepIcon>
-                  <StepContent>
-                    <StepTitle status={step.status}>{step.title}</StepTitle>
-                  </StepContent>
-                </ProgressStep>
-                
-                {/* Connector line between steps */}
-                {index < progressSteps.length - 1 && (
-                  <ConnectorLine isCompleted={step.status === 'completed'} />
-                )}
-              </React.Fragment>
-            ))}
-          </ProgressContainer>
-
-          {/* Tracking Details */}
-          <Box mt="48px">
-            <Typography
-              fontSize="14px"
-              fontWeight="600"
-              color="#6b7280"
-              mb="16px"
-              textTransform="uppercase"
-              letterSpacing="0.05em"
-            >
-              Tracking Details
-            </Typography>
-            
-            <Box>
-              <DetailRow>
-                <DetailLabel>Status</DetailLabel>
-                <StatusBadge>{applicationData.status}</StatusBadge>
-              </DetailRow>
-              
-              <DetailRow>
-                <DetailLabel>Last update</DetailLabel>
-                <DetailValue>{applicationData.lastUpdate}</DetailValue>
-              </DetailRow>
-              
-              <DetailRow>
-                <DetailLabel>SLA Indicator</DetailLabel>
-                <DetailValue>{applicationData.slaIndicator}</DetailValue>
-              </DetailRow>
-            </Box>
-          </Box>
-        </Card>
-
-        {/* Success Message */}
-        {showSuccessMessage && (
-          <Card border="1px solid #e5e7eb" borderRadius="8px" p="32px" bg="white" mt="32px">
-            <Typography
-              fontSize={isMobile ? '18px' : '20px'}
-              fontWeight="600"
-              color="#6b7280"
-              mb="16px"
-            >
-              Application Submitted Successfully
-            </Typography>
-            
-            <SuccessMessage>
-              <CloseButton onClick={() => setShowSuccessMessage(false)}>
-                <X size={16} />
-              </CloseButton>
-              
-              <FlexBox alignItems="flex-start" >
-                <Box mr="12px" mt="2px" padding='4px' backgroundColor='#28C76F' justifyContent={'center'} borderRadius='6px' display='flex'>
-                  <CheckCircle size={16} color="#FFFFFF" />
-                </Box>
-                
-                <Box flex="1">
-                  <Typography
-                    fontSize="14px"
-                    fontWeight="600"
-                    color="#28C76F"
-                    mb="4px"
-                  >
-                    Message
-                  </Typography>
-                  
-                  <Typography
-                    fontSize="14px"
-                    color="#28C76F"
-                    lineHeight="1.5"
-                  >
-                    Your application has been successfully submitted and is now under review. You can track the progress and review your application details below. We will notify you via email and SMS whenever there is an update or change in the status of your application.
-                  </Typography>
-                </Box>
-              </FlexBox>
-            </SuccessMessage>
-          </Card>
-        )}
+        {/* Render content based on active tab */}
+        {renderTabContent()}
       </Container>
     </Box>
   );

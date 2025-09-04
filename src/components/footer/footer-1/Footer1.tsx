@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Linkedin, Twitter, Youtube, Instagram } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import Box from "@component/Box";
 import Grid from "@component/grid/Grid";
 import FlexBox from "@component/FlexBox";
@@ -31,7 +31,7 @@ export default function Footer1() {
       <Typography
         mb="1.5rem"
         lineHeight="1"
-        fontSize="14px"
+        fontSize="16px"
         fontWeight="600"
         color="white"
       >
@@ -44,14 +44,27 @@ export default function Footer1() {
             key={index}
             style={{
               color: 'rgba(255,255,255,0.8)',
-              display: 'block',
+              display: 'flex',
+              alignItems: 'center',
               marginBottom: '0.75rem',
-              fontSize: '14px',
+              fontSize: '16px',
               textDecoration: 'none',
               transition: 'color 0.2s ease'
             }}
           >
-            {linkItem.name}
+            <span>{linkItem.name}</span>
+            
+            {/* Add arrow icon for social media links */}
+            {linkItem.showArrow && (
+              <ArrowUpRight 
+                size={16} 
+                style={{ 
+                  marginLeft: '0.5rem',
+                  color: 'rgba(255,255,255,0.8)'
+                }} 
+              />
+            )}
+            
             {/* Add badge if present */}
             {linkItem.badge && (
               <Box
@@ -90,7 +103,7 @@ export default function Footer1() {
           color: "white",
           margin: "0 auto",
           width: "100%",
-          padding: "0 4rem"
+          padding: "0 5rem"
         }}>
           {/* Header Section - Logo, Description & Newsletter */}
           <Box pt="4rem" pb="3rem">
@@ -106,18 +119,18 @@ export default function Footer1() {
               flexDirection={{ xs: "column", lg: "row" }}
             >
               {/* Left Section - Description */}
-              <Box maxWidth="500px" mr={{ lg: "2rem" }}>
+              <Box maxWidth="500px" mr={{ xs: "0", lg: "2rem" }} mb={{ xs: "2rem", lg: "0" }}>
                 <Paragraph
                   color="rgba(255,255,255,0.8)"
-                  fontSize="14px"
-                  lineHeight="1.5"
+                  fontSize="16px"
+                  lineHeight="1.6"
                 >
                   Stay updated with the latest business insights, opportunities, and services from Enterprise Journey.
                 </Paragraph>
               </Box>
 
               {/* Right Section - Newsletter Subscription */}
-              <Box width={{ xs: "100%", lg: "560px" }} mt={{ xs: "2rem", lg: "0" }}>
+              <Box width={{ xs: "100%", lg: "400px" }}>
                 <form onSubmit={handleSubmit}>
                   <Box position="relative">
                     <SubscribeInput
@@ -129,10 +142,10 @@ export default function Footer1() {
                       style={{
                         width: '100%',
                         backgroundColor: 'transparent',
-                        border: '1px solid rgba(255,255,255,0.2)',
+                        border: '1px solid rgba(255,255,255,0.3)',
                         color: 'white',
                         borderRadius: '12px',
-                        padding: '14px 120px 14px 16px', // Extra right padding for button
+                        padding: '14px 120px 14px 16px',
                         fontSize: '16px',
                         outline: 'none',
                         transition: 'border-color 0.2s ease'
@@ -153,8 +166,14 @@ export default function Footer1() {
                         padding: '10px 20px',
                         fontSize: '14px',
                         cursor: 'pointer',
-                        transition: 'transform 0.2s ease',
+                        transition: 'all 0.2s ease',
                         whiteSpace: 'nowrap'
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-50%) scale(1.02)';
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
                       }}
                     >
                       Subscribe
@@ -177,11 +196,79 @@ export default function Footer1() {
 
           {/* Links Section - 5 Columns */}
           <Box pb="3rem">
-            <Grid container spacing={4}>
-              {Object.entries(footerData).map(([key, data]) =>
-                renderFooterColumn(key, data)
-              )}
-            </Grid>
+            <FlexBox
+              justifyContent="space-between"
+              alignItems="flex-start"
+              flexDirection={{ xs: "column", lg: "row" }}
+            >
+              {Object.entries(footerData).map(([key, data], index) => (
+                <Box
+                  key={key}
+                  width={{ xs: "100%", lg: "auto" }}
+                  mb={{ xs: "2rem", lg: "0" }}
+                  minWidth={{ lg: "180px" }}
+                >
+                  <Typography
+                    mb="1.5rem"
+                    lineHeight="1"
+                    fontSize="16px"
+                    fontWeight="600"
+                    color="white"
+                  >
+                    {data.title}
+                  </Typography>
+                  <div>
+                    {data.links.map((linkItem: any, linkIndex: number) => (
+                      <StyledLink
+                        href={linkItem.url}
+                        key={linkIndex}
+                        style={{
+                          color: 'rgba(255,255,255,0.8)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          marginBottom: '0.75rem',
+                          fontSize: '16px',
+                          textDecoration: 'none',
+                          transition: 'color 0.2s ease'
+                        }}
+                      >
+                        <span>{linkItem.name}</span>
+                        
+                        {/* Add arrow icon for social media links */}
+                        {linkItem.showArrow && (
+                          <ArrowUpRight 
+                            size={16} 
+                            style={{ 
+                              marginLeft: '0.5rem',
+                              color: 'rgba(255,255,255,0.8)'
+                            }} 
+                          />
+                        )}
+                        
+                        {/* Add badge if present */}
+                        {linkItem.badge && (
+                          <Box
+                            as="span"
+                            ml="0.5rem"
+                            px="0.5rem"
+                            py="0.25rem"
+                            style={{
+                              backgroundColor: 'white',
+                              color: '#0030E3',
+                              borderRadius: '4px',
+                              fontSize: '12px',
+                              fontWeight: '600'
+                            }}
+                          >
+                            {linkItem.badge}
+                          </Box>
+                        )}
+                      </StyledLink>
+                    ))}
+                  </div>
+                </Box>
+              ))}
+            </FlexBox>
           </Box>
         </div>
       </Box>
@@ -196,85 +283,19 @@ export default function Footer1() {
         <div style={{
           margin: "0 auto",
           width: "100%",
-          padding: "0 4rem"
+          padding: "0 2rem"
         }}>
           <FlexBox
-            justifyContent="space-between"
+            justifyContent="center"
             alignItems="center"
-            flexDirection={{ xs: "column", md: "row" }}
           >
-            {/* Left Section - Legal Links & Copyright */}
-            <FlexBox
-              alignItems="center"
-              flexDirection={{ xs: "column", sm: "row" }}
-              mb={{ xs: "1rem", md: "0" }}
+            <Typography 
+              color="rgba(255,255,255,0.7)" 
+              fontSize="14px"
+              textAlign="center"
             >
-              <FlexBox alignItems="center">
-                <Typography
-                  component={Link}
-                  href="/"
-                  color="rgba(255,255,255,0.8)"
-                  fontSize="14px"
-                  fontWeight="400"
-                  mr="1rem"
-                  style={{ textDecoration: 'none' }}
-                >
-                  Privacy Policy
-                </Typography>
-                <Typography
-                  component={Link}
-                  href="/"
-                  color="rgba(255,255,255,0.8)"
-                  fontSize="14px"
-                  fontWeight="400"
-                  mr="1rem"
-                  style={{ textDecoration: 'none' }}
-                >
-                  Terms of Service
-                </Typography>
-              </FlexBox>
-              <Typography color="rgba(255,255,255,0.8)" fontSize="14px" mt={{ xs: "0.5rem", sm: "0" }}>
-                © 2025 Enterprise Journey
-              </Typography>
-            </FlexBox>
-
-            {/* Right Section - Social Media Icons */}
-            <FlexBox>
-              {socialMediaLinks.map((social, index) => {
-                // Map icon names to lucide-react components
-                const IconComponent = social.icon === 'linkedin' ? Linkedin :
-                  social.icon === 'twitter' ? Twitter :
-                    social.icon === 'youtube' ? Youtube :
-                      social.icon === 'instagram' ? Instagram : Linkedin;
-
-                return (
-                  <a
-                    key={social.name}
-                    href={social.url}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    style={{ textDecoration: 'none' }}
-                    aria-label={`Follow us on ${social.name}`}
-                  >
-                    <Box
-                      ml={index > 0 ? "0.5rem" : "0"}
-                      p="0.75rem"
-                      borderRadius="6px"
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                      style={{
-                        transition: 'background-color 0.2s ease',
-                        color: 'rgba(255,255,255,0.8)',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      <IconComponent size={20} />
-                    </Box>
-                  </a>
-                );
-              })}
-            </FlexBox>
+              © 2025 Enterprise Journey. All rights reserved.
+            </Typography>
           </FlexBox>
         </div>
       </Box>

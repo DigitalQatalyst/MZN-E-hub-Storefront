@@ -12,6 +12,7 @@ import Sidebar from "./side-bar/Sidebar";
 import { ShowingText } from "./styles";
 import Section2 from "../section-2/Section2";
 import NonFinancialServiceCard from "@component/product-cards/NonFinancialServiceCard";
+import LoadingSpinner from "@component/LoadingSpinner/LoadingSpinner"; // Import the LoadingSpinner component
 
 // GraphQL Query for Products
 const GET_PRODUCTS = `
@@ -270,7 +271,7 @@ export default function NonFinancialServiceCatalogue({
     return () => {
       isMounted = false;
     };
-  }, [currentPage, searchQuery, activeButton, filterStates]); // Re-added filterStates to dependencies
+  }, [currentPage, searchQuery, activeButton, filterStates]);
 
   // Check if any filters are applied
   const areFiltersApplied = () => {
@@ -330,162 +331,134 @@ export default function NonFinancialServiceCatalogue({
         activeButton={activeButton}
         setActiveButton={setActiveButton}
       />
-      <Grid container spacing={3}>
-        <Grid item md={3} xs={12}>
-          <Sidebar
-            facets={facets}
-            filterStates={filterStates}
-            setFilterStates={setFilterStates}
-            handleFilterChange={handleFilterChange}
-            totalItems={totalItems}
-            totalFilteredItems={totalFilteredItems}
-            currentPage={currentPage}
-            productsPerPage={productsPerPage}
-            areFiltersApplied={areFiltersApplied}
-          />
-        </Grid>
+      {loading ? (
+        <LoadingSpinner /> // Single spinner for both sidebar and services
+      ) : (
+        <Grid container spacing={3}>
+          <Grid item md={3} xs={12}>
+            <Sidebar
+              facets={facets}
+              filterStates={filterStates}
+              setFilterStates={setFilterStates}
+              handleFilterChange={handleFilterChange}
+              totalItems={totalItems}
+              totalFilteredItems={totalFilteredItems}
+              currentPage={currentPage}
+              productsPerPage={productsPerPage}
+              areFiltersApplied={areFiltersApplied}
+              loading={loading} // Pass loading state to Sidebar
+            />
+          </Grid>
 
-        <Grid item md={9} xs={12}>
-          {loading ? (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "300px",
-                marginTop: "1rem",
-                fontSize: "1.5rem",
-                color: "#555",
-                textAlign: "center",
-                padding: "2rem",
-              }}
-            >
+          <Grid item md={9} xs={12}>
+            {currentProducts.length === 0 ? (
               <div
                 style={{
-                  border: "4px solid #f3f3f3",
-                  borderTop: "4px solid #002180",
-                  borderRadius: "50%",
-                  width: "40px",
-                  height: "40px",
-                  animation: "spin 1s linear infinite",
-                }}
-              ></div>
-              <style>
-                {`
-                  @keyframes spin {
-                    0% { transform: rotate(0deg); }
-                    100% { transform: rotate(360deg); }
-                  }
-                `}
-              </style>
-            </div>
-          ) : currentProducts.length === 0 ? (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "300px",
-                marginTop: "1rem",
-                fontSize: "1.5rem",
-                color: "#555",
-                textAlign: "center",
-                padding: "2rem",
-              }}
-            >
-              No service Found 😢
-            </div>
-          ) : (
-            <Grid container spacing={3}>
-              {currentProducts.map((product) => (
-                <Grid item md={4} sm={6} xs={12} key={product.id}>
-                  <div
-                    onMouseEnter={() => setHoveredCardId(product.id)}
-                    onMouseLeave={() => setHoveredCardId(null)}
-                    style={{
-                      transition: "all 0.3s ease",
-                      transform: hoveredCardId === product.id ? "scale(1.02)" : "scale(1)",
-                      boxShadow: hoveredCardId === product.id ? "0 4px 8px rgba(0, 0, 0, 0.1)" : "none",
-                    }}
-                  >
-                    <NonFinancialServiceCard
-                      id={product.id}
-                      slug={product.slug}
-                      name={product.name}
-                      subTitle={product.customFields.Industry}
-                      description={product.description}
-                      img={defaultImage}
-                      images={defaultImages}
-                      reviews={defaultReviews}
-                      className="product-card"
-                    />
-                  </div>
-                </Grid>
-              ))}
-            </Grid>
-          )}
-
-          {totalPages > 1 && (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "center",
-                marginTop: "1rem",
-                marginBottom: "2rem",
-              }}
-            >
-              <button
-                onClick={() => handlePagination("prev")}
-                disabled={currentPage === 1}
-                style={{
-                  border: "1px solid #002180",
-                  borderRadius: "50%",
-                  padding: "0.5rem",
-                  margin: "0 0.5rem",
-                  backgroundColor: "transparent",
-                  cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "300px",
+                  marginTop: "1rem",
+                  fontSize: "1.5rem",
+                  color: "#555",
+                  textAlign: "center",
+                  padding: "2rem",
                 }}
               >
-                <img src="assets/images/avatars/chevron-right.svg" alt="Previous" />
-              </button>
+                No service Found 😢
+              </div>
+            ) : (
+              <Grid container spacing={3}>
+                {currentProducts.map((product) => (
+                  <Grid item md={4} sm={6} xs={12} key={product.id}>
+                    <div
+                      onMouseEnter={() => setHoveredCardId(product.id)}
+                      onMouseLeave={() => setHoveredCardId(null)}
+                      style={{
+                        transition: "all 0.3s ease",
+                        transform: hoveredCardId === product.id ? "scale(1.02)" : "scale(1)",
+                        boxShadow: hoveredCardId === product.id ? "0 4px 8px rgba(0, 0, 0, 0.1)" : "none",
+                      }}
+                    >
+                      <NonFinancialServiceCard
+                        id={product.id}
+                        slug={product.slug}
+                        name={product.name}
+                        subTitle={product.customFields.Industry}
+                        description={product.description}
+                        img={defaultImage}
+                        images={defaultImages}
+                        reviews={defaultReviews}
+                        className="product-card"
+                      />
+                    </div>
+                  </Grid>
+                ))}
+              </Grid>
+            )}
 
-              {[...Array(totalPages)].map((_, index) => (
+            {totalPages > 1 && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                  marginTop: "1rem",
+                  marginBottom: "2rem",
+                }}
+              >
                 <button
-                  key={index}
-                  onClick={() => setCurrentPage(index + 1)}
+                  onClick={() => handlePagination("prev")}
+                  disabled={currentPage === 1}
                   style={{
-                    border: currentPage === index + 1 ? "1px solid #002180" : "none",
-                    borderRadius: currentPage === index + 1 ? "50%" : "none",
-                    padding: "0.5rem 1rem",
+                    border: "1px solid #002180",
+                    borderRadius: "50%",
+                    padding: "0.5rem",
                     margin: "0 0.5rem",
                     backgroundColor: "transparent",
-                    color: "#002180",
-                    cursor: "pointer",
+                    cursor: currentPage === 1 ? "not-allowed" : "pointer",
                   }}
                 >
-                  {index + 1}
+                  <img src="assets/images/avatars/chevron-right.svg" alt="Previous" />
                 </button>
-              ))}
 
-              <button
-                onClick={() => handlePagination("next")}
-                disabled={currentPage === totalPages}
-                style={{
-                  border: "1px solid #002180",
-                  borderRadius: "50%",
-                  padding: "0.5rem",
-                  margin: "0 0.5rem",
-                  backgroundColor: "transparent",
-                  cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                }}
-              >
-                <img src="assets/images/avatars/chevron-left.svg" alt="Next" />
-              </button>
-            </div>
-          )}
+                {[...Array(totalPages)].map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentPage(index + 1)}
+                    style={{
+                      border: currentPage === index + 1 ? "1px solid #002180" : "none",
+                      borderRadius: currentPage === index + 1 ? "50%" : "none",
+                      padding: "0.5rem 1rem",
+                      margin: "0 0.5rem",
+                      backgroundColor: "transparent",
+                      color: "#002180",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+
+                <button
+                  onClick={() => handlePagination("next")}
+                  disabled={currentPage === totalPages}
+                  style={{
+                    border: "1px solid #002180",
+                    borderRadius: "50%",
+                    padding: "0.5rem",
+                    margin: "0 0.5rem",
+                    backgroundColor: "transparent",
+                    cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                  }}
+                >
+                  <img src="assets/images/avatars/chevron-left.svg" alt="Next" />
+                </button>
+              </div>
+            )}
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </Container>
   );
 }

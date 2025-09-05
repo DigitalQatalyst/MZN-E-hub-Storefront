@@ -303,7 +303,7 @@ const LearnMoreWrapper = styled.div`
   justify-content: center;
   align-items: center;
   gap: 5px;
-  margin-top: 10px;
+  // margin-top: 10px;
   flex-shrink: 0; // Prevent shrinking
 
   @media (max-width: 1024px) {

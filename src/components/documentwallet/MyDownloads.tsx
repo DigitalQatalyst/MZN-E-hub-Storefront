@@ -5,14 +5,48 @@ import {
   EllipsisVertical,
   File,
   FunnelIcon,
+  Search,
   Trash,
   UploadCloud,
 } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { BiVerticalCenter } from "react-icons/bi";
 import { files } from "./files";
 
 const MyDownloads = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  // const filteredFiles = files.filter((file) =>
+  //   file.name.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
+  const [filterType, setFilterType] = React.useState("all");
+  const filteredFiles = files.filter((file) => {
+    const matchesSearch = file.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+
+    const matchesFilter =
+      filterType === "all"
+        ? true
+        : filterType === "documents"
+        ? file.type === "document"
+        : filterType === "images"
+        ? file.type === "image"
+        : true;
+    // filterType === "all"
+    //   ? true
+    //   : filterType === "pdf"
+    //   ? file.name.toLowerCase().endsWith(".pdf")
+    //   : filterType === "docx"
+    //   ? file.name.toLowerCase().endsWith(".docx")
+    //   : filterType === "images"
+    //   ? [".jpg", ".jpeg", ".png", ".gif"].some((ext) =>
+    //       file.name.toLowerCase().endsWith(ext)
+    //     )
+    //   : true;
+
+    return matchesSearch && matchesFilter;
+  });
+
   return (
     <Box>
       <Box
@@ -30,9 +64,24 @@ const MyDownloads = () => {
             fontStyle: "normal",
             fontWeight: 500,
             lineHeight: "22px",
+            marginBottom: "12px",
           }}
         >
           Downloads
+        </Typography>
+        <Typography
+          sx={{
+            color: "#000",
+            textAlign: "start",
+            fontFeatureSettings: "liga,clig",
+            fontFamily: "Inter",
+            fontSize: "16px",
+            fontStyle: "normal",
+            fontWeight: 400,
+            lineHeight: "22px",
+          }}
+        >
+          Files you have downloaded are shown here
         </Typography>
       </Box>
 
@@ -46,14 +95,28 @@ const MyDownloads = () => {
           paddingY: "24px",
         }}
       >
-        <Box>
+        <Box sx={{ position: "relative", width: "549px" }}>
           <input
             type="text"
-            placeholder="Search files by name"
+            placeholder="Search files by name..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             style={{
-              padding: "8px 16px",
+              padding: "8px 12px", // leave space for right icon
               borderRadius: "8px",
-              border: "1px solid divider",
+              border: "1px solid #ccc",
+              width: "100%",
+            }}
+          />
+          <Search
+            size={18}
+            color="grey"
+            style={{
+              position: "absolute",
+              top: "50%",
+              right: "10px",
+              transform: "translateY(-50%)",
+              cursor: "pointer",
             }}
           />
         </Box>
@@ -61,21 +124,24 @@ const MyDownloads = () => {
           sx={{
             display: "flex",
             alignItems: "center",
-            gap: "8px",
+            gap: "12px",
           }}
         >
-          <FunnelIcon size={15} color="grey" />
+          <Box>
+            <FunnelIcon size={15} color="grey" />
+          </Box>
           <Box>
             <select
+              value={filterType}
+              onChange={(e) => setFilterType(e.target.value)}
               style={{
                 padding: "6px 12px",
                 borderRadius: "8px",
-                border: "1px solid divider",
+                border: "1px solid #ccc",
               }}
             >
               <option value="all">All</option>
-              <option value="pdf">PDF</option>
-              <option value="docx">DOCX</option>
+              <option value="documents">Documents</option>
               <option value="images">Images</option>
             </select>
           </Box>
@@ -99,7 +165,7 @@ const MyDownloads = () => {
             lineHeight: "22px",
           }}
         >
-          My Files
+          All Downloads
         </Typography>
 
         <Box
@@ -110,7 +176,7 @@ const MyDownloads = () => {
         >
           {/* grid */}
           <Grid container spacing={6} gap={6}>
-            {files.map((file) => {
+            {filteredFiles.map((file) => {
               return (
                 <Grid item xs={12} sm={6} md={4} lg={3}>
                   <Box

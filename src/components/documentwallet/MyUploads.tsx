@@ -8,7 +8,7 @@ import {
   Trash,
   UploadCloud,
 } from "lucide-react";
-import React from "react";
+import React, { useRef } from "react";
 import { BiVerticalCenter } from "react-icons/bi";
 import { files, uploading, uploads } from "./files";
 import Stack from "@mui/material/Stack";
@@ -41,7 +41,58 @@ const MyUploads = () => {
     },
   }));
 
-  const CustomizedProgressBars = ({ value }: { value: number }) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleButtonClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      console.log("Selected files:", files);
+    }
+  };
+
+  // const CustomizedProgressBars = ({ value }: { value: number }) => {
+  //   return (
+  //     <Stack spacing={2} sx={{ flexGrow: 1, width: "400px" }}>
+  //       <BorderLinearProgress
+  //         variant="determinate"
+  //         color="primary"
+  //         value={value}
+  //       />
+  //     </Stack>
+  //   );
+  // };
+
+  const CustomizedProgressBars = ({
+    value,
+    color = "#1849D6",
+  }: {
+    value: number;
+    color?: string;
+  }) => {
+    const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+      height: 10,
+      borderRadius: 5,
+      [`&.${linearProgressClasses.colorPrimary}`]: {
+        backgroundColor: theme.palette.grey[200],
+        ...theme.applyStyles("dark", {
+          backgroundColor: theme.palette.grey[800],
+        }),
+      },
+      [`& .${linearProgressClasses.bar}`]: {
+        borderRadius: 5,
+        backgroundColor: color, // 👈 dynamic color
+        ...theme.applyStyles("dark", {
+          backgroundColor: "#000",
+        }),
+      },
+    }));
+
     return (
       <Stack spacing={2} sx={{ flexGrow: 1, width: "400px" }}>
         <BorderLinearProgress
@@ -52,6 +103,7 @@ const MyUploads = () => {
       </Stack>
     );
   };
+
   return (
     <Box>
       <Box
@@ -544,17 +596,26 @@ const MyUploads = () => {
         >
           Support various file types (PDF, DOCX, Images, etc.)
         </Typography>
-        <button
-          style={{
-            padding: "8px 16px",
-            border: "1px solid lightgray",
-            borderRadius: "8px",
-            cursor: "pointer",
-            backgroundColor: "#D9EEFF",
-          }}
-        >
-          Select Files
-        </button>
+        <div>
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+          />
+          <button
+            onClick={handleButtonClick}
+            style={{
+              padding: "8px 16px",
+              border: "1px solid lightgray",
+              borderRadius: "8px",
+              cursor: "pointer",
+              backgroundColor: "#D9EEFF",
+            }}
+          >
+            Select Files
+          </button>
+        </div>
       </Box>
 
       {/* recent activity area */}
@@ -651,7 +712,12 @@ const MyUploads = () => {
                   <Box
                     sx={{ display: "flex", alignItems: "center", gap: "10px" }}
                   >
-                    <CustomizedProgressBars value={upload?.progress} />
+                    {/* <CustomizedProgressBars value={upload?.progress} /> */}
+                    <CustomizedProgressBars
+                      value={upload?.progress}
+                      color={upload?.status === "failed" ? "red" : "#1849D6"}
+                    />
+
                     <Typography
                       sx={{
                         fontFamily: "Inter",
@@ -662,7 +728,7 @@ const MyUploads = () => {
                         color: "#AFAFAF",
                       }}
                     >
-                      {upload?.progress}%
+                      {upload?.status !== "failed" && upload?.progress + "%"}
                     </Typography>
                   </Box>
                   <img

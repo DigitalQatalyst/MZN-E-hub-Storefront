@@ -177,7 +177,7 @@ const Sidebar = () => {
       id: "documents",
       label: "Documents",
       icon: "/images/home-storage.svg",
-      route: "/",
+      route: "/document-wallet",
     },
   ];
 

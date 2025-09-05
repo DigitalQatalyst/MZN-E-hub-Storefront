@@ -5,14 +5,62 @@ import {
   EllipsisVertical,
   File,
   FunnelIcon,
+  Search,
   Trash,
   UploadCloud,
 } from "lucide-react";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { BiVerticalCenter } from "react-icons/bi";
 import { files } from "./files";
 
 const Overview = () => {
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  // const filteredFiles = files.filter((file) =>
+  //   file.name.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
+  const [filterType, setFilterType] = React.useState<string>("all");
+  const filteredFiles = files.filter((file) => {
+    const matchesSearch = file.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+
+    const matchesFilter =
+      filterType === "all"
+        ? true
+        : filterType === "documents"
+        ? file.type === "document"
+        : filterType === "images"
+        ? file.type === "image"
+        : true;
+    // filterType === "all"
+    //   ? true
+    //   : filterType === "pdf"
+    //   ? file.name.toLowerCase().endsWith(".pdf")
+    //   : filterType === "docx"
+    //   ? file.name.toLowerCase().endsWith(".docx")
+    //   : filterType === "images"
+    //   ? [".jpg", ".jpeg", ".png", ".gif"].some((ext) =>
+    //       file.name.toLowerCase().endsWith(ext)
+    //     )
+    //   : true;
+
+    return matchesSearch && matchesFilter;
+  });
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleButtonClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      console.log("Selected files:", files);
+    }
+  };
   return (
     <Box>
       <Box
@@ -73,6 +121,9 @@ const Overview = () => {
         >
           Support various file types (PDF, DOCX, Images, etc.)
         </Typography>
+        {/* <form>
+          <input type="file" />
+        </form>
         <button
           style={{
             padding: "8px 16px",
@@ -83,7 +134,27 @@ const Overview = () => {
           }}
         >
           Select Files
-        </button>
+        </button> */}
+        <div>
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+          />
+          <button
+            onClick={handleButtonClick}
+            style={{
+              padding: "8px 16px",
+              border: "1px solid lightgray",
+              borderRadius: "8px",
+              cursor: "pointer",
+              backgroundColor: "#D9EEFF",
+            }}
+          >
+            Select Files
+          </button>
+        </div>
       </Box>
 
       {/* search area */}
@@ -96,14 +167,28 @@ const Overview = () => {
           paddingY: "24px",
         }}
       >
-        <Box>
+        <Box sx={{ position: "relative", width: "549px" }}>
           <input
             type="text"
-            placeholder="Search files by name"
+            placeholder="Search files by name..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             style={{
-              padding: "8px 16px",
+              padding: "8px 12px", // leave space for right icon
               borderRadius: "8px",
-              border: "1px solid divider",
+              border: "1px solid #ccc",
+              width: "100%",
+            }}
+          />
+          <Search
+            size={18}
+            color="grey"
+            style={{
+              position: "absolute",
+              top: "50%",
+              right: "10px",
+              transform: "translateY(-50%)",
+              cursor: "pointer",
             }}
           />
         </Box>
@@ -111,21 +196,24 @@ const Overview = () => {
           sx={{
             display: "flex",
             alignItems: "center",
-            gap: "8px",
+            gap: "12px",
           }}
         >
-          <FunnelIcon size={15} color="grey" />
+          <Box>
+            <FunnelIcon size={15} color="grey" />
+          </Box>
           <Box>
             <select
+              value={filterType}
+              onChange={(e) => setFilterType(e.target.value)}
               style={{
                 padding: "6px 12px",
                 borderRadius: "8px",
-                border: "1px solid divider",
+                border: "1px solid #ccc",
               }}
             >
               <option value="all">All</option>
-              <option value="pdf">PDF</option>
-              <option value="docx">DOCX</option>
+              <option value="documents">Documents</option>
               <option value="images">Images</option>
             </select>
           </Box>
@@ -160,7 +248,7 @@ const Overview = () => {
         >
           {/* grid */}
           <Grid container spacing={6} gap={6}>
-            {files.map((file) => {
+            {filteredFiles.map((file) => {
               return (
                 <Grid item xs={12} sm={6} md={4} lg={3}>
                   <Box

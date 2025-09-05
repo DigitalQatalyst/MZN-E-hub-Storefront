@@ -5,17 +5,16 @@ import Grid from "@component/grid/Grid";
 import NavLink from "@component/nav-link";
 import { H3 } from "@component/Typography";
 import Container from "@component/Container";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import client from "@lib/graphQLClient";
 import TabBar from "@component/tab-bar/TabBar";
 import Sidebar from "./side-bar/Sidebar";
 import Section2 from "../section-2/Section2";
-
-// STYLED COMPONENTS
 import { ShowingText } from "./styles";
 import { FinancialServiceCard } from "@component/product-cards";
+import LoadingSpinner from "@component/LoadingSpinner/LoadingSpinner"; // Import the LoadingSpinner component
 
-// GraphQL Query
+// GraphQL Query for Products
 const GET_PRODUCTS = `
   query GetProducts($take: Int!) {
     products(options: { take: $take }) {
@@ -56,10 +55,35 @@ const GET_PRODUCTS = `
   }
 `;
 
+// GraphQL Query for Facets
+const GET_FACETS = `
+  query GetFacets {
+    facets(options: { take: 100 }) {
+      items {
+        id
+        name
+        code
+        values {
+          id
+          name
+          code
+        }
+      }
+    }
+  }
+`;
+
 interface FacetValue {
   id: string;
   code: string;
   name: string;
+}
+
+interface Facet {
+  id: string;
+  name: string;
+  code: string;
+  values: FacetValue[];
 }
 
 interface Product {
@@ -67,7 +91,7 @@ interface Product {
   name: string;
   slug: string;
   description: string;
-  createdAt: string; // Ensure createdAt is included
+  createdAt: string;
   facetValues: FacetValue[];
   customFields: {
     Industry?: string;
@@ -97,22 +121,16 @@ interface GetProductsVariables {
   take: number;
 }
 
-type CategoryFilterKeys =
-  | "businessOperationsFinancing"
-  | "projectSpecializedFinancing"
-  | "growthExpansionFinancing"
-  | "loanManagementAdjustments"
-  | "businessAssetFinancing"
-  | "investmentEquityFinancing";
+interface GetFacetsData {
+  facets: {
+    items: Facet[];
+  };
+}
 
-type CategoryCodes =
-  | "business-operations-financing"
-  | "project-specialized-financing"
-  | "growth-expansion-financing"
-  | "loan-management-adjustments"
-  | "business-asset-financing"
-  | "investment-equity-financing"
-  | "";
+// Generic filter state type
+interface FilterState {
+  [facetCode: string]: { [valueCode: string]: boolean };
+}
 
 export default function FinancialServiceCatalogue({
   activeButton,
@@ -130,60 +148,34 @@ export default function FinancialServiceCatalogue({
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [facets, setFacets] = useState<Facet[]>([]);
+  const [filterStates, setFilterStates] = useState<FilterState>({});
+
   const productsPerPage = 15;
-
-  // State for Categories filters
-  const [categoriesFilters, setCategoriesFilters] = useState<{
-    [key in CategoryFilterKeys]: boolean;
-  }>({
-    businessOperationsFinancing: false,
-    projectSpecializedFinancing: false,
-    growthExpansionFinancing: false,
-    loanManagementAdjustments: false,
-    businessAssetFinancing: false,
-    investmentEquityFinancing: false,
-  });
-
-  // State for Business Stage filters
-  const [businessStageFilters, setBusinessStageFilters] = useState({
-    conception: false,
-    growth: false,
-    maturity: false,
-    restructuring: false,
-    other: false,
-  });
-
-  // State for Provided By filters
-  const [providedByFilters, setProvidedByFilters] = useState({
-    adgm: false,
-    khalifaFund: false,
-    hub71: false,
-    adSmeHub: false,
-    other: false,
-  });
-
-  // State for Pricing Model filters
-  const [pricingModelFilters, setPricingModelFilters] = useState({
-    free: false,
-    subscriptionBased: false,
-    payPerService: false,
-    oneTimeFee: false,
-    governmentSubsidised: false,
-  });
-
   const defaultImage = "/assets/images/mzn_logos/mzn_logo.png";
   const defaultImages = [defaultImage];
   const defaultReviews = 0;
 
+  // Memoize initial filter states to prevent unnecessary re-initialization
+  const initializeFilterStates = useMemo(() => (facets: Facet[]): FilterState => {
+    const initial: FilterState = {};
+    facets.forEach(facet => {
+      initial[facet.code] = {};
+      facet.values.forEach(value => {
+        initial[facet.code][value.code] = false;
+      });
+    });
+    return initial;
+  }, []); // Empty dependency array since this is a pure function
+
   // Check if any filters are applied
   const areFiltersApplied = () => {
     return (
-      Object.values(categoriesFilters).some((value) => value) ||
-      Object.values(businessStageFilters).some((value) => value) ||
-      Object.values(providedByFilters).some((value) => value) ||
-      Object.values(pricingModelFilters).some((value) => value) ||
+      Object.values(filterStates).some(facet =>
+        Object.values(facet).some(value => value)
+      ) ||
       searchQuery.trim() !== "" ||
-      activeButton === "newAdditions" // Include activeButton in filter check
+      activeButton === "newAdditions"
     );
   };
 
@@ -191,23 +183,38 @@ export default function FinancialServiceCatalogue({
   const isNewAddition = (createdAt: string): boolean => {
     const createdDate = new Date(createdAt);
     const currentDate = new Date();
-    const fiveDaysAgo = new Date(currentDate.getTime() - 5 * 24 * 60 * 60 * 1000); // 5 days in milliseconds
+    const fiveDaysAgo = new Date(currentDate.getTime() - 5 * 24 * 60 * 60 * 1000);
     return createdDate >= fiveDaysAgo;
   };
 
-  // Fetch products data on component mount or page change
+  // Fetch products and facets data on component mount
   useEffect(() => {
+    let isMounted = true;
+
     const fetchData = async () => {
+      if (!isMounted) return;
       setLoading(true);
-      console.log("Fetching data from GraphQL... Take:", productsPerPage);
       try {
-        const data = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
+        // Fetch facets
+        const facetData = await client.request<GetFacetsData>(GET_FACETS);
+        const relevantFacets = facetData.facets.items.filter(facet =>
+          ["service-category", "business-stage", "provided-by", "pricing-model"].includes(facet.code)
+        );
+
+        if (isMounted) {
+          setFacets(relevantFacets);
+          // Only initialize filterStates if it's empty to avoid resetting
+          setFilterStates(prev => Object.keys(prev).length === 0 ? initializeFilterStates(relevantFacets) : prev);
+        }
+
+        // Fetch products
+        const productData = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
           take: 31,
         });
-        console.log("Fetched products:", data.products.items.length, "Total Items:", data.products.totalItems);
+        console.log("Fetched products:", productData.products.items.length, "Total Items:", productData.products.totalItems);
 
         // Filter for Financial Services (facetValue.id: "66") and exclude non-financial (facetValue.id: "67")
-        let financialServicesOnly = data.products.items.filter((product) =>
+        let financialServicesOnly = productData.products.items.filter((product) =>
           product.facetValues.some((fv) => fv.id === "66") &&
           !product.facetValues.some((fv) => fv.id === "67")
         );
@@ -221,147 +228,83 @@ export default function FinancialServiceCatalogue({
           console.log("Filtered to New Additions (less than 5 days old):", financialServicesOnly.length);
         }
 
-        // Apply other filters
-        const selectedCategories = Object.keys(categoriesFilters)
-          .filter((key) => categoriesFilters[key as CategoryFilterKeys])
-          .map((key) => {
-            switch (key) {
-              case "businessOperationsFinancing": return "business-operations-financing";
-              case "projectSpecializedFinancing": return "project-specialized-financing";
-              case "growthExpansionFinancing": return "growth-expansion-financing";
-              case "loanManagementAdjustments": return "loan-management-adjustments";
-              case "businessAssetFinancing": return "business-asset-financing";
-              case "investmentEquityFinancing": return "investment-equity-financing";
-              default: return "" as CategoryCodes;
-            }
-          }) as CategoryCodes[];
-
-        const selectedStages = Object.keys(businessStageFilters)
-          .filter((key) => businessStageFilters[key])
-          .map((key) => key);
-
-        const selectedProviders = Object.keys(providedByFilters)
-          .filter((key) => providedByFilters[key])
-          .map((key) => {
-            switch (key) {
-              case "khalifaFund": return "khalifa-fund";
-              case "adSmeHub": return "ad-sme-hub";
-              case "hub71": return "hub71";
-              case "adgm": return "adgm";
-              case "other": return "other";
-              default: return key;
-            }
-          });
-
-        const selectedPricingModels = Object.keys(pricingModelFilters)
-          .filter((key) => pricingModelFilters[key])
-          .map((key) => {
-            switch (key) {
-              case "subscriptionBased": return "subscription-based";
-              case "payPerService": return "pay-per-service";
-              case "oneTimeFee": return "one-time-fee";
-              case "governmentSubsidised": return "government-subsidized";
-              case "free": return "free";
-              default: return key;
-            }
-          });
-
+        // Apply dynamic filters
         const filtered = financialServicesOnly.filter((product) => {
-          const matchesCategory =
-            selectedCategories.length === 0 ||
-            product.facetValues.some((facetValue) =>
-              selectedCategories.includes(facetValue.code as CategoryCodes)
+          // Check if product matches all selected facets
+          const matchesAllFacets = Object.keys(filterStates).every(facetCode => {
+            const selectedValues = Object.keys(filterStates[facetCode]).filter(
+              key => filterStates[facetCode][key]
             );
-          const matchesStage =
-            selectedStages.length === 0 ||
-            product.facetValues.some((facetValue) =>
-              facetValue.code && selectedStages.includes(facetValue.code)
-            ) ||
-            (product.customFields?.BusinessStage && selectedStages.includes(product.customFields.BusinessStage));
-          const matchesProvider =
-            selectedProviders.length === 0 ||
-            product.facetValues.some((facetValue) =>
-              facetValue.code && selectedProviders.includes(facetValue.code)
+            // If no values are selected for this facet, allow all products
+            if (selectedValues.length === 0) return true;
+            // Check if product matches any selected value for this facet
+            return product.facetValues.some(facetValue =>
+              selectedValues.includes(facetValue.code)
+            ) || (
+              facetCode === "pricing-model" &&
+              selectedValues.includes("one-time-fee") &&
+              product.customFields?.Cost && product.customFields.Cost > 0
+            ) || (
+              facetCode === "business-stage" &&
+              product.customFields?.BusinessStage &&
+              selectedValues.includes(product.customFields.BusinessStage)
             );
-          const matchesPricingModel =
-            selectedPricingModels.length === 0 ||
-            product.facetValues.some((facetValue) =>
-              facetValue.code && selectedPricingModels.includes(facetValue.code)
-            ) ||
-            (selectedPricingModels.includes("one-time-fee") &&
-              product.customFields?.Cost && product.customFields.Cost > 0);
+          });
+
           const matchesSearch =
             searchQuery.trim() === "" ||
             product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             product.facetValues.some((facetValue) =>
               facetValue.name.toLowerCase().includes(searchQuery.toLowerCase())
             );
+
           console.log(`Filtering ${product.name} (id: ${product.id}):`, {
-            matchesCategory,
-            matchesStage,
-            matchesProvider,
-            matchesPricingModel,
+            matchesAllFacets,
             matchesSearch,
           });
-          return matchesCategory && matchesStage && matchesProvider && matchesPricingModel && matchesSearch;
+          return matchesAllFacets && matchesSearch;
         });
 
-        setTotalItems(financialServicesOnly.length);
-        setAllFilteredProducts(filtered);
-        setTotalFilteredItems(filtered.length);
+        if (isMounted) {
+          setTotalItems(financialServicesOnly.length);
+          setAllFilteredProducts(filtered);
+          setTotalFilteredItems(filtered.length);
 
-        const startIndex = (currentPage - 1) * productsPerPage;
-        const endIndex = startIndex + productsPerPage;
-        setProducts(filtered.slice(startIndex, endIndex));
-        setFilteredProducts(filtered.slice(startIndex, endIndex));
+          const startIndex = (currentPage - 1) * productsPerPage;
+          const endIndex = startIndex + productsPerPage;
+          setProducts(filtered.slice(startIndex, endIndex));
+          setFilteredProducts(filtered.slice(startIndex, endIndex));
+        }
       } catch (error) {
-        console.error("Error fetching products:", error.response?.errors || error.message);
+        console.error("Error fetching data:", error.response?.errors || error.message);
       } finally {
-        setLoading(false);
-        console.log("Fetching completed. Loading set to false.");
+        if (isMounted) {
+          setLoading(false);
+          console.log("Fetching completed. Loading set to false.");
+        }
       }
     };
 
     fetchData();
-  }, [currentPage, categoriesFilters, businessStageFilters, providedByFilters, pricingModelFilters, searchQuery, activeButton]);
 
-  // Handle checkbox changes for Categories
-  const handleCategoriesChange = (category: CategoryFilterKeys) => {
-    setCategoriesFilters((prev) => ({
+    return () => {
+      isMounted = false;
+    };
+  }, [currentPage, searchQuery, activeButton, filterStates]);
+
+  // Handle filter changes dynamically
+  const handleFilterChange = (facetCode: string, valueCode: string) => {
+    setFilterStates(prev => ({
       ...prev,
-      [category]: !prev[category],
+      [facetCode]: {
+        ...prev[facetCode],
+        [valueCode]: !prev[facetCode][valueCode],
+      },
     }));
     setCurrentPage(1);
   };
 
-  // Handle checkbox changes for Business Stage filters
-  const handleBusinessStageChange = (stage: keyof typeof businessStageFilters) => {
-    setBusinessStageFilters((prev) => ({
-      ...prev,
-      [stage]: !prev[stage],
-    }));
-    setCurrentPage(1);
-  };
-
-  // Handle checkbox changes for Provided By filters
-  const handleProvidedByChange = (provider: keyof typeof providedByFilters) => {
-    setProvidedByFilters((prev) => ({
-      ...prev,
-      [provider]: !prev[provider],
-    }));
-    setCurrentPage(1);
-  };
-
-  // Handle checkbox changes for Pricing Model filters
-  const handlePricingModelChange = (model: keyof typeof pricingModelFilters) => {
-    setPricingModelFilters((prev) => ({
-      ...prev,
-      [model]: !prev[model],
-    }));
-    setCurrentPage(1);
-  };
-
-  // Calculate the total number of pages based on filtered or total items
+  // Calculate the total number of pages
   const totalPages = areFiltersApplied()
     ? Math.ceil(totalFilteredItems / productsPerPage)
     : Math.ceil(totalItems / productsPerPage);
@@ -388,173 +331,134 @@ export default function FinancialServiceCatalogue({
         activeButton={activeButton}
         setActiveButton={setActiveButton}
       />
-      <Grid container spacing={3}>
-        <Grid item md={3} xs={12}>
-          <Sidebar
-            categoriesFilters={categoriesFilters}
-            setCategoriesFilters={setCategoriesFilters}
-            businessStageFilters={businessStageFilters}
-            setBusinessStageFilters={setBusinessStageFilters}
-            providedByFilters={providedByFilters}
-            setProvidedByFilters={setProvidedByFilters}
-            pricingModelFilters={pricingModelFilters}
-            setPricingModelFilters={setPricingModelFilters}
-            handleCategoriesChange={handleCategoriesChange}
-            handleBusinessStageChange={handleBusinessStageChange}
-            handleProvidedByChange={handleProvidedByChange}
-            handlePricingModelChange={handlePricingModelChange}
-            totalItems={totalItems}
-            totalFilteredItems={totalFilteredItems}
-            currentPage={currentPage}
-            productsPerPage={productsPerPage}
-            areFiltersApplied={areFiltersApplied}
-          />
-        </Grid>
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <Grid container spacing={3}>
+          <Grid item md={3} xs={12}>
+            <Sidebar
+              facets={facets}
+              filterStates={filterStates}
+              setFilterStates={setFilterStates}
+              handleFilterChange={handleFilterChange}
+              totalItems={totalItems}
+              totalFilteredItems={totalFilteredItems}
+              currentPage={currentPage}
+              productsPerPage={productsPerPage}
+              areFiltersApplied={areFiltersApplied}
+              loading={loading}
+            />
+          </Grid>
 
-        <Grid item md={9} xs={12}>
-          {loading ? (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "300px",
-                marginTop: "1rem",
-                fontSize: "1.5rem",
-                color: "#555",
-                textAlign: "center",
-                padding: "2rem",
-              }}
-            >
+          <Grid item md={9} xs={12}>
+            {currentProducts.length === 0 ? (
               <div
                 style={{
-                  border: "4px solid #f3f3f3",
-                  borderTop: "4px solid #002180",
-                  borderRadius: "50%",
-                  width: "40px",
-                  height: "40px",
-                  animation: "spin 1s linear infinite",
-                }}
-              ></div>
-              <style>
-                {`
-                  @keyframes spin {
-                    0% { transform: rotate(0deg); }
-                    100% { transform: rotate(360deg); }
-                  }
-                `}
-              </style>
-            </div>
-          ) : currentProducts.length === 0 ? (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "300px",
-                marginTop: "1rem",
-                fontSize: "1.5rem",
-                color: "#555",
-                textAlign: "center",
-                padding: "2rem",
-              }}
-            >
-              No service Found 😢
-            </div>
-          ) : (
-            <Grid container spacing={3}>
-              {currentProducts.map((product) => (
-                <Grid item md={4} sm={6} xs={12} key={product.id}>
-                  <div
-                    onMouseEnter={() => setHoveredCardId(product.id)}
-                    onMouseLeave={() => setHoveredCardId(null)}
-                    style={{
-                      transition: "all 0.3s ease",
-                      transform: hoveredCardId === product.id ? "scale(1.02)" : "scale(1)",
-                      boxShadow: hoveredCardId === product.id ? "0 4px 8px rgba(0, 0, 0, 0.1)" : "none",
-                    }}
-                  >
-                    <FinancialServiceCard
-                      id={product.id}
-                      slug={product.slug}
-                      name={product.name}
-                      subTitle={product.customFields.Industry}
-                      description={product.description}
-                      img={defaultImage}
-                      images={defaultImages}
-                      reviews={defaultReviews}
-                      className="product-card"
-                    />
-                  </div>
-                </Grid>
-              ))}
-            </Grid>
-          )}
-
-          {totalPages > 1 && (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "center",
-                marginTop: "1rem",
-                marginBottom: "2rem",
-              }}
-            >
-              <button
-                onClick={() => handlePagination("prev")}
-                disabled={currentPage === 1}
-                style={{
-                  border: "1px solid #002180",
-                  borderRadius: "50%",
-                  padding: "0.5rem",
-                  margin: "0 0.5rem",
-                  backgroundColor: "transparent",
-                  cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "300px",
+                  marginTop: "1rem",
+                  fontSize: "1.5rem",
+                  color: "#555",
+                  textAlign: "center",
+                  padding: "2rem",
                 }}
               >
-                <img src="assets/images/avatars/chevron-right.svg" alt="Previous" />
-              </button>
+                No service Found 😢
+              </div>
+            ) : (
+              <Grid container spacing={3}>
+                {currentProducts.map((product) => (
+                  <Grid item md={4} sm={6} xs={12} key={product.id}>
+                    <div
+                      onMouseEnter={() => setHoveredCardId(product.id)}
+                      onMouseLeave={() => setHoveredCardId(null)}
+                      style={{
+                        transition: "all 0.3s ease",
+                        transform: hoveredCardId === product.id ? "scale(1.02)" : "scale(1)",
+                        boxShadow: hoveredCardId === product.id ? "0 4px 8px rgba(0, 0, 0, 0.1)" : "none",
+                      }}
+                    >
+                      <FinancialServiceCard
+                        id={product.id}
+                        slug={product.slug}
+                        name={product.name}
+                        subTitle={product.customFields.Industry}
+                        description={product.description}
+                        img={defaultImage}
+                        images={defaultImages}
+                        reviews={defaultReviews}
+                        className="product-card"
+                      />
+                    </div>
+                  </Grid>
+                ))}
+              </Grid>
+            )}
 
-              {[...Array(totalPages)].map((_, index) => (
+            {totalPages > 1 && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                  marginTop: "1rem",
+                  marginBottom: "2rem",
+                }}
+              >
                 <button
-                  key={index}
-                  onClick={() => setCurrentPage(index + 1)}
+                  onClick={() => handlePagination("prev")}
+                  disabled={currentPage === 1}
                   style={{
-                    // border: "1px solid #002180",
-                    // borderRadius: "50%",
-                    border: currentPage === index + 1 ? "1px solid #002180" : "none",
-                    borderRadius: currentPage === index + 1 ? "50%" : "none",
-                    padding: "0.5rem 1rem",
+                    border: "1px solid #002180",
+                    borderRadius: "50%",
+                    padding: "0.5rem",
                     margin: "0 0.5rem",
-                    backgroundColor: currentPage === index + 1 ? "transparent" :"transparent",
-                    color: currentPage === index + 1 ? "#002180" : "#002180",
-                    cursor: "pointer",
-                    // display: "inline-block",
+                    backgroundColor: "transparent",
+                    cursor: currentPage === 1 ? "not-allowed" : "pointer",
                   }}
                 >
-                  {index + 1}
+                  <img src="assets/images/avatars/chevron-right.svg" alt="Previous" />
                 </button>
-              ))}
 
-              <button
-                onClick={() => handlePagination("next")}
-                disabled={currentPage === totalPages}
-                style={{
-                  border: "1px solid #002180",
-                  borderRadius: "50%",
-                  padding: "0.5rem",
-                  margin: "0 0.5rem",
-                  backgroundColor: "transparent",
-                  cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                }}
-              >
-                <img src="assets/images/avatars/chevron-left.svg" alt="Next" />
-              </button>
-            </div>
-          )}
+                {[...Array(totalPages)].map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentPage(index + 1)}
+                    style={{
+                      border: currentPage === index + 1 ? "1px solid #002180" : "none",
+                      borderRadius: currentPage === index + 1 ? "50%" : "none",
+                      padding: "0.5rem 1rem",
+                      margin: "0 0.5rem",
+                      backgroundColor: "transparent",
+                      color: "#002180",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+
+                <button
+                  onClick={() => handlePagination("next")}
+                  disabled={currentPage === totalPages}
+                  style={{
+                    border: "1px solid #002180",
+                    borderRadius: "50%",
+                    padding: "0.5rem",
+                    margin: "0 0.5rem",
+                    backgroundColor: "transparent",
+                    cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                  }}
+                >
+                  <img src="assets/images/avatars/chevron-left.svg" alt="Next" />
+                </button>
+              </div>
+            )}
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </Container>
   );
 }

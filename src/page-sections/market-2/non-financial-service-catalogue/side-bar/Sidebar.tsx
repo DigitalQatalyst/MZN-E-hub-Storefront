@@ -1,6 +1,8 @@
+import React from "react";
 import Card from "@component/Card";
 import { List, CheckboxLabel, ServiceTypeTitle, ShowingText } from "../styles";
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
+import LoadingSpinner from "@component/LoadingSpinner/LoadingSpinner"; // Import the LoadingSpinner component
 
 interface FacetValue {
   id: string;
@@ -29,6 +31,7 @@ interface SidebarProps {
   currentPage: number;
   productsPerPage: number;
   areFiltersApplied: () => boolean;
+  loading: boolean; // Added loading prop
 }
 
 export default function Sidebar({
@@ -41,14 +44,13 @@ export default function Sidebar({
   currentPage,
   productsPerPage,
   areFiltersApplied,
+  loading,
 }: SidebarProps) {
-  const [loading, setLoading] = useState(true);
-
-  // Simulate loading state (facets are fetched in parent component)
-  useEffect(() => {
-    if (facets.length > 0) {
-      setLoading(false);
-    }
+  // Sort facets to prioritize those with "category" in the name
+  const sortedFacets = useMemo(() => {
+    const categoryFacets = facets.filter(facet => facet.name.toLowerCase().includes("category"));
+    const otherFacets = facets.filter(facet => !facet.name.toLowerCase().includes("category"));
+    return [...categoryFacets, ...otherFacets];
   }, [facets]);
 
   return (
@@ -64,37 +66,9 @@ export default function Sidebar({
         }}
       >
         {loading ? (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100px",
-              fontSize: "1rem",
-              color: "#555",
-            }}
-          >
-            <div
-              style={{
-                border: "4px solid #f3f3f3",
-                borderTop: "4px solid #002180",
-                borderRadius: "50%",
-                width: "30px",
-                height: "30px",
-                animation: "spin 1s linear infinite",
-              }}
-            ></div>
-            <style>
-              {`
-                @keyframes spin {
-                  0% { transform: rotate(0deg); }
-                  100% { transform: rotate(360deg); }
-                }
-              `}
-            </style>
-          </div>
+          <LoadingSpinner /> // Controlled by parent loading state
         ) : (
-          facets.map((facet) => (
+          sortedFacets.map((facet) => (
             <div key={facet.id}>
               <List>
                 <ServiceTypeTitle>{facet.name}</ServiceTypeTitle>

@@ -182,9 +182,14 @@ const ExploreAllButton = styled(DefaultButton)`
   }
 `;
 
+// Desktop/Tablet Carousel Wrapper
 const CarouselWrapper = styled(Box)`
   width: 100%;
   overflow: hidden;
+
+  @media (max-width: 480px) {
+    display: none;
+  }
 
   .slick-slide {
     padding: 0 10px;
@@ -195,10 +200,6 @@ const CarouselWrapper = styled(Box)`
 
     @media (max-width: 768px) {
       padding: 0 6px;
-    }
-
-    @media (max-width: 480px) {
-      padding: 0 4px;
     }
   }
 
@@ -212,13 +213,8 @@ const CarouselWrapper = styled(Box)`
     @media (max-width: 768px) {
       margin: 0 -6px;
     }
-
-    @media (max-width: 480px) {
-      margin: 0 -4px;
-    }
   }
 
-  // Enhanced arrow positioning
   .slick-prev,
   .slick-next {
     z-index: 2;
@@ -234,11 +230,6 @@ const CarouselWrapper = styled(Box)`
       width: 30px;
       height: 30px;
     }
-
-    @media (max-width: 480px) {
-      width: 25px;
-      height: 25px;
-    }
   }
 
   .slick-prev {
@@ -250,10 +241,6 @@ const CarouselWrapper = styled(Box)`
 
     @media (max-width: 768px) {
       left: -10px;
-    }
-
-    @media (max-width: 480px) {
-      left: -5px;
     }
   }
 
@@ -267,13 +254,8 @@ const CarouselWrapper = styled(Box)`
     @media (max-width: 768px) {
       right: -10px;
     }
-
-    @media (max-width: 480px) {
-      right: -5px;
-    }
   }
 
-  // Dots positioning
   .slick-dots {
     bottom: -50px;
 
@@ -285,81 +267,31 @@ const CarouselWrapper = styled(Box)`
       bottom: -35px;
     }
 
-    @media (max-width: 480px) {
-      bottom: -30px;
-    }
-
     li {
       margin: 0 3px;
-
-      @media (max-width: 480px) {
-        margin: 0 2px;
-      }
-    }
-
-    li button {
-      @media (max-width: 480px) {
-        width: 8px;
-        height: 8px;
-      }
     }
   }
 `;
 
-// Mobile vertical layout wrapper
-const MobileVerticalContainer = styled.div`
+// Mobile Vertical Layout Container
+const MobileContainer = styled.div`
+  display: none;
+  
   @media (max-width: 480px) {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.5rem;
     width: 100%;
-    
-    .slick-slider,
-    .slick-list,
-    .slick-track {
-      display: none !important;
-    }
-  }
-`;
-
-const MobileProductCard = styled.div`
-  @media (max-width: 480px) {
-    width: 100%;
-    padding: 0;
-    
-    .product-card {
-      width: 100%;
-      height: auto;
-    }
-  }
-`;
-
-// Enhanced ProductCard wrapper for better responsiveness
-const ProductCardWrapper = styled(Box)`
-  padding: 3rem 0;
-  height: 100%;
-
-  @media (max-width: 1024px) {
-    padding: 2.5rem 0;
-  }
-
-  @media (max-width: 768px) {
-    padding: 2rem 0;
-  }
-
-  @media (max-width: 600px) {
-    padding: 1.5rem 0;
-  }
-
-  @media (max-width: 480px) {
     padding: 1rem 0;
   }
+`;
 
-  // Ensure the product card takes full height
+const MobileProductWrapper = styled.div`
+  width: 100%;
+  
   .product-card {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+    width: 100%;
+    margin: 0;
   }
 `;
 
@@ -367,25 +299,36 @@ const LoadingErrorWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px;
+  width: 100%;
+  height: 300px;
   background-color: #f8f8f8;
   border-radius: 8px;
   border: 1px solid #e0e0e0;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   color: #555;
   text-align: center;
-  padding: 1rem;
+  padding: 2rem;
+  margin: 2rem 0;
+
+  @media (max-width: 1024px) {
+    height: 250px;
+    font-size: 1.3rem;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
 
   @media (max-width: 768px) {
-    height: 150px;
-    font-size: 1rem;
-    padding: 0.8rem;
+    height: 200px;
+    font-size: 1.1rem;
+    padding: 1.2rem;
+    margin: 1.2rem 0;
   }
 
   @media (max-width: 480px) {
-    height: 120px;
-    font-size: 0.9rem;
-    padding: 0.6rem;
+    height: 150px;
+    font-size: 1rem;
+    padding: 1rem;
+    margin: 1rem 0;
   }
 `;
 
@@ -482,23 +425,10 @@ export default function Section15() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
 
   const defaultImage = "/assets/images/mzn_logos/mzn_logo.png";
   const defaultImages = [defaultImage];
   const defaultReviews = 0;
-
-  // Check if screen is mobile
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 480);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   // Fetch products on component mount
   useEffect(() => {
@@ -524,93 +454,55 @@ export default function Section15() {
     fetchData();
   }, []);
 
-  // Comprehensive responsive settings
+  // Responsive settings for carousel (desktop/tablet only)
   const responsive = [
-    { breakpoint: 1279, settings: { slidesToShow: 4, slidesToScroll: 1 } }, // Large desktop
-    { breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 1 } }, // Desktop/Tablet landscape
-    { breakpoint: 959, settings: { slidesToShow: 3, slidesToScroll: 1 } }, // Tablet landscape
-    { breakpoint: 768, settings: { slidesToShow: 2, slidesToScroll: 1 } }, // Tablet portrait
-    { breakpoint: 650, settings: { slidesToShow: 2, slidesToScroll: 1 } }, // Small tablets
-    { breakpoint: 600, settings: { slidesToShow: 2, slidesToScroll: 1 } }, // Large phones landscape
-    { breakpoint: 500, settings: { slidesToShow: 1, slidesToScroll: 1 } }, // Mobile portrait
-    { breakpoint: 400, settings: { slidesToShow: 1, slidesToScroll: 1 } }, // Small mobile
+    { breakpoint: 1279, settings: { slidesToShow: 4, slidesToScroll: 1 } },
+    { breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 1 } },
+    { breakpoint: 959, settings: { slidesToShow: 3, slidesToScroll: 1 } },
+    { breakpoint: 768, settings: { slidesToShow: 2, slidesToScroll: 1 } },
+    { breakpoint: 650, settings: { slidesToShow: 2, slidesToScroll: 1 } },
+    { breakpoint: 600, settings: { slidesToShow: 2, slidesToScroll: 1 } },
+    { breakpoint: 481, settings: { slidesToShow: 1, slidesToScroll: 1 } },
   ];
 
-  const renderProducts = () => {
-    if (loading) {
-      return (
-        <Box py="3rem">
+  // Handle loading state
+  if (loading) {
+    return (
+      <CategorySectionCreator>
+        <ContentColumn>
           <LoadingErrorWrapper>
             Loading services...
           </LoadingErrorWrapper>
-        </Box>
-      );
-    }
+        </ContentColumn>
+      </CategorySectionCreator>
+    );
+  }
 
-    if (error) {
-      return (
-        <Box py="3rem">
+  // Handle error state
+  if (error) {
+    return (
+      <CategorySectionCreator>
+        <ContentColumn>
           <LoadingErrorWrapper>
             {error}
           </LoadingErrorWrapper>
-        </Box>
-      );
-    }
+        </ContentColumn>
+      </CategorySectionCreator>
+    );
+  }
 
-    if (products.length === 0) {
-      return (
-        <Box py="3rem">
+  // Handle empty state
+  if (products.length === 0) {
+    return (
+      <CategorySectionCreator>
+        <ContentColumn>
           <LoadingErrorWrapper>
             No services found 😢
           </LoadingErrorWrapper>
-        </Box>
-      );
-    }
-
-    // Mobile vertical layout - display only first 4 products
-    if (isMobile) {
-      return (
-        <MobileVerticalContainer>
-          {products.slice(0, 4).map((item) => (
-            <MobileProductCard key={item.id}>
-              <ProductCard19
-                id={item.id}
-                slug={item.slug}
-                name={item.name}
-                subTitle={item.customFields.Partner}
-                description={item.description}
-                img={defaultImage}
-                images={defaultImages}
-                reviews={defaultReviews}
-                className="product-card"
-              />
-            </MobileProductCard>
-          ))}
-        </MobileVerticalContainer>
-      );
-    }
-
-    // Desktop/tablet carousel layout
-    return (
-      <Carousel slidesToShow={4} responsive={responsive}>
-        {products.map((item) => (
-          <Box py="3rem" key={item.id}>
-            <ProductCard19
-              id={item.id}
-              slug={item.slug}
-              name={item.name}
-              subTitle={item.customFields.Partner}
-              description={item.description}
-              img={defaultImage}
-              images={defaultImages}
-              reviews={defaultReviews}
-              className="product-card"
-            />
-          </Box>
-        ))}
-      </Carousel>
+        </ContentColumn>
+      </CategorySectionCreator>
     );
-  };
+  }
 
   return (
     <CategorySectionCreator>
@@ -638,20 +530,37 @@ export default function Section15() {
             </ExploreAllButton>
           </Link>
         </DescriptionButtonWrapper>
-        <CarouselWrapper mb="-0.25rem">
-          {loading ? (
-            <Box py="3rem">
-              <LoadingErrorWrapper>Loading services...</LoadingErrorWrapper>
-            </Box>
-          ) : error ? (
-            <Box py="3rem">
-              <LoadingErrorWrapper>{error}</LoadingErrorWrapper>
-            </Box>
-          ) : products.length === 0 ? (
-            <Box py="3rem">
-              <LoadingErrorWrapper>No services found 😢</LoadingErrorWrapper>
-            </Box>
-          ) : (
+
+        {/* Loading State */}
+        {loading && (
+          <Box py="3rem">
+            <LoadingErrorWrapper>
+              Loading services...
+            </LoadingErrorWrapper>
+          </Box>
+        )}
+
+        {/* Error State */}
+        {error && !loading && (
+          <Box py="3rem">
+            <LoadingErrorWrapper>
+              {error}
+            </LoadingErrorWrapper>
+          </Box>
+        )}
+
+        {/* Empty State */}
+        {!loading && !error && products.length === 0 && (
+          <Box py="3rem">
+            <LoadingErrorWrapper>
+              No services found 😢
+            </LoadingErrorWrapper>
+          </Box>
+        )}
+
+        {/* Desktop/Tablet Carousel */}
+        {!loading && !error && products.length > 0 && (
+          <CarouselWrapper mb="-0.25rem">
             <Box width="100%" px="0.2rem">
               <Carousel2 slidesToShow={4} responsive={responsive}>
                 {products.map((item) => (
@@ -671,8 +580,29 @@ export default function Section15() {
                 ))}
               </Carousel2>
             </Box>
-          )}
-        </CarouselWrapper>
+          </CarouselWrapper>
+        )}
+
+        {/* Mobile Vertical Layout - Show only first 4 products */}
+        {!loading && !error && products.length > 0 && (
+          <MobileContainer>
+            {products.slice(0, 4).map((item) => (
+              <MobileProductWrapper key={item.id}>
+                <ProductCard19
+                  id={item.id}
+                  slug={item.slug}
+                  name={item.name}
+                  subTitle={item.customFields.Industry}
+                  description={item.description}
+                  img={defaultImage}
+                  images={defaultImages}
+                  reviews={defaultReviews}
+                  className="product-card"
+                />
+              </MobileProductWrapper>
+            ))}
+          </MobileContainer>
+        )}
       </ContentColumn>
     </CategorySectionCreator>
   );

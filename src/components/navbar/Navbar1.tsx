@@ -8,9 +8,12 @@ import FlexBox from "../FlexBox";
 import NavLink from "../nav-link";
 import { Button } from "../buttons";
 import Container from "../Container";
-import Typography from "../Typography";
+import Typography, { H2 } from "../Typography";
 import Categories from "../categories/Categories";
 import styled from "styled-components";
+import { useMsal, useIsAuthenticated } from "@azure/msal-react";
+import { loginRequest, signupAuthority } from "@lib/authConfig";
+
  
 const StyledNavbar = styled.div`
   background: transparent !important;
@@ -345,6 +348,59 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
+  const { instance, accounts } = useMsal();
+   const isAuthenticated = useIsAuthenticated();
+  const [isLoading, setIsLoading] = useState(false);
+  
+  // const handleLogin = async () => {
+  //   await instance.loginRedirect({
+  //     authority: "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/B2C_1_KF_SignIn",
+  //     scopes: ["openid", "profile", "email", "offline_access"], // adjust as needed
+  //     // remove prompt=login in prod to allow SSO
+  //   });
+  // };
+
+  const handleLogin = async () => {
+    setIsLoading(true);
+    try {
+      const resp = await instance.loginPopup({
+        scopes: ["openid", "profile", "email"],
+      });
+      if (resp) {
+        router.push("/dashboard"); // 👈 after login, move user
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSignup = async () => {
+    try {
+      const res = await instance.loginPopup({
+        ...loginRequest,
+        authority: signupAuthority,   // 👈 use the SIGNUP policy
+      });
+
+      // (optional) get a fresh token for APIs right away
+      // await instance.acquireTokenSilent({ ...loginRequest, account: res.account });
+
+      setMenuOpen(false);
+      router.push("/dashboard");      // 👈 land on dashboard
+    } catch (e: any) {
+      // Nice-to-have: handle common B2C cases gracefully
+      if (typeof e?.message === "string") {
+        // User closed popup
+        if (e.message.includes("user_cancelled") || e.message.includes("popup_window_error")) return;
+        // Forgot password invoked from signup (if enabled)
+        if (e.message.includes("AADB2C90118")) {
+          // You can start a reset flow here if you have one
+          return;
+        }
+      }
+      console.error("Signup failed:", e);
+    }
+  };
+
  
   useEffect(() => {
     const handleScroll = () => {
@@ -359,11 +415,27 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
-
-  const registerUrl = "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_Signup&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fcallback&scope=openid&response_type=code&prompt=login";
-  const loginUrl = "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_SignIn&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fcallback&scope=openid&response_type=code&prompt=login";
   
- 
+
+  const handleLogout = () => {
+    instance.logoutRedirect().catch((e) => {
+      console.log(e);
+    });
+    setMenuOpen(false);
+  };
+
+  const handleProfileClick = () => {
+    window.location.href = "https://mzn-e-hub-storefront-5akxqw2kr-digitalqatalysts-projects.vercel.app/dashboard";
+    setMenuOpen(false);
+  };
+
+  const SIGNUP_URL = "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_Signup&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fmzn-e-hub-storefront-5akxqw2kr-digitalqatalysts-projects.vercel.app%2Fdashboard&scope=openid&response_type=code&prompt=login&code_challenge_method=S256&code_challenge=uPSCPoX1IbZeEy61vNSmgjyHSSPFWhaVq5Btdo0fMHY";
+
+  const handleSignUp = () => {
+    window.location.href = "/signup";
+    setMenuOpen(false);
+  };
+
   return (
     <StyledNavbar className={scrolled ? "scrolled" : ""}>
       <Container
@@ -406,24 +478,28 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           </Box>
  
           <FlexBox alignItems="center" style={{ gap: "10px" }}>
-            <Box className="profile-icon">
+            {/* <Box className="profile-icon" onClick={handleLogin}>
               <Icon size="30px" color="#002180">profile</Icon>
-            </Box>
+            </Box> */}
+            {!isAuthenticated ? (
+              <Box className="profile-icon" onClick={handleLogin} style={{ width: "68px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {isLoading ? "Signing in..." : <Icon size="30px" color="#002180">profile</Icon>}
+              </Box>
+            ) : (
+              <div>
+                <Button onClick={handleLogout}>Sign Out</Button>
+              </div>
+            )}
             <Button
               className="become-partner-btn"
               variant="outlined"
-              onClick={() => {
-                window.location.href = loginUrl;
-              }}
             >
               Become a Partner
             </Button>
             <Button
               className="sign-up-btn"
               variant="contained"
-              onClick={() => {
-                window.location.href = registerUrl;
-              }}
+              onClick={handleSignup}
             >
               Sign Up
             </Button>
@@ -461,15 +537,11 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             </Box>
  
             <FlexBox className="mobile-auth-section" flexDirection="column" style={{ gap: "16px" }}>
-              <Box className="profile-icon" onClick={toggleMenu}>
+              <Box className="profile-icon" onClick={handleLogin}>
                 <Icon size="44px" color="#002180">profile</Icon>
               </Box>
               <Button
                 className="mobile-auth-button become-partner-btn"
-                onClick={() => {
-                  window.location.href = loginUrl;
-                  toggleMenu();
-                }}
                 style={{
                   background: "transparent",
                   color: "white",
@@ -482,10 +554,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
               </Button>
               <Button
                 className="mobile-auth-button sign-up-btn"
-                onClick={() => {
-                  window.location.href = registerUrl;
-                  toggleMenu();
-                }}
+                onClick={handleSignup}
                 style={{
                   background: "white",
                   color: "#0000FF",

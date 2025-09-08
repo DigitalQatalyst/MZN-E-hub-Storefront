@@ -1,44 +1,63 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  useMsal,
+  AuthenticatedTemplate,
+  UnauthenticatedTemplate,
+} from "@azure/msal-react";
+import type { AccountInfo } from "@azure/msal-browser";
 import { Menu, X, Search, Bookmark, ChevronRight, LogOut, User } from "lucide-react";
-import { useMsal, AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
 
-import { loginRequest, logoutRequest } from "../../authConfig"; // ⬅️ use central config (adjust path if needed)
+import { loginRequest } from "../../lib/authConfig";
 
 import Box from "../Box";
-import Card from "../Card";
-import Badge from "../badge";
-import Icon from "../icon/Icon";
-import FlexBox from "../FlexBox";
-import NavLink from "../nav-link";
-import MenuItem from "../MenuItem";
-import { Button } from "../buttons";
 import Container from "../Container";
-import Typography, { Span } from "../Typography";
+import FlexBox from "../FlexBox";
+import Typography from "../Typography";
+import { Button } from "../buttons";
 import Categories from "../categories/Categories";
 import StyledNavbar from "./marketStyles copy";
 
 type NavbarProps = { navListOpen?: boolean };
 
+function getInitials(name?: string) {
+  if (!name) return "U";
+  const parts = name.trim().split(/\s+/).slice(0, 2);
+  return parts.map(p => p[0]?.toUpperCase()).join("") || "U";
+}
+
 export default function Navbar({ navListOpen }: NavbarProps) {
+  const router = useRouter();
   const { instance, accounts } = useMsal();
 
-  // 🧐 one-time debug to verify redirect in runtime (remove after confirming)
-  useEffect(() => {
-    const cfg = instance.getConfiguration();
-    // Should print e.g. http://localhost:3000/callback OR https://mzn-e-hub-storefront.vercel.app/callback
-    console.log("MSAL redirectUri =", cfg.auth.redirectUri);
-  }, [instance]);
-
-  // screen + mobile menu
+  // responsive + menus
   const [isMobile, setIsMobile] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  // profile dropdown (desktop)
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement | null>(null);
 
+  // derive active account + name once
+  const activeAccount: AccountInfo | undefined = useMemo(() => {
+    return instance.getActiveAccount() ?? accounts[0];
+  }, [instance, accounts]);
+
+  const displayName =
+    activeAccount?.name ||
+    (activeAccount?.idTokenClaims as any)?.name ||
+    (activeAccount?.idTokenClaims as any)?.given_name ||
+    (activeAccount?.idTokenClaims as any)?.emails?.[0] ||
+    "User";
+
+  // set active account on mount if missing
+  useEffect(() => {
+    if (!instance.getActiveAccount() && accounts[0]) {
+      instance.setActiveAccount(accounts[0]);
+    }
+  }, [accounts, instance]);
+
+  // handle resize
   useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth <= 900;
@@ -54,8 +73,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   useEffect(() => {
     const onDocClick = (e: MouseEvent) => {
       if (!isProfileOpen) return;
-      const target = e.target as Node;
-      if (profileRef.current && !profileRef.current.contains(target)) {
+      if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
         setIsProfileOpen(false);
       }
     };
@@ -63,28 +81,30 @@ export default function Navbar({ navListOpen }: NavbarProps) {
     return () => document.removeEventListener("mousedown", onDocClick);
   }, [isProfileOpen]);
 
+  // actions
   const toggleMobileMenu = () => setIsMobileMenuOpen(v => !v);
 
-  // ✅ Start Azure B2C login using central request (no redirectUri here)
-  const startLogin = () =>
-    instance.loginRedirect(loginRequest).catch(console.error);
-
-  const goDashboard = () => {
-    window.location.href = "/dashboard";
+  const startLogin = () => {
+    return instance.loginRedirect(loginRequest).catch(console.error);
   };
 
-  const logout = () =>
-    instance.logoutRedirect(logoutRequest).catch(console.error);
+  const goDashboard = () => {
+    setIsMobileMenuOpen(false);
+    router.push("/dashboard");
+  };
 
-  // Desktop: click MW
+  const logout = () => {
+    setIsMobileMenuOpen(false);
+    instance
+      .logoutRedirect({
+        postLogoutRedirectUri: typeof window !== "undefined" ? window.location.origin : "/",
+      })
+      .catch(console.error);
+  };
+
   const handleProfileClick = () => {
-    if (accounts.length === 0) {
-      // not authenticated → go to Azure login
-      startLogin();
-    } else {
-      // authenticated → toggle dropdown
-      setIsProfileOpen(v => !v);
-    }
+    if (!activeAccount) startLogin();
+    else setIsProfileOpen(v => !v);
   };
 
   return (
@@ -107,12 +127,11 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           <img
             src="/assets/images/tab_bar/Subtract.svg"
             alt="MZN Enterprise Hub"
-            height="100%"
-            style={{ height: isMobile ? "32px" : "auto" }}
+            style={{ height: isMobile ? 32 : 40 }}
           />
         </Box>
 
-        {/* Categories */}
+        {/* Explore */}
         <Categories open={navListOpen}>
           <Button
             width="320px"
@@ -135,47 +154,50 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             >
               Explore
             </Typography>
-
-            <Icon className="dropdown-icon" variant="small">
-              chevron-right
-              chevron-right
-            </Icon>
+            <ChevronRight size={18} color="#0030E3" />
           </Button>
         </Categories>
 
         {/* Desktop actions */}
         <FlexBox
           alignItems="center"
-          style={{
-            gap: "15px",
-            marginRight: "-88px",
-          }}
+          style={{ gap: "15px", marginRight: "-88px" }}
         >
           {/* Search */}
-          <Box className="search-icon" style={{ cursor: "pointer" }}>
-            <img src="/assets/images/logos/search.svg" alt="Search" height="20px" />
+          <Box className="search-icon" style={{ cursor: "pointer" }} title="Search">
+            <Search size={20} color="white"/>
           </Box>
 
           {/* Bookmark */}
-          <Box className="search-icon" style={{ cursor: "pointer" }}>
-            <img src="/images/bookmark.svg" alt="Bookmark" height="24px" />
+          <Box className="bookmark-icon" style={{ cursor: "pointer" }} title="Bookmarks">
+            <Bookmark size={22} color="white"/>
           </Box>
 
-          {/* Profile initials (MW) */}
-          <Box
-            ref={profileRef}
-            className="profile-photo"
-            style={{ position: "relative" }}
-          >
+          {/* Profile */}
+          <Box ref={profileRef} className="profile-photo" style={{ position: "relative" }}>
             <div
               className="profile-initials"
-              style={{ cursor: "pointer" }}
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: "50%",
+                backgroundColor: "#ffffff",
+                border: "1px solid #e5e7eb",
+                color: "#000",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 14,
+                fontWeight: 700,
+                cursor: "pointer",
+              }}
               onClick={handleProfileClick}
               onKeyDown={(e) => (e.key === "Enter" ? handleProfileClick() : null)}
               role="button"
               tabIndex={0}
+              title={activeAccount ? displayName : "Sign in"}
             >
-              MW
+              {getInitials(displayName)}
             </div>
 
             {/* Dropdown (authenticated only) */}
@@ -184,17 +206,27 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                 <div
                   style={{
                     position: "absolute",
-                    top: "44px",
+                    top: 44,
                     right: 0,
                     background: "#fff",
                     border: "1px solid #e5e7eb",
                     borderRadius: 8,
                     boxShadow: "0 10px 25px rgba(0,0,0,0.12)",
-                    minWidth: 200,
+                    minWidth: 220,
                     zIndex: 1200,
                     overflow: "hidden",
                   }}
                 >
+                  <div
+                    style={{
+                      padding: "10px 12px",
+                      borderBottom: "1px solid #f1f3f5",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {displayName}
+                  </div>
+
                   <button
                     type="button"
                     onClick={goDashboard}
@@ -246,33 +278,19 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         {isMobile && (
           <>
             {/* Mobile hamburger */}
-            <FlexBox
-              alignItems="center"
-              style={{
-                marginRight: "16px",
-                zIndex: 1001,
-              }}
-            >
+            <FlexBox alignItems="center" style={{ marginRight: 16, zIndex: 1001 }}>
               <Box
-                onClick={() => setIsMobileMenuOpen(v => !v)}
+                onClick={toggleMobileMenu}
                 style={{
                   cursor: "pointer",
-                  padding: "8px",
-                  borderRadius: "6px",
+                  padding: 8,
+                  borderRadius: 6,
                   backgroundColor: "rgba(255, 255, 255, 0.1)",
                   border: "1px solid #ffffff",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   transition: "background-color 0.3s ease",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.backgroundColor =
-                    "rgba(255, 255, 255, 0.2)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.backgroundColor =
-                    "rgba(255, 255, 255, 0.1)";
                 }}
               >
                 {isMobileMenuOpen ? <X size={24} color="#ffffff" /> : <Menu size={24} color="#ffffff" />}
@@ -284,26 +302,25 @@ export default function Navbar({ navListOpen }: NavbarProps) {
               <>
                 {/* Backdrop */}
                 <div
-                  className="mobile-menu-backdrop"
+                  role="button"
+                  aria-label="Close menu"
+                  tabIndex={0}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  onKeyDown={(e) => e.key === "Escape" ? setIsMobileMenuOpen(false) : null}
                   style={{
                     position: "fixed",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
+                    inset: 0,
                     backgroundColor: "rgba(0, 0, 0, 0.5)",
                     zIndex: 1000,
                     animation: "fadeIn 0.3s ease",
                   }}
-                  onClick={() => setIsMobileMenuOpen(false)}
                 />
 
                 {/* Panel */}
                 <div
-                  className="mobile-menu-panel"
                   style={{
                     position: "fixed",
-                    top: "76px",
+                    top: 76,
                     left: 0,
                     right: 0,
                     backgroundColor: "#fff",
@@ -318,23 +335,19 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                   {/* Explore */}
                   <Box
                     style={{
-                      marginBottom: "24px",
-                      padding: "16px",
+                      marginBottom: 24,
+                      padding: 16,
                       backgroundColor: "#f8f9fa",
-                      borderRadius: "12px",
+                      borderRadius: 12,
                       border: "1px solid #e9ecef",
                     }}
                   >
                     <FlexBox
                       alignItems="center"
-                      style={{ cursor: "pointer", gap: "12px" }}
+                      style={{ cursor: "pointer", gap: 12 }}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      <img
-                        src="/images/explore.svg"
-                        alt="Explore"
-                        style={{ width: "24px", height: "24px" }}
-                      />
+                      <img src="/images/explore.svg" alt="Explore" width={24} height={24} />
                       <Typography
                         fontFamily='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
                         fontSize="16px"
@@ -353,29 +366,23 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                     style={{
                       display: "grid",
                       gridTemplateColumns: "1fr 1fr",
-                      gap: "16px",
-                      marginBottom: "24px",
+                      gap: 16,
+                      marginBottom: 24,
                     }}
                   >
                     <Box
                       style={{
-                        padding: "16px",
+                        padding: 16,
                         backgroundColor: "#f8f9fa",
-                        borderRadius: "12px",
+                        borderRadius: 12,
                         border: "1px solid #e9ecef",
                         cursor: "pointer",
                         textAlign: "center",
-                        transition: "background-color 0.3s ease",
+                        transition: "background-color 0.2s ease",
                       }}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      onMouseEnter={(e) => {
-                        (e.currentTarget as HTMLDivElement).style.backgroundColor = "#e9ecef";
-                      }}
-                      onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLDivElement).style.backgroundColor = "#f8f9fa";
-                      }}
                     >
-                      <Search size={24} color="#0030E3" style={{ marginBottom: "8px" }} />
+                      <Search size={24} color="#0030E3" style={{ marginBottom: 8 }} />
                       <Typography fontSize="14px" fontWeight="500" color="#0030E3">
                         Search
                       </Typography>
@@ -383,23 +390,17 @@ export default function Navbar({ navListOpen }: NavbarProps) {
 
                     <Box
                       style={{
-                        padding: "16px",
+                        padding: 16,
                         backgroundColor: "#f8f9fa",
-                        borderRadius: "12px",
+                        borderRadius: 12,
                         border: "1px solid #e9ecef",
                         cursor: "pointer",
                         textAlign: "center",
-                        transition: "background-color 0.3s ease",
+                        transition: "background-color 0.2s ease",
                       }}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      onMouseEnter={(e) => {
-                        (e.currentTarget as HTMLDivElement).style.backgroundColor = "#e9ecef";
-                      }}
-                      onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLDivElement).style.backgroundColor = "#f8f9fa";
-                      }}
                     >
-                      <Bookmark size={24} color="#0030E3" style={{ marginBottom: "8px" }} />
+                      <Bookmark size={24} color="#0030E3" style={{ marginBottom: 8 }} />
                       <Typography fontSize="14px" fontWeight="500" color="#0030E3">
                         Bookmarks
                       </Typography>
@@ -409,33 +410,33 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                   {/* Mobile user section */}
                   <Box
                     style={{
-                      padding: "16px",
+                      padding: 16,
                       backgroundColor: "#f8f9fa",
-                      borderRadius: "12px",
+                      borderRadius: 12,
                       border: "1px solid #e9ecef",
                     }}
                   >
-                    <FlexBox alignItems="center" style={{ gap: "12px", marginBottom: 12 }}>
+                    <FlexBox alignItems="center" style={{ gap: 12, marginBottom: 12 }}>
                       <div
                         className="profile-initials"
                         style={{
-                          width: "48px",
-                          height: "48px",
+                          width: 48,
+                          height: 48,
                           borderRadius: "50%",
                           backgroundColor: "#ffffff",
                           border: "2px solid #e9ecef",
-                          color: "#000000",
+                          color: "#000",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
-                          fontSize: "16px",
-                          fontWeight: "600",
+                          fontSize: 16,
+                          fontWeight: 600,
                         }}
                       >
-                        MW
+                        {getInitials(displayName)}
                       </div>
                       <Box flex="1">
-                        <Typography fontSize="16px" fontWeight="600" color="#333" style={{ marginBottom: "4px" }}>
+                        <Typography fontSize="16px" fontWeight="600" color="#333" style={{ marginBottom: 4 }}>
                           My Account
                         </Typography>
                         <Typography fontSize="14px" color="#666">
@@ -444,32 +445,26 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                       </Box>
                     </FlexBox>
 
-                    {/* Authenticated-only: buttons */}
                     <AuthenticatedTemplate>
                       <div style={{ display: "flex", gap: 10, marginTop: 8 }}>
-                        <Button
-                          variant="outlined"
-                          onClick={() => { setIsMobileMenuOpen(false); goDashboard(); }}
-                        >
+                        <Button variant="outlined" onClick={goDashboard}>
                           Dashboard
                         </Button>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={() => { setIsMobileMenuOpen(false); logout(); }}
-                        >
+                        <Button variant="contained" color="primary" onClick={logout}>
                           Logout
                         </Button>
                       </div>
                     </AuthenticatedTemplate>
 
-                    {/* Unauthenticated: show Sign In */}
                     <UnauthenticatedTemplate>
                       <div style={{ display: "flex", gap: 10, marginTop: 8 }}>
                         <Button
                           variant="contained"
                           color="primary"
-                          onClick={() => { setIsMobileMenuOpen(false); startLogin(); }}
+                          onClick={() => {
+                            setIsMobileMenuOpen(false);
+                            startLogin();
+                          }}
                         >
                           Sign In
                         </Button>

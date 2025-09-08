@@ -10,7 +10,7 @@ import {
 import type { AccountInfo } from "@azure/msal-browser";
 import { Menu, X, Search, Bookmark, ChevronRight, LogOut, User } from "lucide-react";
 
-import { loginRequest } from "../../lib/authConfig";
+import { loginRequest } from "@lib/authConfig";
 
 import Box from "../Box";
 import Container from "../Container";
@@ -25,7 +25,7 @@ type NavbarProps = { navListOpen?: boolean };
 function getInitials(name?: string) {
   if (!name) return "U";
   const parts = name.trim().split(/\s+/).slice(0, 2);
-  return parts.map(p => p[0]?.toUpperCase()).join("") || "U";
+  return parts.map((p) => p[0]?.toUpperCase()).join("") || "U";
 }
 
 export default function Navbar({ navListOpen }: NavbarProps) {
@@ -39,9 +39,10 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   const profileRef = useRef<HTMLDivElement | null>(null);
 
   // derive active account + name once
-  const activeAccount: AccountInfo | undefined = useMemo(() => {
-    return instance.getActiveAccount() ?? accounts[0];
-  }, [instance, accounts]);
+  const activeAccount: AccountInfo | undefined = useMemo(
+    () => instance.getActiveAccount() ?? accounts[0],
+    [instance, accounts]
+  );
 
   const displayName =
     activeAccount?.name ||
@@ -82,10 +83,18 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   }, [isProfileOpen]);
 
   // actions
-  const toggleMobileMenu = () => setIsMobileMenuOpen(v => !v);
+  const toggleMobileMenu = () => setIsMobileMenuOpen((v) => !v);
 
-  const startLogin = () => {
-    return instance.loginRedirect(loginRequest).catch(console.error);
+  // ✅ POPUP login + route to /dashboard
+  const startLogin = async () => {
+    try {
+      const res = await instance.loginPopup(loginRequest);
+      if (res?.account) instance.setActiveAccount(res.account);
+      setIsMobileMenuOpen(false);
+      router.push("/dashboard");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const goDashboard = () => {
@@ -95,16 +104,19 @@ export default function Navbar({ navListOpen }: NavbarProps) {
 
   const logout = () => {
     setIsMobileMenuOpen(false);
+    const account = instance.getActiveAccount() ?? accounts?.[0];
     instance
       .logoutRedirect({
-        postLogoutRedirectUri: typeof window !== "undefined" ? window.location.origin : "/",
+        account,
+        postLogoutRedirectUri:
+          typeof window !== "undefined" ? window.location.origin : "/",
       })
       .catch(console.error);
   };
 
   const handleProfileClick = () => {
     if (!activeAccount) startLogin();
-    else setIsProfileOpen(v => !v);
+    else setIsProfileOpen((v) => !v);
   };
 
   return (
@@ -165,12 +177,12 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         >
           {/* Search */}
           <Box className="search-icon" style={{ cursor: "pointer" }} title="Search">
-            <Search size={20} color="white"/>
+            <Search size={20} color="white" />
           </Box>
 
           {/* Bookmark */}
           <Box className="bookmark-icon" style={{ cursor: "pointer" }} title="Bookmarks">
-            <Bookmark size={22} color="white"/>
+            <Bookmark size={22} color="white" />
           </Box>
 
           {/* Profile */}
@@ -306,7 +318,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                   aria-label="Close menu"
                   tabIndex={0}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  onKeyDown={(e) => e.key === "Escape" ? setIsMobileMenuOpen(false) : null}
+                  onKeyDown={(e) => (e.key === "Escape" ? setIsMobileMenuOpen(false) : null)}
                   style={{
                     position: "fixed",
                     inset: 0,

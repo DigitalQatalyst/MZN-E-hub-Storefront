@@ -8,10 +8,12 @@ import FlexBox from "../FlexBox";
 import NavLink from "../nav-link";
 import { Button } from "../buttons";
 import Container from "../Container";
-import Typography from "../Typography";
+import Typography, { H2 } from "../Typography";
 import Categories from "../categories/Categories";
 import styled from "styled-components";
-import { useMsal } from "@azure/msal-react";
+import { useMsal, useIsAuthenticated } from "@azure/msal-react";
+import { loginRequest, signupAuthority } from "@lib/authConfig";
+
  
 const StyledNavbar = styled.div`
   background: transparent !important;
@@ -346,22 +348,59 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
-  const { instance } = useMsal();
+  const { instance, accounts } = useMsal();
+   const isAuthenticated = useIsAuthenticated();
+  const [isLoading, setIsLoading] = useState(false);
   
+  // const handleLogin = async () => {
+  //   await instance.loginRedirect({
+  //     authority: "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/B2C_1_KF_SignIn",
+  //     scopes: ["openid", "profile", "email", "offline_access"], // adjust as needed
+  //     // remove prompt=login in prod to allow SSO
+  //   });
+  // };
+
   const handleLogin = async () => {
-    await instance.loginRedirect({
-      authority: "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/B2C_1_KF_SignIn",
-      scopes: ["openid", "profile", "email", "offline_access"], // adjust as needed
-      // remove prompt=login in prod to allow SSO
-    });
+    setIsLoading(true);
+    try {
+      const resp = await instance.loginPopup({
+        scopes: ["openid", "profile", "email"],
+      });
+      if (resp) {
+        router.push("/dashboard"); // 👈 after login, move user
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSignup = async () => {
-    await instance.loginRedirect({
-      authority: "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/B2C_1_KF_Signup",
-      scopes: ["openid", "profile", "email", "offline_access"],
-    });
+    try {
+      const res = await instance.loginPopup({
+        ...loginRequest,
+        authority: signupAuthority,   // 👈 use the SIGNUP policy
+      });
+
+      // (optional) get a fresh token for APIs right away
+      // await instance.acquireTokenSilent({ ...loginRequest, account: res.account });
+
+      setMenuOpen(false);
+      router.push("/dashboard");      // 👈 land on dashboard
+    } catch (e: any) {
+      // Nice-to-have: handle common B2C cases gracefully
+      if (typeof e?.message === "string") {
+        // User closed popup
+        if (e.message.includes("user_cancelled") || e.message.includes("popup_window_error")) return;
+        // Forgot password invoked from signup (if enabled)
+        if (e.message.includes("AADB2C90118")) {
+          // You can start a reset flow here if you have one
+          return;
+        }
+      }
+      console.error("Signup failed:", e);
+    }
   };
+
  
   useEffect(() => {
     const handleScroll = () => {
@@ -376,17 +415,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
-
-  // const handleLogin = () => {
-  //   instance.loginRedirect({
-  //     scopes: ["openid"],
-  //     redirectUri: window.location.origin,
-  //     extraQueryParameters: { prompt: "login" }
-  //   }).catch((e) => {
-  //     console.log(e);
-  //   });
-  //   setMenuOpen(false);
-  // };
+  
 
   const handleLogout = () => {
     instance.logoutRedirect().catch((e) => {
@@ -449,9 +478,18 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           </Box>
  
           <FlexBox alignItems="center" style={{ gap: "10px" }}>
-            <Box className="profile-icon" onClick={handleLogin}>
+            {/* <Box className="profile-icon" onClick={handleLogin}>
               <Icon size="30px" color="#002180">profile</Icon>
-            </Box>
+            </Box> */}
+            {!isAuthenticated ? (
+              <Box className="profile-icon" onClick={handleLogin} style={{ width: "68px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {isLoading ? "Signing in..." : <Icon size="30px" color="#002180">profile</Icon>}
+              </Box>
+            ) : (
+              <div>
+                <Button onClick={handleLogout}>Sign Out</Button>
+              </div>
+            )}
             <Button
               className="become-partner-btn"
               variant="outlined"

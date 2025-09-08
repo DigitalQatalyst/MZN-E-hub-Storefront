@@ -17,7 +17,6 @@ import Signin from "./signin";
 import Search from "./search";
 import ExploreModal from "@component/mobile-responsiveness/ExploreModal";
 
-
 interface Nav {
   url: string;
   child: Nav[];
@@ -59,51 +58,51 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         className="navbar-container"
         height="100%"
         display="flex"
-        align-items="center"
-        justify-content="space-between"
+        alignItems="center"
+        justifyContent="space-between"
       >
-        <Box className="enterprise-logo" mr="20px">
-          <NavLink href="/">
-            <img src="/assets/images/logos/mzn_logo.svg" alt="Enterprise Journey Logo" />
+        <Box display="flex" alignItems="center">
+          <Box className="enterprise-logo" mr="40px">
+            <NavLink href="/">
+              <img src="/assets/images/logos/mzn_logo.svg" alt="Enterprise Journey Logo" />
+            </NavLink>
+          </Box>
+          <Categories open={navListOpen}>
+            <FlexBox alignItems="center" mr="40px">
+              <Typography className="explore-text" ml="5px" fontSize="14px" fontWeight="500" lineHeight="20px" color="#FFF" letterSpacing="-0.1px">
+                Explore
+              </Typography>
+              <Image
+                src="/assets/images/icons/dropdown_latest.svg"
+                alt="Dropdown"
+                width={24} // Adjust width as needed to match the icon size
+                height={24} // Adjust height as needed to match the icon size
+                style={{ marginTop: "2px" }} // Adjust margin to align with text
+              />
+            </FlexBox>
+          </Categories>
+          <NavLink
+            className="nav-link"
+            href="/development"
+            style={{ color: "#FFF !important", fontSize: "14px", fontStyle: "normal", fontWeight: 500, lineHeight: "20px", letterSpacing: "-0.1px" }}
+            mr="40px"
+          >
+            Discover AbuDhabi
           </NavLink>
+          <Search /> {/* No margin after Search as it's the last item */}
         </Box>
 
-        <Categories open={navListOpen}>
-          <Button className="explore-button" width="278px" height="34.409px" bg="body.default" variant="text">
-            <FlexBox justifyContent="space-between" alignItems="center" width="100%">
-              <FlexBox alignItems="center">
-                <Icon className="explore-icon">categories</Icon>
-                <Typography className="explore-text" ml="5px" fontSize="14px" fontWeight="600" lineHeight="26px" color="#002180">
-                  Explore
-                </Typography>
-              </FlexBox>
-              <Icon className="dropdown-icon" variant="small">chevron-down</Icon>
-            </FlexBox>
-          </Button>
-        </Categories>
-
-        <Box flex="1" />
-
-        <FlexBox className="right-section">
-          <FlexBox className="nav-links">
-            <NavLink className="nav-link" href="/development">Discover AbuDhabi</NavLink>
-            <NavLink className="nav-link" href="/faq">Help Centre</NavLink>
-          </FlexBox>
-
-          <Search />
-
-          <Signin />
-          <Button
-            className="become-partner-btn"
-            variant="outlined"
-            onClick={() => {
-              router.push("/development");
-            }}
+        <Box display="flex" alignItems="center">
+          <NavLink
+            className="nav-link"
+            href="/development"
+            style={{ color: "#FFF !important", fontSize: "14px", fontStyle: "normal", fontWeight: 500, lineHeight: "20px", letterSpacing: "-0.1px" }}
+            mr="40px"
           >
             Become a Partner
-          </Button>
-          <Signup />
-        </FlexBox>
+          </NavLink>
+          <Signin /> {/* No margin after Signin as it's the last item */}
+        </Box>
       </Container>
 
       <Box className="responsive-mobile-menu">

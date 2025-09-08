@@ -72,7 +72,13 @@ export default function Navbar({ navListOpen }: NavbarProps) {
               <Typography className="explore-text" ml="5px" fontSize="14px" fontWeight="500" lineHeight="20px" color="#FFF" letterSpacing="-0.1px">
                 Explore
               </Typography>
-              <Icon className="dropdown-icon" variant="small">chevron-down</Icon>
+              <Image
+                src="/assets/images/icons/dropdown_latest.svg"
+                alt="Dropdown"
+                width={24} // Adjust width as needed to match the icon size
+                height={24} // Adjust height as needed to match the icon size
+                style={{ marginTop: "2px" }} // Adjust margin to align with text
+              />
             </FlexBox>
           </Categories>
           <NavLink

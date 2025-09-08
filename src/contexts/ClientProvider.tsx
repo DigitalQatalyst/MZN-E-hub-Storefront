@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import MsalProviderClient from "./MsalProviderClient";
+import {MSALProviderWrapper as MsalProviderClient} from "./MsalProvider";
 import { AppProvider } from "@context/app-context";
 import { ModalProvider } from "@context/ModalContext";
 import StyledContext from "@context/StyledContext";

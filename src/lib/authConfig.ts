@@ -22,7 +22,7 @@ const BASE_AUTHORITY = `https://${KNOWN_AUTHORITY_HOST}/${TENANT_NAME}.onmicroso
 const clientId =
   process.env.NEXT_PUBLIC_B2C_CLIENT_ID ?? "b94aa491-036c-4ddb-8bbf-12b510113078";
 const redirectUri =
-  process.env.NEXT_PUBLIC_B2C_REDIRECT_URI ?? "http://localhost:3000";
+  process.env.NEXT_PUBLIC_B2C_REDIRECT_URI ?? "https://mzn-e-hub-storefront-git-dev-digitalqatalysts-projects.vercel.app/";
 const postLogoutRedirectUri =
   process.env.NEXT_PUBLIC_B2C_POSTLOGOUT_URI ?? redirectUri;
 

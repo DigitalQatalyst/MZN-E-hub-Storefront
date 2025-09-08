@@ -159,7 +159,7 @@ const MyDownloads = () => {
         <Typography
           sx={{
             fontFamily: "Inter",
-            fontSize: "16px",
+            fontSize: "24px",
             fontStyle: "normal",
             fontWeight: 500,
             lineHeight: "22px",
@@ -280,7 +280,7 @@ const MyDownloads = () => {
             lineHeight: "22px",
           }}
         >
-          Folders
+          Folder
         </Typography>
         <Typography
           sx={{
@@ -295,7 +295,7 @@ const MyDownloads = () => {
             marginTop: "16px",
           }}
         >
-          Group your uploaded files into folders
+          Group your files into folders
         </Typography>
       </Box>
 

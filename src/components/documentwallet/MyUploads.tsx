@@ -563,7 +563,7 @@ const MyUploads = () => {
       <Box
         sx={{
           backgroundColor: "#fff",
-          height: "200px",
+          height: "324px",
           borderRadius: "8px",
           width: "100%",
           display: "flex",

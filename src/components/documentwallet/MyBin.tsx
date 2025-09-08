@@ -99,19 +99,21 @@ const MyBin = () => {
             </Typography>
           </Box>
           <Box>
-            <button
-              style={{
-                color: "#FF4C51",
-                border: "1px solid #FF4C51",
-                padding: "15px 15px",
-                borderRadius: "8px",
-                fontSize: "15px",
-              }}
-              onClick={handleDeleteSelected}
-              disabled={selectedFiles.length === 0}
-            >
-              Delete Selected Files
-            </button>
+            {selectedFiles?.length && (
+              <button
+                style={{
+                  color: "#FF4C51",
+                  border: "1px solid #FF4C51",
+                  padding: "15px 15px",
+                  borderRadius: "8px",
+                  fontSize: "15px",
+                }}
+                onClick={handleDeleteSelected}
+                disabled={selectedFiles.length === 0}
+              >
+                Delete Selected Files
+              </button>
+            )}
           </Box>
         </Box>
       </Box>

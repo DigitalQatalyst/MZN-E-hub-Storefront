@@ -88,7 +88,7 @@ const Overview = () => {
       <Box
         sx={{
           backgroundColor: "#fff",
-          height: "200px",
+          height: "280px",
           borderRadius: "8px",
           width: "100%",
           display: "flex",
@@ -231,7 +231,7 @@ const Overview = () => {
         <Typography
           sx={{
             fontFamily: "Inter",
-            fontSize: "16px",
+            fontSize: "24px",
             fontStyle: "normal",
             fontWeight: 500,
             lineHeight: "22px",
@@ -342,17 +342,23 @@ const Overview = () => {
           height: "auto",
         }}
       >
-        <Typography
+        <Box
           sx={{
-            fontFamily: "Inter",
-            fontSize: "16px",
-            fontStyle: "normal",
-            fontWeight: 500,
-            lineHeight: "22px",
+            marginBottom: "20px",
           }}
         >
-          Recent Activity
-        </Typography>
+          <Typography
+            sx={{
+              fontFamily: "Inter",
+              fontSize: "24px",
+              fontStyle: "normal",
+              fontWeight: 500,
+              lineHeight: "22px",
+            }}
+          >
+            Recent Activity
+          </Typography>
+        </Box>
 
         <Box
           sx={{

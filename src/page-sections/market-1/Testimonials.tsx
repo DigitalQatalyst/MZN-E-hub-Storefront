@@ -6,10 +6,11 @@ import { H3 } from "@component/Typography";
 import { Button as DefaultButton } from "@component/buttons";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import StyledHeader from "@component/header/styles";
 
 // STYLED COMPONENTS
 const WelcomeSection = styled.section`
-  background-color: #FFF;
+  background-color: #fff;
   color: #000;
   padding: 50px 120px 50px 120px;
   display: flex;
@@ -159,7 +160,7 @@ const EventDetails = styled.div`
 
 const EventTitle = styled.h4`
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 600;
   color: #000;
   margin: 0;
   display: -webkit-box;
@@ -198,7 +199,7 @@ const EventMeta = styled.div`
 
 const ExploreAllButton = styled(DefaultButton)`
   background-color: transparent;
-  color: #0030E3;
+  color: #0030e3;
   border: none;
   font-size: 16px;
   font-weight: 500;
@@ -234,7 +235,8 @@ interface Post {
   } | null;
 }
 
-const GRAPHQL_ENDPOINT = "https://ujs.qxk.mybluehost.me/website_b79ab28e/graphql";
+const GRAPHQL_ENDPOINT =
+  "https://ujs.qxk.mybluehost.me/website_b79ab28e/graphql";
 
 const Section16: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -246,9 +248,9 @@ const Section16: React.FC = () => {
     const fetchPosts = async () => {
       try {
         const response = await fetch(GRAPHQL_ENDPOINT, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             query: `
@@ -282,8 +284,8 @@ const Section16: React.FC = () => {
         setPosts(data.posts.edges.map((edge: any) => edge.node));
         setError(null);
       } catch (err) {
-        console.error('Error fetching posts:', err);
-        setError('Failed to load posts. Please try again later.');
+        console.error("Error fetching posts:", err);
+        setError("Failed to load posts. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -294,25 +296,35 @@ const Section16: React.FC = () => {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
+    return date.toLocaleDateString("en-US", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
     });
   };
 
   const handleExploreAllClick = () => {
-    window.open("https://kf-ej-media-marketplace-c0cllh08g-digitalqatalysts-projects.vercel.app/", "_blank");
+    window.open(
+      "https://kf-ej-media-marketplace-c0cllh08g-digitalqatalysts-projects.vercel.app/",
+      "_blank"
+    );
   };
 
   if (loading) {
     return (
       <WelcomeSection>
         <ContentColumn>
-          <H3 style={{ fontSize: "16px", fontWeight: "400", textTransform: "uppercase" }}>
+          <H3
+            style={{
+              fontSize: "16px",
+              fontWeight: "400",
+              fontFamily: "Helvetica Neue",
+              textTransform: "uppercase",
+            }}
+          >
             Latest Insights & Success Stories
           </H3>
-          <MainHeading fontSize="48px" fontWeight="600">
+          <MainHeading fontSize="48px" fontWeight="500">
             Loading...
           </MainHeading>
         </ContentColumn>
@@ -324,7 +336,13 @@ const Section16: React.FC = () => {
     return (
       <WelcomeSection>
         <ContentColumn>
-          <H3 style={{ fontSize: "16px", fontWeight: "400", textTransform: "uppercase" }}>
+          <H3
+            style={{
+              fontSize: "16px",
+              fontWeight: "400",
+              textTransform: "uppercase",
+            }}
+          >
             Error
           </H3>
           <H3 fontSize="24px" fontWeight="600" color="error">
@@ -339,17 +357,30 @@ const Section16: React.FC = () => {
     <div>
       <WelcomeSection>
         <ContentColumn>
-          <H3 style={{ fontSize: "16px", fontWeight: "400", textTransform: "uppercase" }}>
+          <p
+            style={{
+              fontSize: "16px",
+              fontWeight: "400",
+              textTransform: "uppercase",
+            }}
+          >
             Latest Insights & Success Stories
-          </H3>
-          <MainHeading fontSize="48px" fontWeight="600">
-            Stay informed with curated news, <br /> market analysis, and real-world case studies
+          </p>
+          <MainHeading fontSize="48px" fontWeight="500">
+            Stay informed with curated news, <br /> market analysis, and
+            real-world case studies
           </MainHeading>
         </ContentColumn>
         <FeaturedEvents>
           <FeaturedEventsHeader>
             <HeaderTextContainer>
-              <p style={{ fontSize: "16px", fontWeight: "400", textTransform: "uppercase" }}>
+              <p
+                style={{
+                  fontSize: "16px",
+                  fontWeight: "400",
+                  textTransform: "uppercase",
+                }}
+              >
                 Latest Media Updates
               </p>
               <SubText>Discover the latest news and updates.</SubText>
@@ -363,7 +394,10 @@ const Section16: React.FC = () => {
               <EventCard key={post.postId}>
                 <EventImage>
                   <Image
-                    src={post.featuredImage?.node?.sourceUrl || "/assets/images/placeholder.jpg"}
+                    src={
+                      post.featuredImage?.node?.sourceUrl ||
+                      "/assets/images/placeholder.jpg"
+                    }
                     alt={post.title}
                     layout="fill"
                     objectFit="cover"
@@ -372,7 +406,15 @@ const Section16: React.FC = () => {
                 <EventDetails>
                   <EventTitle>{post.title}</EventTitle>
                   <EventMeta>
-                    <span>{formatDate(post.date)}</span>
+                    <span
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        color: "#7D879C",
+                      }}
+                    >
+                      {formatDate(post.date)}
+                    </span>
                   </EventMeta>
                 </EventDetails>
               </EventCard>

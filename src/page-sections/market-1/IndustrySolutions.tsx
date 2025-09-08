@@ -74,6 +74,7 @@ const Description = styled.p`
   font-size: var(--Body-Large-Size, 16px);
   font-weight: 400;
   margin-right: 1rem;
+  font-size: 16px;
   flex: 1;
 
   @media (max-width: 899px) {
@@ -87,7 +88,7 @@ const Description = styled.p`
       display: none;
     }
   }
-  
+
   @media (max-width: 480px) {
     font-size: 16px;
   }
@@ -138,7 +139,7 @@ const StyledBody = styled.p`
   color: #000;
   font-size: 48px;
   font-family: "FS Kim Trial";
-  font-weight: 500;
+  font-weight: 400;
   line-height: var(--Display-Medium-Line-Height, 52px);
   letter-spacing: var(--Display-Medium-Tracking, 0px);
   margin: 0;
@@ -277,7 +278,7 @@ const CarouselWrapper = styled(Box)`
 // Mobile Vertical Layout Container
 const MobileContainer = styled.div`
   display: none;
-  
+
   @media (max-width: 480px) {
     display: flex;
     flex-direction: column;
@@ -289,7 +290,7 @@ const MobileContainer = styled.div`
 
 const MobileProductWrapper = styled.div`
   width: 100%;
-  
+
   .product-card {
     width: 100%;
     margin: 0;
@@ -471,9 +472,7 @@ export default function Section15() {
     return (
       <CategorySectionCreator>
         <ContentColumn>
-          <LoadingErrorWrapper>
-            Loading services...
-          </LoadingErrorWrapper>
+          <LoadingErrorWrapper>Loading services...</LoadingErrorWrapper>
         </ContentColumn>
       </CategorySectionCreator>
     );
@@ -484,9 +483,7 @@ export default function Section15() {
     return (
       <CategorySectionCreator>
         <ContentColumn>
-          <LoadingErrorWrapper>
-            {error}
-          </LoadingErrorWrapper>
+          <LoadingErrorWrapper>{error}</LoadingErrorWrapper>
         </ContentColumn>
       </CategorySectionCreator>
     );
@@ -497,9 +494,7 @@ export default function Section15() {
     return (
       <CategorySectionCreator>
         <ContentColumn>
-          <LoadingErrorWrapper>
-            No services found 😢
-          </LoadingErrorWrapper>
+          <LoadingErrorWrapper>No services found 😢</LoadingErrorWrapper>
         </ContentColumn>
       </CategorySectionCreator>
     );
@@ -535,27 +530,21 @@ export default function Section15() {
         {/* Loading State */}
         {loading && (
           <Box py="3rem">
-            <LoadingErrorWrapper>
-              Loading services...
-            </LoadingErrorWrapper>
+            <LoadingErrorWrapper>Loading services...</LoadingErrorWrapper>
           </Box>
         )}
 
         {/* Error State */}
         {error && !loading && (
           <Box py="3rem">
-            <LoadingErrorWrapper>
-              {error}
-            </LoadingErrorWrapper>
+            <LoadingErrorWrapper>{error}</LoadingErrorWrapper>
           </Box>
         )}
 
         {/* Empty State */}
         {!loading && !error && products.length === 0 && (
           <Box py="3rem">
-            <LoadingErrorWrapper>
-              No services found 😢
-            </LoadingErrorWrapper>
+            <LoadingErrorWrapper>No services found 😢</LoadingErrorWrapper>
           </Box>
         )}
 

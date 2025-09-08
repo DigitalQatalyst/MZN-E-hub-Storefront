@@ -415,7 +415,7 @@ export default function ProductCard19(props: ProductCard19Props) {
         </CardMedia>
 
         <ContentBox>
-          <StyledParagraph>{name}</StyledParagraph>
+          <StyledParagraph style={{ fontSize: "16px" }}>{name}</StyledParagraph>
           <StyledH4 fontWeight={700}>{subTitle}</StyledH4>
 
           {/* <FlexBox justifyContent="flex-start" alignItems="center" mb="1rem">

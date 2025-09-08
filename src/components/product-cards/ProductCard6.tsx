@@ -68,7 +68,8 @@ const ResponsiveCard = styled(Card)`
 
 // Responsive title
 const ResponsiveTitle = styled(H4)`
-  font-weight: 700;
+  font-weight: 400;
+  font-size: 16px;
   height: 2rem;
   color: #000;
 
@@ -88,7 +89,8 @@ const ResponsiveTitle = styled(H4)`
 // Responsive subtitle
 const ResponsiveSubtitle = styled(H5)`
   font-weight: 400;
-  height: 7.5rem;
+  font-size: 12px;
+  //height: 7.5rem;
   white-space: normal;
   word-break: break-word;
   margin-top: 1rem;

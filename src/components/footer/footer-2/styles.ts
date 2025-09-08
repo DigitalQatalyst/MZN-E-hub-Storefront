@@ -36,7 +36,7 @@ export const FullWrapper = styled(Box)`
   padding: 40px;
   overflow: hidden;
   background-image: linear-gradient(180deg, #FFF 0%, #FDFDFF 9.41%, #F7F8FE 17.07%, #EDF0FD 23.24%, #E0E6FC 28.21%, #D1D9FA 32.23%, #BFCBF8 35.57%, #ABBBF6 38.51%, #96AAF4 41.31%, #8098F1 44.25%, #6A86EF 47.6%, #5373EC 51.62%, #3D61EA 56.58%, #2750E7 62.76%, #133FE5 70.41%, #0030E3 79.82%);
-  padding: 3rem 0.5rem;
+  padding: 3rem 0;
   width: 100%;
 
   @media only screen and (max-width: 900px) {

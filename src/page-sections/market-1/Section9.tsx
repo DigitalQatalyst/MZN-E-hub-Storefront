@@ -45,7 +45,7 @@ const StyledHeader = styled.h1`
   /* Mobile first - optimized for 4 lines */
   font-size: 32px;
   line-height: 1.25;
-  
+
   /* Hide desktop line break on mobile */
   br {
     display: none;
@@ -55,7 +55,7 @@ const StyledHeader = styled.h1`
   @media (min-width: 768px) {
     font-size: clamp(32px, 4vw, 40px);
     line-height: 1.15;
-    
+
     /* Show line break on tablet and up */
     br {
       display: block;
@@ -77,7 +77,7 @@ const SubTitle = styled.p`
   letter-spacing: 0px;
   text-transform: uppercase;
   margin-bottom: 0.5rem;
-  
+
   /* Mobile: 12px to fit in one line */
   font-size: 12px;
   white-space: nowrap;
@@ -156,7 +156,7 @@ type Props = { products: Product[] };
 export default function Section9({ products }: Props) {
   // Show different number of products based on screen size
   const getProductsToShow = () => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const width = window.innerWidth;
       if (width < 480) return 2; // Mobile: show 2 products
       if (width < 768) return 4; // Small tablet: show 4 products
@@ -169,14 +169,22 @@ export default function Section9({ products }: Props) {
   return (
     <CategorySectionCreator>
       <ContentColumn>
-        <SubTitle>
+        <SubTitle style={{ fontSize: "16px", fontWeight: "400" }}>
           WELCOME TO THE ENTERPRISE JOURNEY PLATFORM
         </SubTitle>
-        <StyledHeader>
-          We help businesses find the right partners to get started, grow, and succeed
+        <StyledHeader
+          style={{
+            fontFamily: "FS Kim Trial",
+            fontWeight: "400",
+            fontSize: "48px",
+            lineHeight: "52px",
+          }}
+        >
+          We help businesses find the right partners to get started, grow, and
+          succeed
         </StyledHeader>
       </ContentColumn>
-      
+
       <CardsContainer>
         <ProductGrid>
           {products.slice(0, 4).map((item, ind) => (

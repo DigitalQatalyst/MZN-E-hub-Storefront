@@ -12,10 +12,39 @@ import { colors } from "theme/colors/colors";
 import { FullWrapper } from "@component/footer/footer-2/styles";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
+import { fontFamily } from "styled-system";
 
 // Styled components for responsive design
+const WelcomeSection = styled.section`
+  background-color: #0030e3;
+  color: white;
+  margin-bottom: 2rem;
+
+  /* Mobile first */
+  padding: 1.5rem 1rem 2rem 1rem;
+
+  /* Small tablet */
+  @media (min-width: 480px) {
+    padding: 2rem 1.5rem 2.5rem 1.5rem;
+  }
+
+  /* Tablet */
+  @media (min-width: 768px) {
+    padding: 2.5rem 2rem 3rem 2rem;
+  }
+
+  /* Large tablet */
+  @media (min-width: 1024px) {
+    padding: 3rem 4rem 4rem 4rem;
+  }
+
+  /* Desktop */
+  @media (min-width: 1200px) {
+    padding: 3.125rem 6.25rem 5rem 7.5rem;
+  }
+`;
 const ResponsiveContainer = styled(FlexBox)`
-  padding: 0px 80px 50px 80px;
+  padding: 0px 120px 50px 120px;
 
   @media (max-width: 1200px) {
     padding: 0px 60px 40px 60px;
@@ -79,6 +108,8 @@ const ResponsiveH1 = styled(H1)`
 const ResponsiveH5 = styled(H5)`
   color: #000000;
   font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
 
   @media (max-width: 768px) {
     font-size: 0.95rem;
@@ -95,6 +126,7 @@ const DescriptionText = styled(H5)`
   color: #000000;
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
+  font-weight: 400;
   flex: 1;
   white-space: nowrap;
   margin-right: 3rem;
@@ -153,7 +185,7 @@ const ButtonContainer2 = styled(FlexBox)`
 
 const ResponsiveButton = styled(Button)`
   white-space: nowrap;
-  
+
   @media (max-width: 480px) {
     padding: 12px 24px;
     font-size: 1.1rem;
@@ -178,13 +210,14 @@ const TabContainer = styled(Box)`
   }
 `;
 
-const TabItem = styled(Box) <{ isActive: boolean }>`
+const TabItem = styled(Box)<{ isActive: boolean }>`
   padding: 1rem;
   cursor: pointer;
   border-bottom: ${({ isActive }) => (isActive ? "2px solid #ffffff" : "none")};
   color: #fff;
-  font-weight: ${({ isActive }) => (isActive ? "bold" : "normal")};
+  font-weight: 500;
   transition: all 0.3s ease;
+  font-size: 14px;
 
   @media (max-width: 768px) {
     padding: 0.75rem 1rem;
@@ -208,7 +241,7 @@ const TabItem = styled(Box) <{ isActive: boolean }>`
       width: 80%;
       height: 2px;
       background-color: ${({ isActive }) =>
-    isActive ? "#2a2b2d" : "transparent"};
+        isActive ? "#2a2b2d" : "transparent"};
       transition: all 0.5s ease;
     }
   }
@@ -281,12 +314,12 @@ export default function Section3() {
     if (activeTab === "entrepreneur") {
       return {
         text: "Sign Up as Entrepreneur",
-        link: "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_Signup&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fmzn-e-hub-storefront-git-landingpage-digitalqatalysts-projects.vercel.app%2F&scope=openid&response_type=code&prompt=login&code_challenge_method=S256&code_challenge=0vZQNWZJq-_sIiTADK-M4hyf44ACCodxa3_4L0MYxVo%22"
+        link: "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_Signup&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fmzn-e-hub-storefront-git-landingpage-digitalqatalysts-projects.vercel.app%2F&scope=openid&response_type=code&prompt=login&code_challenge_method=S256&code_challenge=0vZQNWZJq-_sIiTADK-M4hyf44ACCodxa3_4L0MYxVo%22",
       };
     } else {
       return {
         text: "Sign Up as Partner",
-        link: "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_Partner_Signup&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fmzn-e-hub-storefront-git-landingpage-digitalqatalysts-projects.vercel.app%2F&scope=openid&response_type=code&prompt=login&code_challenge_method=S256&code_challenge=0vZQNWZJq-_sIiTADK-M4hyf44ACCodxa3_4L0MYxVo%22"
+        link: "https://dgqatalyst.b2clogin.com/dgqatalyst.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_KF_Partner_Signup&client_id=b94aa491-036c-4ddb-8bbf-12b510113078&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fmzn-e-hub-storefront-git-landingpage-digitalqatalysts-projects.vercel.app%2F&scope=openid&response_type=code&prompt=login&code_challenge_method=S256&code_challenge=0vZQNWZJq-_sIiTADK-M4hyf44ACCodxa3_4L0MYxVo%22",
       };
     }
   };
@@ -356,7 +389,16 @@ export default function Section3() {
           <HeaderSection>
             <ContentSection>
               <ResponsiveH5>HOW IT WORKS</ResponsiveH5>
-              <ResponsiveH1>Getting started is easy</ResponsiveH1>
+              <ResponsiveH1
+                style={{
+                  fontFamily: "FS Kim Trial",
+                  fontWeight: "400",
+                  fontSize: "48px",
+                  lineHeight: "52px",
+                }}
+              >
+                Getting started is easy
+              </ResponsiveH1>
               <ContentCTA>
                 <DescriptionText>
                   Browse available marketplaces, find services tailored to your

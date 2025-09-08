@@ -340,6 +340,7 @@ const StyledPlatformHeader = styled.h1`
   color: #FFF;
   font-weight: 400;
   letter-spacing: 0px;
+  font-family: "FS Kim Trial";
   margin-top: 10px;
   margin-bottom: 1rem;
   line-height: 1.2;

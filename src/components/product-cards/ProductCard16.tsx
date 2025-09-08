@@ -14,7 +14,7 @@ import { useAppContext } from "@context/app-context";
 // STYLED COMPONENTS
 const StyledBazaarCard = styled(Card)(({ theme }) => ({
   margin: "auto",
-  height: "310px",
+  height: "330px",
   flexShrink: 0,
   display: "flex",
   overflow: "hidden",

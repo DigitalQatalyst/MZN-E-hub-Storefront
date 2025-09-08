@@ -36,6 +36,7 @@ const ContentColumn = styled.div`
 const StyledHeader = styled.h1`
   color: #000;
   font-weight: 550;
+  font-family: "FS Kim Trial";
   line-height: 1.2;
   letter-spacing: 0px;
   margin-top: 1rem;

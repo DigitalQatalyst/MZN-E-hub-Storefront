@@ -679,7 +679,7 @@ export const products = [
     },
     title: "AI Support for Every",
     title1: "Stage of Your Business",
-    subTitle: "Harness Al-driven support for your business, offering personalized insights, recommendations, and automation to accelerate growth at any stage. ",
+    subTitle: "Harness Al-driven support for your business, offering personalized insights, and automation to accelerate growth at any stage. ",
     brand: null,
     price: 110,
     size: null,

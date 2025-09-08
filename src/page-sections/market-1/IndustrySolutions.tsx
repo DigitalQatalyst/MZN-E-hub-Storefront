@@ -137,6 +137,7 @@ const DescriptionButtonWrapper = styled.div`
 const StyledBody = styled.p`
   color: #000;
   font-size: 48px;
+  font-family: "FS Kim Trial";
   font-weight: 500;
   line-height: var(--Display-Medium-Line-Height, 52px);
   letter-spacing: var(--Display-Medium-Tracking, 0px);

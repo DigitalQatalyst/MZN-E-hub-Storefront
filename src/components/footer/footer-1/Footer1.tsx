@@ -23,7 +23,8 @@ export default function Footer1() {
       <Box
         style={{
           background: "#0030E3",
-          padding: "4rem 4rem"
+          padding: "4rem 0 4rem 6rem",
+          overflow: "hidden"
         }}
       >
         <div style={{
@@ -33,7 +34,7 @@ export default function Footer1() {
         }}>
           <Grid container spacing={8} alignItems="flex-start">
             {/* Left Section - Logo and Description */}
-            <Grid item xs={12} lg={4}>
+            <Grid item xs={12} lg={6}>
               <Box mb="2rem">
                 <Box mb="2rem">
                   <img src="/assets/images/tab_bar/Subtract.svg" alt="MZN Enterprise Hub" height="100%" width="240rem" />
@@ -44,12 +45,12 @@ export default function Footer1() {
                   lineHeight="1.6"
                   mb="2rem"
                 >
-                  Stay updated with the latest business insights, opportunities, and services from Enterprise Journey.
+                  Stay updated with the latest business insights,<br/> opportunities, and services from Enterprise Journey.
                 </Paragraph>
                 
                 {/* Newsletter Subscription */}
                 <form onSubmit={handleSubmit}>
-                  <Box position="relative" maxWidth="320px">
+                  <Box position="relative" maxWidth="430px">
                     <input
                       type="email"
                       placeholder="Enter your email"
@@ -97,7 +98,7 @@ export default function Footer1() {
             </Grid>
 
             {/* Right Section - Three Columns */}
-            <Grid item xs={12} lg={8}>
+            <Grid item xs={12} lg={6}>
               <Grid container spacing={6}>
                 {/* Get to Know Us */}
                 <Grid item xs={12} sm={6} lg={4}>
@@ -218,12 +219,34 @@ export default function Footer1() {
         </div>
       </Box>
 
+      {/* Divider */}
+      <Box
+        style={{
+          background: "#0030E3"
+        }}
+      >
+        <div style={{
+          margin: "0 auto",
+          maxWidth: "1400px",
+          padding: "0 5.5rem",
+          width: "100%"
+        }}>
+          <hr
+            style={{
+              border: 'none',
+              borderTop: '4px solid rgb(75, 111, 241)',
+              width: '100%',
+              margin: 0
+            }}
+          />
+        </div>
+      </Box>
+
       {/* Bottom Section */}
       <Box
         style={{
           background: "#0030E3",
-          borderTop: '2px solid #5088FF',
-          padding: "1.5rem 2rem"
+          padding: "1.5rem 0 1.5rem 6rem"
         }}
       >
         <div style={{

@@ -6,7 +6,6 @@ import Image from "next/image";
 import Box from "../../Box";
 import Icon from "../../icon/Icon";
 import FlexBox from "../../FlexBox";
-// import CustomNavLink from "../../CustomNavLink"; // Import the new component
 import { Button } from "../../buttons";
 import Container from "../../Container";
 import Typography from "../../Typography";
@@ -15,8 +14,9 @@ import { StyledNavbar } from "./styles";
 import Signup from "./signup";
 import Signin from "./signin";
 import Search from "./search";
-import ExploreModal from "@component/mobile-responsiveness/ExploreModal";
 import CustomNavLink from "@component/CustomNavLink/CustomNavLink";
+import ExploreModal from "@component/mobile-responsiveness/ExploreModal";
+import MoreModal from "@component/mobile-responsiveness/MoreModal"; // Import the new MoreModal
 
 interface Nav {
   url: string;
@@ -31,6 +31,7 @@ type NavbarProps = { navListOpen?: boolean };
 export default function Navbar({ navListOpen }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [activeItem, setActiveItem] = useState("/");
+  const [isMoreModalOpen, setIsMoreModalOpen] = useState(false); // New state for MoreModal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
@@ -47,6 +48,10 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   const handleNavClick = (path: string) => {
     setActiveItem(path);
     router.push(path);
+  };
+
+  const toggleMoreModal = () => {
+    setIsMoreModalOpen(!isMoreModalOpen); // Toggle MoreModal visibility
   };
 
   const toggleModal = () => {
@@ -109,7 +114,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             alt="More"
             width={24}
             height={24}
-            onClick={toggleModal}
+            onClick={toggleMoreModal} // Toggle MoreModal when clicked
           />
         </Box>
       </Container>
@@ -146,6 +151,10 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         </FlexBox>
       </Box>
 
+      {/* Modal to open when More icon is clicked */}
+      {isMoreModalOpen && <MoreModal onClose={toggleMoreModal} />}
+
+      {/* ExploreModal remains as is, triggered separately */}
       {isModalOpen && <ExploreModal onClose={toggleModal} />}
     </StyledNavbar>
   );

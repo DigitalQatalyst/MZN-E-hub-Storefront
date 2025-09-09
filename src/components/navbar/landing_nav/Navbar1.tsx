@@ -92,7 +92,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           {/* <Search /> */}
         </Box>
 
-        <Box display="flex" alignItems="center">
+        <Box display="flex" alignItems="center" className="desktop-nav">
           <CustomNavLink
             className="nav-link"
             href="/development"
@@ -102,10 +102,20 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           </CustomNavLink>
           <Signin />
         </Box>
+
+        <Box display="flex" alignItems="center" className="mobile-more-icon">
+          <Image
+            src="/assets/images/icons/more.svg"
+            alt="More"
+            width={24}
+            height={24}
+            onClick={toggleModal}
+          />
+        </Box>
       </Container>
 
       <Box className="responsive-mobile-menu">
-        <FlexBox className="mobile-nav-links" width="100%" justifyContent="space-around">
+        <FlexBox className="mobile-nav-links" width="100%" justifyContent="space-around" alignItems="center" px="20px">
           <CustomNavLink href="/" onClick={() => handleNavClick("/")}>
             <Image
               src={activeItem === "/" ? "/assets/images/non_financial_marketplace/home-active.svg" : "/assets/images/non_financial_marketplace/home.svg"}
@@ -124,15 +134,6 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             />
             <Typography color="black">Explore</Typography>
           </Box>
-          {/* <CustomNavLink href="/development" onClick={() => handleNavClick("/search")}>
-            <Image
-              src="/assets/images/non_financial_marketplace/search (2).svg"
-              alt="Search"
-              width={24}
-              height={24}
-            />
-            <Typography color="black">Search</Typography>
-          </CustomNavLink> */}
           <CustomNavLink href="/development" onClick={() => handleNavClick("/profile")}>
             <Image
               src={activeItem === "/profile" ? "/assets/images/non_financial_marketplace/profile-active.svg" : "/assets/images/non_financial_marketplace/profile.svg"}

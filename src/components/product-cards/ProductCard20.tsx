@@ -17,7 +17,7 @@ const CardBox = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   width: "100%",
-  minHeight: "300px",
+  //minHeight: "300px",
   height: "auto",
   padding: "16px",
   marginBottom: "20px",
@@ -205,7 +205,7 @@ export default function ProductCard20(props: ProductCard19Props) {
           </FavoriteButton> */}
         </CardMedia>
 
-        <Box textAlign="left">
+        <Box style={{ textAlign: "left" }}>
           <StyledParagraph>{name}</StyledParagraph>
           <StyledH4 fontWeight={700}>{subTitle}</StyledH4>
 
@@ -217,9 +217,11 @@ export default function ProductCard20(props: ProductCard19Props) {
           </FlexBox> */}
           <StyledH5 fontWeight={700}>{description}</StyledH5>
           <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
           >
             <StyledButton mt={3}>
               <span style={{ fontSize: "10px" }}>Funding & Loans</span>
@@ -242,7 +244,15 @@ export default function ProductCard20(props: ProductCard19Props) {
       <ProductQuickView
         open={openDialog}
         onClose={toggleDialog}
-        product={{ id, images, subTitle, description, slug, title: name, title1: name}}
+        product={{
+          id,
+          images,
+          subTitle,
+          description,
+          slug,
+          title: name,
+          title1: name,
+        }}
       />
     </Fragment>
   );

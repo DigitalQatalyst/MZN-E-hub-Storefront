@@ -29,8 +29,6 @@ export default function ShopLayout({ navbar, children }: Props) {
       )}
       <MobileNavigationBar />
       <Footer1 />
-
-      <KfBot />
     </StyledAppLayout>
   );
 }

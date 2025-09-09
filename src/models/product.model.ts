@@ -48,9 +48,9 @@ interface Product {
   processingTime?: string;
   registrationValidity?: string;
   cost?: string;
-  steps?: string[];
-  termsOfService?: string[];
-  requiredDocuments?: string[];
+  steps?: string;
+  termsOfService?: string;
+  requiredDocuments?: string;
   relatedServices?: RelatedService[];
   customFields?: {
     BusinessStage?: string;

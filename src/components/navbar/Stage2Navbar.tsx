@@ -25,9 +25,23 @@ function useBreakpoint(query: string) {
   return matches;
 }
 
-type NavbarProps = { navListOpen?: boolean };
+type NavbarProps = {
+  navListOpen?: boolean;
+  /** Optional modal components so this file compiles even if you don't use them */
+  DropdownComponent?: React.ComponentType<{ setNotifShown: (v: boolean) => void; setDropShown: (v: boolean) => void }>;
+  NotificationsComponent?: React.ComponentType<{
+    setNotifShown: (v: boolean) => void;
+    setNotifCenterShown: (v: boolean) => void;
+  }>;
+  NotificationCenterComponent?: React.ComponentType<{ setNotifCenterShown: (v: boolean) => void }>;
+};
 
-export default function Navbar({ navListOpen }: NavbarProps) {
+export default function Navbar({
+  navListOpen,
+  DropdownComponent,
+  NotificationsComponent,
+  NotificationCenterComponent,
+}: NavbarProps) {
   const { instance, accounts } = useMsal();
 
   // debug
@@ -44,6 +58,11 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement | null>(null);
+
+  // modal states (were missing)
+  const [dropShown, setDropShown] = useState(false);
+  const [notifShown, setNotifShown] = useState(false);
+  const [notifCenterShown, setNotifCenterShown] = useState(false);
 
   // close profile on outside click
   useEffect(() => {
@@ -76,13 +95,21 @@ export default function Navbar({ navListOpen }: NavbarProps) {
     else setIsProfileOpen(v => !v);
   };
 
+  // handle modal outside click (was missing)
+  const handleModalOutsideClick = () => {
+    setDropShown(false);
+    setNotifShown(false);
+    setNotifCenterShown(false);
+  };
+
   return (
     <StyledNavbar
       style={{
         height: isSmDown ? 60 : 72,
         background: "linear-gradient(90deg, #19E5C2 0%, #5A7BF6 60%, #8E5AF6 100%)",
         color: "#fff",
-        zIndex: 1100,
+        zIndex: 2000,        // ↑ keep the navbar above everything
+        position: "relative" // ensure z-index applies
       }}
     >
       <Container
@@ -105,14 +132,6 @@ export default function Navbar({ navListOpen }: NavbarProps) {
               alt="Enterprise Journey"
               style={{ height: isSmDown ? 22 : isMdDown ? 24 : 28, width: "auto" }}
             />
-            {/* {!isSmDown && (
-              <div style={{ lineHeight: 1 }}>
-                <div style={{ fontWeight: 800, letterSpacing: 0.4, fontSize: isMdDown ? 14 : 16 }}>ENTERPRISE</div>
-                <div style={{ fontWeight: 800, letterSpacing: 0.4, fontSize: isMdDown ? 14 : 16, marginTop: -2 }}>
-                  JOURNEY
-                </div>
-              </div>
-            )} */}
           </FlexBox>
 
           {/* Explore */}
@@ -135,6 +154,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                   cursor: "pointer",
                   backdropFilter: "blur(6px)",
                 }}
+                onClick={() => setDropShown(true)}
               >
                 <span style={{ fontSize: 14, fontWeight: 500 }}>Explore</span>
                 <ChevronDown size={16} />
@@ -182,15 +202,13 @@ export default function Navbar({ navListOpen }: NavbarProps) {
               }}
               onClick={() => (window.location.href = "/search")}
             >
-              <SearchIcon size={16} color="white"/>
+              <SearchIcon size={16} color="white" />
             </button>
           )}
         </FlexBox>
 
         {/* RIGHT: greeting + avatar + hamburger */}
         <FlexBox alignItems="center" style={{ gap: 10 }}>
-
-
           {/* Avatar */}
           <Box ref={profileRef} className="profile-photo" style={{ position: "relative" }}>
             <button
@@ -230,7 +248,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                     borderRadius: 10,
                     boxShadow: "0 10px 25px rgba(0,0,0,0.12)",
                     minWidth: 220,
-                    zIndex: 1200,
+                    zIndex: 2200,
                     overflow: "hidden",
                   }}
                 >
@@ -300,7 +318,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           <>
             <div
               onClick={() => setIsMobileMenuOpen(false)}
-              style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.45)", zIndex: 1000 }}
+              style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.45)", zIndex: 1900 }}
             />
             <div
               style={{
@@ -309,7 +327,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                 left: 0,
                 right: 0,
                 background: "#fff",
-                zIndex: 1001,
+                zIndex: 1950,
                 boxShadow: "0 6px 24px rgba(0,0,0,0.15)",
                 borderBottomLeftRadius: 12,
                 borderBottomRightRadius: 12,
@@ -401,54 +419,39 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         }
       `}</style>
 
-      <div
-        className="modal"
-        style={{
-          display:
-            dropShown || notifShown || notifCenterShown ? "block" : "none",
-          position: "fixed", // Changed to fixed for better positioning
-          top: "0",
-          left: "0",
-          width: "100vw",
-          height: "100vh",
-          backgroundColor: notifCenterShown
-            ? "rgba(0, 0, 0, 0.7)"
-            : "transparent",
-          zIndex: 9999,
-        }}
-        onClick={handleModalOutsideClick}
-      >
-        {dropShown && (
+      {/* Optional modal layer (now safe & typed) */}
+      {(dropShown || notifShown || notifCenterShown) && (
+        <div
+          className="modal"
+          onClick={handleModalOutsideClick}
+          style={{
+            position: "fixed",
+            inset: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: notifCenterShown ? "rgba(0,0,0,0.7)" : "transparent",
+            zIndex: 2500, // on top of navbar
+          }}
+        >
+          {/* stop propagation so inner clicks don't close */}
           <div onClick={(e) => e.stopPropagation()}>
-            <Dropdown
-              setNotifShown={setNotifShown}
-              setDropShown={setDropShown}
-            />
+            {!!DropdownComponent && dropShown && (
+              <DropdownComponent setNotifShown={setNotifShown} setDropShown={setDropShown} />
+            )}
+            {!!NotificationsComponent && notifShown && (
+              <NotificationsComponent
+                setNotifShown={setNotifShown}
+                setNotifCenterShown={setNotifCenterShown}
+              />
+            )}
+            {!!NotificationCenterComponent && notifCenterShown && (
+              <div style={{ backgroundColor: "green", width: "fit-content", margin: "0 auto" }}>
+                <NotificationCenterComponent setNotifCenterShown={setNotifCenterShown} />
+              </div>
+            )}
           </div>
-        )}
-
-        {notifShown && (
-          <div onClick={(e) => e.stopPropagation()}>
-            <Notifications
-              setNotifShown={setNotifShown}
-              setNotifCenterShown={setNotifCenterShown}
-            />
-          </div>
-        )}
-
-        {notifCenterShown && (
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              backgroundColor: "green",
-              width: "fit-content",
-              margin: "0 auto",
-            }}
-          >
-            <NotificationCenter setNotifCenterShown={setNotifCenterShown} />
-          </div>
-        )}
-      </div>
+        </div>
+      )}
     </StyledNavbar>
   );
 }

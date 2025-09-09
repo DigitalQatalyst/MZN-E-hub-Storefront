@@ -195,7 +195,7 @@ export default function Navbar({
             )}
 
             {/* Search */}
-            {!isMdDown && (
+            {/* {!isMdDown && (
               <button
                 type="button"
                 aria-label="Search"
@@ -214,7 +214,7 @@ export default function Navbar({
               >
                 <SearchIcon size={16} color="white" />
               </button>
-            )}
+            )} */}
           {/* </div> */}
         </FlexBox>
 

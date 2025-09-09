@@ -152,7 +152,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
       </Box>
 
       {/* Modal to open when More icon is clicked */}
-      {isMoreModalOpen && <MoreModal onClose={toggleMoreModal} />}
+      {isMoreModalOpen && <MoreModal />}
 
       {/* ExploreModal remains as is, triggered separately */}
       {isModalOpen && <ExploreModal onClose={toggleModal} />}

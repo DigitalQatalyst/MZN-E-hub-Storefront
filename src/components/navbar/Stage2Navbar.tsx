@@ -173,7 +173,7 @@ export default function Navbar({
             )}
 
             {/* Discover */}
-            {!isLgDown && (
+            {!isMdDown && (
               <button
                 type="button"
                 style={{

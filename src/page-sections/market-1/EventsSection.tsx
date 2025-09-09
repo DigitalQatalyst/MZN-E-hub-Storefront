@@ -10,13 +10,11 @@ import { useRouter } from "next/navigation";
 
 // STYLED COMPONENTS
 const WelcomeSection = styled.section`
-  background-color: #0030E3;
+  background-color: #0030e3;
   color: white;
   padding: 90px 120px 50px 120px;
   display: flex;
   flex-direction: column;
-  font-family: 'Open Sans', sans-serif;
-  font-style: normal;
   gap: 2rem;
   margin-bottom: 2rem;
   @media (max-width: 1199px) {
@@ -32,6 +30,12 @@ const ContentColumn = styled.div`
   flex-direction: column;
 `;
 
+const ResponsiveH3 = styled(H3)`
+  @media (max-width: 768px) {
+    font-size: 36px !important;
+  }
+`;
+
 const FeaturedEvents = styled.div`
   display: flex;
   flex-direction: column;
@@ -44,6 +48,14 @@ const FeaturedEventsHeader = styled.div`
   align-items: center;
   width: 100%;
   margin-bottom: 1rem;
+
+  @media (max-width: 599px) {
+    justify-content: flex-start;
+
+    .explore-all-desktop {
+      display: none;
+    }
+  }
 `;
 
 const EventsContainer = styled.div`
@@ -55,16 +67,16 @@ const EventsContainer = styled.div`
   flex-wrap: nowrap;
   @media (max-width: 899px) {
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 3rem;
   }
   @media (max-width: 599px) {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 3rem;
   }
 `;
 
 const EventCard = styled.div`
-  background-color: #0030E3;
+  background-color: #0030e3;
   border-radius: 12px;
   overflow: hidden;
   display: flex;
@@ -99,7 +111,8 @@ const EventDetails = styled.div`
 const EventTitle = styled.h4`
   font-size: 20px;
   font-weight: 400;
-  color: #FFF;
+  font-family: "FS Kim Trial";
+  color: #fff;
   margin: 0;
   @media (max-width: 899px) {
     font-size: 16px;
@@ -108,8 +121,7 @@ const EventTitle = styled.h4`
 
 const EventMeta = styled.div`
   font-size: 14px;
-  font-family: "Public Sans", sans-serif;
-  color: #FFF;
+  color: #fff;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -127,22 +139,22 @@ const RegisterButton = styled(DefaultButton)`
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-  background: var(--KF-BG-White, #FFF);
-  color: #0030E3;
+  background: var(--KF-BG-White, #fff);
+  color: #0030e3;
   border: none;
   font-size: 14px;
   font-weight: 400;
   width: fit-content;
 
   &:hover {
-    background-color: #E0E0E0;
+    background-color: #e0e0e0;
     color: #002180;
   }
 `;
 
 const ExploreAllButton = styled(DefaultButton)`
   background-color: transparent;
-  color: #FFF;
+  color: #fff;
   border: none;
   font-size: 16px;
   font-weight: 500;
@@ -152,7 +164,17 @@ const ExploreAllButton = styled(DefaultButton)`
   padding: 0;
 
   &:hover {
-    color: #A9C9FF;
+    color: #a9c9ff;
+  }
+`;
+
+const MobileExploreContainer = styled.div`
+  display: none;
+  margin-top: 2rem;
+
+  @media (max-width: 599px) {
+    display: flex;
+    justify-content: flex-start;
   }
 `;
 
@@ -215,7 +237,6 @@ const FormFieldWrapper = styled.div`
 `;
 
 const FormLabel = styled.label`
-  font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   color: #000;
   font-weight: 400;
@@ -226,19 +247,17 @@ const FormField = styled.input`
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-family: "Public Sans", sans-serif;
   font-size: 14px;
   color: #000;
   box-sizing: border-box;
 `;
 
 const SubmitButton = styled.button`
-  background-color: #0030E3;
+  background-color: #0030e3;
   color: #fff;
   padding: 12px;
   border: none;
   border-radius: 4px;
-  font-family: "Public Sans", sans-serif;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
@@ -287,13 +306,11 @@ const Checkmark = styled.span`
 `;
 
 const SuccessMessage = styled.div`
-  font-family: "Public Sans", sans-serif;
   font-size: 16px;
   color: #000;
 `;
 
 const SuccessSubMessage = styled.div`
-  font-family: "Public Sans", sans-serif;
   font-size: 14px;
   color: #666;
   margin-top: 8px;
@@ -313,7 +330,7 @@ const Section16: React.FC = () => {
     {
       id: 1,
       image: "/assets/images/Groceries Shop/Image.png",
-      title: "Entrepreneurship with Creativity: Turn ...",
+      title: "Entrepreneurship with Creativity",
       date: "24 Apr 2025, 04:30 PM - 06:30 PM",
       location: "Abu Dhabi SME Hub, Khalifa Fund HQ, Abu Dhabi",
     },
@@ -322,7 +339,7 @@ const Section16: React.FC = () => {
       image: "/assets/images/Groceries Shop/Image1.png",
       title: "Creating Value in Entrepreneurship",
       date: "28-29 Jun 2025, 04:30 PM - 06:30 PM",
-      location: "Hub71, Al Khatem Tower, Abu Dhabi Global Market",
+      location: "Hub71, Khatem Tower, Abu Dhabi Global Market",
     },
     {
       id: 3,
@@ -438,22 +455,31 @@ const Section16: React.FC = () => {
             </SuccessIcon>
             <SuccessMessage>Registration Successful!</SuccessMessage>
             <SuccessSubMessage>
-              Thank you for registering! You will receive a confirmation email shortly
+              Thank you for registering! You will receive a confirmation email
+              shortly
             </SuccessSubMessage>
           </SuccessPopup>
         </PopupOverlay>
       )}
       <WelcomeSection>
         <ContentColumn>
-          <p style={{ fontSize: "16px", fontWeight: "400", fontFamily: "Open Sans, sans-serif" }}>JOIN OUR UPCOMING EVENTS</p>
-          <H3 fontSize="48px" fontWeight="400" fontFamily="Open Sans" mb="1rem">
-            Workshops, bootcamps, and info sessions <br /> designed to help you grow.
-          </H3>
+          <p style={{ fontSize: "16px", fontWeight: "400" }}>
+            JOIN OUR UPCOMING EVENTS
+          </p>
+          <ResponsiveH3 fontSize="48px" fontWeight="400">
+            Workshops, bootcamps, and info sessions <br /> designed to help you
+            grow.
+          </ResponsiveH3>
         </ContentColumn>
         <FeaturedEvents>
           <FeaturedEventsHeader>
-            <p style={{ fontSize: "16px", fontWeight: "400", fontFamily: 'Open Sans' }}>Featured Events</p>
-            <ExploreAllButton onClick={handleExploreAllClick}>
+            <p style={{ fontSize: "16px", fontWeight: "400" }}>
+              Featured Events
+            </p>
+            <ExploreAllButton
+              className="explore-all-desktop"
+              onClick={handleExploreAllClick}
+            >
               Explore all Events <span>→</span>
             </ExploreAllButton>
           </FeaturedEventsHeader>
@@ -471,11 +497,11 @@ const Section16: React.FC = () => {
                 <EventDetails>
                   <EventTitle>{event.title}</EventTitle>
                   <EventMeta>
-                    <span>
+                    <span style={{ fontSize: "14px", fontWeight: "400" }}>
                       <Icon>calendar</Icon>
                       {event.date}
                     </span>
-                    <span>
+                    <span style={{ fontSize: "14px", fontWeight: "400" }}>
                       <Icon>pin_drop</Icon>
                       {event.location}
                     </span>
@@ -487,6 +513,11 @@ const Section16: React.FC = () => {
               </EventCard>
             ))}
           </EventsContainer>
+          <MobileExploreContainer>
+            <ExploreAllButton onClick={handleExploreAllClick}>
+              Explore all Events <span>→</span>
+            </ExploreAllButton>
+          </MobileExploreContainer>
         </FeaturedEvents>
       </WelcomeSection>
     </div>

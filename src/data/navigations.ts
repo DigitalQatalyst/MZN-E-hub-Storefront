@@ -1,5 +1,51 @@
 const navigations = [
   {
+    icon: "money_bag",
+    title: "Financial",
+    href: "/financial-marketplace",
+    menuComponent: "MegaMenu1",
+    menuData: {
+      categories: [
+        {
+          title: "Business Operations Financing",
+          href: "",
+          subCategories: [],
+          imgUrl: "/assets/images/products/categories/business-operations-financing.png"
+        },
+        {
+          title: "Project & Specialized Financing",
+          href: "",
+          subCategories: [],
+          imgUrl: "/assets/images/products/categories/project-specialized-financing.png"
+        },
+        {
+          title: "Growth & Expansion Financing",
+          href: "",
+          subCategories: [],
+          imgUrl: "/assets/images/products/categories/growth-expansion-financing.png"
+        },
+        {
+          title: "Loan Management & Adjustments",
+          href: "",
+          subCategories: [],
+          imgUrl: "/assets/images/products/categories/loan-management-adjustments.png"
+        },
+        {
+          title: "Business Asset Financing",
+          href: "",
+          subCategories: [],
+          imgUrl: "/assets/images/products/categories/business-asset-financing.png"
+        },
+        {
+          title: "Investment & Equity Financing",
+          href: "",
+          subCategories: [],
+          imgUrl: "/assets/images/products/categories/investment-equity-financing.png"
+        }
+      ]
+    }
+  },
+  {
     icon: "all_inclusive",
     title: "Non-Financial",
     href: "/non-financial-marketplace",
@@ -7,7 +53,7 @@ const navigations = [
     menuData: {
       categories: [
         {
-          title: "Events & Networking",
+          title: "Events & Networking", 
           href: "",
           subCategories: [],
           imgUrl: "/assets/images/products/categories/events-networking.png"
@@ -64,80 +110,50 @@ const navigations = [
     }
   },
   {
-    icon: "money_bag",
-    title: "Financial",
-    href: "/financial-marketplace",
-    menuComponent: "MegaMenu1",
-    menuData: {
-      categories: [
-        {
-          title: "Business Operations Financing",
-          href: "",
-          subCategories: [],
-          imgUrl: "/assets/images/products/categories/business-operations-financing.png"
-        },
-        {
-          title: "Project & Specialized Financing",
-          href: "",
-          subCategories: [],
-          imgUrl: "/assets/images/products/categories/project-specialized-financing.png"
-        },
-        {
-          title: "Growth & Expansion Financing",
-          href: "",
-          subCategories: [],
-          imgUrl: "/assets/images/products/categories/growth-expansion-financing.png"
-        },
-        {
-          title: "Loan Management & Adjustments",
-          href: "",
-          subCategories: [],
-          imgUrl: "/assets/images/products/categories/loan-management-adjustments.png"
-        },
-        {
-          title: "Business Asset Financing",
-          href: "",
-          subCategories: [],
-          imgUrl: "/assets/images/products/categories/business-asset-financing.png"
-        },
-        {
-          title: "Investment & Equity Financing",
-          href: "",
-          subCategories: [],
-          imgUrl: "/assets/images/products/categories/investment-equity-financing.png"
-        }
-      ]
-    }
-  },
-  {
-    icon: "local_library",
-    title: "Courses",
-    href: "",
+    icon: "brand_awareness",
+    title: "Media",
+    href: "https://kf-ej-media-marketplace-reruapfib-digitalqatalysts-projects.vercel.app/media/",
     menuComponent: "MegaMenu2",
     menuData: [
       {
         icon: "",
         title: "",
-        href: "",
-        megaMenu: "MegaMenu1"
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "",
-        megaMenu: 2
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "",
-        megaMenu: 3
+        href: ""
       },
       {
         icon: "",
         title: "",
-        href: "",
-        megaMenu: "MegaMenu1"
+        href: ""
+      },
+      {
+        icon: "",
+        title: "",
+            href: ""
+      },
+      {
+        icon: "",
+        title: "",
+        href: ""
+      },
+      {
+        icon: "",
+        title: "",
+        href: ""
+      },
+      {
+        icon: "",
+        title: "",
+        href: ""
       }
     ]
   },
@@ -256,199 +272,53 @@ const navigations = [
     }
   },
   {
-    icon: "brand_awareness",
-    title: "Media",
-    href: "https://kf-ej-media-marketplace-reruapfib-digitalqatalysts-projects.vercel.app/media/",
+    icon: "calendar_month",
+    title: "Calendar",
+    href: "",
+    tag: {
+      text: "Coming Soon",
+      color: "#0030E3",
+      bg: "#FFFFFF"
+    },
     menuComponent: "MegaMenu2",
-    menuData: [
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-            href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      }
-    ]
+    menuData: []
+  },
+  {
+    icon: "local_library",
+    title: "Courses",
+    href: "",
+    tag: {
+      text: "Coming Soon",
+      color: "#0030E3",
+      bg: "#FFFFFF"
+    },
+    menuComponent: "MegaMenu2",
+    menuData: []
   },
   {
     icon: "crowdsource",
     title: "Investment",
     href: "",
+    tag: {
+      text: "Coming Soon",
+      color: "#0030E3",
+      bg: "#FFFFFF"
+    },
     menuComponent: "MegaMenu2",
-    menuData: [
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      }
-    ]
-  },
-  {
-    icon: "calendar_month",
-    title: "Calendar",
-    href: "",
-    menuComponent: "MegaMenu2",
-    menuData: [
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      }
-    ]
+    menuData: []
   },
   {
     icon: "rocket_launch",
     title: "Opportunities",
     href: "",
+    tag: {
+      text: "Coming Soon",
+      color: "#0030E3",
+      bg: "#FFFFFF"
+    },
     menuComponent: "MegaMenu2",
-    menuData: [
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      },
-      {
-        icon: "",
-        title: "",
-        href: ""
-      }
-    ]
+    menuData: []
   },
 ];
 
 export default navigations;
-
-

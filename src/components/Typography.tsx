@@ -69,7 +69,7 @@ export const H2 = (props: CustomProps) => (
 );
 
 export const H3 = (props: CustomProps) => (
-  <Typography as="h3" mb="0" mt="0" fontSize="20px" {...props} />
+  <Typography as="h3" mb="0" mt="0" fontSize="20px" fontFamily="FS Kim Trial" {...props} />
 );
 
 export const H4 = (props: CustomProps) => (

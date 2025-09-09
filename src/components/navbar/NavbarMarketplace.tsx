@@ -1,220 +1,420 @@
 "use client";
- 
+
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import {
+  useMsal,
+  AuthenticatedTemplate,
+  UnauthenticatedTemplate,
+} from "@azure/msal-react";
+import { loginRequest, signupRequest, logoutRequest } from "../../authConfig";
+import { StyledNavbar } from "./marketStyles";
 import Box from "../Box";
-import Card from "../Card";
-import Badge from "../badge";
 import Icon from "../icon/Icon";
 import FlexBox from "../FlexBox";
 import NavLink from "../nav-link";
-import MenuItem from "../MenuItem";
 import { Button } from "../buttons";
 import Container from "../Container";
-import Typography, { Span } from "../Typography";
+import Typography from "../Typography";
 import Categories from "../categories/Categories";
- 
-import StyledNavbar from "./marketStyles";
-import navbarNavigations from "@data/navbarNavigations";
+import Image from "next/image"; // Import Next.js Image component
 
-interface Nav {
-  url: string;
-  child: Nav[];
-  title: string;
-  badge: string;
-  extLink?: boolean;
-}
- 
 type NavbarProps = { navListOpen?: boolean };
-// ==============================================================
- 
-export default function Navbar({ navListOpen }: NavbarProps) {
-  const renderNestedNav = (list: any[], isRoot = false) => {
-    return list?.map((nav: Nav) => {
-      if (isRoot) {
-        if (nav.url && nav.extLink) {
-          return (
-            <NavLink
-              href={nav.url}
-              key={nav.title}
-              target="_blank"
-              className="nav-link"
-              rel="noopener noreferrer"
-            >
-              {nav.badge ? (
-                <Badge style={{ marginRight: "0px" }} title={nav.badge}>
-                  {nav.title}
-                </Badge>
-              ) : (
-                <FlexBox alignItems="center"> {/* Place the text first */}
-                  <Span className="nav-link">{nav.title}</Span>
-                  <img src="/assets/images/mzn_logos/dropdown.svg" alt="Dropdown Icon" className="dropdown-icon" />
-                </FlexBox>
-              )}
-            </NavLink>
-          );
-        }
 
-        if (nav.child) {
-          return (
-            <FlexBox
-              className="root"
-              position="relative"
-              flexDirection="column"
-              alignItems="center"
-              key={nav.title}
-            >
-              {nav.badge ? (
-                <Badge title={nav.badge}>{nav.title}</Badge>
-              ) : (
-                <FlexBox alignItems="center"> {/* Place the text first */}
-                  <Span className="nav-link">{nav.title}</Span>
-                  <img src="/assets/images/mzn_logos/dropdown.svg" alt="Dropdown Icon" className="dropdown-icon" />
-                </FlexBox>
-              )}
-              <div className="root-child">
-                <Card borderRadius={8} mt="1.25rem" py="0.5rem" boxShadow="large" minWidth="230px">
-                  {renderNestedNav(nav.child)}
-                </Card>
-              </div>
-            </FlexBox>
-          );
-        }
+export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeItem, setActiveItem] = useState(""); // State to track active navigation item
+  const { instance } = useMsal();
+  const router = useRouter();
 
-        if (nav.url) {
-          return (
-            <NavLink className="nav-link" href={nav.url} key={nav.title}>
-              {nav.badge ? (
-                <Badge style={{ marginRight: "0px" }} title={nav.badge}>
-                  {nav.title}
-                </Badge>
-              ) : (
-                <FlexBox alignItems="center"> {/* Place the text first */}
-                  <Span className="nav-link">{nav.title}</Span>
-                  <img src="/assets/images/mzn_logos/dropdown.svg" alt="Dropdown Icon" className="dropdown-icon" />
-                </FlexBox>
-              )}
-            </NavLink>
-          );
-        }
-      } else {
-        if (nav.url) {
-          return (
-            <NavLink href={nav.url} key={nav.title}>
-              <MenuItem>
-                <FlexBox alignItems="center"> {/* Place the text first */}
-                  <Span className="nav-link">{nav.title}</Span>
-                  <img src="/assets/images/mzn_logos/dropdown.svg" alt="Dropdown Icon" className="dropdown-icon" />
-                </FlexBox>
-              </MenuItem>
-            </NavLink>
-          );
-        }
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-        if (nav.child) {
-          return (
-            <Box className="parent" position="relative" minWidth="230px" key={nav.title}>
-              <MenuItem
-                color="gray.700"
-                style={{ display: "flex", justifyContent: "space-between" }}
-              >
-                <FlexBox alignItems="center"> {/* Place the text first */}
-                  <Span className="nav-link">{nav.title}</Span>
-                  <img src="/assets/images/mzn_logos/dropdown.svg" alt="Dropdown Icon" className="dropdown-icon" />
-                </FlexBox>
-                <Icon size="8px" defaultcolor="currentColor">
-                  right-arrow
-                </Icon>
-              </MenuItem>
+  useEffect(() => {
+    console.log(
+      "MSAL redirectUri =",
+      instance.getConfiguration().auth.redirectUri
+    );
+  }, [instance]);
 
-              <Box className="child" pl="0.5rem">
-                <Card py="0.5rem" borderRadius={8} boxShadow="large" minWidth="230px">
-                  {renderNestedNav(nav.child)}
-                </Card>
-              </Box>
-            </Box>
-          );
-        }
-      }
-    });
+  const toggleMenu = () => setMenuOpen((v) => !v);
+
+  const handleUserIconClick = () => {
+    instance.loginRedirect(loginRequest).catch(console.error);
+    setMenuOpen(false);
+  };
+
+  const handleBecomePartner = () => {
+    router.push("/development");
+    setMenuOpen(false);
+  };
+
+  const handleSignUp = () => {
+    instance.loginRedirect(signupRequest).catch(console.error);
+    setMenuOpen(false);
+  };
+
+  const handleLogout = () => {
+    instance.logoutRedirect(logoutRequest).catch(console.error);
+    setMenuOpen(false);
+  };
+
+  const handleNavClick = (path) => {
+    setActiveItem(path);
+    router.push(path);
   };
 
   return (
-    <StyledNavbar>
+    <StyledNavbar className={scrolled ? "scrolled" : ""}>
       <Container
+        className="navbar-container"
         height="100%"
         display="flex"
         alignItems="center"
         justifyContent="space-between"
       >
-        {/* Logo Section */}
-        <Box className="navbar-logo" style={{ cursor: "pointer" }}>
-          <a href="/">
+        <Box className="enterprise-logo">
+          <NavLink href="/">
             <img
-              src="/assets/images/tab_bar/Subtract.svg"
-              alt="MZN Enterprise Hub"
-              height="40px"
+              src="/assets/images/logos/mzn_logo.svg"
+              alt="Enterprise Journey Logo"
             />
-          </a>
+          </NavLink>
         </Box>
- 
-        {/* Categories Section */}
+
         <Categories open={navListOpen}>
-          <Button width="278px" height="40px" bg="body.default" variant="text">
-            <Icon>categories</Icon>
-            <Typography
-              ml="10px"
-              flex="1 1 0"
-              fontFamily='"Open Sans", sans-serif'
-              fontSize="16px"
-              fontStyle="normal"
-              fontWeight="600"
-              lineHeight="26px"
-              color="#002180"
+          <Button
+            className="explore-button"
+            width="240px"
+            height="44px"
+            bg="body.default"
+            variant="text"
+          >
+            <FlexBox
+              justifyContent="space-between"
+              alignItems="center"
+              width="100%"
             >
-              Explore
-            </Typography>
- 
-            <Icon className="dropdown-icon" variant="small">
-              chevron-right
-            </Icon>
+              <FlexBox alignItems="center">
+                <Icon className="explore-icon">categories</Icon>
+                <Typography
+                  className="explore-text"
+                  fontFamily='"Open Sans", sans-serif'
+                  fontSize="16px"
+                  fontWeight="600"
+                  lineHeight="26px"
+                  color="#002180"
+                  ml="8px"
+                >
+                  Explore
+                </Typography>
+              </FlexBox>
+              <Icon className="dropdown-icon" variant="small">
+                chevron-down
+              </Icon>
+            </FlexBox>
           </Button>
         </Categories>
 
-        {/* Hardcoded Navigation Links */}
-        <FlexBox style={{ gap: 32 }}>
-          <NavLink className="nav-link" href="#">
-            <FlexBox alignItems="center">
-              <Span className="nav-link">Business in AbuDhabi</Span>
-            </FlexBox>
+        <Box flex="1" />
+
+        <FlexBox className="nav-links" style={{ gap: "20px" }}>
+          <NavLink className="nav-link" href="/development">
+            Discover AbuDhabi
           </NavLink>
-          <NavLink className="nav-link" href="#">
-            <FlexBox alignItems="center">
-              <Span className="nav-link">Help Centre</Span>
-            </FlexBox>
+          <NavLink className="nav-link" href="/faq">
+            Help Centre
           </NavLink>
+          <Box className="search-icon">
+            <Icon size="18px" color="#002180">
+              search-white
+            </Icon>
+          </Box>
+          <UnauthenticatedTemplate>
+            <FlexBox alignItems="center" style={{ gap: "20px" }}>
+              <FlexBox
+                alignItems="center"
+                style={{
+                  cursor: "pointer",
+                  color: "#FFF",
+                  fontWeight: 500,
+                  fontSize: "14px",
+                  //   fontFamily: "Inter",
+                  fontStyle: "normal",
+                }}
+                onClick={handleUserIconClick}
+              >
+                <Icon size="30px" color="#002180">
+                  profile
+                </Icon>
+                Sign In
+              </FlexBox>
+              <Button
+                className="become-partner-btn"
+                variant="outlined"
+                onClick={handleBecomePartner}
+              >
+                Become a Partner
+              </Button>
+              <Button
+                className="sign-up-btn"
+                variant="contained"
+                onClick={handleSignUp}
+              >
+                Sign Up
+              </Button>
+            </FlexBox>
+          </UnauthenticatedTemplate>
+          <AuthenticatedTemplate>
+            <FlexBox alignItems="center" style={{ gap: "20px" }}>
+              <Button
+                className="logout-btn"
+                variant="outlined"
+                onClick={handleLogout}
+              >
+                Logout
+              </Button>
+              <Box
+                className="profile-icon"
+                style={{
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "34px",
+                  height: "34px",
+                  borderRadius: "50%",
+                  backgroundColor: "#f0f0f0",
+                  border: "2px solid #002180",
+                  transition: "all 0.3s ease",
+                }}
+                onClick={handleUserIconClick}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = "#e0e0e0";
+                  e.currentTarget.style.transform = "scale(1.05)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "#f0f0f0";
+                  e.currentTarget.style.transform = "scale(1)";
+                }}
+              >
+                <Icon size="20px" color="#002180">
+                  user
+                </Icon>
+              </Box>
+            </FlexBox>
+          </AuthenticatedTemplate>
         </FlexBox>
 
-        {/* Search Icon, Sign In, and Sign Up Buttons */}
-        <FlexBox alignItems="center" style={{ gap: "15px" }}>
-          {/* Search Icon (Replace with your actual SVG) */}
-          <Box className="search-icon" style={{ cursor: "pointer" }}>
-            <img
-              src="/assets/images/logos/search.svg"
-              alt="Search"
-              height="24px"
-            />
+        <Box className="hamburger-icon" onClick={toggleMenu}>
+          <Icon>menu</Icon>
+        </Box>
+
+        <Box className={`mobile-menu ${menuOpen ? "open" : ""}`}>
+          <Categories open={navListOpen}>
+            <Button
+              className="mobile-explore-button"
+              width="100%"
+              height="44px"
+              bg="body.default"
+              variant="text"
+              onClick={toggleMenu}
+            >
+              <FlexBox
+                justifyContent="space-between"
+                alignItems="center"
+                width="100%"
+              >
+                <Icon className="explore-icon">categories</Icon>
+                <Typography
+                  className="explore-text"
+                  ml="5px"
+                  fontFamily='"Open Sans", sans-serif'
+                  fontSize="16px"
+                  fontWeight="600"
+                  lineHeight="26px"
+                  color="#002180"
+                >
+                  Explore
+                </Typography>
+                <Icon className="dropdown-icon" variant="small">
+                  chevron-down
+                </Icon>
+              </FlexBox>
+            </Button>
+          </Categories>
+
+          <FlexBox className="mobile-nav-links" style={{ gap: "20px" }}>
+            <NavLink
+              className="nav-link"
+              href="/development"
+              onClick={toggleMenu}
+            >
+              Discover AbuDhabi
+            </NavLink>
+            <NavLink className="nav-link" href="/faq" onClick={toggleMenu}>
+              Help Centre
+            </NavLink>
+            <UnauthenticatedTemplate>
+              <FlexBox
+                className="mobile-auth-section"
+                flexDirection="column"
+                style={{ gap: "20px" }}
+              >
+                <Box className="profile-icon" onClick={handleUserIconClick}>
+                  <Icon size="44px" color="#002180">
+                    profile
+                  </Icon>
+                </Box>
+                <Button
+                  className="mobile-auth-button become-partner-btn"
+                  style={{
+                    background: "transparent",
+                    color: "white",
+                    border: "2px solid rgba(255, 255, 255, 0.8)",
+                    padding: "10px",
+                    borderRadius: "6px",
+                  }}
+                  onClick={handleBecomePartner}
+                >
+                  Become a Partner
+                </Button>
+                <Button
+                  className="mobile-auth-button sign-up-btn"
+                  style={{
+                    background: "white",
+                    color: "#0000FF",
+                    border: "2px solid white",
+                    padding: "10px",
+                    borderRadius: "6px",
+                  }}
+                  onClick={handleSignUp}
+                >
+                  Sign Up
+                </Button>
+              </FlexBox>
+            </UnauthenticatedTemplate>
+            <AuthenticatedTemplate>
+              <FlexBox
+                className="mobile-auth-section"
+                flexDirection="column"
+                style={{ gap: "20px" }}
+              >
+                <Button
+                  className="mobile-auth-button mobile-profile"
+                  style={{
+                    background: "#f8f9fa",
+                    color: "#002180",
+                    border: "2px solid #e0e0e0",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "8px",
+                    padding: "10px",
+                    borderRadius: "6px",
+                  }}
+                  onClick={handleUserIconClick}
+                >
+                  <Icon size="24px" color="#002180">
+                    user
+                  </Icon>
+                  Sign In
+                </Button>
+                <Button
+                  className="mobile-auth-button logout-btn"
+                  style={{
+                    background: "#dc3545",
+                    color: "white",
+                    border: "2px solid #dc3545",
+                    padding: "10px",
+                    borderRadius: "6px",
+                  }}
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>
+              </FlexBox>
+            </AuthenticatedTemplate>
+          </FlexBox>
+        </Box>
+
+        <Container
+          className="responsive-header"
+          height="60px"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Box className="enterprise-logo">
+            <NavLink href="/">
+              <img
+                src="/assets/images/logos/mzn_logo.svg"
+                alt="Enterprise Journey Logo"
+              />
+            </NavLink>
           </Box>
- 
-          {/* Sign In & Sign Up Buttons */}
-          <Button className="sign-in-btn" variant="outlined">
-            Sign In
-          </Button>
- 
-          <Button className="sign-up-button" variant="contained">
-            Sign Up
-          </Button>
-        </FlexBox>
+        </Container>
+
+        <Box className="responsive-mobile-menu">
+          <FlexBox
+            className="mobile-nav-links"
+            style={{ gap: 10, width: "100%", justifyContent: "space-around" }}
+          >
+            <NavLink href="/" onClick={() => handleNavClick("/")}>
+              <Image
+                src={
+                  activeItem === "/"
+                    ? "/assets/images/non_financial_marketplace/home-active.svg"
+                    : "/assets/images/non_financial_marketplace/home.svg"
+                }
+                alt="Home"
+                width={24}
+                height={24}
+              />
+              <Typography color="black">Home</Typography>
+            </NavLink>
+            <NavLink href="/explore" onClick={() => handleNavClick("/explore")}>
+              <Image
+                src={
+                  activeItem === "/explore"
+                    ? "/assets/images/non_financial_marketplace/explore-active.svg"
+                    : "/assets/images/non_financial_marketplace/explore.svg"
+                }
+                alt="Explore"
+                width={24}
+                height={24}
+              />
+              <Typography color="black">Explore</Typography>
+            </NavLink>
+            <NavLink href="/search" onClick={() => handleNavClick("/search")}>
+              <Image
+                src="/assets/images/non_financial_marketplace/search (2).svg"
+                alt="Search"
+                width={24}
+                height={24}
+              />
+              <Typography color="black">Search</Typography>
+            </NavLink>
+            <NavLink href="/profile" onClick={() => handleNavClick("/profile")}>
+              <Image
+                src={
+                  activeItem === "/profile"
+                    ? "/assets/images/non_financial_marketplace/profile-active.svg"
+                    : "/assets/images/non_financial_marketplace/profile.svg"
+                }
+                alt="Profile"
+                width={24}
+                height={24}
+              />
+              <Typography color="black">Profile</Typography>
+            </NavLink>
+          </FlexBox>
+        </Box>
       </Container>
     </StyledNavbar>
   );
 }
- 

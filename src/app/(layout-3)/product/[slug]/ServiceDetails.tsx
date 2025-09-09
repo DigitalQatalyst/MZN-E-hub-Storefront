@@ -6,6 +6,7 @@ import client from "@lib/graphQLClient";
 import Product from "@models/product.model";
 import ServiceDetailsSection1 from "@component/products/ServiceDetailsSection1";
 import ServiceDetailsSection2 from "@component/products/ServiceDetailsSection2";
+import Loading from "app/(layout-3)/shops/[slug]/loading";
 
 const MessageContainer = styled.div`
   display: flex;
@@ -167,7 +168,7 @@ export default function ServiceDetails({ slug }: { slug: string }) {
     console.log("Updated product state:", product);
   }, [product]);
 
-  if (loading) return <MessageContainer>Loading...</MessageContainer>;
+  if (loading) return <Loading />;
   if (!product) return <MessageContainer>Product not found</MessageContainer>;
 
   return (

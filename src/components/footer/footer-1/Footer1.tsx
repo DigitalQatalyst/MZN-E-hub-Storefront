@@ -2,125 +2,56 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Linkedin, Twitter, Youtube, Instagram } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Box from "@component/Box";
 import Grid from "@component/grid/Grid";
 import FlexBox from "@component/FlexBox";
 import Typography, { Paragraph } from "@component/Typography";
-
-// STYLED COMPONENTS
-import { StyledLink, SubscribeInput, SubscribeButton } from "./styles";
-
-// IMPORT FOOTER DATA
-import { footerData, socialMediaLinks } from "./data";
 
 export default function Footer1() {
   const [email, setEmail] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle the subscribe action
     console.log("Subscribed with email:", email);
-    // Reset form after submission
     setEmail("");
   };
 
-  // Render a footer column with links and optional badges
-  const renderFooterColumn = (columnKey: string, columnData: any) => (
-    <Grid item lg={2.4} md={4} sm={6} xs={12} key={columnKey}>
-      <Typography
-        mb="1.5rem"
-        lineHeight="1"
-        fontSize="14px"
-        fontWeight="600"
-        color="white"
-      >
-        {columnData.title}
-      </Typography>
-      <div>
-        {columnData.links.map((linkItem: any, index: number) => (
-          <StyledLink
-            href={linkItem.url}
-            key={index}
-            style={{
-              color: 'rgba(255,255,255,0.8)',
-              display: 'block',
-              marginBottom: '0.75rem',
-              fontSize: '14px',
-              textDecoration: 'none',
-              transition: 'color 0.2s ease'
-            }}
-          >
-            {linkItem.name}
-            {/* Add badge if present */}
-            {linkItem.badge && (
-              <Box
-                as="span"
-                ml="0.5rem"
-                px="0.5rem"
-                py="0.25rem"
-                style={{
-                  backgroundColor: 'white',
-                  color: '#0030E3',
-                  borderRadius: '4px',
-                  fontSize: '12px',
-                  fontWeight: '600'
-                }}
-              >
-                {linkItem.badge}
-              </Box>
-            )}
-          </StyledLink>
-        ))}
-      </div>
-    </Grid>
-  );
-
   return (
     <footer>
-      {/* Main Footer Section with Blue Gradient */}
+      {/* Main Footer Section */}
       <Box
-        position="relative"
-        overflow="hidden"
         style={{
-          background: "linear-gradient(94.22deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%)"
+          background: "#0030E3",
+          padding: "4rem 0 4rem 6rem",
+          overflow: "hidden"
         }}
       >
         <div style={{
-          color: "white",
           margin: "0 auto",
-          width: "100%",
-          padding: "0 4rem"
+          maxWidth: "1400px",
+          width: "100%"
         }}>
-          {/* Header Section - Logo, Description & Newsletter */}
-          <Box pt="4rem" pb="3rem">
-            {/* Logo Section */}
-            <Box mb="2rem">
-              <img src="/assets/images/tab_bar/Subtract.svg" alt="MZN Enterprise Hub" height="100%" width="240rem" />
-            </Box>
-
-            {/* Description and Newsletter Section */}
-            <FlexBox
-              justifyContent="space-between"
-              alignItems="flex-start"
-              flexDirection={{ xs: "column", lg: "row" }}
-            >
-              {/* Left Section - Description */}
-              <Box maxWidth="500px" mr={{ lg: "2rem" }}>
+          <Grid container spacing={8} alignItems="flex-start">
+            {/* Left Section - Logo and Description */}
+            <Grid item xs={12} lg={6}>
+              <Box mb="2rem">
+                <Box mb="2rem">
+                  <img src="/assets/images/tab_bar/Subtract.svg" alt="MZN Enterprise Hub" height="100%" width="240rem" />
+                </Box>
                 <Paragraph
                   color="rgba(255,255,255,0.8)"
-                  fontSize="14px"
-                  lineHeight="1.5"
+                  fontSize="16px"
+                  lineHeight="1.6"
+                  mb="2rem"
                 >
-                  Stay updated with the latest business insights, opportunities, and services from Enterprise Journey.
+                  Stay updated with the latest business insights,<br/> opportunities, and services from Enterprise Journey.
                 </Paragraph>
-              </Box>
-
-              {/* Right Section - Newsletter Subscription */}
-              <Box width={{ xs: "100%", lg: "560px" }} mt={{ xs: "2rem", lg: "0" }}>
+                
+                {/* Newsletter Subscription */}
                 <form onSubmit={handleSubmit}>
-                  <Box position="relative">
-                    <SubscribeInput
+                  <Box position="relative" maxWidth="430px">
+                    <input
                       type="email"
                       placeholder="Enter your email"
                       value={email}
@@ -128,17 +59,19 @@ export default function Footer1() {
                       required
                       style={{
                         width: '100%',
-                        backgroundColor: 'transparent',
-                        border: '1px solid rgba(255,255,255,0.2)',
-                        color: 'white',
-                        borderRadius: '12px',
-                        padding: '14px 120px 14px 16px', // Extra right padding for button
-                        fontSize: '16px',
+                        backgroundColor: 'rgba(255,255,255,0.1)',
+                        border: '1px solid rgba(255,255,255,0.3)',
+                        color: '#FFF',
+                        borderRadius: '8px',
+                        padding: '14px 50px 14px 16px',
+                        fontSize: '14px',
                         outline: 'none',
-                        transition: 'border-color 0.2s ease'
+                        transition: 'all 0.2s ease',
+                        backdropFilter: 'blur(10px)'
                       }}
+                      className="email-input"
                     />
-                    <SubscribeButton
+                    <button
                       type="submit"
                       style={{
                         position: 'absolute',
@@ -146,138 +79,208 @@ export default function Footer1() {
                         top: '50%',
                         transform: 'translateY(-50%)',
                         backgroundColor: 'white',
-                        color: '#0030E3',
-                        borderRadius: '8px',
-                        fontWeight: '600',
+                        color: '#4F46E5',
+                        borderRadius: '6px',
                         border: 'none',
-                        padding: '10px 20px',
-                        fontSize: '14px',
+                        padding: '10px',
                         cursor: 'pointer',
-                        transition: 'transform 0.2s ease',
-                        whiteSpace: 'nowrap'
+                        transition: 'all 0.2s ease',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
                       }}
                     >
-                      Subscribe
-                    </SubscribeButton>
+                      <ArrowRight size={16} />
+                    </button>
                   </Box>
                 </form>
               </Box>
-            </FlexBox>
-          </Box>
-
-          {/* Horizontal Separator Line */}
-          <Box
-            style={{
-              height: '4px',
-              backgroundColor: '#5088FF',
-              marginBottom: '3rem',
-              borderRadius: '4px',
-            }}
-          />
-
-          {/* Links Section - 5 Columns */}
-          <Box pb="3rem">
-            <Grid container spacing={4}>
-              {Object.entries(footerData).map(([key, data]) =>
-                renderFooterColumn(key, data)
-              )}
             </Grid>
-          </Box>
+
+            {/* Right Section - Three Columns */}
+            <Grid item xs={12} lg={6}>
+              <Grid container spacing={6}>
+                {/* Get to Know Us */}
+                <Grid item xs={12} sm={6} lg={4}>
+                  <Typography
+                    mb="1.5rem"
+                    fontSize="14px"
+                    fontWeight="500"
+                    color="white"
+                    lineHeight="1.2"
+                  >
+                    Get to Know Us
+                  </Typography>
+                  <div>
+                    {[
+                      { name: "About Enterprise Journey", url: "/about" },
+                      { name: "Help Centre", url: "/help" },
+                      { name: "Discover AbuDhabi", url: "/discover" },
+                      { name: "Privacy Policy", url: "/privacy" },
+                      { name: "Terms of Service", url: "/terms" }
+                    ].map((link, index) => (
+                      <Box key={index} mb="0.75rem">
+                        <Link
+                          href={link.url}
+                          style={{
+                            color: 'rgba(255,255,255,0.7)',
+                            fontSize: '14px',
+                            textDecoration: 'none',
+                            transition: 'color 0.2s ease',
+                            display: 'block'
+                          }}
+                        >
+                          {link.name}
+                        </Link>
+                      </Box>
+                    ))}
+                  </div>
+                </Grid>
+
+                {/* For You */}
+                <Grid item xs={12} sm={6} lg={4}>
+                  <Typography
+                    mb="1.5rem"
+                    fontSize="14px"
+                    fontWeight="500"
+                    color="white"
+                    lineHeight="1.2"
+                  >
+                    For You
+                  </Typography>
+                  <div>
+                    {[
+                      { name: "Financial Services", url: "/financial" },
+                      { name: "Non-financial Services", url: "/non-financial" },
+                      { name: "Community", url: "/community" },
+                      { name: "Media Centre", url: "/media" },
+                      { name: "Become a Partner", url: "/partner" }
+                    ].map((link, index) => (
+                      <Box key={index} mb="0.75rem">
+                        <Link
+                          href={link.url}
+                          style={{
+                            color: 'rgba(255,255,255,0.7)',
+                            fontSize: '14px',
+                            textDecoration: 'none',
+                            transition: 'color 0.2s ease',
+                            display: 'block'
+                          }}
+                        >
+                          {link.name}
+                        </Link>
+                      </Box>
+                    ))}
+                  </div>
+                </Grid>
+
+                {/* Find Us */}
+                <Grid item xs={12} sm={6} lg={4}>
+                  <Typography
+                    mb="1.5rem"
+                    fontSize="14px"
+                    fontWeight="500"
+                    color="white"
+                    lineHeight="1.2"
+                  >
+                    Find Us
+                  </Typography>
+                  <div>
+                    {[
+                      { name: "LinkedIn", url: "https://linkedin.com" },
+                      { name: "Facebook", url: "https://facebook.com" },
+                      { name: "YouTube", url: "https://youtube.com" }
+                    ].map((link, index) => (
+                      <Box key={index} mb="0.75rem">
+                        <Link
+                          href={link.url}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          style={{
+                            color: 'rgba(255,255,255,0.7)',
+                            fontSize: '14px',
+                            textDecoration: 'none',
+                            transition: 'color 0.2s ease',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.5rem'
+                          }}
+                        >
+                          {link.name}
+                          <span style={{ fontSize: '12px', opacity: 0.8 }}>↗</span>
+                        </Link>
+                      </Box>
+                    ))}
+                  </div>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
         </div>
       </Box>
 
-      {/* Bottom Copyright Section */}
+      {/* Divider */}
       <Box
         style={{
-          background: "linear-gradient(94.22deg, #374DEF 0%, #1C3FE9 44.23%, #1C3FE9 88.46%, #374DEF 100%)"
+          background: "#0030E3"
         }}
-        pb="2rem"
       >
         <div style={{
           margin: "0 auto",
-          width: "100%",
-          padding: "0 4rem"
+          maxWidth: "1400px",
+          padding: "0 5.5rem",
+          width: "100%"
         }}>
-          <FlexBox
-            justifyContent="space-between"
-            alignItems="center"
-            flexDirection={{ xs: "column", md: "row" }}
-          >
-            {/* Left Section - Legal Links & Copyright */}
-            <FlexBox
-              alignItems="center"
-              flexDirection={{ xs: "column", sm: "row" }}
-              mb={{ xs: "1rem", md: "0" }}
-            >
-              <FlexBox alignItems="center">
-                <Typography
-                  component={Link}
-                  href="/"
-                  color="rgba(255,255,255,0.8)"
-                  fontSize="14px"
-                  fontWeight="400"
-                  mr="1rem"
-                  style={{ textDecoration: 'none' }}
-                >
-                  Privacy Policy
-                </Typography>
-                <Typography
-                  component={Link}
-                  href="/"
-                  color="rgba(255,255,255,0.8)"
-                  fontSize="14px"
-                  fontWeight="400"
-                  mr="1rem"
-                  style={{ textDecoration: 'none' }}
-                >
-                  Terms of Service
-                </Typography>
-              </FlexBox>
-              <Typography color="rgba(255,255,255,0.8)" fontSize="14px" mt={{ xs: "0.5rem", sm: "0" }}>
-                © 2025 Enterprise Journey
-              </Typography>
-            </FlexBox>
-
-            {/* Right Section - Social Media Icons */}
-            <FlexBox>
-              {socialMediaLinks.map((social, index) => {
-                // Map icon names to lucide-react components
-                const IconComponent = social.icon === 'linkedin' ? Linkedin :
-                  social.icon === 'twitter' ? Twitter :
-                    social.icon === 'youtube' ? Youtube :
-                      social.icon === 'instagram' ? Instagram : Linkedin;
-
-                return (
-                  <a
-                    key={social.name}
-                    href={social.url}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    style={{ textDecoration: 'none' }}
-                    aria-label={`Follow us on ${social.name}`}
-                  >
-                    <Box
-                      ml={index > 0 ? "0.5rem" : "0"}
-                      p="0.75rem"
-                      borderRadius="6px"
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                      style={{
-                        transition: 'background-color 0.2s ease',
-                        color: 'rgba(255,255,255,0.8)',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      <IconComponent size={20} />
-                    </Box>
-                  </a>
-                );
-              })}
-            </FlexBox>
-          </FlexBox>
+          <hr
+            style={{
+              border: 'none',
+              borderTop: '4px solid rgb(75, 111, 241)',
+              width: '100%',
+              margin: 0
+            }}
+          />
         </div>
       </Box>
+
+      {/* Bottom Section */}
+      <Box
+        style={{
+          background: "#0030E3",
+          padding: "1.5rem 0 1.5rem 6rem"
+        }}
+      >
+        <div style={{
+          margin: "0 auto",
+          maxWidth: "1400px",
+          width: "100%"
+        }}>
+          <Typography 
+            color="#D3D4DC" 
+            fontWeight={400}
+            fontSize="14px"
+          >
+            © 2025 Enterprise Journey. All rights reserved.
+          </Typography>
+        </div>
+      </Box>
+
+      {/* CSS for placeholder styling */}
+      <style jsx>{`
+        .email-input::placeholder {
+          color: rgba(255, 255, 255, 0.8) !important;
+          opacity: 1;
+        }
+        .email-input::-webkit-input-placeholder {
+          color: rgba(255, 255, 255, 0.8) !important;
+        }
+        .email-input::-moz-placeholder {
+          color: rgba(255, 255, 255, 0.8) !important;
+          opacity: 1;
+        }
+        .email-input:-ms-input-placeholder {
+          color: rgba(255, 255, 255, 0.8) !important;
+        }
+      `}</style>
     </footer>
   );
 }

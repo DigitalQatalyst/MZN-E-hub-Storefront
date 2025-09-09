@@ -30,6 +30,7 @@ export default function CategoryDropdown({ open, position = "absolute" }: Catego
             icon={item.icon}
             title={item.title}
             caret={hasDropdown}
+            tag={item.tag}
           >
             {hasDropdown && MegaMenu ? <MegaMenu data={item.menuData || {}} /> : null}
           </CategoryMenuItem>

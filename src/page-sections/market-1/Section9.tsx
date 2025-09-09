@@ -7,48 +7,59 @@ import { H3, H4, H5 } from "@component/Typography";
 import Product from "@models/product.model";
 import styled from "styled-components";
 
-// Responsive ContentColumn with mobile-first approach
+// Responsive ContentColumn with reduced spacing
 const ContentColumn = styled.div`
   color: #000;
   padding: 1rem;
-  margin-top: 2rem;
+  margin-top: 1rem; /* Reduced from 2rem */
+  margin-bottom: 0.5rem; /* Added small bottom margin */
   display: flex;
   flex-direction: column;
-  font-family: 'Open Sans', sans-serif;
-  font-style: normal;
   align-items: flex-start;
 
   /* Tablet styles */
   @media (min-width: 768px) {
-    padding: 2rem 3rem;
-    margin-top: 2.5rem;
+    padding: 1.5rem 3rem; /* Reduced from 2rem 3rem */
+    margin-top: 1.5rem; /* Reduced from 2.5rem */
+    margin-bottom: 0.5rem;
   }
 
   /* Desktop styles */
   @media (min-width: 1024px) {
-    padding: 2rem 5rem;
-    margin-top: 3rem;
+    padding: 1.5rem 5rem; /* Reduced from 2rem 5rem */
+    margin-top: 2rem; /* Reduced from 3rem */
+    margin-bottom: 1rem;
   }
 `;
 
-// Responsive header with fluid typography
+// Responsive header with fluid typography and mobile-specific line breaks
 const StyledHeader = styled.h1`
   color: #000;
-  
-  font-family: 'Open Sans', sans-serif;
-  font-style: normal;
   font-weight: 550;
+  font-family: "FS Kim Trial";
   line-height: 1.2;
   letter-spacing: 0px;
   margin-top: 1rem;
+  margin-bottom: 0; /* Ensure no bottom margin */
 
-  /* Mobile first - smaller text */
-  font-size: clamp(24px, 5vw, 32px);
+  /* Mobile first - optimized for 4 lines */
+  font-size: 32px;
+  line-height: 1.25;
+
+  /* Hide desktop line break on mobile */
+  br {
+    display: none;
+  }
 
   /* Tablet */
   @media (min-width: 768px) {
     font-size: clamp(32px, 4vw, 40px);
     line-height: 1.15;
+
+    /* Show line break on tablet and up */
+    br {
+      display: block;
+    }
   }
 
   /* Desktop */
@@ -58,21 +69,27 @@ const StyledHeader = styled.h1`
   }
 `;
 
-// Responsive subtitle
+// Responsive subtitle - optimized for mobile single line
 const SubTitle = styled.p`
   color: #000;
-  font-size: 16px;
-  font-family: 'Open Sans', sans-serif;
-  font-style: normal;
   font-weight: 500;
   line-height: 1.5;
   letter-spacing: 0px;
   text-transform: uppercase;
   margin-bottom: 0.5rem;
 
+  /* Mobile: 12px to fit in one line */
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
   /* Tablet */
   @media (min-width: 768px) {
     font-size: 15px;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
   }
 
   /* Desktop */
@@ -82,18 +99,18 @@ const SubTitle = styled.p`
   }
 `;
 
-// Responsive CardsContainer
+// Responsive CardsContainer with reduced top padding
 const CardsContainer = styled(Box)`
-  padding: 1rem;
+  padding: 0.5rem 1rem 1rem 1rem; /* Reduced top padding from 1rem to 0.5rem */
 
   /* Tablet */
   @media (min-width: 768px) {
-    padding: 1.5rem 3rem;
+    padding: 0.5rem 3rem 1.5rem 3rem; /* Reduced top padding */
   }
 
   /* Desktop */
   @media (min-width: 1024px) {
-    padding: 2rem 5rem;
+    padding: 1rem 5rem 2rem 5rem; /* Reduced top padding from 2rem to 1rem */
   }
 `;
 
@@ -139,7 +156,7 @@ type Props = { products: Product[] };
 export default function Section9({ products }: Props) {
   // Show different number of products based on screen size
   const getProductsToShow = () => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const width = window.innerWidth;
       if (width < 480) return 2; // Mobile: show 2 products
       if (width < 768) return 4; // Small tablet: show 4 products
@@ -152,16 +169,22 @@ export default function Section9({ products }: Props) {
   return (
     <CategorySectionCreator>
       <ContentColumn>
-        <SubTitle>
+        <SubTitle style={{ fontSize: "16px", fontWeight: "400" }}>
           WELCOME TO THE ENTERPRISE JOURNEY PLATFORM
         </SubTitle>
-        <StyledHeader>
-          We help businesses find the right partners to
-          <br />
-          get started, grow, and succeed
+        <StyledHeader
+          style={{
+            fontFamily: "FS Kim Trial",
+            fontWeight: "400",
+            fontSize: "48px",
+            lineHeight: "52px",
+          }}
+        >
+          We help businesses find the right partners to get started, grow, and
+          succeed
         </StyledHeader>
       </ContentColumn>
-      
+
       <CardsContainer>
         <ProductGrid>
           {products.slice(0, 4).map((item, ind) => (
@@ -171,6 +194,7 @@ export default function Section9({ products }: Props) {
                 slug={item.slug}
                 subTitle={item.subTitle}
                 title={item.title}
+                title1={item.title1 || item.title}
                 price={item.price}
                 off={item.discount}
                 rating={item.rating}

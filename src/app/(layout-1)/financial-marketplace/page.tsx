@@ -4,7 +4,7 @@ import { Fragment, useState } from "react";
 import Box from "@component/Box";
 import NavbarMarketplace from "@component/navbar/NavbarMarketplace";
 import FinancialServiceCatalogue from "@sections/market-2/financial-service-catalogue";
-
+import Navbar from "@component/navbar/marketplace_nav/Navbar";
 
 export default function MarketTwo() {
   const [activeButton, setActiveButton] = useState("");
@@ -13,7 +13,7 @@ export default function MarketTwo() {
   return (
     <Fragment>
       {/* NAVBAR AREA */}
-      <NavbarMarketplace />
+      <Navbar />
 
       <Box bg="#F6F6F6">
         

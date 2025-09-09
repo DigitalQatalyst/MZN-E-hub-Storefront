@@ -791,7 +791,7 @@ export const products = [
     },
     title: "Support that grows with",
     title1: "your business",
-    subTitle: "Get customized guidance and recommendations based on your current stage-from idea to scale-and unlock exclusive support and incentives.",
+    subTitle: "Get customized guidance and recommendations based on your current stage, idea to scale-and unlock exclusive support and incentives.",
     brand: null,
     price: 232,
     size: null,

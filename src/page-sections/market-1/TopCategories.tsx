@@ -402,8 +402,8 @@ export default function Section3() {
               <ContentCTA>
                 <DescriptionText>
                   Browse available marketplaces, find services tailored to your
-                  business needs, and unlock growth opportunities—all through
-                  one platform.
+                  business needs, and unlock growth opportunities—all <br />
+                  through one platform.
                 </DescriptionText>
                 <ButtonContainer>
                   <Link href={buttonConfig.link}>

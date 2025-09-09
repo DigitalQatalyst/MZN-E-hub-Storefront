@@ -51,7 +51,7 @@ export default function Signin({ onClick }: SigninProps) {
         //   lineHeight="22px"
           color="#FFF"
         >
-          Sign In
+          Sign In or Register
         </Typography>
       </FlexBox>
     </StyledNavbar>

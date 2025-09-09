@@ -15,7 +15,7 @@ import { fontFamily } from "styled-system";
 // STYLED COMPONENTS
 const StyledBazaarCard = styled(Card)(({ theme }) => ({
   margin: "auto",
-  height: "330px",
+  height: "300px",
   flexShrink: 0,
   display: "flex",
   overflow: "hidden",

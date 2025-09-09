@@ -121,10 +121,13 @@ export default function Navbar({
           position: "relative",
           paddingInline: isSmDown ? 12 : isMdDown ? 16 : 24,
           gap: 12,
+          maxWidth: 1440,           // 👈 NEW
+          marginInline: "auto",     // 👈 NEW (centers the row)
+          width: "100%",  
         }}
       >
         {/* LEFT: brand + primary */}
-        <FlexBox alignItems="center" style={{ gap: isLgDown ? 18 : 28, minWidth: 0 }}>
+        <FlexBox alignItems="center" style={{ gap: isLgDown ? 18 : 28, minWidth: 0, flex: 1 }}>
           {/* Brand */}
           <FlexBox alignItems="center" style={{ gap: 10 }}>
             <img
@@ -133,78 +136,86 @@ export default function Navbar({
               style={{ height: isSmDown ? 22 : isMdDown ? 24 : 28, width: "auto" }}
             />
           </FlexBox>
+          {/* <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 24,
+              margin: "0 auto",        // 👈 centers within the left cluster
+            }}
+          > */}
+            {/* Explore */}
+            {!isMdDown && (
+              <Categories open={navListOpen}>
+                <button
+                  type="button"
+                  aria-haspopup="true"
+                  aria-expanded={!!navListOpen}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    height: 36,
+                    padding: "0 12px",
+                    borderRadius: 8,
+                    border: "1px solid rgba(255, 255, 255, 0)",
+                    background: "rgba(255, 255, 255, 0)",
+                    color: "#fff",
+                    cursor: "pointer",
+                    backdropFilter: "blur(6px)",
+                  }}
+                  onClick={() => setDropShown(true)}
+                >
+                  <span style={{ fontSize: 14, fontWeight: 500 }}>Explore</span>
+                  <ChevronDown size={16} />
+                </button>
+              </Categories>
+            )}
 
-          {/* Explore */}
-          {!isMdDown && (
-            <Categories open={navListOpen}>
+            {/* Discover */}
+            {!isLgDown && (
               <button
                 type="button"
-                aria-haspopup="true"
-                aria-expanded={!!navListOpen}
                 style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
                   height: 36,
                   padding: "0 12px",
                   borderRadius: 8,
-                  border: "1px solid rgba(255, 255, 255, 0)",
-                  background: "rgba(255, 255, 255, 0)",
+                  border: "none",
+                  background: "transparent",
                   color: "#fff",
                   cursor: "pointer",
-                  backdropFilter: "blur(6px)",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  whiteSpace: "nowrap",
                 }}
-                onClick={() => setDropShown(true)}
+                onClick={() => (window.location.href = "/discover")}
               >
-                <span style={{ fontSize: 14, fontWeight: 500 }}>Explore</span>
-                <ChevronDown size={16} />
+                Discover AbuDhabi
               </button>
-            </Categories>
-          )}
+            )}
 
-          {/* Discover */}
-          {!isLgDown && (
-            <button
-              type="button"
-              style={{
-                height: 36,
-                padding: "0 12px",
-                borderRadius: 8,
-                border: "none",
-                background: "transparent",
-                color: "#fff",
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 500,
-                whiteSpace: "nowrap",
-              }}
-              onClick={() => (window.location.href = "/discover")}
-            >
-              Discover AbuDhabi
-            </button>
-          )}
-
-          {/* Search */}
-          {!isMdDown && (
-            <button
-              type="button"
-              aria-label="Search"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: 36,
-                width: 36,
-                borderRadius: 18,
-                background: "transparent",
-                border: "1px solid rgba(255, 255, 255, 0)",
-                cursor: "pointer",
-              }}
-              onClick={() => (window.location.href = "/search")}
-            >
-              <SearchIcon size={16} color="white" />
-            </button>
-          )}
+            {/* Search */}
+            {!isMdDown && (
+              <button
+                type="button"
+                aria-label="Search"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: 36,
+                  width: 36,
+                  borderRadius: 18,
+                  background: "transparent",
+                  border: "1px solid rgba(255, 255, 255, 0)",
+                  cursor: "pointer",
+                }}
+                onClick={() => (window.location.href = "/search")}
+              >
+                <SearchIcon size={16} color="white" />
+              </button>
+            )}
+          {/* </div> */}
         </FlexBox>
 
         {/* RIGHT: greeting + avatar + hamburger */}

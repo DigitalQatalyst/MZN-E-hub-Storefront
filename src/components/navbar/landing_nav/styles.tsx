@@ -66,28 +66,6 @@ export const StyledNavbar = styled.div`
     gap: 20px;
     display: flex;
     align-items: center;
-
-    .nav-link {
-      color: #FFF !important;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 22px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      padding: 8px 0;
-      position: relative;
-
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background: white;
-      }
-    }
   }
 
   .right-section {
@@ -99,19 +77,11 @@ export const StyledNavbar = styled.div`
   .search-icon {
     cursor: pointer;
     transition: transform 0.3s ease;
-
-    svg, img {
-      filter: brightness(0) invert(1);
-    }
   }
 
   .profile-icon {
     cursor: pointer;
     transition: transform 0.3s ease;
-
-    svg, img {
-      filter: brightness(0) invert(1);
-    }
   }
 
   .hamburger-icon {
@@ -120,10 +90,6 @@ export const StyledNavbar = styled.div`
     cursor: pointer;
     transition: transform 0.3s ease;
     display: none;
-
-    svg, img {
-      filter: brightness(0) invert(1);
-    }
   }
 
   .mobile-menu {
@@ -214,13 +180,11 @@ export const StyledNavbar = styled.div`
     font-size: 14px;
     padding: 10px 20px;
     border-radius: 8px;
-    transition: all 0.3s ease;
     min-width: 100px;
     cursor: pointer;
 
     &:hover {
       background: #f0f0f0 !important;
-      transform: translateY(-2px);
     }
   }
 
@@ -252,16 +216,19 @@ export const StyledNavbar = styled.div`
       align-items: center;
       gap: 5px;
       color: #002180;
-      // font-size: 12px;
-      // font-weight: 500;
       text-decoration: none;
       cursor: pointer;
 
       img {
         width: 24px;
         height: 24px;
+        object-fit: contain;
       }
     }
+  }
+
+  .dropdown-icon {
+    margin-top: 2px;
   }
 
   // Tablet screens
@@ -289,10 +256,6 @@ export const StyledNavbar = styled.div`
 
     .nav-links {
       gap: 10px;
-
-      .nav-link {
-        font-size: 14px;
-      }
     }
 
     .explore-button {
@@ -375,16 +338,33 @@ export const StyledNavbar = styled.div`
     .responsive-mobile-menu {
       padding: 8px 0;
     }
-
-    // .mobile-nav-links {
-    //   .nav-link {
-    //     font-size: 10px;
-
-    //     img {
-    //       width: 20px;
-    //       height: 20px;
-    //     }
-    //   }
-    // }
   }
+`;
+
+export const StyledCustomNavLink = styled.a`
+  color: #FFF !important; /* Enforced white color */
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.1px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  padding: 8px 0;
+  position: relative;
+
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: white;
+    transition: width 0.3s ease;
+  }
+
+  // &:hover:after {
+  //   width: 100%;
+  // }
 `;

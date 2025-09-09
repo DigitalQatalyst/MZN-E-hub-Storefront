@@ -67,26 +67,8 @@ export const StyledNavbar = styled.div`
     display: flex;
     align-items: center;
 
-    .nav-link {
-      color: #FFF !important;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 22px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      padding: 8px 0;
-      position: relative;
-
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background: white;
-      }
+    @media (max-width: 768px) {
+      display: none;
     }
   }
 
@@ -94,24 +76,20 @@ export const StyledNavbar = styled.div`
     gap: 20px;
     align-items: center;
     display: flex;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
   }
 
   .search-icon {
     cursor: pointer;
     transition: transform 0.3s ease;
-
-    svg, img {
-      filter: brightness(0) invert(1);
-    }
   }
 
   .profile-icon {
     cursor: pointer;
     transition: transform 0.3s ease;
-
-    svg, img {
-      filter: brightness(0) invert(1);
-    }
   }
 
   .hamburger-icon {
@@ -120,69 +98,96 @@ export const StyledNavbar = styled.div`
     cursor: pointer;
     transition: transform 0.3s ease;
     display: none;
+  }
 
-    svg, img {
-      filter: brightness(0) invert(1);
+  .more-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    display: none;
+
+    @media (max-width: 768px) {
+      display: block;
+      background-image: url('/assets/images/icons/more.svg');
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+  }
+
+  .mobile-more-icon {
+    display: none;
+
+    @media (max-width: 768px) {
+      display: flex;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+    }
+  }
+
+  .desktop-nav {
+    @media (max-width: 768px) {
+      display: none;
     }
   }
 
   .mobile-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 80%;
-    max-width: 300px;
-    height: 100vh;
-    background: linear-gradient(224.55deg, #7693F3 0.02%, #7693F3 11.72%, #7693F1 21.24%, #7594EF 28.92%, #7594EC 35.08%, #7495E9 40.08%, #7496E5 44.24%, #7397E0 47.89%, #7298DC 51.38%, #7299D7 55.03%, #719AD2 59.19%, #709BCD 64.18%, #6F9CC8 70.35%, #6E9DC3 78.03%, #6E9EBE 87.54%, #6D9FBA 99.24%);
-    padding: 20px;
-    z-index: 1001;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out;
+    display: none;
 
-    &.open {
-      transform: translateX(0);
-    }
+    @media (max-width: 768px) {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 80%;
+      max-width: 300px;
+      height: 100vh;
+      background: linear-gradient(224.55deg, #7693F3 0.02%, #7693F3 11.72%, #7693F1 21.24%, #7594EF 28.92%, #7594EC 35.08%, #7495E9 40.08%, #7496E5 44.24%, #7397E0 47.89%, #7298DC 51.38%, #7299D7 55.03%, #719AD2 59.19%, #709BCD 64.18%, #6F9CC8 70.35%, #6E9DC3 78.03%, #6E9EBE 87.54%, #6D9FBA 99.24%);
+      padding: 20px;
+      z-index: 1001;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease-in-out;
 
-    .mobile-nav-links {
-      flex-direction: column;
-      gap: 20px;
-      margin-top: 40px;
-      justify-content: flex-start;
-      align-items: flex-start;
-
-      .nav-link {
-        color: #FFF !important;
-        font-family: Inter;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 22px;
-        padding: 10px 0;
-      }
-    }
-
-    .mobile-right-section {
-      flex-direction: column;
-      margin-top: 20px;
-      justify-content: flex-start;
-      align-items: flex-start;
-      gap: 20px;
-
-      .profile-icon {
-        width: 44px;
-        height: 30px;
+      &.open {
+        transform: translateX(0);
       }
 
-      .search-icon {
-        width: 44px;
-        height: 30px;
-      }
-    }
+      .mobile-nav-links {
+        flex-direction: column;
+        gap: 20px;
+        margin-top: 40px;
+        justify-content: flex-start;
+        align-items: flex-start;
 
-    .mobile-explore-button {
-      width: 100%;
-      justify-content: flex-start;
-      margin-top: 20px;
+        .nav-link {
+          color: #FFF !important;
+          font-family: Inter;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 22px;
+          padding: 10px 0;
+        }
+      }
+
+      .mobile-right-section {
+        flex-direction: column;
+        margin-top: 20px;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 20px;
+
+        .profile-icon {
+          width: 44px;
+          height: 30px;
+        }
+
+        .search-icon {
+          width: 44px;
+          height: 30px;
+        }
+      }
     }
   }
 
@@ -214,13 +219,11 @@ export const StyledNavbar = styled.div`
     font-size: 14px;
     padding: 10px 20px;
     border-radius: 8px;
-    transition: all 0.3s ease;
     min-width: 100px;
     cursor: pointer;
 
     &:hover {
       background: #f0f0f0 !important;
-      transform: translateY(-2px);
     }
   }
 
@@ -252,16 +255,19 @@ export const StyledNavbar = styled.div`
       align-items: center;
       gap: 5px;
       color: #002180;
-      // font-size: 12px;
-      // font-weight: 500;
       text-decoration: none;
       cursor: pointer;
 
       img {
         width: 24px;
         height: 24px;
+        object-fit: contain;
       }
     }
+  }
+
+  .dropdown-icon {
+    margin-top: 2px;
   }
 
   // Tablet screens
@@ -289,10 +295,6 @@ export const StyledNavbar = styled.div`
 
     .nav-links {
       gap: 10px;
-
-      .nav-link {
-        font-size: 14px;
-      }
     }
 
     .explore-button {
@@ -325,7 +327,7 @@ export const StyledNavbar = styled.div`
   @media (max-width: 768px) {
     .navbar-container {
       padding: 16px 20px;
-      justify-content: center;
+      justify-content: space-between;
     }
 
     .enterprise-logo {
@@ -344,12 +346,19 @@ export const StyledNavbar = styled.div`
       display: none;
     }
 
-    .hamburger-icon {
+    .desktop-nav {
       display: none;
     }
 
+    .mobile-more-icon {
+      display: flex;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+    }
+
     .mobile-menu {
-      display: none;
+      display: block;
     }
 
     .responsive-mobile-menu {
@@ -364,6 +373,13 @@ export const StyledNavbar = styled.div`
       padding: 10px 0;
       z-index: 1001;
     }
+
+    /* Hide Explore and Discover AbuDhabi on small screens */
+    .explore-text,
+    .dropdown-icon,
+    .nav-link[href="/development"] {
+      display: none;
+    }
   }
 
   // Small mobile screens
@@ -375,16 +391,5 @@ export const StyledNavbar = styled.div`
     .responsive-mobile-menu {
       padding: 8px 0;
     }
-
-    // .mobile-nav-links {
-    //   .nav-link {
-    //     font-size: 10px;
-
-    //     img {
-    //       width: 20px;
-    //       height: 20px;
-    //     }
-    //   }
-    // }
   }
 `;

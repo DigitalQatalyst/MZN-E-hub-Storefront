@@ -209,7 +209,7 @@ export default function NotificationsPage() {
         <button
           style={{
             padding: "12px 24px",
-            backgroundColor: "transparent",
+            backgroundColor: "rgba(168, 170, 174, 0.16)", // Updated background color
             color: "#6b7280",
             border: "none",
             borderRadius: "6px",

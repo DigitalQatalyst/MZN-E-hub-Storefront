@@ -400,6 +400,55 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           }
         }
       `}</style>
+
+      <div
+        className="modal"
+        style={{
+          display:
+            dropShown || notifShown || notifCenterShown ? "block" : "none",
+          position: "fixed", // Changed to fixed for better positioning
+          top: "0",
+          left: "0",
+          width: "100vw",
+          height: "100vh",
+          backgroundColor: notifCenterShown
+            ? "rgba(0, 0, 0, 0.7)"
+            : "transparent",
+          zIndex: 9999,
+        }}
+        onClick={handleModalOutsideClick}
+      >
+        {dropShown && (
+          <div onClick={(e) => e.stopPropagation()}>
+            <Dropdown
+              setNotifShown={setNotifShown}
+              setDropShown={setDropShown}
+            />
+          </div>
+        )}
+
+        {notifShown && (
+          <div onClick={(e) => e.stopPropagation()}>
+            <Notifications
+              setNotifShown={setNotifShown}
+              setNotifCenterShown={setNotifCenterShown}
+            />
+          </div>
+        )}
+
+        {notifCenterShown && (
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              backgroundColor: "green",
+              width: "fit-content",
+              margin: "0 auto",
+            }}
+          >
+            <NotificationCenter setNotifCenterShown={setNotifCenterShown} />
+          </div>
+        )}
+      </div>
     </StyledNavbar>
   );
 }

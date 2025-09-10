@@ -20,8 +20,8 @@ export const msalConfig: Configuration = {
     clientId,
     authority: `${BASE_AUTHORITY}/${POLICY_SIGNIN}`,
     knownAuthorities: [KNOWN_AUTHORITY_HOST],
-    redirectUri: runtimeOrigin,          // 👈 always the current origin
-    postLogoutRedirectUri: runtimeOrigin // 👈 match origin too
+    redirectUri: runtimeOrigin,          // 
+    postLogoutRedirectUri: runtimeOrigin // 
   },
   cache: {
     cacheLocation: "localStorage",
@@ -31,6 +31,16 @@ export const msalConfig: Configuration = {
 
 export const loginRequest = {
   scopes: ["openid", "profile", "email", "offline_access"],
+};
+
+export const logoutRequest = {
+  mainWindowRedirectUri: "/", // or your preferred redirect URI after logout
+  postLogoutRedirectUri: "/"   // or your preferred redirect URI after logout
+};
+
+export const signupRequest = {
+  scopes: ["openid", "profile", "email", "offline_access"],
+  authority: `${BASE_AUTHORITY}/${POLICY_SIGNUP}`
 };
 
 export const signupAuthority = `${BASE_AUTHORITY}/${POLICY_SIGNUP}`;

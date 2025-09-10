@@ -67,7 +67,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         alignItems="center"
         justifyContent="space-between"
       >
-        <Box display="flex" alignItems="center">
+        <Box display="flex" alignItems={"center"}>
           <Box className="enterprise-logo" mr="40px">
             <CustomNavLink href="/">
               <img src="/assets/images/logos/mzn_logo.svg" alt="Enterprise Journey Logo" />
@@ -75,7 +75,15 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           </Box>
           <Categories open={navListOpen}>
             <FlexBox alignItems="center" mr="40px">
-              <Typography className="explore-text" ml="5px" fontSize="14px" fontWeight="500" lineHeight="20px" color="#FFF" letterSpacing="-0.1px">
+              <Typography
+                className="explore-text"
+                ml="5px"
+                fontSize="14px"
+                fontWeight="500"
+                lineHeight="20px"
+                color="#FFF"
+                letterSpacing="-0.1px"
+              >
                 Explore
               </Typography>
               <Image
@@ -123,7 +131,11 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         <FlexBox className="mobile-nav-links" width="100%" justifyContent="space-around" alignItems="center" px="20px">
           <CustomNavLink href="/" onClick={() => handleNavClick("/")}>
             <Image
-              src={activeItem === "/" ? "/assets/images/non_financial_marketplace/home-active.svg" : "/assets/images/non_financial_marketplace/home.svg"}
+              src={
+                activeItem === "/"
+                  ? "/assets/images/non_financial_marketplace/home-active.svg"
+                  : "/assets/images/non_financial_marketplace/home.svg"
+              }
               alt="Home"
               width={24}
               height={24}
@@ -132,7 +144,11 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           </CustomNavLink>
           <Box onClick={toggleModal} className="nav-link">
             <Image
-              src={activeItem === "/explore" ? "/assets/images/non_financial_marketplace/explore-active.svg" : "/assets/images/non_financial_marketplace/explore.svg"}
+              src={
+                activeItem === "/explore"
+                  ? "/assets/images/non_financial_marketplace/explore-active.svg"
+                  : "/assets/images/non_financial_marketplace/explore.svg"
+              }
               alt="Explore"
               width={24}
               height={24}
@@ -141,7 +157,11 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           </Box>
           <CustomNavLink href="/development" onClick={() => handleNavClick("/profile")}>
             <Image
-              src={activeItem === "/profile" ? "/assets/images/non_financial_marketplace/profile-active.svg" : "/assets/images/non_financial_marketplace/profile.svg"}
+              src={
+                activeItem === "/profile"
+                  ? "/assets/images/non_financial_marketplace/profile-active.svg"
+                  : "/assets/images/non_financial_marketplace/profile.svg"
+              }
               alt="Profile"
               width={24}
               height={24}

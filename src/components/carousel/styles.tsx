@@ -61,7 +61,7 @@ export const ArrowButton = styled("div")(({ theme }) => ({
   padding: 0,
   opacity: 1,
   top: "110%",
-  color: "rgba(15, 52, 96, 1)",
+  color: "#0030E3",
   display: "flex",
   cursor: "pointer",
   position: "absolute",

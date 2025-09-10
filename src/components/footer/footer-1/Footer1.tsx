@@ -24,20 +24,27 @@ export default function Footer1() {
         style={{
           background: "#0030E3",
           padding: "4rem 0 4rem 6rem",
-          overflow: "hidden"
+          overflow: "hidden",
         }}
       >
-        <div style={{
-          margin: "0 auto",
-          maxWidth: "1400px",
-          width: "100%"
-        }}>
+        <div
+          style={{
+            margin: "0 auto",
+            maxWidth: "1400px",
+            width: "100%",
+          }}
+        >
           <Grid container spacing={8} alignItems="flex-start">
             {/* Left Section - Logo and Description */}
             <Grid item xs={12} lg={6}>
               <Box mb="2rem">
                 <Box mb="2rem">
-                  <img src="/assets/images/tab_bar/Subtract.svg" alt="MZN Enterprise Hub" height="100%" width="240rem" />
+                  <img
+                    src="/assets/images/tab_bar/Subtract.svg"
+                    alt="MZN Enterprise Hub"
+                    height="100%"
+                    width="240rem"
+                  />
                 </Box>
                 <Paragraph
                   color="rgba(255,255,255,0.8)"
@@ -45,12 +52,13 @@ export default function Footer1() {
                   lineHeight="1.6"
                   mb="2rem"
                 >
-                  Stay updated with the latest business insights,<br/> opportunities, and services from Enterprise Journey.
+                  Stay updated with the latest business insights,
+                  <br /> opportunities, and services from Enterprise Journey.
                 </Paragraph>
-                
+
                 {/* Newsletter Subscription */}
                 <form onSubmit={handleSubmit}>
-                  <Box position="relative" maxWidth="430px">
+                  <Box position="relative">
                     <input
                       type="email"
                       placeholder="Enter your email"
@@ -58,36 +66,36 @@ export default function Footer1() {
                       onChange={(e) => setEmail(e.target.value)}
                       required
                       style={{
-                        width: '100%',
-                        backgroundColor: 'rgba(255,255,255,0.1)',
-                        border: '1px solid rgba(255,255,255,0.3)',
-                        color: '#FFF',
-                        borderRadius: '8px',
-                        padding: '14px 50px 14px 16px',
-                        fontSize: '14px',
-                        outline: 'none',
-                        transition: 'all 0.2s ease',
-                        backdropFilter: 'blur(10px)'
+                        width: "100%",
+                        backgroundColor: "rgba(255,255,255,0.1)",
+                        border: "1px solid rgba(255,255,255,0.3)",
+                        color: "#FFF",
+                        borderRadius: "8px",
+                        padding: "14px 50px 14px 16px",
+                        fontSize: "14px",
+                        outline: "none",
+                        transition: "all 0.2s ease",
+                        backdropFilter: "blur(10px)",
                       }}
                       className="email-input"
                     />
                     <button
                       type="submit"
                       style={{
-                        position: 'absolute',
-                        right: '6px',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        backgroundColor: 'white',
-                        color: '#4F46E5',
-                        borderRadius: '6px',
-                        border: 'none',
-                        padding: '10px',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s ease',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
+                        position: "absolute",
+                        right: "6px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        backgroundColor: "white",
+                        color: "#4F46E5",
+                        borderRadius: "6px",
+                        border: "none",
+                        padding: "10px",
+                        cursor: "pointer",
+                        transition: "all 0.2s ease",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                       }}
                     >
                       <ArrowRight size={16} />
@@ -117,17 +125,17 @@ export default function Footer1() {
                       { name: "Help Centre", url: "/help" },
                       { name: "Discover AbuDhabi", url: "/discover" },
                       { name: "Privacy Policy", url: "/privacy" },
-                      { name: "Terms of Service", url: "/terms" }
+                      { name: "Terms of Service", url: "/terms" },
                     ].map((link, index) => (
                       <Box key={index} mb="0.75rem">
                         <Link
                           href={link.url}
                           style={{
-                            color: 'rgba(255,255,255,0.7)',
-                            fontSize: '14px',
-                            textDecoration: 'none',
-                            transition: 'color 0.2s ease',
-                            display: 'block'
+                            color: "rgba(255,255,255,0.7)",
+                            fontSize: "14px",
+                            textDecoration: "none",
+                            transition: "color 0.2s ease",
+                            display: "block",
                           }}
                         >
                           {link.name}
@@ -154,17 +162,17 @@ export default function Footer1() {
                       { name: "Non-financial Services", url: "/non-financial" },
                       { name: "Community", url: "/community" },
                       { name: "Media Centre", url: "/media" },
-                      { name: "Become a Partner", url: "/partner" }
+                      { name: "Become a Partner", url: "/partner" },
                     ].map((link, index) => (
                       <Box key={index} mb="0.75rem">
                         <Link
                           href={link.url}
                           style={{
-                            color: 'rgba(255,255,255,0.7)',
-                            fontSize: '14px',
-                            textDecoration: 'none',
-                            transition: 'color 0.2s ease',
-                            display: 'block'
+                            color: "rgba(255,255,255,0.7)",
+                            fontSize: "14px",
+                            textDecoration: "none",
+                            transition: "color 0.2s ease",
+                            display: "block",
                           }}
                         >
                           {link.name}
@@ -189,7 +197,7 @@ export default function Footer1() {
                     {[
                       { name: "LinkedIn", url: "https://linkedin.com" },
                       { name: "Facebook", url: "https://facebook.com" },
-                      { name: "YouTube", url: "https://youtube.com" }
+                      { name: "YouTube", url: "https://youtube.com" },
                     ].map((link, index) => (
                       <Box key={index} mb="0.75rem">
                         <Link
@@ -197,17 +205,19 @@ export default function Footer1() {
                           target="_blank"
                           rel="noreferrer noopener"
                           style={{
-                            color: 'rgba(255,255,255,0.7)',
-                            fontSize: '14px',
-                            textDecoration: 'none',
-                            transition: 'color 0.2s ease',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem'
+                            color: "rgba(255,255,255,0.7)",
+                            fontSize: "14px",
+                            textDecoration: "none",
+                            transition: "color 0.2s ease",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "0.5rem",
                           }}
                         >
                           {link.name}
-                          <span style={{ fontSize: '12px', opacity: 0.8 }}>↗</span>
+                          <span style={{ fontSize: "12px", opacity: 0.8 }}>
+                            ↗
+                          </span>
                         </Link>
                       </Box>
                     ))}
@@ -222,21 +232,23 @@ export default function Footer1() {
       {/* Divider */}
       <Box
         style={{
-          background: "#0030E3"
+          background: "#0030E3",
         }}
       >
-        <div style={{
-          margin: "0 auto",
-          maxWidth: "1400px",
-          padding: "0 5.5rem",
-          width: "100%"
-        }}>
+        <div
+          style={{
+            margin: "0 auto",
+            maxWidth: "1400px",
+            padding: "0 5.5rem",
+            width: "100%",
+          }}
+        >
           <hr
             style={{
-              border: 'none',
-              borderTop: '4px solid rgb(75, 111, 241)',
-              width: '100%',
-              margin: 0
+              border: "none",
+              borderTop: "4px solid rgb(75, 111, 241)",
+              width: "100%",
+              margin: 0,
             }}
           />
         </div>
@@ -246,19 +258,17 @@ export default function Footer1() {
       <Box
         style={{
           background: "#0030E3",
-          padding: "1.5rem 0 1.5rem 6rem"
+          padding: "1.5rem 0 1.5rem 6rem",
         }}
       >
-        <div style={{
-          margin: "0 auto",
-          maxWidth: "1400px",
-          width: "100%"
-        }}>
-          <Typography 
-            color="#D3D4DC" 
-            fontWeight={400}
-            fontSize="14px"
-          >
+        <div
+          style={{
+            margin: "0 auto",
+            maxWidth: "1400px",
+            width: "100%",
+          }}
+        >
+          <Typography color="#D3D4DC" fontWeight={400} fontSize="14px">
             © 2025 Enterprise Journey. All rights reserved.
           </Typography>
         </div>

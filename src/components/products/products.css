@@ -6,11 +6,14 @@
   padding: 2px 10px;
   align-items: center;
   gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #747474;
 }
 .product-intro-details-btn-3 {
   border: 2px solid #0030e3;
-  height: 50px;
-  padding: 13px;
+  /* height: 50px; */
+  padding: 13px 22px;
   border-radius: 5px;
 }
 .product-intro-details-right {
@@ -22,6 +25,7 @@
   border: 2px solid red;
 }
 .product-intro-details-btn-2 {
+  padding: 13px 22px;
   gap: 10px;
 }
 @media screen and (max-width: 576px) {

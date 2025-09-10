@@ -1,3 +1,6 @@
+import { User, Lock, Bell } from "lucide-react";
+import { left } from "styled-system";
+
 interface TabNavigationProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
@@ -11,45 +14,75 @@ export default function TabNavigation({
     {
       id: "profile",
       label: "Profile",
-      icon: <img src="assets/images/icons/users.svg" alt="Profile Icon" />,
+      icon: User,
     },
     {
       id: "security",
       label: "Security",
-      icon: <img src="assets/images/icons/lock.svg" alt="Security Icon" />,
+      icon: Lock,
     },
     {
       id: "notifications",
       label: "Notifications",
-      icon: <img src="assets/images/icons/bell.svg" alt="Notifications Icon" />,
+      icon: Bell,
     },
   ];
 
   return (
-    <div style={{ display: "flex", gap: "16px" }}>
-      {tabs.map((tab) => (
-        <button
-          key={tab.id}
-          onClick={() => onTabChange(tab.id)}
-          style={{
-            padding: "12px 20px",
-            border: "none",
-            backgroundColor: activeTab === tab.id ? "#2563eb" : "transparent",
-            color: activeTab === tab.id ? "white" : "#999",
-            borderRadius: activeTab === tab.id ? "6px" : "0",
-            cursor: "pointer",
-            fontSize: "14px",
-            fontWeight: "500",
-            display: "flex",
-            alignItems: "center", // Aligns icon and label horizontally
-            gap: "8px", // Space between icon and label
-            transition: "all 0.2s ease",
-          }}
-        >
-          <span style={{ fontSize: "16px" }}>{tab.icon}</span>
-          {tab.label}
-        </button>
-      ))}
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "flex-start",
+        gap: "16px",
+        flexWrap: "nowrap",
+        width: "100%",
+        height: "100%",
+        padding: "0px",
+        marginLeft: "20px",
+        marginRight: "20px",
+        backgroundColor: "#F3F4F6", // Light grey background color
+        paddingTop: "8px", // Padding to adjust space at the top of the tabs
+        paddingBottom: "8px", // Padding to adjust space at the bottom of the tabs
+      }}
+    >
+      {tabs.map((tab) => {
+        const Icon = tab.icon;
+        const isActive = activeTab === tab.id;
+
+        return (
+          <button
+            key={tab.id}
+            onClick={() => onTabChange(tab.id)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              padding: "10px 20px",
+              fontSize: "15px",
+              fontWeight: "500",
+              lineHeight: "18px",
+              letterSpacing: "0.43px",
+              fontFamily: '"Public Sans", sans-serif',
+              backgroundColor: isActive ? "#2563eb" : "transparent",
+              color: isActive ? "white" : "#A8AAAE",
+              borderRadius: "6px",
+              border: "none",
+              cursor: "pointer",
+              transition: "all 0.2s ease",
+              fontFeatureSettings: "'liga' off, 'clig' off",
+            }}
+          >
+            <Icon
+              size={16}
+              style={{
+                color: isActive ? "white" : "#A8AAAE",
+                transition: "color 0.3s ease",
+              }}
+            />
+            {tab.label}
+          </button>
+        );
+      })}
     </div>
   );
 }

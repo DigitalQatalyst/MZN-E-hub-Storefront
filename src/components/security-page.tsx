@@ -60,7 +60,8 @@ export default function SecurityPage() {
           fontSize: "24px",
           fontWeight: "600",
           color: "#374151",
-          marginBottom: "30px",
+          marginTop: "0px",
+          marginBottom: "20px",
         }}
       >
         Change Password
@@ -96,6 +97,7 @@ export default function SecurityPage() {
           type="password"
           value={passwords.current}
           onChange={(e) => handlePasswordChange("current", e.target.value)}
+          placeholder="••••••••••••"
           style={{
             width: "100%",
             maxWidth: "400px",
@@ -136,6 +138,7 @@ export default function SecurityPage() {
             type="password"
             value={passwords.new}
             onChange={(e) => handlePasswordChange("new", e.target.value)}
+            placeholder="••••••••••••"
             style={{
               width: "100%",
               padding: "12px",
@@ -166,6 +169,7 @@ export default function SecurityPage() {
             type="password"
             value={passwords.confirm}
             onChange={(e) => handlePasswordChange("confirm", e.target.value)}
+            placeholder="••••••••••••"
             style={{
               width: "100%",
               padding: "12px",

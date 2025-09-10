@@ -5,6 +5,7 @@ import { Fragment } from "react";
 import Box from "@component/Box";
 import Tabbarfav from "@component/Tabbarfav";
 import CardsFav from "@component/CardsFav";
+import { Footer1 } from "@component/footer";
 
 export default function Favourites() {
   return (
@@ -13,6 +14,7 @@ export default function Favourites() {
         <Tabbarfav />
         <CardsFav />
       </Box>
+      <Footer1 />
     </Fragment>
   );
 }

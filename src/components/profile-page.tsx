@@ -163,7 +163,17 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: "12px" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "12px",
+            borderTop: "1px solid #e5e7eb",
+            paddingTop: "20px",
+            borderBottom: "1px solid #e5e7eb",
+            paddingBottom: "20px",
+            backgroundColor: "#f9fafb", // Added grey background to the button section
+          }}
+        >
           <button
             style={{
               padding: "12px 24px",

@@ -35,15 +35,15 @@ const ContentColumn = styled.div`
 // Responsive header with fluid typography and mobile-specific line breaks
 const StyledHeader = styled.h1`
   color: #000;
-  font-weight: 550;
+  font-weight: 400;
   font-family: "FS Kim Trial";
   line-height: 1.2;
   letter-spacing: 0px;
   margin-top: 1rem;
   margin-bottom: 0; /* Ensure no bottom margin */
 
-  /* Mobile first - optimized for 4 lines */
-  font-size: 32px;
+  /* Mobile first - optimized for 36px */
+  font-size: 36px;
   line-height: 1.25;
 
   /* Hide desktop line break on mobile */
@@ -53,7 +53,7 @@ const StyledHeader = styled.h1`
 
   /* Tablet */
   @media (min-width: 768px) {
-    font-size: clamp(32px, 4vw, 40px);
+    font-size: clamp(40px, 4vw, 44px);
     line-height: 1.15;
 
     /* Show line break on tablet and up */
@@ -64,15 +64,15 @@ const StyledHeader = styled.h1`
 
   /* Desktop */
   @media (min-width: 1024px) {
-    font-size: clamp(40px, 3vw, 48px);
+    font-size: 48px;
     line-height: 52px;
   }
 `;
 
-// Responsive subtitle - optimized for mobile single line
+// Responsive subtitle - optimized for mobile 12px
 const SubTitle = styled.p`
   color: #000;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.5;
   letter-spacing: 0px;
   text-transform: uppercase;
@@ -169,17 +169,10 @@ export default function Section9({ products }: Props) {
   return (
     <CategorySectionCreator>
       <ContentColumn>
-        <SubTitle style={{ fontSize: "16px", fontWeight: "400" }}>
+        <SubTitle>
           WELCOME TO THE ENTERPRISE JOURNEY PLATFORM
         </SubTitle>
-        <StyledHeader
-          style={{
-            fontFamily: "FS Kim Trial",
-            fontWeight: "400",
-            fontSize: "48px",
-            lineHeight: "52px",
-          }}
-        >
+        <StyledHeader>
           We help businesses find the right partners to get started, grow, and
           succeed
         </StyledHeader>

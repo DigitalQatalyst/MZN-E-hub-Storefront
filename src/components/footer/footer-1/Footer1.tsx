@@ -58,7 +58,7 @@ export default function Footer1() {
 
                 {/* Newsletter Subscription */}
                 <form onSubmit={handleSubmit}>
-                  <Box position="relative">
+                  <Box position="relative" style={{ width: "69%" }}>
                     <input
                       type="email"
                       placeholder="Enter your email"

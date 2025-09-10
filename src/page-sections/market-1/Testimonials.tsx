@@ -103,7 +103,9 @@ const EventsContainer = styled.div`
   }
 
   @media (max-width: 480px) {
-    gap: 35px;
+    flex-direction: column;
+    gap: 1.5rem; /* Adjusted for better spacing */
+    align-items: center; /* Center cards for better mobile presentation */
   }
 `;
 
@@ -122,8 +124,8 @@ const EventCard = styled.div`
   }
 
   @media (max-width: 480px) {
-    width: 329px;
-    height: 200px;
+    width: 320px; /* Fixed width for mobile */
+    height: auto; /* Allow height to adjust based on content */
     gap: 0.5rem;
   }
 `;
@@ -140,7 +142,8 @@ const EventImage = styled.div`
   }
 
   @media (max-width: 480px) {
-    height: 120px;
+    width: 380px; /* Fixed image width */
+    height: 200px; /* Fixed image height */
   }
 `;
 

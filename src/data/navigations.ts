@@ -1,6 +1,5 @@
 const navigations = [
   {
-    icon: "money_bag",
     title: "Financial",
     href: "/financial-marketplace",
     menuComponent: "MegaMenu1",
@@ -46,7 +45,6 @@ const navigations = [
     }
   },
   {
-    icon: "all_inclusive",
     title: "Non-Financial",
     href: "/non-financial-marketplace",
     menuComponent: "MegaMenu1",
@@ -110,55 +108,45 @@ const navigations = [
     }
   },
   {
-    icon: "brand_awareness",
     title: "Media",
     href: "https://kf-ej-media-marketplace-reruapfib-digitalqatalysts-projects.vercel.app/media/",
     menuComponent: "MegaMenu2",
     menuData: [
       {
-        icon: "",
         title: "",
         href: ""
       },
       {
-        icon: "",
         title: "",
         href: ""
       },
       {
-        icon: "",
         title: "",
         href: ""
       },
       {
-        icon: "",
         title: "",
         href: ""
       },
       {
-        icon: "",
-        title: "",
-            href: ""
-      },
-      {
-        icon: "",
         title: "",
         href: ""
       },
       {
-        icon: "",
         title: "",
         href: ""
       },
       {
-        icon: "",
+        title: "",
+        href: ""
+      },
+      {
         title: "",
         href: ""
       }
     ]
   },
   {
-    icon: "forum",
     title: "Communities",
     href: "/community-marketplace",
     menuComponent: "MegaMenu1",
@@ -272,7 +260,6 @@ const navigations = [
     }
   },
   {
-    icon: "calendar_month",
     title: "Calendar",
     href: "",
     tag: {
@@ -284,7 +271,6 @@ const navigations = [
     menuData: []
   },
   {
-    icon: "local_library",
     title: "Courses",
     href: "",
     tag: {
@@ -296,7 +282,6 @@ const navigations = [
     menuData: []
   },
   {
-    icon: "crowdsource",
     title: "Investment",
     href: "",
     tag: {
@@ -308,7 +293,6 @@ const navigations = [
     menuData: []
   },
   {
-    icon: "rocket_launch",
     title: "Opportunities",
     href: "",
     tag: {

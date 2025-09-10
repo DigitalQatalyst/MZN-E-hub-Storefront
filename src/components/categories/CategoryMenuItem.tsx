@@ -25,8 +25,8 @@ export default function CategoryMenuItem(props: CategoryMenuItemProps) {
     <StyledCategoryMenuItem>
       <Link href={href}>
         <div className="category-dropdown-link">
-          {icon && <Icon variant="small">{icon}</Icon>}
-          <span className="title">{title}</span>
+          {icon && <Icon variant="small" className="icon">{icon}</Icon>}
+          <span className="title" style={{ paddingLeft: 0, marginLeft: 0 }}>{title}</span>
           {tag && (
             <Chip
               bg={tag.bg}

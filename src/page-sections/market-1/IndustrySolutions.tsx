@@ -152,9 +152,7 @@ const StyledBody = styled.p`
   @media (max-width: 768px) {
     font-size: 36px;
     line-height: 40px;
-    br {
-      display: none;
-    }
+    /* Removed: br { display: none; } to allow line break on mobile */
   }
 
   @media (max-width: 600px) {

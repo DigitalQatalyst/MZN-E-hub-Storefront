@@ -57,7 +57,7 @@ const KfBot = () => {
         `);
 
         const sharedConfig = {
-          verify: { projectID: "6849bea9894655c0d600d259" },
+          verify: { projectID: "68bfd59dfdfca5d5aa8b7275" },
           url: "https://general-runtime.voiceflow.com",
           versionID: "production",
           assistant: {

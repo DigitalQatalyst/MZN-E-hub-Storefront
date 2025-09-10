@@ -73,7 +73,7 @@ const MyBin = () => {
                 color: "#000",
                 textAlign: "start",
                 fontFeatureSettings: "liga,clig",
-                fontFamily: "Inter",
+                fontFamily: "Open Sans Fallback",
                 fontSize: "24px",
                 fontStyle: "normal",
                 fontWeight: 500,
@@ -88,7 +88,7 @@ const MyBin = () => {
                 color: "#000",
                 textAlign: "start",
                 fontFeatureSettings: "liga,clig",
-                fontFamily: "Inter",
+                fontFamily: "Open Sans Fallback",
                 fontSize: "16px",
                 fontStyle: "normal",
                 fontWeight: 400,
@@ -126,18 +126,6 @@ const MyBin = () => {
           paddingY: "12px",
         }}
       >
-        <Typography
-          sx={{
-            fontFamily: "Inter",
-            fontSize: "16px",
-            fontStyle: "normal",
-            fontWeight: 500,
-            lineHeight: "22px",
-          }}
-        >
-          All Downloads
-        </Typography>
-
         <Box
           sx={{
             paddingY: "12px",
@@ -217,7 +205,7 @@ const MyBin = () => {
                     </Box>
                     <Typography
                       sx={{
-                        fontFamily: "Inter",
+                        fontFamily: "Open Sans Fallback",
                         fontSize: "16px",
                         fontStyle: "normal",
                         fontWeight: 500,
@@ -229,7 +217,7 @@ const MyBin = () => {
                     </Typography>
                     <Typography
                       sx={{
-                        fontFamily: "Inter",
+                        fontFamily: "Open Sans Fallback",
                         fontSize: "12px",
                         fontStyle: "normal",
                         fontWeight: 300,
@@ -292,7 +280,7 @@ const MyBin = () => {
             <Typography
               sx={{
                 padding: "8px",
-                fontFamily: "Inter",
+                fontFamily: "Open Sans Fallback",
                 fontSize: "14px",
                 cursor: "pointer",
               }}
@@ -316,7 +304,7 @@ const MyBin = () => {
             <Typography
               sx={{
                 padding: "8px",
-                fontFamily: "Inter",
+                fontFamily: "Open Sans Fallback",
                 fontSize: "14px",
                 cursor: "pointer",
                 color: "#FF4C51",

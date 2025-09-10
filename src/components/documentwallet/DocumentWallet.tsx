@@ -341,24 +341,40 @@ const DocumentWallet: React.FC<ApplicationProgressProps> = () => {
         {/* Tab Navigation */}
         <FlexBox mb="0">
           <TabButton
+            // font
+            style={{
+              fontFamily: "Open Sans Fallback",
+            }}
             isActive={activeTab === "Overview"}
             onClick={() => setActiveTab("Overview")}
           >
             Overview
           </TabButton>
           <TabButton
+            // font
+            style={{
+              fontFamily: "Open Sans Fallback",
+            }}
             isActive={activeTab === "My Uploads"}
             onClick={() => setActiveTab("My Uploads")}
           >
             My Uploads
           </TabButton>
           <TabButton
+            // font
+            style={{
+              fontFamily: "Open Sans Fallback",
+            }}
             isActive={activeTab === "My Downloads"}
             onClick={() => setActiveTab("My Downloads")}
           >
             My Downloads
           </TabButton>
           <TabButton
+            // font
+            style={{
+              fontFamily: "Open Sans Fallback",
+            }}
             isActive={activeTab === "My Bin"}
             onClick={() => setActiveTab("My Bin")}
           >

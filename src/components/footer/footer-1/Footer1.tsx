@@ -97,6 +97,12 @@ export default function Footer1() {
                         alignItems: "center",
                         justifyContent: "center",
                       }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-50%) scale(1.02)';
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+                      }}
                     >
                       <ArrowRight size={16} />
                     </button>

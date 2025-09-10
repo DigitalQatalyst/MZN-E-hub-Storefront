@@ -21,7 +21,7 @@ Update : Replace `pure-react-carousel` To `react-slick`
 
 ## <pre>
 
-## Latest Version 1.1.0 - 07 March 2023
+## Latest Version  1.1.0 - 07 March 2023
 
 Added : 7 New Homepage variation
 Added : Fake Data and Server `/src/__server__`

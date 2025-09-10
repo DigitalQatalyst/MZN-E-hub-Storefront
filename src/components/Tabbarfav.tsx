@@ -6,24 +6,24 @@ const Tabbar = () => {
       {/* Back to the Dashboard Link */}
       <div
         style={{
-          backgroundColor: "#ffffff", // Set white background for consistency
-          padding: "10px 0", // Ensure padding to match the section
+          backgroundColor: "#ffffff",
+          padding: "10px 0",
         }}
       >
         <a
           href="/dashboard"
           style={{
-            color: "#0030E3", // Background Blue color
-            fontFamily: "Helvetica Neue",
+            color: "#0030E3",
+            fontFamily: "helvetica, sans-serif",
             fontSize: "12px",
             fontStyle: "normal",
-            fontWeight: 500,
-            lineHeight: "22px", // 183.333%
+            fontWeight: "bold",
+            lineHeight: "22px",
             display: "block",
             textDecoration: "none",
-            marginLeft: "260px",
+            marginLeft: "248px",
             marginTop: "30px",
-            marginBottom: "10px", // Align with the "Results 15+" section
+            marginBottom: "10px",
           }}
         >
           <span style={{ marginRight: "8px" }}>&larr;</span> {/* Left arrow */}
@@ -40,7 +40,7 @@ const Tabbar = () => {
           fontFamily: "Arial, sans-serif",
         }}
       >
-        <div style={{ marginLeft: "260px" }}>
+        <div style={{ marginLeft: "248px" }}>
           <div
             style={{
               display: "flex",

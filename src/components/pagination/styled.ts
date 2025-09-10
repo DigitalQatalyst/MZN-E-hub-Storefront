@@ -1,67 +1,79 @@
 import styled from "styled-components";
-import { space } from "styled-system";
-import { getTheme } from "@utils/utils";
 
 export const StyledPagination = styled.div`
-  .pagination {
-    margin: 0px;
+  .ede-pagination {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
     align-items: center;
-    list-style-type: none;
-    padding: 0px;
-
-    li {
-      cursor: pointer;
-
-      a {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 32px;
-        width: 32px;
-        margin: 0px 5px;
-        border-radius: 5px;
-        outline: none;
-        border: 1px solid transparent;
-        border-radius: 50%;
-        @media only screen and (max-width: 450px) {
-          margin: 4px;
-        }
-      }
-
-      &:not(.active):hover {
-        a {
-          color: ${getTheme("colors.primary.main")};
-          border: 1px solid ${getTheme("colors.primary.main")};
-        }
-      }
-    }
-
-    .active {
-      cursor: none;
-      a {
-        border: 1px solid ${getTheme("colors.primary.main")};
-        color: ${getTheme("colors.primary.main")};
-      }
-    }
-
-    .disabled {
-      .control-button {
-        cursor: none;
-        border: 1px solid ${getTheme("colors.primary.light")};
-        color: ${getTheme("colors.primary.light")};
-      }
-    }
+    justify-content: flex-end;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
   }
 
-  .control-button {
+  /* shared link button look */
+  .ede-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     height: 32px;
-    width: 32px;
-    min-width: 32px;
-    border: 1px solid ${getTheme("colors.primary.main")};
+    min-width: 36px;
+    padding: 0 8px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1;
+    text-decoration: none;
+    user-select: none;
+    cursor: pointer;
+    border: 1px solid rgba(17, 17, 19, 0.16);
+    background: #f3f4f6;
+    color: #111113;
+    transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
   }
 
-  ${space}
+  /* page numbers */
+  .ede-page .ede-link:hover {
+    background: #e5e7eb;
+    border-color: rgba(17, 17, 19, 0.24);
+  }
+
+  /* active page – blue filled */
+  .is-active .ede-link {
+    background: #0030e3;
+    border-color: #0030e3;
+    color: #fff;
+  }
+  .is-active .ede-link:hover {
+    background: #1e40af;
+    border-color: #1e40af;
+  }
+
+  /* Previous / Next chips (wider) */
+  .ede-prev .ede-link,
+  .ede-next .ede-link {
+    min-width: 90px;
+    padding: 0 12px;
+    font-weight: 500;
+  }
+
+  /* disabled Previous/Next */
+  .is-disabled .ede-link {
+    background: rgba(17, 17, 19, 0.04);
+    border-color: rgba(17, 17, 19, 0.08);
+    color: #9ca3af;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  /* break (ellipsis) */
+  .ede-break .ede-link {
+    background: transparent;
+    border: none;
+    color: #6b7280;
+    min-width: 16px;
+    padding: 0 4px;
+    cursor: default;
+  }
 `;

@@ -39,6 +39,7 @@ const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  width: 100%;
 
   /* Tablet and up - side by side layout with adjusted ratios */
   @media (min-width: 768px) {
@@ -62,6 +63,7 @@ const MainContainer = styled.div`
 const ContentColumn = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 0;
 
   /* On tablet and up, ensure content doesn't overflow */
   @media (min-width: 768px) {
@@ -72,6 +74,7 @@ const ContentColumn = styled.div`
 const StatsColumn = styled.div`
   display: grid;
   gap: 1rem;
+  width: 100%;
 
   /* Mobile: 2x2 grid */
   grid-template-columns: 1fr 1fr;
@@ -185,13 +188,13 @@ const IconSection = styled.div`
 
 const IconGrid = styled.div`
   display: grid;
-  justify-items: center;
+  justify-items: space-between;
 
   /* Mobile: 3 columns, 3 rows with increased row gap */
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 1.5rem 1.5rem;
-  row-gap: 2.5rem;
+  // grid-template-columns: repeat(3, 1fr);
+  // grid-template-rows: repeat(3, 1fr);
+  // gap: 1.5rem 1.5rem;
+  // row-gap: 2.5rem;
 
   /* Small tablet: 3 columns, reset rows */
   @media (min-width: 480px) {
@@ -210,11 +213,8 @@ const IconGrid = styled.div`
   }
 
   /* Large desktop: all 8 in one row if space allows */
-  @media (min-width: 1400px) {
-    grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: auto;
-    gap: 1.5rem;
-    row-gap: 1.5rem;
+  @media (min-width: 1200px) {
+    display: flex;
   }
 `;
 
@@ -451,7 +451,7 @@ const Section14: React.FC = () => {
     <WelcomeSection>
       <MainContainer>
         <ContentColumn>
-          <StyledSubHeader style={{ fontSize: "16px" }}>
+          <StyledSubHeader style={{ fontSize: "16px", marginTop: "0" }}>
             OUR MARKETPLACE PORTFOLIO
           </StyledSubHeader>
           <StyledPlatformHeader>

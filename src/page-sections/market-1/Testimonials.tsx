@@ -35,7 +35,7 @@ const WelcomeSection = styled.section`
 const ContentColumn = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
 `;
 
 const MainHeading = styled(H3)`
@@ -53,7 +53,7 @@ const FeaturedEvents = styled.div`
 const FeaturedEventsHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
   margin-bottom: 1rem;
 

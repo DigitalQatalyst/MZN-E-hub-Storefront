@@ -16,7 +16,7 @@ import Signin from "./signin";
 import Search from "./search";
 import CustomNavLink from "@component/CustomNavLink/CustomNavLink";
 import ExploreModal from "@component/mobile-responsiveness/ExploreModal";
-import MoreModal from "@component/mobile-responsiveness/MoreModal"; // Import the new MoreModal
+import MoreModal from "@component/mobile-responsiveness/MoreModal";
 
 interface Nav {
   url: string;
@@ -30,8 +30,8 @@ type NavbarProps = { navListOpen?: boolean };
 
 export default function Navbar({ navListOpen }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
-  const [activeItem, setActiveItem] = useState("/");
-  const [isMoreModalOpen, setIsMoreModalOpen] = useState(false); // New state for MoreModal
+  const [activeItem, setActiveItem] = useState("/"); // Initialize as "/"
+  const [isMoreModalOpen, setIsMoreModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
@@ -46,16 +46,27 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   }, []);
 
   const handleNavClick = (path: string) => {
-    setActiveItem(path);
-    router.push(path);
+    setActiveItem(path); // Update activeItem based on the clicked path
+    if (path === "/explore") {
+      setIsModalOpen(true); // Open ExploreModal for "explore"
+    } else if (path.startsWith("http")) {
+      window.location.href = path;
+    } else {
+      router.push(path);
+    }
   };
 
   const toggleMoreModal = () => {
-    setIsMoreModalOpen(!isMoreModalOpen); // Toggle MoreModal visibility
+    setIsMoreModalOpen(!isMoreModalOpen);
   };
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
+    if (!isModalOpen) {
+      setActiveItem("/explore"); // Set "explore" as active when opening modal
+    } else {
+      setActiveItem("/"); // Revert to Home when closing modal
+    }
   };
 
   return (
@@ -94,7 +105,6 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           >
             Discover AbuDhabi
           </CustomNavLink>
-          {/* <Search /> */}
         </Box>
 
         <Box display="flex" alignItems="center" className="desktop-nav">
@@ -114,7 +124,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             alt="More"
             width={24}
             height={24}
-            onClick={toggleMoreModal} // Toggle MoreModal when clicked
+            onClick={toggleMoreModal}
           />
         </Box>
       </Container>
@@ -139,7 +149,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             />
             <Typography color="black">Explore</Typography>
           </Box>
-          <CustomNavLink href="/development" onClick={() => handleNavClick("/profile")}>
+          <CustomNavLink href="/profile" onClick={() => handleNavClick("/profile")}>
             <Image
               src={activeItem === "/profile" ? "/assets/images/non_financial_marketplace/profile-active.svg" : "/assets/images/non_financial_marketplace/profile.svg"}
               alt="Profile"
@@ -151,10 +161,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         </FlexBox>
       </Box>
 
-      {/* Modal to open when More icon is clicked */}
       {isMoreModalOpen && <MoreModal />}
-
-      {/* ExploreModal remains as is, triggered separately */}
       {isModalOpen && <ExploreModal onClose={toggleModal} />}
     </StyledNavbar>
   );

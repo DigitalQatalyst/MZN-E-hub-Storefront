@@ -393,31 +393,3 @@ export const StyledNavbar = styled.div`
     }
   }
 `;
-
-export const StyledCustomNavLink = styled.a`
-  color: #FFF !important; /* Enforced white color */
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 20px;
-  letter-spacing: -0.1px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  padding: 8px 0;
-  position: relative;
-
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: white;
-    transition: width 0.3s ease;
-  }
-
-  // &:hover:after {
-  //   width: 100%;
-  // }
-`;

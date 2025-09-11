@@ -26,7 +26,7 @@ const ResponsiveCard = styled(Card)`
   border-radius: 8px;
   border: 0.5px solid #d1d1d1;
   background-color: var(--KF-BG-White, #fff);
-  min-height: 200px;
+  //height: 220px;
   box-sizing: border-box;
 
   /* Desktop and large screens */
@@ -90,7 +90,7 @@ const ResponsiveTitle = styled(H4)`
 const ResponsiveSubtitle = styled(H5)`
   font-weight: 400;
   font-size: 16px;
-  //height: 7.5rem;
+  height: 7.5rem;
   white-space: normal;
   word-break: break-word;
   margin-top: 1rem;

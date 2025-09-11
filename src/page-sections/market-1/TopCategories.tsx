@@ -88,20 +88,13 @@ const ResponsiveH1 = styled(H1)`
   margin-bottom: 1.5rem;
   margin-top: 1.5rem;
   color: #000;
-  font-family: "Open Sans", sans-serif;
-
+  font-family: "FS Kim Trial", sans-serif;
+  font-weight: 400;
+  line-height: 52px;
+  font-size: 48px;
+  
   @media (max-width: 768px) {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-    line-height: 1.2;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 1.7rem;
-    font-weight: 400;
-    margin-bottom: 0.75rem;
-    margin-top: 0.75rem;
+    font-size: 36px;
   }
 `;
 
@@ -390,20 +383,14 @@ export default function Section3() {
             <ContentSection>
               <ResponsiveH5>HOW IT WORKS</ResponsiveH5>
               <ResponsiveH1
-                style={{
-                  fontFamily: "FS Kim Trial",
-                  fontWeight: "400",
-                  fontSize: "48px",
-                  lineHeight: "52px",
-                }}
               >
                 Getting started is easy
               </ResponsiveH1>
               <ContentCTA>
                 <DescriptionText>
                   Browse available marketplaces, find services tailored to your
-                  business needs, and unlock growth opportunities—all <br />
-                  through one platform.
+                  business needs, and unlock growth opportunities—all                  through
+                  one platform.
                 </DescriptionText>
                 <ButtonContainer>
                   <Link href={buttonConfig.link}>

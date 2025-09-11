@@ -125,11 +125,22 @@ const EventMeta = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  width: 100%;
+  overflow: hidden;
 
   span {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    width: 100%;
+  }
+  
+  .location-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    max-width: 100%;
   }
 `;
 
@@ -497,13 +508,15 @@ const Section16: React.FC = () => {
                 <EventDetails>
                   <EventTitle>{event.title}</EventTitle>
                   <EventMeta>
-                    <span style={{ fontSize: "14px", fontWeight: "400" }}>
+                    <span style={{ fontSize: "14px", fontWeight: "400", whiteSpace: "nowrap" }}>
                       <Icon>calendar</Icon>
                       {event.date}
                     </span>
-                    <span style={{ fontSize: "14px", fontWeight: "400" }}>
+                    <span style={{ fontSize: "14px", fontWeight: "400", width: "100%" }}>
                       <Icon>pin_drop</Icon>
-                      {event.location}
+                      <span className="location-text">
+                        {event.location}
+                      </span>
                     </span>
                   </EventMeta>
                   <RegisterButton onClick={() => handleRegisterClick(event)}>

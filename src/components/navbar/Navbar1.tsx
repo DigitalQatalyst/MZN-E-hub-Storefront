@@ -204,19 +204,6 @@ export default function Navbar({ navListOpen }: NavbarProps) {
 
   const toggleMenu = () => setMenuOpen(v => !v);
 
-  // SUSI popup for both Sign in and Sign up
-  // const doAuthPopup = async () => {
-  //   setIsLoading(true);
-  //   try {
-  //     const res = await instance.loginPopup({ ...loginRequest });
-  //     if (res) router.push("/dashboard");
-  //   } catch (e) {
-  //     // user cancelled or popup blocked etc. → swallow quietly
-  //     console.warn("Auth popup:", e);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
 
   // in your navbar
 // ⬅️ put inside your component, replace your handleLogin / handleLogout implementations

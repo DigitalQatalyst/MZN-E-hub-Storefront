@@ -19,10 +19,11 @@ import "./products.css";
 import { FaAngleRight } from "react-icons/fa";
 import { IoArrowForward } from "react-icons/io5";
 import Link from "next/link";
+import { Carousel2 } from "@component/carousel2";
 
 const TabButton = styled(Button)<{ active?: boolean }>`
-  padding: 0.75rem 1.5rem;
-  width: 200px;
+  //padding: 0.75rem 1.5rem;
+  width: 250px;
   border: none;
   box-shadow: none;
   color: ${({ active }) => (active ? "#0030E3" : "#747474")};
@@ -52,10 +53,10 @@ const TabButton = styled(Button)<{ active?: boolean }>`
       position: absolute;
       left: 0;
       right: 0;
-      bottom: -10px;
-      height: 3px;
+      bottom: -8px;
+      height: 1px;
       background: #0030E3;
-      border-radius: 2px 2px 0 0;
+      //border-radius: 2px 2px 0 0;
     }
   `}
 `;
@@ -118,7 +119,13 @@ export default function ServiceDetailsSection2({ product }: Props) {
   );
 
   const renderDocuments = () => {
-    const docs = product?.requiredDocuments || [];
+    const docs = product?.requiredDocuments
+      ? product.requiredDocuments
+          .replace(/[\[\]"']/g, "") // Remove square brackets and quotes
+          .split(",")
+          .map((step) => step.trim())
+          .filter((step) => step.length > 0)
+      : [];
     const showButton = docs.length > 4;
     const visibleDocs = showAllDocs ? docs : docs.slice(0, 4);
 
@@ -195,19 +202,26 @@ export default function ServiceDetailsSection2({ product }: Props) {
   );
 
   const renderSteps = () => {
-    const steps = product?.steps || [];
+    // Get steps as a comma-separated string, clean it up, and split into array
+    const steps = product?.steps
+      ? product.steps
+          .replace(/[\[\]"']/g, "") // Remove square brackets and quotes
+          .split(",")
+          .map((step) => step.trim())
+          .filter((step) => step.length > 0)
+      : [];
     const showButton = steps.length > 4;
     const visibleSteps = showAllSteps ? steps : steps.slice(0, 4);
 
     return (
       <ContentBox>
         <DocumentItem mb="1rem" style={{ fontWeight: "bold" }}>
-          Steps:
+          {product.name} Service Steps:
         </DocumentItem>
         {steps.length > 0 ? (
           <>
             <ol style={{ paddingLeft: "2%" }}>
-              {visibleSteps.map((step, index) => (
+              {steps?.map((step, index) => (
                 <li key={index} style={{ marginBottom: "1rem" }}>
                   <DocumentItem as="span">{step}</DocumentItem>
                 </li>
@@ -246,18 +260,31 @@ export default function ServiceDetailsSection2({ product }: Props) {
     );
   };
 
-  const renderTerms = () => (
-    <ContentBox>
-      {/* <DocumentItem mb="1rem">Terms of Service</DocumentItem> */}
-      {product?.termsOfService && product?.termsOfService.length > 0 ? (
-        product?.termsOfService.map((term, index) => (
-          <DocumentItem key={index}>{term}</DocumentItem>
-        ))
-      ) : (
-        <DocumentItem>No terms listed.</DocumentItem>
-      )}
-    </ContentBox>
-  );
+  const renderTerms = () => {
+    const terms = product?.termsOfService
+      ? product.termsOfService
+          .replace(/[\[\]"']/g, "") // Remove square brackets and quotes
+          .split(",")
+          .map((term) => term.trim())
+          .filter((term) => term.length > 0)
+      : [];
+
+    return (
+      <ContentBox>
+        {terms.length > 0 ? (
+          <ol style={{ paddingLeft: "2%" }}>
+            {terms.map((term, index) => (
+              <li key={index} style={{ marginBottom: "0.5rem" }}>
+                <DocumentItem as="span">{term}</DocumentItem>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <DocumentItem>No terms listed.</DocumentItem>
+        )}
+      </ContentBox>
+    );
+  };
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -282,7 +309,7 @@ export default function ServiceDetailsSection2({ product }: Props) {
           borderRadius: "8px",
           boxShadow:
             "0px 1px 2px 0px rgba(0, 33, 128, 0.30), 0px 1px 3px 1px rgba(0, 33, 128, 0.15)",
-          padding: "3rem",
+          // padding: "1rem",
         }}
         className="product-details-container"
       >
@@ -326,11 +353,11 @@ export default function ServiceDetailsSection2({ product }: Props) {
         </TabContainer>
         <hr
           style={{
-            height: "3px",
+            height: "1px",
             background: "#D8E0E9",
             border: "none",
-            marginLeft: "1.95rem",
-            marginRight: "1.95rem",
+            // marginLeft: "1.95rem",
+            // marginRight: "1.95rem",
           }}
         />
 
@@ -362,21 +389,30 @@ export default function ServiceDetailsSection2({ product }: Props) {
       ) : (
         <Box mt="3rem">
           <FlexBox color="#0030E3" mb="1.5rem" justifyContent="space-between">
-            <H3 color="#0030E3">Related Services</H3>
+            <H3
+              fontFamily="FS Kim Trial"
+              fontSize="24px"
+              fontWeight="400"
+              color="#0030E3"
+            >
+              Related Services
+            </H3>
             <Link
               href="/financial-marketplace"
               style={{
                 display: "flex",
                 alignItems: "center",
                 color: "#0030E3",
+                fontSize: "16px",
+                fontWeight: "500",
               }}
             >
               Explore More
               <IoArrowForward />
             </Link>
           </FlexBox>
-          <Carousel
-            arrows={false}
+          <Carousel2
+            //arrows={false}
             slidesToShow={4}
             responsive={responsive}
             className=""
@@ -395,7 +431,7 @@ export default function ServiceDetailsSection2({ product }: Props) {
                 className=""
               />
             ))}
-          </Carousel>
+          </Carousel2>
         </Box>
       )}
     </Box>

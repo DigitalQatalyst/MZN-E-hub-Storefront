@@ -52,7 +52,7 @@ export const StyledCategoryMenuItem = styled.div`
     transition: all 250ms ease-in-out;
 
     .title {
-      padding-left: 4rem;
+      padding-left: 20px;
       flex-grow: 1;
       text-align: left;
     }

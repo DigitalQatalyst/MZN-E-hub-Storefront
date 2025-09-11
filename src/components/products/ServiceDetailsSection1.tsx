@@ -65,7 +65,7 @@ export default function ServiceDetailsSection1({ product }: Props) {
         ];
 
   return (
-    <Box overflow="hidden" borderRadius="12px" padding="12px">
+    <Box overflow="hidden" style={{ borderRadius: "12px", padding: "12px" }}>
       <FlexBox justifyContent="space-between">
         <FlexBox flexDirection="column">
           <Link
@@ -74,27 +74,40 @@ export default function ServiceDetailsSection1({ product }: Props) {
               display: "flex",
               gap: 10,
               alignItems: "center",
-              fontSize: 16,
-              marginBottom: "1.5rem",
+              fontSize: "16px",
+              marginBottom: "1rem",
             }}
           >
             <IoMdArrowBack size={12} color="#0030E3" />
-            <Span color="#0030E3" fontSize={12} fontWeight={500}>
+            <Span
+              color="#0030E3"
+              fontSize={12}
+              fontWeight={500}
+              // fontFamily="Helvetica Neue"
+            >
               Back to Financial Services
             </Span>
           </Link>
 
-          <H2 mb="1rem" color="#0030E3" fontFamily="FS Kim Trial">
-            {product?.title ?? "Service title"}
+          <H2
+            fontSize={24}
+            fontWeight={400}
+            color="#0030E3"
+            fontFamily="FS Kim Trial"
+          >
+            {product?.title}
           </H2>
-
-          <Span mb="1rem" fontWeight={500}>
+          <Span
+            mb="1rem"
+            //fontFamily="Helvetica Neue"
+            fontWeight={500}
+            fontSize={12}
+          >
             powered by {product?.subTitle || "Khalifa Fund"}
           </Span>
-
-          <Box mb="45px" width="70%">
-            {product?.description ??
-              "Explore tailored funding solutions for your SME’s growth and innovation."}
+          <Box mb="45px" width="70%" color="#000">
+            {product?.description ||
+              "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..."}
           </Box>
         </FlexBox>
       </FlexBox>
@@ -111,13 +124,12 @@ export default function ServiceDetailsSection1({ product }: Props) {
           <FlexBox
             alignItems="center"
             mb="1rem"
-            mr="1.5rem"
-            justifyContent="space-between"
             className="product-intro-details-btn-container"
+            style={{ gap: "12px" }}
           >
             <Button
               bg="#0030E3"
-              padding="0 10px"
+              padding="13px 22px"
               height="55px"
               variant="contained"
               color="primary"
@@ -131,39 +143,54 @@ export default function ServiceDetailsSection1({ product }: Props) {
               <Icon marginLeft="10px">launch</Icon>
             </Button>
 
-            <Button
+            <FlexBox
+              className="product-intro-details-btn-3"
               color="#002180"
-              height="50px"
-              border="2px solid #0030E3"
-              className="product-intro-details-btn-2"
-              aria-label="Save service"
+              padding="15px 22px"
+              style={{ gap: "10px" }}
+              border={"2px solid #0030E3"}
             >
-              <FaRegBookmark color="#0030E3" size={20} />
-              <span style={{ color: "#0030E3", marginLeft: 8 }}>Save</span>
-            </Button>
+              <FaRegBookmark color="#0030E3" size="20px" />
+              <span style={{ color: "#0030E3" }}>Save</span>
+            </FlexBox>
 
-            <FlexBox justifyContent="space-between" width="10%">
-              <Span className="product-intro-details-btn-3" title="Share">
-                <GiShare color="#0030E3" size={20} />
+            <FlexBox
+              justifyContent="space-between"
+              alignItems="center"
+              width="10%"
+            >
+              <Span className="product-intro-details-btn-3">
+                <GiShare color="#0030E3" size="20px" />
               </Span>
             </FlexBox>
           </FlexBox>
 
           {/* Tags */}
           <FlexBox className="product-intro-tags">
-            <FlexBox flexDirection="column" style={{ gap: 30 }}>
-              <FlexBox flexDirection="column" style={{ gap: 10 }}>
-                <FlexBox alignItems="center" style={{ gap: 5 }}>
-                  <Span>Business Stage</Span>
+            <FlexBox flexDirection="column" style={{ gap: "30px" }}>
+              <FlexBox flexDirection="column" style={{ gap: "10px" }}>
+                <FlexBox alignItems="center" style={{ gap: "5px" }}>
+                  <Span fontSize={12} fontWeight={500} color="#747474">
+                    {" "}
+                    Business Stage
+                  </Span>
+                  <Icon size="16px" color="#747474">
+                    info
+                  </Icon>
                 </FlexBox>
                 <FlexBox flexWrap="wrap" style={{ gap: 10 }}>
                   <Span className="tags">{product?.businessStage ?? "All"}</Span>
                 </FlexBox>
               </FlexBox>
 
-              <FlexBox flexDirection="column" style={{ gap: 10 }}>
-                <FlexBox alignItems="center" style={{ gap: 5 }}>
-                  <Span>Segment</Span>
+              <FlexBox flexDirection="column" style={{ gap: "10px" }}>
+                <FlexBox alignItems="center" style={{ gap: "5px" }}>
+                  <Span fontSize={12} fontWeight={500} color="#747474">
+                    Segment
+                  </Span>
+                  <Icon size="16px" color="#747474">
+                    info
+                  </Icon>
                 </FlexBox>
                 <FlexBox flexWrap="wrap" style={{ gap: 10 }}>
                   {!!product?.Nationality && (
@@ -175,9 +202,14 @@ export default function ServiceDetailsSection1({ product }: Props) {
                 </FlexBox>
               </FlexBox>
 
-              <FlexBox flexDirection="column" style={{ gap: 10 }}>
-                <FlexBox alignItems="center" style={{ gap: 5 }}>
-                  <Span>Categories</Span>
+              <FlexBox flexDirection="column" style={{ gap: "10px" }}>
+                <FlexBox alignItems="center" style={{ gap: "5px" }}>
+                  <Span fontSize={12} fontWeight={500} color="#747474">
+                    Categories
+                  </Span>
+                  <Icon size="16px" color="#747474">
+                    info
+                  </Icon>
                 </FlexBox>
                 <FlexBox
                   flexDirection="column"
@@ -214,7 +246,7 @@ export default function ServiceDetailsSection1({ product }: Props) {
             arrows
             slidesToShow={1}
             responsive={responsive}
-            dotColor="gray"
+            dotColor="#D9D9D9"
             dotStyles={{ bottom: "-40px" }}
           >
             {assets.map((asset, index) => (
@@ -240,17 +272,39 @@ export default function ServiceDetailsSection1({ product }: Props) {
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "flex-end",
-                      alignItems: "flex-start",
-                      padding: 24,
+                      alignItems: "center",
+                      padding: "24px",
                     }}
                   >
-                    <img
-                      src="/images/khalifa-fund-logo.svg"
-                      alt="Khalifa Fund"
-                      style={{ width: 32, height: 21, marginBottom: "auto" }}
-                    />
-
-                    <FlexBox alignItems="flex-end" justifyContent="space-between">
+                    <FlexBox
+                      alignItems="center"
+                      justifyContent="space-between"
+                      height={100}
+                      width="100%"
+                    >
+                      <img
+                        src="/images/khalifa-fund-logo.svg"
+                        alt="Logo"
+                        style={{ width: 32, height: 21, marginBottom: "auto" }}
+                      />
+                      <span
+                        style={{
+                          WebkitTextStrokeWidth: 1,
+                          WebkitTextStrokeColor: "#D8D8D8",
+                          //fontFamily: "Helvetica Neue",
+                          fontSize: 128,
+                          fontWeight: 900,
+                          lineHeight: "normal",
+                          color: "transparent",
+                        }}
+                      >
+                        1.
+                      </span>
+                    </FlexBox>
+                    <FlexBox
+                      alignItems="flex-end"
+                      justifyContent="space-between"
+                    >
                       <div style={{ width: "70%" }}>
                         <div
                           style={{
@@ -263,13 +317,21 @@ export default function ServiceDetailsSection1({ product }: Props) {
                             WebkitBoxOrient: "vertical",
                             overflow: "hidden",
                             minHeight: "1.2em",
-                            lineHeight: 1.2,
+                            lineHeight: "1.2",
+                            fontFamily: "FS Kim Trial",
                           }}
                         >
                           {product?.title ?? "Funding Solutions"}
                         </div>
-                        <div style={{ color: "black", fontWeight: 400, fontSize: 16 }}>
-                          Explore Tailored Funding Solutions for Your SME’s Growth and Innovation
+                        <div
+                          style={{
+                            color: "black",
+                            fontWeight: 400,
+                            fontSize: 16,
+                          }}
+                        >
+                          Explore Tailored Funding Solutions for Your SME’s
+                          Growth and Innovation
                         </div>
                       </div>
                       <IoMdArrowForward size={20} />

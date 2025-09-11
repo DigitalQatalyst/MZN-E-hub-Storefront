@@ -59,7 +59,7 @@ const MyDownloads = () => {
             color: "#000",
             textAlign: "start",
             fontFeatureSettings: "liga,clig",
-            fontFamily: "Inter",
+            fontFamily: "Open Sans Fallback",
             fontSize: "24px",
             fontStyle: "normal",
             fontWeight: 500,
@@ -74,7 +74,7 @@ const MyDownloads = () => {
             color: "#000",
             textAlign: "start",
             fontFeatureSettings: "liga,clig",
-            fontFamily: "Inter",
+            fontFamily: "Open Sans Fallback",
             fontSize: "16px",
             fontStyle: "normal",
             fontWeight: 400,
@@ -158,7 +158,7 @@ const MyDownloads = () => {
       >
         <Typography
           sx={{
-            fontFamily: "Inter",
+            fontFamily: "Open Sans Fallback",
             fontSize: "24px",
             fontStyle: "normal",
             fontWeight: 500,
@@ -231,7 +231,7 @@ const MyDownloads = () => {
                     </Box>
                     <Typography
                       sx={{
-                        fontFamily: "Inter",
+                        fontFamily: "Open Sans Fallback",
                         fontSize: "16px",
                         fontStyle: "normal",
                         fontWeight: 500,
@@ -243,7 +243,7 @@ const MyDownloads = () => {
                     </Typography>
                     <Typography
                       sx={{
-                        fontFamily: "Inter",
+                        fontFamily: "Open Sans Fallback",
                         fontSize: "12px",
                         fontStyle: "normal",
                         fontWeight: 300,
@@ -273,7 +273,7 @@ const MyDownloads = () => {
             color: "#000",
             textAlign: "start",
             fontFeatureSettings: "liga,clig",
-            fontFamily: "Inter",
+            fontFamily: "Open Sans Fallback",
             fontSize: "24px",
             fontStyle: "normal",
             fontWeight: 500,
@@ -287,7 +287,7 @@ const MyDownloads = () => {
             color: "#000",
             textAlign: "start",
             fontFeatureSettings: "liga,clig",
-            fontFamily: "Inter",
+            fontFamily: "Open Sans Fallback",
             fontSize: "16px",
             fontStyle: "normal",
             fontWeight: 400,
@@ -358,7 +358,7 @@ const MyDownloads = () => {
                 </Box>
                 <Typography
                   sx={{
-                    fontFamily: "Inter",
+                    fontFamily: "Open Sans Fallback",
                     fontSize: "16px",
                     fontStyle: "normal",
                     fontWeight: 500,
@@ -370,7 +370,7 @@ const MyDownloads = () => {
                 </Typography>
                 <Typography
                   sx={{
-                    fontFamily: "Inter",
+                    fontFamily: "Open Sans Fallback",
                     fontSize: "12px",
                     fontStyle: "normal",
                     fontWeight: 300,
@@ -427,7 +427,7 @@ const MyDownloads = () => {
                 </Box>
                 <Typography
                   sx={{
-                    fontFamily: "Inter",
+                    fontFamily: "Open Sans Fallback",
                     fontSize: "16px",
                     fontStyle: "normal",
                     fontWeight: 500,
@@ -439,7 +439,7 @@ const MyDownloads = () => {
                 </Typography>
                 <Typography
                   sx={{
-                    fontFamily: "Inter",
+                    fontFamily: "Open Sans Fallback",
                     fontSize: "12px",
                     fontStyle: "normal",
                     fontWeight: 300,
@@ -496,7 +496,7 @@ const MyDownloads = () => {
                 </Box>
                 <Typography
                   sx={{
-                    fontFamily: "Inter",
+                    fontFamily: "Open Sans Fallback",
                     fontSize: "16px",
                     fontStyle: "normal",
                     fontWeight: 500,

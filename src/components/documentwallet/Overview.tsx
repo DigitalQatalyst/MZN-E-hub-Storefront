@@ -73,7 +73,7 @@ const Overview = () => {
             color: "#000",
             textAlign: "start",
             fontFeatureSettings: "liga,clig",
-            fontFamily: "Inter",
+            fontFamily: "Open Sans Fallback",
             fontSize: "24px",
             fontStyle: "normal",
             fontWeight: 500,
@@ -96,12 +96,14 @@ const Overview = () => {
           justifyContent: "center",
           flexDirection: "column",
           gap: "16px",
+          padding: "12px",
+          textAlign: "center",
         }}
       >
         <img src="/images/backup.svg" width={24} height={24} alt="" />
         <Typography
           sx={{
-            fontFamily: "Inter",
+            fontFamily: "Open Sans Fallback",
             fontSize: "16px",
             fontStyle: "normal",
             fontWeight: 400,
@@ -112,7 +114,7 @@ const Overview = () => {
         </Typography>
         <Typography
           sx={{
-            fontFamily: "Inter",
+            fontFamily: "Open Sans Fallback",
             fontSize: "12px",
             fontStyle: "normal",
             fontWeight: 300,
@@ -150,6 +152,7 @@ const Overview = () => {
               borderRadius: "8px",
               cursor: "pointer",
               backgroundColor: "#D9EEFF",
+              fontFamily: "Open Sans Fallback",
             }}
           >
             Select Files
@@ -197,6 +200,7 @@ const Overview = () => {
             display: "flex",
             alignItems: "center",
             gap: "12px",
+            // ismobile
           }}
         >
           <Box>
@@ -230,11 +234,12 @@ const Overview = () => {
       >
         <Typography
           sx={{
-            fontFamily: "Inter",
+            fontFamily: "Open Sans Fallback",
             fontSize: "24px",
             fontStyle: "normal",
             fontWeight: 500,
             lineHeight: "22px",
+            marginBottom: "24px",
           }}
         >
           My Files
@@ -303,7 +308,7 @@ const Overview = () => {
                     </Box>
                     <Typography
                       sx={{
-                        fontFamily: "Inter",
+                        fontFamily: "Open Sans Fallback",
                         fontSize: "16px",
                         fontStyle: "normal",
                         fontWeight: 500,
@@ -315,7 +320,7 @@ const Overview = () => {
                     </Typography>
                     <Typography
                       sx={{
-                        fontFamily: "Inter",
+                        fontFamily: "Open Sans Fallback",
                         fontSize: "12px",
                         fontStyle: "normal",
                         fontWeight: 300,
@@ -349,7 +354,7 @@ const Overview = () => {
         >
           <Typography
             sx={{
-              fontFamily: "Inter",
+              fontFamily: "Open Sans Fallback",
               fontSize: "24px",
               fontStyle: "normal",
               fontWeight: 500,
@@ -384,7 +389,7 @@ const Overview = () => {
               <img src="/images/delete.svg" width={24} height={24} alt="" />
               <Typography
                 sx={{
-                  fontFamily: "Inter",
+                  fontFamily: "Open Sans Fallback",
                   fontSize: "16px",
                   fontStyle: "normal",
                   fontWeight: 300,
@@ -397,7 +402,7 @@ const Overview = () => {
             <Box>
               <Typography
                 sx={{
-                  fontFamily: "Inter",
+                  fontFamily: "Open Sans Fallback",
                   fontSize: "16px",
                   fontStyle: "normal",
                   fontWeight: 300,
@@ -428,7 +433,7 @@ const Overview = () => {
               <img src="/images/share.svg" width={24} height={24} alt="" />
               <Typography
                 sx={{
-                  fontFamily: "Inter",
+                  fontFamily: "Open Sans Fallback",
                   fontSize: "16px",
                   fontStyle: "normal",
                   fontWeight: 300,
@@ -441,7 +446,7 @@ const Overview = () => {
             <Box>
               <Typography
                 sx={{
-                  fontFamily: "Inter",
+                  fontFamily: "Open Sans Fallback",
                   fontSize: "16px",
                   fontStyle: "normal",
                   fontWeight: 300,
@@ -472,7 +477,7 @@ const Overview = () => {
               <img src="/images/download.svg" width={24} height={24} alt="" />
               <Typography
                 sx={{
-                  fontFamily: "Inter",
+                  fontFamily: "Open Sans Fallback",
                   fontSize: "16px",
                   fontStyle: "normal",
                   fontWeight: 300,
@@ -485,7 +490,7 @@ const Overview = () => {
             <Box>
               <Typography
                 sx={{
-                  fontFamily: "Inter",
+                  fontFamily: "Open Sans Fallback",
                   fontSize: "16px",
                   fontStyle: "normal",
                   fontWeight: 300,
@@ -516,7 +521,7 @@ const Overview = () => {
               <img src="/images/upload.svg" width={24} height={24} alt="" />
               <Typography
                 sx={{
-                  fontFamily: "Inter",
+                  fontFamily: "Open Sans Fallback",
                   fontSize: "16px",
                   fontStyle: "normal",
                   fontWeight: 300,
@@ -529,7 +534,7 @@ const Overview = () => {
             <Box>
               <Typography
                 sx={{
-                  fontFamily: "Inter",
+                  fontFamily: "Open Sans Fallback",
                   fontSize: "16px",
                   fontStyle: "normal",
                   fontWeight: 300,

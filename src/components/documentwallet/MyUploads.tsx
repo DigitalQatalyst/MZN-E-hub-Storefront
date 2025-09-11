@@ -116,7 +116,7 @@ const MyUploads = () => {
             color: "#000",
             textAlign: "start",
             fontFeatureSettings: "liga,clig",
-            fontFamily: "Inter",
+            fontFamily: "Open Sans Fallback",
             fontSize: "24px",
             fontStyle: "normal",
             fontWeight: 500,
@@ -130,7 +130,7 @@ const MyUploads = () => {
             color: "#000",
             textAlign: "start",
             fontFeatureSettings: "liga,clig",
-            fontFamily: "Inter",
+            fontFamily: "Open Sans Fallback",
             fontSize: "16px",
             fontStyle: "normal",
             fontWeight: 400,
@@ -152,7 +152,7 @@ const MyUploads = () => {
             color: "#000",
             textAlign: "start",
             fontFeatureSettings: "liga,clig",
-            fontFamily: "Inter",
+            fontFamily: "Open Sans Fallback",
             fontSize: "24px",
             fontStyle: "normal",
             fontWeight: 500,
@@ -166,7 +166,7 @@ const MyUploads = () => {
             color: "#000",
             textAlign: "start",
             fontFeatureSettings: "liga,clig",
-            fontFamily: "Inter",
+            fontFamily: "Open Sans Fallback",
             fontSize: "16px",
             fontStyle: "normal",
             fontWeight: 400,
@@ -237,7 +237,7 @@ const MyUploads = () => {
                 </Box>
                 <Typography
                   sx={{
-                    fontFamily: "Inter",
+                    fontFamily: "Open Sans Fallback",
                     fontSize: "16px",
                     fontStyle: "normal",
                     fontWeight: 500,
@@ -249,7 +249,7 @@ const MyUploads = () => {
                 </Typography>
                 <Typography
                   sx={{
-                    fontFamily: "Inter",
+                    fontFamily: "Open Sans Fallback",
                     fontSize: "12px",
                     fontStyle: "normal",
                     fontWeight: 300,
@@ -306,7 +306,7 @@ const MyUploads = () => {
                 </Box>
                 <Typography
                   sx={{
-                    fontFamily: "Inter",
+                    fontFamily: "Open Sans Fallback",
                     fontSize: "16px",
                     fontStyle: "normal",
                     fontWeight: 500,
@@ -318,7 +318,7 @@ const MyUploads = () => {
                 </Typography>
                 <Typography
                   sx={{
-                    fontFamily: "Inter",
+                    fontFamily: "Open Sans Fallback",
                     fontSize: "12px",
                     fontStyle: "normal",
                     fontWeight: 300,
@@ -375,7 +375,7 @@ const MyUploads = () => {
                 </Box>
                 <Typography
                   sx={{
-                    fontFamily: "Inter",
+                    fontFamily: "Open Sans Fallback",
                     fontSize: "16px",
                     fontStyle: "normal",
                     fontWeight: 500,
@@ -404,7 +404,7 @@ const MyUploads = () => {
           >
             <Typography
               sx={{
-                fontFamily: "Inter",
+                fontFamily: "Open Sans Fallback",
                 fontSize: "24px",
                 fontStyle: "normal",
                 fontWeight: 500,
@@ -472,7 +472,7 @@ const MyUploads = () => {
                     </Box>
                     <Typography
                       sx={{
-                        fontFamily: "Inter",
+                        fontFamily: "Open Sans Fallback",
                         fontSize: "16px",
                         fontStyle: "normal",
                         fontWeight: 500,
@@ -484,7 +484,7 @@ const MyUploads = () => {
                     </Typography>
                     <Typography
                       sx={{
-                        fontFamily: "Inter",
+                        fontFamily: "Open Sans Fallback",
                         fontSize: "12px",
                         fontStyle: "normal",
                         fontWeight: 300,
@@ -543,7 +543,7 @@ const MyUploads = () => {
                 </Box>
                 <Typography
                   sx={{
-                    fontFamily: "Inter",
+                    fontFamily: "Open Sans Fallback",
                     fontSize: "16px",
                     fontStyle: "normal",
                     fontWeight: 500,
@@ -571,12 +571,14 @@ const MyUploads = () => {
           justifyContent: "center",
           flexDirection: "column",
           gap: "16px",
+          padding: "12px",
+          textAlign: "center",
         }}
       >
         <img src="/images/backup.svg" width={24} height={24} alt="" />
         <Typography
           sx={{
-            fontFamily: "Inter",
+            fontFamily: "Open Sans Fallback",
             fontSize: "16px",
             fontStyle: "normal",
             fontWeight: 400,
@@ -587,7 +589,7 @@ const MyUploads = () => {
         </Typography>
         <Typography
           sx={{
-            fontFamily: "Inter",
+            fontFamily: "Open Sans Fallback",
             fontSize: "12px",
             fontStyle: "normal",
             fontWeight: 300,
@@ -628,7 +630,7 @@ const MyUploads = () => {
       >
         <Typography
           sx={{
-            fontFamily: "Inter",
+            fontFamily: "Open Sans Fallback",
             fontSize: "20px",
             fontStyle: "normal",
             fontWeight: 400,
@@ -675,7 +677,7 @@ const MyUploads = () => {
                   <Box>
                     <Typography
                       sx={{
-                        fontFamily: "Inter",
+                        fontFamily: "Open Sans Fallback",
                         fontSize: "16px",
                         fontStyle: "normal",
                         fontWeight: 300,
@@ -687,7 +689,7 @@ const MyUploads = () => {
                     </Typography>
                     <Typography
                       sx={{
-                        fontFamily: "Inter",
+                        fontFamily: "Open Sans Fallback",
                         fontSize: "12px",
                         fontStyle: "normal",
                         fontWeight: 400,
@@ -720,7 +722,7 @@ const MyUploads = () => {
 
                     <Typography
                       sx={{
-                        fontFamily: "Inter",
+                        fontFamily: "Open Sans Fallback",
                         fontSize: "12px",
                         fontStyle: "normal",
                         fontWeight: 400,

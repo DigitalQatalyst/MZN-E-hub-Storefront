@@ -25,6 +25,7 @@ import { Carousel } from "@component/carousel";
 import { GiShare } from "react-icons/gi";
 
 import Product from "@models/product.model";
+import ShareServiceModal from "@component/share-service/ShareServiceModal";
 
 // ========================================
 interface Props {
@@ -85,6 +86,18 @@ export default function ServiceDetailsSection1({ product }: Props) {
     { breakpoint: 650, settings: { slidesToShow: 1 } },
   ];
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const serviceUrl = typeof window !== "undefined" ? window.location.href : "";
+
+  const openModal = () => {
+    setIsModalOpen(true);
+    document.body.classList.add("modal-open");
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    document.body.classList.remove("modal-open");
+  };
   return (
     <Box overflow="hidden" style={{ borderRadius: "12px", padding: "12px" }}>
       <FlexBox justifyContent="space-between">
@@ -112,7 +125,7 @@ export default function ServiceDetailsSection1({ product }: Props) {
           </Link>
 
           <H2
-            fontSize={24}
+            fontSize={30}
             fontWeight={400}
             color="#0030E3"
             fontFamily="FS Kim Trial"
@@ -170,9 +183,11 @@ export default function ServiceDetailsSection1({ product }: Props) {
             <FlexBox
               className="product-intro-details-btn-3"
               color="#002180"
-              padding="15px 22px"
+              //padding="15px 22px"
               style={{ gap: "10px" }}
               border={"2px solid #0030E3"}
+              cursor="pointer"
+              onClick={handleStartApplication}
             >
               <FaRegBookmark color="#0030E3" size="20px" />
               <span style={{ color: "#0030E3" }}>Save</span>
@@ -181,12 +196,17 @@ export default function ServiceDetailsSection1({ product }: Props) {
             <FlexBox
               justifyContent="space-between"
               alignItems="center"
-              width="10%"
+              className="product-intro-details-btn-3"
+              cursor="pointer"
+              onClick={openModal}
             >
-              <Span className="product-intro-details-btn-3">
-                <GiShare color="#0030E3" size="20px" />
-              </Span>
+              <GiShare color="#0030E3" size="20px" />
             </FlexBox>
+            <ShareServiceModal
+              isOpen={isModalOpen}
+              onClose={closeModal}
+              serviceUrl={serviceUrl}
+            />
           </FlexBox>
 
           <FlexBox className="product-intro-tags">

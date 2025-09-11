@@ -88,8 +88,8 @@ const ResponsiveH1 = styled(H1)`
   margin-bottom: 1.5rem;
   margin-top: 1.5rem;
   color: #000;
-  font-family: "FS Kim Trial", sans-serif;
-  font-weight: 400;
+  font-family: "FS Kim Trial";
+  font-weight: 100;
   line-height: 52px;
   font-size: 48px;
   
@@ -389,8 +389,8 @@ export default function Section3() {
               <ContentCTA>
                 <DescriptionText>
                   Browse available marketplaces, find services tailored to your
-                  business needs, and unlock growth opportunities—all                  through
-                  one platform.
+                  business needs, and unlock growth opportunities—all
+                  <br />through one platform.
                 </DescriptionText>
                 <ButtonContainer>
                   <Link href={buttonConfig.link}>

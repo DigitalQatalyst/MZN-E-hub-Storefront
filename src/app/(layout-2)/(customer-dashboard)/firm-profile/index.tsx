@@ -27,7 +27,18 @@ import {
   risksReadiness,
 } from "./data/mock";
 
-// Build content arrays (copied from your original)
+const inputStyle = {
+  fontSize: "14px",
+  maxWidth: "60%",
+  outline: "none",
+  textAlign: "right" as const,
+  border: "1px solid #e0e0e0",
+  borderRadius: "4px",
+  padding: "4px 8px",
+  backgroundColor: "#fff",
+  color: "#242424",
+};
+
 // Build content arrays from EDE data
 const businessIdentityItems = [
   {
@@ -36,18 +47,51 @@ const businessIdentityItems = [
     content: (
       <Box>
         {[
-          ["Business Name", businessOverview.identityAndDescription.businessName],
-          ["Trading/Brand Name", businessOverview.identityAndDescription.tradingName],
-          ["Year of Establishment", businessOverview.identityAndDescription.yearOfEstablishment],
-          ["Legal Structure", businessOverview.identityAndDescription.legalStructure],
-          ["Registration Number", businessOverview.identityAndDescription.registrationNumber],
+          [
+            "Business Name",
+            businessOverview.identityAndDescription.businessName,
+          ],
+          [
+            "Trading/Brand Name",
+            businessOverview.identityAndDescription.tradingName,
+          ],
+          [
+            "Year of Establishment",
+            businessOverview.identityAndDescription.yearOfEstablishment,
+          ],
+          [
+            "Legal Structure",
+            businessOverview.identityAndDescription.legalStructure,
+          ],
+          [
+            "Registration Number",
+            businessOverview.identityAndDescription.registrationNumber,
+          ],
           ["Industry/Sector", businessOverview.identityAndDescription.industry],
-          ["Business Description / Tagline", businessOverview.identityAndDescription.tagline],
-          ["Business Logo", businessOverview.identityAndDescription.businessLogo],
+          [
+            "Business Description / Tagline",
+            businessOverview.identityAndDescription.tagline,
+          ],
+          [
+            "Business Logo",
+            businessOverview.identityAndDescription.businessLogo,
+          ],
         ].map(([label, value], i, arr) => (
-          <Box key={i} py="10px" borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px" sx={{ maxWidth: "60%", textAlign: "right" }}>{String(value)}</Typography>
+          <Box
+            key={i}
+            py="10px"
+            borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"}
+            display="flex"
+            justifyContent="space-between"
+          >
+            <Typography fontSize="14px" color="text.hint">
+              {label}
+            </Typography>
+            <input
+              type="text"
+              defaultValue={String(value)}
+              style={inputStyle}
+            />
           </Box>
         ))}
       </Box>
@@ -62,18 +106,48 @@ const businessIdentityItems = [
           ["Official Email", businessOverview.contactAndDigitalPresence.email],
           ["Phone Number", businessOverview.contactAndDigitalPresence.phone],
           ["Website", businessOverview.contactAndDigitalPresence.website],
-          ["Facebook", businessOverview.contactAndDigitalPresence.social.facebook],
-          ["LinkedIn", businessOverview.contactAndDigitalPresence.social.linkedin],
-          ["Instagram", businessOverview.contactAndDigitalPresence.social.instagram],
-          ["WhatsApp Business", businessOverview.contactAndDigitalPresence.whatsapp],
-          ["Location (Head Office)", businessOverview.contactAndDigitalPresence.headOfficeLocation],
-          ["Branch Locations", businessOverview.contactAndDigitalPresence.branchLocations.join(", ")],
+          [
+            "Facebook",
+            businessOverview.contactAndDigitalPresence.social.facebook,
+          ],
+          [
+            "LinkedIn",
+            businessOverview.contactAndDigitalPresence.social.linkedin,
+          ],
+          [
+            "Instagram",
+            businessOverview.contactAndDigitalPresence.social.instagram,
+          ],
+          [
+            "WhatsApp Business",
+            businessOverview.contactAndDigitalPresence.whatsapp,
+          ],
+          [
+            "Location (Head Office)",
+            businessOverview.contactAndDigitalPresence.headOfficeLocation,
+          ],
+          [
+            "Branch Locations",
+            businessOverview.contactAndDigitalPresence.branchLocations.join(
+              ", "
+            ),
+          ],
         ].map(([label, value], i, arr) => (
-          <Box key={i} py="10px" borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px" sx={{ maxWidth: "60%", textAlign: "right", wordBreak: "break-word" }}>
-              {String(value)}
+          <Box
+            key={i}
+            py="10px"
+            borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"}
+            display="flex"
+            justifyContent="space-between"
+          >
+            <Typography fontSize="14px" color="text.hint">
+              {label}
             </Typography>
+            <input
+              type="text"
+              defaultValue={String(value)}
+              style={inputStyle}
+            />
           </Box>
         ))}
       </Box>
@@ -88,17 +162,56 @@ const governanceComplianceItems = [
     content: (
       <Box>
         {[
-          ["Type of Ownership", governanceCompliance.ownershipAndLeadership.ownershipType],
-          ["Owner/CEO Name", governanceCompliance.ownershipAndLeadership.ownerCeoName],
-          ["Gender of Founder/Owner", governanceCompliance.ownershipAndLeadership.founderGender],
-          ["Age Range of Founder", governanceCompliance.ownershipAndLeadership.founderAgeRange],
-          ["Board of Directors Present?", governanceCompliance.ownershipAndLeadership.hasBoardOfDirectors ? "Yes" : "No"],
-          ["Advisory Board Present?", governanceCompliance.ownershipAndLeadership.hasAdvisoryBoard ? "Yes" : "No"],
-          ["Key Decision Maker(s)", governanceCompliance.ownershipAndLeadership.keyDecisionMakers.join(", ")],
+          [
+            "Type of Ownership",
+            governanceCompliance.ownershipAndLeadership.ownershipType,
+          ],
+          [
+            "Owner/CEO Name",
+            governanceCompliance.ownershipAndLeadership.ownerCeoName,
+          ],
+          [
+            "Gender of Founder/Owner",
+            governanceCompliance.ownershipAndLeadership.founderGender,
+          ],
+          [
+            "Age Range of Founder",
+            governanceCompliance.ownershipAndLeadership.founderAgeRange,
+          ],
+          [
+            "Board of Directors Present?",
+            governanceCompliance.ownershipAndLeadership.hasBoardOfDirectors
+              ? "Yes"
+              : "No",
+          ],
+          [
+            "Advisory Board Present?",
+            governanceCompliance.ownershipAndLeadership.hasAdvisoryBoard
+              ? "Yes"
+              : "No",
+          ],
+          [
+            "Key Decision Maker(s)",
+            governanceCompliance.ownershipAndLeadership.keyDecisionMakers.join(
+              ", "
+            ),
+          ],
         ].map(([label, value], i, arr) => (
-          <Box key={i} py="10px" borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px">{String(value)}</Typography>
+          <Box
+            key={i}
+            py="10px"
+            borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"}
+            display="flex"
+            justifyContent="space-between"
+          >
+            <Typography fontSize="14px" color="text.hint">
+              {label}
+            </Typography>
+            <input
+              type="text"
+              defaultValue={String(value)}
+              style={inputStyle}
+            />
           </Box>
         ))}
       </Box>
@@ -109,28 +222,84 @@ const governanceComplianceItems = [
     title: "Business Registration & Licensing",
     content: (
       <Box>
-        <Box py="10px" borderBottom="1px solid #f0f0f0" display="flex" justifyContent="space-between">
-          <Typography fontSize="14px" color="text.hint">Registered With</Typography>
-          <Typography fontSize="14px">{governanceCompliance.registrationAndLicensing.registeredWith.join(", ")}</Typography>
+        <Box
+          py="10px"
+          borderBottom="1px solid #f0f0f0"
+          display="flex"
+          justifyContent="space-between"
+        >
+          <Typography fontSize="14px" color="text.hint">
+            Registered With
+          </Typography>
+          <input
+            type="text"
+            defaultValue={governanceCompliance.registrationAndLicensing.registeredWith.join(
+              ", "
+            )}
+            style={inputStyle}
+          />
         </Box>
         {[
-          ["Business License Type", governanceCompliance.registrationAndLicensing.businessLicenseType],
-          ["Tax Identification Number (KRA PIN)", governanceCompliance.registrationAndLicensing.taxId],
-          ["Statutory Compliance Status", governanceCompliance.registrationAndLicensing.statutoryCompliance.join(", ")],
+          [
+            "Business License Type",
+            governanceCompliance.registrationAndLicensing.businessLicenseType,
+          ],
+          [
+            "Tax Identification Number (KRA PIN)",
+            governanceCompliance.registrationAndLicensing.taxId,
+          ],
+          [
+            "Statutory Compliance Status",
+            governanceCompliance.registrationAndLicensing.statutoryCompliance.join(
+              ", "
+            ),
+          ],
         ].map(([label, value], i) => (
-          <Box key={i} py="10px" borderBottom={i < 2 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px">{String(value)}</Typography>
+          <Box
+            key={i}
+            py="10px"
+            borderBottom={i < 2 ? "1px solid #f0f0f0" : "none"}
+            display="flex"
+            justifyContent="space-between"
+          >
+            <Typography fontSize="14px" color="text.hint">
+              {label}
+            </Typography>
+            <input
+              type="text"
+              defaultValue={String(value)}
+              style={inputStyle}
+            />
           </Box>
         ))}
         {/* Certificates */}
         <Box mt="10px">
-          <Typography fontSize="14px" fontWeight="600" mb="8px">Compliance Certificates</Typography>
-          {governanceCompliance.registrationAndLicensing.complianceCertificates.map((c, idx) => (
-            <Box key={idx} py="8px" px="12px" bg="#f8f9fa" borderRadius="8px" mb="8px">
-              <Typography fontSize="12px">{c.filename} — {c.description}</Typography>
-            </Box>
-          ))}
+          <Typography fontSize="14px" fontWeight="600" mb="8px">
+            Compliance Certificates
+          </Typography>
+          {governanceCompliance.registrationAndLicensing.complianceCertificates.map(
+            (c, idx) => (
+              <Box
+                key={idx}
+                py="8px"
+                px="12px"
+                bg="#f8f9fa"
+                borderRadius="8px"
+                mb="8px"
+              >
+                <input
+                  type="text"
+                  defaultValue={`${c.filename} — ${c.description}`}
+                  style={{
+                    ...inputStyle,
+                    width: "100%",
+                    maxWidth: "100%",
+                    textAlign: "left" as const,
+                  }}
+                />
+              </Box>
+            )
+          )}
         </Box>
       </Box>
     ),
@@ -144,13 +313,34 @@ const revenueFinanceItems = [
     content: (
       <Box>
         {[
-          ["Primary Revenue Model", revenueFinance.businessModelAndIncome.primaryRevenueModel],
-          ["Income Sources", revenueFinance.businessModelAndIncome.incomeSources.join(", ")],
-          ["Key Revenue Drivers", revenueFinance.businessModelAndIncome.keyRevenueDrivers.join("; ")],
+          [
+            "Primary Revenue Model",
+            revenueFinance.businessModelAndIncome.primaryRevenueModel,
+          ],
+          [
+            "Income Sources",
+            revenueFinance.businessModelAndIncome.incomeSources.join(", "),
+          ],
+          [
+            "Key Revenue Drivers",
+            revenueFinance.businessModelAndIncome.keyRevenueDrivers.join("; "),
+          ],
         ].map(([label, value], i, arr) => (
-          <Box key={i} py="10px" borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px" sx={{ maxWidth: "60%", textAlign: "right" }}>{String(value)}</Typography>
+          <Box
+            key={i}
+            py="10px"
+            borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"}
+            display="flex"
+            justifyContent="space-between"
+          >
+            <Typography fontSize="14px" color="text.hint">
+              {label}
+            </Typography>
+            <input
+              type="text"
+              defaultValue={String(value)}
+              style={inputStyle}
+            />
           </Box>
         ))}
       </Box>
@@ -162,21 +352,74 @@ const revenueFinanceItems = [
     content: (
       <Box>
         {[
-          ["Estimated Annual Revenue", revenueFinance.financialProfile.estAnnualRevenueRange],
-          ["Monthly Revenue Range", revenueFinance.financialProfile.monthlyRevenueRange],
-          ["Bookkeeping Method", revenueFinance.financialProfile.bookkeepingMethod],
-          ["Accounting Software Used", revenueFinance.financialProfile.accountingSoftware],
-          ["Financial Statements Available?", revenueFinance.financialProfile.hasFinancialStatements ? "Yes" : "No"],
-          ["Business Bank Account?", revenueFinance.financialProfile.hasBusinessBankAccount ? "Yes" : "No"],
-          ["Registered for Tax?", revenueFinance.financialProfile.isRegisteredForTax ? "Yes" : "No"],
-          ["Is the Business Profitable?", revenueFinance.financialProfile.isProfitable ? "Yes" : "No"],
-          ["Outstanding Loans/Credit?", revenueFinance.financialProfile.hasOutstandingLoans.value ? revenueFinance.financialProfile.hasOutstandingLoans.total : "No"],
-          ["Previous Funding Received", revenueFinance.financialProfile.previousFundingReceived.join(", ")],
-          ["Current Financial Challenges", revenueFinance.financialProfile.currentFinancialChallenges.join(", ")],
+          [
+            "Estimated Annual Revenue",
+            revenueFinance.financialProfile.estAnnualRevenueRange,
+          ],
+          [
+            "Monthly Revenue Range",
+            revenueFinance.financialProfile.monthlyRevenueRange,
+          ],
+          [
+            "Bookkeeping Method",
+            revenueFinance.financialProfile.bookkeepingMethod,
+          ],
+          [
+            "Accounting Software Used",
+            revenueFinance.financialProfile.accountingSoftware,
+          ],
+          [
+            "Financial Statements Available?",
+            revenueFinance.financialProfile.hasFinancialStatements
+              ? "Yes"
+              : "No",
+          ],
+          [
+            "Business Bank Account?",
+            revenueFinance.financialProfile.hasBusinessBankAccount
+              ? "Yes"
+              : "No",
+          ],
+          [
+            "Registered for Tax?",
+            revenueFinance.financialProfile.isRegisteredForTax ? "Yes" : "No",
+          ],
+          [
+            "Is the Business Profitable?",
+            revenueFinance.financialProfile.isProfitable ? "Yes" : "No",
+          ],
+          [
+            "Outstanding Loans/Credit?",
+            revenueFinance.financialProfile.hasOutstandingLoans.value
+              ? revenueFinance.financialProfile.hasOutstandingLoans.total
+              : "No",
+          ],
+          [
+            "Previous Funding Received",
+            revenueFinance.financialProfile.previousFundingReceived.join(", "),
+          ],
+          [
+            "Current Financial Challenges",
+            revenueFinance.financialProfile.currentFinancialChallenges.join(
+              ", "
+            ),
+          ],
         ].map(([label, value], i, arr) => (
-          <Box key={i} py="10px" borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px" sx={{ maxWidth: "60%", textAlign: "right" }}>{String(value)}</Typography>
+          <Box
+            key={i}
+            py="10px"
+            borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"}
+            display="flex"
+            justifyContent="space-between"
+          >
+            <Typography fontSize="14px" color="text.hint">
+              {label}
+            </Typography>
+            <input
+              type="text"
+              defaultValue={String(value)}
+              style={inputStyle}
+            />
           </Box>
         ))}
       </Box>
@@ -184,7 +427,6 @@ const revenueFinanceItems = [
   },
 ];
 
-// Extra tabs (optional now, but ready to render)
 const reachCapacityItems = [
   {
     id: "rc-market",
@@ -192,13 +434,38 @@ const reachCapacityItems = [
     content: (
       <Box>
         {[
-          ["Geographic Reach", reachCapacity.marketPresence.geographicReach.join(", ")],
-          ["Exporting Products/Services?", reachCapacity.marketPresence.exporting.value ? `Yes — ${reachCapacity.marketPresence.exporting.countries.join(", ")}` : "No"],
-          ["Market Segments Served", reachCapacity.marketPresence.marketSegmentsServed.join(", ")],
+          [
+            "Geographic Reach",
+            reachCapacity.marketPresence.geographicReach.join(", "),
+          ],
+          [
+            "Exporting Products/Services?",
+            reachCapacity.marketPresence.exporting.value
+              ? `Yes — ${reachCapacity.marketPresence.exporting.countries.join(
+                  ", "
+                )}`
+              : "No",
+          ],
+          [
+            "Market Segments Served",
+            reachCapacity.marketPresence.marketSegmentsServed.join(", "),
+          ],
         ].map(([label, value], i, arr) => (
-          <Box key={i} py="10px" borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px">{String(value)}</Typography>
+          <Box
+            key={i}
+            py="10px"
+            borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"}
+            display="flex"
+            justifyContent="space-between"
+          >
+            <Typography fontSize="14px" color="text.hint">
+              {label}
+            </Typography>
+            <input
+              type="text"
+              defaultValue={String(value)}
+              style={inputStyle}
+            />
           </Box>
         ))}
       </Box>
@@ -213,14 +480,42 @@ const reachCapacityItems = [
           ["Full-Time Staff", reachCapacity.humanCapital.fullTime],
           ["Part-Time Staff", reachCapacity.humanCapital.partTime],
           ["Contract/Seasonal Workers", reachCapacity.humanCapital.seasonal],
-          ["Youth Employment (18–35)?", reachCapacity.humanCapital.youthEmployment.value ? `Yes — ${reachCapacity.humanCapital.youthEmployment.count}` : "No"],
-          ["Female Employment?", reachCapacity.humanCapital.femaleEmployment.value ? `Yes — ${reachCapacity.humanCapital.femaleEmployment.count}` : "No"],
-          ["Special Groups Employed", reachCapacity.humanCapital.specialGroups.join(", ")],
-          ["Skills & Capacity Gaps", reachCapacity.humanCapital.skillsGaps.join(", ")],
+          [
+            "Youth Employment (18–35)?",
+            reachCapacity.humanCapital.youthEmployment.value
+              ? `Yes — ${reachCapacity.humanCapital.youthEmployment.count}`
+              : "No",
+          ],
+          [
+            "Female Employment?",
+            reachCapacity.humanCapital.femaleEmployment.value
+              ? `Yes — ${reachCapacity.humanCapital.femaleEmployment.count}`
+              : "No",
+          ],
+          [
+            "Special Groups Employed",
+            reachCapacity.humanCapital.specialGroups.join(", "),
+          ],
+          [
+            "Skills & Capacity Gaps",
+            reachCapacity.humanCapital.skillsGaps.join(", "),
+          ],
         ].map(([label, value], i, arr) => (
-          <Box key={i} py="10px" borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px">{String(value)}</Typography>
+          <Box
+            key={i}
+            py="10px"
+            borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"}
+            display="flex"
+            justifyContent="space-between"
+          >
+            <Typography fontSize="14px" color="text.hint">
+              {label}
+            </Typography>
+            <input
+              type="text"
+              defaultValue={String(value)}
+              style={inputStyle}
+            />
           </Box>
         ))}
       </Box>
@@ -233,14 +528,38 @@ const reachCapacityItems = [
       <Box>
         {[
           ["Business Premises", reachCapacity.infrastructure.premises],
-          ["Type of Facility", reachCapacity.infrastructure.facilityTypes.join(", ")],
-          ["Utilities Available", reachCapacity.infrastructure.utilities.join(", ")],
-          ["Equipment Owned", reachCapacity.infrastructure.equipmentOwned.join(", ")],
-          ["Asset Value Estimate", reachCapacity.infrastructure.assetValueEstimate],
+          [
+            "Type of Facility",
+            reachCapacity.infrastructure.facilityTypes.join(", "),
+          ],
+          [
+            "Utilities Available",
+            reachCapacity.infrastructure.utilities.join(", "),
+          ],
+          [
+            "Equipment Owned",
+            reachCapacity.infrastructure.equipmentOwned.join(", "),
+          ],
+          [
+            "Asset Value Estimate",
+            reachCapacity.infrastructure.assetValueEstimate,
+          ],
         ].map(([label, value], i, arr) => (
-          <Box key={i} py="10px" borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px">{String(value)}</Typography>
+          <Box
+            key={i}
+            py="10px"
+            borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"}
+            display="flex"
+            justifyContent="space-between"
+          >
+            <Typography fontSize="14px" color="text.hint">
+              {label}
+            </Typography>
+            <input
+              type="text"
+              defaultValue={String(value)}
+              style={inputStyle}
+            />
           </Box>
         ))}
       </Box>
@@ -255,16 +574,51 @@ const pscItems = [
     content: (
       <Box>
         {[
-          ["Main Products/Services", productsServicesCustomers.productServiceInfo.mainProducts.join(", ")],
-          ["Product Categories", productsServicesCustomers.productServiceInfo.categories.join(", ")],
-          ["Value Chain Position", productsServicesCustomers.productServiceInfo.valueChainPosition],
-          ["Production Volume / Month", productsServicesCustomers.productServiceInfo.monthlyProductionVolume],
-          ["Unique Selling Point", productsServicesCustomers.productServiceInfo.usp],
-          ["Certifications/Standards", productsServicesCustomers.productServiceInfo.certifications.join(", ")],
+          [
+            "Main Products/Services",
+            productsServicesCustomers.productServiceInfo.mainProducts.join(
+              ", "
+            ),
+          ],
+          [
+            "Product Categories",
+            productsServicesCustomers.productServiceInfo.categories.join(", "),
+          ],
+          [
+            "Value Chain Position",
+            productsServicesCustomers.productServiceInfo.valueChainPosition,
+          ],
+          [
+            "Production Volume / Month",
+            productsServicesCustomers.productServiceInfo
+              .monthlyProductionVolume,
+          ],
+          [
+            "Unique Selling Point",
+            productsServicesCustomers.productServiceInfo.usp,
+          ],
+          [
+            "Certifications/Standards",
+            productsServicesCustomers.productServiceInfo.certifications.join(
+              ", "
+            ),
+          ],
         ].map(([label, value], i, arr) => (
-          <Box key={i} py="10px" borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px" sx={{ maxWidth: "60%", textAlign: "right" }}>{String(value)}</Typography>
+          <Box
+            key={i}
+            py="10px"
+            borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"}
+            display="flex"
+            justifyContent="space-between"
+          >
+            <Typography fontSize="14px" color="text.hint">
+              {label}
+            </Typography>
+            <input
+              type="text"
+              defaultValue={String(value)}
+              style={inputStyle}
+            />
           </Box>
         ))}
       </Box>
@@ -276,15 +630,46 @@ const pscItems = [
     content: (
       <Box>
         {[
-          ["Type of Customers", productsServicesCustomers.customerSegments.customerTypes.join(", ")],
-          ["Customer Location", productsServicesCustomers.customerSegments.customerLocations.join(", ")],
-          ["Average Customer Size", productsServicesCustomers.customerSegments.averageCustomerSize.join(", ")],
-          ["% Repeat Customers", `${productsServicesCustomers.customerSegments.repeatCustomersPct}%`],
-          ["Key Client List", productsServicesCustomers.customerSegments.keyClients.join(", ")],
+          [
+            "Type of Customers",
+            productsServicesCustomers.customerSegments.customerTypes.join(", "),
+          ],
+          [
+            "Customer Location",
+            productsServicesCustomers.customerSegments.customerLocations.join(
+              ", "
+            ),
+          ],
+          [
+            "Average Customer Size",
+            productsServicesCustomers.customerSegments.averageCustomerSize.join(
+              ", "
+            ),
+          ],
+          [
+            "% Repeat Customers",
+            `${productsServicesCustomers.customerSegments.repeatCustomersPct}%`,
+          ],
+          [
+            "Key Client List",
+            productsServicesCustomers.customerSegments.keyClients.join(", "),
+          ],
         ].map(([label, value], i, arr) => (
-          <Box key={i} py="10px" borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px">{String(value)}</Typography>
+          <Box
+            key={i}
+            py="10px"
+            borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"}
+            display="flex"
+            justifyContent="space-between"
+          >
+            <Typography fontSize="14px" color="text.hint">
+              {label}
+            </Typography>
+            <input
+              type="text"
+              defaultValue={String(value)}
+              style={inputStyle}
+            />
           </Box>
         ))}
       </Box>
@@ -296,13 +681,36 @@ const pscItems = [
     content: (
       <Box>
         {[
-          ["Sales Channels", productsServicesCustomers.deliveryChannels.salesChannels.join(", ")],
-          ["Payment Methods", productsServicesCustomers.deliveryChannels.paymentMethods.join(", ")],
-          ["Order Fulfillment", productsServicesCustomers.deliveryChannels.orderFulfillment],
+          [
+            "Sales Channels",
+            productsServicesCustomers.deliveryChannels.salesChannels.join(", "),
+          ],
+          [
+            "Payment Methods",
+            productsServicesCustomers.deliveryChannels.paymentMethods.join(
+              ", "
+            ),
+          ],
+          [
+            "Order Fulfillment",
+            productsServicesCustomers.deliveryChannels.orderFulfillment,
+          ],
         ].map(([label, value], i, arr) => (
-          <Box key={i} py="10px" borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px">{String(value)}</Typography>
+          <Box
+            key={i}
+            py="10px"
+            borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"}
+            display="flex"
+            justifyContent="space-between"
+          >
+            <Typography fontSize="14px" color="text.hint">
+              {label}
+            </Typography>
+            <input
+              type="text"
+              defaultValue={String(value)}
+              style={inputStyle}
+            />
           </Box>
         ))}
       </Box>
@@ -322,9 +730,21 @@ const growthPartnershipsItems = [
           ["Growth Stage", growthPartnerships.businessGoals.growthStage],
           ["Expansion Plans", growthPartnerships.businessGoals.expansionPlans],
         ].map(([label, value], i, arr) => (
-          <Box key={i} py="10px" borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px" sx={{ maxWidth: "60%", textAlign: "right" }}>{String(value)}</Typography>
+          <Box
+            key={i}
+            py="10px"
+            borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"}
+            display="flex"
+            justifyContent="space-between"
+          >
+            <Typography fontSize="14px" color="text.hint">
+              {label}
+            </Typography>
+            <input
+              type="text"
+              defaultValue={String(value)}
+              style={inputStyle}
+            />
           </Box>
         ))}
       </Box>
@@ -336,13 +756,38 @@ const growthPartnershipsItems = [
     content: (
       <Box>
         {[
-          ["Existing Partners", growthPartnerships.partnerships.existingPartners.join(", ")],
-          ["Interested in Partnerships?", growthPartnerships.partnerships.interestedInPartnerships.value ? `Yes — ${growthPartnerships.partnerships.interestedInPartnerships.interests.join(", ")}` : "No"],
-          ["Type of Support Desired", growthPartnerships.partnerships.desiredSupport.join(", ")],
+          [
+            "Existing Partners",
+            growthPartnerships.partnerships.existingPartners.join(", "),
+          ],
+          [
+            "Interested in Partnerships?",
+            growthPartnerships.partnerships.interestedInPartnerships.value
+              ? `Yes — ${growthPartnerships.partnerships.interestedInPartnerships.interests.join(
+                  ", "
+                )}`
+              : "No",
+          ],
+          [
+            "Type of Support Desired",
+            growthPartnerships.partnerships.desiredSupport.join(", "),
+          ],
         ].map(([label, value], i, arr) => (
-          <Box key={i} py="10px" borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px">{String(value)}</Typography>
+          <Box
+            key={i}
+            py="10px"
+            borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"}
+            display="flex"
+            justifyContent="space-between"
+          >
+            <Typography fontSize="14px" color="text.hint">
+              {label}
+            </Typography>
+            <input
+              type="text"
+              defaultValue={String(value)}
+              style={inputStyle}
+            />
           </Box>
         ))}
       </Box>
@@ -354,13 +799,36 @@ const growthPartnershipsItems = [
     content: (
       <Box>
         {[
-          ["Past Support Received", growthPartnerships.supportHistory.pastSupportReceived.join(", ")],
-          ["Was support effective?", growthPartnerships.supportHistory.wasEffective.value ? `Yes — ${growthPartnerships.supportHistory.wasEffective.comment}` : "No"],
-          ["Barriers to Using Support", growthPartnerships.supportHistory.barriersToUsingSupport.join(", ")],
+          [
+            "Past Support Received",
+            growthPartnerships.supportHistory.pastSupportReceived.join(", "),
+          ],
+          [
+            "Was support effective?",
+            growthPartnerships.supportHistory.wasEffective.value
+              ? `Yes — ${growthPartnerships.supportHistory.wasEffective.comment}`
+              : "No",
+          ],
+          [
+            "Barriers to Using Support",
+            growthPartnerships.supportHistory.barriersToUsingSupport.join(", "),
+          ],
         ].map(([label, value], i, arr) => (
-          <Box key={i} py="10px" borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px">{String(value)}</Typography>
+          <Box
+            key={i}
+            py="10px"
+            borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"}
+            display="flex"
+            justifyContent="space-between"
+          >
+            <Typography fontSize="14px" color="text.hint">
+              {label}
+            </Typography>
+            <input
+              type="text"
+              defaultValue={String(value)}
+              style={inputStyle}
+            />
           </Box>
         ))}
       </Box>
@@ -375,11 +843,20 @@ const risksReadinessItems = [
     content: (
       <Box>
         {[
-          ["Current Barriers", risksReadiness.businessChallenges.currentBarriers.join(", ")],
+          [
+            "Current Barriers",
+            risksReadiness.businessChallenges.currentBarriers.join(", "),
+          ],
         ].map(([label, value], i) => (
           <Box key={i} py="10px" display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px">{String(value)}</Typography>
+            <Typography fontSize="14px" color="text.hint">
+              {label}
+            </Typography>
+            <input
+              type="text"
+              defaultValue={String(value)}
+              style={inputStyle}
+            />
           </Box>
         ))}
       </Box>
@@ -391,15 +868,50 @@ const risksReadinessItems = [
     content: (
       <Box>
         {[
-          ["Do you have a business plan?", risksReadiness.investmentCreditReadiness.hasBusinessPlan.value ? `Yes — ${risksReadiness.investmentCreditReadiness.hasBusinessPlan.upload}` : "No"],
-          ["Do you track financials monthly?", risksReadiness.investmentCreditReadiness.tracksFinancialsMonthly ? "Yes" : "No"],
-          ["Do you have audited financials?", risksReadiness.investmentCreditReadiness.hasAuditedFinancials.value ? `Yes — ${risksReadiness.investmentCreditReadiness.hasAuditedFinancials.upload}` : "No"],
-          ["Is your business creditworthy? (1–5)", String(risksReadiness.investmentCreditReadiness.creditworthyScore)],
-          ["Open to Due Diligence Process?", risksReadiness.investmentCreditReadiness.openToDueDiligence ? "Yes" : "No"],
+          [
+            "Do you have a business plan?",
+            risksReadiness.investmentCreditReadiness.hasBusinessPlan.value
+              ? `Yes — ${risksReadiness.investmentCreditReadiness.hasBusinessPlan.upload}`
+              : "No",
+          ],
+          [
+            "Do you track financials monthly?",
+            risksReadiness.investmentCreditReadiness.tracksFinancialsMonthly
+              ? "Yes"
+              : "No",
+          ],
+          [
+            "Do you have audited financials?",
+            risksReadiness.investmentCreditReadiness.hasAuditedFinancials.value
+              ? `Yes — ${risksReadiness.investmentCreditReadiness.hasAuditedFinancials.upload}`
+              : "No",
+          ],
+          [
+            "Is your business creditworthy? (1–5)",
+            String(risksReadiness.investmentCreditReadiness.creditworthyScore),
+          ],
+          [
+            "Open to Due Diligence Process?",
+            risksReadiness.investmentCreditReadiness.openToDueDiligence
+              ? "Yes"
+              : "No",
+          ],
         ].map(([label, value], i, arr) => (
-          <Box key={i} py="10px" borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px">{String(value)}</Typography>
+          <Box
+            key={i}
+            py="10px"
+            borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"}
+            display="flex"
+            justifyContent="space-between"
+          >
+            <Typography fontSize="14px" color="text.hint">
+              {label}
+            </Typography>
+            <input
+              type="text"
+              defaultValue={String(value)}
+              style={inputStyle}
+            />
           </Box>
         ))}
       </Box>
@@ -411,13 +923,40 @@ const risksReadinessItems = [
     content: (
       <Box>
         {[
-          ["Encountered Regulatory Challenges?", risksReadiness.regulatoryRisks.encounteredRegulatoryChallenges.value ? `Yes — ${risksReadiness.regulatoryRisks.encounteredRegulatoryChallenges.detail}` : "No"],
-          ["Pending Approvals/Licenses?", risksReadiness.regulatoryRisks.pendingApprovals.value ? `Yes — ${risksReadiness.regulatoryRisks.pendingApprovals.upload}` : "No"],
-          ["Recent Legal/Compliance Incidents?", risksReadiness.regulatoryRisks.recentIncidents.value ? `Yes — ${risksReadiness.regulatoryRisks.recentIncidents.explanation}` : "No"],
+          [
+            "Encountered Regulatory Challenges?",
+            risksReadiness.regulatoryRisks.encounteredRegulatoryChallenges.value
+              ? `Yes — ${risksReadiness.regulatoryRisks.encounteredRegulatoryChallenges.detail}`
+              : "No",
+          ],
+          [
+            "Pending Approvals/Licenses?",
+            risksReadiness.regulatoryRisks.pendingApprovals.value
+              ? `Yes — ${risksReadiness.regulatoryRisks.pendingApprovals.upload}`
+              : "No",
+          ],
+          [
+            "Recent Legal/Compliance Incidents?",
+            risksReadiness.regulatoryRisks.recentIncidents.value
+              ? `Yes — ${risksReadiness.regulatoryRisks.recentIncidents.explanation}`
+              : "No",
+          ],
         ].map(([label, value], i, arr) => (
-          <Box key={i} py="10px" borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px">{String(value)}</Typography>
+          <Box
+            key={i}
+            py="10px"
+            borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"}
+            display="flex"
+            justifyContent="space-between"
+          >
+            <Typography fontSize="14px" color="text.hint">
+              {label}
+            </Typography>
+            <input
+              type="text"
+              defaultValue={String(value)}
+              style={inputStyle}
+            />
           </Box>
         ))}
       </Box>
@@ -425,13 +964,13 @@ const risksReadinessItems = [
   },
 ];
 
-
-
 export default function FirmProfile() {
   useScrollbarStyle();
 
   const [activeTab, setActiveTab] = useState("Business Overview");
-  const [expandedSections, setExpandedSections] = useState<Record<string | number, boolean>>({});
+  const [expandedSections, setExpandedSections] = useState<
+    Record<string | number, boolean>
+  >({});
 
   const toggleSection = (id: number | string) =>
     setExpandedSections((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -448,33 +987,60 @@ export default function FirmProfile() {
             <TabsRow tabs={tabs} active={activeTab} onChange={setActiveTab} />
 
             {activeTab === "Business Overview" && (
-            <BusinessOverview items={businessIdentityItems} expanded={expandedSections} onToggle={toggleSection} />
+              <BusinessOverview
+                items={businessIdentityItems}
+                expanded={expandedSections}
+                onToggle={toggleSection}
+              />
             )}
 
             {activeTab === "Governance & Compliance" && (
-            <GovernanceCompliance items={governanceComplianceItems} expanded={expandedSections} onToggle={toggleSection} />
+              <GovernanceCompliance
+                items={governanceComplianceItems}
+                expanded={expandedSections}
+                onToggle={toggleSection}
+              />
             )}
 
             {activeTab === "Revenue & Finance" && (
-            <BusinessOverview items={revenueFinanceItems} expanded={expandedSections} onToggle={toggleSection} />
+              <BusinessOverview
+                items={revenueFinanceItems}
+                expanded={expandedSections}
+                onToggle={toggleSection}
+              />
             )}
 
             {activeTab === "Reach & Capacity" && (
-            <BusinessOverview items={reachCapacityItems} expanded={expandedSections} onToggle={toggleSection} />
+              <BusinessOverview
+                items={reachCapacityItems}
+                expanded={expandedSections}
+                onToggle={toggleSection}
+              />
             )}
 
             {activeTab === "Products, Services & Customers" && (
-            <BusinessOverview items={pscItems} expanded={expandedSections} onToggle={toggleSection} />
+              <BusinessOverview
+                items={pscItems}
+                expanded={expandedSections}
+                onToggle={toggleSection}
+              />
             )}
 
             {activeTab === "Growth & Partnerships" && (
-            <BusinessOverview items={growthPartnershipsItems} expanded={expandedSections} onToggle={toggleSection} />
+              <BusinessOverview
+                items={growthPartnershipsItems}
+                expanded={expandedSections}
+                onToggle={toggleSection}
+              />
             )}
 
             {activeTab === "Risks & Readiness" && (
-            <BusinessOverview items={risksReadinessItems} expanded={expandedSections} onToggle={toggleSection} />
+              <BusinessOverview
+                items={risksReadinessItems}
+                expanded={expandedSections}
+                onToggle={toggleSection}
+              />
             )}
-
           </Grid>
         </Grid>
       </Box>

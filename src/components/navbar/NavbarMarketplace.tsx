@@ -3,15 +3,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
-import {
-  useMsal,
-  AuthenticatedTemplate,
-  UnauthenticatedTemplate,
-} from "@azure/msal-react";
-import type { AccountInfo } from "@azure/msal-browser";
+import { useMsal, useIsAuthenticated } from "@azure/msal-react";
+import { InteractionStatus, EventType,  AuthenticationResult, EventMessage, } from "@azure/msal-browser";
+import { loginRequest } from "@lib/authConfig";
 
 import { StyledNavbar } from "./marketStyles";
-import { loginRequest } from "@lib/authConfig";
+
 
 import Box from "../Box";
 import Icon from "../icon/Icon";
@@ -30,33 +27,69 @@ function getInitials(name?: string) {
   return parts.map((p) => p[0]?.toUpperCase()).join("") || "U";
 }
 
+function useHydrateActiveAccount() {
+  const { instance, inProgress } = useMsal();
+
+  useEffect(() => {
+    if (inProgress !== InteractionStatus.None) return; // <- wait
+    const current = instance.getActiveAccount();
+    if (!current) {
+      const all = instance.getAllAccounts();
+      if (all.length) instance.setActiveAccount(all[0]);
+    }
+  }, [instance, inProgress]);
+}
+
 export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const { instance, accounts } = useMsal();
   const [isLoading, setIsLoading] = useState(false);
 
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Ensure active account is set for templates/token usage
+    const { instance, accounts, inProgress } = useMsal();
+    const isAuthenticated = useIsAuthenticated();
+    useHydrateActiveAccount();
+  
+    const displayName =
+      instance.getActiveAccount()?.idTokenClaims?.name ||
+      instance.getActiveAccount()?.username ||
+      accounts[0]?.username ||
+      "Signed in";
+
+
   useEffect(() => {
-    if (!instance.getActiveAccount() && accounts[0]) {
-      instance.setActiveAccount(accounts[0]);
-    }
-  }, [accounts, instance]);
+    const cbId = instance.addEventCallback((evt: EventMessage) => {
+      if (evt.eventType === EventType.LOGIN_SUCCESS || evt.eventType === EventType.ACQUIRE_TOKEN_SUCCESS) {
+        const result = evt.payload as AuthenticationResult;             // ✅ narrow payload
+        const acct =
+          result.account ||
+          instance.getActiveAccount() ||
+          instance.getAllAccounts()[0];
 
-  const activeAccount: AccountInfo | undefined = useMemo(
-    () => instance.getActiveAccount() ?? accounts[0],
-    [instance, accounts]
-  );
+        if (acct) instance.setActiveAccount(acct);
 
-  const displayName =
-    activeAccount?.name ||
-    (activeAccount?.idTokenClaims as any)?.name ||
-    (activeAccount?.idTokenClaims as any)?.given_name ||
-    (activeAccount?.idTokenClaims as any)?.emails?.[0] ||
-    "User";
+        // route only when MSAL is idle
+        if (inProgress === InteractionStatus.None) {
+          router.replace("/dashboard");
+        }
+      }
+    });
+
+    return () => { if (cbId) instance.removeEventCallback(cbId); };
+  }, [instance, router, inProgress]);
+  // Ensure active account is set for templates/token usage
+  // useEffect(() => {
+  //   if (!instance.getActiveAccount() && accounts[0]) {
+  //     instance.setActiveAccount(accounts[0]);
+  //   }
+  // }, [accounts, instance]);
+
+  // const activeAccount: AccountInfo | undefined = useMemo(
+  //   () => instance.getActiveAccount() ?? accounts[0],
+  //   [instance, accounts]
+  // );
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -73,52 +106,59 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
   const isActive = (path: string) => pathname === path;
 
   // ✅ POPUP flows + land on /dashboard
-const handleLogin = async () => {
-  setIsLoading(true);
-  try {
-    const res = await instance.loginPopup(loginRequest);
-    if (res?.account) instance.setActiveAccount(res.account);
-    router.push("/dashboard");
-  } catch (e: any) {
-    const msg = `${e?.errorCode || ""} ${e?.message || ""}`.toLowerCase();
-    if (msg.includes("popup_window_error") || msg.includes("monitor_window_timeout")) {
-      await instance.loginRedirect(loginRequest);
-      return;
+  const handleLogin = async () => {
+    setIsLoading(true);
+    try {
+      const res = await instance.loginPopup(loginRequest);
+      if (res?.account) instance.setActiveAccount(res.account);
+      router.replace("/dashboard");
+    } catch (e: any) {
+      const msg = `${e?.errorCode || ""} ${e?.message || ""}`.toLowerCase();
+      if (msg.includes("popup_window_error") || msg.includes("monitor_window_timeout")) {
+        await instance.loginRedirect(loginRequest);
+        return;
+      }
+      console.error("login failed:", e);
+    } finally {
+      setIsLoading(false);
     }
-    console.error("login failed:", e);
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
-// const handleLogout = async () => {
-//   await instance.logoutRedirect();
-//   setMenuOpen(false);
-// };
+  const handleSignUp = async () => {
+    setIsLoading(true);
+    try {
+      const signUpRequest = {
+        ...loginRequest,
+        extraQueryParameters: {
+          // This forces SUSI to show Sign Up tab first
+          "prompt": "create"
+        }
+      };
+      
+      const res = await instance.loginPopup(signUpRequest);
+      if (res?.account) instance.setActiveAccount(res.account);
+      router.replace("/dashboard");
+    } catch (e: any) {
+      const msg = `${e?.errorCode || ""} ${e?.message || ""}`.toLowerCase();
+      if (msg.includes("popup_window_error") || msg.includes("monitor_window_timeout")) {
+        const signUpRedirectRequest = {
+          ...loginRequest,
+          extraQueryParameters: {
+            "prompt": "create"
+          }
+        };
+        await instance.loginRedirect(signUpRedirectRequest);
+        return;
+      }
+      console.error("signup failed:", e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-  // const handleSignUp = async () => {
-  //   try {
-  //     const res = await instance.loginPopup({
-  //       ...loginRequest,
-  //       authority: signupAuthority,
-  //     });
-  //     if (res?.account) instance.setActiveAccount(res.account);
-  //     router.push("/dashboard");
-  //   } catch (e) {
-  //     console.error(e);
-  //   } finally {
-  //     setMenuOpen(false);
-  //   }
-  // };
 
-  const handleLogout = () => {
-    const account = instance.getActiveAccount() ?? accounts?.[0];
-    instance
-      .logoutRedirect({
-        account,
-        // postLogoutRedirectUri comes from msalConfig; override here if you want
-      })
-      .catch(console.error);
+  const handleLogout = async () => {
+    await instance.logoutRedirect();
     setMenuOpen(false);
   };
 
@@ -168,7 +208,7 @@ const handleLogin = async () => {
             <Icon size="18px" color="#002180">search-white</Icon>
           </Box>
 
-          <UnauthenticatedTemplate>
+          {!isAuthenticated ? (
             <FlexBox alignItems="center" style={{ gap: "20px" }}>
               <Box className="profile-icon" onClick={handleLogin} role="button" aria-label="Sign in">
                 <Icon size="30px" color="#002180">profile</Icon>
@@ -177,15 +217,13 @@ const handleLogin = async () => {
                 Become a Partner
               </Button>
               <Button className="sign-up-btn" variant="contained" 
-                      // onClick={handleSignUp}
+                      onClick={handleSignUp}
                       >
                 Sign Up
               </Button>
             </FlexBox>
-          </UnauthenticatedTemplate>
-
-          <AuthenticatedTemplate>
-            <FlexBox alignItems="center" style={{ gap: "20px" }}>
+          ) : (
+                        <FlexBox alignItems="center" style={{ gap: "20px" }}>
               <Button className="logout-btn" variant="outlined" onClick={handleLogout}>
                 Logout
               </Button>
@@ -216,7 +254,7 @@ const handleLogin = async () => {
                 {getInitials(displayName)}
               </Box>
             </FlexBox>
-          </AuthenticatedTemplate>
+          )}
         </FlexBox>
 
         <Box className="hamburger-icon" onClick={toggleMenu} role="button" aria-label="Open menu">
@@ -248,7 +286,7 @@ const handleLogin = async () => {
             <NavLink className="nav-link" href="/development" onClick={toggleMenu}>Discover AbuDhabi</NavLink>
             <NavLink className="nav-link" href="/faq" onClick={toggleMenu}>Help Centre</NavLink>
 
-            <UnauthenticatedTemplate>
+            {!isAuthenticated ? (
               <FlexBox className="mobile-auth-section" flexDirection="column" style={{ gap: "20px" }}>
                 <Box className="profile-icon" onClick={handleLogin} role="button" aria-label="Sign in">
                   <Icon size="44px" color="#002180">profile</Icon>
@@ -263,14 +301,12 @@ const handleLogin = async () => {
                 <Button
                   className="mobile-auth-button sign-up-btn"
                   style={{ background: "white", color: "#0000FF", border: "2px solid white", padding: 10, borderRadius: 6 }}
-                  // onClick={handleSignUp}
+                  onClick={handleSignUp}
                 >
                   Sign Up
                 </Button>
               </FlexBox>
-            </UnauthenticatedTemplate>
-
-            <AuthenticatedTemplate>
+            ) : (
               <FlexBox className="mobile-auth-section" flexDirection="column" style={{ gap: "20px" }}>
                 <Button
                   className="mobile-auth-button mobile-profile"
@@ -288,7 +324,7 @@ const handleLogin = async () => {
                   Logout
                 </Button>
               </FlexBox>
-            </AuthenticatedTemplate>
+            )}
           </FlexBox>
         </Box>
 

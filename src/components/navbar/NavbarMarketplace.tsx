@@ -11,7 +11,7 @@ import {
 import type { AccountInfo } from "@azure/msal-browser";
 
 import { StyledNavbar } from "./marketStyles";
-import { loginRequest, signupAuthority } from "../../lib/authConfig";
+import { loginRequest } from "@lib/authConfig";
 
 import Box from "../Box";
 import Icon from "../icon/Icon";
@@ -34,6 +34,7 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const { instance, accounts } = useMsal();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -72,32 +73,43 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
   const isActive = (path: string) => pathname === path;
 
   // ✅ POPUP flows + land on /dashboard
-  const handleSignIn = async () => {
-    try {
-      const res = await instance.loginPopup(loginRequest);
-      if (res?.account) instance.setActiveAccount(res.account);
-      router.push("/dashboard");
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setMenuOpen(false);
+const handleLogin = async () => {
+  setIsLoading(true);
+  try {
+    const res = await instance.loginPopup(loginRequest);
+    if (res?.account) instance.setActiveAccount(res.account);
+    router.push("/dashboard");
+  } catch (e: any) {
+    const msg = `${e?.errorCode || ""} ${e?.message || ""}`.toLowerCase();
+    if (msg.includes("popup_window_error") || msg.includes("monitor_window_timeout")) {
+      await instance.loginRedirect(loginRequest);
+      return;
     }
-  };
+    console.error("login failed:", e);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
-  const handleSignUp = async () => {
-    try {
-      const res = await instance.loginPopup({
-        ...loginRequest,
-        authority: signupAuthority,
-      });
-      if (res?.account) instance.setActiveAccount(res.account);
-      router.push("/dashboard");
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setMenuOpen(false);
-    }
-  };
+// const handleLogout = async () => {
+//   await instance.logoutRedirect();
+//   setMenuOpen(false);
+// };
+
+  // const handleSignUp = async () => {
+  //   try {
+  //     const res = await instance.loginPopup({
+  //       ...loginRequest,
+  //       authority: signupAuthority,
+  //     });
+  //     if (res?.account) instance.setActiveAccount(res.account);
+  //     router.push("/dashboard");
+  //   } catch (e) {
+  //     console.error(e);
+  //   } finally {
+  //     setMenuOpen(false);
+  //   }
+  // };
 
   const handleLogout = () => {
     const account = instance.getActiveAccount() ?? accounts?.[0];
@@ -158,13 +170,15 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
 
           <UnauthenticatedTemplate>
             <FlexBox alignItems="center" style={{ gap: "20px" }}>
-              <Box className="profile-icon" onClick={handleSignIn} role="button" aria-label="Sign in">
+              <Box className="profile-icon" onClick={handleLogin} role="button" aria-label="Sign in">
                 <Icon size="30px" color="#002180">profile</Icon>
               </Box>
               <Button className="become-partner-btn" variant="outlined" onClick={() => goto("/development")}>
                 Become a Partner
               </Button>
-              <Button className="sign-up-btn" variant="contained" onClick={handleSignUp}>
+              <Button className="sign-up-btn" variant="contained" 
+                      // onClick={handleSignUp}
+                      >
                 Sign Up
               </Button>
             </FlexBox>
@@ -236,7 +250,7 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
 
             <UnauthenticatedTemplate>
               <FlexBox className="mobile-auth-section" flexDirection="column" style={{ gap: "20px" }}>
-                <Box className="profile-icon" onClick={handleSignIn} role="button" aria-label="Sign in">
+                <Box className="profile-icon" onClick={handleLogin} role="button" aria-label="Sign in">
                   <Icon size="44px" color="#002180">profile</Icon>
                 </Box>
                 <Button
@@ -249,7 +263,7 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
                 <Button
                   className="mobile-auth-button sign-up-btn"
                   style={{ background: "white", color: "#0000FF", border: "2px solid white", padding: 10, borderRadius: 6 }}
-                  onClick={handleSignUp}
+                  // onClick={handleSignUp}
                 >
                   Sign Up
                 </Button>

@@ -155,18 +155,14 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             />
             <Typography color="black">Explore</Typography>
           </Box>
-          <CustomNavLink href="/development" onClick={() => handleNavClick("/profile")}>
+          <CustomNavLink href="/development" onClick={() => handleNavClick("/development")}>
             <Image
-              src={
-                activeItem === "/profile"
-                  ? "/assets/images/non_financial_marketplace/profile-active.svg"
-                  : "/assets/images/non_financial_marketplace/profile.svg"
-              }
+              src={activeItem === "/development" ? "/assets/images/non_financial_marketplace/discover_abudhabi.svg" : "/assets/images/non_financial_marketplace/discover_abudhabi.svg"}
               alt="Profile"
               width={24}
               height={24}
             />
-            <Typography color="black">Profile</Typography>
+            <Typography color="black">Discover Abudhabi</Typography>
           </CustomNavLink>
         </FlexBox>
       </Box>

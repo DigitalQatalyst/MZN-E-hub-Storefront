@@ -66,12 +66,20 @@ export const StyledNavbar = styled.div`
     gap: 20px;
     display: flex;
     align-items: center;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
   }
 
   .right-section {
     gap: 20px;
     align-items: center;
     display: flex;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
   }
 
   .search-icon {
@@ -92,68 +100,99 @@ export const StyledNavbar = styled.div`
     display: none;
   }
 
+  .more-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    display: none;
+
+    @media (max-width: 768px) {
+      display: block;
+      background-image: url('/assets/images/icons/more.svg');
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+  }
+
+  .mobile-more-icon {
+    display: none;
+
+    @media (max-width: 768px) {
+      display: flex;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+    }
+  }
+
+  .desktop-nav {
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
   .mobile-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 80%;
-    max-width: 300px;
-    height: 100vh;
-    background: linear-gradient(224.55deg, #7693F3 0.02%, #7693F3 11.72%, #7693F1 21.24%, #7594EF 28.92%, #7594EC 35.08%, #7495E9 40.08%, #7496E5 44.24%, #7397E0 47.89%, #7298DC 51.38%, #7299D7 55.03%, #719AD2 59.19%, #709BCD 64.18%, #6F9CC8 70.35%, #6E9DC3 78.03%, #6E9EBE 87.54%, #6D9FBA 99.24%);
-    padding: 20px;
-    z-index: 1001;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out;
+    display: none;
 
-    &.open {
-      transform: translateX(0);
-    }
+    @media (max-width: 768px) {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 80%;
+      max-width: 300px;
+      height: 100vh;
+      background: linear-gradient(224.55deg, #7693F3 0.02%, #7693F3 11.72%, #7693F1 21.24%, #7594EF 28.92%, #7594EC 35.08%, #7495E9 40.08%, #7496E5 44.24%, #7397E0 47.89%, #7298DC 51.38%, #7299D7 55.03%, #719AD2 59.19%, #709BCD 64.18%, #6F9CC8 70.35%, #6E9DC3 78.03%, #6E9EBE 87.54%, #6D9FBA 99.24%);
+      padding: 20px;
+      z-index: 1001;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease-in-out;
 
-    .mobile-nav-links {
-      flex-direction: column;
-      gap: 20px;
-      margin-top: 40px;
-      justify-content: flex-start;
-      align-items: flex-start;
-
-      .nav-link {
-        color: #FFF !important;
-        font-family: Inter;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 22px;
-        padding: 10px 0;
-      }
-    }
-
-    .mobile-right-section {
-      flex-direction: column;
-      margin-top: 20px;
-      justify-content: flex-start;
-      align-items: flex-start;
-      gap: 20px;
-
-      .profile-icon {
-        width: 44px;
-        height: 30px;
+      &.open {
+        transform: translateX(0);
       }
 
-      .search-icon {
-        width: 44px;
-        height: 30px;
-      }
-    }
+      .mobile-nav-links {
+        flex-direction: column;
+        gap: 20px;
+        margin-top: 40px;
+        justify-content: flex-start;
+        align-items: flex-start;
 
-    .mobile-explore-button {
-      width: 100%;
-      justify-content: flex-start;
-      margin-top: 20px;
+        .nav-link {
+          color: #FFF !important;
+          font-family: Inter;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 22px;
+          padding: 10px 0;
+        }
+      }
+
+      .mobile-right-section {
+        flex-direction: column;
+        margin-top: 20px;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 20px;
+
+        .profile-icon {
+          width: 44px;
+          height: 30px;
+        }
+
+        .search-icon {
+          width: 44px;
+          height: 30px;
+        }
+      }
     }
   }
 
   .become-partner-btn {
-    background: transparent !important;
+    background: linear-gradient(90deg, #01E5D1 0%, #02E4D1 8.12%, #04E2D2 14.47%, #07DFD3 19.42%, #0CDAD5 23.32%, #12D5D7 26.54%, #18CEDA 29.42%, #20C7DD 32.34%, #29BEE0 35.66%, #33B5E4 39.72%, #3DABE8 44.89%, #48A0EC 51.54%, #5395F1 60.01%, #6089F5 70.67%, #6C7DFA 83.88%, #7970FF 100%) !important;
     border: 2px solid rgba(255, 255, 255, 0.8) !important;
     color: #FFF !important;
     font-size: 14px;
@@ -189,7 +228,7 @@ export const StyledNavbar = styled.div`
   }
 
   .mobile-auth-button.become-partner-btn {
-    background: transparent !important;
+    background: linear-gradient(90deg, #01E5D1 0%, #02E4D1 8.12%, #04E2D2 14.47%, #07DFD3 19.42%, #0CDAD5 23.32%, #12D5D7 26.54%, #18CEDA 29.42%, #20C7DD 32.34%, #29BEE0 35.66%, #33B5E4 39.72%, #3DABE8 44.89%, #48A0EC 51.54%, #5395F1 60.01%, #6089F5 70.67%, #6C7DFA 83.88%, #7970FF 100%) !important;
     color: #FFF !important;
     font-family: Inter;
     font-size: 14px;
@@ -288,7 +327,7 @@ export const StyledNavbar = styled.div`
   @media (max-width: 768px) {
     .navbar-container {
       padding: 16px 20px;
-      justify-content: center;
+      justify-content: space-between;
     }
 
     .enterprise-logo {
@@ -307,12 +346,19 @@ export const StyledNavbar = styled.div`
       display: none;
     }
 
-    .hamburger-icon {
+    .desktop-nav {
       display: none;
     }
 
+    .mobile-more-icon {
+      display: flex;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+    }
+
     .mobile-menu {
-      display: none;
+      display: block;
     }
 
     .responsive-mobile-menu {
@@ -327,6 +373,13 @@ export const StyledNavbar = styled.div`
       padding: 10px 0;
       z-index: 1001;
     }
+
+    /* Hide Explore and Discover AbuDhabi on small screens */
+    .explore-text,
+    .dropdown-icon,
+    .nav-link[href="/development"] {
+      display: none;
+    }
   }
 
   // Small mobile screens
@@ -339,32 +392,4 @@ export const StyledNavbar = styled.div`
       padding: 8px 0;
     }
   }
-`;
-
-export const StyledCustomNavLink = styled.a`
-  color: #FFF !important; /* Enforced white color */
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 20px;
-  letter-spacing: -0.1px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  padding: 8px 0;
-  position: relative;
-
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: white;
-    transition: width 0.3s ease;
-  }
-
-  // &:hover:after {
-  //   width: 100%;
-  // }
 `;

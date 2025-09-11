@@ -343,6 +343,7 @@ const DocumentWallet: React.FC<ApplicationProgressProps> = () => {
           <TabButton
             isActive={activeTab === "Overview"}
             onClick={() => setActiveTab("Overview")}
+            
           >
             Overview
           </TabButton>

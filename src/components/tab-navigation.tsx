@@ -1,5 +1,6 @@
+"use client";
+
 import { User, Lock, Bell } from "lucide-react";
-import { left } from "styled-system";
 
 interface TabNavigationProps {
   activeTab: string;

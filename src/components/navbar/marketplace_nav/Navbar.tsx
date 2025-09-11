@@ -149,7 +149,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             />
             <Typography color="black">Explore</Typography>
           </Box>
-          <CustomNavLink href="/development" onClick={() => handleNavClick("/development")}>
+          {/* <CustomNavLink href="/development" onClick={() => handleNavClick("/development")}>
             <Image
               src={activeItem === "/development" ? "/assets/images/non_financial_marketplace/discover_abudhabi.svg" : "/assets/images/non_financial_marketplace/discover_abudhabi.svg"}
               alt="Profile"
@@ -157,7 +157,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
               height={24}
             />
             <Typography color="black">Discover Abudhabi</Typography>
-          </CustomNavLink>
+          </CustomNavLink> */}
         </FlexBox>
       </Box>
 

@@ -227,6 +227,39 @@ const handleLogin = async () => {
   }
 };
 
+const handleSignUp = async () => {
+  setIsLoading(true);
+  try {
+    const signUpRequest = {
+      ...loginRequest,
+      extraQueryParameters: {
+        // This forces SUSI to show Sign Up tab first
+        "prompt": "create"
+      }
+    };
+    
+    const res = await instance.loginPopup(signUpRequest);
+    if (res?.account) instance.setActiveAccount(res.account);
+    router.replace("/dashboard");
+  } catch (e: any) {
+    const msg = `${e?.errorCode || ""} ${e?.message || ""}`.toLowerCase();
+    if (msg.includes("popup_window_error") || msg.includes("monitor_window_timeout")) {
+      const signUpRedirectRequest = {
+        ...loginRequest,
+        extraQueryParameters: {
+          "prompt": "create"
+        }
+      };
+      await instance.loginRedirect(signUpRedirectRequest);
+      return;
+    }
+    console.error("signup failed:", e);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+
 const handleLogout = async () => {
   await instance.logoutRedirect();
   setMenuOpen(false);
@@ -313,7 +346,7 @@ const handleLogout = async () => {
               <Button
                 className="sign-up-btn"
                 variant="contained"
-                onClick={handleLogin}  // SUSI shows "Create account"
+                onClick={handleSignUp}  // SUSI shows "Create account"
               >
                 Sign Up
               </Button>

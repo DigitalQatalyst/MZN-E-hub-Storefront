@@ -85,7 +85,9 @@ export default function Notifications({ setNotifCenterShown, setNotifShown }) {
           alignSelf: "stretch",
         }}
       >
-        <Typography>Notifications</Typography>
+        <Typography color={"#344054"} fontSize={"16px"} fontWeight={"500"}>
+          Notifications
+        </Typography>
         <img src="../images/mail-opened.svg" alt="Mail icon" />
       </FlexBox>
 

@@ -76,7 +76,11 @@ export default function Dropdown({ setNotifShown, setDropShown }) {
           onClick={item.onClick}
         >
           <img src={item.itemIcon} alt={`${item.itemName} icon`} />
-          <Typography style={item.isDestructive ? { color: "#FE322B" } : {}}>
+          <Typography
+            style={
+              item.isDestructive ? { color: "#FE322B" } : { color: "#344054" }
+            }
+          >
             {item.itemName}
           </Typography>
         </FlexBox>

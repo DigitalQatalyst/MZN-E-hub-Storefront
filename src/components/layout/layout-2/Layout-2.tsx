@@ -12,6 +12,10 @@ import StyledRoot from "../layout-1/styles";
 import Navbar from "@component/navbar/Stage2Navbar";
 import { Footer1 } from "@component/footer";
 
+import Dropdown from "@component/navbar/Dropdown";
+import Notifications from "@component/navbar/Notifications";
+import NotificationCenter from "@component/navbar/NotificationCenter";
+
 // =========================================================================
 type Props = { title?: string; showNavbar?: boolean; children: ReactNode };
 // =========================================================================
@@ -23,7 +27,11 @@ export default function ShopLayout({ children, showNavbar = true }: Props) {
       {/* <Sticky fixedOn={0}>
         <HeaderTwo />
       </Sticky> */}
-      <Navbar />
+      <Navbar
+        DropdownComponent={Dropdown}
+        NotificationsComponent={Notifications}
+        NotificationCenterComponent={NotificationCenter}
+      />
 
       {/* CONDITIONALLY RENDER NAVBAR AREA */}
       {/* {showNavbar && (
@@ -32,9 +40,7 @@ export default function ShopLayout({ children, showNavbar = true }: Props) {
         </div>
       )} */}
 
-      <Box margin-top={3}>
-        {children}
-      </Box>
+      <Box margin-top={3}>{children}</Box>
 
       {/* SMALLER DEVICE NAVIGATION AREA */}
       {/* <MobileNavigationBar /> */}

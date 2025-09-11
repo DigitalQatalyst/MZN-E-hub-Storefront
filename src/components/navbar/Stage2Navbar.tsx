@@ -1,8 +1,20 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Menu, X, Search as SearchIcon, ChevronDown, ChevronRight, LogOut, User } from "lucide-react";
-import { useMsal, AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
+import {
+  Menu,
+  X,
+  Search as SearchIcon,
+  ChevronDown,
+  ChevronRight,
+  LogOut,
+  User,
+} from "lucide-react";
+import {
+  useMsal,
+  AuthenticatedTemplate,
+  UnauthenticatedTemplate,
+} from "@azure/msal-react";
 import { loginRequest, logoutRequest } from "../../authConfig";
 
 import Box from "../Box";
@@ -28,12 +40,17 @@ function useBreakpoint(query: string) {
 type NavbarProps = {
   navListOpen?: boolean;
   /** Optional modal components so this file compiles even if you don't use them */
-  DropdownComponent?: React.ComponentType<{ setNotifShown: (v: boolean) => void; setDropShown: (v: boolean) => void }>;
+  DropdownComponent?: React.ComponentType<{
+    setNotifShown: (v: boolean) => void;
+    setDropShown: (v: boolean) => void;
+  }>;
   NotificationsComponent?: React.ComponentType<{
     setNotifShown: (v: boolean) => void;
     setNotifCenterShown: (v: boolean) => void;
   }>;
-  NotificationCenterComponent?: React.ComponentType<{ setNotifCenterShown: (v: boolean) => void }>;
+  NotificationCenterComponent?: React.ComponentType<{
+    setNotifCenterShown: (v: boolean) => void;
+  }>;
 };
 
 export default function Navbar({
@@ -69,14 +86,17 @@ export default function Navbar({
     const onDocClick = (e: MouseEvent) => {
       if (!isProfileOpen) return;
       const target = e.target as Node;
-      if (profileRef.current && !profileRef.current.contains(target)) setIsProfileOpen(false);
+      if (profileRef.current && !profileRef.current.contains(target))
+        setIsProfileOpen(false);
     };
     document.addEventListener("mousedown", onDocClick);
     return () => document.removeEventListener("mousedown", onDocClick);
   }, [isProfileOpen]);
 
-  const startLogin = () => instance.loginRedirect(loginRequest).catch(console.error);
-  const logout = () => instance.logoutRedirect(logoutRequest).catch(console.error);
+  const startLogin = () =>
+    instance.loginRedirect(loginRequest).catch(console.error);
+  const logout = () =>
+    instance.logoutRedirect(logoutRequest).catch(console.error);
   const goDashboard = () => (window.location.href = "/dashboard");
 
   // user display
@@ -86,13 +106,17 @@ export default function Navbar({
       (accounts?.[0]?.username ? accounts[0].username.split("@")[0] : "") ||
       "Mark";
     const parts = name.trim().split(/\s+/);
-    const ini = parts.length >= 2 ? parts[0][0] + parts[1][0] : (parts[0]?.slice(0, 2) || "MW");
+    const ini =
+      parts.length >= 2
+        ? parts[0][0] + parts[1][0]
+        : parts[0]?.slice(0, 2) || "MW";
     return { displayName: name, initials: ini.toUpperCase() };
   }, [accounts]);
 
   const handleProfileClick = () => {
-    if (!accounts.length) startLogin();
-    else setIsProfileOpen(v => !v);
+    // if (!accounts.length) startLogin();
+    setIsProfileOpen((v) => !v);
+    setDropShown(true);
   };
 
   // handle modal outside click (was missing)
@@ -102,14 +126,33 @@ export default function Navbar({
     setNotifCenterShown(false);
   };
 
+  //scroll to top when notification center is shown
+
+  useEffect(() => {
+    if (notifCenterShown) {
+      // Scroll to top and then prevent scrolling
+      window.scrollTo({ top: 0, behavior: "smooth" }); // or 'auto' for instant
+      document.body.style.overflow = "hidden";
+    } else {
+      // Restore scrolling when notification center is closed
+      document.body.style.overflow = "unset";
+    }
+
+    // Cleanup function to restore scrolling when component unmounts
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [notifCenterShown]);
+
   return (
     <StyledNavbar
       style={{
         height: isSmDown ? 60 : 72,
-        background: "linear-gradient(90deg, #19E5C2 0%, #5A7BF6 60%, #8E5AF6 100%)",
+        background:
+          "linear-gradient(90deg, #19E5C2 0%, #5A7BF6 60%, #8E5AF6 100%)",
         color: "#fff",
-        zIndex: 2000,        // ↑ keep the navbar above everything
-        position: "relative" // ensure z-index applies
+        zIndex: 2000, // ↑ keep the navbar above everything
+        position: "relative", // ensure z-index applies
       }}
     >
       <Container
@@ -121,19 +164,25 @@ export default function Navbar({
           position: "relative",
           paddingInline: isSmDown ? 12 : isMdDown ? 16 : 24,
           gap: 12,
-          maxWidth: 1440,           // 👈 NEW
-          marginInline: "auto",     // 👈 NEW (centers the row)
-          width: "100%",  
+          maxWidth: 1440, // 👈 NEW
+          marginInline: "auto", // 👈 NEW (centers the row)
+          width: "100%",
         }}
       >
         {/* LEFT: brand + primary */}
-        <FlexBox alignItems="center" style={{ gap: isLgDown ? 18 : 28, minWidth: 0, flex: 1 }}>
+        <FlexBox
+          alignItems="center"
+          style={{ gap: isLgDown ? 18 : 28, minWidth: 0, flex: 1 }}
+        >
           {/* Brand */}
           <FlexBox alignItems="center" style={{ gap: 10 }}>
             <img
               src="/assets/images/tab_bar/Subtract.svg"
               alt="Enterprise Journey"
-              style={{ height: isSmDown ? 22 : isMdDown ? 24 : 28, width: "auto" }}
+              style={{
+                height: isSmDown ? 22 : isMdDown ? 24 : 28,
+                width: "auto",
+              }}
             />
           </FlexBox>
           {/* <div
@@ -144,58 +193,58 @@ export default function Navbar({
               margin: "0 auto",        // 👈 centers within the left cluster
             }}
           > */}
-            {/* Explore */}
-            {!isMdDown && (
-              <Categories open={navListOpen}>
-                <button
-                  type="button"
-                  aria-haspopup="true"
-                  aria-expanded={!!navListOpen}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 8,
-                    height: 36,
-                    padding: "0 12px",
-                    borderRadius: 8,
-                    border: "1px solid rgba(255, 255, 255, 0)",
-                    background: "rgba(255, 255, 255, 0)",
-                    color: "#fff",
-                    cursor: "pointer",
-                    backdropFilter: "blur(6px)",
-                  }}
-                  onClick={() => setDropShown(true)}
-                >
-                  <span style={{ fontSize: 14, fontWeight: 500 }}>Explore</span>
-                  <ChevronDown size={16} />
-                </button>
-              </Categories>
-            )}
-
-            {/* Discover */}
-            {!isMdDown && (
+          {/* Explore */}
+          {!isMdDown && (
+            <Categories open={navListOpen}>
               <button
                 type="button"
+                aria-haspopup="true"
+                aria-expanded={!!navListOpen}
                 style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
                   height: 36,
                   padding: "0 12px",
                   borderRadius: 8,
-                  border: "none",
-                  background: "transparent",
+                  border: "1px solid rgba(255, 255, 255, 0)",
+                  background: "rgba(255, 255, 255, 0)",
                   color: "#fff",
                   cursor: "pointer",
-                  fontSize: 14,
-                  fontWeight: 500,
-                  whiteSpace: "nowrap",
+                  backdropFilter: "blur(6px)",
                 }}
-                onClick={() => (window.location.href = "/discover")}
+                onClick={() => setDropShown(true)}
               >
-                Discover AbuDhabi
+                <span style={{ fontSize: 14, fontWeight: 500 }}>Explore</span>
+                <ChevronDown size={16} />
               </button>
-            )}
+            </Categories>
+          )}
 
-            {/* Search */}
-            {/* {!isMdDown && (
+          {/* Discover */}
+          {!isMdDown && (
+            <button
+              type="button"
+              style={{
+                height: 36,
+                padding: "0 12px",
+                borderRadius: 8,
+                border: "none",
+                background: "transparent",
+                color: "#fff",
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 500,
+                whiteSpace: "nowrap",
+              }}
+              onClick={() => (window.location.href = "/discover")}
+            >
+              Discover AbuDhabi
+            </button>
+          )}
+
+          {/* Search */}
+          {/* {!isMdDown && (
               <button
                 type="button"
                 aria-label="Search"
@@ -219,12 +268,20 @@ export default function Navbar({
         </FlexBox>
 
         {/* RIGHT: greeting + avatar + hamburger */}
-        <FlexBox alignItems="center" style={{ gap: 10 }}>
+        <FlexBox
+          alignItems="center"
+          style={{ gap: 10 }}
+          onClick={handleProfileClick}
+          cursor={"pointer"}
+        >
           {/* Avatar */}
-          <Box ref={profileRef} className="profile-photo" style={{ position: "relative" }}>
+          <Box
+            ref={profileRef}
+            className="profile-photo"
+            style={{ position: "relative" }}
+          >
             <button
               type="button"
-              onClick={handleProfileClick}
               aria-haspopup="menu"
               aria-expanded={isProfileOpen}
               style={{
@@ -274,7 +331,11 @@ export default function Navbar({
                     Signed in as <strong>{displayName}</strong>
                   </div>
 
-                  <button type="button" onClick={goDashboard} style={menuItemStyle}>
+                  <button
+                    type="button"
+                    onClick={goDashboard}
+                    style={menuItemStyle}
+                  >
                     <User size={18} />
                     <span>View Dashboard</span>
                   </button>
@@ -282,7 +343,11 @@ export default function Navbar({
                   <button
                     type="button"
                     onClick={logout}
-                    style={{ ...menuItemStyle, color: "#dc2626", fontWeight: 600 }}
+                    style={{
+                      ...menuItemStyle,
+                      color: "#dc2626",
+                      fontWeight: 600,
+                    }}
                   >
                     <LogOut size={18} />
                     <span>Logout</span>
@@ -295,8 +360,13 @@ export default function Navbar({
           {/* Greeting hide on md- */}
           {!isMdDown && (
             <div className="greeting">
-              <span style={{ opacity: 0.9, fontSize: 14 }}>Hi, {displayName.split(" ")[0]}</span>
-              <ChevronDown size={16} style={{ marginLeft: 6, verticalAlign: "middle" }} />
+              <span style={{ opacity: 0.9, fontSize: 14 }}>
+                Hi, {displayName.split(" ")[0]}
+              </span>
+              <ChevronDown
+                size={16}
+                style={{ marginLeft: 6, verticalAlign: "middle" }}
+              />
             </div>
           )}
 
@@ -305,7 +375,7 @@ export default function Navbar({
             <button
               type="button"
               aria-label="Toggle menu"
-              onClick={() => setIsMobileMenuOpen(v => !v)}
+              onClick={() => setIsMobileMenuOpen((v) => !v)}
               style={{
                 height: isSmDown ? 36 : 40,
                 width: isSmDown ? 36 : 40,
@@ -329,7 +399,12 @@ export default function Navbar({
           <>
             <div
               onClick={() => setIsMobileMenuOpen(false)}
-              style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.45)", zIndex: 1900 }}
+              style={{
+                position: "fixed",
+                inset: 0,
+                background: "rgba(0,0,0,0.45)",
+                zIndex: 1900,
+              }}
             />
             <div
               style={{
@@ -345,8 +420,14 @@ export default function Navbar({
                 padding: 16,
               }}
             >
-              <button type="button" onClick={() => setIsMobileMenuOpen(false)} style={mobileRow}>
-                <span style={{ fontWeight: 600, color: "#0A38F5" }}>Explore</span>
+              <button
+                type="button"
+                onClick={() => setIsMobileMenuOpen(false)}
+                style={mobileRow}
+              >
+                <span style={{ fontWeight: 600, color: "#0A38F5" }}>
+                  Explore
+                </span>
                 <ChevronRight size={18} color="#0A38F5" />
               </button>
 
@@ -377,8 +458,17 @@ export default function Navbar({
               </button>
 
               <AuthenticatedTemplate>
-                <div style={{ height: 1, background: "#eee", margin: "8px 0 12px" }} />
-                <FlexBox alignItems="center" style={{ gap: 10, marginBottom: 12 }}>
+                <div
+                  style={{
+                    height: 1,
+                    background: "#eee",
+                    margin: "8px 0 12px",
+                  }}
+                />
+                <FlexBox
+                  alignItems="center"
+                  style={{ gap: 10, marginBottom: 12 }}
+                >
                   <div
                     style={{
                       height: 42,
@@ -396,23 +486,47 @@ export default function Navbar({
                   </div>
                   <div>
                     <div style={{ fontWeight: 600 }}>{displayName}</div>
-                    <div style={{ fontSize: 12, color: "#64748b" }}>Signed in</div>
+                    <div style={{ fontSize: 12, color: "#64748b" }}>
+                      Signed in
+                    </div>
                   </div>
                 </FlexBox>
 
                 <div style={{ display: "flex", gap: 10 }}>
-                  <Button onClick={() => { setIsMobileMenuOpen(false); goDashboard(); }}>
+                  <Button
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      goDashboard();
+                    }}
+                  >
                     Dashboard
                   </Button>
-                  <Button variant="outlined" onClick={() => { setIsMobileMenuOpen(false); logout(); }}>
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      logout();
+                    }}
+                  >
                     Logout
                   </Button>
                 </div>
               </AuthenticatedTemplate>
 
               <UnauthenticatedTemplate>
-                <div style={{ height: 1, background: "#eee", margin: "8px 0 12px" }} />
-                <Button onClick={() => { setIsMobileMenuOpen(false); startLogin(); }}>
+                <div
+                  style={{
+                    height: 1,
+                    background: "#eee",
+                    margin: "8px 0 12px",
+                  }}
+                />
+                <Button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    startLogin();
+                  }}
+                >
                   Sign In
                 </Button>
               </UnauthenticatedTemplate>
@@ -440,14 +554,19 @@ export default function Navbar({
             inset: 0,
             width: "100vw",
             height: "100vh",
-            backgroundColor: notifCenterShown ? "rgba(0,0,0,0.7)" : "transparent",
+            backgroundColor: notifCenterShown
+              ? "rgba(0,0,0,0.7)"
+              : "transparent",
             zIndex: 2500, // on top of navbar
           }}
         >
           {/* stop propagation so inner clicks don't close */}
           <div onClick={(e) => e.stopPropagation()}>
             {!!DropdownComponent && dropShown && (
-              <DropdownComponent setNotifShown={setNotifShown} setDropShown={setDropShown} />
+              <DropdownComponent
+                setNotifShown={setNotifShown}
+                setDropShown={setDropShown}
+              />
             )}
             {!!NotificationsComponent && notifShown && (
               <NotificationsComponent
@@ -456,8 +575,16 @@ export default function Navbar({
               />
             )}
             {!!NotificationCenterComponent && notifCenterShown && (
-              <div style={{ backgroundColor: "green", width: "fit-content", margin: "0 auto" }}>
-                <NotificationCenterComponent setNotifCenterShown={setNotifCenterShown} />
+              <div
+                style={{
+                  backgroundColor: "green",
+                  width: "fit-content",
+                  margin: "0 auto",
+                }}
+              >
+                <NotificationCenterComponent
+                  setNotifCenterShown={setNotifCenterShown}
+                />
               </div>
             )}
           </div>

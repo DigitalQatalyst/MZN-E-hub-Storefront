@@ -388,7 +388,8 @@ const FormField = styled.input`
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 14px;
+  font-family: "FS Kim Trial";
+  font-size: 16px;
   color: #000;
   box-sizing: border-box;
   transition: border-color 0.2s ease;
@@ -480,11 +481,14 @@ const FormTextarea = styled.textarea`
   min-height: 100px;
   height: 120px;
   padding: 12px;
+  resize: vertical;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 14px;
+  font-family: "FS Kim Trial";
+  font-size: 16px;
   color: #000;
-  resize: vertical;
   box-sizing: border-box;
   transition: border-color 0.2s ease;
 
@@ -511,37 +515,39 @@ const FormTextarea = styled.textarea`
 
 const PrivacyText = styled.p`
   color: #666;
-  font-size: 13px;
+  font-size: 16px;
+  font-family: "FS Kim Trial";
   font-weight: 400;
   line-height: 18px;
   margin: 0;
 
   @media (max-width: 1199px) {
-    font-size: 12px;
+    font-size: 16px;
     line-height: 16px;
   }
 
   @media (max-width: 480px) {
-    font-size: 12px;
+    font-size: 16px;
     line-height: 16px;
   }
 `;
 
 const PrivacyLink = styled.a`
   color: #5088ff;
-  font-size: 13px;
+  font-size: 16px;
+  font-family: "FS Kim Trial";
   font-weight: 400;
   line-height: 18px;
   text-decoration-line: underline;
   cursor: pointer;
 
   @media (max-width: 1199px) {
-    font-size: 12px;
+    font-size: 16px;
     line-height: 16px;
   }
 
   @media (max-width: 480px) {
-    font-size: 12px;
+    font-size: 16px;
     line-height: 16px;
   }
 `;

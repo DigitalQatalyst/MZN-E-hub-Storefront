@@ -194,6 +194,12 @@ const Sidebar = () => {
       icon: "/images/analytics.svg",
       route: "/insights",
     },
+    {
+      id: "reporting-obligations",
+      label: "Reporting Obligations",
+      icon: "/images/home-storage.svg",
+      route: "/",
+    },
   ];
 
   const settingsItems: NavItem[] = [
@@ -348,11 +354,11 @@ const Sidebar = () => {
         {/* Overview - Dashboard */}
         <Box px="16px" mb="24px">
           <NavItem
-            $active={isActive("/dashboard")}
+            $active={isActive("/overview")}
             $hovered={hoveredItem === "overview"}
             onMouseEnter={() => setHoveredItem("overview")}
             onMouseLeave={() => setHoveredItem(null)}
-            onClick={() => handleNavigation("/dashboard")}
+            onClick={() => handleNavigation("/overview")}
             style={{ borderRadius: "4px" }}
           >
             <img
@@ -360,7 +366,7 @@ const Sidebar = () => {
               alt="Dashboard"
               height="20px"
               style={{
-                filter: isActive("/dashboard")
+                filter: isActive("/overview")
                   ? "brightness(0) invert(1)"
                   : "brightness(0) opacity(0.6)",
               }}

@@ -174,7 +174,7 @@ export default function Section9({ products }: Props) {
         </SubTitle>
         <StyledHeader>
           We help businesses find the right partners to get started, grow, and
-          succeed
+          succeed.
         </StyledHeader>
       </ContentColumn>
 

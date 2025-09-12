@@ -1,190 +1,253 @@
 "use client";
 
 import { useState } from "react";
-import FirmProfilePage from "./firm-profile-page";
+import { useRouter } from "next/navigation";
 
-export default function FirmProfileLayout() {
-  const [activeMenuItem, setActiveMenuItem] = useState("profile");
-
-  const menuItems = [
-    { key: "overview", label: "Overview", icon: "📊" },
-    { key: "profile", label: "Profile", icon: "👤" },
-    { key: "documents", label: "Documents", icon: "📄" },
-    { key: "service-applications", label: "Service Applications", icon: "📋" },
-    { key: "enquiries", label: "Enquiries", icon: "❓" },
-    {
-      key: "reporting-obligations",
-      label: "Reporting Obligations",
-      icon: "📈",
-    },
-    { key: "support-tickets", label: "Support Tickets", icon: "🎫" },
-    { key: "settings", label: "Settings", icon: "⚙️" },
-    { key: "support", label: "Support", icon: "💬" },
-  ];
+export default function FirmProfilePage() {
+  const [activeTab, setActiveTab] = useState("premises-infrastructure");
+  const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-8">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-red-600 rounded flex items-center justify-center">
-                <span className="text-white font-bold text-sm">D</span>
-              </div>
-              <span className="text-xl font-semibold text-gray-900">
-                DIFC Connect
-              </span>
-            </div>
-            <nav className="hidden md:flex space-x-6">
-              <a href="#" className="text-gray-600 hover:text-gray-900">
-                Enquiries
-              </a>
-              <a href="#" className="text-gray-600 hover:text-gray-900">
-                Services
-              </a>
-              <a href="#" className="text-gray-600 hover:text-gray-900">
-                Regulation
-              </a>
-              <a href="#" className="text-gray-600 hover:text-gray-900">
-                Listings
-              </a>
-              <a href="#" className="text-gray-600 hover:text-gray-900">
-                Media
-              </a>
-            </nav>
-          </div>
-          <div className="flex items-center space-x-4">
-            <button className="p-2 text-gray-400 hover:text-gray-600">
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+    <div className="p-6 max-w-7xl mx-auto">
+      <div className="mb-6">
+        <h1 className="text-3xl font-semibold text-gray-900">Profile</h1>
+      </div>
+
+      <div className="w-full">
+        <div className="border-b border-gray-200 mb-6">
+          <div className="flex space-x-8">
+            {[
+              { key: "license-information", label: "License Information" },
+              { key: "organization-details", label: "Organization Details" },
+              { key: "ownership-control", label: "Ownership & Control" },
+              {
+                key: "premises-infrastructure",
+                label: "Premises & Infrastructure",
+              },
+              {
+                key: "additional-information",
+                label: "Additional Information",
+              },
+            ].map((tab) => (
+              <button
+                key={tab.key}
+                className={`cursor-pointer py-3 px-1 text-sm font-medium transition-colors border-b-2 ${
+                  activeTab === tab.key
+                    ? "border-red-600 text-red-600"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                }`}
+                onClick={() => setActiveTab(tab.key)}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </button>
-            <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-              <span className="text-sm font-medium text-gray-700">FL</span>
-            </div>
+                {tab.label}
+              </button>
+            ))}
           </div>
         </div>
-      </header>
 
-      <div className="flex">
-        {/* Sidebar */}
-        <aside className="w-64 bg-white border-r border-gray-200 min-h-screen">
-          <div className="p-4">
-            <div className="mb-6">
-              <h3 className="text-sm font-medium text-gray-500 mb-2">
-                FutureTech LLC
-              </h3>
+        {activeTab === "premises-infrastructure" && (
+          <div className="space-y-6">
+            <div className="bg-white border border-gray-300 rounded-lg shadow-sm">
+              <div className="px-6 py-4 border-b border-gray-300">
+                <h2 className="text-xl font-semibold text-gray-800">
+                  DIFC Premises
+                </h2>
+              </div>
+              <div className="p-6 space-y-6">
+                <div className="grid grid-cols-2 gap-8">
+                  <div>
+                    <h4 className="font-medium text-sm text-gray-600 mb-2">
+                      DIFC Premises
+                    </h4>
+                    <p className="text-sm text-gray-800 mb-2">
+                      Premises within the DIFC
+                    </p>
+                    <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      Yes
+                    </span>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-sm text-gray-600 mb-2">
+                      Building
+                    </h4>
+                    <p className="text-sm text-gray-800">
+                      Emirates Financial Towers
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-8">
+                  <div>
+                    <h4 className="font-medium text-sm text-gray-600 mb-2">
+                      Office Address
+                    </h4>
+                    <p className="text-sm text-gray-800">
+                      Level 15, Office 1501
+                    </p>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-sm text-gray-600 mb-2">
+                      Office Phone
+                    </h4>
+                    <p className="text-sm text-gray-800">+971 4 123 4567</p>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="font-medium text-sm text-gray-600 mb-2">
+                    DIFC District
+                  </h4>
+                  <p className="text-sm text-gray-800">Gate District</p>
+                </div>
+
+                <div className="border-t border-gray-300 pt-6">
+                  <div className="flex items-start gap-3">
+                    <div className="w-5 h-5 rounded-full border border-gray-400 flex items-center justify-center mt-0.5">
+                      <div className="w-2 h-2 rounded-full bg-gray-400"></div>
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-sm text-gray-800 mb-1">
+                        Office Sharing Arrangement
+                      </h4>
+                      <p className="text-sm text-gray-600">No</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="mb-6">
-              <h4 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">
-                Essentials
-              </h4>
-              <nav className="space-y-1">
-                {menuItems.slice(0, 3).map((item) => (
-                  <button
-                    key={item.key}
-                    onClick={() => setActiveMenuItem(item.key)}
-                    className={`w-full flex items-center px-3 py-2 text-sm rounded-md transition-colors ${
-                      activeMenuItem === item.key
-                        ? "bg-red-50 text-red-700 border-r-2 border-red-600"
-                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                    }`}
-                  >
-                    <span className="mr-3">{item.icon}</span>
-                    {item.label}
-                  </button>
-                ))}
-              </nav>
+            <div className="bg-white border border-gray-300 rounded-lg shadow-sm">
+              <div className="px-6 py-4 border-b border-gray-300">
+                <h2 className="text-xl font-semibold text-gray-800">
+                  IT Systems & Technology
+                </h2>
+              </div>
+              <div className="p-6 space-y-6">
+                <div className="grid grid-cols-2 gap-8">
+                  <div>
+                    <h4 className="font-medium text-sm text-gray-600 mb-2">
+                      IT Service Level
+                    </h4>
+                    <p className="text-sm text-gray-800">
+                      Completely reliant on IT systems
+                    </p>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-sm text-gray-600 mb-2">
+                      IT Environment Complexity
+                    </h4>
+                    <p className="text-sm text-gray-800">
+                      Uses complex technologies to deliver services
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-8">
+                  <div>
+                    <h4 className="font-medium text-sm text-gray-600 mb-2">
+                      Internal Applications
+                    </h4>
+                    <p className="text-sm text-gray-800">
+                      More than 5 applications
+                    </p>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-sm text-gray-600 mb-2">
+                      Third-party Providers
+                    </h4>
+                    <p className="text-sm text-gray-800">
+                      More than 3 providers
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-8">
+                  <div>
+                    <h4 className="font-medium text-sm text-gray-600 mb-2">
+                      Cloud Services
+                    </h4>
+                    <p className="text-sm text-gray-800">Private/hybrid</p>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-sm text-gray-600 mb-2">
+                      System Technologies
+                    </h4>
+                    <p className="text-sm text-gray-800">
+                      Two or more enabling technologies
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="mb-6">
-              <h4 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">
-                Transactions
-              </h4>
-              <nav className="space-y-1">
-                {menuItems.slice(3, 7).map((item) => (
-                  <button
-                    key={item.key}
-                    onClick={() => setActiveMenuItem(item.key)}
-                    className={`w-full flex items-center px-3 py-2 text-sm rounded-md transition-colors ${
-                      activeMenuItem === item.key
-                        ? "bg-red-50 text-red-700 border-r-2 border-red-600"
-                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                    }`}
-                  >
-                    <span className="mr-3">{item.icon}</span>
-                    {item.label}
-                    {item.key === "service-applications" && (
-                      <svg
-                        className="ml-auto w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    )}
-                  </button>
-                ))}
-              </nav>
+            <div className="bg-white border border-gray-300 rounded-lg shadow-sm">
+              <div className="px-6 py-4 border-b border-gray-300">
+                <h2 className="text-xl font-semibold text-gray-800">
+                  Client-Facing Technology
+                </h2>
+              </div>
+              <div className="p-6 space-y-6">
+                <div className="grid grid-cols-2 gap-8">
+                  <div>
+                    <h4 className="font-medium text-sm text-gray-600 mb-2">
+                      Online Presence
+                    </h4>
+                    <p className="text-sm text-gray-800">
+                      Internet applications (web/mobile)
+                    </p>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-sm text-gray-600 mb-2">
+                      Mobile Presence
+                    </h4>
+                    <p className="text-sm text-gray-800">Mobile banking apps</p>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="font-medium text-sm text-gray-600 mb-2">
+                    Expected IT Developments (First Year)
+                  </h4>
+                  <p className="text-sm text-gray-800">
+                    Significant development expected
+                  </p>
+                </div>
+              </div>
             </div>
 
-            <div>
-              <h4 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">
-                Settings & Support
-              </h4>
-              <nav className="space-y-1">
-                {menuItems.slice(7).map((item) => (
-                  <button
-                    key={item.key}
-                    onClick={() => setActiveMenuItem(item.key)}
-                    className={`w-full flex items-center px-3 py-2 text-sm rounded-md transition-colors ${
-                      activeMenuItem === item.key
-                        ? "bg-red-50 text-red-700 border-r-2 border-red-600"
-                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                    }`}
-                  >
-                    <span className="mr-3">{item.icon}</span>
-                    {item.label}
-                  </button>
-                ))}
-              </nav>
+            <div className="bg-white border border-gray-300 rounded-lg shadow-sm">
+              <div className="px-6 py-4 border-b border-gray-300">
+                <h2 className="text-xl font-semibold text-gray-800">
+                  Cybersecurity
+                </h2>
+              </div>
+              <div className="p-6 space-y-6">
+                <div className="grid grid-cols-2 gap-8">
+                  <div>
+                    <h4 className="font-medium text-sm text-gray-600 mb-2">
+                      Security Policy Status
+                    </h4>
+                    <p className="text-sm text-gray-800">
+                      Written policy approved by senior management
+                    </p>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-sm text-gray-600 mb-2">
+                      Cyber Risk Assessed
+                    </h4>
+                    <p className="text-sm text-gray-800">Yes</p>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="font-medium text-sm text-gray-600 mb-2">
+                    Incident Response Plan Implemented
+                  </h4>
+                  <p className="text-sm text-gray-800">Yes</p>
+                </div>
+              </div>
             </div>
           </div>
-        </aside>
-
-        {/* Main Content */}
-        <main className="flex-1 bg-gray-50">
-          {activeMenuItem === "profile" && <FirmProfilePage />}
-          {activeMenuItem !== "profile" && (
-            <div className="p-6">
-              <h1 className="text-3xl font-semibold text-gray-900 capitalize">
-                {menuItems.find((item) => item.key === activeMenuItem)?.label ||
-                  "Page"}
-              </h1>
-              <p className="mt-4 text-gray-600">
-                This section is under development.
-              </p>
-            </div>
-          )}
-        </main>
+        )}
       </div>
     </div>
   );

@@ -17,6 +17,7 @@ interface CompanyInfoProps {
   reportingObligations: number;
   openApplications: number;
   profileCompletion: number;
+  onViewProfile?: () => void;
 }
 
 // Reusable StatCard component
@@ -65,7 +66,8 @@ export const CompanyInfoCard: React.FC<CompanyInfoProps> = ({
   expiryDate,
   reportingObligations,
   openApplications,
-  profileCompletion
+  profileCompletion,
+  onViewProfile
 }) => {
   return (
     <div style={{
@@ -109,15 +111,18 @@ export const CompanyInfoCard: React.FC<CompanyInfoProps> = ({
               Active License
             </span>
           </div>
-          <button style={{
-            backgroundColor: 'transparent',
-            border: 'none',
-            color: '#0030E3',
-            cursor: 'pointer',
-            fontSize: '14px',
-            fontWeight: 'bold',
-            textDecoration: 'none'
-          }}>
+          <button 
+            style={{
+              backgroundColor: 'transparent',
+              border: 'none',
+              color: '#0030E3',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontWeight: 'bold',
+              textDecoration: 'none'
+            }}
+            onClick={onViewProfile}
+          >
             View profile details
           </button>
         </div>

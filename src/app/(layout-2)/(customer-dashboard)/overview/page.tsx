@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 // Import all card components
 import { CompanyInfoCard } from './cards/ProjectDetails';
@@ -45,6 +46,7 @@ interface FeeInfo {
 
 // Main Dashboard Component
 const RegulatoryDashboard: React.FC = () => {
+  const router = useRouter();
   // Sample data - in real app, this would come from API/state management
   const companyInfo = {
     companyName: 'FutureTech LLC',
@@ -82,27 +84,31 @@ const RegulatoryDashboard: React.FC = () => {
 
   // Event handlers
   const handleViewAllReportingObligations = () => {
-    console.log('View all reporting obligations clicked');
+    router.push('/reporting-obligations');
   };
 
   const handleReportingObligationClick = (obligationId: string) => {
-    console.log('Reporting obligation clicked:', obligationId);
+    router.push('/reporting-obligations/');
   };
 
   const handleCompleteProfile = () => {
-    console.log('Complete profile clicked');
+    router.push('/firm-profile');
+  };
+
+  const handleViewProfile = () => {
+    router.push('/firm-profile');
   };
 
   const handleViewAllApplications = () => {
-    console.log('View all applications clicked');
+    console.log('/non-financial-records');
   };
 
   const handleApplicationClick = (applicationId: string) => {
-    console.log('Application clicked:', applicationId);
+    console.log('/non-financial-records');
   };
 
   const handleQuickAccessItemClick = (itemId: string) => {
-    console.log('Quick access item clicked:', itemId);
+    console.log('/non-financial-records');
   };
 
   const handleViewPenaltyHistory = () => {
@@ -126,7 +132,7 @@ const RegulatoryDashboard: React.FC = () => {
       }}>
         {/* Left Column */}
         <div>
-          <CompanyInfoCard {...companyInfo} />
+          <CompanyInfoCard {...companyInfo} onViewProfile={handleViewProfile} />
           
           <ReportingObligationsCard 
             obligations={reportingObligations}

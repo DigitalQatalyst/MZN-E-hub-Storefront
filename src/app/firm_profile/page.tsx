@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-// import navbar from "@components/navbar/Navbar copy";
-// import sidebar from "@components/sidebar";
 
 export default function FirmProfilePage() {
   const [activeTab, setActiveTab] = useState("premises-infrastructure");
@@ -16,7 +14,6 @@ export default function FirmProfilePage() {
         minHeight: "100vh",
       }}
     >
-      {/* <sidebar /> */}
       <div style={{ marginBottom: "24px" }}>
         <h1
           style={{
@@ -760,10 +757,7 @@ export default function FirmProfilePage() {
             </div>
           </div>
         )}
-
-        {/* Additional tabs content would go here */}
       </div>
-      {/* <navbar /> */}
     </div>
   );
 }

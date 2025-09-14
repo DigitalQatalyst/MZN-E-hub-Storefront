@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { FaBuilding, FaLightbulb, FaRocket, FaChartLine, FaGlobe, FaSyncAlt, FaShoppingBag, FaUsers, FaDollarSign, FaBalanceScale } from 'react-icons/fa';
 import { InteractionStatus, } from "@azure/msal-browser";
@@ -16,6 +18,10 @@ interface FormData {
   revenueStatus: 'pre' | 'early' | 'growing' | 'established' | '';
   marketFocus: 'local' | 'national' | 'international' | 'global' | '';
 }
+
+type OnboardingFormsProps = {
+  onSaveAndContinueLater: () => void;
+};
 
 const SelectableCard: React.FC<{
   selected: boolean;
@@ -36,13 +42,15 @@ const SelectableCard: React.FC<{
       textAlign: 'center',
     }}
   >
-    <div style={{ fontSize: 24, marginBottom: 8 }}>{icon}</div>
-    <strong>{title}</strong>
+    <div style={{ fontSize: 24, marginBottom: 8, color: "black" }}>{icon}</div>
+    <strong style={{color: "black"}}>{title}</strong>
     <p style={{ color: '#777', marginTop: 4 }}>{description}</p>
   </div>
 );
 
-const OnboardingForms: React.FC = () => {
+const STORAGE_KEY = "onboarding_form_data";
+
+const OnboardingForms: React.FC<OnboardingFormsProps> = ({ onSaveAndContinueLater }) => {
   const { instance, inProgress } = useMsal();
   const [step, setStep] = useState(1);
   const totalSteps = 7;
@@ -60,6 +68,34 @@ const OnboardingForms: React.FC = () => {
     marketFocus: '',
   });
   const [isMsalInitialized, setIsMsalInitialized] = useState(false);
+
+  const handleDashboardRedirect = () => {
+    window.location.href = '/dashboard'; // Adjust the URL as needed
+  }
+
+  // Load saved data on mount
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        setFormData(JSON.parse(saved));
+      } catch {
+        // ignore parse errors
+      }
+    }
+  }, []);
+
+  // Save data to localStorage on formData change
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+  }, [formData]);
+
+  // Clear saved data on final step submission
+  const handleFinish = () => {
+    // your submission logic here
+    localStorage.removeItem(STORAGE_KEY);
+    alert("Onboarding complete!");
+  };
 
   useEffect(() => {
     if (inProgress === InteractionStatus.None) {
@@ -321,7 +357,7 @@ const OnboardingForms: React.FC = () => {
             <h2>Welcome to Enterprise Journey!</h2>
             <p>Your business registration has been completed. <strong>Check your email</strong> for verification.</p>
             <button
-              onClick={() => alert('Start Your Journey clicked')}
+              onClick={handleFinish}
               style={{
                 backgroundColor: '#0047FF',
                 color: 'white',
@@ -338,7 +374,7 @@ const OnboardingForms: React.FC = () => {
               Start Your Journey
             </button>
             <button
-              onClick={() => alert('Visit Dashboard clicked')}
+              onClick={handleDashboardRedirect}
               style={{
                 backgroundColor: 'white',
                 color: '#0047FF',
@@ -361,7 +397,7 @@ const OnboardingForms: React.FC = () => {
         <div style={{ marginTop: 32, display: 'flex', justifyContent: 'space-between' }}>
           <button onClick={handlePrevious} disabled={step === 1} style={{ backgroundColor: '#fff', color: '#0047FF', border: '2px solid #0047FF', borderRadius: 6, padding: '10px 20px', fontWeight: 'bold', fontSize: 14, cursor: step === 1 ? 'not-allowed' : 'pointer' }}>Previous</button>
           <div>
-            <button onClick={handleSave} style={{ backgroundColor: '#E6F0FF', color: '#0047FF', border: 'none', borderRadius: 6, padding: '10px 20px', fontWeight: 'bold', fontSize: 14, marginRight: 12, cursor: 'pointer' }}>Save and continue later</button>
+            <button onClick={onSaveAndContinueLater} style={{ backgroundColor: '#E6F0FF', color: '#0047FF', border: 'none', borderRadius: 6, padding: '10px 20px', fontWeight: 'bold', fontSize: 14, marginRight: 12, cursor: 'pointer' }}>Save and continue later</button>
             <button onClick={handleNext} style={{ backgroundColor: '#0047FF', color: '#fff', border: 'none', borderRadius: 6, padding: '10px 20px', fontWeight: 'bold', fontSize: 14, cursor: 'pointer' }}>{step === totalSteps ? 'Finish' : 'Next →'}</button>
           </div>
         </div>

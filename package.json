@@ -36,6 +36,7 @@
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "focus-trap-react": "^11.0.4",
     "formik": "^2.4.6",
     "graphql": "^16.10.0",
     "graphql-request": "^7.1.2",

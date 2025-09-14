@@ -18,6 +18,7 @@ import { Button } from "../buttons";
 import Container from "../Container";
 import Typography from "../Typography";
 import Categories from "../categories/Categories";
+import OnboardingModal from "../onboarding/onboardingModal"; 
 
 const StyledNavbar = styled.div`
   background: transparent !important;
@@ -177,11 +178,38 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   const isAuthenticated = useIsAuthenticated();
   useHydrateActiveAccount();
 
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [signupOrigin, setSignupOrigin] = useState<string | null>(null);
+
   const name =
     instance.getActiveAccount()?.idTokenClaims?.name ||
     instance.getActiveAccount()?.username ||
     accounts[0]?.username ||
     "Signed in";
+  // On mount, read from localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("showOnboarding");
+      if (saved === "true") {
+        setShowOnboarding(true);
+      }
+    }
+  }, []);
+  // Sync state to localStorage whenever it changes
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (showOnboarding) {
+        localStorage.setItem("showOnboarding", "true");
+      } else {
+        localStorage.removeItem("showOnboarding");
+      }
+    }
+  }, [showOnboarding]);
+
+  const handleCloseOnboarding = () => {
+    setShowOnboarding(false);
+  };
+
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -261,7 +289,10 @@ const handleSignUp = async () => {
     
     const res = await instance.loginPopup(signUpRequest);
     if (res?.account) instance.setActiveAccount(res.account);
-    router.replace("/onboarding");
+
+    setSignupOrigin(window.location.pathname);
+    setShowOnboarding(true);
+    // router.replace("/onboarding");
   } catch (e: any) {
     const msg = `${e?.errorCode || ""} ${e?.message || ""}`.toLowerCase();
     if (msg.includes("popup_window_error") || msg.includes("monitor_window_timeout")) {
@@ -440,6 +471,7 @@ const handleLogout = async () => {
           </FlexBox>
         </Box>
       </Container>
+      {showOnboarding && <OnboardingModal onClose={handleCloseOnboarding} origin={signupOrigin} />}
     </StyledNavbar>
   );
 }

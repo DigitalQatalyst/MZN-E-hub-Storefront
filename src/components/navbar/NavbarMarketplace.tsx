@@ -31,14 +31,21 @@ function useHydrateActiveAccount() {
   const { instance, inProgress } = useMsal();
 
   useEffect(() => {
-    if (inProgress !== InteractionStatus.None) return; // <- wait
-    const current = instance.getActiveAccount();
-    if (!current) {
-      const all = instance.getAllAccounts();
-      if (all.length) instance.setActiveAccount(all[0]);
+    if (inProgress !== InteractionStatus.None) return;
+    
+    // Add initialization check
+    try {
+      const current = instance.getActiveAccount();
+      if (!current) {
+        const all = instance.getAllAccounts();
+        if (all.length) instance.setActiveAccount(all[0]);
+      }
+    } catch (error) {
+      console.warn("MSAL not fully initialized yet:", error);
     }
   }, [instance, inProgress]);
 }
+
 
 export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
   const router = useRouter();
@@ -47,19 +54,39 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
 
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isMsalInitialized, setIsMsalInitialized] = useState(false);
 
-    const { instance, accounts, inProgress } = useMsal();
-    const isAuthenticated = useIsAuthenticated();
-    useHydrateActiveAccount();
+  const { instance, accounts, inProgress } = useMsal();
+  const isAuthenticated = useIsAuthenticated();
+  useHydrateActiveAccount();
   
-    const displayName =
-      instance.getActiveAccount()?.idTokenClaims?.name ||
-      instance.getActiveAccount()?.username ||
-      accounts[0]?.username ||
-      "Signed in";
+  const displayName = useMemo(() => {
+    if (!isMsalInitialized) return "User";
+    
+    try {
+      const activeAccount = instance.getActiveAccount() ?? accounts[0];
+      return (
+        activeAccount?.idTokenClaims?.name ||
+        activeAccount?.username ||
+        "Signed in"
+      );
+    } catch (error) {
+      console.warn("Error getting display name:", error);
+      return "User";
+    }
+  }, [instance, accounts, isMsalInitialized]);
+
+  useEffect(() => {
+    if (inProgress === InteractionStatus.None) {
+      setIsMsalInitialized(true);
+    }
+  }, [inProgress]);
 
 
   useEffect(() => {
+    if (!isMsalInitialized) return;
+
+    // Listen for login success events
     const cbId = instance.addEventCallback((evt: EventMessage) => {
       if (evt.eventType === EventType.LOGIN_SUCCESS || evt.eventType === EventType.ACQUIRE_TOKEN_SUCCESS) {
         const result = evt.payload as AuthenticationResult;             // ✅ narrow payload
@@ -72,13 +99,13 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
 
         // route only when MSAL is idle
         if (inProgress === InteractionStatus.None) {
-          router.replace("/dashboard");
+          router.replace("/onboarding");
         }
       }
     });
 
     return () => { if (cbId) instance.removeEventCallback(cbId); };
-  }, [instance, router, inProgress]);
+  }, [instance, router, inProgress, isMsalInitialized]);
   // Ensure active account is set for templates/token usage
   // useEffect(() => {
   //   if (!instance.getActiveAccount() && accounts[0]) {
@@ -107,6 +134,10 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
 
   // ✅ POPUP flows + land on /dashboard
   const handleLogin = async () => {
+    if (!isMsalInitialized) { // Add this check
+      console.warn("MSAL not initialized yet");
+      return;
+    }
     setIsLoading(true);
     try {
       const res = await instance.loginPopup(loginRequest);
@@ -125,6 +156,10 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
   };
 
   const handleSignUp = async () => {
+    if (!isMsalInitialized) { // Add this check
+      console.warn("MSAL not initialized yet");
+      return;
+    }
     setIsLoading(true);
     try {
       const signUpRequest = {
@@ -137,7 +172,7 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
       
       const res = await instance.loginPopup(signUpRequest);
       if (res?.account) instance.setActiveAccount(res.account);
-      router.replace("/dashboard");
+      router.replace("/onboarding");
     } catch (e: any) {
       const msg = `${e?.errorCode || ""} ${e?.message || ""}`.toLowerCase();
       if (msg.includes("popup_window_error") || msg.includes("monitor_window_timeout")) {
@@ -158,9 +193,26 @@ export default function NavbarMarketplace({ navListOpen }: NavbarProps) {
 
 
   const handleLogout = async () => {
+    if (!isMsalInitialized) return;
     await instance.logoutRedirect();
     setMenuOpen(false);
   };
+  if (!isMsalInitialized) {
+    return (
+      <StyledNavbar>
+        <Container
+          className="navbar-container"
+          height="100%"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Typography>Loading...</Typography>
+        </Container>
+      </StyledNavbar>
+    );
+  }
+
 
   return (
     <StyledNavbar className={scrolled ? "scrolled" : ""}>

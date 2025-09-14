@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { FaBuilding, FaLightbulb, FaRocket, FaChartLine, FaGlobe, FaSyncAlt, FaShoppingBag, FaUsers, FaDollarSign, FaBalanceScale } from 'react-icons/fa';
+import { InteractionStatus, } from "@azure/msal-browser";
+import { useMsal } from '@azure/msal-react';
 
 interface FormData {
   businessStatus: 'already' | 'idea' | '';
@@ -41,6 +43,7 @@ const SelectableCard: React.FC<{
 );
 
 const OnboardingForms: React.FC = () => {
+  const { instance, inProgress } = useMsal();
   const [step, setStep] = useState(1);
   const totalSteps = 7;
   const [formData, setFormData] = useState<FormData>({
@@ -56,6 +59,32 @@ const OnboardingForms: React.FC = () => {
     revenueStatus: '',
     marketFocus: '',
   });
+  const [isMsalInitialized, setIsMsalInitialized] = useState(false);
+
+  useEffect(() => {
+    if (inProgress === InteractionStatus.None) {
+      setIsMsalInitialized(true);
+    }
+  }, [inProgress]);
+
+  // Safely get account info only when initialized
+  const activeAccount = useMemo(() => {
+    if (!isMsalInitialized) return null;
+    try {
+      return instance.getActiveAccount();
+    } catch (error) {
+      console.warn("Error getting active account:", error);
+      return null;
+    }
+  }, [instance, isMsalInitialized]);
+
+  const userEmail = activeAccount?.username || activeAccount?.idTokenClaims?.email || "";
+  const userName = activeAccount?.name || activeAccount?.idTokenClaims?.name || "";
+
+  // Show loading while MSAL initializes
+  if (!isMsalInitialized) {
+    return <div>Loading...</div>;
+  }
 
   const toggleArrayValue = (key: keyof FormData, value: string) => {
     const current = formData[key] as string[];

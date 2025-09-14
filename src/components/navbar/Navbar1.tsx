@@ -149,11 +149,17 @@ function useHydrateActiveAccount() {
   const { instance, inProgress } = useMsal();
 
   useEffect(() => {
-    if (inProgress !== InteractionStatus.None) return; // <- wait
-    const current = instance.getActiveAccount();
-    if (!current) {
-      const all = instance.getAllAccounts();
-      if (all.length) instance.setActiveAccount(all[0]);
+    if (inProgress !== InteractionStatus.None) return;
+    
+    // Add initialization check
+    try {
+      const current = instance.getActiveAccount();
+      if (!current) {
+        const all = instance.getAllAccounts();
+        if (all.length) instance.setActiveAccount(all[0]);
+      }
+    } catch (error) {
+      console.warn("MSAL not fully initialized yet:", error);
     }
   }, [instance, inProgress]);
 }
@@ -164,6 +170,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isMsalInitialized, setIsMsalInitialized] = useState(false);
 
   const router = useRouter();
   const { instance, accounts, inProgress } = useMsal();
@@ -182,6 +189,12 @@ export default function Navbar({ navListOpen }: NavbarProps) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
   useEffect(() => {
+    if (inProgress === InteractionStatus.None) {
+      setIsMsalInitialized(true);
+    }
+  }, [inProgress]);
+  useEffect(() => {
+    if (!isMsalInitialized) return;
     const cbId = instance.addEventCallback((evt: EventMessage) => {
       if (evt.eventType === EventType.LOGIN_SUCCESS || evt.eventType === EventType.ACQUIRE_TOKEN_SUCCESS) {
         const result = evt.payload as AuthenticationResult;             // ✅ narrow payload
@@ -194,13 +207,13 @@ export default function Navbar({ navListOpen }: NavbarProps) {
 
         // route only when MSAL is idle
         if (inProgress === InteractionStatus.None) {
-          router.replace("/dashboard");
+          router.replace("/onboarding");
         }
       }
     });
 
     return () => { if (cbId) instance.removeEventCallback(cbId); };
-  }, [instance, router, inProgress]);
+  }, [instance, router, inProgress, isMsalInitialized]);
 
   const toggleMenu = () => setMenuOpen(v => !v);
 
@@ -210,6 +223,10 @@ export default function Navbar({ navListOpen }: NavbarProps) {
 
 // login (popup first; redirect fallback)
 const handleLogin = async () => {
+    if (!isMsalInitialized) { // Add this check
+    console.warn("MSAL not initialized yet");
+    return;
+  }
   setIsLoading(true);
   try {
     const res = await instance.loginPopup(loginRequest);
@@ -228,6 +245,10 @@ const handleLogin = async () => {
 };
 
 const handleSignUp = async () => {
+    if (!isMsalInitialized) { // Add this check
+    console.warn("MSAL not initialized yet");
+    return;
+  }
   setIsLoading(true);
   try {
     const signUpRequest = {
@@ -240,7 +261,7 @@ const handleSignUp = async () => {
     
     const res = await instance.loginPopup(signUpRequest);
     if (res?.account) instance.setActiveAccount(res.account);
-    router.replace("/dashboard");
+    router.replace("/onboarding");
   } catch (e: any) {
     const msg = `${e?.errorCode || ""} ${e?.message || ""}`.toLowerCase();
     if (msg.includes("popup_window_error") || msg.includes("monitor_window_timeout")) {
@@ -261,9 +282,11 @@ const handleSignUp = async () => {
 
 
 const handleLogout = async () => {
+  if (!isMsalInitialized) return;
   await instance.logoutRedirect();
   setMenuOpen(false);
 };
+
 
 
 // Optional: when you need an access token for APIs

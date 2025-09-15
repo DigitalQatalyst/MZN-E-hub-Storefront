@@ -3,6 +3,7 @@ interface LinkItem {
   name: string;
   url: string;
   badge?: string; // Optional badge text like "New" or "Coming soon"
+  showArrow?: boolean; // For social media links
 }
 
 // Footer column interface
@@ -11,21 +12,7 @@ interface FooterColumn {
   links: LinkItem[];
 }
 
-// Existing data (kept for backward compatibility)
-// Link interface for type safety
-interface LinkItem {
-  name: string;
-  url: string;
-  badge?: string; // Optional badge text like "New" or "Coming soon"
-}
-
-// Footer column interface
-interface FooterColumn {
-  title: string;
-  links: LinkItem[];
-}
-
-// Existing data (kept for backward compatibility)
+// Legacy data (kept for backward compatibility)
 export const aboutLinks = [
   "Business in AbuDhabi",
   "Help Center",
@@ -64,40 +51,33 @@ export const legalLinks = [
 ];
 
 export const iconList = [
-  // { iconName: "facebook", url: "https://www.facebook.com/UILibOfficial" },
   { iconName: "google", url: "/" },
   { iconName: "twitter", url: "/" },
   { iconName: "youtube", url: "https://www.youtube.com/channel/UCsIyD-TSO1wQFz-n2Y4i3Rg" },
   { iconName: "instagram", url: "/" }
 ];
 
-// New footer data structure for the updated 5-column layout
+/**
+ * Updated footer data structure matching the new design
+ * Includes 5 columns: Get to Know Us, For Enterprises, For Partners, Find Us, Legal
+ */
 export const footerData: Record<string, FooterColumn> = {
-  helpSupport: {
-    title: "Help & Support",
+  getToKnowUs: {
+    title: "Get to Know Us",
     links: [
+      { name: "About Enterprise Journey", url: "#" },
       { name: "Help Centre", url: "#" },
-      { name: "FAQs", url: "#" },
-      { name: "Report an Issue", url: "#" }
-    ]
-  },
-  growWithUs: {
-    title: "Grow with Us",
-    links: [
       { name: "Discover AbuDhabi", url: "#" },
-      { name: "Funding & Incentives", url: "#" },
-      { name: "Tools", url: "#" },
-      { name: "Success Stories", url: "#" },
-      { name: "Learning & Resource Hub", url: "#" }
+      { name: "Media Centre", url: "#" }
     ]
   },
   forEnterprises: {
     title: "For Enterprises",
     links: [
-      { name: "Explore Services", url: "#" },
+      { name: "Financial Services", url: "#" },
+      { name: "Non-financial Services", url: "#" },
       { name: "Community", url: "#" },
-      { name: "Events", url: "#", badge: "Coming soon" },
-      { name: "Manage Applications", url: "#" }
+      { name: "Events", url: "#", badge: "Coming soon" }
     ]
   },
   forPartners: {
@@ -109,36 +89,38 @@ export const footerData: Record<string, FooterColumn> = {
       { name: "International", url: "#" }
     ]
   },
-  getToKnowUs: {
-    title: "Get to Know Us",
+  findUs: {
+    title: "Find Us",
     links: [
-      { name: "About Enterprise Journey", url: "#" },
-      { name: "Media Centre", url: "#" },
-      { name: "Contact Us", url: "#" }
+      { name: "LinkedIn", url: "https://linkedin.com", showArrow: true },
+      { name: "Facebook", url: "https://facebook.com", showArrow: true },
+      { name: "YouTube", url: "https://youtube.com", showArrow: true }
+    ]
+  },
+  legal: {
+    title: "Legal",
+    links: [
+      { name: "Privacy Policy", url: "#" },
+      { name: "Terms of Service", url: "#" }
     ]
   }
 };
 
-// Social media links with proper URLs
+// Social media links (kept for backward compatibility, but now integrated into footerData)
 export const socialMediaLinks = [
   {
     name: "LinkedIn",
-    url: "#",
+    url: "https://linkedin.com",
     icon: "linkedin"
   },
   {
-    name: "Twitter",
-    url: "#",
-    icon: "twitter"
+    name: "Facebook", 
+    url: "https://facebook.com",
+    icon: "facebook"
   },
   {
     name: "YouTube",
-    url: "#",
+    url: "https://youtube.com",
     icon: "youtube"
-  },
-  {
-    name: "Instagram",
-    url: "#",
-    icon: "instagram"
   }
 ];

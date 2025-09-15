@@ -1,22 +1,15 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
-import {
-  useMsal,
-  AuthenticatedTemplate,
-  UnauthenticatedTemplate,
-} from "@azure/msal-react";
-import { AccountInfo, InteractionStatus } from "@azure/msal-browser";
-import { Menu, X, Search, Bookmark, ChevronRight, LogOut, User } from "lucide-react";
-
-import { loginRequest } from "../../lib/authConfig";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { Menu, X, Search as SearchIcon, ChevronDown, ChevronRight, LogOut, User } from "lucide-react";
+import { useMsal, AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
+import { loginRequest, logoutRequest } from "../../authConfig";
 
 import Box from "../Box";
-import Container from "../Container";
 import FlexBox from "../FlexBox";
-import Typography from "../Typography";
 import { Button } from "../buttons";
+import Container from "../Container";
+import Typography from "../Typography";
 import Categories from "../categories/Categories";
 import StyledNavbar from "./marketStyles copy";
 
@@ -29,15 +22,15 @@ function getInitials(name?: string) {
 }
 
 export default function Navbar({ navListOpen }: NavbarProps) {
-  const router = useRouter();
-  const { instance, accounts, inProgress } = useMsal();
-  useEffect(() => {
-    if (inProgress === InteractionStatus.None) {
-      setIsMsalInitialized(true);
-    }
-  }, [inProgress]);
+  const { instance, accounts } = useMsal();
 
-  // responsive + menus
+  // one-time debug
+  useEffect(() => {
+    const cfg = instance.getConfiguration();
+    console.log("MSAL redirectUri =", cfg.auth.redirectUri);
+  }, [instance]);
+
+  // responsive & menus
   const [isMobile, setIsMobile] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -106,159 +99,175 @@ export default function Navbar({ navListOpen }: NavbarProps) {
     return () => document.removeEventListener("mousedown", onDocClick);
   }, [isProfileOpen]);
 
-  // actions
+  const startLogin = () => instance.loginRedirect(loginRequest).catch(console.error);
+  const logout = () => instance.logoutRedirect(logoutRequest).catch(console.error);
+  const goDashboard = () => (window.location.href = "/dashboard");
+
   const toggleMobileMenu = () => setIsMobileMenuOpen(v => !v);
 
-  const startLogin = () => {
-    if (!isMsalInitialized) {
-      console.warn("MSAL not initialized yet");
-      return Promise.resolve();
-    }
-    return instance.loginRedirect(loginRequest).catch(console.error);
-  };
-
-
-  const goDashboard = () => {
-    setIsMobileMenuOpen(false);
-    router.push("/dashboard");
-  };
-
-  const logout = () => {
-    if (!isMsalInitialized) return;
-    
-    setIsMobileMenuOpen(false);
-    instance
-      .logoutRedirect({
-        postLogoutRedirectUri: typeof window !== "undefined" ? window.location.origin : "/",
-      })
-      .catch(console.error);
-  };
-
+  // derive display name & initials
+  const { displayName, initials } = useMemo(() => {
+    const name =
+      accounts?.[0]?.name ||
+      (accounts?.[0]?.username ? accounts[0].username.split("@")[0] : "") ||
+      "Mark"; // fallback to "Mark" to mirror screenshot
+    const parts = name.trim().split(/\s+/);
+    const ini =
+      parts.length >= 2 ? (parts[0][0] + parts[1][0]) : (parts[0]?.slice(0, 2) || "MW");
+    return { displayName: name, initials: ini.toUpperCase() };
+  }, [accounts]);
 
   const handleProfileClick = () => {
-    if (!activeAccount) startLogin();
+    if (accounts.length === 0) startLogin();
     else setIsProfileOpen(v => !v);
   };
 
-  if (!isMsalInitialized) {
-    return (
-      <StyledNavbar>
-        <Container
-          height="100%"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Typography>Loading...</Typography>
-        </Container>
-      </StyledNavbar>
-    );
-  }
-
   return (
-    <StyledNavbar>
+    <StyledNavbar
+      style={{
+        height: 72,
+        background:
+          "linear-gradient(90deg, #19E5C2 0%, #5A7BF6 60%, #8E5AF6 100%)",
+        color: "#fff",
+      }}
+    >
       <Container
         height="100%"
         display="flex"
         alignItems="center"
         justifyContent="space-between"
-        style={{ position: "relative" }}
+        style={{ position: "relative", gap: 16 }}
       >
-        {/* Logo */}
-        <Box
-          className="navbar-logo"
-          style={{
-            zIndex: 1001,
-            marginLeft: isMobile ? "16px" : "-88px",
-          }}
-        >
-          <img
-            src="/assets/images/tab_bar/Subtract.svg"
-            alt="MZN Enterprise Hub"
-            style={{ height: isMobile ? 32 : 40 }}
-          />
-        </Box>
+        {/* LEFT: Brand + primary nav */}
+        <FlexBox alignItems="center" style={{ gap: 28, minWidth: 0 }}>
+          {/* Brand lockup */}
+          <FlexBox alignItems="center" style={{ gap: 10 }}>
+            <Box aria-label="Enterprise Journey" role="img">
+              {/* If you have a brand mark, swap here */}
+              <img
+                src="/assets/images/tab_bar/Subtract.svg"
+                alt="Enterprise Journey"
+                style={{ height: 28, width: "auto" }}
+              />
+            </Box>
+            <div style={{ lineHeight: 1 }}>
+              <div style={{ fontWeight: 800, letterSpacing: 0.4, fontSize: 16 }}>ENTERPRISE</div>
+              <div style={{ fontWeight: 800, letterSpacing: 0.4, fontSize: 16, marginTop: -2 }}>
+                JOURNEY
+              </div>
+            </div>
+          </FlexBox>
 
-        {/* Explore */}
-        <Categories open={navListOpen}>
-          <Button
-            width="320px"
-            height="40px"
-            bg="body.default"
-            variant="text"
-            marginRight={550}
-            borderRadius={6}
-          >
-            <img src="/images/explore.svg" alt="Explore" />
-            <Typography
-              mr="150px"
-              flex="1 1 0"
-              fontFamily='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
-              fontSize="14px"
-              fontStyle="normal"
-              fontWeight="400"
-              lineHeight="26px"
-              color="#0030E3"
-            >
-              Explore
-            </Typography>
-            <ChevronRight size={18} color="#0030E3" />
-          </Button>
-        </Categories>
-
-        {/* Desktop actions */}
-        <FlexBox
-          alignItems="center"
-          style={{ gap: "15px", marginRight: "-88px" }}
-        >
-          {/* Search */}
-          <Box className="search-icon" style={{ cursor: "pointer" }} title="Search">
-            <Search size={20} color="white"/>
-          </Box>
-
-          {/* Bookmark */}
-          <Box className="bookmark-icon" style={{ cursor: "pointer" }} title="Bookmarks">
-            <Bookmark size={22} color="white"/>
-          </Box>
-
-          {/* Profile */}
-          <Box ref={profileRef} className="profile-photo" style={{ position: "relative" }}>
-            <div
-              className="profile-initials"
+          {/* Explore (opens Categories) */}
+          <Categories open={navListOpen}>
+            <button
+              type="button"
+              aria-haspopup="true"
+              aria-expanded={!!navListOpen}
               style={{
-                width: 36,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
                 height: 36,
+                padding: "0 12px",
+                borderRadius: 8,
+                border: "1px solid rgba(255,255,255,0.35)",
+                background: "rgba(255,255,255,0.10)",
+                color: "#fff",
+                cursor: "pointer",
+                backdropFilter: "blur(6px)",
+              }}
+            >
+              <span style={{ fontSize: 14, fontWeight: 500 }}>Explore</span>
+              <ChevronDown size={16} />
+            </button>
+          </Categories>
+
+          {/* Discover AbuDhabi (simple link/button) */}
+          <button
+            type="button"
+            style={{
+              height: 36,
+              padding: "0 12px",
+              borderRadius: 8,
+              border: "none",
+              background: "transparent",
+              color: "#fff",
+              cursor: "pointer",
+              fontSize: 14,
+              fontWeight: 500,
+              whiteSpace: "nowrap",
+            }}
+            onClick={() => (window.location.href = "/discover")}
+          >
+            Discover AbuDhabi
+          </button>
+
+          {/* Search icon */}
+          <button
+            type="button"
+            aria-label="Search"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: 36,
+              width: 36,
+              borderRadius: 18,
+              background: "transparent",
+              border: "1px solid rgba(255,255,255,0.35)",
+              cursor: "pointer",
+            }}
+            onClick={() => (window.location.href = "/search")}
+          >
+            <SearchIcon size={16} />
+          </button>
+        </FlexBox>
+
+        {/* RIGHT: Greeting + avatar */}
+        <FlexBox alignItems="center" style={{ gap: 12 }}>
+          {/* Greeting (desktop only, hides on narrow) */}
+          <div className="greeting" style={{ display: isMobile ? "none" : "block" }}>
+            <span style={{ opacity: 0.9, fontSize: 14 }}>Hi, {displayName.split(" ")[0]}</span>
+            <ChevronDown size={16} style={{ marginLeft: 6, verticalAlign: "middle" }} />
+          </div>
+
+          {/* Avatar + dropdown */}
+          <Box ref={profileRef} className="profile-photo" style={{ position: "relative" }}>
+            <button
+              type="button"
+              onClick={handleProfileClick}
+              aria-haspopup="menu"
+              aria-expanded={isProfileOpen}
+              style={{
+                height: 40,
+                width: 40,
                 borderRadius: "50%",
-                backgroundColor: "#ffffff",
-                border: "1px solid #e5e7eb",
-                color: "#000",
-                display: "flex",
+                background: "#fff",
+                color: "#0A38F5",
+                border: "2px solid #0A38F5",
+                display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: 14,
                 fontWeight: 700,
                 cursor: "pointer",
               }}
-              onClick={handleProfileClick}
-              onKeyDown={(e) => (e.key === "Enter" ? handleProfileClick() : null)}
-              role="button"
-              tabIndex={0}
-              title={activeAccount ? displayName : "Sign in"}
             >
-              {getInitials(displayName)}
-            </div>
+              {initials}
+            </button>
 
-            {/* Dropdown (authenticated only) */}
             <AuthenticatedTemplate>
               {isProfileOpen && (
                 <div
+                  role="menu"
                   style={{
                     position: "absolute",
-                    top: 44,
+                    top: 48,
                     right: 0,
                     background: "#fff",
+                    color: "#111",
                     border: "1px solid #e5e7eb",
-                    borderRadius: 8,
+                    borderRadius: 10,
                     boxShadow: "0 10px 25px rgba(0,0,0,0.12)",
                     minWidth: 220,
                     zIndex: 1200,
@@ -268,50 +277,27 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                   <div
                     style={{
                       padding: "10px 12px",
+                      fontSize: 13,
                       borderBottom: "1px solid #f1f3f5",
-                      fontWeight: 600,
+                      color: "#475569",
                     }}
                   >
-                    {displayName}
+                    Signed in as <strong>{displayName}</strong>
                   </div>
 
                   <button
                     type="button"
                     onClick={goDashboard}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 8,
-                      width: "100%",
-                      padding: "10px 12px",
-                      background: "transparent",
-                      border: "none",
-                      textAlign: "left",
-                      cursor: "pointer",
-                    }}
+                    style={menuItemStyle}
                   >
                     <User size={18} />
                     <span>View Dashboard</span>
                   </button>
 
-                  <div style={{ height: 1, background: "#f1f3f5" }} />
-
                   <button
                     type="button"
                     onClick={logout}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 8,
-                      width: "100%",
-                      padding: "10px 12px",
-                      background: "transparent",
-                      border: "none",
-                      textAlign: "left",
-                      cursor: "pointer",
-                      color: "#dc2626",
-                      fontWeight: 600,
-                    }}
+                    style={{ ...menuItemStyle, color: "#dc2626", fontWeight: 600 }}
                   >
                     <LogOut size={18} />
                     <span>Logout</span>
@@ -320,220 +306,164 @@ export default function Navbar({ navListOpen }: NavbarProps) {
               )}
             </AuthenticatedTemplate>
           </Box>
+
+          {/* Mobile hamburger */}
+          <button
+            type="button"
+            aria-label="Toggle menu"
+            onClick={toggleMobileMenu}
+            style={{
+              display: isMobile ? "inline-flex" : "none",
+              height: 40,
+              width: 40,
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 10,
+              border: "1px solid rgba(255,255,255,0.35)",
+              background: "rgba(255,255,255,0.10)",
+              backdropFilter: "blur(6px)",
+              marginLeft: 4,
+            }}
+          >
+            {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </FlexBox>
 
-        {/* Mobile Navigation */}
-        {isMobile && (
+        {/* Mobile sheet */}
+        {isMobile && isMobileMenuOpen && (
           <>
-            {/* Mobile hamburger */}
-            <FlexBox alignItems="center" style={{ marginRight: 16, zIndex: 1001 }}>
-              <Box
-                onClick={toggleMobileMenu}
-                style={{
-                  cursor: "pointer",
-                  padding: 8,
-                  borderRadius: 6,
-                  backgroundColor: "rgba(255, 255, 255, 0.1)",
-                  border: "1px solid #ffffff",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  transition: "background-color 0.3s ease",
-                }}
+            <div
+              onClick={() => setIsMobileMenuOpen(false)}
+              style={{
+                position: "fixed",
+                inset: 0,
+                background: "rgba(0,0,0,0.45)",
+                zIndex: 1000,
+              }}
+            />
+            <div
+              style={{
+                position: "fixed",
+                top: 72,
+                left: 0,
+                right: 0,
+                background: "#fff",
+                zIndex: 1001,
+                boxShadow: "0 6px 24px rgba(0,0,0,0.15)",
+                borderBottomLeftRadius: 12,
+                borderBottomRightRadius: 12,
+                padding: 16,
+              }}
+            >
+              {/* Explore */}
+              <button
+                type="button"
+                onClick={() => setIsMobileMenuOpen(false)}
+                style={mobileRow}
               >
-                {isMobileMenuOpen ? <X size={24} color="#ffffff" /> : <Menu size={24} color="#ffffff" />}
-              </Box>
-            </FlexBox>
+                <span style={{ fontWeight: 600, color: "#0A38F5" }}>Explore</span>
+                <ChevronRight size={18} color="#0A38F5" />
+              </button>
 
-            {/* Mobile Menu */}
-            {isMobileMenuOpen && (
-              <>
-                {/* Backdrop */}
-                <div
-                  role="button"
-                  aria-label="Close menu"
-                  tabIndex={0}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  onKeyDown={(e) => e.key === "Escape" ? setIsMobileMenuOpen(false) : null}
-                  style={{
-                    position: "fixed",
-                    inset: 0,
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                    zIndex: 1000,
-                    animation: "fadeIn 0.3s ease",
-                  }}
-                />
+              {/* Discover */}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  window.location.href = "/discover";
+                }}
+                style={mobileRow}
+              >
+                <span>Discover AbuDhabi</span>
+                <ChevronRight size={18} />
+              </button>
 
-                {/* Panel */}
-                <div
-                  style={{
-                    position: "fixed",
-                    top: 76,
-                    left: 0,
-                    right: 0,
-                    backgroundColor: "#fff",
-                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.15)",
-                    zIndex: 1001,
-                    padding: "24px 16px",
-                    maxHeight: "calc(100vh - 76px)",
-                    overflowY: "auto",
-                    animation: "slideDown 0.3s ease",
-                  }}
-                >
-                  {/* Explore */}
-                  <Box
-                    style={{
-                      marginBottom: 24,
-                      padding: 16,
-                      backgroundColor: "#f8f9fa",
-                      borderRadius: 12,
-                      border: "1px solid #e9ecef",
-                    }}
-                  >
-                    <FlexBox
-                      alignItems="center"
-                      style={{ cursor: "pointer", gap: 12 }}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      <img src="/images/explore.svg" alt="Explore" width={24} height={24} />
-                      <Typography
-                        fontFamily='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'
-                        fontSize="16px"
-                        fontWeight="500"
-                        color="#0030E3"
-                        flex="1"
-                      >
-                        Explore
-                      </Typography>
-                      <ChevronRight size={20} color="#0030E3" />
-                    </FlexBox>
-                  </Box>
+              {/* Search */}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  window.location.href = "/search";
+                }}
+                style={mobileRow}
+              >
+                <FlexBox alignItems="center" style={{ gap: 10 }}>
+                  <SearchIcon size={18} />
+                  <span>Search</span>
+                </FlexBox>
+              </button>
 
-                  {/* Grid actions */}
+              {/* Auth section */}
+              <AuthenticatedTemplate>
+                <div style={{ height: 1, background: "#eee", margin: "8px 0 12px" }} />
+                <FlexBox alignItems="center" style={{ gap: 10, marginBottom: 12 }}>
                   <div
                     style={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 1fr",
-                      gap: 16,
-                      marginBottom: 24,
+                      height: 42,
+                      width: 42,
+                      borderRadius: "50%",
+                      border: "2px solid #0A38F5",
+                      color: "#0A38F5",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontWeight: 700,
                     }}
                   >
-                    <Box
-                      style={{
-                        padding: 16,
-                        backgroundColor: "#f8f9fa",
-                        borderRadius: 12,
-                        border: "1px solid #e9ecef",
-                        cursor: "pointer",
-                        textAlign: "center",
-                        transition: "background-color 0.2s ease",
-                      }}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      <Search size={24} color="#0030E3" style={{ marginBottom: 8 }} />
-                      <Typography fontSize="14px" fontWeight="500" color="#0030E3">
-                        Search
-                      </Typography>
-                    </Box>
-
-                    <Box
-                      style={{
-                        padding: 16,
-                        backgroundColor: "#f8f9fa",
-                        borderRadius: 12,
-                        border: "1px solid #e9ecef",
-                        cursor: "pointer",
-                        textAlign: "center",
-                        transition: "background-color 0.2s ease",
-                      }}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      <Bookmark size={24} color="#0030E3" style={{ marginBottom: 8 }} />
-                      <Typography fontSize="14px" fontWeight="500" color="#0030E3">
-                        Bookmarks
-                      </Typography>
-                    </Box>
+                    {initials}
                   </div>
+                  <div>
+                    <div style={{ fontWeight: 600 }}>{displayName}</div>
+                    <div style={{ fontSize: 12, color: "#64748b" }}>Signed in</div>
+                  </div>
+                </FlexBox>
 
-                  {/* Mobile user section */}
-                  <Box
-                    style={{
-                      padding: 16,
-                      backgroundColor: "#f8f9fa",
-                      borderRadius: 12,
-                      border: "1px solid #e9ecef",
-                    }}
-                  >
-                    <FlexBox alignItems="center" style={{ gap: 12, marginBottom: 12 }}>
-                      <div
-                        className="profile-initials"
-                        style={{
-                          width: 48,
-                          height: 48,
-                          borderRadius: "50%",
-                          backgroundColor: "#ffffff",
-                          border: "2px solid #e9ecef",
-                          color: "#000",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          fontSize: 16,
-                          fontWeight: 600,
-                        }}
-                      >
-                        {getInitials(displayName)}
-                      </div>
-                      <Box flex="1">
-                        <Typography fontSize="16px" fontWeight="600" color="#333" style={{ marginBottom: 4 }}>
-                          My Account
-                        </Typography>
-                        <Typography fontSize="14px" color="#666">
-                          Manage your profile and settings
-                        </Typography>
-                      </Box>
-                    </FlexBox>
-
-                    <AuthenticatedTemplate>
-                      <div style={{ display: "flex", gap: 10, marginTop: 8 }}>
-                        <Button variant="outlined" onClick={goDashboard}>
-                          Dashboard
-                        </Button>
-                        <Button variant="contained" color="primary" onClick={logout}>
-                          Logout
-                        </Button>
-                      </div>
-                    </AuthenticatedTemplate>
-
-                    <UnauthenticatedTemplate>
-                      <div style={{ display: "flex", gap: 10, marginTop: 8 }}>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={() => {
-                            setIsMobileMenuOpen(false);
-                            startLogin();
-                          }}
-                        >
-                          Sign In
-                        </Button>
-                      </div>
-                    </UnauthenticatedTemplate>
-                  </Box>
+                <div style={{ display: "flex", gap: 10 }}>
+                  <Button onClick={() => { setIsMobileMenuOpen(false); goDashboard(); }}>
+                    Dashboard
+                  </Button>
+                  <Button variant="outlined" onClick={() => { setIsMobileMenuOpen(false); logout(); }}>
+                    Logout
+                  </Button>
                 </div>
-              </>
-            )}
+              </AuthenticatedTemplate>
+
+              <UnauthenticatedTemplate>
+                <div style={{ height: 1, background: "#eee", margin: "8px 0 12px" }} />
+                <Button onClick={() => { setIsMobileMenuOpen(false); startLogin(); }}>
+                  Sign In
+                </Button>
+              </UnauthenticatedTemplate>
+            </div>
           </>
         )}
       </Container>
-
-      {/* animations */}
-      <style jsx>{`
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideDown {
-          from { transform: translateY(-20px); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
-        }
-      `}</style>
     </StyledNavbar>
   );
 }
+
+/* ---- styles (small helpers) ---- */
+const menuItemStyle: React.CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  gap: 10,
+  width: "100%",
+  padding: "10px 12px",
+  background: "transparent",
+  border: "none",
+  textAlign: "left",
+  cursor: "pointer",
+  fontSize: 14,
+};
+
+const mobileRow: React.CSSProperties = {
+  width: "100%",
+  padding: "12px 10px",
+  borderRadius: 10,
+  background: "#f8fafc",
+  border: "1px solid #e5e7eb",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  marginBottom: 10,
+};

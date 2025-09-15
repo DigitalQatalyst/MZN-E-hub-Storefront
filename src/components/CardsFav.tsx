@@ -55,7 +55,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       <Link href={`/service-details/${slug}`} style={styles.viewDetailsLink}>
         View Details →
       </Link>
-      <button style={styles.enterpriseButton}>Enterprise</button>
+      <button style={styles.enterpriseButton}>Start-Up</button>
     </div>
   );
 };
@@ -251,7 +251,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     backgroundColor: "white",
     color: "#808390",
     border: "1px solid #808390",
-    borderRadius: "4px",
+    borderRadius: "20px", // Rounded border
     padding: "6px 12px",
     fontSize: "10px",
     fontFamily: "var(--Body-Small-Font, Roboto)",

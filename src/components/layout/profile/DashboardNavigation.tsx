@@ -11,7 +11,7 @@ import Typography from "@component/Typography";
 // Styled components following Bonik patterns
 const SidebarContainer = styled.div`
   width: 256px;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   height: 100vh;
   border-right: 1px solid #e5e7eb;
   display: flex;
@@ -198,7 +198,7 @@ const Sidebar = () => {
       id: "reporting-obligations",
       label: "Reporting Obligations",
       icon: "/images/home-storage.svg",
-      route: "/",
+      route: "/reporting-obligations",
     },
   ];
 

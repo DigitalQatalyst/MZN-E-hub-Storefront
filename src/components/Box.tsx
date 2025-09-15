@@ -16,7 +16,7 @@ import {
   LayoutProps,
   FlexboxProps,
   PositionProps,
-  TypographyProps
+  TypographyProps,
 } from "styled-system";
 import { isValidProp } from "@utils/utils";
 
@@ -24,13 +24,13 @@ import { isValidProp } from "@utils/utils";
 
 interface BoxProps
   extends LayoutProps,
-  GridProps,
-  ColorProps,
-  SpaceProps,
-  BorderProps,
-  FlexboxProps,
-  PositionProps,
-  TypographyProps {
+    GridProps,
+    ColorProps,
+    SpaceProps,
+    BorderProps,
+    FlexboxProps,
+    PositionProps,
+    TypographyProps {
   cursor?: string;
   transition?: string;
   shadow?: number | null | string;
@@ -43,7 +43,8 @@ interface BoxProps
 const Box = styled.div<BoxProps>`
   cursor: ${(props) => props.cursor || "unset"};
   transition: ${(props) => props.transition};
-  box-shadow: ${(props) => (props.shadow ? props.theme.shadows[props.shadow] : "unset")};
+  box-shadow: ${(props) =>
+    props.shadow ? props.theme.shadows[props.shadow] : "unset"};
   ${compose(layout, space, color, grid, position, flexbox, border, typography)};
 `;
 

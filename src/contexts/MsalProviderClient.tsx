@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import { msalConfig } from "../authConfig";
+import { msalConfig } from "@lib/authConfig";
 
 // We import *types* lazily in comments to avoid SSR importing the module.
 // We'll dynamically import @azure/msal-browser inside useEffect.

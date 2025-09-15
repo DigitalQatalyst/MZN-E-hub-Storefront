@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Menu, X, Search as SearchIcon, ChevronDown, ChevronRight, LogOut, User } from "lucide-react";
 import { useMsal, AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
-import { loginRequest, logoutRequest } from "../../authConfig";
+import { loginRequest } from "../../lib/authConfig";
+import { InteractionStatus, AccountInfo } from "@azure/msal-browser";
 
 import Box from "../Box";
 import FlexBox from "../FlexBox";
@@ -42,7 +43,15 @@ export default function Navbar({
   NotificationsComponent,
   NotificationCenterComponent,
 }: NavbarProps) {
-  const { instance, accounts } = useMsal();
+  const { instance, accounts, inProgress } = useMsal();
+  const [isMsalInitialized, setIsMsalInitialized] = useState(false);
+  
+  useEffect(() => {
+    if (inProgress === InteractionStatus.None) {
+      setIsMsalInitialized(true);
+    }
+  }, [inProgress]);
+
 
   // debug
   useEffect(() => {
@@ -74,21 +83,64 @@ export default function Navbar({
     document.addEventListener("mousedown", onDocClick);
     return () => document.removeEventListener("mousedown", onDocClick);
   }, [isProfileOpen]);
-
-  const startLogin = () => instance.loginRedirect(loginRequest).catch(console.error);
-  const logout = () => instance.logoutRedirect(logoutRequest).catch(console.error);
+  
   const goDashboard = () => (window.location.href = "/dashboard");
 
-  // user display
+  // Derive active account safely after MSAL initialized
+  const activeAccount: AccountInfo | undefined = useMemo(() => {
+    if (!isMsalInitialized) return undefined;
+    try {
+      return instance.getActiveAccount() ?? accounts[0];
+    } catch (error) {
+      console.warn("Error getting active account:", error);
+      return undefined;
+    }
+  }, [instance, accounts, isMsalInitialized]);
+
+  // Derive displayName and initials from activeAccount
   const { displayName, initials } = useMemo(() => {
+    if (!activeAccount) return { displayName: "Mark", initials: "MW" };
     const name =
-      accounts?.[0]?.name ||
-      (accounts?.[0]?.username ? accounts[0].username.split("@")[0] : "") ||
+      activeAccount.name ||
+      (activeAccount.idTokenClaims as any)?.name ||
+      (activeAccount.idTokenClaims as any)?.given_name ||
+      (activeAccount.idTokenClaims as any)?.emails?.[0] ||
       "Mark";
     const parts = name.trim().split(/\s+/);
     const ini = parts.length >= 2 ? parts[0][0] + parts[1][0] : (parts[0]?.slice(0, 2) || "MW");
     return { displayName: name, initials: ini.toUpperCase() };
-  }, [accounts]);
+  }, [activeAccount]);
+
+  // Set active account on mount if missing
+  useEffect(() => {
+    if (!isMsalInitialized) return;
+    try {
+      if (!instance.getActiveAccount() && accounts[0]) {
+        instance.setActiveAccount(accounts[0]);
+      }
+    } catch (error) {
+      console.warn("Error setting active account:", error);
+    }
+  }, [accounts, instance, isMsalInitialized]);
+
+    // Auth actions
+  const startLogin = () => {
+    if (!isMsalInitialized) {
+      console.warn("MSAL not initialized yet");
+      return Promise.resolve();
+    }
+    return instance.loginRedirect(loginRequest).catch(console.error);
+  };
+  const logout = () => {
+    if (!isMsalInitialized) return;
+    instance
+      .logoutRedirect({
+        postLogoutRedirectUri: typeof window !== "undefined" ? window.location.origin : "/",
+      })
+      .catch(console.error);
+  };
+
+
 
   const handleProfileClick = () => {
     if (!accounts.length) startLogin();

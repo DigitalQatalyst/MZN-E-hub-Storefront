@@ -24,7 +24,7 @@ export default async function Market1() {
       {/* <EventsSection /> */}
       <Testimonials />
       <TopCategories />
-      <Newsletter />
+      <Newsletter id="newsletter" />
       <Footer1 />
     </main>
   );

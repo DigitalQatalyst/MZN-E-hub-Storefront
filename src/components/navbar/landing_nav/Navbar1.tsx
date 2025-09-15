@@ -14,7 +14,7 @@ import Signin from "./signin";
 import Search from "./search";
 import CustomNavLink from "@component/CustomNavLink/CustomNavLink";
 import ExploreModal from "@component/mobile-responsiveness/ExploreModal";
-import MoreModal from "@component/mobile-responsiveness/MoreModal"; // Import the new MoreModal
+import MoreModal from "@component/mobile-responsiveness/MoreModal";
 
 interface Nav {
   url: string;
@@ -29,7 +29,7 @@ type NavbarProps = { navListOpen?: boolean };
 export default function Navbar({ navListOpen }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [activeItem, setActiveItem] = useState("/");
-  const [isMoreModalOpen, setIsMoreModalOpen] = useState(false); // New state for MoreModal
+  const [isMoreModalOpen, setIsMoreModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
@@ -49,11 +49,22 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   };
 
   const toggleMoreModal = () => {
-    setIsMoreModalOpen(!isMoreModalOpen); // Toggle MoreModal visibility
+    setIsMoreModalOpen(!isMoreModalOpen);
   };
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  const handleNewsletterClick = () => {
+    setActiveItem("/");
+    router.push("/");
+    setTimeout(() => {
+      const newsletterSection = document.getElementById("newsletter");
+      if (newsletterSection) {
+        newsletterSection.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 500); // Increased delay from 100ms to 500ms
   };
 
   return (
@@ -106,8 +117,9 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         <Box display="flex" alignItems="center" className="desktop-nav">
           <CustomNavLink
             className="nav-link"
-            href="/development"
+            href="/"
             mr="40px"
+            onClick={handleNewsletterClick}
           >
             Become a Partner
           </CustomNavLink>
@@ -120,7 +132,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             alt="More"
             width={24}
             height={24}
-            onClick={toggleMoreModal} // Toggle MoreModal when clicked
+            onClick={toggleMoreModal}
           />
         </Box>
       </Container>
@@ -153,22 +165,11 @@ export default function Navbar({ navListOpen }: NavbarProps) {
             />
             <Typography color="black">Explore</Typography>
           </Box>
-          {/* <CustomNavLink href="/development" onClick={() => handleNavClick("/development")}>
-            <Image
-              src={activeItem === "/development" ? "/assets/images/non_financial_marketplace/discover_abudhabi.svg" : "/assets/images/non_financial_marketplace/discover_abudhabi.svg"}
-              alt="Profile"
-              width={24}
-              height={24}
-            />
-            <Typography color="black">Discover Abudhabi</Typography>
-          </CustomNavLink> */}
         </FlexBox>
       </Box>
 
-      {/* Modal to open when More icon is clicked */}
       {isMoreModalOpen && <MoreModal />}
 
-      {/* ExploreModal remains as is, triggered separately */}
       {isModalOpen && <ExploreModal onClose={toggleModal} />}
     </StyledNavbar>
   );

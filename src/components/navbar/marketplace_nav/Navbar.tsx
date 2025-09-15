@@ -69,6 +69,11 @@ export default function Navbar({ navListOpen }: NavbarProps) {
     }
   };
 
+  const handleNewsletterClick = () => {
+    setActiveItem("/");
+    router.push("/?scroll=newsletter");
+  };
+
   return (
     <StyledNavbar className={scrolled ? "scrolled" : ""}>
       <Container
@@ -110,8 +115,9 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         <Box display="flex" alignItems="center" className="desktop-nav">
           <CustomNavLink
             className="nav-link"
-            href="/development"
+            href="/"
             mr="40px"
+            onClick={handleNewsletterClick}
           >
             Become a Partner
           </CustomNavLink>

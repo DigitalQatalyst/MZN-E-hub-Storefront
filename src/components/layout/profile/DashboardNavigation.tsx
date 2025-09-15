@@ -16,7 +16,7 @@ const SidebarContainer = styled.div`
   border-right: 1px solid #e5e7eb;
   display: flex;
   flex-direction: column;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Open Sans', Inter, -apple-system, BlinkMacSystemFont, sans-serif;
   position: relative;
 `;
 

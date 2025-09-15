@@ -9,7 +9,10 @@ export default function CustomerDashboardLayout({ children }: PropsWithChildren<
     <Grid
       container
       direction="column"
-      style={{ minHeight: "100dvh" }} // logical viewport (better on mobile)
+      style={{
+        minHeight: "100dvh", // logical viewport (better on mobile)
+        fontFamily: "'Open Sans', sans-serif"
+      }}
     >
       {/* Main row: sidebar + content */}
       <Grid

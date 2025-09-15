@@ -1,604 +1,640 @@
-'use client'
-import React, { useState, useEffect, useRef } from 'react';
-import { MoreVertical } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import styled from 'styled-components';
-import Container from '@component/Container';
-import Card from '@component/Card';
-import Box from '@component/Box';
-import FlexBox from '@component/FlexBox';
-import Typography from '@component/Typography';
-import { getAllServiceRequests, ServiceRequest } from './serviceRequestData';
+"use client";
 
-type FilterStatus = 'All' | 'Draft' | 'Under Review' | 'Approved' | 'Rejected';
+import React from "react";
+import {
+  ChevronRight,
+  FileText,
+  Calendar,
+  CheckCircle,
+  AlertTriangle,
+  Eye,
+  LucideIcon,
+  Home,
+  LoaderPinwheel,
+  Hourglass,
+  HourglassIcon,
+  CalendarClock,
+} from "lucide-react";
+import AppServices from "./AppServices";
 
-// Styled Components using Bonik patterns
-const FilterButton = styled.button<{ isActive: boolean }>`
-  padding: 10px 16px;
-  border: 1px solid ${({ isActive }) => isActive ? '#0030E3' : '#D8E0E9'};
-  background-color: transparent;
-  color: ${({ isActive }) => isActive ? '#0030E3' : '#6b7280'};
-  font-weight: ${({ isActive }) => isActive ? '600' : '400'};
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  flex-shrink: 0;
-  transition: all 0.2s ease;
+// TypeScript interfaces for type safety
+interface StatCardProps {
+  title: string;
+  value: string | number;
+  subtitle: string;
+  color?: string;
+}
 
-  @media (max-width: 768px) {
-    padding: 8px 12px;
-    font-size: 12px;
-  }
-`;
+interface ReportingObligation {
+  id: string;
+  title: string;
+  dueDate: string;
+  status: "Due Soon" | "Overdue" | "Complete" | "Submitted";
+  statusColor: string;
+}
 
-const SearchInput = styled.input`
-  padding: 12px 16px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 14px;
-  width: 300px;
-  outline: none;
-  transition: border-color 0.2s ease;
+interface ServiceApplication {
+  id: string;
+  title: string;
+  lastUpdated: string;
+  status: "Submitted" | "Under Review" | "Approved";
+  statusColor: string;
+}
 
-  &:focus {
-    border-color: #0030E3;
-  }
+interface QuickAccessItem {
+  id: string;
+  title: string;
+  subtitle: string;
+  iconSrc: string;
+}
 
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-`;
+// Reusable StatCard component
+const StatCard: React.FC<StatCardProps> = ({
+  title,
+  value,
+  subtitle,
+  color = "#666",
+}) => (
+  <div
+    style={{
+      backgroundColor: "white",
+      border: "1px solid #e0e0e0",
+      borderRadius: "8px",
+      padding: "24px",
+      textAlign: "center",
+      height: "4.5rem",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+    }}
+  >
+    <div
+      style={{
+        fontSize: "16px",
+        fontWeight: "bold",
+        color: color,
+        marginBottom: "8px",
+      }}
+    >
+      {value}
+    </div>
+    <div
+      style={{
+        fontSize: "12px",
+        color: "#666",
+        fontWeight: "500",
+        marginBottom: "4px",
+      }}
+    >
+      {title}
+    </div>
+    <div
+      style={{
+        fontSize: "12px",
+        color: "#999",
+      }}
+    >
+      {subtitle}
+    </div>
+  </div>
+);
 
-const PrimaryButton = styled.button`
-  padding: 12px 24px;
-  background-color: #0030E3;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+// Quick Access Item component
+const QuickAccessItem: React.FC<QuickAccessItem> = ({
+  title,
+  subtitle,
+  iconSrc,
+}) => (
+  <div
+    style={{
+      backgroundColor: "white",
+      borderRadius: "6px",
+      padding: "12px 16px",
+      display: "flex",
+      alignItems: "center",
+      cursor: "pointer",
+      transition: "all 0.2s ease",
+      marginBottom: "8px",
+    }}
+    onMouseOver={(e) => {
+      e.currentTarget.style.backgroundColor = "#f8f9fa";
+    }}
+    onMouseOut={(e) => {
+      e.currentTarget.style.backgroundColor = "white";
+    }}
+  >
+    <img
+      src={iconSrc}
+      alt={title}
+      style={{
+        width: "20px",
+        height: "20px",
+        marginRight: "12px",
+      }}
+    />
+    <div style={{ flex: 1 }}>
+      <div style={{ fontSize: "14px", fontWeight: "500", color: "#333" }}>
+        {title}
+      </div>
+      <div style={{ fontSize: "12px", color: "#666" }}>{subtitle}</div>
+    </div>
+    <div
+      style={{
+        backgroundColor: "#9B1823",
+        borderRadius: "4px",
+        width: "30px",
+        height: "30px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <ChevronRight size={16} style={{ color: "white" }} />
+    </div>
+  </div>
+);
 
-  &:hover {
-    background-color: #0025b8;
-  }
+// Reporting Obligation Item component
+const ReportingObligationItem: React.FC<ReportingObligation> = ({
+  title,
+  dueDate,
+  status,
+  statusColor,
+}) => (
+  <div
+    style={{
+      backgroundColor: "white",
+      border: "1px solid #e0e0e0",
+      borderRadius: "6px",
+      padding: "16px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginBottom: "8px",
+      transition: "all 0.2s ease",
+    }}
+    onMouseOver={(e) => {
+      e.currentTarget.style.backgroundColor = "#f8f9fa";
+    }}
+    onMouseOut={(e) => {
+      e.currentTarget.style.backgroundColor = "white";
+    }}
+  >
+    <div style={{ flex: 1 }}>
+      <div>
+        <span
+          style={{
+            fontSize: "14px",
+            fontWeight: "500",
+            color: "#333",
+            marginBottom: "4px",
+            marginRight: "12px",
+          }}
+        >
+          {title}
+        </span>
+        <span
+          style={{
+            backgroundColor:
+              status === "Due Soon"
+                ? "#FF56301A"
+                : status === "Submitted"
+                ? "#0065FF1A"
+                : statusColor,
+            color:
+              status === "Due Soon"
+                ? "#FF5630"
+                : status === "Submitted"
+                ? "#0065FF"
+                : "white",
+            padding: "4px 8px",
+            borderRadius: "4px",
+            fontSize: "12px",
+            fontWeight: "500",
+          }}
+        >
+          {status}
+        </span>
+      </div>
 
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-`;
+      <div style={{ fontSize: "12px", color: "#666" }}>{dueDate}</div>
+    </div>
+    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+      <div
+        style={{
+          backgroundColor: "#9B1823",
+          color: "white",
+          borderRadius: "4px",
+          padding: "4px 8px",
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          minWidth: "24px",
+          height: "24px",
+        }}
+      >
+        <ChevronRight size={14} />
+      </div>
+    </div>
+  </div>
+);
 
-const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 800px;
+// Service Application Item component
+const ServiceApplicationItem: React.FC<ServiceApplication> = ({
+  title,
+  lastUpdated,
+  status,
+  statusColor,
+}) => (
+  <div
+    style={{
+      backgroundColor: "white",
+      border: "1px solid #e0e0e0",
+      borderRadius: "6px",
+      padding: "16px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginBottom: "8px",
+      transition: "all 0.2s ease",
+    }}
+    onMouseOver={(e) => {
+      e.currentTarget.style.backgroundColor = "#f8f9fa";
+    }}
+    onMouseOut={(e) => {
+      e.currentTarget.style.backgroundColor = "white";
+    }}
+  >
+    <div style={{ flex: 1 }}>
+      <div>
+        <span
+          style={{
+            fontSize: "14px",
+            fontWeight: "500",
+            color: "#333",
+            marginBottom: "4px",
+            marginRight: "12px",
+          }}
+        >
+          {title}
+        </span>
+        <span
+          style={{
+            backgroundColor: "#0065FF1A",
+            color: "#0065FF",
+            padding: "4px 8px",
+            borderRadius: "4px",
+            fontSize: "12px",
+            fontWeight: "500",
+          }}
+        >
+          {status}
+        </span>
+      </div>
+      <div style={{ fontSize: "12px", color: "#666" }}>{lastUpdated}</div>
+    </div>
+    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+      <div
+        style={{
+          backgroundColor: "#9B1823",
+          color: "white",
+          borderRadius: "4px",
+          padding: "4px 8px",
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          minWidth: "24px",
+          height: "24px",
+        }}
+      >
+        <ChevronRight size={14} />
+      </div>
+    </div>
+  </div>
+);
 
-  @media (min-width: 768px) {
-    min-width: auto;
-  }
-`;
+// Main Dashboard Component
+const RegulatoryDashboard: React.FC = () => {
+  // Sample data - in real app, this would come from API/state management
+  const reportingObligations: ReportingObligation[] = [
+    {
+      id: "1",
+      title: "Quarterly AML Report",
+      dueDate: "Due 15/07/2025",
+      status: "Due Soon",
+      statusColor: "#FF5630",
+    },
+    {
+      id: "2",
+      title: "Annual Financial Statement",
+      dueDate: "Due 31/05/2025",
+      status: "Submitted",
+      statusColor: "#0065FF",
+    },
+  ];
 
-const TableHeader = styled.th`
-  padding: 16px;
-  text-align: left;
-  font-size: 12px;
-  font-weight: 600;
-  color: #6b7280;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-top: 1px solid #e5e7eb;
-  border-bottom: 1px solid #e5e7eb;
-  background-color: white;
+  const serviceApplications: ServiceApplication[] = [
+    {
+      id: "1",
+      title: "Request for New Authorization",
+      lastUpdated: "Last updated 10/07/2025",
+      status: "Submitted",
+      statusColor: "#4CAF50",
+    },
+    {
+      id: "2",
+      title: "Annual Compliance Review",
+      lastUpdated: "Last updated 08/07/2025",
+      status: "Submitted",
+      statusColor: "#4CAF50",
+    },
+  ];
 
-  @media (max-width: 768px) {
-    padding: 12px 8px;
-    font-size: 10px;
-  }
-`;
-
-const TableRow = styled.tr`
-  border-bottom: 1px solid #f3f4f6;
-`;
-
-const TableCell = styled.td<{ weight?: string }>`
-  padding: 16px;
-  font-size: 14px;
-  color: ${({ weight }) => weight === 'bold' ? '#111827' : '#6b7280'};
-  font-weight: ${({ weight }) => weight === 'bold' ? '500' : '400'};
-
-  @media (max-width: 768px) {
-    padding: 12px 8px;
-    font-size: 12px;
-  }
-`;
-
-const StatusBadge = styled.span<{ status: string }>`
-  padding: 4px 12px;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-  background-color: ${({ status }) => {
-    switch (status) {
-      case 'Draft': return '#f3f4f6';
-      case 'Under Review': return '#fef3c7';
-      case 'Approved': return '#d1fae5';
-      case 'Rejected': return '#fee2e2';
-      default: return '#f3f4f6';
-    }
-  }};
-  color: ${({ status }) => {
-    switch (status) {
-      case 'Draft': return '#6b7280';
-      case 'Under Review': return '#d97706';
-      case 'Approved': return '#10b981';
-      case 'Rejected': return '#ef4444';
-      default: return '#6b7280';
-    }
-  }};
-
-  @media (max-width: 768px) {
-    padding: 2px 8px;
-    font-size: 12px;
-  }
-`;
-
-const ActionButton = styled.button`
-  padding: 4px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  color: #6b7280;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background-color: #f3f4f6;
-  }
-`;
-
-// Updated Dropdown Components with dynamic positioning
-const DropdownContainer = styled(Box)`
-  position: relative;
-  display: inline-block;
-`;
-
-// Updated DropdownMenu with fixed positioning that tracks scroll + original size
-const DropdownMenu = styled(Card)<{ 
-  position: 'above' | 'below';
-  top: number;
-  left: number;
-}>`
-  position: fixed;
-  top: ${({ top, position }) => position === 'above' ? `${top - 124}px` : `${top}px`};
-  left: ${({ left }) => `${left}px`};
-  z-index: 1000;
-  min-width: 200px;
-  max-width: 200px;
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  padding: 8px 0;
-  margin: 0; /* Remove any default margins */
-`;
-
-const DropdownItem = styled.button<{ variant?: 'primary' | 'default' }>`
-  width: ${({ variant }) => variant === 'primary' ? 'calc(100% - 16px)' : '100%'};
-  padding: 12px 16px;
-  text-align: left;
-  border: none;
-  background-color: ${({ variant }) => variant === 'primary' ? '#0030E3' : 'transparent'};
-  color: ${({ variant }) => variant === 'primary' ? 'white' : '#374151'};
-  font-size: 14px;
-  font-weight: ${({ variant }) => variant === 'primary' ? '500' : '400'};
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  border-radius: ${({ variant }) => variant === 'primary' ? '6px' : '0'};
-  margin: ${({ variant }) => variant === 'primary' ? '0 8px 8px 8px' : '0'};
-
-  &:hover {
-    background-color: ${({ variant }) => 
-      variant === 'primary' ? '#0025b8' : '#f3f4f6'
-    };
-  }
-
-  &:first-child {
-    margin-bottom: 8px;
-  }
-`;
-
-const PaginationButton = styled.button<{ isActive?: boolean; disabled?: boolean }>`
-  padding: 8px 12px;
-  border: 1px solid #d1d5db;
-  background-color: ${({ isActive }) => isActive ? '#0030E3' : 'white'};
-  color: ${({ isActive, disabled }) => 
-    disabled ? '#9ca3af' : isActive ? 'white' : '#374151'
-  };
-  border-radius: 6px;
-  cursor: ${({ disabled }) => disabled ? 'not-allowed' : 'pointer'};
-  font-size: 14px;
-  font-weight: ${({ isActive }) => isActive ? '600' : '400'};
-
-  @media (max-width: 768px) {
-    padding: 6px 8px;
-    font-size: 12px;
-  }
-`;
-
-// Table Container - simplified since dropdown now uses fixed positioning
-const TableContainer = styled(Box)`
-  bg: white;
-  border-radius: 8px;
-  overflow-x: auto;
-  mx: 24px;
-  mb: 24px;
-`;
-
-const ServiceRequestsPage: React.FC = () => {
-  const router = useRouter();
-  const [activeFilter, setActiveFilter] = useState<FilterStatus>('Draft');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isMobile, setIsMobile] = useState(false);
-  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
-  const [dropdownPosition, setDropdownPosition] = useState<'above' | 'below'>('below');
-  const [dropdownCoords, setDropdownCoords] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const actionButtonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
-  const itemsPerPage = 6;
-
-  // Get service requests data from shared source
-  const serviceRequestsData = getAllServiceRequests();
-
-  // Handle responsive design by detecting screen size changes
-  useEffect(() => {
-    const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    const handleResize = () => {
-      checkIsMobile();
-      // Close dropdown on resize to prevent positioning issues
-      if (openDropdownId) {
-        setOpenDropdownId(null);
-      }
-    };
-    
-    checkIsMobile();
-    window.addEventListener('resize', handleResize);
-    
-    return () => window.removeEventListener('resize', handleResize);
-  }, [openDropdownId]);
-
-  // Handle click outside to close dropdown
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setOpenDropdownId(null);
-      }
-    };
-
-    const handleScroll = () => {
-      // Option 1: Update dropdown position when scrolling (current implementation)
-      if (openDropdownId) {
-        const buttonElement = actionButtonRefs.current[openDropdownId];
-        if (buttonElement) {
-          const { position, coords } = calculateDropdownPosition(buttonElement);
-          setDropdownPosition(position);
-          setDropdownCoords(coords);
-        }
-      }
-      
-      // Option 2: Close dropdown on scroll (uncomment below and comment above for simpler UX)
-      // if (openDropdownId) {
-      //   setOpenDropdownId(null);
-      // }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    window.addEventListener('scroll', handleScroll, true); // Capture phase to catch all scroll events
-    
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      window.removeEventListener('scroll', handleScroll, true);
-    };
-  }, [openDropdownId]);
-
-  // Filter data based on active filter and search term
-  const filteredData = serviceRequestsData.filter(item => {
-    const matchesFilter = activeFilter === 'All' || item.status === activeFilter;
-    const matchesSearch = 
-      item.serviceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.category.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesFilter && matchesSearch;
-  });
-
-  // Calculate pagination values
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentData = filteredData.slice(startIndex, endIndex);
-
-  // Available filter options
-  const filters: FilterStatus[] = ['All', 'Draft', 'Under Review', 'Approved', 'Rejected'];
-
-  // Calculate optimal dropdown position and coordinates based on button position and viewport
-  const calculateDropdownPosition = (buttonElement: HTMLButtonElement): { 
-    position: 'above' | 'below'; 
-    coords: { top: number; left: number } 
-  } => {
-    const buttonRect = buttonElement.getBoundingClientRect();
-    const viewportHeight = window.innerHeight;
-    const dropdownHeight = 124; // Actual dropdown height (2 items + padding)
-    const dropdownWidth = 200; // Dropdown width
-    
-    // Check if there's enough space below the button
-    const spaceBelow = viewportHeight - buttonRect.bottom;
-    const spaceAbove = buttonRect.top;
-    
-    // Determine vertical position
-    const position = (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) ? 'above' : 'below';
-    
-    // Calculate coordinates
-    let top = position === 'below' ? buttonRect.bottom + 4 : buttonRect.top - 4;
-    let left = buttonRect.right - dropdownWidth; // Align right edge with button
-    
-    // Ensure dropdown doesn't go off-screen horizontally
-    if (left < 8) {
-      left = 8; // Minimum margin from left edge
-    }
-    
-    // Ensure dropdown doesn't go off-screen on the right
-    if (left + dropdownWidth > window.innerWidth - 8) {
-      left = window.innerWidth - dropdownWidth - 8;
-    }
-    
-    return {
-      position,
-      coords: { top, left }
-    };
-  };
-
-  // Handle dropdown toggle with dynamic positioning and coordinate calculation
-  const toggleDropdown = (id: string) => {
-    if (openDropdownId === id) {
-      setOpenDropdownId(null);
-      return;
-    }
-
-    // Calculate position and coordinates before opening
-    const buttonElement = actionButtonRefs.current[id];
-    if (buttonElement) {
-      const { position, coords } = calculateDropdownPosition(buttonElement);
-      setDropdownPosition(position);
-      setDropdownCoords(coords);
-    }
-    
-    setOpenDropdownId(id);
-  };
-
-  // Handle dropdown actions
-  const handleWithdraw = (id: string) => {
-    console.log('Withdraw application:', id);
-    setOpenDropdownId(null);
-    // Add your withdraw logic here
-  };
-
-  const handleContinue = (id: string) => {
-    console.log('Continue application:', id);
-    setOpenDropdownId(null);
-    // Navigate to the progress page using Next.js router
-    router.push(`/non-financial-records/${id}/progress`);
-  };
+  const quickAccessItems: QuickAccessItem[] = [
+    {
+      id: "1",
+      title: "Apply for New Service",
+      subtitle: "Browse available services",
+      iconSrc: "/assets/images/icons/travel-explore.svg",
+    },
+    {
+      id: "2",
+      title: "2 Reporting Obligations Due Soon",
+      subtitle: "Due in next 7 days",
+      iconSrc: "/assets/images/icons/calendar-clock.svg",
+    },
+  ];
 
   return (
-    <Box p={isMobile ? '16px' : '24px'} bg="white" minHeight="100vh">
-      <Container maxWidth="1200px">
-        {/* Page Header */}
-        <Typography
-          fontSize={isMobile ? '12px' : '16px'}
-          fontWeight="400"
-          color="#242424"
-          mb="24px"
-        >
-          Service Requests
-        </Typography>
+    <div
+      style={{
+        backgroundColor: "white",
+        minHeight: "100vh",
+        padding: "24px",
+      }}
+    >
+      {/* Main Content Grid */}
+      {/* top cards */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: "24px",
+        }}
+      >
+        {/* Left Column */}
 
-        {/* Main Content Container */}
-        <Card 
-          border="1px solid #e5e7eb" 
-          borderRadius="6px" 
-          overflow="hidden"
-        >
-          {/* Filter Tabs */}
-          <Box
-            p={isMobile ? '16px 16px 24px' : '24px 24px 24px'}
-            style={{ 
-              display: 'flex', 
-              overflowX: 'auto', 
-              whiteSpace: 'nowrap' 
+        <div>
+          {/* Combined Header, Stats Cards, and License Information */}
+          <div
+            style={{
+              backgroundColor: "white",
+              border: "1px solid #e0e0e0",
+              borderRadius: "8px",
+              padding: "24px",
+              width: "100%", // Adjust width of the card to fit content
             }}
           >
-            {filters.map((filter, index) => (
-              <Box key={`filter-${filter}`} mr={index < filters.length - 1 ? '8px' : '0'}>
-                <FilterButton
-                  isActive={activeFilter === filter}
-                  onClick={() => {
-                    setActiveFilter(filter);
-                    setCurrentPage(1);
-                  }}
-                >
-                  {filter}
-                </FilterButton>
-              </Box>
-            ))}
-          </Box>
+            <div
+              style={{
+                backgroundColor: "rgba(0, 48, 227, 0.2)",
+                borderRadius: "8px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+                height: "40px", // Adjusted height for better visibility
+                width: "40px", // Adjusted width to match height
+              }}
+            >
+              <CheckCircle color="#0030E3" size={20} />
+            </div>
 
-          {/* Search and Action Button Row */}
-          <FlexBox
-            flexDirection={isMobile ? 'column' : 'row'}
-            justifyContent="space-between"
-            alignItems={isMobile ? 'stretch' : 'center'}
-            mx="24px"
-            mt="24px"
-            mb="24px"
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start", // Aligns to start
+                justifyContent: "flex-start", // Aligns to start
+                marginTop: "16px", // Adds a little space between the icon section and the text
+                gap: "6px", // Added a little more space between h3 and p
+              }}
+            >
+              <h3
+                style={{
+                  margin: "0",
+                  padding: "0",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  color: "#5D586C",
+                }}
+              >
+                Applications in progress
+              </h3>
+              <p
+                style={{
+                  margin: "0",
+                  padding: "0",
+                  fontSize: "14px",
+                  color: "#6F6B7D",
+                }}
+              >
+                4 Request(s)
+              </p>
+            </div>
+
+            <div
+              style={{
+                color: "#9B1823",
+                marginTop: "16px", // Adds space before the link
+              }}
+            >
+              <a
+                style={{
+                  color: "#0030E3",
+                  textDecoration: "none", // Removes underline from link
+                  fontWeight: "bold",
+                }}
+                href="#"
+              >
+                View
+              </a>
+            </div>
+          </div>
+
+          {/* Reporting Obligations Section */}
+        </div>
+        <div>
+          {/* Combined Header, Stats Cards, and License Information */}
+          <div
+            style={{
+              backgroundColor: "white",
+              border: "1px solid #e0e0e0",
+              borderRadius: "8px",
+              padding: "24px",
+              width: "100%", // Adjust width of the card to fit content
+            }}
           >
-            <Box mb={isMobile ? '16px' : '0'}>
-              <SearchInput
-                type="text"
-                placeholder="Search by name or category..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </Box>
-            
-            <PrimaryButton>
-              Request new service
-            </PrimaryButton>
-          </FlexBox>
+            <div
+              style={{
+                backgroundColor: "rgba(0, 48, 227, 0.2)",
+                borderRadius: "8px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+                height: "40px", // Adjusted height for better visibility
+                width: "40px", // Adjusted width to match height
+              }}
+            >
+              <CalendarClock color="#0030E3" size={20} />
+            </div>
 
-          {/* Table Container */}
-          <TableContainer>
-            <Table>
-              {/* Table Header */}
-              <thead>
-                <tr>
-                  <TableHeader>SERVICE NAME</TableHeader>
-                  <TableHeader>CATEGORY</TableHeader>
-                  <TableHeader>DATE REQUESTED</TableHeader>
-                  <TableHeader>STATUS</TableHeader>
-                  <TableHeader>ACTION</TableHeader>
-                </tr>
-              </thead>
-              
-              {/* Table Body */}
-              <tbody>
-                {currentData.map((item) => (
-                  <TableRow key={`service-${item.id}`}>
-                    <TableCell weight="bold">{item.serviceName}</TableCell>
-                    <TableCell>{item.category}</TableCell>
-                    <TableCell>{item.dateRequested}</TableCell>
-                    <TableCell>
-                      <StatusBadge status={item.status}>
-                        {item.status}
-                      </StatusBadge>
-                    </TableCell>
-                    <TableCell>
-                      <DropdownContainer ref={openDropdownId === item.id ? dropdownRef : null}>
-                        <ActionButton
-                          ref={(el) => {
-                            actionButtonRefs.current[item.id] = el;
-                          }}
-                          onClick={() => toggleDropdown(item.id)}
-                          aria-label="More options"
-                        >
-                          <MoreVertical size={16} />
-                        </ActionButton>
-                        
-                        {/* Updated Dropdown Menu with fixed positioning over pagination */}
-                        {openDropdownId === item.id && (
-                          <DropdownMenu 
-                            position={dropdownPosition}
-                            top={dropdownCoords.top}
-                            left={dropdownCoords.left}
-                          >
-                            <DropdownItem onClick={() => handleWithdraw(item.id)}>
-                              Withdraw application
-                            </DropdownItem>
-                            <DropdownItem 
-                              variant="primary"
-                              onClick={() => handleContinue(item.id)}
-                            >
-                              Continue application
-                            </DropdownItem>
-                          </DropdownMenu>
-                        )}
-                      </DropdownContainer>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </tbody>
-            </Table>
-          </TableContainer>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start", // Aligns to start
+                justifyContent: "flex-start", // Aligns to start
+                marginTop: "16px", // Adds a little space between the icon section and the text
+                gap: "6px", // Added a little more space between h3 and p
+              }}
+            >
+              <h3
+                style={{
+                  margin: "0",
+                  padding: "0",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  color: "#5D586C",
+                }}
+              >
+                Applications needing Clarifications
+              </h3>
+              <p
+                style={{
+                  margin: "0",
+                  padding: "0",
+                  fontSize: "14px",
+                  color: "#6F6B7D",
+                }}
+              >
+                2 Request(s)
+              </p>
+            </div>
 
-          {/* Pagination Controls */}
-          <FlexBox
-            flexDirection={isMobile ? 'column' : 'row'}
-            justifyContent="space-between"
-            alignItems="center"
-            m="0 24px 24px"
+            <div
+              style={{
+                color: "#9B1823",
+                marginTop: "16px", // Adds space before the link
+              }}
+            >
+              <a
+                style={{
+                  color: "#0030E3",
+                  textDecoration: "none", // Removes underline from link
+                  fontWeight: "bold",
+                }}
+                href="#"
+              >
+                View
+              </a>
+            </div>
+          </div>
+
+          {/* Reporting Obligations Section */}
+        </div>
+        <div>
+          {/* Combined Header, Stats Cards, and License Information */}
+          <div
+            style={{
+              backgroundColor: "white",
+              border: "1px solid #e0e0e0",
+              borderRadius: "8px",
+              padding: "24px",
+              width: "100%", // Adjust width of the card to fit content
+            }}
           >
-            <Box mb={isMobile ? '16px' : '0'}>
-              <Typography fontSize={isMobile ? '12px' : '14px'} color="#6b7280">
-                Showing {startIndex + 1} to {Math.min(endIndex, filteredData.length)} of {filteredData.length} entries
-              </Typography>
-            </Box>
-            
-            <FlexBox flexWrap="wrap" justifyContent="center">
-              {/* First Page Button */}
-              <Box mr="4px" mb="4px">
-                <PaginationButton
-                  onClick={() => setCurrentPage(1)}
-                  disabled={currentPage === 1}
-                >
-                  ≪
-                </PaginationButton>
-              </Box>
-              
-              {/* Previous Page Button */}
-              <Box mr="4px" mb="4px">
-                <PaginationButton
-                  onClick={() => setCurrentPage(currentPage - 1)}
-                  disabled={currentPage === 1}
-                >
-                  ‹
-                </PaginationButton>
-              </Box>
-              
-              {/* Page Number Buttons */}
-              {[...Array(totalPages)].map((_, i) => {
-                const pageNum = i + 1;
-                return (
-                  <Box key={`page-${pageNum}`} mr="4px" mb="4px">
-                    <PaginationButton
-                      onClick={() => setCurrentPage(pageNum)}
-                      isActive={currentPage === pageNum}
-                    >
-                      {pageNum}
-                    </PaginationButton>
-                  </Box>
-                );
-              })}
-              
-              {/* Next Page Button */}
-              <Box mr="4px" mb="4px">
-                <PaginationButton
-                  onClick={() => setCurrentPage(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                >
-                  ›
-                </PaginationButton>
-              </Box>
-              
-              {/* Last Page Button */}
-              <Box mb="4px">
-                <PaginationButton
-                  onClick={() => setCurrentPage(totalPages)}
-                  disabled={currentPage === totalPages}
-                >
-                  ≫
-                </PaginationButton>
-              </Box>
-            </FlexBox>
-          </FlexBox>
-        </Card>
-      </Container>
-    </Box>
+            <div
+              style={{
+                backgroundColor: "rgba(0, 48, 227, 0.2)",
+                borderRadius: "8px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+                height: "40px", // Adjusted height for better visibility
+                width: "40px", // Adjusted width to match height
+              }}
+            >
+              <HourglassIcon color="#0030E3" size={20} />
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start", // Aligns to start
+                justifyContent: "flex-start", // Aligns to start
+                marginTop: "16px", // Adds a little space between the icon section and the text
+                gap: "6px", // Added a little more space between h3 and p
+              }}
+            >
+              <h3
+                style={{
+                  margin: "0",
+                  padding: "0",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  color: "#5D586C",
+                }}
+              >
+                Upcoming deadlines
+              </h3>
+              <p
+                style={{
+                  margin: "0",
+                  padding: "0",
+                  fontSize: "14px",
+                  color: "#6F6B7D",
+                }}
+              >
+                1 Request(s)
+              </p>
+            </div>
+
+            <div
+              style={{
+                color: "#9B1823",
+                marginTop: "16px", // Adds space before the link
+              }}
+            >
+              <a
+                style={{
+                  color: "#0030E3",
+                  textDecoration: "none", // Removes underline from link
+                  fontWeight: "bold",
+                }}
+                href="#"
+              >
+                View
+              </a>
+            </div>
+          </div>
+
+          {/* Reporting Obligations Section */}
+        </div>
+
+        {/* Right Column */}
+      </div>
+
+      {/* table section */}
+      {/* comm */}
+      <AppServices />
+    </div>
   );
 };
 
-export default ServiceRequestsPage;
+export default RegulatoryDashboard;

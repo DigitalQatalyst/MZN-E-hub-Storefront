@@ -20,7 +20,7 @@ const PageContainer = styled.div`
 const DevelopmentSection = styled.section`
   background-color: #fff;
   color: #333;
-  padding: 20px 120px 50px;
+  padding: 100px 120px 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,10 +28,10 @@ const DevelopmentSection = styled.section`
   gap: 2rem;
   flex: 1;
   @media (max-width: 1199px) {
-    padding: 20px 32px 32px;
+    padding: 180px 32px 250px;
   }
   @media (max-width: 899px) {
-    padding: 20px 16px 16px;
+    padding: 180px 16px 250px;
   }
 `;
 
@@ -51,63 +51,88 @@ const HourglassContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 80px;
 `;
 
 const Message = styled.p`
-  font-size: 1.2em;
-  color: #666;
+  font-size: 16px;
+  color: #4B5563;
   max-width: 600px;
 `;
 
 const EmailForm = styled.form`
-  display: flex;
-  align-items: center;
-  gap: 0;
   position: relative;
+  display: inline-block;
 `;
 
 const EmailInput = styled.input`
-  padding: 10px 15px;
-  border: 1px solid #ccc;
+  padding: 0 130px 0 20px;
+  border: 2px solid #E5E5E5;
   border-radius: 12px;
-  font-size: 14px;
-  color: #A3A3A3;
-  width: 250px;
+  font-size: 16px;
+  color: #333;
+  width: 375px;
+  height: 56px;
   outline: none;
+  background-color: #FFF;
+  box-sizing: border-box;
+  
   &::placeholder {
     color: #A3A3A3;
+    font-size: 16px;
+  }
+  
+  &:focus {
+    border-color: #6C5CE7;
   }
 `;
 
 const NotifyButton = styled.button`
-  background-color: #6C5CE7;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 0 12px 12px 0;
-  font-size: 16px;
-  cursor: pointer;
   position: absolute;
-  right: 0;
-  top: 0;
-  height: 100%;
+  right: 8px;
+  top: 8px;
+  width: 113px;
+  height: 40px;
+  background-color: #6C5CE7;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
   &:hover {
     background-color: #5A4FCF;
+  }
+  
+  &:active {
+    transform: translateY(1px);
   }
 `;
 
 const FooterText = styled.p`
-  font-size: 0.9em;
-  color: #999;
+  font-size: 12px;
+  color: #6B7280;
 `;
 
 const DevelopmentPage: React.FC = () => {
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle form submission
+    console.log("Email submitted:", email);
+  };
+
   return (
     <PageContainer>
       <Navbar />
       <DevelopmentSection>
         <ContentColumn>
-          <H3 fontSize="48px" fontWeight="400" fontFamily="Open Sans" color="#6C5CE7">
+          <H3 fontSize="48px" fontWeight="400" fontFamily="Open Sans" color="#0030E3">
             Something Amazing is Coming
           </H3>
           <Message>
@@ -116,9 +141,14 @@ const DevelopmentPage: React.FC = () => {
           <HourglassContainer>
             <img src="/assets/images/Groceries Shop/hourglass_top.png" width={134} height={174} alt="Hourglass" />
           </HourglassContainer>
-          <EmailForm>
-            <EmailInput type="email" placeholder="Enter your email" />
-            <NotifyButton>Notify Me</NotifyButton>
+          <EmailForm onSubmit={handleSubmit}>
+            <EmailInput 
+              type="email" 
+              placeholder="Enter your email" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <NotifyButton type="submit">Notify Me</NotifyButton>
           </EmailForm>
           <FooterText>Join 10,000+ people waiting! No spam, ever.</FooterText>
         </ContentColumn>

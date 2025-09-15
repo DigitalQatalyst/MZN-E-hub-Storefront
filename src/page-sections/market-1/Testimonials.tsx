@@ -184,7 +184,7 @@ const EventTitle = styled.h4`
 
 const EventMeta = styled.div`
   font-size: 14px;
-  color: #666;
+  color: #F4F5F5;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;

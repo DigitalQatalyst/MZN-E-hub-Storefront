@@ -117,7 +117,7 @@ export default function RegistrationForm({
     const [firstName, ...lastNameParts] = formData.fullName.trim().split(" ");
     const lastName = lastNameParts.join(" ") || "";
   
-    const loginResponse = await fetch("https://22af-54-37-203-255.ngrok-free.app/admin-api", {
+    const loginResponse = await fetch("https://9609a7336af8.ngrok-free.app/admin-api", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -155,7 +155,7 @@ export default function RegistrationForm({
     console.log("Submitting payload:", payload);
   
     try {
-      const response = await fetch("https://22af-54-37-203-255.ngrok-free.app/admin-api", {
+      const response = await fetch("https://9609a7336af8.ngrok-free.app/admin-api", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

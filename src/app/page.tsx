@@ -21,7 +21,7 @@ export default async function Market1() {
       <PopularProducts products={popularProducts} />
       <ServicesShowcase />
       <IndustrySolutions />
-      <EventsSection />
+      {/* <EventsSection /> */}
       <Testimonials />
       <TopCategories />
       <Newsletter />

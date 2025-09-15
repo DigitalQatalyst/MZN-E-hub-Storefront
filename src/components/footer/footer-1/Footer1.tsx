@@ -10,11 +10,52 @@ import Typography, { Paragraph } from "@component/Typography";
 
 export default function Footer1() {
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Email validation regex pattern
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  const validateEmail = (email: string): boolean => {
+    return emailRegex.test(email.trim());
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+    
+    // Clear error when user starts typing
+    if (emailError) {
+      setEmailError("");
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Subscribed with email:", email);
-    setEmail("");
+    
+    const trimmedEmail = email.trim();
+    
+    // Validate email format
+    if (!trimmedEmail) {
+      setEmailError("Email is required");
+      return;
+    }
+    
+    if (!validateEmail(trimmedEmail)) {
+      setEmailError("Please enter a valid email address");
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+      console.log("Subscribed with email:", trimmedEmail);
+      setEmail("");
+      setEmailError("");
+      setIsSubmitting(false);
+      // You could add a success message here
+    }, 1000);
   };
 
   return (
@@ -63,12 +104,13 @@ export default function Footer1() {
                       type="email"
                       placeholder="Enter your email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={handleEmailChange}
                       required
+                      disabled={isSubmitting}
                       style={{
                         width: "100%",
                         backgroundColor: "rgba(255,255,255,0.1)",
-                        border: "1px solid rgba(255,255,255,0.3)",
+                        border: `1px solid ${emailError ? '#ff6b6b' : 'rgba(255,255,255,0.3)'}`,
                         color: "#FFF",
                         borderRadius: "8px",
                         padding: "14px 50px 14px 16px",
@@ -76,29 +118,33 @@ export default function Footer1() {
                         outline: "none",
                         transition: "all 0.2s ease",
                         backdropFilter: "blur(10px)",
+                        opacity: isSubmitting ? 0.7 : 1,
                       }}
                       className="email-input"
                     />
                     <button
                       type="submit"
+                      disabled={isSubmitting}
                       style={{
                         position: "absolute",
                         right: "6px",
                         top: "50%",
                         transform: "translateY(-50%)",
-                        backgroundColor: "white",
+                        backgroundColor: isSubmitting ? "rgba(255,255,255,0.7)" : "white",
                         color: "#4F46E5",
                         borderRadius: "6px",
                         border: "none",
                         padding: "10px",
-                        cursor: "pointer",
+                        cursor: isSubmitting ? "not-allowed" : "pointer",
                         transition: "all 0.2s ease",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
                       }}
                       onMouseOver={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-50%) scale(1.02)';
+                        if (!isSubmitting) {
+                          e.currentTarget.style.transform = 'translateY(-50%) scale(1.02)';
+                        }
                       }}
                       onMouseOut={(e) => {
                         e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
@@ -107,6 +153,19 @@ export default function Footer1() {
                       <ArrowRight size={16} />
                     </button>
                   </Box>
+                  
+                  {/* Error Message */}
+                  {emailError && (
+                    <Box mt="0.5rem">
+                      <Typography
+                        color="#ff6b6b"
+                        fontSize="12px"
+                        fontWeight="400"
+                      >
+                        {emailError}
+                      </Typography>
+                    </Box>
+                  )}
                 </form>
               </Box>
             </Grid>
@@ -128,7 +187,7 @@ export default function Footer1() {
                   <div>
                     {[
                       { name: "About Enterprise Journey", url: "/about" },
-                      { name: "Help Centre", url: "/help" },
+                      { name: "Help Centre", url: "/faq" },
                       { name: "Discover AbuDhabi", url: "/discover" },
                       { name: "Privacy Policy", url: "/privacy" },
                       { name: "Terms of Service", url: "/terms" },
@@ -164,8 +223,8 @@ export default function Footer1() {
                   </Typography>
                   <div>
                     {[
-                      { name: "Financial Services", url: "/financial" },
-                      { name: "Non-financial Services", url: "/non-financial" },
+                      { name: "Financial Services", url: "/financial-marketplace" },
+                      { name: "Non-financial Services", url: "/non-financial-marketplace" },
                       { name: "Community", url: "/community" },
                       { name: "Media Centre", url: "/media" },
                       { name: "Become a Partner", url: "/partner" },

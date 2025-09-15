@@ -190,18 +190,22 @@ const StyledH5 = styled(H4)`
 const StyledButton = styled(DefaultButton)`
   display: flex;
   text-align: left;
-  padding: 7px 1px;
+  padding: 7px 12px;
   justify-content: center;
   align-items: center;
   gap: 10px;
   align-self: stretch;
   border-radius: 100px;
-  width: auto; // Changed to auto for responsiveness
+  width: auto;
+  min-width: 100px;
   height: 25px;
   background-color: transparent;
   border: 1px solid #ccc;
   transition: background-color 0.3s, color 0.3s;
-  flex-shrink: 0; // Prevent button from shrinking
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   span {
     color: #000;

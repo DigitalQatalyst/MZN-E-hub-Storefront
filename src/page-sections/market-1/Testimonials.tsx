@@ -10,25 +10,20 @@ import StyledHeader from "@component/header/styles";
 
 // STYLED COMPONENTS
 const WelcomeSection = styled.section`
-  background-color: #fff;
-  color: #000;
-  padding: 50px 120px 50px 120px;
+  background-color: #0030e3;
+  color: white;
+  padding: 90px 120px 50px 120px;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  margin-bottom: 2rem;
 
-  @media (max-width: 1024px) {
-    padding: 40px 80px 40px 80px;
+  @media (max-width: 1199px) {
+    padding: 32px 32px 32px 32px;
   }
 
-  @media (max-width: 768px) {
-    padding: 30px 40px 30px 40px;
-    gap: 1.5rem;
-  }
-
-  @media (max-width: 480px) {
-    padding: 20px 20px 20px 20px;
-    gap: 1rem;
+  @media (max-width: 899px) {
+    padding: 16px 8px 16px 8px;
   }
 `;
 
@@ -77,7 +72,7 @@ const HeaderTextContainer = styled.div`
 const SubText = styled.p`
   font-size: 16px;
   font-weight: 400;
-  color: #000;
+  color: #F4F5F5;
   margin: 0;
 
   @media (max-width: 768px) {
@@ -164,7 +159,7 @@ const EventDetails = styled.div`
 const EventTitle = styled.h4`
   font-size: 18px;
   font-weight: 600;
-  color: #000;
+  color: #F4F5F5);
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -413,7 +408,7 @@ const Section16: React.FC = () => {
                       style={{
                         fontSize: "14px",
                         fontWeight: "400",
-                        color: "#7D879C",
+                        color: "#F4F5F5)",
                       }}
                     >
                       {formatDate(post.date)}

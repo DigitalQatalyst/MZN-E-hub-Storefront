@@ -108,8 +108,14 @@ export default function Navbar({
         height: isSmDown ? 60 : 72,
         background: "linear-gradient(90deg, #19E5C2 0%, #5A7BF6 60%, #8E5AF6 100%)",
         color: "#fff",
-        zIndex: 2000,        // ↑ keep the navbar above everything
-        position: "relative" // ensure z-index applies
+        zIndex: 2000,
+        position: "sticky",  // 👈 change from "relative" to "sticky"
+        top: 0,              // 👈 required for sticky
+        left: 0,
+        right: 0,
+        // Safari/iOS niceties
+        willChange: "transform",
+        WebkitTransform: "translateZ(0)",
       }}
     >
       <Container

@@ -16,6 +16,7 @@ export const StyledNavbar = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-left: -6px;
   }
 
   .enterprise-logo {

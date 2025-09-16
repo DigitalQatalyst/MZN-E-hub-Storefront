@@ -111,6 +111,7 @@ const GET_CUSTOMER_BY_EMAIL = `
 // OPTIMIZED RESPONSIVE STYLED COMPONENTS
 const ContentWrapper = styled.div`
   display: flex;
+  width: 100%;
   justify-content: space-between;
   align-items: flex-start;
   gap: 2rem;
@@ -141,15 +142,13 @@ const ContentColumn = styled.div`
   flex-direction: column;
   align-items: flex-start;
   flex: 1;
-  max-width: 50%;
+  width: 50%;
 
   @media (max-width: 1199px) {
-    max-width: 42%;
-    flex: 0 0 42%;
+    flex: 0 0 50%;
   }
 
   @media (max-width: 899px) {
-    max-width: 100%;
     flex: 1;
     margin-bottom: 0;
     text-align: center;
@@ -185,7 +184,7 @@ const StyledHeader = styled.p`
 const StyledBody = styled.h1`
   color: #000;
   font-size: 48px;
-  font-family: "FS Kim Trial";
+  font-style: normal;
   font-weight: 400;
   line-height: 52px;
   letter-spacing: 0px;
@@ -284,8 +283,8 @@ const FeatureItem = styled.div`
 
 const FormColumn = styled.form`
   display: flex;
-  width: 100%;
-  max-width: 585px;
+  flex: 1;
+  width: 50%;
   min-height: 550px;
   padding: 24px;
   flex-direction: column;
@@ -298,8 +297,6 @@ const FormColumn = styled.form`
   align-self: flex-start;
 
   @media (max-width: 1199px) {
-    max-width: 520px;
-    width: 100%;
     min-height: auto;
     padding: 20px;
     gap: 18px;
@@ -307,7 +304,6 @@ const FormColumn = styled.form`
   }
 
   @media (max-width: 899px) {
-    max-width: 100%;
     padding: 20px;
     gap: 16px;
   }
@@ -329,24 +325,6 @@ const FormRow = styled.div`
     gap: 14px;
   }
 
-  /* Updated mobile behavior - keep two columns for name and email/phone rows */
-  @media (max-width: 480px) {
-    gap: 12px;
-    /* Don't change to column layout on mobile for name and email/phone rows */
-  }
-`;
-
-const FormRowFullWidth = styled.div`
-  display: flex;
-  gap: 16px;
-  margin-bottom: 0;
-  width: 100%;
-
-  @media (max-width: 1199px) {
-    gap: 14px;
-  }
-
-  /* Full width rows remain as single column on mobile */
   @media (max-width: 480px) {
     flex-direction: column;
     gap: 12px;
@@ -370,9 +348,9 @@ const FormFieldWrapper = styled.div`
 `;
 
 const FormLabel = styled.label`
-  font-size: 13px;
-  color: #2f2b3d;
-  font-weight: 400;
+  font-size: 14px;
+  color: #000;
+  font-weight: 500;
 
   @media (max-width: 1199px) {
     font-size: 13px;
@@ -549,7 +527,7 @@ const PrivacyLink = styled.a`
 const SubmitButton = styled.button<{ disabled?: boolean }>`
   background-color: ${({ disabled }) => (disabled ? "#ccc" : "#0030E3")};
   color: #fff;
-  padding: 8px 20px;
+  padding: 14px 24px;
   border: none;
   border-radius: 4px;
   font-size: 16px;
@@ -745,7 +723,7 @@ export default function Section19() {
 
     try {
       const submitResponse = await fetch(
-        "https://22af-54-37-203-255.ngrok-free.app/admin-api",
+        "https://9609a7336af8.ngrok-free.app/services-api",
         {
           method: "POST",
           headers: {
@@ -796,7 +774,7 @@ export default function Section19() {
       );
 
       const loginResponse = await fetch(
-        "https://22af-54-37-203-255.ngrok-free.app/admin-api",
+        "https://9609a7336af8.ngrok-free.app/services-api",
         {
           method: "POST",
           headers: {
@@ -828,7 +806,7 @@ export default function Section19() {
       console.log("Authenticated successfully with token:", authToken);
 
       const checkCustomerResponse = await fetch(
-        "https://22af-54-37-203-255.ngrok-free.app/admin-api",
+        "https://9609a7336af8.ngrok-free.app/services-api",
         {
           method: "POST",
           headers: {
@@ -894,7 +872,7 @@ export default function Section19() {
       }
 
       const response = await fetch(
-        "https://22af-54-37-203-255.ngrok-free.app/admin-api",
+        "https://9609a7336af8.ngrok-free.app/services-api",
         {
           method: "POST",
           headers: {
@@ -1114,8 +1092,7 @@ export default function Section19() {
           </FormRow>
 
           <PrivacyText>
-            <span style={{ color: "#FF4C51" }}>*</span> By submitting this form,
-            you agree to our{" "}
+            * By submitting this form, you agree to our{" "}
             <PrivacyLink onClick={handlePrivacyLinkClick}>
               Privacy Policy
             </PrivacyLink>

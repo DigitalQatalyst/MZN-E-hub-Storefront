@@ -107,7 +107,7 @@ const FavoriteButton = styled(IconButton)(() => ({
 }));
 
 const StyledH4 = styled(H4)`
-  color: #808390;
+  color: #A3A3A3;
   font-family: "Open Sans";
   font-size: 10px;
   font-style: normal;
@@ -141,15 +141,15 @@ const StyledH4 = styled(H4)`
 `;
 
 const StyledH5 = styled(H4)`
-  color: #000;
+  color: #333;
   font-family: "Open Sans";
-  font-size: 10px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 400;
   line-height: 16px;
   letter-spacing: 0.5px;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -256,7 +256,7 @@ const StyledImage = styled(NextImage)`
 `;
 
 const StyledParagraph = styled(Paragraph)`
-  color: #002180;
+  color: #0030E3;
   font-family: "Open Sans";
   font-size: var(--Title-Medium-Size, 16px);
   font-style: normal;
@@ -342,7 +342,7 @@ const BottomSection = styled(Box)`
 `;
 
 const ViewDetailsText = styled(Paragraph)`
-  color: #002180;
+  color: #0030E3;
   margin-right: 0.5rem;
   font-size: 12px;
 

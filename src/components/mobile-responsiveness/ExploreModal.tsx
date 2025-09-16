@@ -15,7 +15,7 @@ const ModalOverlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  // background: rgba(0, 0, 0, 0.5);
   z-index: 1002;
 `;
 
@@ -23,43 +23,59 @@ const ModalContent = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 250px;
-  height: 100%;
+  width: 100%;
+  height: calc(100% - 80px);
   background: #f9f9f9;
   padding: 20px;
   z-index: 1003;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+ display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
+  row-gap: 5px; /* Vertical spacing between rows */
+  align-content: flex-start; /* Keeps items at the top */
 `;
 
-const CategoryItem = styled.div<{ active?: boolean; expanded?: boolean }>`
+const CategoryItem = styled.div<{ active?: boolean }>`
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 0;
+  justify-content: center;
+  padding: 10px; /* Reduced padding to make boxes smaller */
   cursor: pointer;
-  color: ${props => (props.active ? "#0030E3" : "#333")};
-  font-weight: ${props => (props.active ? "500" : "400")};
-  transition: color 0.3s ease;
+  text-align: center;
+  width: 150px; /* Fixed width to make rectangles */
+  height: 60px; /* Fixed height to make rectangles */
+
+  ${props =>
+    props.active
+      ? `
+        border-radius: 8px;
+        border: 1px solid #0030E3;
+        color: #0030E3;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 16px;
+      `
+      : `
+        color: #747474;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 16px;
+        border-radius: 8px;
+        border: 1px solid #E0E0E0;
+      `}
 
   &:hover {
     color: #0030E3;
+    background: #f0f0f0;
   }
 
   .sub-items {
     margin-left: 20px;
     color: #333;
     font-size: 14px;
-    display: ${props => (props.expanded ? "block" : "none")};
-
-    &.coming-soon {
-      color: #999;
-    }
-  }
-
-  .dropdown-icon {
-    margin-left: auto;
-    transition: transform 0.3s ease;
-    transform: ${props => (props.expanded ? "rotate(180deg)" : "rotate(0deg)")};
+    display: none;
   }
 `;
 
@@ -188,27 +204,9 @@ export default function ExploreModal({ onClose }: ExploreModalProps) {
           <CategoryItem
             key={index}
             active={activeTab === category.title}
-            expanded={expandedCategory === category.title}
             onClick={() => handleCategoryClick(category.title, category.path)}
           >
-            <img
-              src={activeTab === category.title ? category.iconActive : category.iconInactive}
-              alt={`${category.title} icon`}
-              style={{ width: 24, height: 24 }}
-            />
             <Typography>{category.title}</Typography>
-            {/* {category.subItems.length > 0 && (
-              <FaChevronDown className="dropdown-icon" />
-            )} */}
-            {/* {expandedCategory === category.title && category.subItems.length > 0 && (
-              <div className="sub-items">
-                {category.subItems.map((subItem, subIndex) => (
-                  <Typography key={subIndex} className={subItem.includes("Coming soon") ? "coming-soon" : ""}>
-                    {subItem}
-                  </Typography>
-                ))}
-              </div>
-            )} */}
           </CategoryItem>
         ))}
       </ModalContent>

@@ -7,6 +7,7 @@ import Box from "@component/Box";
 import Grid from "@component/grid/Grid";
 import FlexBox from "@component/FlexBox";
 import Typography, { Paragraph } from "@component/Typography";
+import "./footer.css";
 
 export default function Footer1() {
   const [email, setEmail] = useState("");
@@ -23,9 +24,10 @@ export default function Footer1() {
       <Box
         style={{
           background: "#0030E3",
-          padding: "4rem 0 4rem 6rem",
+
           overflow: "hidden",
         }}
+        className="footer-1"
       >
         <div
           style={{
@@ -98,10 +100,12 @@ export default function Footer1() {
                         justifyContent: "center",
                       }}
                       onMouseOver={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-50%) scale(1.02)';
+                        e.currentTarget.style.transform =
+                          "translateY(-50%) scale(1.02)";
                       }}
                       onMouseOut={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+                        e.currentTarget.style.transform =
+                          "translateY(-50%) scale(1)";
                       }}
                     >
                       <ArrowRight size={16} />
@@ -127,11 +131,11 @@ export default function Footer1() {
                   </Typography>
                   <div>
                     {[
-                      { name: "About Enterprise Journey", url: "/about" },
-                      { name: "Help Centre", url: "/help" },
-                      { name: "Discover AbuDhabi", url: "/discover" },
-                      { name: "Privacy Policy", url: "/privacy" },
-                      { name: "Terms of Service", url: "/terms" },
+                      { name: "About Enterprise Journey", url: "/development" },
+                      { name: "Help Centre", url: "/development" },
+                      { name: "Discover AbuDhabi", url: "/development" },
+                      { name: "Privacy Policy", url: "/development" },
+                      { name: "Terms of Service", url: "/development" },
                     ].map((link, index) => (
                       <Box key={index} mb="0.75rem">
                         <Link
@@ -164,8 +168,14 @@ export default function Footer1() {
                   </Typography>
                   <div>
                     {[
-                      { name: "Financial Services", url: "/financial" },
-                      { name: "Non-financial Services", url: "/non-financial" },
+                      {
+                        name: "Financial Services",
+                        url: "/financial-marketplace",
+                      },
+                      {
+                        name: "Non-financial Services",
+                        url: "/non-financial-marketplace",
+                      },
                       { name: "Community", url: "/community" },
                       { name: "Media Centre", url: "/media" },
                       { name: "Become a Partner", url: "/partner" },

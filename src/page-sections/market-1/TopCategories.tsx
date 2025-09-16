@@ -340,26 +340,26 @@ export default function Section3() {
       breakpoint: 959,
       settings: {
         slidesToShow: 2,
-        slidesToScroll: 1,
+        slidesToScroll: 2,
         centerPadding: "15px",
       },
     },
     {
       breakpoint: 768,
       settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        centerMode: true,
-        centerPadding: "40px",
+        slidesToShow: 2,
+        slidesToScroll: 2,
+        // centerMode: true,
+        // centerPadding: "40px",
       },
     },
     {
       breakpoint: 650,
       settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        centerMode: true,
-        centerPadding: "30px",
+        slidesToShow: 2,
+        slidesToScroll: 2,
+        // centerMode: true,
+        // centerPadding: "30px",
       },
     },
     {

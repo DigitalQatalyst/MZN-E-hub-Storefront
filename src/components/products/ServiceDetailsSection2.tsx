@@ -365,7 +365,7 @@ export default function ServiceDetailsSection2({ product }: Props) {
       </Box>
 
       {product?.relatedServices && product?.relatedServices.length > 0 ? (
-        <Box mt="3rem">
+        <Box mt="3rem" className="product-details-related-services">
           <H3 color="#002180" mb="1.5rem">
             Related Services
           </H3>
@@ -387,7 +387,7 @@ export default function ServiceDetailsSection2({ product }: Props) {
           </Carousel>
         </Box>
       ) : (
-        <Box mt="3rem">
+        <Box mt="3rem" className="product-details-related-services">
           <FlexBox color="#0030E3" mb="1.5rem" justifyContent="space-between">
             <H3
               fontFamily="FS Kim Trial"

@@ -30,6 +30,12 @@
   gap: 10px;
 }
 @media screen and (max-width: 576px) {
+  .product-details-related-services {
+    margin: 10px !important;
+  }
+  .product-details-container {
+    margin: 10px !important;
+  }
   .product-details-tab-container {
     padding: 0 !important;
     gap: 5px !important;
@@ -75,7 +81,7 @@
     padding: 10px 0 !important;
   }
   .product-details-tab {
-    padding: 16px !important;
+    padding: 10px !important;
     font-size: 14px !important;
   }
   hr {

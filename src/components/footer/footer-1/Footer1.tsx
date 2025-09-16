@@ -239,9 +239,9 @@ export default function Footer1() {
                         name: "Non-financial Services",
                         url: "/non-financial-marketplace",
                       },
-                      { name: "Community", url: "/community" },
-                      { name: "Media Centre", url: "/media" },
-                      { name: "Become a Partner", url: "/partner" },
+                      { name: "Community", url: "/development" },
+                      { name: "Media Centre", url: "/development" },
+                      { name: "Become a Partner", url: "/development" },
                     ].map((link, index) => (
                       <Box key={index} mb="0.75rem">
                         <Link

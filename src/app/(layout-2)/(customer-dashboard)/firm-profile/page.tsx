@@ -1,7 +1,9 @@
 "use client";
 
-import FirmProfile from ".";
+import {BusinessProfile} from "./BusinessProfile";
+import { useState } from "react";
 
 export default function Page() {
-  return <FirmProfile />;
+  const [activeSection, setActiveSection] = useState('profile');
+  return <BusinessProfile activeSection={activeSection} />;
 }

@@ -3,6 +3,7 @@ import Grid from "@component/grid/Grid";
 import Sidebar from "../profile/DashboardNavigation";
 import { StyledGrid } from "../profile/styles";
 import Footer1 from "@component/footer/footer-1/Footer1";
+import { minWidth, overflowX, overflowY } from "styled-system";
 
 export default function CustomerDashboardLayout({ children }: PropsWithChildren<{}>) {
   return (
@@ -41,7 +42,7 @@ export default function CustomerDashboardLayout({ children }: PropsWithChildren<
         </StyledGrid>
 
         {/* Main content column */}
-        <Grid item lg={9.75} xs={12} style={{ minHeight: "100%" }}>
+        <Grid item lg={9.75} xs={12} style={{ minHeight: "100%", minWidth: 0, overflowX: "hidden", overflowY: "auto" }}>
           {children}
 
           {/* Footer sits under content (scrolls with content) */}

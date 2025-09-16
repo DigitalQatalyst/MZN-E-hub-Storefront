@@ -271,6 +271,7 @@ const Sidebar = () => {
   const renderNavItem = (item: NavItem) => {
     const active = isActive(item.route);
 
+
     return (
       <NavItem
         key={item.id}
@@ -283,8 +284,12 @@ const Sidebar = () => {
         <img
           src={item.icon}
           alt={item.label}
+        <img
+          src={item.icon}
+          alt={item.label}
           height="20px"
           style={{
+            filter: active ? "brightness(0) invert(1)" : "none",
             filter: active ? "brightness(0) invert(1)" : "none",
           }}
         />
@@ -350,6 +355,7 @@ const Sidebar = () => {
       </CompanySelectorContainer>
 
       {/* Navigation */}
+      <div style={{ flex: 1, paddingTop: "16px", paddingBottom: "16px" }}>
       <div style={{ flex: 1, paddingTop: "16px", paddingBottom: "16px" }}>
         {/* Overview - Dashboard */}
         <Box px="16px" mb="24px">
@@ -425,3 +431,4 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+

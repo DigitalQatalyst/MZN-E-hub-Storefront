@@ -7,7 +7,7 @@ const LoadingSpinner: React.FC = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "300px",
+        height: "400px",
         marginTop: "1rem",
         fontSize: "1.5rem",
         color: "#555",

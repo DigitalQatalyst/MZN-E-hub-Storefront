@@ -1,7 +1,7 @@
 "use client";
-// API FUNCTIONS
+
+import { useEffect, useState } from "react";
 import api from "@utils/__api__/market-1";
-// PAGE SECTION COMPONENTS
 import HeroBanner from "@sections/landing/HeroBanner";
 import { Footer1 } from "@component/footer";
 import PopularProducts from "@sections/market-1/Section9";
@@ -12,8 +12,23 @@ import Testimonials from "@sections/market-1/Testimonials";
 import TopCategories from "@sections/market-1/TopCategories";
 import Newsletter from "@sections/market-1/Newsletter";
 
-export default async function Market1() {
-  const popularProducts = await api.getPopularProducts();
+export default function Market1() {
+  const [popularProducts, setPopularProducts] = useState([]);
+
+  useEffect(() => {
+    // Fetch popular products
+    api.getPopularProducts().then((data) => {
+      setPopularProducts(data);
+    });
+
+    // Handle newsletter scrolling
+    if (window.location.hash === "#newsletter") {
+      const newsletterSection = document.getElementById("newsletter");
+      if (newsletterSection) {
+        newsletterSection.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, []);
 
   return (
     <main>
@@ -24,7 +39,7 @@ export default async function Market1() {
       {/* <EventsSection /> */}
       <Testimonials />
       <TopCategories />
-      <Newsletter />
+      <Newsletter id="newsletter" />
       <Footer1 />
     </main>
   );

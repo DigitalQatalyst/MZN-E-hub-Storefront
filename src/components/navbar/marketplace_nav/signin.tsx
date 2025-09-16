@@ -3,7 +3,39 @@
 import FlexBox from "../../FlexBox";
 import Icon from "../../icon/Icon";
 import Typography from "../../Typography";
-// import { StyledNavbar } from "./styles";
+
+const styles = `
+  .sign-in {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 16px;
+    color: #333;
+    text-align: left;
+    cursor: pointer;
+    font-weight: 500;
+    font-style: normal;
+    min-width: 140px;
+  }
+
+  .profile-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+  }
+
+  @media (min-width: 768px) {
+    .sign-in {
+      font-size: 14px;
+      color: #FFF;
+    }
+    
+    .profile-icon {
+      width: 30px;
+      height: 30px;
+    }
+  }
+`;
 
 interface SigninProps {
   onClick?: () => void;
@@ -18,43 +50,25 @@ export default function Signin({ onClick }: SigninProps) {
   };
 
   return (
-    // <StyledNavbar>
     <div>
+      <style>{styles}</style>
       <FlexBox
         alignItems="center"
-        style={{
-          cursor: "pointer",
-          color: "#FFF",
-          fontWeight: 500,
-          fontSize: "14px",
-        //   fontFamily: "Inter",
-          fontStyle: "normal",
-        //   lineHeight: "22px",
-        //   padding: "10px 20px",
-        //   transition: "all 0.3s ease",
-        //   minWidth: "140px",
-        }}
+        className="sign-in"
         onClick={handleClick}
       >
         <img
           src="/assets/images/icons/profile.svg"
           alt="Profile"
-          width="30"
-          height="30"
-          style={{ marginRight: "5px" }} /* Replaced gap with margin-right */
+          className="profile-icon"
         />
         <Typography
-        //   fontFamily="Inter"
           fontSize="14px"
-        //   fontStyle="normal"
-        //   fontWeight="500"
-        //   lineHeight="22px"
           color="#FFF"
         >
           Sign In or Register
         </Typography>
       </FlexBox>
-    {/* </StyledNavbar> */}
     </div>
   );
 }

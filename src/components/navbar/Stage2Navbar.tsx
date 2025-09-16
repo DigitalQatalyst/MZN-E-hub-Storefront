@@ -44,16 +44,54 @@ export default function Navbar({
   NotificationCenterComponent,
 }: NavbarProps) {
   const { instance, accounts, inProgress } = useMsal();
+
+  // ---- MSAL init gate (auth picked from provided component) ----
   const [isMsalInitialized, setIsMsalInitialized] = useState(false);
-  
   useEffect(() => {
     if (inProgress === InteractionStatus.None) {
       setIsMsalInitialized(true);
     }
   }, [inProgress]);
 
+  // Hydrate active account once MSAL is ready (mirrors source auth snippet)
+  useEffect(() => {
+    if (!isMsalInitialized) return;
+    try {
+      if (!instance.getActiveAccount() && accounts[0]) {
+        instance.setActiveAccount(accounts[0]);
+      }
+    } catch (error) {
+      console.warn("Error setting active account:", error);
+    }
+  }, [accounts, instance, isMsalInitialized]);
 
-  // debug
+  // Derive active account safely (after init)
+  const activeAccount: AccountInfo | undefined = useMemo(() => {
+    if (!isMsalInitialized) return undefined;
+    try {
+      return instance.getActiveAccount() ?? accounts[0];
+    } catch (error) {
+      console.warn("Error getting active account:", error);
+      return undefined;
+    }
+  }, [instance, accounts, isMsalInitialized]);
+
+  // Derive displayName + initials
+  const { displayName, initials } = useMemo(() => {
+    if (!activeAccount) return { displayName: "User", initials: "U" };
+    const name =
+      activeAccount.name ||
+      (activeAccount.idTokenClaims as any)?.name ||
+      (activeAccount.idTokenClaims as any)?.given_name ||
+      (activeAccount.idTokenClaims as any)?.emails?.[0] ||
+      "User";
+    const parts = name.trim().split(/\s+/);
+    const ini =
+      parts.length >= 2 ? (parts[0][0] + parts[1][0]) : (parts[0]?.slice(0, 2) || "U");
+    return { displayName: name, initials: ini.toUpperCase() };
+  }, [activeAccount]);
+
+  // debug (optional)
   useEffect(() => {
     const cfg = instance.getConfiguration();
     console.log("MSAL redirectUri =", cfg.auth.redirectUri);
@@ -68,7 +106,7 @@ export default function Navbar({
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement | null>(null);
 
-  // modal states (were missing)
+  // modal states
   const [dropShown, setDropShown] = useState(false);
   const [notifShown, setNotifShown] = useState(false);
   const [notifCenterShown, setNotifCenterShown] = useState(false);
@@ -83,47 +121,10 @@ export default function Navbar({
     document.addEventListener("mousedown", onDocClick);
     return () => document.removeEventListener("mousedown", onDocClick);
   }, [isProfileOpen]);
-  
+
   const goDashboard = () => (window.location.href = "/dashboard");
 
-  // Derive active account safely after MSAL initialized
-  const activeAccount: AccountInfo | undefined = useMemo(() => {
-    if (!isMsalInitialized) return undefined;
-    try {
-      return instance.getActiveAccount() ?? accounts[0];
-    } catch (error) {
-      console.warn("Error getting active account:", error);
-      return undefined;
-    }
-  }, [instance, accounts, isMsalInitialized]);
-
-  // Derive displayName and initials from activeAccount
-  const { displayName, initials } = useMemo(() => {
-    if (!activeAccount) return { displayName: "Mark", initials: "MW" };
-    const name =
-      activeAccount.name ||
-      (activeAccount.idTokenClaims as any)?.name ||
-      (activeAccount.idTokenClaims as any)?.given_name ||
-      (activeAccount.idTokenClaims as any)?.emails?.[0] ||
-      "Mark";
-    const parts = name.trim().split(/\s+/);
-    const ini = parts.length >= 2 ? parts[0][0] + parts[1][0] : (parts[0]?.slice(0, 2) || "MW");
-    return { displayName: name, initials: ini.toUpperCase() };
-  }, [activeAccount]);
-
-  // Set active account on mount if missing
-  useEffect(() => {
-    if (!isMsalInitialized) return;
-    try {
-      if (!instance.getActiveAccount() && accounts[0]) {
-        instance.setActiveAccount(accounts[0]);
-      }
-    } catch (error) {
-      console.warn("Error setting active account:", error);
-    }
-  }, [accounts, instance, isMsalInitialized]);
-
-    // Auth actions
+  // ---- Auth actions (picked from provided component style) ----
   const startLogin = () => {
     if (!isMsalInitialized) {
       console.warn("MSAL not initialized yet");
@@ -131,6 +132,7 @@ export default function Navbar({
     }
     return instance.loginRedirect(loginRequest).catch(console.error);
   };
+
   const logout = () => {
     if (!isMsalInitialized) return;
     instance
@@ -140,19 +142,45 @@ export default function Navbar({
       .catch(console.error);
   };
 
-
-
   const handleProfileClick = () => {
     if (!accounts.length) startLogin();
-    else setIsProfileOpen(v => !v);
+    else setIsProfileOpen((v) => !v);
   };
 
-  // handle modal outside click (was missing)
+  // handle modal outside click
   const handleModalOutsideClick = () => {
     setDropShown(false);
     setNotifShown(false);
     setNotifCenterShown(false);
   };
+
+  // Loading gate (prevents flicker before MSAL is ready)
+  if (!isMsalInitialized) {
+    return (
+      <StyledNavbar
+        style={{
+          height: 72,
+          background: "linear-gradient(90deg, #19E5C2 0%, #5A7BF6 60%, #8E5AF6 100%)",
+          color: "#fff",
+          zIndex: 2000,
+          position: "sticky",
+          top: 0,
+          left: 0,
+          right: 0,
+        }}
+      >
+        <Container
+          height="100%"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          style={{ position: "relative" }}
+        >
+          <span>Loading…</span>
+        </Container>
+      </StyledNavbar>
+    );
+  }
 
   return (
     <StyledNavbar
@@ -161,11 +189,10 @@ export default function Navbar({
         background: "linear-gradient(90deg, #19E5C2 0%, #5A7BF6 60%, #8E5AF6 100%)",
         color: "#fff",
         zIndex: 2000,
-        position: "sticky",  // 👈 change from "relative" to "sticky"
-        top: 0,              // 👈 required for sticky
+        position: "sticky",
+        top: 0,
         left: 0,
         right: 0,
-        // Safari/iOS niceties
         willChange: "transform",
         WebkitTransform: "translateZ(0)",
       }}
@@ -179,9 +206,9 @@ export default function Navbar({
           position: "relative",
           paddingInline: isSmDown ? 12 : isMdDown ? 16 : 24,
           gap: 12,
-          maxWidth: 1440,           // 👈 NEW
-          marginInline: "auto",     // 👈 NEW (centers the row)
-          width: "100%",  
+          maxWidth: 1440,
+          marginInline: "auto",
+          width: "100%",
         }}
       >
         {/* LEFT: brand + primary */}
@@ -194,86 +221,56 @@ export default function Navbar({
               style={{ height: isSmDown ? 22 : isMdDown ? 24 : 28, width: "auto" }}
             />
           </FlexBox>
-          {/* <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 24,
-              margin: "0 auto",        // 👈 centers within the left cluster
-            }}
-          > */}
-            {/* Explore */}
-            {!isMdDown && (
-              <Categories open={navListOpen}>
-                <button
-                  type="button"
-                  aria-haspopup="true"
-                  aria-expanded={!!navListOpen}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 8,
-                    height: 36,
-                    padding: "0 12px",
-                    borderRadius: 8,
-                    border: "1px solid rgba(255, 255, 255, 0)",
-                    background: "rgba(255, 255, 255, 0)",
-                    color: "#fff",
-                    cursor: "pointer",
-                    backdropFilter: "blur(6px)",
-                  }}
-                  onClick={() => setDropShown(true)}
-                >
-                  <span style={{ fontSize: 14, fontWeight: 500 }}>Explore</span>
-                  <ChevronDown size={16} />
-                </button>
-              </Categories>
-            )}
 
-            {/* Discover */}
-            {!isMdDown && (
+          {/* Explore */}
+          {!isMdDown && (
+            <Categories open={navListOpen}>
               <button
                 type="button"
-                style={{
-                  height: 36,
-                  padding: "0 12px",
-                  borderRadius: 8,
-                  border: "none",
-                  background: "transparent",
-                  color: "#fff",
-                  cursor: "pointer",
-                  fontSize: 14,
-                  fontWeight: 500,
-                  whiteSpace: "nowrap",
-                }}
-                onClick={() => (window.location.href = "/discover")}
-              >
-                Discover AbuDhabi
-              </button>
-            )}
-
-            {/* Search */}
-            {/* {!isMdDown && (
-              <button
-                type="button"
-                aria-label="Search"
+                aria-haspopup="true"
+                aria-expanded={!!navListOpen}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  justifyContent: "center",
+                  gap: 8,
                   height: 36,
-                  width: 36,
-                  borderRadius: 18,
-                  background: "transparent",
+                  padding: "0 12px",
+                  borderRadius: 8,
                   border: "1px solid rgba(255, 255, 255, 0)",
+                  background: "rgba(255, 255, 255, 0)",
+                  color: "#fff",
                   cursor: "pointer",
+                  backdropFilter: "blur(6px)",
                 }}
-                onClick={() => (window.location.href = "/search")}
+                onClick={() => setDropShown(true)}
               >
-                <SearchIcon size={16} color="white" />
+                <span style={{ fontSize: 14, fontWeight: 500 }}>Explore</span>
+                <ChevronDown size={16} />
               </button>
-            )} */}
-          {/* </div> */}
+            </Categories>
+          )}
+
+          {/* Discover */}
+          {!isMdDown && (
+            <button
+              type="button"
+              style={{
+                height: 36,
+                padding: "0 12px",
+                borderRadius: 8,
+                border: "none",
+                background: "transparent",
+                color: "#fff",
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 500,
+                whiteSpace: "nowrap",
+              }}
+              onClick={() => (window.location.href = "/discover")}
+            >
+              Discover AbuDhabi
+            </button>
+          )}
         </FlexBox>
 
         {/* RIGHT: greeting + avatar + hamburger */}
@@ -299,6 +296,7 @@ export default function Navbar({
                 fontSize: isSmDown ? 12 : 14,
                 cursor: "pointer",
               }}
+              title={activeAccount ? displayName : "Sign in"}
             >
               {initials}
             </button>
@@ -363,7 +361,7 @@ export default function Navbar({
             <button
               type="button"
               aria-label="Toggle menu"
-              onClick={() => setIsMobileMenuOpen(v => !v)}
+              onClick={() => setIsMobileMenuOpen((v) => !v)}
               style={{
                 height: isSmDown ? 36 : 40,
                 width: isSmDown ? 36 : 40,
@@ -459,10 +457,21 @@ export default function Navbar({
                 </FlexBox>
 
                 <div style={{ display: "flex", gap: 10 }}>
-                  <Button onClick={() => { setIsMobileMenuOpen(false); goDashboard(); }}>
+                  <Button
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      goDashboard();
+                    }}
+                  >
                     Dashboard
                   </Button>
-                  <Button variant="outlined" onClick={() => { setIsMobileMenuOpen(false); logout(); }}>
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      logout();
+                    }}
+                  >
                     Logout
                   </Button>
                 </div>
@@ -470,7 +479,12 @@ export default function Navbar({
 
               <UnauthenticatedTemplate>
                 <div style={{ height: 1, background: "#eee", margin: "8px 0 12px" }} />
-                <Button onClick={() => { setIsMobileMenuOpen(false); startLogin(); }}>
+                <Button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    startLogin();
+                  }}
+                >
                   Sign In
                 </Button>
               </UnauthenticatedTemplate>
@@ -488,7 +502,7 @@ export default function Navbar({
         }
       `}</style>
 
-      {/* Optional modal layer (now safe & typed) */}
+      {/* Optional modal layer */}
       {(dropShown || notifShown || notifCenterShown) && (
         <div
           className="modal"
@@ -499,7 +513,7 @@ export default function Navbar({
             width: "100vw",
             height: "100vh",
             backgroundColor: notifCenterShown ? "rgba(0,0,0,0.7)" : "transparent",
-            zIndex: 2500, // on top of navbar
+            zIndex: 2500,
           }}
         >
           {/* stop propagation so inner clicks don't close */}

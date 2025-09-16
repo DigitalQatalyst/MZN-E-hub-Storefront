@@ -33,7 +33,7 @@ export default function CustomerDashboardLayout({ children }: PropsWithChildren<
             alignSelf: "flex-start",          // let sticky take effect
             height: "100dvh",                  // fill viewport height
             maxHeight: "100dvh",
-            overflowY: "auto",                 // sidebar can scroll independently if needed
+            // overflowY: "auto",                 // sidebar can scroll independently if needed
             backgroundColor: "#f9f9f98e",
           }}
         >

@@ -30,7 +30,7 @@ const CompanySelector = styled.div`
   position: relative;
 `;
 
-const CompanyInfo = styled.div<{ $isHovered?: boolean }>`
+const CompanyInfo = styled.div<{ $isHovered?: boolean; }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -72,7 +72,7 @@ const AccountModal = styled(Card)`
   overflow: hidden;
 `;
 
-const AccountItem = styled.div<{ $isSelected?: boolean; $isHovered?: boolean }>`
+const AccountItem = styled.div<{ $isSelected?: boolean; $isHovered?: boolean; }>`
   padding: 12px 16px;
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -107,7 +107,7 @@ const AddBusinessButton = styled.button`
   }
 `;
 
-const NavItem = styled.div<{ $active?: boolean; $hovered?: boolean }>`
+const NavItem = styled.div<{ $active?: boolean; $hovered?: boolean; }>`
   display: flex;
   align-items: center;
   gap: 12px;
@@ -177,7 +177,7 @@ const Sidebar = () => {
       id: "documents",
       label: "Documents",
       icon: "/images/home-storage.svg",
-      route: "/",
+      route: "/documents",
     },
   ];
 

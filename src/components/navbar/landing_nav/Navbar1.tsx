@@ -58,13 +58,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
 
   const handleNewsletterClick = () => {
     setActiveItem("/");
-    router.push("/");
-    setTimeout(() => {
-      const newsletterSection = document.getElementById("newsletter");
-      if (newsletterSection) {
-        newsletterSection.scrollIntoView({ behavior: "smooth" });
-      }
-    }, 500); // Increased delay from 100ms to 500ms
+    router.push("/#newsletter");
   };
 
   return (
@@ -117,7 +111,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
         <Box display="flex" alignItems="center" className="desktop-nav">
           <CustomNavLink
             className="nav-link"
-            href="/"
+            href="/#newsletter"
             mr="40px"
             onClick={handleNewsletterClick}
           >

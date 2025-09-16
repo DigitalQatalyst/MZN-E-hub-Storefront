@@ -15,8 +15,7 @@ export const StyledGrid = styled(Grid)`
 
 export const DashboardNavigationWrapper = styled(Card)`
   height: auto;
-  min-height: 600px
-  @media only screen and (max-width: 768px) {
+  min-height: 600px @media only screen and (max-width: 768px) {
     height: calc(100vh - 64px);
     box-shadow: none;
     overflow-y: auto;
@@ -25,13 +24,14 @@ export const DashboardNavigationWrapper = styled(Card)`
 `;
 
 export const StyledDashboardNav = styled(NavLink).withConfig({
-  shouldForwardProp: (prop) => prop !== "isCurrentPath"
+  shouldForwardProp: (prop) => prop !== "isCurrentPath",
 })<{ isCurrentPath?: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-left: 4px solid;
-  color: ${({ isCurrentPath }) => (isCurrentPath ? getTheme("colors.primary.main") : "inherit")};
+  color: ${({ isCurrentPath }) =>
+    isCurrentPath ? getTheme("colors.primary.main") : "inherit"};
   border-left-color: ${({ isCurrentPath }) =>
     isCurrentPath ? getTheme("colors.primary.main") : "transparent"};
 

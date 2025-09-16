@@ -27,6 +27,7 @@ const page = () => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "start",
+          marginLeft: "20px",
         }}
       >
         <Box

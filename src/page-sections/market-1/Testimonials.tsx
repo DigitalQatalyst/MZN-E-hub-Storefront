@@ -10,32 +10,27 @@ import StyledHeader from "@component/header/styles";
 
 // STYLED COMPONENTS
 const WelcomeSection = styled.section`
-  background-color: #fff;
-  color: #000;
-  padding: 50px 120px 50px 120px;
+  background-color: #0030e3;
+  color: white;
+  padding: 90px 120px 50px 120px;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  margin-bottom: 2rem;
 
-  @media (max-width: 1024px) {
-    padding: 40px 80px 40px 80px;
+  @media (max-width: 1199px) {
+    padding: 32px 32px 32px 32px;
   }
 
-  @media (max-width: 768px) {
-    padding: 30px 40px 30px 40px;
-    gap: 1.5rem;
-  }
-
-  @media (max-width: 480px) {
-    padding: 20px 20px 20px 20px;
-    gap: 1rem;
+  @media (max-width: 899px) {
+    padding: 16px 8px 16px 8px;
   }
 `;
 
 const ContentColumn = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
 `;
 
 const MainHeading = styled(H3)`
@@ -53,7 +48,7 @@ const FeaturedEvents = styled.div`
 const FeaturedEventsHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
   margin-bottom: 1rem;
 
@@ -77,7 +72,7 @@ const HeaderTextContainer = styled.div`
 const SubText = styled.p`
   font-size: 16px;
   font-weight: 400;
-  color: #000;
+  color: #F4F5F5;
   margin: 0;
 
   @media (max-width: 768px) {
@@ -103,7 +98,9 @@ const EventsContainer = styled.div`
   }
 
   @media (max-width: 480px) {
-    gap: 35px;
+    flex-direction: column;
+    gap: 1.5rem; /* Adjusted for better spacing */
+    align-items: center; /* Center cards for better mobile presentation */
   }
 `;
 
@@ -122,8 +119,8 @@ const EventCard = styled.div`
   }
 
   @media (max-width: 480px) {
-    width: 329px;
-    height: 200px;
+    width: 320px; /* Fixed width for mobile */
+    height: auto; /* Allow height to adjust based on content */
     gap: 0.5rem;
   }
 `;
@@ -140,7 +137,8 @@ const EventImage = styled.div`
   }
 
   @media (max-width: 480px) {
-    height: 120px;
+    width: 380px; /* Fixed image width */
+    height: 200px; /* Fixed image height */
   }
 `;
 
@@ -161,7 +159,7 @@ const EventDetails = styled.div`
 const EventTitle = styled.h4`
   font-size: 18px;
   font-weight: 600;
-  color: #000;
+  color: #F4F5F5);
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -186,7 +184,7 @@ const EventTitle = styled.h4`
 
 const EventMeta = styled.div`
   font-size: 14px;
-  color: #666;
+  color: #F4F5F5;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -410,7 +408,7 @@ const Section16: React.FC = () => {
                       style={{
                         fontSize: "14px",
                         fontWeight: "400",
-                        color: "#7D879C",
+                        color: "#F4F5F5)",
                       }}
                     >
                       {formatDate(post.date)}

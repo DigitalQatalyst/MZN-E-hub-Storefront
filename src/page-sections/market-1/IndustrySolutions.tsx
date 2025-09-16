@@ -152,9 +152,7 @@ const StyledBody = styled.p`
   @media (max-width: 768px) {
     font-size: 36px;
     line-height: 40px;
-    br {
-      display: none;
-    }
+    /* Removed: br { display: none; } to allow line break on mobile */
   }
 
   @media (max-width: 600px) {
@@ -275,25 +273,52 @@ const CarouselWrapper = styled(Box)`
   }
 `;
 
-// Mobile Vertical Layout Container
+// Mobile Carousel Container
 const MobileContainer = styled.div`
   display: none;
+  width: 100%;
+  margin: 1rem 0;
+  padding: 0 0.5rem;
 
   @media (max-width: 480px) {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    width: 100%;
-    padding: 1rem 0;
+    display: block;
+  }
+
+  .slick-slide {
+    padding: 0 5px;
+  }
+
+  .slick-list {
+    margin: 0 -5px;
+  }
+
+  .slick-dots {
+    bottom: -25px;
+    
+    li {
+      margin: 0 2px;
+      
+      button:before {
+        font-size: 10px;
+        opacity: 0.5;
+        color: #0030e3;
+      }
+      
+      &.slick-active button:before {
+        opacity: 1;
+        color: #0030e3;
+      }
+    }
   }
 `;
 
 const MobileProductWrapper = styled.div`
-  width: 100%;
-
+  padding: 0 5px;
+  
   .product-card {
     width: 100%;
-    margin: 0;
+    margin: 0 auto;
+    max-width: 100%;
   }
 `;
 
@@ -573,24 +598,26 @@ export default function Section15() {
           </CarouselWrapper>
         )}
 
-        {/* Mobile Vertical Layout - Show only first 4 products */}
+        {/* Mobile Carousel Layout - Show only first 4 products */}
         {!loading && !error && products.length > 0 && (
           <MobileContainer>
-            {products.slice(0, 4).map((item) => (
-              <MobileProductWrapper key={item.id}>
-                <ProductCard19
-                  id={item.id}
-                  slug={item.slug}
-                  name={item.name}
-                  subTitle={item.customFields.Industry}
-                  description={item.description}
-                  img={defaultImage}
-                  images={defaultImages}
-                  reviews={defaultReviews}
-                  className="product-card"
-                />
-              </MobileProductWrapper>
-            ))}
+            <Carousel2 slidesToShow={1}>
+              {products.slice(0, 4).map((item) => (
+                <MobileProductWrapper key={item.id}>
+                  <ProductCard19
+                    id={item.id}
+                    slug={item.slug}
+                    name={item.name}
+                    subTitle={item.customFields.Industry}
+                    description={item.description}
+                    img={defaultImage}
+                    images={defaultImages}
+                    reviews={defaultReviews}
+                    className="product-card"
+                  />
+                </MobileProductWrapper>
+              ))}
+            </Carousel2>
           </MobileContainer>
         )}
       </ContentColumn>

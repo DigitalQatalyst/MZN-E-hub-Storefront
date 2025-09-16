@@ -1,15 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 import CategorySectionCreator from "@component/CategorySectionCreator";
 import styled from "styled-components";
 import Icon from "@component/icon/Icon";
-
-// Define the props interface for the Newsletter component
-interface NewsletterProps {
-  id?: string; // Add id prop as optional
-}
+import { useRouter } from "next/navigation";
 
 // GraphQL Mutations (unchanged)
 const LOGIN_MUTATION = `
@@ -113,7 +108,7 @@ const GET_CUSTOMER_BY_EMAIL = `
   }
 `;
 
-// OPTIMIZED RESPONSIVE STYLED COMPONENTS (unchanged)
+// OPTIMIZED RESPONSIVE STYLED COMPONENTS
 const ContentWrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -334,8 +329,10 @@ const FormRow = styled.div`
     gap: 14px;
   }
 
+  /* Updated mobile behavior - keep two columns for name and email/phone rows */
   @media (max-width: 480px) {
     gap: 12px;
+    /* Don't change to column layout on mobile for name and email/phone rows */
   }
 `;
 
@@ -349,6 +346,7 @@ const FormRowFullWidth = styled.div`
     gap: 14px;
   }
 
+  /* Full width rows remain as single column on mobile */
   @media (max-width: 480px) {
     flex-direction: column;
     gap: 12px;
@@ -670,7 +668,12 @@ const AlertClose = styled.button`
   }
 `;
 
-export default function Newsletter({ id }: NewsletterProps) {
+// Define props interface for the component
+interface Section19Props {
+  id?: string;
+}
+
+export default function Section19({ id }: Section19Props) {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -684,33 +687,6 @@ export default function Newsletter({ id }: NewsletterProps) {
   const [alertHeader, setAlertHeader] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    if (searchParams.get("scroll") !== "newsletter" || id !== "newsletter") {
-      return;
-    }
-
-    const maxAttempts = 50; // Limit polling to ~5 seconds (50 * 100ms)
-    let attempts = 0;
-    let scrollInterval: NodeJS.Timeout;
-
-    const tryScroll = () => {
-      const newsletterSection = document.getElementById("newsletter");
-      if (newsletterSection) {
-        newsletterSection.scrollIntoView({ behavior: "smooth" });
-        clearInterval(scrollInterval); // Stop polling once scrolled
-      } else if (attempts >= maxAttempts) {
-        clearInterval(scrollInterval); // Stop polling after max attempts
-        console.warn("Newsletter section not found after max attempts");
-      }
-      attempts++;
-    };
-
-    scrollInterval = setInterval(tryScroll, 100); // Check every 100ms
-
-    return () => clearInterval(scrollInterval); // Cleanup on unmount
-  }, [searchParams, id]);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -781,6 +757,7 @@ export default function Newsletter({ id }: NewsletterProps) {
     try {
       const submitResponse = await fetch(
         "https://9609a7336af8.ngrok-free.app/admin-api",
+        
         {
           method: "POST",
           headers: {

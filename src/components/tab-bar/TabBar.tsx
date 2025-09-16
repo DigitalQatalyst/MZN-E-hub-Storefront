@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { TabBarContainer, Tab } from './styles';
-import { FaBars } from 'react-icons/fa';
 
 const TabBar: React.FC = () => {
   const router = useRouter();
@@ -21,7 +20,6 @@ const TabBar: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>(() => {
     return routeToTabMap[pathname] || "Financial";
   });
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     setActiveTab(routeToTabMap[pathname] || "Financial");
@@ -30,19 +28,11 @@ const TabBar: React.FC = () => {
   const handleTabClick = (tabName: string, path: string) => {
     setActiveTab(tabName);
     router.push(path);
-    setIsMenuOpen(false);
-  };
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
   };
 
   return (
     <TabBarContainer>
-      <div className="hamburger" onClick={toggleMenu}>
-        <FaBars className="hamburger-icon" />
-      </div>
-      <div className={`tabs ${isMenuOpen ? 'open' : ''}`}>
+      <div className="tabs">
         <Tab
           onClick={() => handleTabClick('Non-Financial', '/non-financial-marketplace')}
           active={activeTab === 'Non-Financial' ? true : undefined}

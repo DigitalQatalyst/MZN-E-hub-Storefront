@@ -42,9 +42,9 @@ interface CustomFields {
   RegistrationValidity: string;
   relatedServices: RelatedService[];
   Cost: string;
-  Steps: string[];
-  TermsOfService: string[];
-  RequiredDocuments: string[];
+  Steps: string;
+  TermsOfService: string;
+  RequiredDocuments: string;
 }
 
 interface ProductResponse {

@@ -1,3 +1,16 @@
 export default function Loading() {
-  return <h1>Loading...</h1>;
+  return (
+    <div
+      style={{
+        height: "80vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        fontSize: "1.2rem",
+        color: "#002180",
+      }}
+    >
+      Loading...
+    </div>
+  );
 }

@@ -2,19 +2,14 @@
 // import { MsalProvider } from "@azure/msal-react";
 // import { PublicClientApplication } from "@azure/msal-browser";
 // import { msalConfig } from "../authConfig";
-import { ReactNode } from "react";
+// import { ReactNode } from "react";
 import { MsalProvider } from "@azure/msal-react";
 import { PublicClientApplication } from "@azure/msal-browser";
-import { msalConfig } from "../authConfig";
+import { msalConfig } from "../lib/authConfig";
+import { ReactNode, useEffect, useState } from "react";
 
-// // Initialize MSAL instance
-// const msalInstance = new PublicClientApplication(msalConfig);
-// export default function MsalWrapper({ children }: { children: ReactNode }) {
-//   return <MsalProvider instance={msalInstance}>{children}</MsalProvider>;
-// }
-
-import { useEffect, useState } from "react";
-
+// Initialize MSAL instance
+const msalInstance = new PublicClientApplication(msalConfig);
 export default function MsalWrapper({ children }: { children: ReactNode }) {
   const [msalInstance, setMsalInstance] =
     useState<PublicClientApplication | null>(null);

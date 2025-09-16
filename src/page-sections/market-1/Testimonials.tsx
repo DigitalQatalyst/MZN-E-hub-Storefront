@@ -6,35 +6,37 @@ import { H3 } from "@component/Typography";
 import { Button as DefaultButton } from "@component/buttons";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import StyledHeader from "@component/header/styles";
 
 // STYLED COMPONENTS
 const WelcomeSection = styled.section`
-  background-color: #FFF;
-  color: #000;
-  padding: 50px 120px 50px 120px;
+  background-color: #0030e3;
+  color: white;
+  padding: 90px 120px 50px 120px;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  margin-bottom: 2rem;
 
-  @media (max-width: 1024px) {
-    padding: 40px 80px 40px 80px;
+  @media (max-width: 1199px) {
+    padding: 32px 32px 32px 32px;
   }
 
-  @media (max-width: 768px) {
-    padding: 30px 40px 30px 40px;
-    gap: 1.5rem;
-  }
-
-  @media (max-width: 480px) {
-    padding: 20px 20px 20px 20px;
-    gap: 1rem;
+  @media (max-width: 899px) {
+    padding: 16px 8px 16px 8px;
   }
 `;
 
 const ContentColumn = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
+`;
+
+const MainHeading = styled(H3)`
+  @media (max-width: 480px) {
+    font-size: 36px !important;
+  }
 `;
 
 const FeaturedEvents = styled.div`
@@ -46,7 +48,7 @@ const FeaturedEvents = styled.div`
 const FeaturedEventsHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
   margin-bottom: 1rem;
 
@@ -70,7 +72,7 @@ const HeaderTextContainer = styled.div`
 const SubText = styled.p`
   font-size: 16px;
   font-weight: 400;
-  color: #000;
+  color: #F4F5F5;
   margin: 0;
 
   @media (max-width: 768px) {
@@ -96,7 +98,9 @@ const EventsContainer = styled.div`
   }
 
   @media (max-width: 480px) {
-    gap: 0.75rem;
+    flex-direction: column;
+    gap: 1.5rem; /* Adjusted for better spacing */
+    align-items: center; /* Center cards for better mobile presentation */
   }
 `;
 
@@ -113,6 +117,12 @@ const EventCard = styled.div`
     flex: none;
     width: 100%;
   }
+
+  @media (max-width: 480px) {
+    width: 320px; /* Fixed width for mobile */
+    height: auto; /* Allow height to adjust based on content */
+    gap: 0.5rem;
+  }
 `;
 
 const EventImage = styled.div`
@@ -127,7 +137,8 @@ const EventImage = styled.div`
   }
 
   @media (max-width: 480px) {
-    height: 140px;
+    width: 380px; /* Fixed image width */
+    height: 200px; /* Fixed image height */
   }
 `;
 
@@ -138,14 +149,17 @@ const EventDetails = styled.div`
   gap: 0.5rem;
 
   @media (max-width: 480px) {
+    padding-top: 0.5rem;
     gap: 0.25rem;
+    flex: 1;
+    overflow: hidden;
   }
 `;
 
 const EventTitle = styled.h4`
   font-size: 18px;
-  font-weight: 400;
-  color: #000;
+  font-weight: 600;
+  color: #F4F5F5);
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -162,12 +176,15 @@ const EventTitle = styled.h4`
 
   @media (max-width: 480px) {
     font-size: 14px;
+    -webkit-line-clamp: 2;
+    min-height: auto;
+    max-height: none;
   }
 `;
 
 const EventMeta = styled.div`
   font-size: 14px;
-  color: #666;
+  color: #F4F5F5;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -180,7 +197,7 @@ const EventMeta = styled.div`
 
 const ExploreAllButton = styled(DefaultButton)`
   background-color: transparent;
-  color: #0030E3;
+  color: #0030e3;
   border: none;
   font-size: 16px;
   font-weight: 500;
@@ -216,7 +233,8 @@ interface Post {
   } | null;
 }
 
-const GRAPHQL_ENDPOINT = "https://ujs.qxk.mybluehost.me/website_b79ab28e/graphql";
+const GRAPHQL_ENDPOINT =
+  "https://ujs.qxk.mybluehost.me/website_b79ab28e/graphql";
 
 const Section16: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -228,9 +246,9 @@ const Section16: React.FC = () => {
     const fetchPosts = async () => {
       try {
         const response = await fetch(GRAPHQL_ENDPOINT, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             query: `
@@ -264,8 +282,8 @@ const Section16: React.FC = () => {
         setPosts(data.posts.edges.map((edge: any) => edge.node));
         setError(null);
       } catch (err) {
-        console.error('Error fetching posts:', err);
-        setError('Failed to load posts. Please try again later.');
+        console.error("Error fetching posts:", err);
+        setError("Failed to load posts. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -276,27 +294,37 @@ const Section16: React.FC = () => {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
+    return date.toLocaleDateString("en-US", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
     });
   };
 
   const handleExploreAllClick = () => {
-    window.open("https://kf-ej-media-marketplace-c0cllh08g-digitalqatalysts-projects.vercel.app/", "_blank");
+    window.open(
+      "https://kf-ej-media-marketplace-c0cllh08g-digitalqatalysts-projects.vercel.app/",
+      "_blank"
+    );
   };
 
   if (loading) {
     return (
       <WelcomeSection>
         <ContentColumn>
-          <H3 style={{ fontSize: "16px", fontWeight: "400", textTransform: "uppercase" }}>
+          <H3
+            style={{
+              fontSize: "16px",
+              fontWeight: "400",
+              fontFamily: "Helvetica Neue",
+              textTransform: "uppercase",
+            }}
+          >
             Latest Insights & Success Stories
           </H3>
-          <H3 fontSize="48px" fontWeight="600">
+          <MainHeading fontSize="48px" fontWeight="500">
             Loading...
-          </H3>
+          </MainHeading>
         </ContentColumn>
       </WelcomeSection>
     );
@@ -306,7 +334,13 @@ const Section16: React.FC = () => {
     return (
       <WelcomeSection>
         <ContentColumn>
-          <H3 style={{ fontSize: "16px", fontWeight: "400", textTransform: "uppercase" }}>
+          <H3
+            style={{
+              fontSize: "16px",
+              fontWeight: "400",
+              textTransform: "uppercase",
+            }}
+          >
             Error
           </H3>
           <H3 fontSize="24px" fontWeight="600" color="error">
@@ -321,17 +355,30 @@ const Section16: React.FC = () => {
     <div>
       <WelcomeSection>
         <ContentColumn>
-          <H3 style={{ fontSize: "16px", fontWeight: "400", textTransform: "uppercase" }}>
+          <p
+            style={{
+              fontSize: "16px",
+              fontWeight: "400",
+              textTransform: "uppercase",
+            }}
+          >
             Latest Insights & Success Stories
-          </H3>
-          <H3 fontSize="48px" fontWeight="600">
-            Stay informed with curated news, <br /> market analysis, and real-world case studies
-          </H3>
+          </p>
+          <MainHeading fontSize="48px" fontWeight="500">
+            Stay informed with curated news, <br /> market analysis, and
+            real-world case studies
+          </MainHeading>
         </ContentColumn>
         <FeaturedEvents>
           <FeaturedEventsHeader>
             <HeaderTextContainer>
-              <p style={{ fontSize: "16px", fontWeight: "400", textTransform: "uppercase" }}>
+              <p
+                style={{
+                  fontSize: "16px",
+                  fontWeight: "400",
+                  textTransform: "uppercase",
+                }}
+              >
                 Latest Media Updates
               </p>
               <SubText>Discover the latest news and updates.</SubText>
@@ -345,7 +392,10 @@ const Section16: React.FC = () => {
               <EventCard key={post.postId}>
                 <EventImage>
                   <Image
-                    src={post.featuredImage?.node?.sourceUrl || "/assets/images/placeholder.jpg"}
+                    src={
+                      post.featuredImage?.node?.sourceUrl ||
+                      "/assets/images/placeholder.jpg"
+                    }
                     alt={post.title}
                     layout="fill"
                     objectFit="cover"
@@ -354,7 +404,15 @@ const Section16: React.FC = () => {
                 <EventDetails>
                   <EventTitle>{post.title}</EventTitle>
                   <EventMeta>
-                    <span>{formatDate(post.date)}</span>
+                    <span
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        color: "#F4F5F5)",
+                      }}
+                    >
+                      {formatDate(post.date)}
+                    </span>
                   </EventMeta>
                 </EventDetails>
               </EventCard>

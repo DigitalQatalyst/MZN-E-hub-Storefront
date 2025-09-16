@@ -126,7 +126,13 @@ export default function ProductDetails({ product }: Props) {
   );
 
   const renderDocuments = () => {
-    const docs = product?.requiredDocuments || [];
+    const docs = product?.requiredDocuments
+      ? product.requiredDocuments
+          .replace(/[\[\]"']/g, "") // Remove square brackets and quotes
+          .split(",")
+          .map((step) => step.trim())
+          .filter((step) => step.length > 0)
+      : [];
     const showButton = docs.length > 4;
     const visibleDocs = showAllDocs ? docs : docs.slice(0, 4);
 
@@ -196,28 +202,33 @@ export default function ProductDetails({ product }: Props) {
   const renderCost = () => (
     <ContentBox>
       {/* <DocumentItem mb="1rem">Service Cost Details</DocumentItem> */}
-      {/* <DocumentItem mb="1rem">Service Cost Details</DocumentItem> */}
       <DocumentItem>
-        {product?.cost || "No cost information available."}
         {product?.cost || "No cost information available."}
       </DocumentItem>
     </ContentBox>
   );
 
   const renderSteps = () => {
-    const steps = product?.steps || [];
+    // Get steps as a comma-separated string, clean it up, and split into array
+    const steps = product?.steps
+      ? product.steps
+          .replace(/[\[\]"']/g, "") // Remove square brackets and quotes
+          .split(",")
+          .map((step) => step.trim())
+          .filter((step) => step.length > 0)
+      : [];
     const showButton = steps.length > 4;
     const visibleSteps = showAllSteps ? steps : steps.slice(0, 4);
 
     return (
       <ContentBox>
         <DocumentItem mb="1rem" style={{ fontWeight: "bold" }}>
-          Steps:
+          {product.name} Service Steps:
         </DocumentItem>
         {steps.length > 0 ? (
           <>
             <ol style={{ paddingLeft: "2%" }}>
-              {visibleSteps.map((step, index) => (
+              {steps?.map((step, index) => (
                 <li key={index} style={{ marginBottom: "1rem" }}>
                   <DocumentItem as="span">{step}</DocumentItem>
                 </li>
@@ -256,19 +267,31 @@ export default function ProductDetails({ product }: Props) {
     );
   };
 
-  const renderTerms = () => (
-    <ContentBox>
-      
-      {/* <DocumentItem mb="1rem">Terms of Service</DocumentItem> */}
-      {product?.termsOfService && product?.termsOfService.length > 0 ? (
-        product?.termsOfService.map((term, index) => (
-          <DocumentItem key={index}>{term}</DocumentItem>
-        ))
-      ) : (
-        <DocumentItem>No terms listed.</DocumentItem>
-      )}
-    </ContentBox>
-  );
+  const renderTerms = () => {
+    const terms = product?.termsOfService
+      ? product.termsOfService
+          .replace(/[\[\]"']/g, "") // Remove square brackets and quotes
+          .split(",")
+          .map((term) => term.trim())
+          .filter((term) => term.length > 0)
+      : [];
+
+    return (
+      <ContentBox>
+        {terms.length > 0 ? (
+          <ol style={{ paddingLeft: "2%" }}>
+            {terms.map((term, index) => (
+              <li key={index} style={{ marginBottom: "0.5rem" }}>
+                <DocumentItem as="span">{term}</DocumentItem>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <DocumentItem>No terms listed.</DocumentItem>
+        )}
+      </ContentBox>
+    );
+  };
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -326,10 +349,8 @@ export default function ProductDetails({ product }: Props) {
             active={activeTab === "documents"}
             onClick={() => setActiveTab("documents")}
           >
-            Required Documents
-            Required Documents
+            Required Documents Required Documents
           </TabButton>
-
 
           <TabButton
             className="product-details-tab"

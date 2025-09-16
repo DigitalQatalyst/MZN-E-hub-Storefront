@@ -14,22 +14,18 @@ import Newsletter from "@sections/market-1/Newsletter";
 
 export default async function Market1() {
   const popularProducts = await api.getPopularProducts();
-  
 
   return (
-    
-    <main> 
+    <main>
       <HeroBanner />
       <PopularProducts products={popularProducts} />
       <ServicesShowcase />
       <IndustrySolutions />
-      <EventsSection />
+      {/* <EventsSection /> */}
       <Testimonials />
       <TopCategories />
       <Newsletter />
       <Footer1 />
-
     </main>
-    
   );
 }

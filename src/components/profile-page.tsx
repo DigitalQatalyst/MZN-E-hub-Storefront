@@ -182,7 +182,7 @@ export default function ProfilePage() {
           <button
             style={{
               padding: "12px 24px",
-              backgroundColor: "transparent",
+              backgroundColor: "rgba(168, 170, 174, 0.16)", // Updated background color
               color: "#6b7280",
               border: "none",
               borderRadius: "6px",
@@ -273,7 +273,7 @@ export default function ProfilePage() {
           disabled={!confirmRemoval}
           style={{
             padding: "12px 24px",
-            backgroundColor: confirmRemoval ? "#dc2626" : "#d1d5db",
+            backgroundColor: "#EC0004", // Red background color
             color: "white",
             border: "none",
             borderRadius: "6px",

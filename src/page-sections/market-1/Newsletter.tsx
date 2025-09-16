@@ -111,6 +111,7 @@ const GET_CUSTOMER_BY_EMAIL = `
 // OPTIMIZED RESPONSIVE STYLED COMPONENTS
 const ContentWrapper = styled.div`
   display: flex;
+  width: 100%;
   justify-content: space-between;
   align-items: flex-start;
   gap: 2rem;
@@ -141,15 +142,13 @@ const ContentColumn = styled.div`
   flex-direction: column;
   align-items: flex-start;
   flex: 1;
-  max-width: 50%;
+  width: 50%;
 
   @media (max-width: 1199px) {
-    max-width: 42%;
-    flex: 0 0 42%;
+    flex: 0 0 50%;
   }
 
   @media (max-width: 899px) {
-    max-width: 100%;
     flex: 1;
     margin-bottom: 0;
     text-align: center;
@@ -185,7 +184,7 @@ const StyledHeader = styled.p`
 const StyledBody = styled.h1`
   color: #000;
   font-size: 48px;
-  font-family: "FS Kim Trial";
+  font-style: normal;
   font-weight: 400;
   line-height: 52px;
   letter-spacing: 0px;
@@ -284,8 +283,8 @@ const FeatureItem = styled.div`
 
 const FormColumn = styled.form`
   display: flex;
-  width: 100%;
-  max-width: 585px;
+  flex: 1;
+  width: 50%;
   min-height: 550px;
   padding: 24px;
   flex-direction: column;
@@ -298,8 +297,6 @@ const FormColumn = styled.form`
   align-self: flex-start;
 
   @media (max-width: 1199px) {
-    max-width: 520px;
-    width: 100%;
     min-height: auto;
     padding: 20px;
     gap: 18px;
@@ -307,7 +304,6 @@ const FormColumn = styled.form`
   }
 
   @media (max-width: 899px) {
-    max-width: 100%;
     padding: 20px;
     gap: 16px;
   }
@@ -329,24 +325,6 @@ const FormRow = styled.div`
     gap: 14px;
   }
 
-  /* Updated mobile behavior - keep two columns for name and email/phone rows */
-  @media (max-width: 480px) {
-    gap: 12px;
-    /* Don't change to column layout on mobile for name and email/phone rows */
-  }
-`;
-
-const FormRowFullWidth = styled.div`
-  display: flex;
-  gap: 16px;
-  margin-bottom: 0;
-  width: 100%;
-
-  @media (max-width: 1199px) {
-    gap: 14px;
-  }
-
-  /* Full width rows remain as single column on mobile */
   @media (max-width: 480px) {
     flex-direction: column;
     gap: 12px;
@@ -370,9 +348,9 @@ const FormFieldWrapper = styled.div`
 `;
 
 const FormLabel = styled.label`
-  font-size: 13px;
-  color: #2f2b3d;
-  font-weight: 400;
+  font-size: 14px;
+  color: #000;
+  font-weight: 500;
 
   @media (max-width: 1199px) {
     font-size: 13px;
@@ -388,7 +366,8 @@ const FormField = styled.input`
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 14px;
+  font-family: "FS Kim Trial";
+  font-size: 16px;
   color: #000;
   box-sizing: border-box;
   transition: border-color 0.2s ease;
@@ -480,11 +459,14 @@ const FormTextarea = styled.textarea`
   min-height: 100px;
   height: 120px;
   padding: 12px;
+  resize: vertical;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 14px;
+  font-family: "FS Kim Trial";
+  font-size: 16px;
   color: #000;
-  resize: vertical;
   box-sizing: border-box;
   transition: border-color 0.2s ease;
 
@@ -511,37 +493,39 @@ const FormTextarea = styled.textarea`
 
 const PrivacyText = styled.p`
   color: #666;
-  font-size: 13px;
+  font-size: 16px;
+  font-family: "FS Kim Trial";
   font-weight: 400;
   line-height: 18px;
   margin: 0;
 
   @media (max-width: 1199px) {
-    font-size: 12px;
+    font-size: 16px;
     line-height: 16px;
   }
 
   @media (max-width: 480px) {
-    font-size: 12px;
+    font-size: 16px;
     line-height: 16px;
   }
 `;
 
 const PrivacyLink = styled.a`
   color: #5088ff;
-  font-size: 13px;
+  font-size: 16px;
+  font-family: "FS Kim Trial";
   font-weight: 400;
   line-height: 18px;
   text-decoration-line: underline;
   cursor: pointer;
 
   @media (max-width: 1199px) {
-    font-size: 12px;
+    font-size: 16px;
     line-height: 16px;
   }
 
   @media (max-width: 480px) {
-    font-size: 12px;
+    font-size: 16px;
     line-height: 16px;
   }
 `;
@@ -549,7 +533,7 @@ const PrivacyLink = styled.a`
 const SubmitButton = styled.button<{ disabled?: boolean }>`
   background-color: ${({ disabled }) => (disabled ? "#ccc" : "#0030E3")};
   color: #fff;
-  padding: 8px 20px;
+  padding: 14px 24px;
   border: none;
   border-radius: 4px;
   font-size: 16px;
@@ -662,7 +646,12 @@ const AlertClose = styled.button`
   }
 `;
 
-export default function Section19() {
+// Define props interface for the component
+interface Section19Props {
+  id?: string;
+}
+
+export default function Section19({ id }: Section19Props) {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -745,7 +734,8 @@ export default function Section19() {
 
     try {
       const submitResponse = await fetch(
-        "https://22af-54-37-203-255.ngrok-free.app/admin-api",
+        "https://9609a7336af8.ngrok-free.app/admin-api",
+        
         {
           method: "POST",
           headers: {
@@ -796,7 +786,7 @@ export default function Section19() {
       );
 
       const loginResponse = await fetch(
-        "https://22af-54-37-203-255.ngrok-free.app/admin-api",
+        "https://9609a7336af8.ngrok-free.app/admin-api",
         {
           method: "POST",
           headers: {
@@ -828,7 +818,7 @@ export default function Section19() {
       console.log("Authenticated successfully with token:", authToken);
 
       const checkCustomerResponse = await fetch(
-        "https://22af-54-37-203-255.ngrok-free.app/admin-api",
+        "https://9609a7336af8.ngrok-free.app/admin-api",
         {
           method: "POST",
           headers: {
@@ -894,7 +884,7 @@ export default function Section19() {
       }
 
       const response = await fetch(
-        "https://22af-54-37-203-255.ngrok-free.app/admin-api",
+        "https://9609a7336af8.ngrok-free.app/admin-api",
         {
           method: "POST",
           headers: {
@@ -974,159 +964,161 @@ export default function Section19() {
   };
 
   return (
-    <CategorySectionCreator>
-      {showAlert && (
-        <AlertPopup>
-          <AlertHeader>{alertHeader}</AlertHeader>
-          <AlertText>{alertMessage}</AlertText>
-          <AlertClose onClick={() => setShowAlert(null)}>×</AlertClose>
-        </AlertPopup>
-      )}
-      <ContentWrapper>
-        <ContentColumn>
-          <StyledHeader>CONTACT OUR TEAM</StyledHeader>
-          <StyledBody>Ready to Make an Enquiry?</StyledBody>
-          <Description>
-            Tell us what you're looking for and we'll get back to you shortly.
-            For additional information you can also visit our{" "}
-            <HelpLink onClick={handleHelpLinkClick}>Help Center</HelpLink>.
-          </Description>
-          <FeatureContainer>
-            <FeatureItem>
-              <Icon>mark</Icon> 500+ Tailored Services
-            </FeatureItem>
-            <FeatureItem>
-              <Icon>mark</Icon> AI Support for Every Stage of Your Business
-            </FeatureItem>
-            <FeatureItem>
-              <Icon>mark</Icon> Simplified access, all in one place
-            </FeatureItem>
-            <FeatureItem>
-              <Icon>mark</Icon> Support that grows with your business
-            </FeatureItem>
-          </FeatureContainer>
-        </ContentColumn>
+    <div id={id}>
+      <CategorySectionCreator>
+        {showAlert && (
+          <AlertPopup>
+            <AlertHeader>{alertHeader}</AlertHeader>
+            <AlertText>{alertMessage}</AlertText>
+            <AlertClose onClick={() => setShowAlert(null)}>×</AlertClose>
+          </AlertPopup>
+        )}
+        <ContentWrapper>
+          <ContentColumn>
+            <StyledHeader>CONTACT OUR TEAM</StyledHeader>
+            <StyledBody>Ready to Make an Enquiry?</StyledBody>
+            <Description>
+              Tell us what you're looking for and we'll get back to you shortly.
+              For additional information you can also visit our{" "}
+              <HelpLink onClick={handleHelpLinkClick}>Help Center</HelpLink>.
+            </Description>
+            <FeatureContainer>
+              <FeatureItem>
+                <Icon>mark</Icon> 500+ Tailored Services
+              </FeatureItem>
+              <FeatureItem>
+                <Icon>mark</Icon> AI Support for Every Stage of Your Business
+              </FeatureItem>
+              <FeatureItem>
+                <Icon>mark</Icon> Simplified access, all in one place
+              </FeatureItem>
+              <FeatureItem>
+                <Icon>mark</Icon> Support that grows with your business
+              </FeatureItem>
+            </FeatureContainer>
+          </ContentColumn>
 
-        <FormColumn onSubmit={handleSubmit}>
-          <FormRow>
-            <FormFieldWrapper>
-              <FormLabel>First Name</FormLabel>
-              <FormField
-                type="text"
-                name="firstName"
-                placeholder="John"
-                value={formData.firstName}
-                onChange={handleChange}
-                required
-                pattern="[A-Za-z]+"
-                title="First name should only contain letters"
-              />
-            </FormFieldWrapper>
-            <FormFieldWrapper>
-              <FormLabel>Last Name</FormLabel>
-              <FormField
-                type="text"
-                name="lastName"
-                placeholder="Doe"
-                value={formData.lastName}
-                onChange={handleChange}
-                required
-                pattern="[A-Za-z]+"
-                title="Last name should only contain letters"
-              />
-            </FormFieldWrapper>
-          </FormRow>
+          <FormColumn onSubmit={handleSubmit}>
+            <FormRow>
+              <FormFieldWrapper>
+                <FormLabel>First Name</FormLabel>
+                <FormField
+                  type="text"
+                  name="firstName"
+                  placeholder="John"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  required
+                  pattern="[A-Za-z]+"
+                  title="First name should only contain letters"
+                />
+              </FormFieldWrapper>
+              <FormFieldWrapper>
+                <FormLabel>Last Name</FormLabel>
+                <FormField
+                  type="text"
+                  name="lastName"
+                  placeholder="Doe"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  required
+                  pattern="[A-Za-z]+"
+                  title="Last name should only contain letters"
+                />
+              </FormFieldWrapper>
+            </FormRow>
 
-          <FormRow>
-            <FormFieldWrapper>
-              <FormLabel>Email</FormLabel>
-              <FormField
-                type="email"
-                name="email"
-                placeholder="johndoe@example.com"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                title="Please enter a valid email address"
-              />
-            </FormFieldWrapper>
-            <FormFieldWrapper>
-              <FormLabel>Phone number</FormLabel>
-              <FormField
-                type="tel"
-                name="phoneNumber"
-                placeholder="+971 xxx xxxx"
-                value={formData.phoneNumber}
-                onChange={handleChange}
-                required
-                pattern="[0-9]{1,11}"
-                maxLength={20}
-                title="Phone number should only contain numbers and be up to 11 characters"
-              />
-            </FormFieldWrapper>
-          </FormRow>
+            <FormRow>
+              <FormFieldWrapper>
+                <FormLabel>Email</FormLabel>
+                <FormField
+                  type="email"
+                  name="email"
+                  placeholder="johndoe@example.com"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  title="Please enter a valid email address"
+                />
+              </FormFieldWrapper>
+              <FormFieldWrapper>
+                <FormLabel>Phone number</FormLabel>
+                <FormField
+                  type="tel"
+                  name="phoneNumber"
+                  placeholder="+971 xxx xxxx"
+                  value={formData.phoneNumber}
+                  onChange={handleChange}
+                  required
+                  pattern="[0-9]{1,11}"
+                  maxLength={20}
+                  title="Phone number should only contain numbers and be up to 11 characters"
+                />
+              </FormFieldWrapper>
+            </FormRow>
 
-          <FormRow>
-            <FormSelectWrapper>
-              <FormLabel>Select Enquiry Type</FormLabel>
-              <FormSelect
-                name="enquiryType"
-                value={formData.enquiryType}
-                onChange={handleChange}
-                required
-              >
-                <option value="" disabled>
-                  Select
-                </option>
-                <option value="Funding Request">Funding Request</option>
-                <option value="Mentorship">Mentorship</option>
-                <option value="Business Consultation">
-                  Business Consultation
-                </option>
-                <option value="Event Registration">Event Registration</option>
-                <option value="Legal or Compliance">Legal or Compliance</option>
-                <option value="Product/Service Inquiry">
-                  Product/Service Inquiry
-                </option>
-                <option value="Technical Support">Technical Support</option>
-                <option value="General Inquiry">General Inquiry</option>
-                <option value="Feedback/Suggestions">
-                  Feedback/Suggestions
-                </option>
-                <option value="Partnership/Collaboration">
-                  Partnership/Collaboration
-                </option>
-              </FormSelect>
-            </FormSelectWrapper>
-          </FormRow>
+            <FormRow>
+              <FormSelectWrapper>
+                <FormLabel>Select Enquiry Type</FormLabel>
+                <FormSelect
+                  name="enquiryType"
+                  value={formData.enquiryType}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="" disabled>
+                    Select
+                  </option>
+                  <option value="Funding Request">Funding Request</option>
+                  <option value="Mentorship">Mentorship</option>
+                  <option value="Business Consultation">
+                    Business Consultation
+                  </option>
+                  <option value="Event Registration">Event Registration</option>
+                  <option value="Legal or Compliance">Legal or Compliance</option>
+                  <option value="Product/Service Inquiry">
+                    Product/Service Inquiry
+                  </option>
+                  <option value="Technical Support">Technical Support</option>
+                  <option value="General Inquiry">General Inquiry</option>
+                  <option value="Feedback/Suggestions">
+                    Feedback/Suggestions
+                  </option>
+                  <option value="Partnership/Collaboration">
+                    Partnership/Collaboration
+                  </option>
+                </FormSelect>
+              </FormSelectWrapper>
+            </FormRow>
 
-          <FormRow>
-            <FormTextareaWrapper>
-              <FormLabel>Message</FormLabel>
-              <FormTextarea
-                name="message"
-                placeholder="Describe your enquiry in detail"
-                value={formData.message}
-                onChange={handleChange}
-                required
-              />
-            </FormTextareaWrapper>
-          </FormRow>
+            <FormRow>
+              <FormTextareaWrapper>
+                <FormLabel>Message</FormLabel>
+                <FormTextarea
+                  name="message"
+                  placeholder="Describe your enquiry in detail"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                />
+              </FormTextareaWrapper>
+            </FormRow>
 
-          <PrivacyText>
-            <span style={{ color: "#FF4C51" }}>*</span> By submitting this form,
-            you agree to our{" "}
-            <PrivacyLink onClick={handlePrivacyLinkClick}>
-              Privacy Policy
-            </PrivacyLink>
-            .
-          </PrivacyText>
+            <PrivacyText>
+              <span style={{ color: "#FF4C51" }}>*</span> By submitting this form,
+              you agree to our{" "}
+              <PrivacyLink onClick={handlePrivacyLinkClick}>
+                Privacy Policy
+              </PrivacyLink>
+              .
+            </PrivacyText>
 
-          <SubmitButton type="submit" disabled={!isFormValid() || isSubmitting}>
-            {isSubmitting ? "Submitting..." : "Submit Enquiry"}
-          </SubmitButton>
-        </FormColumn>
-      </ContentWrapper>
-    </CategorySectionCreator>
+            <SubmitButton type="submit" disabled={!isFormValid() || isSubmitting}>
+              {isSubmitting ? "Submitting..." : "Submit Enquiry"}
+            </SubmitButton>
+          </FormColumn>
+        </ContentWrapper>
+      </CategorySectionCreator>
+    </div>
   );
 }

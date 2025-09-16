@@ -9,10 +9,8 @@ import "slick-carousel/slick/slick-theme.css";
 import NProgressBar from "@component/NProgress";
 import KfBot from "@component/bot/KfBot";
 import { ModalProvider } from "@context/ModalContext";
-// import MsalProviders from "./msalProviders"; // 
-// import MsalProviders from "./msalProviders"; // 👈 add
 import { MSALProviderWrapper as MsalProviders } from "../contexts/MsalProvider"; // 👈 add
-
+import "./globals.css";
 const openSans = Open_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -28,12 +26,12 @@ export const metadata: Metadata = {
   }
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode; }) {
   return (
     <html lang="en">
       <body className={openSans.className}>
         <StyledComponentsRegistry>
-          <MsalProviders> 
+          <MsalProviders>
             <AppProvider>
               <ModalProvider>
                 <StyledContext>

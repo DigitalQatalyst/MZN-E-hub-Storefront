@@ -22,12 +22,13 @@ import Link from "next/link";
 import { Carousel2 } from "@component/carousel2";
 
 const TabButton = styled(Button)<{ active?: boolean }>`
-  //padding: 0.75rem 1.5rem;
-  width: 250px;
+  padding: 8px 20px;
+  align-items: center;
+  width: 200px;
   border: none;
   box-shadow: none;
   color: ${({ active }) => (active ? "#0030E3" : "#747474")};
-  font-size: 18px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
   background: none;
@@ -64,6 +65,8 @@ const TabButton = styled(Button)<{ active?: boolean }>`
 const TabContainer = styled(Box)`
   display: flex;
   background-color: #ffffff;
+  justify-content: flex-start;
+  gap: 10px;
   padding: 0 0.5rem;
   border-radius: 8px 8px 0 0;
 `;
@@ -78,7 +81,7 @@ const ContentBox = styled(Box)`
 `;
 
 const DocumentItem = styled(Paragraph)`
-  font-size: 14px;
+  font-size: 16px;
   color: #333333;
   margin-bottom: 0.75rem;
 `;
@@ -136,7 +139,9 @@ export default function ServiceDetailsSection2({ product }: Props) {
           flex="1"
           style={{ display: "flex", flexDirection: "column" }}
         >
-          <Span fontWeight="bold">Overview</Span>
+          <Span mb="10px" fontWeight="bold">
+            Overview
+          </Span>
           <span>{product.description}</span>
         </DocumentItem>
         <DocumentItem flex="1">
@@ -185,7 +190,7 @@ export default function ServiceDetailsSection2({ product }: Props) {
               )}
             </>
           ) : (
-            <DocumentItem>No documents listed.</DocumentItem>
+            <DocumentItem mt="10px">No documents listed.</DocumentItem>
           )}
         </DocumentItem>
       </ContentBox>

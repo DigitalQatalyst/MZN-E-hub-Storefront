@@ -7,7 +7,7 @@ import {
   AuthenticatedTemplate,
   UnauthenticatedTemplate,
 } from "@azure/msal-react";
-import type { AccountInfo } from "@azure/msal-browser";
+import { AccountInfo, InteractionStatus } from "@azure/msal-browser";
 import { Menu, X, Search, Bookmark, ChevronRight, LogOut, User } from "lucide-react";
 
 import { loginRequest } from "@lib/authConfig";
@@ -30,35 +30,57 @@ function getInitials(name?: string) {
 
 export default function Navbar({ navListOpen }: NavbarProps) {
   const router = useRouter();
-  const { instance, accounts } = useMsal();
+  const { instance, accounts, inProgress } = useMsal();
 
-  // responsive + menus
+  const [isMsalInitialized, setIsMsalInitialized] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement | null>(null);
 
-  // derive active account + name once
-  const activeAccount: AccountInfo | undefined = useMemo(
-    () => instance.getActiveAccount() ?? accounts[0],
-    [instance, accounts]
-  );
-
-  const displayName =
-    activeAccount?.name ||
-    (activeAccount?.idTokenClaims as any)?.name ||
-    (activeAccount?.idTokenClaims as any)?.given_name ||
-    (activeAccount?.idTokenClaims as any)?.emails?.[0] ||
-    "User";
-
-  // set active account on mount if missing
+  // Set MSAL initialized flag when interaction is none
   useEffect(() => {
-    if (!instance.getActiveAccount() && accounts[0]) {
-      instance.setActiveAccount(accounts[0]);
+    if (inProgress === InteractionStatus.None) {
+      setIsMsalInitialized(true);
     }
-  }, [accounts, instance]);
+  }, [inProgress]);
 
-  // handle resize
+  // Derive active account safely
+  const activeAccount: AccountInfo | undefined = useMemo(() => {
+    if (!isMsalInitialized) return undefined;
+    try {
+      return instance.getActiveAccount() ?? accounts[0];
+    } catch (error) {
+      console.warn("Error getting active account:", error);
+      return undefined;
+    }
+  }, [instance, accounts, isMsalInitialized]);
+
+  // Derive display name
+  const displayName = useMemo(() => {
+    if (!activeAccount) return "User ";
+    return (
+      activeAccount.name ||
+      (activeAccount.idTokenClaims as any)?.name ||
+      (activeAccount.idTokenClaims as any)?.given_name ||
+      (activeAccount.idTokenClaims as any)?.emails?.[0] ||
+      "User "
+    );
+  }, [activeAccount]);
+
+  // Set active account on mount if missing
+  useEffect(() => {
+    if (!isMsalInitialized) return;
+    try {
+      if (!instance.getActiveAccount() && accounts[0]) {
+        instance.setActiveAccount(accounts[0]);
+      }
+    } catch (error) {
+      console.warn("Error setting active account:", error);
+    }
+  }, [accounts, instance, isMsalInitialized]);
+
+  // Responsive: detect mobile
   useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth <= 900;
@@ -70,7 +92,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // close profile dropdown on outside click
+  // Close profile dropdown on outside click
   useEffect(() => {
     const onDocClick = (e: MouseEvent) => {
       if (!isProfileOpen) return;
@@ -82,19 +104,15 @@ export default function Navbar({ navListOpen }: NavbarProps) {
     return () => document.removeEventListener("mousedown", onDocClick);
   }, [isProfileOpen]);
 
-  // actions
-  const toggleMobileMenu = () => setIsMobileMenuOpen((v) => !v);
+  // Actions
+  const toggleMobileMenu = () => setIsMobileMenuOpen(v => !v);
 
-  // ✅ POPUP login + route to /dashboard
-  const startLogin = async () => {
-    try {
-      const res = await instance.loginPopup(loginRequest);
-      if (res?.account) instance.setActiveAccount(res.account);
-      setIsMobileMenuOpen(false);
-      router.push("/dashboard");
-    } catch (err) {
-      console.error(err);
+  const startLogin = () => {
+    if (!isMsalInitialized) {
+      console.warn("MSAL not initialized yet");
+      return Promise.resolve();
     }
+    return instance.loginRedirect(loginRequest).catch(console.error);
   };
 
   const goDashboard = () => {
@@ -103,6 +121,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   };
 
   const logout = () => {
+    if (!isMsalInitialized) return;
     setIsMobileMenuOpen(false);
     const account = instance.getActiveAccount() ?? accounts?.[0];
     instance
@@ -118,6 +137,21 @@ export default function Navbar({ navListOpen }: NavbarProps) {
     if (!activeAccount) startLogin();
     else setIsProfileOpen((v) => !v);
   };
+
+  if (!isMsalInitialized) {
+    return (
+      <StyledNavbar>
+        <Container
+          height="100%"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Typography>Loading...</Typography>
+        </Container>
+      </StyledNavbar>
+    );
+  }
 
   return (
     <StyledNavbar>
@@ -178,10 +212,12 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           {/* Search */}
           <Box className="search-icon" style={{ cursor: "pointer" }} title="Search">
             <Search size={20} color="white" />
+            <Search size={20} color="white" />
           </Box>
 
           {/* Bookmark */}
           <Box className="bookmark-icon" style={{ cursor: "pointer" }} title="Bookmarks">
+            <Bookmark size={22} color="white" />
             <Bookmark size={22} color="white" />
           </Box>
 

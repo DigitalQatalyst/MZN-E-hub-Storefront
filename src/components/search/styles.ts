@@ -15,6 +15,7 @@ export const SearchInput = styled.input`
   font-family: 'Open Sans', sans-serif;
   border: 1px solid #ccc;
   border-radius: 0 6px 6px 0;
+  line-height: 20px; 
   outline: none;
 
   /* Optional: Focus styles */

@@ -10,25 +10,20 @@ import StyledHeader from "@component/header/styles";
 
 // STYLED COMPONENTS
 const WelcomeSection = styled.section`
-  background-color: #fff;
-  color: #000;
-  padding: 50px 120px 50px 120px;
+  background-color: #0030e3;
+  color: white;
+  padding: 90px 120px 50px 120px;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  margin-bottom: 2rem;
 
-  @media (max-width: 1024px) {
-    padding: 40px 80px 40px 80px;
+  @media (max-width: 1199px) {
+    padding: 32px 32px 32px 32px;
   }
 
-  @media (max-width: 768px) {
-    padding: 30px 40px 30px 40px;
-    gap: 1.5rem;
-  }
-
-  @media (max-width: 480px) {
-    padding: 20px 20px 20px 20px;
-    gap: 1rem;
+  @media (max-width: 899px) {
+    padding: 16px 8px 16px 8px;
   }
 `;
 
@@ -77,7 +72,7 @@ const HeaderTextContainer = styled.div`
 const SubText = styled.p`
   font-size: 16px;
   font-weight: 400;
-  color: #000;
+  color: #F4F5F5;
   margin: 0;
 
   @media (max-width: 768px) {
@@ -117,6 +112,12 @@ const EventCard = styled.div`
   gap: 1rem;
   flex: 1 1 0;
   min-width: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
 
   @media (max-width: 768px) {
     flex: none;
@@ -164,7 +165,7 @@ const EventDetails = styled.div`
 const EventTitle = styled.h4`
   font-size: 18px;
   font-weight: 600;
-  color: #000;
+  color: #F4F5F5);
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -189,7 +190,7 @@ const EventTitle = styled.h4`
 
 const EventMeta = styled.div`
   font-size: 14px;
-  color: #666;
+  color: #F4F5F5;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -226,7 +227,7 @@ const ExploreAllButton = styled(DefaultButton)`
 
 // TYPES
 interface Post {
-  postId: string;
+  id: string;
   title: string;
   content: string;
   slug: string;
@@ -236,10 +237,11 @@ interface Post {
       sourceUrl: string;
     };
   } | null;
+  link: string;
 }
 
 const GRAPHQL_ENDPOINT =
-  "https://ujs.qxk.mybluehost.me/website_b79ab28e/graphql";
+  "https://ujs.qxk.mybluehost.me/website_6ad02141/staging/7520/graphql";
 
 const Section16: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -257,21 +259,20 @@ const Section16: React.FC = () => {
           },
           body: JSON.stringify({
             query: `
-              query getPostsCopy {
-                posts(first: 4) {
-                  edges {
-                    node {
-                      postId
-                      content(format: RAW)
-                      slug
-                      title
-                      date
-                      featuredImage {
-                        node {
-                          sourceUrl
-                        }
+              query GetPostsEdges {
+                posts {
+                  nodes {
+                    id
+                    content
+                    slug
+                    title
+                    date
+                    featuredImage {
+                      node {
+                        sourceUrl
                       }
                     }
+                    link
                   }
                 }
               }
@@ -284,7 +285,7 @@ const Section16: React.FC = () => {
         }
 
         const { data } = await response.json();
-        setPosts(data.posts.edges.map((edge: any) => edge.node));
+        setPosts(data.posts.nodes.slice(0, 4)); // Limit to first 4 posts
         setError(null);
       } catch (err) {
         console.error("Error fetching posts:", err);
@@ -306,9 +307,15 @@ const Section16: React.FC = () => {
     });
   };
 
+  const handleCardClick = (link: string) => {
+    if (link) {
+      window.open(link, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   const handleExploreAllClick = () => {
     window.open(
-      "https://kf-ej-media-marketplace-c0cllh08g-digitalqatalysts-projects.vercel.app/",
+      "https://ujs.qxk.mybluehost.me/website_6ad02141/staging/7520/all-posts/",
       "_blank"
     );
   };
@@ -394,7 +401,7 @@ const Section16: React.FC = () => {
           </FeaturedEventsHeader>
           <EventsContainer>
             {posts.map((post) => (
-              <EventCard key={post.postId}>
+              <EventCard key={post.id} onClick={() => handleCardClick(post.link)}>
                 <EventImage>
                   <Image
                     src={
@@ -413,7 +420,7 @@ const Section16: React.FC = () => {
                       style={{
                         fontSize: "14px",
                         fontWeight: "400",
-                        color: "#7D879C",
+                        color: "#F4F5F5)",
                       }}
                     >
                       {formatDate(post.date)}

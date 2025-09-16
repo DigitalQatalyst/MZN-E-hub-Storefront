@@ -184,7 +184,6 @@ const revenueFinanceItems = [
   },
 ];
 
-// Extra tabs (optional now, but ready to render)
 const reachCapacityItems = [
   {
     id: "rc-market",
@@ -210,9 +209,9 @@ const reachCapacityItems = [
     content: (
       <Box>
         {[
-          ["Full-Time Staff", reachCapacity.humanCapital.fullTime],
-          ["Part-Time Staff", reachCapacity.humanCapital.partTime],
-          ["Contract/Seasonal Workers", reachCapacity.humanCapital.seasonal],
+          ["Full-Time Staff", String(reachCapacity.humanCapital.fullTime)],
+          ["Part-Time Staff", String(reachCapacity.humanCapital.partTime)],
+          ["Contract/Seasonal Workers", String(reachCapacity.humanCapital.seasonal)],
           ["Youth Employment (18–35)?", reachCapacity.humanCapital.youthEmployment.value ? `Yes — ${reachCapacity.humanCapital.youthEmployment.count}` : "No"],
           ["Female Employment?", reachCapacity.humanCapital.femaleEmployment.value ? `Yes — ${reachCapacity.humanCapital.femaleEmployment.count}` : "No"],
           ["Special Groups Employed", reachCapacity.humanCapital.specialGroups.join(", ")],
@@ -271,7 +270,7 @@ const pscItems = [
     ),
   },
   {
-    id: "psc-customers",
+    id: "psc-customer",
     title: "Customer Segments",
     content: (
       <Box>
@@ -281,24 +280,6 @@ const pscItems = [
           ["Average Customer Size", productsServicesCustomers.customerSegments.averageCustomerSize.join(", ")],
           ["% Repeat Customers", `${productsServicesCustomers.customerSegments.repeatCustomersPct}%`],
           ["Key Client List", productsServicesCustomers.customerSegments.keyClients.join(", ")],
-        ].map(([label, value], i, arr) => (
-          <Box key={i} py="10px" borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px">{String(value)}</Typography>
-          </Box>
-        ))}
-      </Box>
-    ),
-  },
-  {
-    id: "psc-delivery",
-    title: "Delivery Channels",
-    content: (
-      <Box>
-        {[
-          ["Sales Channels", productsServicesCustomers.deliveryChannels.salesChannels.join(", ")],
-          ["Payment Methods", productsServicesCustomers.deliveryChannels.paymentMethods.join(", ")],
-          ["Order Fulfillment", productsServicesCustomers.deliveryChannels.orderFulfillment],
         ].map(([label, value], i, arr) => (
           <Box key={i} py="10px" borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
             <Typography fontSize="14px" color="text.hint">{label}</Typography>
@@ -348,24 +329,6 @@ const growthPartnershipsItems = [
       </Box>
     ),
   },
-  {
-    id: "gp-supportHistory",
-    title: "Support History",
-    content: (
-      <Box>
-        {[
-          ["Past Support Received", growthPartnerships.supportHistory.pastSupportReceived.join(", ")],
-          ["Was support effective?", growthPartnerships.supportHistory.wasEffective.value ? `Yes — ${growthPartnerships.supportHistory.wasEffective.comment}` : "No"],
-          ["Barriers to Using Support", growthPartnerships.supportHistory.barriersToUsingSupport.join(", ")],
-        ].map(([label, value], i, arr) => (
-          <Box key={i} py="10px" borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px">{String(value)}</Typography>
-          </Box>
-        ))}
-      </Box>
-    ),
-  },
 ];
 
 const risksReadinessItems = [
@@ -385,47 +348,7 @@ const risksReadinessItems = [
       </Box>
     ),
   },
-  {
-    id: "rr-credit",
-    title: "Investment & Credit Readiness",
-    content: (
-      <Box>
-        {[
-          ["Do you have a business plan?", risksReadiness.investmentCreditReadiness.hasBusinessPlan.value ? `Yes — ${risksReadiness.investmentCreditReadiness.hasBusinessPlan.upload}` : "No"],
-          ["Do you track financials monthly?", risksReadiness.investmentCreditReadiness.tracksFinancialsMonthly ? "Yes" : "No"],
-          ["Do you have audited financials?", risksReadiness.investmentCreditReadiness.hasAuditedFinancials.value ? `Yes — ${risksReadiness.investmentCreditReadiness.hasAuditedFinancials.upload}` : "No"],
-          ["Is your business creditworthy? (1–5)", String(risksReadiness.investmentCreditReadiness.creditworthyScore)],
-          ["Open to Due Diligence Process?", risksReadiness.investmentCreditReadiness.openToDueDiligence ? "Yes" : "No"],
-        ].map(([label, value], i, arr) => (
-          <Box key={i} py="10px" borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px">{String(value)}</Typography>
-          </Box>
-        ))}
-      </Box>
-    ),
-  },
-  {
-    id: "rr-regulatory",
-    title: "Regulatory Risks",
-    content: (
-      <Box>
-        {[
-          ["Encountered Regulatory Challenges?", risksReadiness.regulatoryRisks.encounteredRegulatoryChallenges.value ? `Yes — ${risksReadiness.regulatoryRisks.encounteredRegulatoryChallenges.detail}` : "No"],
-          ["Pending Approvals/Licenses?", risksReadiness.regulatoryRisks.pendingApprovals.value ? `Yes — ${risksReadiness.regulatoryRisks.pendingApprovals.upload}` : "No"],
-          ["Recent Legal/Compliance Incidents?", risksReadiness.regulatoryRisks.recentIncidents.value ? `Yes — ${risksReadiness.regulatoryRisks.recentIncidents.explanation}` : "No"],
-        ].map(([label, value], i, arr) => (
-          <Box key={i} py="10px" borderBottom={i < arr.length - 1 ? "1px solid #f0f0f0" : "none"} display="flex" justifyContent="space-between">
-            <Typography fontSize="14px" color="text.hint">{label}</Typography>
-            <Typography fontSize="14px">{String(value)}</Typography>
-          </Box>
-        ))}
-      </Box>
-    ),
-  },
 ];
-
-
 
 export default function FirmProfile() {
   useScrollbarStyle();
@@ -438,7 +361,7 @@ export default function FirmProfile() {
 
   return (
     <Fragment>
-      <Box px={4} py={4} style={{ overflowX: "hidden", width: "100%" }}>
+      <Box px={4} py={4} style={{ width: "100%" }}>
         <Grid container spacing={3}>
           <Grid item xs={12} lg={4}>
             <SidebarCard firmData={firmData} />
@@ -448,33 +371,32 @@ export default function FirmProfile() {
             <TabsRow tabs={tabs} active={activeTab} onChange={setActiveTab} />
 
             {activeTab === "Business Overview" && (
-            <BusinessOverview items={businessIdentityItems} expanded={expandedSections} onToggle={toggleSection} />
+              <BusinessOverview items={businessIdentityItems} expanded={expandedSections} onToggle={toggleSection} />
             )}
 
             {activeTab === "Governance & Compliance" && (
-            <GovernanceCompliance items={governanceComplianceItems} expanded={expandedSections} onToggle={toggleSection} />
+              <GovernanceCompliance items={governanceComplianceItems} expanded={expandedSections} onToggle={toggleSection} />
             )}
 
             {activeTab === "Revenue & Finance" && (
-            <BusinessOverview items={revenueFinanceItems} expanded={expandedSections} onToggle={toggleSection} />
+              <BusinessOverview items={revenueFinanceItems} expanded={expandedSections} onToggle={toggleSection} />
             )}
 
             {activeTab === "Reach & Capacity" && (
-            <BusinessOverview items={reachCapacityItems} expanded={expandedSections} onToggle={toggleSection} />
+              <BusinessOverview items={reachCapacityItems} expanded={expandedSections} onToggle={toggleSection} />
             )}
 
             {activeTab === "Products, Services & Customers" && (
-            <BusinessOverview items={pscItems} expanded={expandedSections} onToggle={toggleSection} />
+              <BusinessOverview items={pscItems} expanded={expandedSections} onToggle={toggleSection} />
             )}
 
             {activeTab === "Growth & Partnerships" && (
-            <BusinessOverview items={growthPartnershipsItems} expanded={expandedSections} onToggle={toggleSection} />
+              <BusinessOverview items={growthPartnershipsItems} expanded={expandedSections} onToggle={toggleSection} />
             )}
 
             {activeTab === "Risks & Readiness" && (
-            <BusinessOverview items={risksReadinessItems} expanded={expandedSections} onToggle={toggleSection} />
+              <BusinessOverview items={risksReadinessItems} expanded={expandedSections} onToggle={toggleSection} />
             )}
-
           </Grid>
         </Grid>
       </Box>

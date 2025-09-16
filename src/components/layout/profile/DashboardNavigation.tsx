@@ -10,13 +10,13 @@ import Typography from "@component/Typography";
 
 // Styled components following Bonik patterns
 const SidebarContainer = styled.div`
-  width: 256px;
+
   background-color: #F5F5F5;
   height: 100vh;
   border-right: 1px solid #e5e7eb;
   display: flex;
   flex-direction: column;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Open Sans', Inter, -apple-system, BlinkMacSystemFont, sans-serif;
   position: relative;
 `;
 
@@ -194,6 +194,12 @@ const Sidebar = () => {
       icon: "/images/analytics.svg",
       route: "/insights",
     },
+    {
+      id: "reporting-obligations",
+      label: "Reporting Obligations",
+      icon: "/images/home-storage.svg",
+      route: "/",
+    },
   ];
 
   const settingsItems: NavItem[] = [
@@ -264,6 +270,7 @@ const Sidebar = () => {
 
   const renderNavItem = (item: NavItem) => {
     const active = isActive(item.route);
+
 
     return (
       <NavItem
@@ -348,11 +355,11 @@ const Sidebar = () => {
         {/* Overview - Dashboard */}
         <Box px="16px" mb="24px">
           <NavItem
-            $active={isActive("/dashboard")}
+            $active={isActive("/overview")}
             $hovered={hoveredItem === "overview"}
             onMouseEnter={() => setHoveredItem("overview")}
             onMouseLeave={() => setHoveredItem(null)}
-            onClick={() => handleNavigation("/dashboard")}
+            onClick={() => handleNavigation("/overview")}
             style={{ borderRadius: "4px" }}
           >
             <img
@@ -360,7 +367,7 @@ const Sidebar = () => {
               alt="Dashboard"
               height="20px"
               style={{
-                filter: isActive("/dashboard")
+                filter: isActive("/overview")
                   ? "brightness(0) invert(1)"
                   : "brightness(0) opacity(0.6)",
               }}
@@ -419,3 +426,4 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+

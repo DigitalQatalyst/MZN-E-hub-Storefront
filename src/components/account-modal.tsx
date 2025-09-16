@@ -6,6 +6,7 @@ import TabNavigation from "./tab-navigation";
 import ProfilePage from "./profile-page";
 import SecurityPage from "./security-page";
 import NotificationsPage from "./notifications-page";
+import { flex } from "styled-system";
 
 interface AccountModalProps {
   isOpen: boolean;
@@ -18,7 +19,7 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
   const getTabDimensions = () => {
     switch (activeTab) {
       case "profile":
-        return { width: "848px", height: "679px" };
+        return { width: "848px", height: "679px", align: "center" };
       case "security":
         return { width: "848px", height: "559px" };
       case "notifications":
@@ -47,7 +48,7 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+      className="inset-0 bg-black/50 flex items-center justify-center z-50"
       onClick={onClose}
     >
       <div

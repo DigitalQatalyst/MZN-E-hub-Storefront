@@ -39,7 +39,6 @@ export default function TabNavigation({
         width: "100%",
         height: "100%",
         padding: "0px",
-        marginLeft: "20px",
         marginRight: "20px",
         backgroundColor: "#F3F4F6", // Light grey background color
         paddingTop: "8px", // Padding to adjust space at the top of the tabs

@@ -9,16 +9,6 @@ export const TabBarContainer = styled.div`
   POSITION: relative;
   margin-bottom: 20px; 
 
-  .hamburger {
-    display: none;
-    cursor: pointer;
-  }
-
-  .hamburger-icon {
-    width: 30px;
-    height: 30px;
-  }
-
   .tabs {
     display: flex;
     justify-content: space-between;
@@ -26,29 +16,11 @@ export const TabBarContainer = styled.div`
   }
 
   @media (max-width: 768px) {
-    .hamburger {
-      display: block;
-    }
-
-    .tabs {
-      display: none;
-      flex-direction: column;
-      position: absolute;
-      top: 40px;
-      left: 0;
-      right: 0;
-      background-color: #fff;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-      padding: 10px;
-    }
-
-    .tabs.open {
-      display: flex;
-    }
+    display: none;
   }
 
   @media (min-width: 769px) {
+    display: flex;
     .tabs {
       display: flex !important;
     }
@@ -85,25 +57,5 @@ export const Tab = styled.div<TabProps>`
   img {
     width: 20px;
     height: 20px;
-  }
-
-  @media (max-width: 768px) {
-    padding: 12px 20px;
-    border-bottom: 1px solid #eee;
-    justify-contentPt: flex-start;
-
-    &:last-child {
-      border-bottom: none;
-    }
-  }
-
-  @media (max-width: 480px) {
-    font-size: 12px;
-    padding: 10px 15px;
-
-    img {
-      width: 18px;
-      height: 18px;
-    }
   }
 `;

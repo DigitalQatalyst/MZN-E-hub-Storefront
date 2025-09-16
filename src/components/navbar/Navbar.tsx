@@ -10,7 +10,7 @@ import {
 import { AccountInfo, InteractionStatus } from "@azure/msal-browser";
 import { Menu, X, Search, Bookmark, ChevronRight, LogOut, User } from "lucide-react";
 
-import { loginRequest } from "../../lib/authConfig";
+import { loginRequest } from "@lib/authConfig";
 
 import Box from "../Box";
 import Container from "../Container";
@@ -25,7 +25,7 @@ type NavbarProps = { navListOpen?: boolean };
 function getInitials(name?: string) {
   if (!name) return "U";
   const parts = name.trim().split(/\s+/).slice(0, 2);
-  return parts.map(p => p[0]?.toUpperCase()).join("") || "U";
+  return parts.map((p) => p[0]?.toUpperCase()).join("") || "U";
 }
 
 export default function Navbar({ navListOpen }: NavbarProps) {
@@ -123,16 +123,19 @@ export default function Navbar({ navListOpen }: NavbarProps) {
   const logout = () => {
     if (!isMsalInitialized) return;
     setIsMobileMenuOpen(false);
+    const account = instance.getActiveAccount() ?? accounts?.[0];
     instance
       .logoutRedirect({
-        postLogoutRedirectUri: typeof window !== "undefined" ? window.location.origin : "/",
+        account,
+        postLogoutRedirectUri:
+          typeof window !== "undefined" ? window.location.origin : "/",
       })
       .catch(console.error);
   };
 
   const handleProfileClick = () => {
     if (!activeAccount) startLogin();
-    else setIsProfileOpen(v => !v);
+    else setIsProfileOpen((v) => !v);
   };
 
   if (!isMsalInitialized) {
@@ -209,10 +212,12 @@ export default function Navbar({ navListOpen }: NavbarProps) {
           {/* Search */}
           <Box className="search-icon" style={{ cursor: "pointer" }} title="Search">
             <Search size={20} color="white" />
+            <Search size={20} color="white" />
           </Box>
 
           {/* Bookmark */}
           <Box className="bookmark-icon" style={{ cursor: "pointer" }} title="Bookmarks">
+            <Bookmark size={22} color="white" />
             <Bookmark size={22} color="white" />
           </Box>
 
@@ -349,7 +354,7 @@ export default function Navbar({ navListOpen }: NavbarProps) {
                   aria-label="Close menu"
                   tabIndex={0}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  onKeyDown={(e) => e.key === "Escape" ? setIsMobileMenuOpen(false) : null}
+                  onKeyDown={(e) => (e.key === "Escape" ? setIsMobileMenuOpen(false) : null)}
                   style={{
                     position: "fixed",
                     inset: 0,

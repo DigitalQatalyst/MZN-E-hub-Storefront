@@ -1,15 +1,16 @@
-# ingress.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: kf-frontend-ingress
+  name: staging-ingress
   namespace: staging
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-staging
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod   # 🔹 Reference staging ClusterIssuer
 spec:
-  ingressClassName: nginx
+  tls:
+  - hosts:
+    - qatalyst.tech   # 🔹 Replace with your domain
+    secretName: staging-tls # 🔹 Secret will be created automatically
   rules:
   - host: qatalyst.tech
     http:
@@ -21,18 +22,10 @@ spec:
             name: kf-frontend-service
             port:
               number: 80
-  - host: www.qatalyst.tech
-    http:
-      paths:
-      - path: /
+      - path: /api
         pathType: Prefix
         backend:
           service:
-            name: kf-frontend-service
+            name: kf-backend-service
             port:
               number: 80
-  tls:
-  - hosts:
-      - qatalyst.tech
-      - www.qatalyst.tech
-    secretName: qatalyst-tech-tls

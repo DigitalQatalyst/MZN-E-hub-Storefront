@@ -315,7 +315,7 @@ const Section16: React.FC = () => {
 
   const handleExploreAllClick = () => {
     window.open(
-      "https://kf-ej-media-marketplace-c0cllh08g-digitalqatalysts-projects.vercel.app/",
+      "https://ujs.qxk.mybluehost.me/website_6ad02141/staging/7520/all-posts/",
       "_blank"
     );
   };

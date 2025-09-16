@@ -2,8 +2,8 @@
 
 import { useParams } from "next/navigation";
 import { useState, useRef } from "react";
-import { useMsal } from "@azure/msal-react";
-import { authScopes } from "../../authConfig"; // <-- adjust path if needed
+import { useAccount, useIsAuthenticated, useMsal } from "@azure/msal-react";
+import { loginRequest } from "../../authConfig"; // <-- adjust path if needed
 
 import RegistrationForm from "@component/forms/RegistrationForm";
 import Box from "@component/Box";
@@ -40,6 +40,8 @@ export default function ServiceDetailsSection1({ product }: Props) {
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const isAuthenticated = useIsAuthenticated();
+  const account = useAccount();
 
   // ⭐ MSAL instance
   const { instance } = useMsal();
@@ -66,14 +68,15 @@ export default function ServiceDetailsSection1({ product }: Props) {
   };
 
   // ⭐ Trigger Azure B2C sign-in (uses redirectUri from msalConfig)
-  const handleStartApplication = () => {
-    instance
-      .loginRedirect({
-        scopes: authScopes.scopes, // ["openid","offline_access", ...]
-        extraQueryParameters: { prompt: "login" },
-        // DO NOT set redirectUri here; use global one from msalConfig
-      })
-      .catch(console.error);
+  const handleStartApplication = async () => {
+    console.log(isAuthenticated);
+    if (isAuthenticated) {
+      setShowRegistrationForm(true);
+    } else {
+      const res = await instance.loginPopup(loginRequest);
+      if (res?.account) instance.setActiveAccount(res.account);
+      setShowRegistrationForm(true);
+    }
   };
 
   const categories = [

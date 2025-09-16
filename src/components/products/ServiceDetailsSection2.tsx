@@ -318,13 +318,7 @@ export default function ServiceDetailsSection2({ product }: Props) {
         }}
         className="product-details-container"
       >
-        <TabContainer>
-          {/* <TabButton
-            active={activeTab === "description"}
-            onClick={() => setActiveTab("description")}
-          >
-            Description
-          </TabButton> */}
+        <TabContainer className="product-details-tab-container">
           <TabButton
             className="product-details-tab"
             active={activeTab === "steps"}
@@ -364,6 +358,7 @@ export default function ServiceDetailsSection2({ product }: Props) {
             // marginLeft: "1.95rem",
             // marginRight: "1.95rem",
           }}
+          className="product-details-tab-hr"
         />
 
         {renderTabContent()}

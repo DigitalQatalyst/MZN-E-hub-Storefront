@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const styles = `
   .modal {
@@ -76,9 +77,15 @@ const styles = `
 
 const MoreModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const router = useRouter();
 
   const handleClose = () => {
     setIsOpen(false);
+  };
+
+  const handleNewsletterClick = () => {
+    setIsOpen(false); // Close the modal
+    router.push("/#newsletter");
   };
 
   if (!isOpen) return null;
@@ -92,7 +99,9 @@ const MoreModal: React.FC = () => {
           <span className="close" onClick={handleClose}>×</span>
         </div>
         {/* <div className="menu-item">Discover AbuDhabi</div> */}
-        <div className="menu-item">Become a Partner</div>
+        <div className="menu-item" onClick={handleNewsletterClick} style={{ cursor: 'pointer' }}>
+          Become a Partner
+        </div>
         <div className="sign-in">
           <img src="/assets/images/KF/profile.svg" alt="Profile" className="profile-icon" />
           Sign In or Register

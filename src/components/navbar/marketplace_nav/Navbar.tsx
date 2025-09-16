@@ -13,7 +13,7 @@ import Typography from "../../Typography";
 import Categories from "../../categories/Categories";
 import { StyledNavbar } from "./styles";
 import Signup from "./signup";
-import Signin from "./signin";
+import Signin from "../landing_nav/signin";
 import Search from "./search";
 import ExploreModal from "@component/mobile-responsiveness/ExploreModal";
 import CustomNavLink from "@component/CustomNavLink/CustomNavLink";

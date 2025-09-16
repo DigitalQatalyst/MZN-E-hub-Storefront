@@ -271,6 +271,7 @@ const Sidebar = () => {
   const renderNavItem = (item: NavItem) => {
     const active = isActive(item.route);
 
+
     return (
       <NavItem
         key={item.id}
@@ -425,3 +426,4 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+

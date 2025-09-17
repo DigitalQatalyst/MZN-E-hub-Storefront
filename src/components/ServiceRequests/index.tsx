@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { ServiceRequestDetails } from "@component/ServiceRequestDetails";
 import { ServiceRequestsHeader } from "@component/ServiceRequestsHeader";
@@ -10,7 +12,12 @@ import {
   DateRangeFilter,
 } from "@component/types";
 import { mockServiceRequests } from "@component/mockData";
-export function ServiceRequestsPage({ toggleSidebar, sidebarOpen }) {
+
+type RequestsProps = {
+  toggleSidebar?: boolean,
+  sidebarOpen?: boolean
+}
+export default function ServiceRequestsPage({ toggleSidebar, sidebarOpen }) {
   const [requests, setRequests] = useState<ServiceRequest[]>([]);
   const [filteredRequests, setFilteredRequests] = useState<ServiceRequest[]>(
     []

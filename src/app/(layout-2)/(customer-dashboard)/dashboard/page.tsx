@@ -19,6 +19,8 @@ import { ActivityOverviewCard } from "./ActivityOverviewCard";
 import ProfileCompletionCard from "./ProfileCompletionCard";
 import QuickAccessCard from "./QuickAccessCard";
 
+
+
 export default function Dashboard() {
   // const user = await api.getUser();
 
@@ -33,6 +35,8 @@ export default function Dashboard() {
   };
 
   return (
+
+    
     <Fragment>
       <Box style={{ maxWidth: '1400px', margin: '0 auto', width: '100%', marginTop: '20px' }}>
         <Grid container spacing={3}>

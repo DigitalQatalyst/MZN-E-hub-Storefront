@@ -12,7 +12,8 @@ import Sidebar from "./side-bar/Sidebar";
 import { ShowingText } from "./styles";
 import Section2 from "../section-2/Section2";
 import NonFinancialServiceCard from "@component/product-cards/NonFinancialServiceCard";
-import LoadingSpinner from "@component/LoadingSpinner/LoadingSpinner"; // Import the LoadingSpinner component
+import LoadingSpinner from "@component/LoadingSpinner/LoadingSpinner";
+import useSWR from "swr";
 
 // GraphQL Query for Products
 const GET_PRODUCTS = `
@@ -132,6 +133,11 @@ interface FilterState {
   [facetCode: string]: { [valueCode: string]: boolean };
 }
 
+// Typed fetcher function for GraphQL queries
+const fetcher = async <T = any>(query: string, variables?: any): Promise<T> => {
+  return client.request<T>(query, variables);
+};
+
 export default function NonFinancialServiceCatalogue({
   activeButton,
   setActiveButton,
@@ -156,7 +162,27 @@ export default function NonFinancialServiceCatalogue({
   const defaultImages = [defaultImage];
   const defaultReviews = 0;
 
-  // Memoize initial filter states to prevent unnecessary re-initialization
+  // Fetch facets using SWR with typed data
+  const { data: facetData, error: facetError } = useSWR<GetFacetsData>(
+    GET_FACETS,
+    () => fetcher<GetFacetsData>(GET_FACETS),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+    }
+  );
+
+  // Fetch products using SWR with typed data
+  const { data: productData, error: productError } = useSWR<GetProductsData>(
+    [GET_PRODUCTS, { take: 31 }],
+    ([query, variables]) => fetcher<GetProductsData>(query, variables),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+    }
+  );
+
+  // Memoize initial filter states
   const initializeFilterStates = useMemo(() => (facets: Facet[]): FilterState => {
     const initial: FilterState = {};
     facets.forEach(facet => {
@@ -166,112 +192,97 @@ export default function NonFinancialServiceCatalogue({
       });
     });
     return initial;
-  }, []); // Empty dependency array since this is a pure function
+  }, []);
 
-  // Fetch facets and products on component mount
+  // Process fetched data
   useEffect(() => {
     let isMounted = true;
 
-    const fetchData = async () => {
+    const processData = async () => {
       if (!isMounted) return;
       setLoading(true);
+
       try {
-        // Fetch facets
-        const facetData = await client.request<GetFacetsData>(GET_FACETS);
-        const relevantFacets = facetData.facets.items.filter(facet =>
-          ["service-category", "business-stage", "provided-by", "pricing-model"].includes(facet.code)
-        );
-
-        if (isMounted) {
-          setFacets(relevantFacets);
-          // Only initialize filterStates if it's empty to avoid resetting
-          setFilterStates(prev => Object.keys(prev).length === 0 ? initializeFilterStates(relevantFacets) : prev);
-        }
-
-        // Fetch products
-        const productData = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
-          take: 31,
-        });
-        console.log("Fetched products:", productData.products.items.length, "Total Items:", productData.products.totalItems);
-
-        // Filter for Non-Financial Services (facetValue.id: "67") and exclude financial (facetValue.id: "66")
-        let nonFinancialServicesOnly = productData.products.items.filter((product) =>
-          product.facetValues.some((fv) => fv.id === "67") &&
-          !product.facetValues.some((fv) => fv.id === "66")
-        );
-        console.log("Filtered to Non-Financial Services only:", nonFinancialServicesOnly.length);
-
-        // Apply "New Additions" filter if active
-        if (activeButton === "newAdditions") {
-          nonFinancialServicesOnly = nonFinancialServicesOnly.filter((product) =>
-            isNewAddition(product.createdAt)
+        // Process facets
+        if (facetData) {
+          const relevantFacets = facetData.facets.items.filter(facet =>
+            ["service-category", "business-stage", "provided-by", "pricing-model"].includes(facet.code)
           );
-          console.log("Filtered to New Additions (less than 5 days old):", nonFinancialServicesOnly.length);
+          if (isMounted) {
+            setFacets(relevantFacets);
+            setFilterStates(prev => Object.keys(prev).length === 0 ? initializeFilterStates(relevantFacets) : prev);
+          }
         }
 
-        // Apply dynamic filters
-        const filtered = nonFinancialServicesOnly.filter((product) => {
-          // Check if product matches all selected facets
-          const matchesAllFacets = Object.keys(filterStates).every(facetCode => {
-            const selectedValues = Object.keys(filterStates[facetCode]).filter(
-              key => filterStates[facetCode][key]
+        // Process products
+        if (productData) {
+          let nonFinancialServicesOnly = productData.products.items.filter((product: Product) =>
+            product.facetValues.some((fv) => fv.id === "67") &&
+            !product.facetValues.some((fv) => fv.id === "66")
+          );
+
+          if (activeButton === "newAdditions") {
+            nonFinancialServicesOnly = nonFinancialServicesOnly.filter((product: Product) =>
+              isNewAddition(product.createdAt)
             );
-            // If no values are selected for this facet, allow all products
-            if (selectedValues.length === 0) return true;
-            // Check if product matches any selected value for this facet
-            return product.facetValues.some(facetValue =>
-              selectedValues.includes(facetValue.code)
-            ) || (
-              facetCode === "pricing-model" &&
-              selectedValues.includes("one-time-fee") &&
-              product.customFields?.Cost && product.customFields.Cost > 0
-            ) || (
-              facetCode === "business-stage" &&
-              product.customFields?.BusinessStage &&
-              selectedValues.includes(product.customFields.BusinessStage)
-            );
+          }
+
+          // Apply dynamic filters
+          const filtered = nonFinancialServicesOnly.filter((product: Product) => {
+            const matchesAllFacets = Object.keys(filterStates).every(facetCode => {
+              const selectedValues = Object.keys(filterStates[facetCode]).filter(
+                key => filterStates[facetCode][key]
+              );
+              if (selectedValues.length === 0) return true;
+              return product.facetValues.some(facetValue =>
+                selectedValues.includes(facetValue.code)
+              ) || (
+                facetCode === "pricing-model" &&
+                selectedValues.includes("one-time-fee") &&
+                product.customFields?.Cost && product.customFields.Cost > 0
+              ) || (
+                facetCode === "business-stage" &&
+                product.customFields?.BusinessStage &&
+                selectedValues.includes(product.customFields.BusinessStage)
+              );
+            });
+
+            const matchesSearch =
+              searchQuery.trim() === "" ||
+              product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              product.facetValues.some((facetValue) =>
+                facetValue.name.toLowerCase().includes(searchQuery.toLowerCase())
+              );
+
+            return matchesAllFacets && matchesSearch;
           });
 
-          const matchesSearch =
-            searchQuery.trim() === "" ||
-            product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            product.facetValues.some((facetValue) =>
-              facetValue.name.toLowerCase().includes(searchQuery.toLowerCase())
-            );
+          if (isMounted) {
+            setTotalItems(nonFinancialServicesOnly.length);
+            setAllFilteredProducts(filtered);
+            setTotalFilteredItems(filtered.length);
 
-          console.log(`Filtering ${product.name} (id: ${product.id}):`, {
-            matchesAllFacets,
-            matchesSearch,
-          });
-          return matchesAllFacets && matchesSearch;
-        });
-
-        if (isMounted) {
-          setTotalItems(nonFinancialServicesOnly.length);
-          setAllFilteredProducts(filtered);
-          setTotalFilteredItems(filtered.length);
-
-          const startIndex = (currentPage - 1) * productsPerPage;
-          const endIndex = startIndex + productsPerPage;
-          setProducts(filtered.slice(startIndex, endIndex));
-          setFilteredProducts(filtered.slice(startIndex, endIndex));
+            const startIndex = (currentPage - 1) * productsPerPage;
+            const endIndex = startIndex + productsPerPage;
+            setProducts(filtered.slice(startIndex, endIndex));
+            setFilteredProducts(filtered.slice(startIndex, endIndex));
+          }
         }
       } catch (error) {
-        console.error("Error fetching data:", error.response?.errors || error.message);
+        console.error("Error processing data:", error);
       } finally {
-        if (isMounted) {
+        if (isMounted && (facetData || productData)) {
           setLoading(false);
-          console.log("Fetching completed. Loading set to false.");
         }
       }
     };
 
-    fetchData();
+    processData();
 
     return () => {
       isMounted = false;
     };
-  }, [currentPage, searchQuery, activeButton, filterStates]);
+  }, [facetData, productData, currentPage, searchQuery, activeButton, filterStates, initializeFilterStates]);
 
   // Check if any filters are applied
   const areFiltersApplied = () => {
@@ -332,7 +343,7 @@ export default function NonFinancialServiceCatalogue({
         setActiveButton={setActiveButton}
       />
       {loading ? (
-        <LoadingSpinner /> // Single spinner for both sidebar and services
+        <LoadingSpinner />
       ) : (
         <Grid container spacing={3}>
           <Grid item md={3} xs={12}>
@@ -346,7 +357,7 @@ export default function NonFinancialServiceCatalogue({
               currentPage={currentPage}
               productsPerPage={productsPerPage}
               areFiltersApplied={areFiltersApplied}
-              loading={loading} // Pass loading state to Sidebar
+              loading={loading}
             />
           </Grid>
 

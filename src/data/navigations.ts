@@ -109,7 +109,7 @@ const navigations = [
   },
   {
     title: "Media",
-    href: "https://kf-ej-media-marketplace-reruapfib-digitalqatalysts-projects.vercel.app/media/",
+    href: "https://ujs.qxk.mybluehost.me/website_6ad02141/staging/7520/community-news/",
     menuComponent: "MegaMenu2",
     menuData: [
       {
@@ -148,7 +148,7 @@ const navigations = [
   },
   {
     title: "Communities",
-    href: "/community-marketplace",
+    href: "https://ujs.qxk.mybluehost.me/website_6ad02141/staging/7520/bp-groups/",
     menuComponent: "MegaMenu1",
     menuData: {
       categories: [
@@ -261,7 +261,7 @@ const navigations = [
   },
   {
     title: "Calendar",
-    href: "",
+    href: "/development",
     tag: {
       text: "Coming Soon",
       color: "#0030E3",
@@ -272,7 +272,7 @@ const navigations = [
   },
   {
     title: "Courses",
-    href: "",
+    href: "/development",
     tag: {
       text: "Coming Soon",
       color: "#0030E3",
@@ -283,7 +283,7 @@ const navigations = [
   },
   {
     title: "Investment",
-    href: "",
+    href: "/development",
     tag: {
       text: "Coming Soon",
       color: "#0030E3",
@@ -294,7 +294,7 @@ const navigations = [
   },
   {
     title: "Opportunities",
-    href: "",
+    href: "/development",
     tag: {
       text: "Coming Soon",
       color: "#0030E3",

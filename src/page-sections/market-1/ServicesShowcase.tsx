@@ -410,13 +410,13 @@ const Section14: React.FC = () => {
       src: "/assets/images/Groceries Shop/Icon6.png",
       label: "Media Marketplace",
       comingSoon: false,
-      link: "https://kf-ej-media-marketplace-kefsnx0h1-digitalqatalysts-projects.vercel.app/media",
+      link: "https://ujs.qxk.mybluehost.me/website_6ad02141/staging/7520/community-news/",
     },
     {
       src: "/assets/images/Groceries Shop/Icon5.png",
       label: "Communities Marketplace",
       comingSoon: false,
-      link: "/community-marketplace",
+      link: "https://ujs.qxk.mybluehost.me/website_6ad02141/staging/7520/bp-groups/",
     },
     {
       src: "/assets/images/Groceries Shop/Icon4.png",

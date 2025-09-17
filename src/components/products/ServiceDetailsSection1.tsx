@@ -40,8 +40,6 @@ export default function ServiceDetailsSection1({ product }: Props) {
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const isAuthenticated = useIsAuthenticated();
-  const account = useAccount();
 
   // ⭐ MSAL instance
   const { instance } = useMsal();
@@ -69,13 +67,14 @@ export default function ServiceDetailsSection1({ product }: Props) {
 
   // ⭐ Trigger Azure B2C sign-in (uses redirectUri from msalConfig)
   const handleStartApplication = async () => {
-    console.log(isAuthenticated);
-    if (isAuthenticated) {
-      setShowRegistrationForm(true);
-    } else {
+    try {
       const res = await instance.loginPopup(loginRequest);
       if (res?.account) instance.setActiveAccount(res.account);
       setShowRegistrationForm(true);
+    } catch (e) {
+      // user closed popup or error
+      // eslint-disable-next-line no-console
+      console.error("Start Application failed:", e);
     }
   };
 

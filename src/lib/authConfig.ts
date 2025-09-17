@@ -15,6 +15,7 @@ const authority = CUSTOM_DOMAIN && TENANT_ID
   ? `https://${CUSTOM_DOMAIN}/${TENANT_ID}`
   // external tenant default pattern (doc): https://<subdomain>.ciamlogin.com/
   : `https://${SUB}.ciamlogin.com/`;
+  
 
 export const msalConfig: Configuration = {
   auth: {

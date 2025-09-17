@@ -150,7 +150,7 @@ const ProductCardWrapper = styled.div`
 `;
 
 // =====================================================
-type Props = { products: Product[] };
+type Props = { products?: Product[] };
 // =====================================================
 
 export default function Section9({ products }: Props) {

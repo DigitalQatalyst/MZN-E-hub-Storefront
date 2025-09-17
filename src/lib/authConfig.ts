@@ -23,7 +23,7 @@ export const msalConfig: Configuration = {
     knownAuthorities: [CUSTOM_DOMAIN ? CUSTOM_DOMAIN : `${SUB}.ciamlogin.com`], // doc: add knownAuthorities
     redirectUri: REDIRECT_URI,
     postLogoutRedirectUri: POST_LOGOUT_REDIRECT_URI,
-    navigateToLoginRequestUrl: false,
+    navigateToLoginRequestUrl: true,
   },
   cache: {
     cacheLocation: "localStorage",

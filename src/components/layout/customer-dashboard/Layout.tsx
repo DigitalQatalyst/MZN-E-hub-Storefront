@@ -42,7 +42,7 @@ export default function CustomerDashboardLayout({ children }: PropsWithChildren<
         </StyledGrid>
 
         {/* Main content column */}
-        <Grid item lg={9.75} xs={12} style={{ minHeight: "100%", minWidth: 0, overflowX: "hidden", overflowY: "auto" }}>
+        <Grid item lg={9.75} xs={12} style={{ minHeight: "100%", minWidth: "100", overflowX: "", overflowY: "auto" }}>
           {children}
 
           {/* Footer sits under content (scrolls with content) */}

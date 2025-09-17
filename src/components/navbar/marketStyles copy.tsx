@@ -69,8 +69,6 @@ const StyledNavbar = styled.div`
 
 }
 
-
-
   .nav-link:last-child {
     margin-right: 0px;
   }
@@ -102,9 +100,8 @@ const StyledNavbar = styled.div`
   .dropdown-icon {
     color: ${getTheme("colors.text.muted")};
   }
-  @media only screen and (max-width: 900px) {
-    display: none;
-  }
+
+  /* REMOVED: @media only screen and (max-width: 900px) { display: none; } */
 
   /* Dropdown Icon Style */
   .dropdown-icon {

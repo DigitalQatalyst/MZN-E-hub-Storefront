@@ -122,7 +122,7 @@ export default function Navbar({
     return () => document.removeEventListener("mousedown", onDocClick);
   }, [isProfileOpen]);
 
-  const goDashboard = () => (window.location.href = "/dashboard");
+  const goDashboard = () => (window.location.href = "/overview");
 
   // ---- Auth actions (picked from provided component style) ----
   const startLogin = () => {
@@ -275,30 +275,66 @@ export default function Navbar({
 
         {/* RIGHT: greeting + avatar + hamburger */}
         <FlexBox alignItems="center" style={{ gap: 10 }}>
-          {/* Avatar */}
-          <Box ref={profileRef} className="profile-photo" style={{ position: "relative" }}>
+          {/* Profile section container */}
+          <Box ref={profileRef} style={{ position: "relative" }}>
             <button
               type="button"
               onClick={handleProfileClick}
               aria-haspopup="menu"
               aria-expanded={isProfileOpen}
-              style={{
-                height: isSmDown ? 34 : 40,
-                width: isSmDown ? 34 : 40,
-                borderRadius: "50%",
-                background: "#fff",
-                color: "#0A38F5",
-                border: "2px solid #0A38F5",
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontWeight: 700,
-                fontSize: isSmDown ? 12 : 14,
-                cursor: "pointer",
-              }}
               title={activeAccount ? displayName : "Sign in"}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                background: "transparent",
+                border: "none",
+                cursor: "pointer",
+                padding: "4px 8px",
+                borderRadius: 8,
+                transition: "background-color 0.2s ease",
+                color: "#fff"
+              }}
+              // onMouseEnter={(e) => {
+              //   e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+              // }}
+              // onMouseLeave={(e) => {
+              //   e.currentTarget.style.backgroundColor = "transparent";
+              // }}
             >
-              {initials}
+              {/* Avatar */}
+              <div
+                style={{
+                  height: isSmDown ? 34 : 40,
+                  width: isSmDown ? 34 : 40,
+                  borderRadius: "50%",
+                  background: "#fff",
+                  color: "#0A38F5",
+                  border: "2px solid #0A38F5",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: 700,
+                  fontSize: isSmDown ? 12 : 14,
+                }}
+              >
+                {initials}
+              </div>
+
+              {/* Greeting hide on md- */}
+              {!isMdDown && (
+                <div
+                  className="greeting"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                  }}
+                >
+                  <span style={{ opacity: 0.9, fontSize: 14 }}>Hi, {displayName.split(" ")[0]}</span>
+                  <ChevronDown size={16} />
+                </div>
+              )}
             </button>
 
             <AuthenticatedTemplate>
@@ -348,15 +384,7 @@ export default function Navbar({
             </AuthenticatedTemplate>
           </Box>
 
-          {/* Greeting hide on md- */}
-          {!isMdDown && (
-            <div className="greeting">
-              <span style={{ opacity: 0.9, fontSize: 14 }}>Hi, {displayName.split(" ")[0]}</span>
-              <ChevronDown size={16} style={{ marginLeft: 6, verticalAlign: "middle" }} />
-            </div>
-          )}
-
-          {/* Hamburger shows on md- */}
+          {/* Chevron menu shows on md- */}
           {isMdDown && (
             <button
               type="button"
@@ -369,13 +397,14 @@ export default function Navbar({
                 alignItems: "center",
                 justifyContent: "center",
                 borderRadius: 10,
-                border: "1px solid rgba(255,255,255,0.35)",
+                border: "none",
                 background: "rgba(255,255,255,0.10)",
                 backdropFilter: "blur(6px)",
-                marginLeft: 4,
+                marginLeft: 2,
+                color: "#fff",
               }}
             >
-              {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+              <ChevronDown size={22} />
             </button>
           )}
         </FlexBox>

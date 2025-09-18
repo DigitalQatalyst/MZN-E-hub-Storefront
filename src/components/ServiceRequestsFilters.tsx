@@ -200,10 +200,10 @@ export function ServiceRequestsFilters({
             </div>
             <input
               type="text"
-              placeholder="Search by name or category"
+              placeholder="Name or category"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="block w-full pl-8 sm:pl-10 pr-3 py-1.5 sm:py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm"
+              className="block w-full pl-2 sm:pl-10 pr-3 py-1.5 sm:py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-[14px]"
             />
             {searchQuery && (
               <button

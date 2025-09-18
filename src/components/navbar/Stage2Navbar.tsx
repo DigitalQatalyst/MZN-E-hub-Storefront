@@ -13,6 +13,35 @@ import Container from "../Container";
 import Categories from "../categories/Categories";
 import StyledNavbar from "./marketStyles copy";
 
+type Claims = {
+  emails?: string[];
+  email?: string;
+  preferred_username?: string;
+  "signInNames.emailAddress"?: string;
+  [k: string]: unknown;
+};
+
+function getEmailFromClaims(acct?: AccountInfo): string | undefined {
+  const c = acct?.idTokenClaims as Claims | undefined;
+  return (
+    c?.emails?.[0] ??
+    c?.email ??
+    c?.["signInNames.emailAddress"] ??
+    c?.preferred_username ??
+    acct?.username
+  );
+}
+
+function looksSynthetic(upn?: string) {
+  if (!upn) return true;
+  const onMs = /@.*\.onmicrosoft\.com$/i.test(upn);
+  const guidLocal = /^[0-9a-f-]{36}@/i.test(upn) || upn.includes("#EXT#");
+  return onMs && guidLocal;
+}
+
+
+
+
 /** ---------- responsive helper ---------- */
 function useBreakpoint(query: string) {
   const [matches, setMatches] = useState(false);
@@ -45,6 +74,8 @@ export default function Navbar({
 }: NavbarProps) {
   const { instance, accounts, inProgress } = useMsal();
   const [isMsalInitialized, setIsMsalInitialized] = useState(false);
+
+
   
   useEffect(() => {
     if (inProgress === InteractionStatus.None) {
@@ -73,6 +104,7 @@ export default function Navbar({
   const [notifShown, setNotifShown] = useState(false);
   const [notifCenterShown, setNotifCenterShown] = useState(false);
 
+
   // close profile on outside click
   useEffect(() => {
     const onDocClick = (e: MouseEvent) => {
@@ -96,6 +128,69 @@ export default function Navbar({
       return undefined;
     }
   }, [instance, accounts, isMsalInitialized]);
+
+  if (activeAccount) {
+  // ID token is inside the account object
+  const idTokenClaims = activeAccount.idTokenClaims;
+  console.log("Decoded claims:", idTokenClaims);
+
+  // If you want the raw token (to paste into jwt.ms)
+  instance.acquireTokenSilent({
+    account: activeAccount,
+    scopes: ["openid", "profile", "email"],
+  }).then(result => {
+    console.log("ID Token (paste into jwt.ms):", result.idToken);
+  });
+}
+
+  // after you compute `activeAccount`
+const emailFromToken = useMemo(() => getEmailFromClaims(activeAccount), [activeAccount]);
+const [resolvedEmail, setResolvedEmail] = useState<string | undefined>(emailFromToken);
+
+useEffect(() => {
+  let cancelled = false;
+  async function run() {
+    if (!activeAccount || (emailFromToken && !looksSynthetic(emailFromToken))) {
+      setResolvedEmail(emailFromToken);
+      return;
+    }
+    try {
+      // needs "User.Read" in scopes and consented
+      const token = await instance.acquireTokenSilent({
+        ...loginRequest,
+        scopes: ["User.Read"],
+        account: activeAccount,
+      });
+      const r = await fetch(
+        "https://graph.microsoft.com/v1.0/me?$select=mail,userPrincipalName,otherMails",
+        { headers: { Authorization: `Bearer ${token.accessToken}` } }
+      );
+      const me = await r.json();
+      const real =
+        me.mail ??
+        (me.otherMails?.[0] as string | undefined) ??
+        me.userPrincipalName ??
+        emailFromToken;
+      if (!cancelled) setResolvedEmail(real);
+      if (process.env.NODE_ENV !== "production") {
+        console.log("[Graph /me]", { mail: me.mail, otherMails: me.otherMails, upn: me.userPrincipalName, chosen: real });
+      }
+    } catch (e) {
+      if (!cancelled) setResolvedEmail(emailFromToken);
+      if (process.env.NODE_ENV !== "production") console.warn("Graph lookup failed:", e);
+    }
+  }
+  run();
+  return () => { cancelled = true; };
+}, [activeAccount, emailFromToken, instance]);
+
+// Use `resolvedEmail` in UI/logs
+useEffect(() => {
+  if (resolvedEmail && process.env.NODE_ENV !== "production") {
+    console.log("[MSAL] Resolved email:", resolvedEmail);
+  }
+}, [resolvedEmail]);
+
 
   // Derive displayName and initials from activeAccount
   const { displayName, initials } = useMemo(() => {
@@ -330,6 +425,11 @@ export default function Navbar({
                     }}
                   >
                     Signed in as <strong>{displayName}</strong>
+                    {resolvedEmail && (
+                      <>
+                        {resolvedEmail}
+                      </>
+                    )}
                   </div>
 
                   <button type="button" onClick={goDashboard} style={menuItemStyle}>

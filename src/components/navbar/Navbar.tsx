@@ -20,6 +20,8 @@ import { Button } from "../buttons";
 import Categories from "../categories/Categories";
 import StyledNavbar from "./marketStyles copy";
 
+
+
 type NavbarProps = { navListOpen?: boolean };
 
 function getInitials(name?: string) {

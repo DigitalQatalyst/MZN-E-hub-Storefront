@@ -55,7 +55,12 @@ export function NotificationCenter({ onBack }: NotificationCenterProps) {
     */
     // Using mock data for now
     setTimeout(() => {
-      setNotifications(mockNotifications);
+      setNotifications(
+        mockNotifications.map((n) => ({
+          ...n,
+          type: n.type as "critical" | "message" | "update",
+        }))
+      );
       setLoading(false);
     }, 500);
   }, []);

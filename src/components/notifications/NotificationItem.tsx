@@ -6,7 +6,6 @@ import {
   BellIcon,
   ChevronRightIcon,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 interface NotificationItemProps {
   id: string;
   type: "critical" | "message" | "update";
@@ -56,7 +55,7 @@ export function NotificationItem({
     }
     // Navigate to the action URL
     // For now, navigate to the current page as specific pages don't exist yet
-    navigate("/");
+    // navigate("/");
   };
   return (
     <button

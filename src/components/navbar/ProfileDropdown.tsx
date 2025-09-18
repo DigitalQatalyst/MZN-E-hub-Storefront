@@ -1,98 +1,100 @@
 import React, { useState } from "react";
 import { LogOutIcon, BellIcon, ChevronDownIcon, UserIcon } from "lucide-react";
-// import { useAuth } from "../../contexts/AuthContext";
+
+interface User {
+  name: string;
+  email: string;
+  givenName: string;
+  familyName: string;
+  picture: string;
+  sub: string;
+}
+
 interface ProfileDropdownProps {
+  user: User | null;
   onViewNotifications: () => void;
   unreadNotifications: number;
+  onLogout: () => void;
 }
+
 export function ProfileDropdown({
+  user,
   onViewNotifications,
   unreadNotifications = 0,
+  onLogout,
 }: ProfileDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
-  // const { user, logout, isLoading } = useAuth();
-  // const navigate = useNavigate();
+
   // Generate initials from user name if no avatar is available
-
-  const user = {
-    name: "Mark Johnson",
-    email: "mark.johnson@futuretech.com",
-    givenName: "Mark",
-    familyName: "Johnson",
-    picture: "",
-    sub: "user123456",
-  };
-
   const getInitials = () => {
     if (!user || !user.name) return "?";
+    
     // Try to use given name and family name first
     if (user.givenName && user.familyName) {
       return `${user.givenName.charAt(0)}${user.familyName.charAt(0)}`;
     }
+    
     // Fall back to splitting the full name
     const nameParts = user.name.split(" ");
     if (nameParts.length >= 2) {
-      return `${nameParts[0].charAt(0)}${nameParts[nameParts.length - 1].charAt(
-        0
-      )}`;
+      return `${nameParts[0].charAt(0)}${nameParts[nameParts.length - 1].charAt(0)}`;
     }
+    
     // If only one name part, use first two letters
     return user.name.substring(0, 2).toUpperCase();
   };
+
   // Get user's first name for greeting
   const getFirstName = () => {
     if (!user) return "";
     return user.givenName || user.name.split(" ")[0];
   };
+
   // Toggle dropdown
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+
   // Close dropdown when clicking outside
   const closeDropdown = () => {
     setIsOpen(false);
   };
+
   // Show logout confirmation dialog
   const showLogoutConfirm = () => {
     setShowLogoutConfirmation(true);
   };
+
   // Cancel logout
   const cancelLogout = () => {
     setShowLogoutConfirmation(false);
   };
+
   // Handle logout and redirect
   const handleLogout = () => {
     // Close the dropdown and confirmation dialog
     closeDropdown();
     setShowLogoutConfirmation(false);
-    // Call the logout function from AuthContext
-    // logout();
-    // Clear any local component state if needed
-    // ...
-    // Redirect to home/login page
-    // You could also force a page refresh to ensure all state is cleared
-    // window.location.href = '/'
+    
+    // Call the logout function passed from parent (MSAL logout)
+    onLogout();
   };
+
   // Navigate to user profile
-  const navigateToUserProfile = (e) => {
+  const navigateToUserProfile = (e: React.MouseEvent) => {
     e.preventDefault();
     closeDropdown();
-    // For now, navigate to the current page as the profile page doesn't exist yet
+    
+    // Navigate to dashboard or profile page
+    window.location.href = '/dashboard';
   };
-  // If still loading user data, show loading state
-  // if (isLoading) {
-  //   return (
-  //     <div className="flex items-center">
-  //       <div className="w-10 h-10 rounded-full bg-gray-200 animate-pulse"></div>
-  //       <div className="ml-2 w-16 h-4 bg-gray-200 animate-pulse"></div>
-  //     </div>
-  //   );
-  // }
+
   // If no user is authenticated, don't show the dropdown
   if (!user) {
     return null;
   }
+
   return (
     <div className="relative">
       <button
@@ -135,9 +137,9 @@ export function ProfileDropdown({
                 <UserIcon size={18} className="text-gray-500 mr-2" />
                 <div className="ml-1">
                   <p className="text-sm font-medium text-gray-800">
-                    {user.name}
+                    Signed in as <span className="text-[#0030E3]">{user.name} {user.familyName}</span>
                   </p>
-                  <p className="text-xs text-gray-500">{user.email}</p>
+                  {/* <p className="text-xs text-gray-500">{user.email}</p> */}
                 </div>
               </button>
             </div>

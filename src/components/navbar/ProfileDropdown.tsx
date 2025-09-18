@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { LogOutIcon, BellIcon, ChevronDownIcon, UserIcon } from "lucide-react";
 // import { useAuth } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
 interface ProfileDropdownProps {
   onViewNotifications: () => void;
   unreadNotifications: number;
@@ -72,7 +71,6 @@ export function ProfileDropdown({
     // Clear any local component state if needed
     // ...
     // Redirect to home/login page
-    navigate("/");
     // You could also force a page refresh to ensure all state is cleared
     // window.location.href = '/'
   };
@@ -81,7 +79,6 @@ export function ProfileDropdown({
     e.preventDefault();
     closeDropdown();
     // For now, navigate to the current page as the profile page doesn't exist yet
-    navigate("/");
   };
   // If still loading user data, show loading state
   // if (isLoading) {

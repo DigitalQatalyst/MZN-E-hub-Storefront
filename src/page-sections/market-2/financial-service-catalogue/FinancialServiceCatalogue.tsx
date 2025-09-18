@@ -6,6 +6,7 @@ import NavLink from "@component/nav-link";
 import { H3 } from "@component/Typography";
 import Container from "@component/Container";
 import { useState, useEffect, useMemo } from "react";
+import { useSearchParams } from 'next/navigation';
 import client from "@lib/graphQLClient";
 import TabBar from "@component/tab-bar/TabBar";
 import Sidebar from "./side-bar/Sidebar";
@@ -145,6 +146,7 @@ export default function FinancialServiceCatalogue({
   activeButton: string;
   setActiveButton: (button: string) => void;
 }) {
+  const searchParams = useSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [allFilteredProducts, setAllFilteredProducts] = useState<Product[]>([]);
@@ -156,11 +158,42 @@ export default function FinancialServiceCatalogue({
   const [searchQuery, setSearchQuery] = useState("");
   const [facets, setFacets] = useState<Facet[]>([]);
   const [filterStates, setFilterStates] = useState<FilterState>({});
+  const [initialFilter, setInitialFilter] = useState<string | null>(null);
 
-  const productsPerPage = 15;
-  const defaultImage = "/assets/images/mzn_logos/mzn_logo.png";
-  const defaultImages = [defaultImage];
-  const defaultReviews = 0;
+  // Check for initial filter from URL
+  useEffect(() => {
+    const filter = searchParams?.get('filter');
+    if (filter) {
+      setInitialFilter(filter);
+      // Set the active button based on the filter
+      setActiveButton(filter);
+    }
+  }, [searchParams, setActiveButton]);
+
+  // Update filtered products when filter changes
+  useEffect(() => {
+    if (initialFilter) {
+      const newFilterStates = { ...filterStates };
+      // Reset all filters
+      Object.keys(newFilterStates).forEach(facetCode => {
+        Object.keys(newFilterStates[facetCode]).forEach(valueCode => {
+          newFilterStates[facetCode][valueCode] = false;
+        });
+      });
+
+      // Find the facet value that matches our filter
+      const industryFacet = facets.find(f => f.name === 'Industry' || f.code === 'industry');
+      if (industryFacet) {
+        const matchingValue = industryFacet.values.find(v => v.name === initialFilter);
+        if (matchingValue) {
+          newFilterStates[industryFacet.code] = newFilterStates[industryFacet.code] || {};
+          newFilterStates[industryFacet.code][matchingValue.code] = true;
+        }
+      }
+      
+      setFilterStates(newFilterStates);
+    }
+  }, [initialFilter, facets]);
 
   // Fetch facets using SWR with typed data
   const { data: facetData, error: facetError } = useSWR<GetFacetsData>(
@@ -262,8 +295,8 @@ export default function FinancialServiceCatalogue({
             setAllFilteredProducts(filtered);
             setTotalFilteredItems(filtered.length);
 
-            const startIndex = (currentPage - 1) * productsPerPage;
-            const endIndex = startIndex + productsPerPage;
+            const startIndex = (currentPage - 1) * 15;
+            const endIndex = startIndex + 15;
             setProducts(filtered.slice(startIndex, endIndex));
             setFilteredProducts(filtered.slice(startIndex, endIndex));
           }
@@ -317,8 +350,8 @@ export default function FinancialServiceCatalogue({
 
   // Calculate the total number of pages
   const totalPages = areFiltersApplied()
-    ? Math.ceil(totalFilteredItems / productsPerPage)
-    : Math.ceil(totalItems / productsPerPage);
+    ? Math.ceil(totalFilteredItems / 15)
+    : Math.ceil(totalItems / 15);
 
   // Slice the filtered products to show on the current page
   const currentProducts = filteredProducts;
@@ -355,7 +388,7 @@ export default function FinancialServiceCatalogue({
               totalItems={totalItems}
               totalFilteredItems={totalFilteredItems}
               currentPage={currentPage}
-              productsPerPage={productsPerPage}
+              productsPerPage={15}
               areFiltersApplied={areFiltersApplied}
               loading={loading}
             />
@@ -397,9 +430,9 @@ export default function FinancialServiceCatalogue({
                         name={product.name}
                         subTitle={product.customFields.Industry}
                         description={product.description}
-                        img={defaultImage}
-                        images={defaultImages}
-                        reviews={defaultReviews}
+                        img="/assets/images/mzn_logos/mzn_logo.png"
+                        images={["/assets/images/mzn_logos/mzn_logo.png"]}
+                        reviews={0}
                         className="product-card"
                       />
                     </div>

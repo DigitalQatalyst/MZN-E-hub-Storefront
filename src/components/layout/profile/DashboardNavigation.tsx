@@ -10,13 +10,12 @@ import Typography from "@component/Typography";
 
 // Styled components following Bonik patterns
 const SidebarContainer = styled.div`
-
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   height: 100vh;
   border-right: 1px solid #e5e7eb;
   display: flex;
   flex-direction: column;
-  font-family: 'Open Sans', Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Open Sans", Inter, -apple-system, BlinkMacSystemFont, sans-serif;
   position: relative;
 `;
 
@@ -186,7 +185,7 @@ const Sidebar = () => {
       id: "requests",
       label: "Requests",
       icon: "/images/overview.svg",
-      route: "/non-financial-records",
+      route: "/service_requests",
     },
     {
       id: "insights",
@@ -270,7 +269,6 @@ const Sidebar = () => {
 
   const renderNavItem = (item: NavItem) => {
     const active = isActive(item.route);
-
 
     return (
       <NavItem
@@ -426,4 +424,3 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
-

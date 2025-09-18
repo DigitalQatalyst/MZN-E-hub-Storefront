@@ -60,9 +60,9 @@ export default function MobileCategoryNav() {
               onClick={handleCategoryClick(item)}
               // borderLeft={`${category?.href === item.href ? "3" : "0"}px solid`}
             >
-              <Icon size="28px" mb="0.5rem">
+              {/* <Icon size="28px" mb="0.5rem">
                 {item.icon}
-              </Icon>
+              </Icon> */}
 
               <Typography className="ellipsis" textAlign="center" fontSize="11px" lineHeight="1">
                 {item.title}

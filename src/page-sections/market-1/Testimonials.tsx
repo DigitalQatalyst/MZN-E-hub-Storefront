@@ -112,6 +112,12 @@ const EventCard = styled.div`
   gap: 1rem;
   flex: 1 1 0;
   min-width: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
 
   @media (max-width: 768px) {
     flex: none;
@@ -221,7 +227,7 @@ const ExploreAllButton = styled(DefaultButton)`
 
 // TYPES
 interface Post {
-  postId: string;
+  id: string;
   title: string;
   content: string;
   slug: string;
@@ -231,10 +237,11 @@ interface Post {
       sourceUrl: string;
     };
   } | null;
+  link: string;
 }
 
 const GRAPHQL_ENDPOINT =
-  "https://ujs.qxk.mybluehost.me/website_b79ab28e/graphql";
+  "https://ujs.qxk.mybluehost.me/website_6ad02141/staging/7520/graphql";
 
 const Section16: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -252,21 +259,20 @@ const Section16: React.FC = () => {
           },
           body: JSON.stringify({
             query: `
-              query getPostsCopy {
-                posts(first: 4) {
-                  edges {
-                    node {
-                      postId
-                      content(format: RAW)
-                      slug
-                      title
-                      date
-                      featuredImage {
-                        node {
-                          sourceUrl
-                        }
+              query GetPostsEdges {
+                posts {
+                  nodes {
+                    id
+                    content
+                    slug
+                    title
+                    date
+                    featuredImage {
+                      node {
+                        sourceUrl
                       }
                     }
+                    link
                   }
                 }
               }
@@ -279,7 +285,7 @@ const Section16: React.FC = () => {
         }
 
         const { data } = await response.json();
-        setPosts(data.posts.edges.map((edge: any) => edge.node));
+        setPosts(data.posts.nodes.slice(0, 4)); // Limit to first 4 posts
         setError(null);
       } catch (err) {
         console.error("Error fetching posts:", err);
@@ -301,9 +307,15 @@ const Section16: React.FC = () => {
     });
   };
 
+  const handleCardClick = (link: string) => {
+    if (link) {
+      window.open(link, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   const handleExploreAllClick = () => {
     window.open(
-      "https://kf-ej-media-marketplace-c0cllh08g-digitalqatalysts-projects.vercel.app/",
+      "https://ujs.qxk.mybluehost.me/website_6ad02141/staging/7520/all-posts/",
       "_blank"
     );
   };
@@ -389,7 +401,7 @@ const Section16: React.FC = () => {
           </FeaturedEventsHeader>
           <EventsContainer>
             {posts.map((post) => (
-              <EventCard key={post.postId}>
+              <EventCard key={post.id} onClick={() => handleCardClick(post.link)}>
                 <EventImage>
                   <Image
                     src={

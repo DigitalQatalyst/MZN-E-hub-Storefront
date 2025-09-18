@@ -10,8 +10,8 @@ const TabBar: React.FC = () => {
     '/non-financial-marketplace': 'Non-Financial',
     '/financial-marketplace': 'Financial',
     '/courses': 'Courses',
-    '/community-marketplace': 'Communities',
-    '/media': 'Media',
+    'https://ujs.qxk.mybluehost.me/website_6ad02141/staging/7520/bp-groups/': 'Communities',
+    'https://ujs.qxk.mybluehost.me/website_6ad02141/staging/7520/community-news/': 'Media',
     '/investment': 'Investment',
     '/calendar': 'Calendar',
     '/opportunities': 'Opportunities',
@@ -58,14 +58,14 @@ const TabBar: React.FC = () => {
           Financial
         </Tab>
         <Tab
-          onClick={() => handleTabClick('Courses', '#')}
+          onClick={() => handleTabClick('Courses', '/development')}
           active={activeTab === 'Courses'}
         >
           <img src="/assets/images/tab_bar/local_library.svg" alt="icon" />
           Courses
         </Tab>
         <Tab
-          onClick={() => handleTabClick('Communities', '/community-marketplace')}
+          onClick={() => handleTabClick('Communities', 'https://ujs.qxk.mybluehost.me/website_6ad02141/staging/7520/bp-groups/')}
           active={activeTab === 'Communities' ? true : undefined}
         >
           <img
@@ -77,28 +77,28 @@ const TabBar: React.FC = () => {
           Communities
         </Tab>
         <Tab
-          onClick={() => handleTabClick('Media', 'https://kf-ej-media-marketplace-c7ifty1ol-digitalqatalysts-projects.vercel.app/media/')}
+          onClick={() => handleTabClick('Media', 'https://ujs.qxk.mybluehost.me/website_6ad02141/staging/7520/community-news/')}
           active={activeTab === 'Media'}
         >
           <img src="/assets/images/tab_bar/brand_awareness.svg" alt="icon" />
           Media
         </Tab>
         <Tab
-          onClick={() => handleTabClick('Investment', '#')}
+          onClick={() => handleTabClick('Investment', '/development')}
           active={activeTab === 'Investment'}
         >
           <img src="/assets/images/tab_bar/crowdsource.svg" alt="icon" />
           Investment
         </Tab>
         <Tab
-          onClick={() => handleTabClick('Calendar', '#')}
+          onClick={() => handleTabClick('Calendar', '/development')}
           active={activeTab === 'Calendar'}
         >
           <img src="/assets/images/tab_bar/calendar_month.svg" alt="icon" />
           Calendar
         </Tab>
         <Tab
-          onClick={() => handleTabClick('Opportunities', '#')}
+          onClick={() => handleTabClick('Opportunities', '/development')}
           active={activeTab === 'Opportunities'}
         >
           <img src="/assets/images/tab_bar/rocket_launch.svg" alt="icon" />

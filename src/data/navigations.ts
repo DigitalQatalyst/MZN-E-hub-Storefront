@@ -1,6 +1,5 @@
 const navigations = [
   {
-    icon: "money_bag",
     title: "Financial",
     href: "/financial-marketplace",
     menuComponent: "MegaMenu1",
@@ -46,7 +45,6 @@ const navigations = [
     }
   },
   {
-    icon: "all_inclusive",
     title: "Non-Financial",
     href: "/non-financial-marketplace",
     menuComponent: "MegaMenu1",
@@ -110,57 +108,47 @@ const navigations = [
     }
   },
   {
-    icon: "brand_awareness",
     title: "Media",
-    href: "https://kf-ej-media-marketplace-reruapfib-digitalqatalysts-projects.vercel.app/media/",
+    href: "https://ujs.qxk.mybluehost.me/website_6ad02141/staging/7520/community-news/",
     menuComponent: "MegaMenu2",
     menuData: [
       {
-        icon: "",
         title: "",
         href: ""
       },
       {
-        icon: "",
         title: "",
         href: ""
       },
       {
-        icon: "",
         title: "",
         href: ""
       },
       {
-        icon: "",
         title: "",
         href: ""
       },
       {
-        icon: "",
-        title: "",
-            href: ""
-      },
-      {
-        icon: "",
         title: "",
         href: ""
       },
       {
-        icon: "",
         title: "",
         href: ""
       },
       {
-        icon: "",
+        title: "",
+        href: ""
+      },
+      {
         title: "",
         href: ""
       }
     ]
   },
   {
-    icon: "forum",
     title: "Communities",
-    href: "/community-marketplace",
+    href: "https://ujs.qxk.mybluehost.me/website_6ad02141/staging/7520/bp-groups/",
     menuComponent: "MegaMenu1",
     menuData: {
       categories: [
@@ -272,9 +260,8 @@ const navigations = [
     }
   },
   {
-    icon: "calendar_month",
     title: "Calendar",
-    href: "",
+    href: "/development",
     tag: {
       text: "Coming Soon",
       color: "#0030E3",
@@ -284,9 +271,8 @@ const navigations = [
     menuData: []
   },
   {
-    icon: "local_library",
     title: "Courses",
-    href: "",
+    href: "/development",
     tag: {
       text: "Coming Soon",
       color: "#0030E3",
@@ -296,9 +282,8 @@ const navigations = [
     menuData: []
   },
   {
-    icon: "crowdsource",
     title: "Investment",
-    href: "",
+    href: "/development",
     tag: {
       text: "Coming Soon",
       color: "#0030E3",
@@ -308,9 +293,8 @@ const navigations = [
     menuData: []
   },
   {
-    icon: "rocket_launch",
     title: "Opportunities",
-    href: "",
+    href: "/development",
     tag: {
       text: "Coming Soon",
       color: "#0030E3",

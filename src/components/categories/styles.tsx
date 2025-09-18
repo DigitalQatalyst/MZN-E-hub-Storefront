@@ -44,7 +44,7 @@ export const StyledCategoryMenuItem = styled.div`
     height: 40px;
     display: flex;
     cursor: pointer;
-    min-width: 278px;
+    min-width: 250px;
     white-space: pre;
     padding: 0px 1rem;
     align-items: center;
@@ -52,9 +52,14 @@ export const StyledCategoryMenuItem = styled.div`
     transition: all 250ms ease-in-out;
 
     .title {
-      padding-left: 20px;
+      padding-left: 0;
+      margin-left: 0;
       flex-grow: 1;
       text-align: left;
+    }
+
+    .icon {
+      margin-right: 8px;
     }
   }
 

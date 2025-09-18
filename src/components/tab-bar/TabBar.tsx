@@ -10,8 +10,8 @@ const TabBar: React.FC = () => {
     '/non-financial-marketplace': 'Non-Financial',
     '/financial-marketplace': 'Financial',
     '/courses': 'Courses',
-    '/community-marketplace': 'Communities',
-    '/media': 'Media',
+    'https://ujs.qxk.mybluehost.me/website_6ad02141/staging/7520/bp-groups/': 'Communities',
+    'https://ujs.qxk.mybluehost.me/website_6ad02141/staging/7520/community-news/': 'Media',
     '/investment': 'Investment',
     '/calendar': 'Calendar',
     '/opportunities': 'Opportunities',
@@ -65,7 +65,7 @@ const TabBar: React.FC = () => {
           Courses
         </Tab>
         <Tab
-          onClick={() => handleTabClick('Communities', '/development')}
+          onClick={() => handleTabClick('Communities', 'https://ujs.qxk.mybluehost.me/website_6ad02141/staging/7520/bp-groups/')}
           active={activeTab === 'Communities' ? true : undefined}
         >
           <img
@@ -77,7 +77,7 @@ const TabBar: React.FC = () => {
           Communities
         </Tab>
         <Tab
-          onClick={() => handleTabClick('Media', '/development')}
+          onClick={() => handleTabClick('Media', 'https://ujs.qxk.mybluehost.me/website_6ad02141/staging/7520/community-news/')}
           active={activeTab === 'Media'}
         >
           <img src="/assets/images/tab_bar/brand_awareness.svg" alt="icon" />

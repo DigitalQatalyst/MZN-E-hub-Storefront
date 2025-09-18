@@ -12,7 +12,8 @@ import Sidebar from "./side-bar/Sidebar";
 import Section2 from "../section-2/Section2";
 import { ShowingText } from "./styles";
 import { FinancialServiceCard } from "@component/product-cards";
-import LoadingSpinner from "@component/LoadingSpinner/LoadingSpinner"; // Import the LoadingSpinner component
+import LoadingSpinner from "@component/LoadingSpinner/LoadingSpinner";
+import useSWR from "swr";
 
 // GraphQL Query for Products
 const GET_PRODUCTS = `
@@ -132,6 +133,11 @@ interface FilterState {
   [facetCode: string]: { [valueCode: string]: boolean };
 }
 
+// Typed fetcher function for GraphQL queries
+const fetcher = async <T = any>(query: string, variables?: any): Promise<T> => {
+  return client.request<T>(query, variables);
+};
+
 export default function FinancialServiceCatalogue({
   activeButton,
   setActiveButton,
@@ -156,7 +162,27 @@ export default function FinancialServiceCatalogue({
   const defaultImages = [defaultImage];
   const defaultReviews = 0;
 
-  // Memoize initial filter states to prevent unnecessary re-initialization
+  // Fetch facets using SWR with typed data
+  const { data: facetData, error: facetError } = useSWR<GetFacetsData>(
+    GET_FACETS,
+    () => fetcher<GetFacetsData>(GET_FACETS),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+    }
+  );
+
+  // Fetch products using SWR with typed data
+  const { data: productData, error: productError } = useSWR<GetProductsData>(
+    [GET_PRODUCTS, { take: 31 }],
+    ([query, variables]) => fetcher<GetProductsData>(query, variables),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+    }
+  );
+
+  // Memoize initial filter states
   const initializeFilterStates = useMemo(() => (facets: Facet[]): FilterState => {
     const initial: FilterState = {};
     facets.forEach(facet => {
@@ -166,7 +192,97 @@ export default function FinancialServiceCatalogue({
       });
     });
     return initial;
-  }, []); // Empty dependency array since this is a pure function
+  }, []);
+
+  // Process fetched data
+  useEffect(() => {
+    let isMounted = true;
+
+    const processData = async () => {
+      if (!isMounted) return;
+      setLoading(true);
+
+      try {
+        // Process facets
+        if (facetData) {
+          const relevantFacets = facetData.facets.items.filter(facet =>
+            ["service-category", "business-stage", "provided-by", "pricing-model"].includes(facet.code)
+          );
+          if (isMounted) {
+            setFacets(relevantFacets);
+            setFilterStates(prev => Object.keys(prev).length === 0 ? initializeFilterStates(relevantFacets) : prev);
+          }
+        }
+
+        // Process products
+        if (productData) {
+          let financialServicesOnly = productData.products.items.filter((product: Product) =>
+            product.facetValues.some((fv) => fv.id === "66") &&
+            !product.facetValues.some((fv) => fv.id === "67")
+          );
+
+          if (activeButton === "newAdditions") {
+            financialServicesOnly = financialServicesOnly.filter((product: Product) =>
+              isNewAddition(product.createdAt)
+            );
+          }
+
+          // Apply dynamic filters
+          const filtered = financialServicesOnly.filter((product: Product) => {
+            const matchesAllFacets = Object.keys(filterStates).every(facetCode => {
+              const selectedValues = Object.keys(filterStates[facetCode]).filter(
+                key => filterStates[facetCode][key]
+              );
+              if (selectedValues.length === 0) return true;
+              return product.facetValues.some(facetValue =>
+                selectedValues.includes(facetValue.code)
+              ) || (
+                facetCode === "pricing-model" &&
+                selectedValues.includes("one-time-fee") &&
+                product.customFields?.Cost && product.customFields.Cost > 0
+              ) || (
+                facetCode === "business-stage" &&
+                product.customFields?.BusinessStage &&
+                selectedValues.includes(product.customFields.BusinessStage)
+              );
+            });
+
+            const matchesSearch =
+              searchQuery.trim() === "" ||
+              product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              product.facetValues.some((facetValue) =>
+                facetValue.name.toLowerCase().includes(searchQuery.toLowerCase())
+              );
+
+            return matchesAllFacets && matchesSearch;
+          });
+
+          if (isMounted) {
+            setTotalItems(financialServicesOnly.length);
+            setAllFilteredProducts(filtered);
+            setTotalFilteredItems(filtered.length);
+
+            const startIndex = (currentPage - 1) * productsPerPage;
+            const endIndex = startIndex + productsPerPage;
+            setProducts(filtered.slice(startIndex, endIndex));
+            setFilteredProducts(filtered.slice(startIndex, endIndex));
+          }
+        }
+      } catch (error) {
+        console.error("Error processing data:", error);
+      } finally {
+        if (isMounted && (facetData || productData)) {
+          setLoading(false);
+        }
+      }
+    };
+
+    processData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [facetData, productData, currentPage, searchQuery, activeButton, filterStates, initializeFilterStates]);
 
   // Check if any filters are applied
   const areFiltersApplied = () => {
@@ -186,111 +302,6 @@ export default function FinancialServiceCatalogue({
     const fiveDaysAgo = new Date(currentDate.getTime() - 5 * 24 * 60 * 60 * 1000);
     return createdDate >= fiveDaysAgo;
   };
-
-  // Fetch products and facets data on component mount
-  useEffect(() => {
-    let isMounted = true;
-
-    const fetchData = async () => {
-      if (!isMounted) return;
-      setLoading(true);
-      try {
-        // Fetch facets
-        const facetData = await client.request<GetFacetsData>(GET_FACETS);
-        const relevantFacets = facetData.facets.items.filter(facet =>
-          ["service-category", "business-stage", "provided-by", "pricing-model"].includes(facet.code)
-        );
-
-        if (isMounted) {
-          setFacets(relevantFacets);
-          // Only initialize filterStates if it's empty to avoid resetting
-          setFilterStates(prev => Object.keys(prev).length === 0 ? initializeFilterStates(relevantFacets) : prev);
-        }
-
-        // Fetch products
-        const productData = await client.request<GetProductsData, GetProductsVariables>(GET_PRODUCTS, {
-          take: 31,
-        });
-        console.log("Fetched products:", productData.products.items.length, "Total Items:", productData.products.totalItems);
-
-        // Filter for Financial Services (facetValue.id: "66") and exclude non-financial (facetValue.id: "67")
-        let financialServicesOnly = productData.products.items.filter((product) =>
-          product.facetValues.some((fv) => fv.id === "66") &&
-          !product.facetValues.some((fv) => fv.id === "67")
-        );
-        console.log("Filtered to Financial Services only:", financialServicesOnly.length);
-
-        // Apply "New Additions" filter if active
-        if (activeButton === "newAdditions") {
-          financialServicesOnly = financialServicesOnly.filter((product) =>
-            isNewAddition(product.createdAt)
-          );
-          console.log("Filtered to New Additions (less than 5 days old):", financialServicesOnly.length);
-        }
-
-        // Apply dynamic filters
-        const filtered = financialServicesOnly.filter((product) => {
-          // Check if product matches all selected facets
-          const matchesAllFacets = Object.keys(filterStates).every(facetCode => {
-            const selectedValues = Object.keys(filterStates[facetCode]).filter(
-              key => filterStates[facetCode][key]
-            );
-            // If no values are selected for this facet, allow all products
-            if (selectedValues.length === 0) return true;
-            // Check if product matches any selected value for this facet
-            return product.facetValues.some(facetValue =>
-              selectedValues.includes(facetValue.code)
-            ) || (
-              facetCode === "pricing-model" &&
-              selectedValues.includes("one-time-fee") &&
-              product.customFields?.Cost && product.customFields.Cost > 0
-            ) || (
-              facetCode === "business-stage" &&
-              product.customFields?.BusinessStage &&
-              selectedValues.includes(product.customFields.BusinessStage)
-            );
-          });
-
-          const matchesSearch =
-            searchQuery.trim() === "" ||
-            product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            product.facetValues.some((facetValue) =>
-              facetValue.name.toLowerCase().includes(searchQuery.toLowerCase())
-            );
-
-          console.log(`Filtering ${product.name} (id: ${product.id}):`, {
-            matchesAllFacets,
-            matchesSearch,
-          });
-          return matchesAllFacets && matchesSearch;
-        });
-
-        if (isMounted) {
-          setTotalItems(financialServicesOnly.length);
-          setAllFilteredProducts(filtered);
-          setTotalFilteredItems(filtered.length);
-
-          const startIndex = (currentPage - 1) * productsPerPage;
-          const endIndex = startIndex + productsPerPage;
-          setProducts(filtered.slice(startIndex, endIndex));
-          setFilteredProducts(filtered.slice(startIndex, endIndex));
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error.response?.errors || error.message);
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-          console.log("Fetching completed. Loading set to false.");
-        }
-      }
-    };
-
-    fetchData();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [currentPage, searchQuery, activeButton, filterStates]);
 
   // Handle filter changes dynamically
   const handleFilterChange = (facetCode: string, valueCode: string) => {

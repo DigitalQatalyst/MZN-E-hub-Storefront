@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import StyledHeader from "@component/header/styles";
+import useSWR from 'swr';
 import styled from "styled-components";
 import { H3 } from "@component/Typography";
 import { Button as DefaultButton } from "@component/buttons";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import StyledHeader from "@component/header/styles";
 
 // STYLED COMPONENTS
 const WelcomeSection = styled.section`
@@ -240,63 +240,65 @@ interface Post {
   link: string;
 }
 
-const GRAPHQL_ENDPOINT =
-  "https://ujs.qxk.mybluehost.me/website_6ad02141/staging/7520/graphql";
+interface PostsData {
+  posts: {
+    nodes: Post[];
+  };
+}
+
+const GRAPHQL_ENDPOINT = "https://ujs.qxk.mybluehost.me/website_6ad02141/staging/7520/graphql";
+
+// Fetcher function for SWR
+const fetcher = async (query: string): Promise<PostsData> => {
+  const response = await fetch(GRAPHQL_ENDPOINT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ query }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const { data } = await response.json();
+  return data;
+};
 
 const Section16: React.FC = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await fetch(GRAPHQL_ENDPOINT, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            query: `
-              query GetPostsEdges {
-                posts {
-                  nodes {
-                    id
-                    content
-                    slug
-                    title
-                    date
-                    featuredImage {
-                      node {
-                        sourceUrl
-                      }
-                    }
-                    link
-                  }
-                }
-              }
-            `,
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+  
+  // Use SWR for data fetching with caching
+  const { data, error, isLoading } = useSWR<PostsData>(
+    `
+    query GetPostsEdges {
+      posts {
+        nodes {
+          id
+          content
+          slug
+          title
+          date
+          featuredImage {
+            node {
+              sourceUrl
+            }
+          }
+          link
         }
-
-        const { data } = await response.json();
-        setPosts(data.posts.nodes.slice(0, 4)); // Limit to first 4 posts
-        setError(null);
-      } catch (err) {
-        console.error("Error fetching posts:", err);
-        setError("Failed to load posts. Please try again later.");
-      } finally {
-        setLoading(false);
       }
-    };
+    }
+    `,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000, // 1 minute
+    }
+  );
 
-    fetchPosts();
-  }, []);
+  const posts = data?.posts?.nodes?.slice(0, 4) || [];
+  const loading = isLoading;
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -356,7 +358,7 @@ const Section16: React.FC = () => {
             Error
           </H3>
           <H3 fontSize="24px" fontWeight="600" color="error">
-            {error}
+            {error.message}
           </H3>
         </ContentColumn>
       </WelcomeSection>

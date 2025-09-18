@@ -10,6 +10,7 @@ import NProgressBar from "@component/NProgress";
 import KfBot from "@component/bot/KfBot";
 import { ModalProvider } from "@context/ModalContext";
 import MsalProviders from "./msalProviders"; // 👈 add
+import { ProfileProvider } from "@context/ProfileContext";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
@@ -21,20 +22,28 @@ export const metadata: Metadata = {
   keywords: ["e-commerce", "e-commerce template", "next.js", "react", "bonik"],
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body className={openSans.className}>
         <StyledComponentsRegistry>
-          <MsalProviders> {/* 👈 MSAL context is now available to all client comps */}
+          <MsalProviders>
+            {" "}
+            {/* 👈 MSAL context is now available to all client comps */}
             <AppProvider>
-              <ModalProvider>
-                <StyledContext>
-                  {children}
-                  <NProgressBar />
-                </StyledContext>
-                <KfBot />
-              </ModalProvider>
+              <ProfileProvider>
+                <ModalProvider>
+                  <StyledContext>
+                    {children}
+                    <NProgressBar />
+                  </StyledContext>
+                  <KfBot />
+                </ModalProvider>
+              </ProfileProvider>
             </AppProvider>
           </MsalProviders>
         </StyledComponentsRegistry>

@@ -422,21 +422,25 @@ const Section14: React.FC = () => {
       src: "/assets/images/Groceries Shop/Icon4.png",
       label: "Calendar Marketplace",
       comingSoon: true,
+      link: "/development",
     },
     {
       src: "/assets/images/Groceries Shop/Icon3.png",
       label: "Courses Marketplace",
       comingSoon: true,
+      link: "/development",
     },
     {
       src: "/assets/images/Groceries Shop/Icon2.png",
       label: "Investment Marketplace",
       comingSoon: true,
+      link: "/development",
     },
     {
       src: "/assets/images/Groceries Shop/Icon1.png",
       label: "Opportunities Marketplace",
       comingSoon: true,
+      link: "/development",
     },
   ];
 

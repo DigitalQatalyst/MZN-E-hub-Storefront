@@ -7,9 +7,9 @@ import CategorySectionCreator from "@component/CategorySectionCreator";
 import styled from "styled-components";
 import client from "@lib/graphQLClient";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import ProductCard19 from "@component/product-cards/ProductCard19";
 import { Carousel2 } from "@component/carousel2";
+import useSWR from 'swr';
 
 // STYLED COMPONENTS
 const ContentColumn = styled.div`
@@ -361,23 +361,27 @@ const LoadingErrorWrapper = styled.div`
 
 // GraphQL Query
 const GET_PRODUCTS = `
-  query {
-    products(options: { take: 100 }) {
-      totalItems
+  query GetProducts($take: Int!) {
+    products(options: { take: $take }) {
       items {
         id
         name
         slug
         description
+        title
+        subTitle
+        thumbnail
+        images
+        reviews
         facetValues {
+          id
+          name
+          code
           facet {
             id
             name
             code
           }
-          id
-          name
-          code
         }
         customFields {
           Industry
@@ -393,21 +397,23 @@ const GET_PRODUCTS = `
             name
             slug
           }
+          Partner
         }
       }
+      totalItems
     }
   }
 `;
 
 interface FacetValue {
+  id: string;
+  name: string;
+  code: string;
   facet: {
     id: string;
     name: string;
     code: string;
   };
-  id: string;
-  name: string;
-  code: string;
 }
 
 interface RelatedService {
@@ -448,38 +454,41 @@ interface GetProductsData {
   };
 }
 
-export default function Section15() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+// Fetcher function for SWR
+const fetcher = async (query: string, variables: any): Promise<GetProductsData> => {
+  return client.request<GetProductsData>(query, variables);
+};
 
+export default function Section15() {
   const defaultImage = "/assets/images/mzn_logos/mzn_logo.png";
   const defaultImages = [defaultImage];
   const defaultReviews = 0;
 
-  // Fetch products on component mount
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const data = await client.request<GetProductsData>(GET_PRODUCTS);
+  // Use SWR for data fetching with caching
+  const { data, error, isLoading } = useSWR<GetProductsData>(
+    [GET_PRODUCTS, { take: 31 }],
+    ([query, variables]) => fetcher(query, variables),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000, // 1 minute
+      onSuccess: (data) => {
         // Filter for Financial Services (facetValue.id: "66") and exclude non-financial (facetValue.id: "67")
         const financialServicesOnly = data.products.items.filter(
           (product) =>
             product.facetValues.some((fv) => fv.id === "66") &&
             !product.facetValues.some((fv) => fv.id === "67")
         );
-        setProducts(financialServicesOnly);
-      } catch (err) {
-        console.error("Error fetching products:", err);
-        setError("Failed to load services. Please try again later.");
-      } finally {
-        setLoading(false);
-      }
-    };
+        // setProducts(financialServicesOnly);
+      },
+    }
+  );
 
-    fetchData();
-  }, []);
+  const loading = isLoading;
+  const products = data?.products.items.filter(
+    (product) =>
+      product.facetValues.some((fv) => fv.id === "66") &&
+      !product.facetValues.some((fv) => fv.id === "67")
+  );
 
   // Responsive settings for carousel (desktop/tablet only)
   const responsive = [
@@ -515,7 +524,7 @@ export default function Section15() {
   }
 
   // Handle empty state
-  if (products.length === 0) {
+  if (!products || products.length === 0) {
     return (
       <CategorySectionCreator>
         <ContentColumn>
@@ -551,27 +560,6 @@ export default function Section15() {
             </ExploreAllButton>
           </Link>
         </DescriptionButtonWrapper>
-
-        {/* Loading State */}
-        {loading && (
-          <Box py="3rem">
-            <LoadingErrorWrapper>Loading services...</LoadingErrorWrapper>
-          </Box>
-        )}
-
-        {/* Error State */}
-        {error && !loading && (
-          <Box py="3rem">
-            <LoadingErrorWrapper>{error}</LoadingErrorWrapper>
-          </Box>
-        )}
-
-        {/* Empty State */}
-        {!loading && !error && products.length === 0 && (
-          <Box py="3rem">
-            <LoadingErrorWrapper>No services found 😢</LoadingErrorWrapper>
-          </Box>
-        )}
 
         {/* Desktop/Tablet Carousel */}
         {!loading && !error && products.length > 0 && (

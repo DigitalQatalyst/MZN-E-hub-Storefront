@@ -95,11 +95,18 @@ const ResponsiveSubtitle = styled(H5)`
   word-break: break-word;
   margin-top: 1rem;
   color: #000;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   @media (max-width: 768px) {
     font-size: 0.9rem;
     line-height: 1.4;
     margin-top: 0.75rem;
+    -webkit-line-clamp: 5;
+    max-height: 7em;
   }
 
   @media (max-width: 480px) {

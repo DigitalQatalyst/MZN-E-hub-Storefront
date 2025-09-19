@@ -11,9 +11,10 @@
   color: #747474;
 }
 .product-intro-details-btn-3 {
+  cursor: pointer;
   border: 2px solid #0030e3;
   /* height: 50px; */
-  padding: 13px 22px;
+  padding: 15px 22px;
   border-radius: 5px;
 }
 .product-intro-details-right {

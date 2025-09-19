@@ -2,7 +2,7 @@ import React from "react";
 import Card from "@component/Card";
 import { List, CheckboxLabel, ServiceTypeTitle, ShowingText } from "../styles";
 import { useMemo } from "react";
-import LoadingSpinner from "@component/LoadingSpinner/LoadingSpinner"; // Import the LoadingSpinner component
+import LoadingSpinner from "@component/LoadingSpinner/LoadingSpinner";
 
 interface FacetValue {
   id: string;
@@ -31,7 +31,7 @@ interface SidebarProps {
   currentPage: number;
   productsPerPage: number;
   areFiltersApplied: () => boolean;
-  loading: boolean; // Added loading prop
+  loading: boolean;
 }
 
 export default function Sidebar({
@@ -66,7 +66,7 @@ export default function Sidebar({
         }}
       >
         {loading ? (
-          <LoadingSpinner /> // Controlled by parent loading state
+          <LoadingSpinner />
         ) : (
           sortedFacets.map((facet) => (
             <div key={facet.id}>

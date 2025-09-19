@@ -16,6 +16,7 @@ import {
   EventMessage,
 } from "@azure/msal-browser";
 import { loginRequest } from "@lib/authConfig";
+import OnboardingModal from "../../onboarding/onboardingModal"; 
 
 interface SigninProps {
   onClick?: () => void; // optional: close mobile menu, etc.
@@ -39,6 +40,7 @@ function useHydrateActiveAccount() {
   }, [instance, inProgress]);
 }
 
+
 export default function Signin({ onClick }: SigninProps) {
   const router = useRouter();
   const { instance, inProgress } = useMsal();
@@ -46,6 +48,9 @@ export default function Signin({ onClick }: SigninProps) {
 
   const [isMsalInitialized, setIsMsalInitialized] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [signupOrigin, setSignupOrigin] = useState<string | null>(null);
 
   useHydrateActiveAccount();
 
@@ -119,7 +124,10 @@ export default function Signin({ onClick }: SigninProps) {
       };
       const res = await instance.loginPopup(signUpRequest);
       if (res?.account) instance.setActiveAccount(res.account);
-      router.replace("/onboarding");
+
+      setSignupOrigin(window.location.pathname);
+      setShowOnboarding(true);
+      // router.replace("/onboarding");
     } catch (e: any) {
       const msg = `${e?.errorCode || ""} ${e?.message || ""}`.toLowerCase();
       if (msg.includes("popup_window_error") || msg.includes("monitor_window_timeout")) {
@@ -138,6 +146,9 @@ export default function Signin({ onClick }: SigninProps) {
   const handleSignOut = async () => {
     if (!isMsalInitialized) return;
     await instance.logoutRedirect();
+  };
+  const handleCloseOnboarding = () => {
+    setShowOnboarding(false);
   };
 
   return (
@@ -195,6 +206,7 @@ export default function Signin({ onClick }: SigninProps) {
           </Typography>
         </FlexBox>
       )}
+      {showOnboarding && <OnboardingModal onClose={handleCloseOnboarding} origin={signupOrigin} />}
     </StyledNavbar>
   );
 }

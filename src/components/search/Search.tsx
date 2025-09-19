@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   SearchInputWrapper,
   SearchInput,
@@ -13,15 +13,36 @@ interface SearchProps {
 }
 
 export default function Search({ searchQuery, setSearchQuery }: SearchProps) {
+  const [placeholder, setPlaceholder] = useState("Search by name or category...");
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
+
+  useEffect(() => {
+    const updatePlaceholder = () => {
+      if (window.innerWidth <= 480) {
+        setPlaceholder("search service...");
+      } else {
+        setPlaceholder("Search by name or category...");
+      }
+    };
+
+    // Set initial placeholder
+    updatePlaceholder();
+
+    // Add resize event listener
+    window.addEventListener("resize", updatePlaceholder);
+
+    // Cleanup on component unmount
+    return () => window.removeEventListener("resize", updatePlaceholder);
+  }, []);
 
   return (
     <SearchInputWrapper>
       <SearchInput
         type="search"
-        placeholder="Search by name or category..."
+        placeholder={placeholder}
         aria-label="Search services"
         value={searchQuery}
         onChange={handleSearchChange}

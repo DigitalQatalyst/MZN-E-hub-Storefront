@@ -15,6 +15,7 @@ const authority = CUSTOM_DOMAIN && TENANT_ID
   ? `https://${CUSTOM_DOMAIN}/${TENANT_ID}`
   // external tenant default pattern (doc): https://<subdomain>.ciamlogin.com/
   : `https://${SUB}.ciamlogin.com/`;
+  
 
 export const msalConfig: Configuration = {
   auth: {
@@ -23,7 +24,7 @@ export const msalConfig: Configuration = {
     knownAuthorities: [CUSTOM_DOMAIN ? CUSTOM_DOMAIN : `${SUB}.ciamlogin.com`], // doc: add knownAuthorities
     redirectUri: REDIRECT_URI,
     postLogoutRedirectUri: POST_LOGOUT_REDIRECT_URI,
-    navigateToLoginRequestUrl: false,
+    navigateToLoginRequestUrl: true,
   },
   cache: {
     cacheLocation: "localStorage",

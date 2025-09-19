@@ -27,7 +27,7 @@ export default function CategoryDropdown({ open, position = "absolute" }: Catego
           <CategoryMenuItem
             key={item.title}
             href={item.href}
-            icon={item.icon}
+            // icon={item.icon}
             title={item.title}
             caret={hasDropdown}
             tag={item.tag}

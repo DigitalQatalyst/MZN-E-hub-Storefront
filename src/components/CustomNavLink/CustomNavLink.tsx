@@ -1,6 +1,6 @@
 "use client";
 
-import { StyledCustomNavLink } from "@component/navbar/marketplace_nav/styles";
+import { StyledCustomNavLink } from "./styles";
 import React from "react";
 
 interface CustomNavLinkProps {

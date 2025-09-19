@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import Card from "@component/Card";
 import { List, CheckboxLabel, ServiceTypeTitle, ShowingText } from "../styles";
-import LoadingSpinner from "@component/LoadingSpinner/LoadingSpinner"; // Import the LoadingSpinner component
+import LoadingSpinner from "@component/LoadingSpinner/LoadingSpinner";
 
 interface FacetValue {
   id: string;

@@ -109,7 +109,7 @@ const KfBot = () => {
           // Trigger the launch event with storage info
           const storage = {
             name: "User Name", // Replace with actual data
-            stage: "Stage 1",  // Replace with actual data
+            stage: "Stage 1", // Replace with actual data
             sector: "Finance", // Replace with actual data
           };
 

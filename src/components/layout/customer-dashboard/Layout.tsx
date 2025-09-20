@@ -2,17 +2,19 @@ import { PropsWithChildren } from "react";
 import Grid from "@component/grid/Grid";
 import Sidebar from "../profile/DashboardNavigation";
 import { StyledGrid } from "../profile/styles";
-import Footer1 from "@component/footer/footer-1/Footer1";
+import Footer2 from "@component/footer/footer-1/Footer2";
 import { minWidth, overflowX, overflowY } from "styled-system";
 
-export default function CustomerDashboardLayout({ children }: PropsWithChildren<{}>) {
+export default function CustomerDashboardLayout({
+  children,
+}: PropsWithChildren<{}>) {
   return (
     <Grid
       container
       direction="column"
       style={{
         minHeight: "100dvh", // logical viewport (better on mobile)
-        fontFamily: "'Open Sans', sans-serif"
+        fontFamily: "'Open Sans', sans-serif",
       }}
     >
       {/* Main row: sidebar + content */}
@@ -31,8 +33,8 @@ export default function CustomerDashboardLayout({ children }: PropsWithChildren<
           style={{
             position: "sticky",
             top: 70,
-            alignSelf: "flex-start",          // let sticky take effect
-            height: "100dvh",                  // fill viewport height
+            alignSelf: "flex-start", // let sticky take effect
+            height: "100dvh", // fill viewport height
             maxHeight: "100dvh",
             // overflowY: "auto",                 // sidebar can scroll independently if needed
             backgroundColor: "#f9f9f98e",
@@ -42,12 +44,27 @@ export default function CustomerDashboardLayout({ children }: PropsWithChildren<
         </StyledGrid>
 
         {/* Main content column */}
-        <Grid item lg={9.75} xs={12} style={{ minHeight: "100%", minWidth: "100", overflowX: "", overflowY: "auto" }}>
+        <Grid
+          item
+          lg={9.75}
+          xs={12}
+          style={{
+            minHeight: "100%",
+            minWidth: "100",
+            overflowX: "",
+            overflowY: "auto",
+          }}
+        >
           {children}
 
           {/* Footer sits under content (scrolls with content) */}
-          <div style={{ paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.2)" }}>
-            <Footer1 />
+          <div
+            style={{
+              paddingTop: 16,
+              borderTop: "1px solid rgba(255,255,255,0.2)",
+            }}
+          >
+            <Footer2 />
           </div>
         </Grid>
       </Grid>

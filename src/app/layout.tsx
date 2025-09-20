@@ -22,11 +22,15 @@ export const metadata: Metadata = {
   icons: {
     icon: "/mstile-150x150.png",
     apple: "/mstile-150x150.png",
-    shortcut: "/mstile-150x150.png"
-  }
+    shortcut: "/mstile-150x150.png",
+  },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode; }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body className={openSans.className}>

@@ -1,141 +1,115 @@
-import React from 'react';
-import { ChevronRight } from 'lucide-react';
-
-// TypeScript interfaces
-interface ReportingObligation {
-  id: string;
-  title: string;
-  dueDate: string;
-  status: 'Due Soon' | 'Overdue' | 'Complete' | 'Submitted';
-  statusColor: string;
+import React from 'react'
+import { CalendarIcon, AlertTriangleIcon, FileClockIcon } from 'lucide-react'
+interface ObligationsDeadlinesProps {
+  isLoading: boolean
 }
-
-interface ReportingObligationsCardProps {
-  obligations: ReportingObligation[];
-  onViewAll?: () => void;
-  onObligationClick?: (obligationId: string) => void;
-}
-
-// Reporting Obligation Item component
-const ReportingObligationItem: React.FC<ReportingObligation & { onClick?: () => void }> = ({ 
-  title, 
-  dueDate, 
-  status, 
-  statusColor,
-  onClick 
-}) => (
-  <div style={{
-    backgroundColor: 'white',
-    border: '1px solid #e0e0e0',
-    borderRadius: '6px',
-    padding: '16px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: '8px',
-    transition: 'all 0.2s ease',
-    cursor: onClick ? 'pointer' : 'default'
-  }}
-  onMouseOver={(e) => {
-    e.currentTarget.style.backgroundColor = '#f8f9fa';
-  }}
-  onMouseOut={(e) => {
-    e.currentTarget.style.backgroundColor = 'white';
-  }}
-  onClick={onClick}>
-    <div style={{ flex: 1 }}>
-      <div>
-        <span style={{ 
-          fontSize: '14px', 
-          fontWeight: '500', 
-          color: '#333', 
-          marginBottom: '4px', 
-          marginRight: '12px' 
-        }}>
-          {title}
-        </span>
-        <span style={{
-          backgroundColor: status === 'Due Soon' ? '#FF56301A' : status === 'Submitted' ? '#0065FF1A' : statusColor,
-          color: status === 'Due Soon' ? '#FF5630' : status === 'Submitted' ? '#0065FF' : 'white',
-          padding: '4px 8px',
-          borderRadius: '4px',
-          fontSize: '12px',
-          fontWeight: '500'
-        }}>
-          {status}
-        </span>
-      </div>
-      
-      <div style={{ fontSize: '12px', color: '#666' }}>{dueDate}</div>
-    </div>
-    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-      <div style={{
-        backgroundColor: '#0030E3',
-        color: 'white',
-        borderRadius: '4px',
-        padding: '4px 8px',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minWidth: '24px',
-        height: '24px'
-      }}>
-        <ChevronRight size={14} />
-      </div>
-    </div>
-  </div>
-);
-
-export const ReportingObligationsCard: React.FC<ReportingObligationsCardProps> = ({
-  obligations,
-  onViewAll,
-  onObligationClick
+// Mock obligations data
+const obligations = [
+  {
+    id: 1,
+    title: 'Annual Financial Report',
+    dueDate: '2023-12-15',
+    status: 'overdue',
+    type: 'reporting',
+  },
+  {
+    id: 2,
+    title: 'Quarterly Performance Review',
+    dueDate: '2023-12-30',
+    status: 'upcoming',
+    type: 'review',
+  },
+  {
+    id: 3,
+    title: 'Business License Renewal',
+    dueDate: '2024-01-10',
+    status: 'upcoming',
+    type: 'license',
+  },
+]
+export const ObligationsDeadlines: React.FC<ObligationsDeadlinesProps> = ({
+  isLoading,
 }) => {
-  return (
-    <div style={{
-      backgroundColor: 'white',
-      border: '1px solid #e0e0e0',
-      borderRadius: '8px',
-      padding: '24px',
-      marginBottom: '24px'
-    }}>
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: '16px'
-      }}>
-        <h3 style={{
-          fontSize: '18px',
-          fontWeight: '600',
-          color: '#333',
-          margin: 0
-        }}>
-          Reporting Obligations
-        </h3>
-        <button 
-          style={{
-            backgroundColor: 'transparent',
-            border: 'none',
-            color: '#0030E3',
-            cursor: 'pointer',
-            fontSize: '14px',
-            fontWeight: 'bold',
-            textDecoration: 'none'
-          }}
-          onClick={onViewAll}
-        >
-          View all reporting obligations
-        </button>
+  const getStatusIcon = (status: string) => {
+    if (status === 'overdue') {
+      return <AlertTriangleIcon className="h-5 w-5 text-red-500" />
+    }
+    return <CalendarIcon className="h-5 w-5 text-gray-400" />
+  }
+  if (isLoading) {
+    return (
+      <div className="animate-pulse space-y-4">
+        {[1, 2, 3].map((item) => (
+          <div key={item} className="h-16 bg-gray-200 rounded-lg"></div>
+        ))}
       </div>
-      {obligations.map(obligation => (
-        <ReportingObligationItem 
-          key={obligation.id} 
-          {...obligation}
-          onClick={() => onObligationClick?.(obligation.id)}
-        />
-      ))}
+    )
+  }
+  return (
+    <div>
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-50">
+          <tr>
+            <th
+              scope="col"
+              className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Obligation
+            </th>
+            <th
+              scope="col"
+              className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Due Date
+            </th>
+            <th
+              scope="col"
+              className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {obligations.map((obligation) => (
+            <tr key={obligation.id} className="hover:bg-gray-50">
+              <td className="px-4 py-3 whitespace-nowrap">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0 mr-2">
+                    {getStatusIcon(obligation.status)}
+                  </div>
+                  <span
+                    className={`text-sm font-medium ${obligation.status === 'overdue' ? 'text-red-600' : 'text-gray-700'}`}
+                  >
+                    {obligation.title}
+                  </span>
+                </div>
+              </td>
+              <td className="px-4 py-3 whitespace-nowrap">
+                <div className="flex items-center">
+                  <FileClockIcon className="h-4 w-4 text-gray-400 mr-1" />
+                  <span className="text-sm text-gray-500">
+                    {obligation.dueDate}
+                  </span>
+                </div>
+              </td>
+              <td className="px-4 py-3 whitespace-nowrap text-right text-sm">
+                <button className="px-3 py-1 border border-gray-300 rounded-md text-xs text-gray-600 hover:text-blue-600 hover:border-blue-300">
+                  Take Action
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="mt-4 text-right">
+        <a
+          href="#"
+          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+        >
+          View All Obligations
+        </a>
+      </div>
     </div>
-  );
-};
+  )
+}
